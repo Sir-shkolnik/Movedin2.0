@@ -2,7 +2,6 @@ services:
   # PostgreSQL Database
   - type: pserv
     name: movedin-database
-    env: postgresql
     plan: starter
     startCommand: postgres
 
