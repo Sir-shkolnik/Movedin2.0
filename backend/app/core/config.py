@@ -1,5 +1,5 @@
 from pydantic_settings import BaseSettings
-from typing import Optional
+from typing import Optional, List
 import os
 
 class Settings(BaseSettings):
@@ -31,8 +31,13 @@ class Settings(BaseSettings):
     DEBUG: bool = True
     SECRET_KEY: str = "your-secret-key-here"
     
-    # CORS
-    ALLOWED_ORIGINS: list = ["http://localhost:5173", "http://localhost:5177", "http://localhost:5178", "http://localhost:3000"]
+    # CORS - Handle as string and split into list
+    ALLOWED_ORIGINS: str = "http://localhost:5173,http://localhost:5177,http://localhost:5178,http://localhost:3000"
+    
+    @property
+    def allowed_origins_list(self) -> List[str]:
+        """Convert ALLOWED_ORIGINS string to list"""
+        return [origin.strip() for origin in self.ALLOWED_ORIGINS.split(",") if origin.strip()]
     
     # Vendor Settings
     GOOGLE_SHEETS_SYNC_INTERVAL: int = 14400  # 4 hours in seconds
