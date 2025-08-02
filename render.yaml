@@ -28,7 +28,8 @@ services:
     dockerfilePath: backend/Dockerfile
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
+        fromService:
+          type: pserv
           name: movedin-database
           property: connectionString
       - key: REDIS_URL
