@@ -133,13 +133,30 @@ async def create_lead_internal(lead_data: Dict[str, Any], db: Session) -> Dict[s
         db.commit()
         db.refresh(lead)
         
-        # Create quote record
+        # Create quote record with all required fields
         quote = Quote(
             lead_id=lead.id,
             vendor_id=vendor.id,
+            origin_address=quote_data.get('originAddress', ''),
+            destination_address=quote_data.get('destinationAddress', ''),
+            move_date=datetime.fromisoformat(quote_data.get('moveDate', '').replace('Z', '+00:00')),
+            move_time=quote_data.get('moveTime', ''),
+            total_rooms=quote_data.get('totalRooms', 0),
+            square_footage=quote_data.get('squareFootage', ''),
+            estimated_weight=quote_data.get('estimatedWeight', 0),
+            heavy_items=quote_data.get('heavyItems', {}),
+            stairs_at_pickup=quote_data.get('stairsAtPickup', 0),
+            stairs_at_dropoff=quote_data.get('stairsAtDropoff', 0),
+            elevator_at_pickup=quote_data.get('elevatorAtPickup', False),
+            elevator_at_dropoff=quote_data.get('elevatorAtDropoff', False),
+            additional_services=quote_data.get('additionalServices', {}),
             total_cost=selected_quote.get('total_cost', 0),
-            status='confirmed',
-            breakdown=selected_quote.get('breakdown', {})
+            breakdown=selected_quote.get('breakdown', {}),
+            crew_size=selected_quote.get('crew_size', 2),
+            truck_count=selected_quote.get('truck_count', 1),
+            estimated_hours=selected_quote.get('estimated_hours', 4.0),
+            travel_time_hours=selected_quote.get('travel_time_hours', 1.0),
+            status='confirmed'
         )
         
         db.add(quote)
