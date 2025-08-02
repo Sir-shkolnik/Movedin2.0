@@ -21,8 +21,7 @@ function AppWithRouter() {
       <ThemeProvider>
         <Router>
           <Routes>
-            <Route path="/" element={<App />} />
-            <Route path="/step7" element={<Step7 />} />
+            <Route path="/*" element={<App />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/tips-guides" element={<TipsAndGuides />} />

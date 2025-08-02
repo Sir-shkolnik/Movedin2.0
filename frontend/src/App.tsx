@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Footer from './components/Footer/Footer';
 import Stepper from './components/Stepper/Stepper';
@@ -89,26 +89,7 @@ function AppInner() {
         }
     };
 
-    const renderStep = () => {
-        switch (currentStep) {
-            case 0:
-                return <Step1 onNext={goNext} />;
-            case 1:
-                return <Step2 onNext={goNext} onBack={goBack} />;
-            case 2:
-                return <Step3 onNext={goNext} onBack={goBack} />;
-            case 3:
-                return <Step4 onNext={goNext} onBack={goBack} />;
-            case 4:
-                return <Step5 onNext={goNext} onBack={goBack} />;
-            case 5:
-                return <Step6 onNext={goNext} onBack={goBack} />;
-            case 6:
-                return <Step7 />;
-            default:
-                return <Step1 onNext={goNext} />;
-        }
-    };
+
 
     // Determine if continue button should be disabled
     let continueDisabled = false;
@@ -153,16 +134,24 @@ function AppInner() {
         };
     }
 
-    return (
+        return (
         <div className="app">
             <div className="app-content">
-                            <Stepper 
-                steps={steps} 
-                currentStep={currentStep} 
-                goToStep={goToStep}
-            />
+                <Stepper 
+                    steps={steps} 
+                    currentStep={currentStep} 
+                    goToStep={goToStep}
+                />
                 <div className="step-container">
-                    {renderStep()}
+                    <Routes>
+                        <Route path="/" element={<Step1 onNext={goNext} />} />
+                        <Route path="/step2" element={<Step2 onNext={goNext} onBack={goBack} />} />
+                        <Route path="/step3" element={<Step3 onNext={goNext} onBack={goBack} />} />
+                        <Route path="/step4" element={<Step4 onNext={goNext} onBack={goBack} />} />
+                        <Route path="/step5" element={<Step5 onNext={goNext} onBack={goBack} />} />
+                        <Route path="/step6" element={<Step6 onNext={goNext} onBack={goBack} />} />
+                        <Route path="/step7" element={<Step7 />} />
+                    </Routes>
                 </div>
             </div>
             <Footer 
