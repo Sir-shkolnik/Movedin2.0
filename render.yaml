@@ -4,11 +4,13 @@ services:
     name: movedin-database
     env: postgresql
     plan: starter
+    startCommand: postgres
 
   # Redis Cache
   - type: redis
     name: movedin-redis
     plan: starter
+    ipAllowList: []
 
   # Backend API Service
   - type: web
