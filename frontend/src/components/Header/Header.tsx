@@ -42,37 +42,37 @@ const Header: React.FC = () => {
                 <nav className="nav-links">
                     <Link
                         to="/"
-                        className={`nav-link ${isActive('/') ? 'active' : 'http://localhost:8000'}`}
+                        className={`nav-link ${isActive('/') ? 'active' : ''}`}
                     >
                         Get a quote
                     </Link>
                     <Link
                         to="/how-it-works"
-                        className={`nav-link ${isActive('/how-it-works') ? 'active' : 'http://localhost:8000'}`}
+                        className={`nav-link ${isActive('/how-it-works') ? 'active' : ''}`}
                     >
                         How it works
                     </Link>
                     <Link
                         to="/tips-guides"
-                        className={`nav-link ${isActive('/tips-guides') ? 'active' : 'http://localhost:8000'}`}
+                        className={`nav-link ${isActive('/tips-guides') ? 'active' : ''}`}
                     >
                         Tips & Guides
                     </Link>
                     <Link
                         to="/about-us"
-                        className={`nav-link ${isActive('/about-us') ? 'active' : 'http://localhost:8000'}`}
+                        className={`nav-link ${isActive('/about-us') ? 'active' : ''}`}
                     >
                         About us
                     </Link>
                     {/* <Link
                         to="/admin"
-                        className={`nav-link ${isActive('/admin') ? 'active' : 'http://localhost:8000'}`}
+                        className={`nav-link ${isActive('/admin') ? 'active' : ''}`}
                     >
                         Admin
                     </Link> */}
                 </nav>
                 <button
-                    className={`hamburger${menuOpen ? ' open' : 'http://localhost:8000'}`}
+                    className={`hamburger${menuOpen ? ' open' : ''}`}
                     aria-label={menuOpen ? 'Close menu' : 'Open menu'}
                     aria-expanded={menuOpen}
                     aria-controls="mobile-menu"
@@ -88,40 +88,40 @@ const Header: React.FC = () => {
             )}
             <nav
                 id="mobile-menu"
-                className={`mobile-nav${menuOpen ? ' open' : 'http://localhost:8000'}`}
+                className={`mobile-nav${menuOpen ? ' open' : ''}`}
                 aria-hidden={!menuOpen}
             >
                 <Link
                     to="/"
-                    className={`nav-link ${isActive('/') ? 'active' : 'http://localhost:8000'}`}
+                    className={`nav-link ${isActive('/') ? 'active' : ''}`}
                     onClick={handleNavClick}
                 >
                     Get a quote
                 </Link>
                 <Link
                     to="/how-it-works"
-                    className={`nav-link ${isActive('/how-it-works') ? 'active' : 'http://localhost:8000'}`}
+                    className={`nav-link ${isActive('/how-it-works') ? 'active' : ''}`}
                     onClick={handleNavClick}
                 >
                     How it works
                 </Link>
                 <Link
                     to="/tips-guides"
-                    className={`nav-link ${isActive('/tips-guides') ? 'active' : 'http://localhost:8000'}`}
+                    className={`nav-link ${isActive('/tips-guides') ? 'active' : ''}`}
                     onClick={handleNavClick}
                 >
                     Tips & Guides
                 </Link>
                 <Link
                     to="/about-us"
-                    className={`nav-link ${isActive('/about-us') ? 'active' : 'http://localhost:8000'}`}
+                    className={`nav-link ${isActive('/about-us') ? 'active' : ''}`}
                     onClick={handleNavClick}
                 >
                     About us
                 </Link>
                 <Link
                     to="/admin"
-                    className={`nav-link ${isActive('/admin') ? 'active' : 'http://localhost:8000'}`}
+                    className={`nav-link ${isActive('/admin') ? 'active' : ''}`}
                     onClick={handleNavClick}
                 >
                     Admin

@@ -24,10 +24,10 @@ interface FormErrors {
 const Step5: React.FC<Step5Props> = ({ onNext, onBack }) => {
     const { data, setData } = useForm();
     const [contactInfo, setContactInfo] = useState<ContactInfo>({
-        firstName: data.contact?.firstName || 'http://localhost:8000',
-        lastName: data.contact?.lastName || 'http://localhost:8000',
-        email: data.contact?.email || 'http://localhost:8000',
-        phone: data.contact?.phone || 'http://localhost:8000'
+        firstName: data.contact?.firstName || '',
+        lastName: data.contact?.lastName || '',
+        email: data.contact?.email || '',
+        phone: data.contact?.phone || ''
     });
     const [errors, setErrors] = useState<FormErrors>({});
 
@@ -48,7 +48,7 @@ const Step5: React.FC<Step5Props> = ({ onNext, onBack }) => {
         if (errors[field]) {
             setErrors(prev => ({
                 ...prev,
-                [field]: 'http://localhost:8000'
+                [field]: ''
             }));
         }
     };

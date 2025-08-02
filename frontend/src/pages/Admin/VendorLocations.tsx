@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './VendorLocations.css';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-
 interface Location {
   name: string;
   address: string;
@@ -57,7 +55,7 @@ const VendorLocations: React.FC = () => {
   const [filteredLocations, setFilteredLocations] = useState<MapLocation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState('http://localhost:8000');
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedVendor, setSelectedVendor] = useState<string>('all');
   const [mapView, setMapView] = useState<'map' | 'list'>('map');
   const [selectedLocation, setSelectedLocation] = useState<MapLocation | null>(null);
@@ -179,7 +177,7 @@ const VendorLocations: React.FC = () => {
       }
 
       // Fetch fresh data
-      const response = await fetch(`${API_BASE_URL}/admin/vendors/locations`);
+      const response = await fetch('http://localhost:8000/admin/vendors/locations');
       if (!response.ok) {
         throw new Error('Failed to load vendor locations');
       }
@@ -271,7 +269,7 @@ const VendorLocations: React.FC = () => {
       // Fetch Mapbox access token from backend
       let accessToken = null;
       try {
-        const tokenResponse = await fetch(`${API_BASE_URL}/admin/mapbox-token`);
+        const tokenResponse = await fetch('http://localhost:8000/admin/mapbox-token');
         if (tokenResponse.ok) {
           const tokenData = await tokenResponse.json();
           accessToken = tokenData.access_token;
@@ -329,7 +327,7 @@ const VendorLocations: React.FC = () => {
         });
 
         map.current.on('mouseleave', 'locations', () => {
-          map.current.getCanvas().style.cursor = 'http://localhost:8000';
+          map.current.getCanvas().style.cursor = '';
         });
 
         // Track zoom level
@@ -387,7 +385,7 @@ const VendorLocations: React.FC = () => {
           <p style="margin: 0.25rem 0;"><strong>Dispatcher:</strong> ${location.dispatcher_name}</p>
           <p style="margin: 0.25rem 0;"><strong>Phone:</strong> ${location.phone}</p>
           <p style="margin: 0.25rem 0;"><strong>Trucks:</strong> ${location.truck_count}</p>
-          ${location.available_dates ? `<p style="margin: 0.25rem 0;"><strong>Available Dates:</strong> ${location.available_dates}</p>` : 'http://localhost:8000'}
+          ${location.available_dates ? `<p style="margin: 0.25rem 0;"><strong>Available Dates:</strong> ${location.available_dates}</p>` : ''}
         </div>
         <button 
           onclick="window.dispatchEvent(new CustomEvent('selectLocation', {detail: '${location.id}'}))"
@@ -640,7 +638,7 @@ const VendorLocations: React.FC = () => {
         {filteredLocations.map((location) => (
           <div 
             key={location.id} 
-            className={`location-card ${selectedLocation?.id === location.id ? 'selected' : 'http://localhost:8000'}`}
+            className={`location-card ${selectedLocation?.id === location.id ? 'selected' : ''}`}
             onClick={() => handleLocationSelect(location)}
           >
             <div className="location-header">
@@ -831,14 +829,14 @@ const VendorLocations: React.FC = () => {
 
               <div className="view-toggle">
                 <button
-                  className={`toggle-btn ${mapView === 'map' ? 'active' : 'http://localhost:8000'}`}
+                  className={`toggle-btn ${mapView === 'map' ? 'active' : ''}`}
                   onClick={() => setMapView('map')}
                   data-view="map"
                 >
                   🗺️ Map View
                 </button>
                 <button
-                  className={`toggle-btn ${mapView === 'list' ? 'active' : 'http://localhost:8000'}`}
+                  className={`toggle-btn ${mapView === 'list' ? 'active' : ''}`}
                   onClick={() => setMapView('list')}
                   data-view="list"
                 >

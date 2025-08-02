@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Step.css';
 import { useForm } from '../../contexts/FormContext';
+import { apiUrl } from '../../utils/api';
 
 interface VendorQuote {
     vendor_slug: string;
@@ -86,8 +87,7 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                     fullData: data
                 });
 
-                const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-                const quoteRes = await fetch(`${API_BASE_URL}/api/generate`, {
+                const quoteRes = await fetch(apiUrl('/api/generate'), {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -132,7 +132,7 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                         truck_count: vendorQuote.truck_count || 0,
                         rating: vendorQuote.rating || 4.5,
                         reviews: vendorQuote.reviews || 100,
-                        special_notes: vendorQuote.special_notes || 'http://localhost:8000',
+                        special_notes: vendorQuote.special_notes || '',
                         available_slots: vendorQuote.available_slots || [],
                         logo_url: getVendorLogo(vendorQuote.vendor_slug),
                         breakdown: vendorQuote.breakdown || {},
@@ -261,7 +261,7 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                     return (
                         <div
                             key={vendor.vendor_slug}
-                            className={`vendor-card-modern ${isSelected ? 'selected' : 'http://localhost:8000'}`}
+                            className={`vendor-card-modern ${isSelected ? 'selected' : ''}`}
                             onClick={() => handleSelect(vendor.vendor_slug)}
                             style={{
                                 borderColor: isSelected ? theme.primary : '#e5e7eb',
@@ -309,7 +309,7 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                                     </div>
                                     <div className="crew-info-modern">
                                         <span className="crew-label">Crew:</span>
-                                        <span className="crew-value">{vendor.crew_size} movers, {vendor.truck_count} truck{vendor.truck_count !== 1 ? 's' : 'http://localhost:8000'}</span>
+                                        <span className="crew-value">{vendor.crew_size} movers, {vendor.truck_count} truck{vendor.truck_count !== 1 ? 's' : ''}</span>
                                     </div>
                                 </div>
 

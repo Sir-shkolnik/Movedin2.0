@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import './Step.css';
 import { useForm } from '../../contexts/FormContext';
+import { apiUrl } from '../../utils/api';
 
 interface Step6Props {
     onNext: () => void;
@@ -97,14 +98,11 @@ const Step6: React.FC<Step6Props> = ({ onNext, onBack }) => {
 
             console.log('Step 6 - Lead data to save:', leadData);
 
-            const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-            console.log('Step 6 - Sending lead data to:', `${API_BASE_URL}/api/leads`);
+            console.log('Step 6 - Sending lead data to:', apiUrl('/api/leads'));
 
-            const response = await fetch(`${API_BASE_URL}/api/leads`, {
+            const response = await fetch(apiUrl('/api/leads'), {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(leadData),
             });
 

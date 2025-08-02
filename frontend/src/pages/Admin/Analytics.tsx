@@ -44,14 +44,14 @@ const Analytics: React.FC = () => {
       setLoading(true);
       
       // Load leads data
-      const leadsResponse = await fetch('${API_BASE_URL}/api/leads/');
+      const leadsResponse = await fetch('http://localhost:8000/api/leads/');
       let leadsData = [];
       if (leadsResponse.ok) {
         leadsData = await leadsResponse.json();
       }
 
       // Load vendors data
-      const vendorsResponse = await fetch('${API_BASE_URL}/admin/vendors/locations');
+      const vendorsResponse = await fetch('http://localhost:8000/admin/vendors/locations');
       let vendorsData = [];
       if (vendorsResponse.ok) {
         vendorsData = await vendorsResponse.json();

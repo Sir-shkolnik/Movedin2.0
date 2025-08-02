@@ -11,7 +11,7 @@ const homeTypes = [
 
 const roomOptions = Array.from({ length: 10 }, (_, i) => ({ 
     value: i + 1, 
-    label: `${i + 1} room${i === 0 ? 'http://localhost:8000' : 's'}` 
+    label: `${i + 1} room${i === 0 ? '' : 's'}` 
 })).concat({ value: 11, label: '10+' });
 
 const sqftOptions = [
@@ -59,7 +59,7 @@ const Step2: React.FC<Step2Props> = ({ onNext, onBack }) => {
         });
         return initialRooms || 1;
     });
-    const [sqft, setSqft] = useState(data.fromDetails?.sqft || 'http://localhost:8000');
+    const [sqft, setSqft] = useState(data.fromDetails?.sqft || '');
     
     const [heavyItems, setHeavyItems] = useState<{[key: string]: boolean}>({
         piano: !!(data.fromDetails?.heavyItems?.piano),
@@ -83,7 +83,7 @@ const Step2: React.FC<Step2Props> = ({ onNext, onBack }) => {
         const newFromDetails = {
             homeType,
             rooms: homeType === 'commercial' ? 1 : rooms,
-            sqft: homeType === 'commercial' ? sqft : 'http://localhost:8000',
+            sqft: homeType === 'commercial' ? sqft : '',
             heavyItems: {
                 piano: heavyItems.piano ? 1 : 0,
                 safe: heavyItems.safe ? 1 : 0,
@@ -116,7 +116,7 @@ const Step2: React.FC<Step2Props> = ({ onNext, onBack }) => {
         const newFromDetails = {
             homeType,
             rooms: homeType === 'commercial' ? 1 : rooms, // always a number
-            sqft: homeType === 'commercial' ? sqft : 'http://localhost:8000',
+            sqft: homeType === 'commercial' ? sqft : '',
             heavyItems: {
                 piano: heavyItems.piano ? 1 : 0,
                 safe: heavyItems.safe ? 1 : 0,

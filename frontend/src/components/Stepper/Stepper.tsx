@@ -52,7 +52,7 @@ const Stepper: React.FC<StepperProps> = ({ steps, currentStep, goToStep }) => {
         return (
           <div
             key={step.label}
-            className={`stepper-step${isActive ? ' active' : 'http://localhost:8000'}${isCompleted ? ' completed' : 'http://localhost:8000'}${isCompleted && goToStep ? ' clickable' : 'http://localhost:8000'}`}
+            className={`stepper-step${isActive ? ' active' : ''}${isCompleted ? ' completed' : ''}${isCompleted && goToStep ? ' clickable' : ''}`}
             onClick={isCompleted && goToStep ? () => goToStep(idx) : undefined}
           >
             <div className="stepper-icon">
