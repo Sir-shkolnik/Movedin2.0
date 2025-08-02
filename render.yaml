@@ -1,22 +1,31 @@
 services:
-  # PostgreSQL Database
+  # Database
   - type: pserv
     name: movedin-database
     plan: starter
+    runtime: image
+    envVars:
+      - key: POSTGRES_DB
+        value: movedin
+      - key: POSTGRES_USER
+        value: movedin
+      - key: POSTGRES_PASSWORD
+        value: movedin
+    image:
+      url: postgres:16
 
-  # Redis Cache
+  # Redis
   - type: redis
     name: movedin-redis
     plan: starter
     ipAllowList: []
 
-  # Backend API Service
+  # Backend API
   - type: web
     name: movedin-backend
-    env: python
+    runtime: docker
     plan: starter
-    buildCommand: pip install -r backend/requirements.txt
-    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    dockerfilePath: backend/Dockerfile
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -28,11 +37,11 @@ services:
           name: movedin-redis
           property: connectionString
       - key: DEBUG
-        value: false
+        value: "false"
       - key: ZOHO_CLIENT_ID
-        value: 1000.GXDHGOMA40H9WBM20CIJ8U0UGNTKTL
+        sync: false
       - key: ZOHO_CLIENT_SECRET
-        value: 77a9aa4bd323fa083a41543e6302875582d61d5d10
+        sync: false
       - key: ZOHO_REDIRECT_URI
         value: https://movedin-backend.onrender.com/api/zoho/callback
       - key: ZOHO_AUTH_URL
@@ -42,14 +51,14 @@ services:
       - key: ZOHO_CRM_API_URL
         value: https://www.zohoapis.com/crm/v3
 
-  # Frontend Service
+  # Frontend (Vite)
   - type: web
     name: movedin-frontend
-    env: static
+    runtime: static
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist
     envVars:
       - key: VITE_API_URL
         value: https://movedin-backend.onrender.com
       - key: VITE_MAPBOX_ACCESS_TOKEN
-        value: pk.eyJ1IjoibW92ZWRpbiIsImEiOiJjbGV4YW1wbGUifQ.example 
+        sync: false 
