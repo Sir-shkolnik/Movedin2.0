@@ -32,6 +32,16 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # Create base class for models
 Base = declarative_base()
 
+# Initialize database function
+def init_db():
+    """Initialize the database by creating all tables"""
+    try:
+        Base.metadata.create_all(bind=engine)
+        print("Database tables created successfully")
+    except Exception as e:
+        print(f"Database initialization error: {e}")
+        raise
+
 # Dependency to get database session
 def get_db():
     db = SessionLocal()

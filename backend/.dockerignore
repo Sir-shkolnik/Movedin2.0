@@ -66,4 +66,9 @@ Thumbs.db
 *.png
 *.jpg
 *.jpeg
-*.gif 
+*.gif
+
+# Additional cache directories
+**/__pycache__/
+**/.pytest_cache/
+**/.mypy_cache/ 
