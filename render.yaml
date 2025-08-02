@@ -1,0 +1,57 @@
+services:
+  # Backend API Service
+  - type: web
+    name: movedin-backend
+    env: python
+    plan: starter
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: movedin-database
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: movedin-redis
+          property: connectionString
+      - key: DEBUG
+        value: false
+      - key: ZOHO_CLIENT_ID
+        value: 1000.GXDHGOMA40H9WBM20CIJ8U0UGNTKTL
+      - key: ZOHO_CLIENT_SECRET
+        value: 77a9aa4bd323fa083a41543e6302875582d61d5d10
+      - key: ZOHO_REDIRECT_URI
+        value: https://movedin-backend.onrender.com/api/zoho/callback
+      - key: ZOHO_AUTH_URL
+        value: https://accounts.zoho.com/oauth/v2/auth
+      - key: ZOHO_TOKEN_URL
+        value: https://accounts.zoho.com/oauth/v2/token
+      - key: ZOHO_CRM_API_URL
+        value: https://www.zohoapis.com/crm/v3
+
+  # Frontend Service
+  - type: web
+    name: movedin-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://movedin-backend.onrender.com
+      - key: VITE_MAPBOX_ACCESS_TOKEN
+        value: pk.eyJ1IjoibW92ZWRpbiIsImEiOiJjbGV4YW1wbGUifQ.example
+
+  # PostgreSQL Database
+  - type: pserv
+    name: movedin-database
+    env: postgresql
+    plan: starter
+    ipAllowList: []
+
+  # Redis Cache
+  - type: redis
+    name: movedin-redis
+    plan: starter
+    ipAllowList: [] 

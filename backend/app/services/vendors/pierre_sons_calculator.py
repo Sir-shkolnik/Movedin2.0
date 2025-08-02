@@ -1,0 +1,269 @@
+from typing import Dict, Any
+from app.schemas.quote import QuoteRequest
+from app.services.mapbox_service import mapbox_service
+
+class PierreSonsCalculator:
+    """Pierre & Sons - Simple Fixed Rate Pricing (No Google Sheets)"""
+    
+    # Service Area
+    SERVICE_AREAS = {
+        "cities": ["Toronto", "Scarborough", "North York", "Etobicoke", "York", "East York", "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill"],
+        "regions": ["Toronto", "GTA"],
+        "max_distance_km": 200
+    }
+    
+    # Location-Based Pricing
+    LOCATION_RATES = {
+        "Toronto": {"base_multiplier": 1.0, "fuel_surcharge": 0},
+        "Scarborough": {"base_multiplier": 0.98, "fuel_surcharge": 15},
+        "North York": {"base_multiplier": 0.98, "fuel_surcharge": 10},
+        "Etobicoke": {"base_multiplier": 0.98, "fuel_surcharge": 20},
+        "York": {"base_multiplier": 0.98, "fuel_surcharge": 5},
+        "East York": {"base_multiplier": 0.98, "fuel_surcharge": 12}
+    }
+    
+    def get_crew_size(self, quote_request: QuoteRequest) -> int:
+        """Crew size based on room count - Based on old app data"""
+        rooms = quote_request.total_rooms
+        size = quote_request.square_footage if hasattr(quote_request, 'square_footage') else ''
+        
+        # Pierre & Sons crew logic from old app data
+        crew = 2  # Default
+        if rooms >= 6 or size == '5+ Bedrooms':
+            crew = 5
+        elif rooms >= 4 or size == '4 Bedrooms':
+            crew = 4
+        elif rooms >= 3 or size == '3 Bedrooms':
+            crew = 3
+        elif rooms >= 2 or size == '2 Bedrooms':
+            crew = 2
+        elif rooms == 1 or size == '1 Bedroom' or size == 'Studio':
+            crew = 1
+        
+        # Minimum 2 for most moves (as per old app data)
+        if crew < 2:
+            crew = 2
+        
+        return crew
+    
+    def get_truck_count(self, quote_request: QuoteRequest, crew_size: int) -> int:
+        """Truck count based on room count - Based on old app data"""
+        rooms = quote_request.total_rooms
+        size = quote_request.square_footage if hasattr(quote_request, 'square_footage') else ''
+        
+        # Pierre & Sons truck logic from old app data
+        if rooms >= 4 or size == '4 Bedrooms' or size == '5+ Bedrooms':
+            return 2  # Larger truck for bigger moves
+        else:
+            return 1  # Standard truck for smaller moves
+    
+    def calculate_quote(self, quote_request: QuoteRequest, dispatcher_info: Dict[str, Any] = None) -> Dict[str, Any]:
+        """Calculate Pierre & Sons quote with simple fixed rate pricing"""
+        crew_size = self.get_crew_size(quote_request)
+        truck_count = self.get_truck_count(quote_request, crew_size)
+        
+        # Get fixed hourly rate based on crew size (NO ADJUSTMENTS)
+        hourly_rate = self._get_hourly_rate(crew_size)
+        
+        # No geographic pricing adjustments - use original rates
+        origin_city = self._extract_city_from_address(quote_request.origin_address)
+        fuel_surcharge = 0  # No fuel surcharge adjustments
+        
+        # Estimate labor hours
+        labor_hours = self._estimate_labor_hours(quote_request.total_rooms)
+        
+        # Calculate travel time and distance
+        travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
+        distance_km = self._calculate_distance(quote_request.origin_address, quote_request.destination_address)
+        
+        # Calculate truck fee based on move size
+        truck_fee = self._get_truck_fee_from_rooms(quote_request.total_rooms)
+        
+        # Calculate additional fuel surcharge for distance over 50km
+        distance_fuel_surcharge = self._calculate_fuel_surcharge(distance_km)
+        
+        # Calculate costs
+        labor_cost = hourly_rate * labor_hours
+        travel_cost = hourly_rate * travel_hours
+        fuel_cost = fuel_surcharge + distance_fuel_surcharge
+        heavy_items_cost = self._calculate_heavy_items_cost(quote_request.heavy_items)
+        additional_services_cost = self._calculate_additional_services_cost(quote_request.additional_services)
+        
+        total_cost = labor_cost + truck_fee + travel_cost + fuel_cost + heavy_items_cost + additional_services_cost
+        
+        return {
+            "vendor_name": "Pierre & Sons",
+            "total_cost": round(total_cost, 2),
+            "breakdown": {
+                "labor": round(labor_cost, 2),
+                "truck_fee": round(truck_fee, 2),
+                "travel": round(travel_cost, 2),
+                "fuel_surcharge": round(fuel_cost, 2),
+                "heavy_items": round(heavy_items_cost, 2),
+                "additional_services": round(additional_services_cost, 2)
+            },
+            "crew_size": crew_size,
+            "truck_count": truck_count,
+            "estimated_hours": labor_hours,
+            "travel_time_hours": travel_hours,
+            "hourly_rate": hourly_rate,
+            "dispatcher_info": dispatcher_info or {
+                "name": "Etobicoke HQ",
+                "address": "1155 Kipling Ave, Etobicoke, ON M9B 3M4",
+                "total_distance_km": distance_km,
+                "location_name": "Etobicoke HQ",
+                "gmb_url": "https://www.google.com/maps/search/Pierre+and+Sons+1155+Kipling+Ave+Etobicoke+ON"
+            },
+            "geographic_adjustments": {
+                "origin_city": origin_city,
+                "base_multiplier": 1.0,
+                "fuel_surcharge": 0,
+                "distance_fuel_surcharge": distance_fuel_surcharge,
+                "adjusted_hourly_rate": hourly_rate
+            },
+            "available_slots": ["8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM"],
+            "rating": 4.7,
+            "reviews": 734,
+            "special_notes": "Reliable service"
+        }
+    
+    def _get_hourly_rate(self, crew_size: int) -> float:
+        """Get fixed hourly rate based on crew size - Based on old app data"""
+        rates = {
+            1: 65,   # $65/hr for 1 guy
+            2: 135,  # $135/hr for 2 guys
+            3: 165,  # $165/hr for 3 guys
+            4: 195,  # $195/hr for 4 guys
+            5: 225,  # $225/hr for 5 guys
+            6: 255   # $255/hr for 6 guys
+        }
+        return rates.get(crew_size, 135)
+    
+    def _estimate_labor_hours(self, room_count: int) -> float:
+        """Estimate labor hours based on room count - Based on old app data"""
+        labor_hours_map = {
+            1: 3.5, 2: 4.5, 3: 5.5, 4: 6.5, 5: 7.5, 6: 7.5
+        }
+        return labor_hours_map.get(room_count, 7.5)  # Default to 7.5 for larger moves
+    
+    def _calculate_travel_time(self, origin: str, destination: str) -> float:
+        """Calculate travel time using Mapbox API with actual dispatcher location"""
+        try:
+            # Pierre & Sons dispatcher address
+            dispatcher_address = "1155 Kipling Ave, Etobicoke, ON M9B 3M4"
+            
+            # Calculate 3-leg journey: Dispatcher -> Origin -> Destination -> Dispatcher
+            # Leg 1: Dispatcher to Origin
+            leg1 = mapbox_service.get_directions(dispatcher_address, origin)
+            # Leg 2: Origin to Destination  
+            leg2 = mapbox_service.get_directions(origin, destination)
+            # Leg 3: Destination to Dispatcher
+            leg3 = mapbox_service.get_directions(destination, dispatcher_address)
+            
+            total_duration = 0
+            legs_with_data = 0
+            
+            # Sum up all legs that have data
+            for leg in [leg1, leg2, leg3]:
+                if leg and 'duration' in leg:
+                    total_duration += leg['duration']
+                    legs_with_data += 1
+            
+            if legs_with_data > 0:
+                # Convert seconds to hours
+                travel_hours = total_duration / 3600
+                print(f"Pierre & Sons Mapbox travel calculation: {legs_with_data}/3 legs, {travel_hours:.2f} hours")
+                return travel_hours
+            
+            # If Mapbox fails for all legs, try a simpler approach
+            # Just calculate Origin to Destination and estimate 3-leg
+            origin_to_dest = mapbox_service.get_directions(origin, destination)
+            if origin_to_dest and 'duration' in origin_to_dest:
+                one_way_hours = origin_to_dest['duration'] / 3600
+                # Estimate 3-leg as 2.5x one-way (Dispatcher->Origin->Destination->Dispatcher)
+                three_leg_hours = one_way_hours * 2.5
+                print(f"Pierre & Sons Mapbox fallback calculation: {three_leg_hours:.2f} hours (2.5x one-way)")
+                return three_leg_hours
+            
+            # Final fallback - should rarely happen
+            print("Pierre & Sons Mapbox calculation failed, using conservative estimate")
+            return 2.0  # Conservative 2 hours for 3-leg journey
+        except Exception as e:
+            print(f"Pierre & Sons Mapbox directions error: {e}")
+            return 2.0  # Default 2 hours for 3-leg journey
+    
+    def _calculate_distance(self, origin: str, destination: str) -> float:
+        """Calculate distance using Mapbox API"""
+        try:
+            directions = mapbox_service.get_directions(origin, destination)
+            if directions:
+                # Convert meters to kilometers
+                distance_km = directions['distance'] / 1000
+                return distance_km
+            
+            return 25.0  # Default 25km if Mapbox fails
+        except Exception as e:
+            print(f"Mapbox distance error: {e}")
+            return 25.0  # Default 25km if Mapbox fails
+    
+    def _calculate_fuel_surcharge(self, distance_km: float) -> float:
+        """Calculate fuel surcharge for distance over 50km"""
+        if distance_km <= 50:
+            return 0.0
+        
+        # $2/km over 50km
+        overage_km = distance_km - 50
+        return overage_km * 2.0
+    
+    def _get_truck_fee_from_rooms(self, room_count: int) -> float:
+        """Get truck fee based on room count - Based on old app data"""
+        # Pierre & Sons truck fees from old app data
+        if room_count >= 4:
+            return 140  # $140 (20ft) for 2-bed/2-truck, within 50km
+        else:
+            return 100  # $100 (16ft) for 1-bed/1-truck, within 50km
+    
+    def _calculate_heavy_items_cost(self, heavy_items: Dict[str, int]) -> float:
+        """Calculate heavy items cost"""
+        rates = {"piano": 250, "safe": 300, "treadmill": 100}
+        total = 0
+        for item, count in heavy_items.items():
+            if item in rates:
+                total += rates[item] * count
+        return total
+    
+    def _calculate_additional_services_cost(self, services: Dict[str, bool]) -> float:
+        """Calculate additional services cost"""
+        rates = {
+            "packing": 110, "storage": 200, "cleaning": 396, "junk": 150
+        }
+        total = 0
+        for service, enabled in services.items():
+            if enabled and service in rates:
+                total += rates[service]
+        return total
+    
+    def _extract_city_from_address(self, address: str) -> str:
+        """Extract city from address"""
+        address_lower = address.lower()
+        
+        # Check for specific cities
+        for city in self.LOCATION_RATES.keys():
+            if city.lower() in address_lower:
+                return city
+        
+        # Default to Toronto if no match
+        return "Toronto"
+    
+    def _get_location_based_pricing(self, origin_city: str, base_rate: float) -> Dict[str, float]:
+        """Get location-based pricing adjustments"""
+        location_data = self.LOCATION_RATES.get(origin_city, self.LOCATION_RATES["Toronto"])
+        
+        adjusted_rate = base_rate * location_data["base_multiplier"]
+        fuel_surcharge = location_data["fuel_surcharge"]
+        
+        return {
+            "adjusted_rate": adjusted_rate,
+            "fuel_surcharge": fuel_surcharge,
+            "base_multiplier": location_data["base_multiplier"]
+        } 

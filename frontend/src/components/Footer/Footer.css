@@ -1,0 +1,129 @@
+.main-footer {
+    position: fixed;
+    bottom: 32px;
+    right: 48px;
+    z-index: 200;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: auto;
+    pointer-events: none;
+    gap: 16px;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.footer-continue-btn,
+.footer-back-btn {
+    background: #6c78d6;
+    color: #fff;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: 0 2px 16px 2px rgba(108, 120, 214, 0.25);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    pointer-events: auto;
+    outline: none;
+    opacity: 0.85;
+    margin-right: 0;
+}
+
+.footer-continue-btn {
+    margin-right: 8px;
+}
+
+.footer-continue-btn:hover,
+.footer-back-btn:hover {
+    opacity: 1;
+}
+
+.footer-continue-btn:hover {
+    background: #5a67d8;
+    box-shadow: 0 4px 24px 4px rgba(108, 120, 214, 0.35);
+    transform: translateY(-1px);
+}
+
+.footer-back-btn {
+    background: #f3f4f6;
+    color: #222;
+    margin-right: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.footer-back-btn:hover {
+    background: #e5e7eb;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.footer-continue-btn:disabled {
+    background: #bdbdbd;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+    opacity: 0.5;
+}
+
+@media (max-width: 900px) {
+    .main-footer {
+        bottom: 24px;
+        right: 24px;
+        width: auto;
+        justify-content: flex-end;
+        flex-direction: row;
+        gap: 12px;
+    }
+    .footer-continue-btn,
+    .footer-back-btn {
+        padding: 10px 24px;
+        font-size: 0.95rem;
+        border-radius: 6px;
+        margin-right: 0;
+    }
+    .footer-continue-btn {
+        margin-right: 8px;
+    }
+}
+
+@media (max-width: 600px) {
+    .main-footer {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 200;
+        background: #fff;
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.04);
+        padding: 0 !important;
+        min-height: 56px;
+        max-height: 56px;
+        height: 56px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        gap: 0;
+        pointer-events: auto;
+        border-top: 1px solid #ececec;
+    }
+    .footer-continue-btn,
+    .footer-back-btn {
+        min-width: 0;
+        width: 100vw;
+        max-width: 100vw;
+        font-size: 1.1rem;
+        padding: 0;
+        height: 56px;
+        border-radius: 0;
+        margin: 0;
+        box-shadow: none;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

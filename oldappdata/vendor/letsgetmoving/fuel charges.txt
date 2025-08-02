@@ -1,0 +1,10 @@
+Time Range (Round-Trip)	Estimated Hours	Flat Fuel Surcharge ($)
+1:45–2:45 Hours	2.0 hrs avg	$260
+2:45–3:45 Hours	3.0 hrs avg	$450
+3:45–4:45 Hours	4.0 hrs avg	$580
+4:45–5:45 Hours	5.0 hrs avg	$710
+5:45–6:45 Hours	6.0 hrs avg	$840
+6:45–7:45 Hours	7.0 hrs avg	$970
+7:45–8:45 Hours	8.0 hrs avg	$1,100
+8:45–9:45 Hours	9.0 hrs avg	$1,230
+9:45–10:45 Hours	10.0 hrs avg	$1,360

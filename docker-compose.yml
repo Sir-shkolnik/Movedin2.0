@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:80"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+      - VITE_MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoibW92ZWRpbiIsImEiOiJjbGV4YW1wbGUifQ.example
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:10000"
+    environment:
+      - DATABASE_URL=postgresql://movedin:movedin@postgres:5432/movedin
+      - REDIS_URL=redis://redis:6379
+      - DEBUG=true
+      - ZOHO_CLIENT_ID=1000.GXDHGOMA40H9WBM20CIJ8U0UGNTKTL
+      - ZOHO_CLIENT_SECRET=77a9aa4bd323fa083a41543e6302875582d61d5d10
+      - ZOHO_REDIRECT_URI=http://localhost:8000/api/zoho/callback
+      - ZOHO_AUTH_URL=https://accounts.zoho.com/oauth/v2/auth
+      - ZOHO_TOKEN_URL=https://accounts.zoho.com/oauth/v2/token
+      - ZOHO_CRM_API_URL=https://www.zohoapis.com/crm/v3
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - postgres
+      - redis
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16
+    environment:
+      - POSTGRES_DB=movedin
+      - POSTGRES_USER=movedin
+      - POSTGRES_PASSWORD=movedin
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data: 

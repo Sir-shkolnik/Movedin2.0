@@ -1,0 +1,34 @@
+{
+  "location": "Discounts",
+  "pricing_formula": {
+    "description": "Hourly price is for 1 truck and 1 mover. Each additional mover is +$60/hr. Max 3 movers per truck. 2 trucks = double the 1 truck price for the same number of movers. Only 1 truck per day unless otherwise noted.",
+    "formulas": {
+      "1_truck": "base_price + 60 * (movers - 1)",
+      "2_trucks": "2 * (base_price + 60 * (movers - 1))",
+      "max_movers_per_truck": 3,
+      "notes": [
+        "Only 1 truck per day unless otherwise noted.",
+        "For 2 trucks, movers = 4, 5, or 6 (2 trucks \u00d7 2, 3, or 4 movers)."
+      ]
+    }
+  },
+  "metadata": {
+    "ops_manager": null,
+    "intersection": null,
+    "address": null,
+    "email": null,
+    "terminal_id": null,
+    "restrictions": [
+      "TORONTO | 5% off the final bill - Cash payments only -- Any Job.",
+      "MISSISSAUGA | 5% off the final bill - Cash payments only -- Any Job.",
+      "VANCOUVER | 5% off the final bill - Cash payments only -- Any Job.",
+      "BURNABY | 5% off the final bill - Cash payments only -- Any Job.",
+      "EDMONTON | 5% off the final bill - Cash payments only -- Any Job.",
+      "COQUITLAM & KELOWNA | Oakwyn Realty Referral - $100 off the final bill - by Mention Only",
+      "LONDON & WOODSTOCK | any job below 900 sq. ft. must be priced with a starting minimum of $159/HR",
+      "OTTAWA | any 1hr min job must be booked at a starting MINIMUM of 179/HR  ALWAYS"
+    ],
+    "notes": []
+  },
+  "calendar_hourly_price": {}
+}

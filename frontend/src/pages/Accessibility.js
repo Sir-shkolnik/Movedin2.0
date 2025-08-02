@@ -1,0 +1,8 @@
+import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
+import ThemeToggle from '../components/ThemeToggle/ThemeToggle';
+import { Link } from 'react-router-dom';
+import './Page.css';
+const Accessibility = () => (_jsxs(_Fragment, { children: [_jsx(Header, {}), _jsx(ThemeToggle, {}), _jsx("main", { className: "page-container", children: _jsx("div", { className: "page-content", children: _jsxs("article", { className: "page-card", children: [_jsx("h1", { children: "Accessibility Statement" }), _jsx("p", { className: "page-subtitle", children: "MovedIn is committed to digital accessibility for all users." }), _jsxs("section", { children: [_jsx("h2", { children: "Our Commitment" }), _jsx("p", { children: "We strive to ensure our website is accessible to people with disabilities and follows WCAG 2.1 guidelines." })] }), _jsxs("section", { children: [_jsx("h2", { children: "Ongoing Efforts" }), _jsxs("ul", { children: [_jsx("li", { children: "Regular accessibility audits" }), _jsx("li", { children: "Continuous improvements based on user feedback" }), _jsx("li", { children: "Accessible design and navigation" })] })] }), _jsxs("section", { children: [_jsx("h2", { children: "Contact Us" }), _jsxs("p", { children: ["If you encounter accessibility barriers, please email ", _jsx("a", { href: "mailto:accessibility@movedin.com", children: "accessibility@movedin.com" }), " and we will address your concerns promptly."] })] }), _jsx("p", { children: _jsx(Link, { to: "/about-us", children: "Back to About Us" }) })] }) }) }), _jsx(Footer, { onContinue: () => {}, showContinue: false })] }));
+export default Accessibility;

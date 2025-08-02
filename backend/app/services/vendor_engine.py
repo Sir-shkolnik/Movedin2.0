@@ -1,0 +1,1169 @@
+from abc import ABC, abstractmethod
+from typing import Dict, List, Any, Optional
+from datetime import datetime, date
+import math
+import logging
+from sqlalchemy.orm import Session
+from app.models.vendor import Vendor, Dispatcher
+from app.schemas.quote import QuoteRequest
+from app.services.mapbox_service import mapbox_service
+from app.services.dispatcher_cache_service import dispatcher_cache_service
+from app.services.google_sheets_service import google_sheets_service
+
+logger = logging.getLogger(__name__)
+
+class GeographicVendorDispatcher:
+    """Handles geographic-based vendor dispatching and service area validation"""
+    
+    # Vendor service areas - cities/regions each vendor serves
+    VENDOR_SERVICE_AREAS = {
+        "lets-get-moving": {
+            "cities": ["Toronto", "North York", "Scarborough", "Etobicoke", "York", "East York", "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill", "Oakville", "Burlington", "Hamilton", "Oshawa", "Whitby", "Ajax", "Pickering"],
+            "regions": ["GTA", "Greater Toronto Area", "Golden Horseshoe"],
+            "max_distance_km": 150,  # Maximum service distance
+            "location_based_rates": {}  # No hardcoded rates - uses Google Sheets data
+        },
+        "easy2go": {
+            "cities": ["Toronto", "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill"],
+            "regions": ["GTA Core"],
+            "max_distance_km": 80,
+            "location_based_rates": {
+                "Toronto": {"base_multiplier": 1.0, "fuel_surcharge": 0},
+                "Mississauga": {"base_multiplier": 0.98, "fuel_surcharge": 20},
+                "Brampton": {"base_multiplier": 0.95, "fuel_surcharge": 35},
+                "Vaughan": {"base_multiplier": 0.98, "fuel_surcharge": 25},
+                "Markham": {"base_multiplier": 0.98, "fuel_surcharge": 30},
+                "Richmond Hill": {"base_multiplier": 0.98, "fuel_surcharge": 35}
+            }
+        },
+        "velocity-movers": {
+            "cities": ["Toronto", "Mississauga", "Oakville", "Burlington", "Hamilton"],
+            "regions": ["GTA West", "Golden Horseshoe West"],
+            "max_distance_km": 120,
+            "location_based_rates": {
+                "Toronto": {"base_multiplier": 1.0, "fuel_surcharge": 0},
+                "Mississauga": {"base_multiplier": 0.97, "fuel_surcharge": 30},
+                "Oakville": {"base_multiplier": 0.92, "fuel_surcharge": 50},
+                "Burlington": {"base_multiplier": 0.88, "fuel_surcharge": 65},
+                "Hamilton": {"base_multiplier": 0.85, "fuel_surcharge": 80}
+            }
+        },
+        "pierre-sons": {
+            "cities": ["Toronto", "Scarborough", "North York", "Etobicoke", "York", "East York"],
+            "regions": ["Toronto Core"],
+            "max_distance_km": 50,
+            "location_based_rates": {
+                "Toronto": {"base_multiplier": 1.0, "fuel_surcharge": 0},
+                "Scarborough": {"base_multiplier": 0.98, "fuel_surcharge": 15},
+                "North York": {"base_multiplier": 0.98, "fuel_surcharge": 10},
+                "Etobicoke": {"base_multiplier": 0.98, "fuel_surcharge": 20},
+                "York": {"base_multiplier": 0.98, "fuel_surcharge": 5},
+                "East York": {"base_multiplier": 0.98, "fuel_surcharge": 12}
+            }
+        }
+    }
+    
+    # Dispatcher locations and their service areas (for non-Google Sheets vendors only)
+    DISPATCHER_LOCATIONS = {
+        "toronto-central": {
+            "name": "Toronto Central",
+            "address": "123 Queen St W, Toronto, ON",
+            "coordinates": {"lat": 43.6532, "lng": -79.3832},
+            "serves_vendors": ["easy2go", "velocity-movers", "pierre-sons"],
+            "base_rates": {
+                "easy2go": 150.0,
+                "velocity-movers": 165.0,
+                "pierre-sons": 135.0
+            }
+        },
+        "mississauga-west": {
+            "name": "Mississauga West",
+            "address": "456 Hurontario St, Mississauga, ON",
+            "coordinates": {"lat": 43.5890, "lng": -79.6441},
+            "serves_vendors": ["easy2go", "velocity-movers"],
+            "base_rates": {
+                "easy2go": 140.0,
+                "velocity-movers": 155.0
+            }
+        },
+        "brampton-north": {
+            "name": "Brampton North",
+            "address": "789 Queen St E, Brampton, ON",
+            "coordinates": {"lat": 43.6831, "lng": -79.7663},
+            "serves_vendors": ["easy2go"],
+            "base_rates": {
+                "easy2go": 130.0
+            }
+        },
+        "markham-east": {
+            "name": "Markham East",
+            "address": "321 Highway 7, Markham, ON",
+            "coordinates": {"lat": 43.8561, "lng": -79.3370},
+            "serves_vendors": ["easy2go"],
+            "base_rates": {
+                "easy2go": 140.0
+            }
+        }
+    }
+    
+    @classmethod
+    def get_available_vendors_for_location(cls, origin_address: str, destination_address: str) -> List[Dict[str, Any]]:
+        """Get list of vendors that can serve the given origin and destination"""
+        available_vendors = []
+        
+        # Extract city names from addresses
+        origin_city = cls._extract_city_from_address(origin_address)
+        dest_city = cls._extract_city_from_address(destination_address)
+        
+        # Calculate distance between origin and destination
+        distance_km = cls._calculate_distance_km(origin_address, destination_address)
+        
+        for vendor_slug, service_area in cls.VENDOR_SERVICE_AREAS.items():
+            # Check if vendor serves both origin and destination cities
+            serves_origin = cls._vendor_serves_location(vendor_slug, origin_city)
+            serves_destination = cls._vendor_serves_location(vendor_slug, dest_city)
+            within_distance = distance_km <= service_area["max_distance_km"]
+            
+            if serves_origin and serves_destination and within_distance:
+                # Get best dispatcher for this vendor and location
+                best_dispatcher = cls._get_best_dispatcher_for_vendor(vendor_slug, origin_address, destination_address)
+                
+                if best_dispatcher:
+                    available_vendors.append({
+                        "vendor_slug": vendor_slug,
+                        "vendor_name": cls._get_vendor_name(vendor_slug),
+                        "dispatcher": best_dispatcher,
+                        "service_area": service_area,
+                        "location_rates": service_area["location_based_rates"].get(origin_city, {"base_multiplier": 1.0, "fuel_surcharge": 0}),
+                        "distance_km": distance_km,
+                        "serves_origin": serves_origin,
+                        "serves_destination": serves_destination,
+                        "within_distance": within_distance
+                    })
+        
+        return available_vendors
+    
+    @classmethod
+    def _extract_city_from_address(cls, address: str) -> str:
+        """Extract city name from address string"""
+        address_lower = address.lower()
+        
+        # Check for specific cities - order matters! Check longer/more specific names first
+        cities = [
+            "scarborough", "north york", "etobicoke", "east york", "richmond hill",  # More specific first
+            "toronto", "mississauga", "brampton", "vaughan", "markham", 
+            "oakville", "burlington", "hamilton", "oshawa", "whitby", "ajax", "pickering",
+            "york"
+        ]
+        
+        for city in cities:
+            if city in address_lower:
+                return city.title()
+        
+        # Return None if no specific city found (will be handled by vendor service area check)
+        return None
+    
+    @classmethod
+    def _vendor_serves_location(cls, vendor_slug: str, city: str) -> bool:
+        """Check if vendor serves a specific city"""
+        if vendor_slug not in cls.VENDOR_SERVICE_AREAS:
+            return False
+        
+        # If city is None, vendor doesn't serve it
+        if city is None:
+            return False
+        
+        service_area = cls.VENDOR_SERVICE_AREAS[vendor_slug]
+        return city in service_area["cities"]
+    
+    @classmethod
+    def _calculate_distance_km(cls, origin: str, destination: str) -> float:
+        """Calculate distance between two addresses in kilometers"""
+        try:
+            directions = mapbox_service.get_directions(origin, destination)
+            if directions and 'distance' in directions:
+                return directions['distance'] / 1000  # Convert meters to kilometers
+            return cls._fallback_distance_calculation(origin, destination)
+        except Exception as e:
+            print(f"Mapbox directions error: {e}")
+            return cls._fallback_distance_calculation(origin, destination)
+    
+    @classmethod
+    def _fallback_distance_calculation(cls, origin: str, destination: str) -> float:
+        """Fallback distance calculation using city-based estimates"""
+        origin_city = cls._extract_city_from_address(origin)
+        dest_city = cls._extract_city_from_address(destination)
+        
+        # City-to-city distance estimates (in km)
+        city_distances = {
+            "Toronto": {
+                "Toronto": 0,
+                "Mississauga": 25,
+                "Brampton": 35,
+                "Vaughan": 30,
+                "Markham": 25,
+                "Richmond Hill": 30,
+                "Oakville": 40,
+                "Burlington": 55,
+                "Hamilton": 70,
+                "Oshawa": 45,
+                "Whitby": 50,
+                "Ajax": 40,
+                "Pickering": 35,
+                "Scarborough": 15,
+                "North York": 10,
+                "Etobicoke": 20,
+                "York": 5,
+                "East York": 8
+            },
+            "Mississauga": {
+                "Toronto": 25,
+                "Mississauga": 0,
+                "Brampton": 15,
+                "Vaughan": 20,
+                "Markham": 35,
+                "Richmond Hill": 40,
+                "Oakville": 15,
+                "Burlington": 30,
+                "Hamilton": 45,
+                "Oshawa": 60,
+                "Whitby": 65,
+                "Ajax": 55,
+                "Pickering": 50,
+                "Scarborough": 40,
+                "North York": 35,
+                "Etobicoke": 25,
+                "York": 30,
+                "East York": 33
+            },
+            "Brampton": {
+                "Toronto": 35,
+                "Mississauga": 15,
+                "Brampton": 0,
+                "Vaughan": 10,
+                "Markham": 25,
+                "Richmond Hill": 30,
+                "Oakville": 30,
+                "Burlington": 45,
+                "Hamilton": 60,
+                "Oshawa": 75,
+                "Whitby": 80,
+                "Ajax": 70,
+                "Pickering": 65,
+                "Scarborough": 50,
+                "North York": 45,
+                "Etobicoke": 35,
+                "York": 40,
+                "East York": 43
+            },
+            "Markham": {
+                "Toronto": 25,
+                "Mississauga": 35,
+                "Brampton": 25,
+                "Vaughan": 5,
+                "Markham": 0,
+                "Richmond Hill": 5,
+                "Oakville": 50,
+                "Burlington": 65,
+                "Hamilton": 80,
+                "Oshawa": 20,
+                "Whitby": 25,
+                "Ajax": 15,
+                "Pickering": 10,
+                "Scarborough": 20,
+                "North York": 15,
+                "Etobicoke": 45,
+                "York": 20,
+                "East York": 17
+            }
+        }
+        
+        # Get distance from lookup table
+        if origin_city in city_distances and dest_city in city_distances[origin_city]:
+            return city_distances[origin_city][dest_city]
+        
+        # Default fallback for unknown cities
+        return 25.0
+    
+    @classmethod
+    def _get_best_dispatcher_for_vendor(cls, vendor_slug: str, origin: str, destination: str) -> Optional[Dict[str, Any]]:
+        """Get the best dispatcher for a vendor based on location"""
+        
+        # For Let's Get Moving, use Google Sheets data
+        if vendor_slug == "lets-get-moving":
+            # Use a default date for availability check (will be overridden in actual quote calculation)
+            from datetime import datetime
+            default_date = datetime.now().strftime("%Y-%m-%d")
+            return cls.get_best_dispatcher_from_sheets(vendor_slug, origin, destination, default_date)
+        
+        # For other vendors, use hardcoded dispatcher locations
+        best_dispatcher = None
+        min_total_distance = float('inf')
+        
+        for dispatcher_id, dispatcher_info in cls.DISPATCHER_LOCATIONS.items():
+            if vendor_slug in dispatcher_info["serves_vendors"]:
+                # Calculate total distance: dispatcher -> origin -> destination -> dispatcher
+                try:
+                    # Use fallback distance calculation
+                    disp_to_origin = cls._fallback_distance_calculation(dispatcher_info["address"], origin)
+                    origin_to_dest = cls._fallback_distance_calculation(origin, destination)
+                    dest_to_disp = cls._fallback_distance_calculation(destination, dispatcher_info["address"])
+                    
+                    total_distance = disp_to_origin + origin_to_dest + dest_to_disp
+                    
+                    if total_distance < min_total_distance:
+                        min_total_distance = total_distance
+                        best_dispatcher = {
+                            "id": dispatcher_id,
+                            "name": dispatcher_info["name"],
+                            "address": dispatcher_info["address"],
+                            "coordinates": dispatcher_info["coordinates"],
+                            "base_rate": dispatcher_info["base_rates"][vendor_slug],
+                            "total_distance_km": total_distance
+                        }
+                except Exception as e:
+                    print(f"Error calculating dispatcher distance: {e}")
+                    continue
+        
+        return best_dispatcher
+
+    @classmethod
+    def get_best_dispatcher_from_sheets(cls, vendor_slug: str, origin: str, destination: str, move_date: str) -> Optional[Dict[str, Any]]:
+        """Get the best dispatcher from cached Google Sheets data for Let's Get Moving, using 4-hour cache."""
+        from datetime import datetime, timedelta
+        from app.services.dispatcher_cache_service import dispatcher_cache_service
+        from app.core.database import get_db
+        
+        try:
+            # Use cached data instead of fetching fresh data every time
+            db = next(get_db())
+            
+            # Get all dispatchers from cache (4-hour TTL)
+            all_dispatchers = {}
+            gids = google_sheets_service._load_gids_from_file()
+            
+            logger.info(f"Loading dispatcher data for {len(gids)} GIDs")
+            
+            for gid in gids:
+                cached_data = dispatcher_cache_service.get_dispatcher_data(gid, db)
+                if cached_data:
+                    all_dispatchers[gid] = cached_data
+                    logger.info(f"Loaded dispatcher {gid} with {len(cached_data.get('calendar_data', {}).get('daily_rates', {}))} daily rates")
+                else:
+                    logger.warning(f"No cached data for dispatcher {gid}")
+            
+            logger.info(f"Total dispatchers loaded: {len(all_dispatchers)}")
+            
+            if not all_dispatchers:
+                logger.warning("No cached dispatcher data available")
+                return None
+            
+            # Use the improved dispatcher selection logic from dispatcher_cache_service
+            best_gid = dispatcher_cache_service.find_closest_location(origin, all_dispatchers)
+            
+            if not best_gid:
+                logger.warning("No suitable dispatcher found")
+                return None
+            
+            # Debug: Check if coordinates are available
+            best_dispatcher_data = all_dispatchers[best_gid]
+            coordinates = best_dispatcher_data.get('coordinates', {})
+            logger.info(f"Selected dispatcher {best_gid} with coordinates: {coordinates}")
+            
+            best_dispatcher_data = all_dispatchers[best_gid]
+            location_details = best_dispatcher_data.get('location_details', {})
+            calendar_data = best_dispatcher_data.get('calendar_data', {})
+            daily_rates = calendar_data.get('daily_rates', {})
+            
+            # Parse move_date as YYYY-MM-DD (smart parser format)
+            try:
+                move_dt = datetime.fromisoformat(move_date)
+            except Exception:
+                move_dt = datetime.strptime(move_date, "%Y-%m-%d")
+            
+            # Find the next available date
+            base_rate = None
+            for offset in range(0, 30):
+                check_date = move_dt + timedelta(days=offset)
+                date_key = check_date.strftime("%Y-%m-%d")  # Use YYYY-MM-DD format to match smart parser data
+                
+                if date_key in daily_rates:
+                    base_rate = daily_rates[date_key]
+                    break
+            
+            if not base_rate:
+                logger.warning(f"No available rates found for {move_date}")
+                return None
+            
+            dispatcher_address = location_details.get('address', '')
+            if not dispatcher_address:
+                dispatcher_address = best_dispatcher_data.get('address', '')
+            
+            # Calculate 3-leg distance for travel time
+            try:
+                disp_to_origin = cls._fallback_distance_calculation(dispatcher_address, origin)
+                origin_to_dest = cls._fallback_distance_calculation(origin, destination)
+                dest_to_disp = cls._fallback_distance_calculation(destination, dispatcher_address)
+                total_distance = disp_to_origin + origin_to_dest + dest_to_disp
+            except Exception as e:
+                logger.warning(f"Error calculating dispatcher distance: {e}")
+                total_distance = 0
+            
+            best_dispatcher = {
+                "gid": best_gid,
+                "name": location_details.get('name', f'Location {best_gid}'),
+                "address": dispatcher_address,
+                "sales_phone": location_details.get('sales_phone', ''),
+                "email": location_details.get('email', ''),
+                "truck_count": location_details.get('truck_count', ''),
+                "base_rate": base_rate,
+                "total_distance_km": total_distance,
+                "calendar_data": calendar_data,
+                "operational_notes": best_dispatcher_data.get('operational_notes', {})
+            }
+            
+            logger.info(f"Selected dispatcher: {best_dispatcher['name']} at {total_distance:.1f}km")
+            return best_dispatcher
+            
+        except Exception as e:
+            logger.error(f"Error getting dispatcher from cached sheets: {e}")
+            return None
+    
+    @classmethod
+    def _get_vendor_name(cls, vendor_slug: str) -> str:
+        """Get vendor display name from slug"""
+        names = {
+            "lets-get-moving": "Let's Get Moving",
+            "easy2go": "Easy2Go",
+            "velocity-movers": "Velocity Movers",
+            "pierre-sons": "Pierre & Sons"
+        }
+        return names.get(vendor_slug, vendor_slug.title())
+    
+    @classmethod
+    def get_location_based_pricing(cls, vendor_slug: str, origin_city: str, base_rate: float) -> Dict[str, float]:
+        """Get location-based pricing adjustments"""
+        if vendor_slug not in cls.VENDOR_SERVICE_AREAS:
+            return {"adjusted_rate": base_rate, "fuel_surcharge": 0}
+        
+        location_rates = cls.VENDOR_SERVICE_AREAS[vendor_slug]["location_based_rates"]
+        city_rates = location_rates.get(origin_city, {"base_multiplier": 1.0, "fuel_surcharge": 0})
+        
+        adjusted_rate = base_rate * city_rates["base_multiplier"]
+        fuel_surcharge = city_rates["fuel_surcharge"]
+        
+        return {
+            "adjusted_rate": adjusted_rate,
+            "fuel_surcharge": fuel_surcharge,
+            "base_multiplier": city_rates["base_multiplier"]
+        }
+
+    @classmethod
+    def _generate_gmb_url(cls, location_name: str, address: str) -> str:
+        """Generate Google My Business URL for a location"""
+        if not location_name or not address:
+            return ""
+        
+        # Clean up the location name and address for URL encoding
+        clean_name = location_name.replace(" ", "+").replace("&", "and")
+        clean_address = address.replace(" ", "+").replace(",", "")
+        
+        # Create Google Maps search URL (this will show GMB if available)
+        gmb_url = f"https://www.google.com/maps/search/{clean_name}+{clean_address}"
+        
+        return gmb_url
+
+class VendorCalculator(ABC):
+    """Base class for vendor-specific quote calculations"""
+    
+    @abstractmethod
+    def calculate_quote(self, quote_request: QuoteRequest, dispatcher_info: Dict[str, Any], db: Session = None) -> Dict[str, Any]:
+        """Calculate quote for a specific vendor"""
+        pass
+    
+    @abstractmethod
+    def get_crew_size(self, quote_request: QuoteRequest) -> int:
+        """Determine crew size based on move details"""
+        pass
+    
+    @abstractmethod
+    def get_truck_count(self, quote_request: QuoteRequest, crew_size: int) -> int:
+        """Determine truck count based on crew size and move details"""
+        pass
+
+class LetsGetMovingCalculator(VendorCalculator):
+    """Let's Get Moving - Dynamic Calendar-Based Pricing with Geographic Adjustments"""
+    
+    def get_crew_size(self, quote_request: QuoteRequest) -> int:
+        """Crew size based on room count and heavy items"""
+        base_crew = self._get_base_crew_size(quote_request.total_rooms)
+        
+        # Heavy items auto-upgrade crew to at least 3
+        heavy_items_count = sum(quote_request.heavy_items.values())
+        if heavy_items_count > 0:
+            return max(base_crew, 3)
+        
+        return base_crew
+    
+    def _get_base_crew_size(self, room_count: int) -> int:
+        """Get base crew size based on room count"""
+        if room_count <= 3:
+            return 2
+        elif room_count == 4:
+            return 3
+        elif room_count <= 6:
+            return 4
+        else:
+            return 5
+    
+    def get_truck_count(self, quote_request: QuoteRequest, crew_size: int) -> int:
+        """Truck count based on crew size"""
+        if crew_size <= 4:
+            return 1
+        else:
+            return 2
+    
+    def calculate_quote(self, quote_request: QuoteRequest, dispatcher_info: Dict[str, Any], db: Session = None) -> Dict[str, Any]:
+        """Calculate LGM quote with true dynamic calendar-based pricing, using YYYY-MM-DD keys."""
+        from datetime import timedelta
+        crew_size = self.get_crew_size(quote_request)
+        truck_count = self.get_truck_count(quote_request, crew_size)
+        move_date = quote_request.move_date
+        calendar_data = dispatcher_info.get('calendar_data', {})
+        daily_rates = calendar_data.get('daily_rates', {})
+        # Find the next available rate from move_date forward
+        base_rate = None
+        for offset in range(0, 366):
+            check_date = move_date + timedelta(days=offset)
+            date_key = check_date.strftime("%Y-%m-%d")  # Use YYYY-MM-DD format to match smart parser data
+            # Debug print
+            print(f"[LGM] Looking for date_key: {date_key} in daily_rates keys: {list(daily_rates.keys())}")
+            if date_key in daily_rates:
+                base_rate = daily_rates[date_key]
+                break
+        if base_rate is None:
+            raise ValueError(f"No base rate found for date {move_date} at location {dispatcher_info.get('name')}")
+        # No geographic pricing adjustments - use original base rate
+        origin_city = GeographicVendorDispatcher._extract_city_from_address(quote_request.origin_address)
+        fuel_surcharge = 0  # No fuel surcharge adjustments
+        # Calculate hourly rate with crew multiplier
+        hourly_rate = self._calculate_hourly_rate(base_rate, crew_size, truck_count)
+        # Estimate labor hours
+        labor_hours = self._estimate_labor_hours(quote_request.total_rooms, crew_size)
+        # Calculate travel time (3-leg journey)
+        travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
+        
+        # Check 10-hour travel time limit - Let's Get Moving doesn't do these moves
+        if travel_hours > 10:
+            return {
+                "vendor_name": "Let's Get Moving",
+                "error": "Travel time exceeds 10 hours. Let's Get Moving doesn't do moves with more than 10 hours of travel time.",
+                "travel_time_hours": travel_hours,
+                "max_allowed_hours": 10,
+                "suggestion": "Please contact us directly for very long distance moves."
+            }
+        
+        # Calculate total billable hours (labor + travel) - TRUE LGM LOGIC
+        total_billable_hours = labor_hours + travel_hours
+        
+        # Calculate costs
+        labor_cost = hourly_rate * total_billable_hours  # Include travel time in billable hours
+        fuel_cost = self._calculate_fuel_charge(travel_hours) + fuel_surcharge
+        heavy_items_cost = self._calculate_heavy_items_cost(quote_request.heavy_items)
+        additional_services_cost = self._calculate_additional_services_cost(quote_request.additional_services)
+        total_cost = labor_cost + fuel_cost + heavy_items_cost + additional_services_cost
+        return {
+            "vendor_name": "Let's Get Moving",
+            "total_cost": round(total_cost, 2),
+            "breakdown": {
+                "labor": round(labor_cost, 2),
+                "fuel": round(fuel_cost, 2),
+                "heavy_items": round(heavy_items_cost, 2),
+                "additional_services": round(additional_services_cost, 2)
+            },
+            "crew_size": crew_size,
+            "truck_count": truck_count,
+            "estimated_hours": labor_hours,
+            "travel_time_hours": travel_hours,
+            "hourly_rate": hourly_rate,
+            "dispatcher_info": {
+                "name": dispatcher_info["name"],
+                "address": dispatcher_info["address"],
+                "total_distance_km": dispatcher_info.get("total_distance_km"),
+                "sales_phone": dispatcher_info.get("sales_phone", ""),
+                "email": dispatcher_info.get("email", ""),
+                "truck_count": dispatcher_info.get("truck_count", ""),
+                "location_name": dispatcher_info.get("name", ""),
+                "gmb_url": GeographicVendorDispatcher._generate_gmb_url(dispatcher_info.get("name", ""), dispatcher_info.get("address", ""))
+            },
+            "geographic_adjustments": {
+                "origin_city": origin_city,
+                "base_multiplier": 1.0,
+                "fuel_surcharge": 0,
+                "adjusted_base_rate": base_rate
+            },
+            "travel_details": {
+                "origin": quote_request.origin_address,
+                "destination": quote_request.destination_address,
+                "journey_type": "3-leg (Dispatcher → Origin → Destination → Dispatcher)",
+                "estimated_travel_time": f"{travel_hours:.1f} hours"
+            },
+            "stairs_info": {
+                "pickup_stairs": quote_request.stairs_at_pickup,
+                "dropoff_stairs": quote_request.stairs_at_dropoff,
+                "note": "Stairs included in labor cost"
+            },
+            "additional_services": {
+                "services": quote_request.additional_services,
+                "total_cost": round(additional_services_cost, 2)
+            },
+            "available_slots": ["8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM"],
+            "rating": 4.8,
+            "reviews": 1247,
+            "special_notes": "Most popular choice",
+            "base_rate": base_rate,
+            "move_date": move_date,
+            "location_name": dispatcher_info.get('name'),
+        }
+    
+    def _calculate_hourly_rate(self, base_rate: float, crew_size: int, truck_count: int) -> float:
+        """Calculate hourly rate with crew and truck multipliers - TRUE LGM LOGIC"""
+        if truck_count == 1:
+            if crew_size == 2:
+                return base_rate  # e.g., $169
+            elif crew_size == 3:
+                return base_rate + 60  # e.g., $169 + $60 = $229
+            elif crew_size == 4:
+                return base_rate + 140  # e.g., $169 + $140 = $309
+            else:
+                # Fallback: treat as 4 movers
+                return base_rate + 140
+        elif truck_count == 2:
+            if crew_size == 4:
+                return 2 * base_rate + 20
+            elif crew_size == 5:
+                return 2 * base_rate + 80
+            elif crew_size == 6:
+                return 2 * base_rate + 140
+            else:
+                # Fallback: treat as 6 movers
+                return 2 * base_rate + 140
+        
+        return base_rate
+    
+    def _estimate_labor_hours(self, room_count: int, crew_size: int) -> float:
+        """Estimate labor hours based on room count and crew efficiency - TRUE LGM LOGIC"""
+        # Base hours from old app data
+        base_hours = {
+            1: 3.5, 2: 4.5, 3: 5.5, 4: 6.5, 5: 7.5, 6: 8.5, 7: 9.5
+        }.get(room_count, 9.5)
+        
+        # Crew efficiency adjustments from old app data
+        if crew_size >= 4:
+            base_hours = max(base_hours * 0.8, base_hours - 1)  # 20% faster or 1 hour less
+        elif crew_size >= 3:
+            base_hours = max(base_hours * 0.85, base_hours - 0.5)  # 15% faster or 0.5 hour less
+        
+        return base_hours
+    
+    def _calculate_travel_time(self, origin: str, destination: str) -> float:
+        """Calculate travel time using Mapbox API with 3-leg journey"""
+        try:
+            # Try to get directions from Mapbox
+            directions = mapbox_service.get_directions(origin, destination)
+            if directions:
+                # Calculate 3-leg journey: Dispatcher -> Origin -> Destination -> Dispatcher
+                # For now, we'll use the one-way time and multiply by 2.5 to account for 3 legs
+                one_way_time = directions['duration'] / 3600  # Convert seconds to hours
+                three_leg_time = one_way_time * 2.5  # Dispatcher->Origin->Destination->Dispatcher
+                return three_leg_time
+            
+            # Fallback to mock calculation if Mapbox fails
+            # Estimate based on typical 3-leg journey
+            return 2.0  # Default 2 hours for 3-leg journey
+        except Exception as e:
+            print(f"Mapbox directions error: {e}")
+            return 2.0  # Default 2 hours for 3-leg journey
+    
+    def _calculate_fuel_charge(self, travel_hours: float) -> float:
+        """Calculate fuel charge based on travel time - TRUE LGM FUEL TABLE"""
+        # Official Let's Get Moving fuel charge table based on round-trip travel time
+        fuel_charge_table = [
+            [1.75, 2.75, 260],   # 1:45–2:45 Hours, $260
+            [2.75, 3.75, 450],   # 2:45–3:45 Hours, $450
+            [3.75, 4.75, 580],   # 3:45–4:45 Hours, $580
+            [4.75, 5.75, 710],   # 4:45–5:45 Hours, $710
+            [5.75, 6.75, 840],   # 5:45–6:45 Hours, $840
+            [6.75, 7.75, 970],   # 6:45–7:45 Hours, $970
+            [7.75, 8.75, 1100],  # 7:45–8:45 Hours, $1,100
+            [8.75, 9.75, 1230],  # 8:45–9:45 Hours, $1,230
+            [9.75, 10.75, 1360]  # 9:45–10:45 Hours, $1,360
+        ]
+        
+        # Check 10-hour travel time limit
+        if travel_hours > 10:
+            return 0  # Let's Get Moving doesn't do moves with more than 10 hours travel time
+        
+        # Find the appropriate fuel charge based on travel time
+        for min_hours, max_hours, charge in fuel_charge_table:
+            if travel_hours >= min_hours and travel_hours < max_hours:
+                return charge
+        
+        # If travel time is less than 1.75 hours, no fuel charge
+        return 0
+    
+    def _calculate_heavy_items_cost(self, heavy_items: Dict[str, int]) -> float:
+        """Calculate heavy items cost"""
+        rates = {"piano": 250, "safe": 300, "treadmill": 100}
+        total = 0
+        for item, count in heavy_items.items():
+            if item in rates:
+                total += rates[item] * count
+        return total
+    
+    def _calculate_additional_services_cost(self, services: Dict[str, bool]) -> float:
+        """Calculate additional services cost"""
+        rates = {
+            "packing": 110, "storage": 200, "cleaning": 396, "junk": 150
+        }
+        total = 0
+        for service, enabled in services.items():
+            if enabled and service in rates:
+                total += rates[service]
+        return total
+
+class Easy2GoCalculator(VendorCalculator):
+    """Easy2Go - Weight-Based Pricing"""
+    
+    def get_crew_size(self, quote_request: QuoteRequest) -> int:
+        """Crew size based on weight estimation"""
+        weight = self._estimate_weight(quote_request)
+        
+        if weight <= 2000:
+            return 2
+        elif weight <= 4000:
+            return 3
+        elif weight <= 6000:
+            return 4
+        else:
+            return 5
+    
+    def get_truck_count(self, quote_request: QuoteRequest, crew_size: int) -> int:
+        """Truck count based on crew size"""
+        if crew_size <= 3:
+            return 1
+        else:
+            return 2
+    
+    def calculate_quote(self, quote_request: QuoteRequest, dispatcher_info: Dict[str, Any], db: Session = None) -> Dict[str, Any]:
+        """Calculate Easy2Go quote with weight-based pricing"""
+        crew_size = self.get_crew_size(quote_request)
+        truck_count = self.get_truck_count(quote_request, crew_size)
+        
+        # Estimate weight
+        estimated_weight = self._estimate_weight(quote_request)
+        
+        # Get rates from weight table
+        weight_rates = self._get_weight_rates(estimated_weight)
+        
+        # Apply geographic pricing adjustments
+        origin_city = GeographicVendorDispatcher._extract_city_from_address(quote_request.origin_address)
+        location_pricing = GeographicVendorDispatcher.get_location_based_pricing(
+            "easy2go", origin_city, weight_rates["hourly_rate"]
+        )
+        
+        adjusted_hourly_rate = location_pricing["adjusted_rate"]
+        fuel_surcharge = location_pricing["fuel_surcharge"]
+        
+        # Calculate costs
+        labor_cost = weight_rates["labor_hours"] * adjusted_hourly_rate
+        travel_cost = weight_rates["travel_hours"] * adjusted_hourly_rate
+        fuel_cost = self._calculate_fuel_charge(weight_rates["travel_hours"]) + fuel_surcharge
+        heavy_items_cost = self._calculate_heavy_items_cost(quote_request.heavy_items)
+        additional_services_cost = self._calculate_additional_services_cost(quote_request.additional_services)
+        
+        total_cost = labor_cost + travel_cost + fuel_cost + heavy_items_cost + additional_services_cost
+        
+        return {
+            "vendor_name": "Easy2Go",
+            "total_cost": round(total_cost, 2),
+            "breakdown": {
+                "labor": round(labor_cost, 2),
+                "travel": round(travel_cost, 2),
+                "fuel": round(fuel_cost, 2),
+                "heavy_items": round(heavy_items_cost, 2),
+                "additional_services": round(additional_services_cost, 2)
+            },
+            "crew_size": crew_size,
+            "truck_count": truck_count,
+            "estimated_hours": weight_rates["labor_hours"],
+            "travel_time_hours": weight_rates["travel_hours"],
+            "estimated_weight": estimated_weight,
+            "dispatcher_info": {
+                "name": dispatcher_info["name"],
+                "address": dispatcher_info["address"],
+                "total_distance_km": dispatcher_info["total_distance_km"],
+                "location_name": dispatcher_info["name"],
+                "gmb_url": GeographicVendorDispatcher._generate_gmb_url(dispatcher_info["name"], dispatcher_info["address"])
+            },
+            "geographic_adjustments": {
+                "origin_city": origin_city,
+                "base_multiplier": location_pricing["base_multiplier"],
+                "fuel_surcharge": fuel_surcharge,
+                "adjusted_hourly_rate": adjusted_hourly_rate
+            },
+            "available_slots": ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM"],
+            "rating": 4.6,
+            "reviews": 892,
+            "special_notes": "Best value",
+            "hourly_rate": adjusted_hourly_rate
+        }
+    
+    def _estimate_weight(self, quote_request: QuoteRequest) -> float:
+        """Estimate weight based on rooms and square footage"""
+        if quote_request.estimated_weight > 0:
+            return quote_request.estimated_weight
+        
+        # Estimate from room count
+        room_weight_map = {
+            1: 2000, 2: 3000, 3: 4000, 4: 5000, 5: 6000, 6: 7000, 7: 8000
+        }
+        
+        base_weight = room_weight_map.get(quote_request.total_rooms, 4000)
+        
+        # Adjust for square footage if available
+        if quote_request.square_footage:
+            try:
+                sqft = float(quote_request.square_footage.replace("sq ft", "").strip())
+                weight_per_sqft = 8  # Average pounds per square foot
+                sqft_weight = sqft * weight_per_sqft
+                return max(base_weight, sqft_weight)
+            except:
+                pass
+        
+        return base_weight
+    
+    def _get_weight_rates(self, weight: float) -> Dict[str, float]:
+        """Get rates based on weight range"""
+        if weight <= 2000:
+            return {"crew_size": 2, "hourly_rate": 150, "labor_hours": 4, "travel_hours": 1}
+        elif weight <= 4000:
+            return {"crew_size": 3, "hourly_rate": 200, "labor_hours": 5, "travel_hours": 1.2}
+        elif weight <= 6000:
+            return {"crew_size": 4, "hourly_rate": 250, "labor_hours": 6, "travel_hours": 1.5}
+        else:
+            return {"crew_size": 5, "hourly_rate": 300, "labor_hours": 7, "travel_hours": 1.8}
+    
+    def _calculate_fuel_charge(self, travel_hours: float) -> float:
+        """Calculate fuel charge"""
+        return travel_hours * 50  # $50 per hour of travel
+    
+    def _calculate_heavy_items_cost(self, heavy_items: Dict[str, int]) -> float:
+        """Calculate heavy items cost"""
+        rates = {"piano": 250, "safe": 300, "treadmill": 100}
+        total = 0
+        for item, count in heavy_items.items():
+            if item in rates:
+                total += rates[item] * count
+        return total
+    
+    def _calculate_additional_services_cost(self, services: Dict[str, bool]) -> float:
+        """Calculate additional services cost"""
+        rates = {
+            "packing": 110, "storage": 200, "cleaning": 396, "junk": 150
+        }
+        total = 0
+        for service, enabled in services.items():
+            if enabled and service in rates:
+                total += rates[service]
+        return total
+
+class VelocityMoversCalculator(VendorCalculator):
+    """Velocity Movers - Weight-Based + Premium Service"""
+    
+    def get_crew_size(self, quote_request: QuoteRequest) -> int:
+        """Crew size based on weight estimation"""
+        weight = self._estimate_weight(quote_request)
+        
+        if weight <= 2000:
+            return 2
+        elif weight <= 4000:
+            return 3
+        elif weight <= 6000:
+            return 4
+        else:
+            return 5
+    
+    def get_truck_count(self, quote_request: QuoteRequest, crew_size: int) -> int:
+        """Truck count based on crew size"""
+        if crew_size <= 3:
+            return 1
+        else:
+            return 2
+    
+    def calculate_quote(self, quote_request: QuoteRequest, dispatcher_info: Dict[str, Any], db: Session = None) -> Dict[str, Any]:
+        """Calculate Velocity Movers quote with premium options"""
+        crew_size = self.get_crew_size(quote_request)
+        truck_count = self.get_truck_count(quote_request, crew_size)
+        
+        # Estimate weight
+        estimated_weight = self._estimate_weight(quote_request)
+        
+        # Get base rates
+        base_rates = self._get_weight_rates(estimated_weight)
+        
+        # Calculate costs
+        labor_cost = base_rates["labor_hours"] * base_rates["hourly_rate"]
+        travel_cost = base_rates["travel_hours"] * base_rates["hourly_rate"]
+        fuel_cost = self._calculate_fuel_charge(base_rates["travel_hours"])
+        heavy_items_cost = self._calculate_heavy_items_cost(quote_request.heavy_items)
+        additional_services_cost = self._calculate_additional_services_cost(quote_request.additional_services)
+        
+        total_cost = labor_cost + travel_cost + fuel_cost + heavy_items_cost + additional_services_cost
+        
+        return {
+            "vendor_name": "Velocity Movers",
+            "total_cost": round(total_cost, 2),
+            "breakdown": {
+                "labor": round(labor_cost, 2),
+                "travel": round(travel_cost, 2),
+                "fuel": round(fuel_cost, 2),
+                "heavy_items": round(heavy_items_cost, 2),
+                "additional_services": round(additional_services_cost, 2)
+            },
+            "crew_size": crew_size,
+            "truck_count": truck_count,
+            "estimated_hours": base_rates["labor_hours"],
+            "travel_time_hours": base_rates["travel_hours"],
+            "estimated_weight": estimated_weight,
+            "available_slots": ["8:00 AM", "9:00 AM", "10:00 AM"],
+            "rating": 4.9,
+            "reviews": 567,
+            "special_notes": "Premium service",
+            "premium_available": True,
+            "premium_rate": base_rates["hourly_rate"] + 10,  # $10 premium per hour
+            "hourly_rate": base_rates["hourly_rate"],
+            "dispatcher_info": {
+                "name": dispatcher_info["name"],
+                "address": dispatcher_info["address"],
+                "total_distance_km": dispatcher_info["total_distance_km"],
+                "location_name": dispatcher_info["name"],
+                "gmb_url": GeographicVendorDispatcher._generate_gmb_url(dispatcher_info["name"], dispatcher_info["address"])
+            }
+        }
+    
+    def _estimate_weight(self, quote_request: QuoteRequest) -> float:
+        """Estimate weight based on rooms and square footage"""
+        if quote_request.estimated_weight > 0:
+            return quote_request.estimated_weight
+        
+        # Estimate from room count
+        room_weight_map = {
+            1: 2000, 2: 3000, 3: 4000, 4: 5000, 5: 6000, 6: 7000, 7: 8000
+        }
+        
+        base_weight = room_weight_map.get(quote_request.total_rooms, 4000)
+        
+        # Adjust for square footage if available
+        if quote_request.square_footage:
+            try:
+                sqft = float(quote_request.square_footage.replace("sq ft", "").strip())
+                weight_per_sqft = 8  # Average pounds per square foot
+                sqft_weight = sqft * weight_per_sqft
+                return max(base_weight, sqft_weight)
+            except:
+                pass
+        
+        return base_weight
+    
+    def _get_weight_rates(self, weight: float) -> Dict[str, float]:
+        """Get rates based on weight range"""
+        if weight <= 2000:
+            return {"crew_size": 2, "hourly_rate": 150, "labor_hours": 4, "travel_hours": 1}
+        elif weight <= 4000:
+            return {"crew_size": 3, "hourly_rate": 200, "labor_hours": 5, "travel_hours": 1.2}
+        elif weight <= 6000:
+            return {"crew_size": 4, "hourly_rate": 250, "labor_hours": 6, "travel_hours": 1.5}
+        else:
+            return {"crew_size": 5, "hourly_rate": 300, "labor_hours": 7, "travel_hours": 1.8}
+    
+    def _calculate_fuel_charge(self, travel_hours: float) -> float:
+        """Calculate fuel charge"""
+        return travel_hours * 60  # $60 per hour of travel
+    
+    def _calculate_heavy_items_cost(self, heavy_items: Dict[str, int]) -> float:
+        """Calculate heavy items cost"""
+        rates = {"piano": 250, "safe": 300, "treadmill": 100}
+        total = 0
+        for item, count in heavy_items.items():
+            if item in rates:
+                total += rates[item] * count
+        return total
+    
+    def _calculate_additional_services_cost(self, services: Dict[str, bool]) -> float:
+        """Calculate additional services cost"""
+        rates = {
+            "packing": 110, "storage": 200, "cleaning": 396, "junk": 150
+        }
+        total = 0
+        for service, enabled in services.items():
+            if enabled and service in rates:
+                total += rates[service]
+        return total
+
+class PierreSonsCalculator(VendorCalculator):
+    """Pierre & Sons - Simple Hourly + Distance Surcharge"""
+    
+    def get_crew_size(self, quote_request: QuoteRequest) -> int:
+        """Crew size based on room count"""
+        if quote_request.total_rooms >= 6:
+            return 5
+        elif quote_request.total_rooms == 4:
+            return 4
+        elif quote_request.total_rooms == 3:
+            return 3
+        else:
+            return 2
+    
+    def get_truck_count(self, quote_request: QuoteRequest, crew_size: int) -> int:
+        """Truck count based on crew size"""
+        if crew_size <= 3:
+            return 1
+        else:
+            return 2
+    
+    def calculate_quote(self, quote_request: QuoteRequest, dispatcher_info: Dict[str, Any], db: Session = None) -> Dict[str, Any]:
+        """Calculate Pierre & Sons quote with distance surcharge"""
+        crew_size = self.get_crew_size(quote_request)
+        truck_count = self.get_truck_count(quote_request, crew_size)
+        
+        # Get hourly rate based on crew size
+        hourly_rate = self._get_hourly_rate(crew_size)
+        
+        # Estimate labor hours
+        labor_hours = self._estimate_labor_hours(quote_request.total_rooms)
+        
+        # Calculate travel time and distance
+        travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
+        distance_km = self._calculate_distance(quote_request.origin_address, quote_request.destination_address)
+        
+        # Calculate costs
+        labor_cost = hourly_rate * labor_hours
+        travel_cost = hourly_rate * travel_hours
+        fuel_surcharge = self._calculate_fuel_surcharge(distance_km)
+        heavy_items_cost = self._calculate_heavy_items_cost(quote_request.heavy_items)
+        additional_services_cost = self._calculate_additional_services_cost(quote_request.additional_services)
+        
+        total_cost = labor_cost + travel_cost + fuel_surcharge + heavy_items_cost + additional_services_cost
+        
+        return {
+            "vendor_name": "Pierre & Sons",
+            "total_cost": round(total_cost, 2),
+            "breakdown": {
+                "labor": round(labor_cost, 2),
+                "travel": round(travel_cost, 2),
+                "fuel_surcharge": round(fuel_surcharge, 2),
+                "heavy_items": round(heavy_items_cost, 2),
+                "additional_services": round(additional_services_cost, 2)
+            },
+            "crew_size": crew_size,
+            "truck_count": truck_count,
+            "estimated_hours": labor_hours,
+            "travel_time_hours": travel_hours,
+            "distance_km": distance_km,
+            "available_slots": ["8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM"],
+            "rating": 4.7,
+            "reviews": 734,
+            "special_notes": "Reliable service",
+            "hourly_rate": hourly_rate,
+            "dispatcher_info": {
+                "name": dispatcher_info["name"],
+                "address": dispatcher_info["address"],
+                "total_distance_km": dispatcher_info["total_distance_km"],
+                "location_name": dispatcher_info["name"],
+                "gmb_url": GeographicVendorDispatcher._generate_gmb_url(dispatcher_info["name"], dispatcher_info["address"])
+            }
+        }
+    
+    def _get_hourly_rate(self, crew_size: int) -> float:
+        """Get hourly rate based on crew size"""
+        rates = {
+            2: 135, 3: 165, 4: 195, 5: 225
+        }
+        return rates.get(crew_size, 135)
+    
+    def _estimate_labor_hours(self, room_count: int) -> float:
+        """Estimate labor hours based on room count"""
+        base_hours = {
+            1: 3.5, 2: 4.5, 3: 5.5, 4: 6.5, 5: 7.5, 6: 8.5, 7: 9.5
+        }.get(room_count, 9.5)
+        return base_hours
+    
+    def _calculate_travel_time(self, origin: str, destination: str) -> float:
+        """Calculate travel time using Mapbox API"""
+        try:
+            directions = mapbox_service.get_directions(origin, destination)
+            if directions:
+                return directions['duration'] / 3600  # Convert seconds to hours
+            return 1.2  # Default 1.2 hours
+        except Exception as e:
+            print(f"Error calculating travel time: {e}")
+            return 1.2  # Default 1.2 hours
+    
+    def _calculate_distance(self, origin: str, destination: str) -> float:
+        """Calculate distance using Mapbox API"""
+        try:
+            directions = mapbox_service.get_directions(origin, destination)
+            if directions:
+                return directions['distance'] / 1000  # Convert meters to kilometers
+            return 25.0  # Default 25 km
+        except Exception as e:
+            print(f"Error calculating distance: {e}")
+            return 25.0  # Default 25 km
+    
+    def _calculate_fuel_surcharge(self, distance_km: float) -> float:
+        """Calculate fuel surcharge for distances over 50km"""
+        if distance_km <= 50:
+            return 0
+        else:
+            extra_km = distance_km - 50
+            return extra_km * 2  # $2 per km over 50km
+    
+    def _calculate_heavy_items_cost(self, heavy_items: Dict[str, int]) -> float:
+        """Calculate heavy items cost"""
+        rates = {"piano": 250, "safe": 300, "treadmill": 100}
+        total = 0
+        for item, count in heavy_items.items():
+            if item in rates:
+                total += rates[item] * count
+        return total
+    
+    def _calculate_additional_services_cost(self, services: Dict[str, bool]) -> float:
+        """Calculate additional services cost"""
+        rates = {
+            "packing": 110, "storage": 200, "cleaning": 396, "junk": 150
+        }
+        total = 0
+        for service, enabled in services.items():
+            if enabled and service in rates:
+                total += rates[service]
+        return total
+
+# Vendor calculator factory
+VENDOR_CALCULATORS = {
+    "lets-get-moving": LetsGetMovingCalculator(),
+    "easy2go": Easy2GoCalculator(),
+    "velocity-movers": VelocityMoversCalculator(),
+    "pierre-sons": PierreSonsCalculator(),
+}
+
+def get_vendor_calculator(vendor_slug: str) -> VendorCalculator:
+    """Get vendor calculator by slug"""
+    return VENDOR_CALCULATORS.get(vendor_slug)
+
+def get_available_vendors_for_quote(quote_request: QuoteRequest) -> List[Dict[str, Any]]:
+    """Get available vendors for a specific quote request"""
+    return GeographicVendorDispatcher.get_available_vendors_for_location(
+        quote_request.origin_address, 
+        quote_request.destination_address
+    ) 

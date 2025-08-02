@@ -1,0 +1,48 @@
+Mapbox geocoding error: 422 Client Error: Unknown for url: https://api.mapbox.com/geocoding/v5/mapbox.places/32615%20South%20Fraser%20Way%20unit%201402%20104,%20Abbotsford,%20BC%20V2T%201X8%20%20%20%20%20%20%20%201%20HOUR%20MINIMUMS%20(2-4PM)%20AFTER%20ANOTHER%20JOB%20=%20$179/HR%20ALWAYS.json?access_token=pk.eyJ1Ijoic3VwcG9ydG1vdmVkaW4iLCJhIjoiY21kZmdxdHh6MGQ2aDJqcHE2YTIwbTFrMiJ9.I1xkq82JXLMlgB02xT8LMw&types=address%2Cpoi&limit=5&language=en
+Mapbox geocoding error: 422 Client Error: Unknown for url: https://api.mapbox.com/geocoding/v5/mapbox.places/24%20Industry%20St,%20Aurora%20%20%20%20%20%20%20%20DOWN%20ONE%20TRUCKS%20BETWEEN%20AURORA/BARRIES%20AND%20MARKHAM%20SO%20ONLY%202%20TRUCKS%20BETWEEN%20ALL.%203%20FOR%20NOW.json?access_token=pk.eyJ1Ijoic3VwcG9ydG1vdmVkaW4iLCJhIjoiY21kZmdxdHh6MGQ2aDJqcHE2YTIwbTFrMiJ9.I1xkq82JXLMlgB02xT8LMw&types=address%2Cpoi&limit=5&language=en
+Mapbox geocoding error: 422 Client Error: Unknown for url: https://api.mapbox.com/geocoding/v5/mapbox.places/142%20Brookside%20Drive,%20Port%20Moody,%20British%20Columbia%20V3H%203H6,%20Canada%20%20%20%20%20%20%20%201%20HOUR%20MINIMUMS%20(2-4PM)%20ONLY%20AFTER%20ANOTHER%20JOB%20=%20$179/HR%20ALWAYS.json?access_token=pk.eyJ1Ijoic3VwcG9ydG1vdmVkaW4iLCJhIjoiY21kZmdxdHh6MGQ2aDJqcHE2YTIwbTFrMiJ9.I1xkq82JXLMlgB02xT8LMw&types=address%2Cpoi&limit=5&language=en
+
+Move: 18 Gadsden Ct, Ajax -> 400 Industrial Avenue, Vancouver | Rooms: 2 | Sqft: 800
+Mapbox directions error: 422 Client Error: Unknown for url: https://api.mapbox.com/directions/v5/mapbox/driving/18%20Gadsden%20Ct,%20Ajax;400%20Industrial%20Avenue,%20Vancouver?access_token=pk.eyJ1Ijoic3VwcG9ydG1vdmVkaW4iLCJhIjoiY21kZmdxdHh6MGQ2aDJqcHE2YTIwbTFrMiJ9.I1xkq82JXLMlgB02xT8LMw&geometries=geojson&overview=full&steps=true
+Mapbox directions error: 422 Client Error: Unknown for url: https://api.mapbox.com/directions/v5/mapbox/driving/18%20Gadsden%20Ct,%20Ajax;400%20Industrial%20Avenue,%20Vancouver?access_token=pk.eyJ1Ijoic3VwcG9ydG1vdmVkaW4iLCJhIjoiY21kZmdxdHh6MGQ2aDJqcHE2YTIwbTFrMiJ9.I1xkq82JXLMlgB02xT8LMw&geometries=geojson&overview=full&steps=true
+  Vendor: lets-get-moving | Total Cost: ERROR: No base rate found for date 2025-08-01 at location SALES #: (647) 255-9942 | Crew: None | Trucks: None
+  Vendor: easy2go         | Total Cost: 2730.0 | Crew: 5 | Trucks: 2
+  Vendor: velocity-movers | Total Cost: 2748.0 | Crew: 5 | Trucks: 2
+  Vendor: pierre-sons     | Total Cost: 769.5 | Crew: 2 | Trucks: 1
+  >>> Best Vendor: pierre-sons (Total Cost: 769.5)
+
+Move: 92 Caplan Ave, Barrie -> 783 Colborne Street, Brantford | Rooms: 3 | Sqft: 1200
+Mapbox directions error: 422 Client Error: Unknown for url: https://api.mapbox.com/directions/v5/mapbox/driving/92%20Caplan%20Ave,%20Barrie;783%20Colborne%20Street,%20Brantford?access_token=pk.eyJ1Ijoic3VwcG9ydG1vdmVkaW4iLCJhIjoiY21kZmdxdHh6MGQ2aDJqcHE2YTIwbTFrMiJ9.I1xkq82JXLMlgB02xT8LMw&geometries=geojson&overview=full&steps=true
+Mapbox directions error: 422 Client Error: Unknown for url: https://api.mapbox.com/directions/v5/mapbox/driving/92%20Caplan%20Ave,%20Barrie;783%20Colborne%20Street,%20Brantford?access_token=pk.eyJ1Ijoic3VwcG9ydG1vdmVkaW4iLCJhIjoiY21kZmdxdHh6MGQ2aDJqcHE2YTIwbTFrMiJ9.I1xkq82JXLMlgB02xT8LMw&geometries=geojson&overview=full&steps=true
+  Vendor: lets-get-moving | Total Cost: ERROR: No base rate found for date 2025-08-01 at location e | Crew: None | Trucks: None
+  Vendor: easy2go         | Total Cost: 2730.0 | Crew: 5 | Trucks: 2
+  Vendor: velocity-movers | Total Cost: 2748.0 | Crew: 5 | Trucks: 2
+  Vendor: pierre-sons     | Total Cost: 1105.5 | Crew: 3 | Trucks: 1
+  >>> Best Vendor: pierre-sons (Total Cost: 1105.5)
+
+Move: 750 Guelph Line, Burlington -> 783 Colborne Street, Brantford | Rooms: 4 | Sqft: 1600
+Mapbox directions error: 422 Client Error: Unknown for url: https://api.mapbox.com/directions/v5/mapbox/driving/750%20Guelph%20Line,%20Burlington;783%20Colborne%20Street,%20Brantford?access_token=pk.eyJ1Ijoic3VwcG9ydG1vdmVkaW4iLCJhIjoiY21kZmdxdHh6MGQ2aDJqcHE2YTIwbTFrMiJ9.I1xkq82JXLMlgB02xT8LMw&geometries=geojson&overview=full&steps=true
+Mapbox directions error: 422 Client Error: Unknown for url: https://api.mapbox.com/directions/v5/mapbox/driving/750%20Guelph%20Line,%20Burlington;783%20Colborne%20Street,%20Brantford?access_token=pk.eyJ1Ijoic3VwcG9ydG1vdmVkaW4iLCJhIjoiY21kZmdxdHh6MGQ2aDJqcHE2YTIwbTFrMiJ9.I1xkq82JXLMlgB02xT8LMw&geometries=geojson&overview=full&steps=true
+  Vendor: lets-get-moving | Total Cost: ERROR: No base rate found for date 2025-08-01 at location 750 Guelph Line | Crew: None | Trucks: None
+  Vendor: easy2go         | Total Cost: 2730.0 | Crew: 5 | Trucks: 2
+  Vendor: velocity-movers | Total Cost: 2748.0 | Crew: 5 | Trucks: 2
+  Vendor: pierre-sons     | Total Cost: 1501.5 | Crew: 4 | Trucks: 2
+  >>> Best Vendor: pierre-sons (Total Cost: 1501.5)
+
+Move: 783 Colborne Street, Brantford -> 18 Gadsden Ct, Ajax | Rooms: 5 | Sqft: 2000
+Mapbox directions error: 422 Client Error: Unknown for url: https://api.mapbox.com/directions/v5/mapbox/driving/783%20Colborne%20Street,%20Brantford;18%20Gadsden%20Ct,%20Ajax?access_token=pk.eyJ1Ijoic3VwcG9ydG1vdmVkaW4iLCJhIjoiY21kZmdxdHh6MGQ2aDJqcHE2YTIwbTFrMiJ9.I1xkq82JXLMlgB02xT8LMw&geometries=geojson&overview=full&steps=true
+Mapbox directions error: 422 Client Error: Unknown for url: https://api.mapbox.com/directions/v5/mapbox/driving/783%20Colborne%20Street,%20Brantford;18%20Gadsden%20Ct,%20Ajax?access_token=pk.eyJ1Ijoic3VwcG9ydG1vdmVkaW4iLCJhIjoiY21kZmdxdHh6MGQ2aDJqcHE2YTIwbTFrMiJ9.I1xkq82JXLMlgB02xT8LMw&geometries=geojson&overview=full&steps=true
+  Vendor: lets-get-moving | Total Cost: ERROR: No base rate found for date 2025-08-01 at location 783 Colborne Street | Crew: None | Trucks: None
+  Vendor: easy2go         | Total Cost: 2730.0 | Crew: 5 | Trucks: 2
+  Vendor: velocity-movers | Total Cost: 2748.0 | Crew: 5 | Trucks: 2
+  Vendor: pierre-sons     | Total Cost: 1174.5 | Crew: 2 | Trucks: 1
+  >>> Best Vendor: pierre-sons (Total Cost: 1174.5)
+
+Move: 400 Industrial Avenue, Vancouver -> 92 Caplan Ave, Barrie | Rooms: 6 | Sqft: 2500
+Mapbox directions error: 422 Client Error: Unknown for url: https://api.mapbox.com/directions/v5/mapbox/driving/400%20Industrial%20Avenue,%20Vancouver;92%20Caplan%20Ave,%20Barrie?access_token=pk.eyJ1Ijoic3VwcG9ydG1vdmVkaW4iLCJhIjoiY21kZmdxdHh6MGQ2aDJqcHE2YTIwbTFrMiJ9.I1xkq82JXLMlgB02xT8LMw&geometries=geojson&overview=full&steps=true
+Mapbox directions error: 422 Client Error: Unknown for url: https://api.mapbox.com/directions/v5/mapbox/driving/400%20Industrial%20Avenue,%20Vancouver;92%20Caplan%20Ave,%20Barrie?access_token=pk.eyJ1Ijoic3VwcG9ydG1vdmVkaW4iLCJhIjoiY21kZmdxdHh6MGQ2aDJqcHE2YTIwbTFrMiJ9.I1xkq82JXLMlgB02xT8LMw&geometries=geojson&overview=full&steps=true
+  Vendor: lets-get-moving | Total Cost: ERROR: No base rate found for date 2025-08-01 at location 400 Industrial Avenue | Crew: None | Trucks: None
+  Vendor: easy2go         | Total Cost: 2730.0 | Crew: 5 | Trucks: 2
+  Vendor: velocity-movers | Total Cost: 2748.0 | Crew: 5 | Trucks: 2
+  Vendor: pierre-sons     | Total Cost: 2182.5 | Crew: 5 | Trucks: 2
+  >>> Best Vendor: pierre-sons (Total Cost: 2182.5)

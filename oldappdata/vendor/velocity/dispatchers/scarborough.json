@@ -1,0 +1,26 @@
+{
+    "name": "Velocity Scarborough",
+    "address": "100 Howden Road, Unit 2, Scarborough, Toronto, ON M1R 3E4",
+    "province": "ON",
+    "postal_code": "M1R 3E4",
+    "phone": "905-499-2820",
+    "lat": 43.7505,
+    "lng": -79.2952,
+    "services": ["residential", "storage", "disposal", "white_glove"],
+    "truck_sizes": ["20ft", "26ft"],
+    "equipment": ["dollies", "blankets", "straps"],
+    "languages": ["en"],
+    "coverage_area": "GTA, Ontario",
+    "notes": "Scarborough dispatcher",
+    "room_to_movers": { "1": 2, "2": 2, "3": 3, "4": 4, "5": 5 },
+    "rates": {
+        "weekday": { "2": 150, "3": 190, "4": 230, "5": 270 },
+        "weekend": { "2": 160, "3": 200, "4": 240, "5": 280 },
+        "month_start": { "2": 170, "3": 210, "4": 250, "5": 290 },
+        "month_end": { "2": 170, "3": 210, "4": 250, "5": 290 }
+    },
+    "surcharges": {
+        "holiday": 0.2,
+        "evening": 0.1
+    }
+}
