@@ -38,6 +38,6 @@ class Settings(BaseSettings):
     GOOGLE_SHEETS_SYNC_INTERVAL: int = 14400  # 4 hours in seconds
     
     class Config:
-        env_file = ".env"
+        case_sensitive = False
 
 settings = Settings() 
