@@ -87,6 +87,74 @@ def get_quote_by_vendor_and_lead(db: Session, vendor_id: int, lead_id: int) -> O
         Quote.lead_id == lead_id
     ).first()
 
+async def create_lead_internal(lead_data: Dict[str, Any], db: Session) -> Dict[str, Any]:
+    """
+    Internal function to create a lead (used by payment processing)
+    """
+    try:
+        # Extract data
+        quote_data = lead_data.get('quote_data', {})
+        selected_quote = lead_data.get('selected_quote', {})
+        contact_data = lead_data.get('contact_data', {})
+        
+        # Get vendor
+        vendor_slug = selected_quote.get('vendor_id')
+        vendor = get_vendor_by_slug(db, vendor_slug) if vendor_slug else None
+        
+        if not vendor:
+            raise HTTPException(status_code=400, detail="Vendor not found")
+        
+        # Create lead
+        lead = Lead(
+            first_name=contact_data.get('firstName', ''),
+            last_name=contact_data.get('lastName', ''),
+            email=contact_data.get('email', ''),
+            phone=contact_data.get('phone', ''),
+            origin_address=quote_data.get('originAddress', ''),
+            destination_address=quote_data.get('destinationAddress', ''),
+            move_date=datetime.fromisoformat(quote_data.get('moveDate', '').replace('Z', '+00:00')),
+            move_time=quote_data.get('moveTime', ''),
+            total_rooms=quote_data.get('totalRooms', 0),
+            square_footage=quote_data.get('squareFootage', 0),
+            estimated_weight=quote_data.get('estimatedWeight', 0),
+            heavy_items=quote_data.get('heavyItems', {}),
+            stairs_at_pickup=quote_data.get('stairsAtPickup', 0),
+            stairs_at_dropoff=quote_data.get('stairsAtDropoff', 0),
+            elevator_at_pickup=quote_data.get('elevatorAtPickup', False),
+            elevator_at_dropoff=quote_data.get('elevatorAtDropoff', False),
+            additional_services=quote_data.get('additionalServices', {}),
+            selected_vendor_id=vendor.id,
+            payment_intent_id=selected_quote.get('payment_intent_id'),
+            status='payment_completed',
+            source='web_form'
+        )
+        
+        db.add(lead)
+        db.commit()
+        db.refresh(lead)
+        
+        # Create quote record
+        quote = Quote(
+            lead_id=lead.id,
+            vendor_id=vendor.id,
+            total_cost=selected_quote.get('total_cost', 0),
+            status='confirmed',
+            breakdown=selected_quote.get('breakdown', {})
+        )
+        
+        db.add(quote)
+        db.commit()
+        
+        return {
+            'id': lead.id,
+            'status': 'success',
+            'message': 'Lead created successfully'
+        }
+        
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Failed to create lead: {str(e)}")
+
 @router.post("/leads", response_model=LeadResponse, status_code=status.HTTP_201_CREATED)
 async def create_lead(
     lead_request: LeadRequest,

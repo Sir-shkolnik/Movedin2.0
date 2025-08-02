@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import './Step.css';
 import { useForm } from '../../contexts/FormContext';
 import { apiUrl } from '../../utils/api';
+import { loadStripe } from '@stripe/stripe-js';
 
 interface Step6Props {
     onNext: () => void;
@@ -55,73 +56,122 @@ const Step6: React.FC<Step6Props> = ({ onNext, onBack }) => {
         setLoading(true);
         setError(null);
 
-        console.log('Step 6 - Starting payment process...');
+        console.log('Step 6 - Starting real payment process...');
 
         try {
-            // Here you would integrate with your payment system
-            // For now, we'll simulate a successful payment
-            console.log('Step 6 - Simulating payment processing...');
-            await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate API call
-            console.log('Step 6 - Payment simulation completed');
-
-            // Save lead to backend after successful payment
-            const leadData = {
-                quote_data: {
-                    originAddress: data.from,
-                    destinationAddress: data.to,
-                    moveDate: data.date,
-                    moveTime: data.time,
-                    totalRooms: (data.fromDetails && data.fromDetails.rooms),
-                    squareFootage: (data.fromDetails && data.fromDetails.sqft),
-                    estimatedWeight: 0, // Will be calculated by backend
-                    heavyItems: (data.fromDetails && data.fromDetails.heavyItems) || {},
-                    stairsAtPickup: (data.fromDetails && data.fromDetails.stairs) || 0,
-                    stairsAtDropoff: (data.toDetails && data.toDetails.stairs) || 0,
-                    elevatorAtPickup: (data.fromDetails && data.fromDetails.elevator) || false,
-                    elevatorAtDropoff: (data.toDetails && data.toDetails.elevator) || false,
-                    additionalServices: (data.fromDetails && data.fromDetails.additionalServices) || {},
-                },
-                selected_quote: {
-                    vendor_id: (data.selectedQuote && data.selectedQuote.vendor_slug) || null,
-                    vendor_name: (data.selectedQuote && data.selectedQuote.vendor_name) || 'Unknown',
-                    total_cost: (data.selectedQuote && data.selectedQuote.total_cost) || 0,
-                    payment_intent_id: `simulated_payment_${Date.now()}`, // Simulated payment ID
-                    breakdown: (data.selectedQuote && data.selectedQuote.breakdown) || {},
-                },
-                contact_data: {
-                    firstName: data.contact?.firstName,
-                    lastName: data.contact?.lastName,
-                    email: data.contact?.email,
-                    phone: data.contact?.phone,
-                }
-            };
-
-            console.log('Step 6 - Lead data to save:', leadData);
-
-            console.log('Step 6 - Sending lead data to:', apiUrl('/api/leads'));
-
-            const response = await fetch(apiUrl('/api/leads'), {
+            // Step 1: Create payment intent
+            console.log('Step 6 - Creating payment intent...');
+            const paymentIntentResponse = await fetch(apiUrl('/api/create-intent'), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(leadData),
+                body: JSON.stringify({
+                    amount: 100, // $1 CAD in cents
+                    currency: 'cad',
+                    customer_email: data.contact?.email,
+                    description: `MovedIn 2.0 - $1 CAD Deposit for ${data.selectedQuote?.vendor_name}`,
+                    metadata: {
+                        vendor_name: data.selectedQuote?.vendor_name,
+                        vendor_slug: data.selectedQuote?.vendor_slug,
+                        move_date: data.date,
+                        move_time: data.time,
+                        from_address: data.from,
+                        to_address: data.to
+                    }
+                }),
             });
 
-            console.log('Step 6 - Lead API response status:', response.status);
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error('Step 6 - Lead API error:', errorText);
-                throw new Error(`Failed to save lead to database: ${response.status} ${errorText}`);
+            if (!paymentIntentResponse.ok) {
+                const errorText = await paymentIntentResponse.text();
+                throw new Error(`Failed to create payment intent: ${errorText}`);
             }
 
-            const leadResult = await response.json();
-            console.log('Step 6 - Lead saved successfully:', leadResult);
+            const paymentIntent = await paymentIntentResponse.json();
+            console.log('Step 6 - Payment intent created:', paymentIntent);
+
+            // Step 2: Process payment with Stripe
+            console.log('Step 6 - Processing payment with Stripe...');
+            
+            // Load Stripe.js dynamically
+            const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+            if (!stripe) {
+                throw new Error('Stripe failed to load');
+            }
+
+            // Confirm payment
+            const { error } = await stripe.confirmPayment({
+                clientSecret: paymentIntent.client_secret,
+                confirmParams: {
+                    return_url: `${window.location.origin}/payment-success`,
+                    payment_method_data: {
+                        billing_details: {
+                            name: `${data.contact?.firstName} ${data.contact?.lastName}`,
+                            email: data.contact?.email,
+                            phone: data.contact?.phone
+                        }
+                    }
+                }
+            });
+
+            if (error) {
+                throw new Error(`Payment failed: ${error.message}`);
+            }
+
+            console.log('Step 6 - Payment confirmed successfully');
+
+            // Step 3: Confirm payment on backend and save lead
+            console.log('Step 6 - Confirming payment on backend...');
+            const confirmResponse = await fetch(apiUrl('/api/confirm-payment'), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    payment_intent_id: paymentIntent.payment_intent_id,
+                    lead_data: {
+                        quote_data: {
+                            originAddress: data.from,
+                            destinationAddress: data.to,
+                            moveDate: data.date,
+                            moveTime: data.time,
+                            totalRooms: (data.fromDetails && data.fromDetails.rooms),
+                            squareFootage: (data.fromDetails && data.fromDetails.sqft),
+                            estimatedWeight: 0, // Will be calculated by backend
+                            heavyItems: (data.fromDetails && data.fromDetails.heavyItems) || {},
+                            stairsAtPickup: (data.fromDetails && data.fromDetails.stairs) || 0,
+                            stairsAtDropoff: (data.toDetails && data.toDetails.stairs) || 0,
+                            elevatorAtPickup: (data.fromDetails && data.fromDetails.elevator) || false,
+                            elevatorAtDropoff: (data.toDetails && data.toDetails.elevator) || false,
+                            additionalServices: (data.fromDetails && data.fromDetails.additionalServices) || {},
+                        },
+                        selected_quote: {
+                            vendor_id: (data.selectedQuote && data.selectedQuote.vendor_slug) || null,
+                            vendor_name: (data.selectedQuote && data.selectedQuote.vendor_name) || 'Unknown',
+                            total_cost: (data.selectedQuote && data.selectedQuote.total_cost) || 0,
+                            payment_intent_id: paymentIntent.payment_intent_id,
+                            breakdown: (data.selectedQuote && data.selectedQuote.breakdown) || {},
+                        },
+                        contact_data: {
+                            firstName: data.contact?.firstName,
+                            lastName: data.contact?.lastName,
+                            email: data.contact?.email,
+                            phone: data.contact?.phone,
+                        }
+                    }
+                }),
+            });
+
+            if (!confirmResponse.ok) {
+                const errorText = await confirmResponse.text();
+                throw new Error(`Failed to confirm payment: ${errorText}`);
+            }
+
+            const confirmResult = await confirmResponse.json();
+            console.log('Step 6 - Payment confirmed and lead saved:', confirmResult);
 
             // Update form data to mark payment as successful
             setData(prev => ({
                 ...prev,
                 paymentCompleted: true,
-                leadId: leadResult.id
+                leadId: confirmResult.lead_id,
+                paymentIntentId: paymentIntent.payment_intent_id
             }));
 
             console.log('Step 6 - Payment and lead save completed, proceeding to next step');
