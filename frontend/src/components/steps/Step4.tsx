@@ -213,11 +213,226 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
         return (
             <div className="step-card">
                 <h2>Choose Your Moving Company</h2>
-                <div style={{ textAlign: 'center', padding: '40px 20px' }}>
-                    <div style={{ fontSize: '24px', marginBottom: '16px' }}>🔄</div>
-                    <p>Getting quotes from moving companies...</p>
-                    <p style={{ fontSize: '14px', color: '#666' }}>This may take a few moments</p>
+                
+                {/* Enhanced Loading Experience */}
+                <div style={{ 
+                    textAlign: 'center', 
+                    padding: '60px 20px',
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    borderRadius: '16px',
+                    marginBottom: '24px',
+                    color: 'white'
+                }}>
+                    {/* Animated Loading Icon */}
+                    <div style={{
+                        width: '80px',
+                        height: '80px',
+                        margin: '0 auto 24px',
+                        position: 'relative',
+                        animation: 'spin 2s linear infinite'
+                    }}>
+                        <div style={{
+                            width: '100%',
+                            height: '100%',
+                            border: '4px solid rgba(255,255,255,0.3)',
+                            borderTop: '4px solid white',
+                            borderRadius: '50%',
+                            animation: 'spin 1s linear infinite'
+                        }}></div>
+                        <div style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            fontSize: '24px'
+                        }}>
+                            🚛
+                        </div>
+                    </div>
+
+                    {/* Loading Title */}
+                    <h3 style={{
+                        fontSize: '24px',
+                        marginBottom: '16px',
+                        fontWeight: 'bold',
+                        textShadow: '0 2px 4px rgba(0,0,0,0.3)'
+                    }}>
+                        Finding Your Perfect Moving Company
+                    </h3>
+
+                    {/* Progress Steps */}
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        gap: '20px',
+                        marginBottom: '32px',
+                        flexWrap: 'wrap'
+                    }}>
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '8px 16px',
+                            backgroundColor: 'rgba(255,255,255,0.2)',
+                            borderRadius: '20px',
+                            animation: 'pulse 2s ease-in-out infinite'
+                        }}>
+                            <span style={{ fontSize: '16px' }}>🔍</span>
+                            <span style={{ fontSize: '14px' }}>Searching</span>
+                        </div>
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '8px 16px',
+                            backgroundColor: 'rgba(255,255,255,0.2)',
+                            borderRadius: '20px',
+                            animation: 'pulse 2s ease-in-out infinite 0.5s'
+                        }}>
+                            <span style={{ fontSize: '16px' }}>📊</span>
+                            <span style={{ fontSize: '14px' }}>Calculating</span>
+                        </div>
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '8px 16px',
+                            backgroundColor: 'rgba(255,255,255,0.2)',
+                            borderRadius: '20px',
+                            animation: 'pulse 2s ease-in-out infinite 1s'
+                        }}>
+                            <span style={{ fontSize: '16px' }}>💰</span>
+                            <span style={{ fontSize: '14px' }}>Pricing</span>
+                        </div>
+                    </div>
+
+                    {/* Loading Message */}
+                    <p style={{
+                        fontSize: '18px',
+                        marginBottom: '12px',
+                        fontWeight: '500'
+                    }}>
+                        We're connecting with top-rated moving companies in your area...
+                    </p>
+                    
+                    <p style={{
+                        fontSize: '14px',
+                        opacity: '0.8',
+                        marginBottom: '24px'
+                    }}>
+                        This ensures you get the best service and competitive pricing
+                    </p>
+
+                    {/* Animated Dots */}
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        gap: '8px'
+                    }}>
+                        {[0, 1, 2].map((i) => (
+                            <div
+                                key={i}
+                                style={{
+                                    width: '8px',
+                                    height: '8px',
+                                    backgroundColor: 'white',
+                                    borderRadius: '50%',
+                                    animation: `bounce 1.4s ease-in-out infinite ${i * 0.16}s`
+                                }}
+                            />
+                        ))}
+                    </div>
+
+                    {/* Progress Bar */}
+                    <div style={{
+                        width: '100%',
+                        maxWidth: '300px',
+                        margin: '24px auto 0',
+                        backgroundColor: 'rgba(255,255,255,0.3)',
+                        borderRadius: '10px',
+                        height: '6px',
+                        overflow: 'hidden'
+                    }}>
+                        <div style={{
+                            width: '60%',
+                            height: '100%',
+                            backgroundColor: 'white',
+                            borderRadius: '10px',
+                            animation: 'progress 3s ease-in-out infinite'
+                        }}></div>
+                    </div>
+
+                    {/* Estimated Time */}
+                    <p style={{
+                        fontSize: '12px',
+                        opacity: '0.7',
+                        marginTop: '12px'
+                    }}>
+                        Estimated time: 10-15 seconds
+                    </p>
                 </div>
+
+                {/* Loading Tips */}
+                <div style={{
+                    backgroundColor: '#f8f9fa',
+                    border: '1px solid #e9ecef',
+                    borderRadius: '12px',
+                    padding: '20px',
+                    marginBottom: '20px'
+                }}>
+                    <h4 style={{
+                        color: '#495057',
+                        marginBottom: '12px',
+                        fontSize: '16px',
+                        fontWeight: '600'
+                    }}>
+                        💡 While we're working...
+                    </h4>
+                    <div style={{
+                        display: 'grid',
+                        gap: '8px',
+                        fontSize: '14px',
+                        color: '#6c757d'
+                    }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span>✅</span>
+                            <span>We're checking availability for your move date</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span>✅</span>
+                            <span>Calculating accurate pricing based on your details</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span>✅</span>
+                            <span>Finding the best crew size for your move</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span>✅</span>
+                            <span>Verifying current rates and availability</span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* CSS Animations */}
+                <style>{`
+                    @keyframes spin {
+                        0% { transform: rotate(0deg); }
+                        100% { transform: rotate(360deg); }
+                    }
+                    @keyframes pulse {
+                        0%, 100% { opacity: 1; transform: scale(1); }
+                        50% { opacity: 0.7; transform: scale(1.05); }
+                    }
+                    @keyframes bounce {
+                        0%, 80%, 100% { transform: scale(0); }
+                        40% { transform: scale(1); }
+                    }
+                    @keyframes progress {
+                        0% { width: 0%; }
+                        50% { width: 60%; }
+                        100% { width: 100%; }
+                    }
+                `}</style>
             </div>
         );
     }
@@ -226,24 +441,123 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
         return (
             <div className="step-card">
                 <h2>Choose Your Moving Company</h2>
-                <div style={{ textAlign: 'center', padding: '40px 20px' }}>
-                    <div style={{ fontSize: '24px', marginBottom: '16px' }}>⚠️</div>
-                    <p style={{ color: '#dc2626', marginBottom: '16px' }}>{error}</p>
+                
+                {/* Enhanced Error State */}
+                <div style={{ 
+                    textAlign: 'center', 
+                    padding: '40px 20px',
+                    backgroundColor: '#fef2f2',
+                    border: '2px solid #fecaca',
+                    borderRadius: '16px',
+                    marginBottom: '24px'
+                }}>
+                    {/* Error Icon */}
+                    <div style={{
+                        width: '80px',
+                        height: '80px',
+                        margin: '0 auto 24px',
+                        backgroundColor: '#dc2626',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '32px',
+                        color: 'white',
+                        animation: 'shake 0.5s ease-in-out'
+                    }}>
+                        ⚠️
+                    </div>
+
+                    {/* Error Title */}
+                    <h3 style={{
+                        color: '#dc2626',
+                        fontSize: '20px',
+                        marginBottom: '16px',
+                        fontWeight: 'bold'
+                    }}>
+                        Oops! Something went wrong
+                    </h3>
+
+                    {/* Error Message */}
+                    <p style={{ 
+                        color: '#dc2626', 
+                        marginBottom: '24px',
+                        fontSize: '16px',
+                        lineHeight: '1.5'
+                    }}>
+                        {error}
+                    </p>
+
+                    {/* Helpful Information */}
+                    <div style={{
+                        backgroundColor: 'white',
+                        padding: '16px',
+                        borderRadius: '8px',
+                        marginBottom: '24px',
+                        border: '1px solid #e5e7eb'
+                    }}>
+                        <p style={{
+                            color: '#6b7280',
+                            fontSize: '14px',
+                            marginBottom: '12px'
+                        }}>
+                            <strong>Don't worry!</strong> This usually happens when:
+                        </p>
+                        <ul style={{
+                            textAlign: 'left',
+                            color: '#6b7280',
+                            fontSize: '14px',
+                            lineHeight: '1.6',
+                            margin: 0,
+                            paddingLeft: '20px'
+                        }}>
+                            <li>Our servers are temporarily busy</li>
+                            <li>There's a brief network connection issue</li>
+                            <li>We're updating our pricing data</li>
+                        </ul>
+                    </div>
+
+                    {/* Retry Button */}
                     <button 
                         onClick={handleRetry}
                         style={{
-                            background: '#2563eb',
+                            background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
                             color: 'white',
                             border: 'none',
-                            padding: '12px 24px',
-                            borderRadius: '6px',
+                            padding: '14px 28px',
+                            borderRadius: '8px',
                             cursor: 'pointer',
-                            fontSize: '16px'
+                            fontSize: '16px',
+                            fontWeight: '600',
+                            boxShadow: '0 4px 6px rgba(37, 99, 235, 0.25)',
+                            transition: 'all 0.2s ease',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            margin: '0 auto'
+                        }}
+                        onMouseOver={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-2px)';
+                            e.currentTarget.style.boxShadow = '0 6px 12px rgba(37, 99, 235, 0.3)';
+                        }}
+                        onMouseOut={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0)';
+                            e.currentTarget.style.boxShadow = '0 4px 6px rgba(37, 99, 235, 0.25)';
                         }}
                     >
+                        <span>🔄</span>
                         Try Again
                     </button>
                 </div>
+
+                {/* CSS Animations */}
+                <style>{`
+                    @keyframes shake {
+                        0%, 100% { transform: translateX(0); }
+                        25% { transform: translateX(-5px); }
+                        75% { transform: translateX(5px); }
+                    }
+                `}</style>
             </div>
         );
     }
