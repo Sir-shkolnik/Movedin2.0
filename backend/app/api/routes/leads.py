@@ -64,7 +64,7 @@ class LeadResponse(BaseModel):
     move_date: Optional[datetime] = None
     move_time: Optional[str] = None
     total_rooms: Optional[int] = None
-    square_footage: Optional[int] = None
+    square_footage: Optional[str] = None
     estimated_weight: Optional[int] = None
     heavy_items: Optional[Dict[str, Any]] = None
     stairs_at_pickup: Optional[int] = None
