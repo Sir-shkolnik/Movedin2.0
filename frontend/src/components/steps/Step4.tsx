@@ -39,10 +39,10 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
 
     const getVendorLogo = (vendorSlug: string) => {
         const logos: { [key: string]: string } = {
-            'lets-get-moving': '/logos/letsgetmoving_good _icon.png',
+            'lets-get-moving': '/logos/letsgetmoving_icon.png',
             'easy2go': '/logos/easy2go.png',
-            'velocity-movers': '/logos/velocity movers logo.jpg',
-            'pierre-sons': '/logos/pierre&sons logo.png'
+            'velocity-movers': '/logos/velocity_movers_logo.jpg',
+            'pierre-sons': '/logos/pierre_sons_logo.png'
         };
         return logos[vendorSlug] || null;
     };
