@@ -1,26 +1,24 @@
-services:
-  # Database
-  - type: pserv
-    name: movedin-database
-    plan: starter
-    runtime: image
-    envVars:
-      - key: POSTGRES_DB
-        value: movedin
-      - key: POSTGRES_USER
-        value: movedin
-      - key: POSTGRES_PASSWORD
-        value: movedin
-    image:
-      url: postgres:16
+# MovedIn 2.0 Blueprint Configuration
+# Based on official Render Blueprint specification
 
-  # Redis
-  - type: redis
+# PostgreSQL databases
+databases:
+  - name: movedin-database
+    databaseName: movedin
+    user: movedin
+    plan: starter
+
+# Services (non-PostgreSQL)
+services:
+  # Redis Key Value instance
+  - type: keyvalue
     name: movedin-redis
     plan: starter
-    ipAllowList: []
+    ipAllowList:
+      - source: 0.0.0.0/0
+        description: everywhere
 
-  # Backend API
+  # Backend API (Docker-based web service)
   - type: web
     name: movedin-backend
     runtime: docker
@@ -28,13 +26,12 @@ services:
     dockerfilePath: backend/Dockerfile
     envVars:
       - key: DATABASE_URL
-        fromService:
-          type: pserv
+        fromDatabase:
           name: movedin-database
           property: connectionString
       - key: REDIS_URL
         fromService:
-          type: redis
+          type: keyvalue
           name: movedin-redis
           property: connectionString
       - key: DEBUG
@@ -52,7 +49,7 @@ services:
       - key: ZOHO_CRM_API_URL
         value: https://www.zohoapis.com/crm/v3
 
-  # Frontend (Vite)
+  # Frontend (Static site)
   - type: web
     name: movedin-frontend
     runtime: static
