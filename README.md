@@ -208,4 +208,4 @@ curl http://localhost:5173
 
 ---
 
-**MovedIn 2.0** - The complete moving quote platform that delivers real-time pricing with 100% accuracy and exceptional user experience. 🚀 
+**MovedIn 2.0** - The complete moving quote platform that delivers real-time pricing with 100% accuracy and exceptional user experience. 🚀 # Stripe configuration test
