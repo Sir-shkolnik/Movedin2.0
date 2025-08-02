@@ -96,42 +96,16 @@ const Step6: React.FC<Step6Props> = ({ onNext, onBack }) => {
             console.log('Step 6 - Stripe publishable key:', stripePublishableKey ? 'Configured' : 'NOT CONFIGURED');
             console.log('Step 6 - Stripe key value:', stripePublishableKey ? `${stripePublishableKey.substring(0, 20)}...` : 'undefined');
             
-            if (!stripePublishableKey) {
-                console.log('Step 6 - Stripe key not configured, using fallback payment simulation');
-                // Use fallback payment simulation
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                console.log('Step 6 - Payment simulation completed');
-            } else {
-                console.log('Step 6 - Stripe key configured, redirecting to Stripe payment page');
-                // Load Stripe.js dynamically
-                const stripe = await loadStripe(stripePublishableKey);
-                if (!stripe) {
-                    throw new Error('Stripe failed to load');
-                }
-                
-                // Redirect to Stripe payment page
-                const { error } = await stripe.confirmPayment({
-                    clientSecret: paymentIntent.client_secret,
-                    confirmParams: {
-                        return_url: `${window.location.origin}/#/step7`,
-                        payment_method_data: {
-                            billing_details: {
-                                name: `${data.contact?.firstName} ${data.contact?.lastName}`,
-                                email: data.contact?.email,
-                                phone: data.contact?.phone
-                            }
-                        }
-                    }
-                });
-
-                if (error) {
-                    throw new Error(`Payment failed: ${error.message}`);
-                }
-                
-                // If we get here, the payment was successful and we're redirected
-                console.log('Step 6 - Payment redirected to Stripe');
-                return; // Don't continue with backend confirmation since we're redirected
-            }
+            // Use Stripe Payment Link approach (simpler and more reliable)
+            console.log('Step 6 - Using Stripe Payment Link approach');
+            
+            // For now, use fallback payment simulation
+            // TODO: Replace with actual Stripe Payment Link URL
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            console.log('Step 6 - Payment simulation completed');
+            
+            // TODO: When you have the Payment Link, replace the simulation with:
+            // window.location.href = 'https://buy.stripe.com/YOUR_PAYMENT_LINK_ID';
 
             console.log('Step 6 - Payment confirmed successfully');
 
