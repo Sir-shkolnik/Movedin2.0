@@ -72,7 +72,7 @@ class LeadResponse(BaseModel):
     elevator_at_pickup: Optional[bool] = None
     elevator_at_dropoff: Optional[bool] = None
     additional_services: Optional[Dict[str, Any]] = None
-    selected_vendor_id: Optional[str] = None
+    selected_vendor_id: Optional[int] = None
     payment_intent_id: Optional[str] = None
     source: Optional[str] = None
 

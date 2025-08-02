@@ -110,7 +110,7 @@ const VendorManagement: React.FC = () => {
       setLoading(true);
       setError(null);
       
-      const response = await fetch('http://localhost:8000/admin/vendors/locations');
+      const response = await fetch('https://movedin-backend.onrender.com/admin/vendors/locations');
       if (!response.ok) {
         throw new Error('Failed to load vendors');
       }
@@ -131,7 +131,7 @@ const VendorManagement: React.FC = () => {
 
   const loadVendorLogic = async (vendorSlug: string) => {
     try {
-      const response = await fetch(`http://localhost:8000/admin/vendors/${vendorSlug}/logic`);
+      const response = await fetch(`https://movedin-backend.onrender.com/admin/vendors/${vendorSlug}/logic`);
       if (!response.ok) {
         throw new Error('Failed to load vendor logic');
       }
@@ -148,7 +148,7 @@ const VendorManagement: React.FC = () => {
     try {
       setAvailabilityLoading(true);
       const response = await fetch(
-        `http://localhost:8000/admin/vendors/availability/bulk?vendor_slug=${vendorSlug}&start_date=${selectedDateRange.start}&end_date=${selectedDateRange.end}`
+        `https://movedin-backend.onrender.com/admin/vendors/availability/bulk?vendor_slug=${vendorSlug}&start_date=${selectedDateRange.start}&end_date=${selectedDateRange.end}`
       );
       if (!response.ok) {
         throw new Error('Failed to load location availability');

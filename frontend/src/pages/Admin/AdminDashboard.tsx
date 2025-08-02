@@ -48,11 +48,11 @@ const AdminDashboard: React.FC = () => {
       setError(null);
 
       // Load leads count
-      const leadsResponse = await fetch('http://localhost:8000/api/leads/');
+      const leadsResponse = await fetch('https://movedin-backend.onrender.com/api/leads/');
       const leads = await leadsResponse.json();
       
       // Load system health
-      const healthResponse = await fetch('http://localhost:8000/health');
+      const healthResponse = await fetch('https://movedin-backend.onrender.com/health');
       let systemHealth = 'loading';
       if (healthResponse.ok) {
         const healthData = await healthResponse.json();
@@ -60,7 +60,7 @@ const AdminDashboard: React.FC = () => {
       }
 
       // Load vendor status
-      const vendorResponse = await fetch('http://localhost:8000/admin/vendors/live-status');
+      const vendorResponse = await fetch('https://movedin-backend.onrender.com/admin/vendors/live-status');
       let activeVendors = 0;
       if (vendorResponse.ok) {
         const vendorData = await vendorResponse.json();
@@ -68,7 +68,7 @@ const AdminDashboard: React.FC = () => {
       }
 
       // Load vendor locations for total count
-      const locationsResponse = await fetch('http://localhost:8000/admin/vendors/locations');
+      const locationsResponse = await fetch('https://movedin-backend.onrender.com/admin/vendors/locations');
       let totalLocations = 0;
       if (locationsResponse.ok) {
         const locationsData = await locationsResponse.json();

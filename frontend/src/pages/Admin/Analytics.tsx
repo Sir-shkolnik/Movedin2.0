@@ -51,7 +51,7 @@ const Analytics: React.FC = () => {
       }
 
       // Load vendors data
-      const vendorsResponse = await fetch('http://localhost:8000/admin/vendors/locations');
+      const vendorsResponse = await fetch('https://movedin-backend.onrender.com/admin/vendors/locations');
       let vendorsData = [];
       if (vendorsResponse.ok) {
         vendorsData = await vendorsResponse.json();

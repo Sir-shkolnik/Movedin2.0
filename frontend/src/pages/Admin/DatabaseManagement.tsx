@@ -72,28 +72,28 @@ const DatabaseManagement: React.FC = () => {
       setError(null);
 
       // Load database health
-      const healthResponse = await fetch('http://localhost:8000/admin/database/health');
+      const healthResponse = await fetch('https://movedin-backend.onrender.com/admin/database/health');
       if (healthResponse.ok) {
         const healthData = await healthResponse.json();
         setDatabaseHealth(healthData);
       }
 
       // Load table schemas
-      const schemasResponse = await fetch('http://localhost:8000/admin/database/schemas');
+      const schemasResponse = await fetch('https://movedin-backend.onrender.com/admin/database/schemas');
       if (schemasResponse.ok) {
         const schemasData = await schemasResponse.json();
         setSchemas(schemasData);
       }
 
       // Load table information
-      const tablesResponse = await fetch('http://localhost:8000/admin/database/tables');
+      const tablesResponse = await fetch('https://movedin-backend.onrender.com/admin/database/tables');
       if (tablesResponse.ok) {
         const tablesData = await tablesResponse.json();
         setTables(tablesData);
       }
 
       // Load data validations
-      const validationsResponse = await fetch('http://localhost:8000/admin/database/validate');
+      const validationsResponse = await fetch('https://movedin-backend.onrender.com/admin/database/validate');
       if (validationsResponse.ok) {
         const validationsData = await validationsResponse.json();
         setValidations(validationsData);
@@ -111,7 +111,7 @@ const DatabaseManagement: React.FC = () => {
     if (!customQuery.trim()) return;
 
     try {
-      const response = await fetch('http://localhost:8000/admin/database/query', {
+      const response = await fetch('https://movedin-backend.onrender.com/admin/database/query', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -149,7 +149,7 @@ const DatabaseManagement: React.FC = () => {
 
   const backupDatabase = async () => {
     try {
-      const response = await fetch('http://localhost:8000/admin/database/backup', {
+      const response = await fetch('https://movedin-backend.onrender.com/admin/database/backup', {
         method: 'POST',
       });
       

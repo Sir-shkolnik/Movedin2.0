@@ -177,7 +177,7 @@ const VendorLocations: React.FC = () => {
       }
 
       // Fetch fresh data
-      const response = await fetch('http://localhost:8000/admin/vendors/locations');
+      const response = await fetch('https://movedin-backend.onrender.com/admin/vendors/locations');
       if (!response.ok) {
         throw new Error('Failed to load vendor locations');
       }
@@ -269,7 +269,7 @@ const VendorLocations: React.FC = () => {
       // Fetch Mapbox access token from backend
       let accessToken = null;
       try {
-        const tokenResponse = await fetch('http://localhost:8000/admin/mapbox-token');
+        const tokenResponse = await fetch('https://movedin-backend.onrender.com/admin/mapbox-token');
         if (tokenResponse.ok) {
           const tokenData = await tokenResponse.json();
           accessToken = tokenData.access_token;

@@ -81,27 +81,27 @@ const SystemMonitoring: React.FC = () => {
     },
     {
       name: 'Vendor Live Status',
-      url: 'http://localhost:8000/admin/vendors/live-status',
+              url: 'https://movedin-backend.onrender.com/admin/vendors/live-status',
       method: 'GET'
     },
     {
       name: 'Data Validation',
-      url: 'http://localhost:8000/admin/vendors/data-validation',
+              url: 'https://movedin-backend.onrender.com/admin/vendors/data-validation',
       method: 'GET'
     },
     {
       name: 'Vendor Locations',
-      url: 'http://localhost:8000/admin/vendors/locations',
+              url: 'https://movedin-backend.onrender.com/admin/vendors/locations',
       method: 'GET'
     },
     {
       name: 'Vendor Logic (Let\'s Get Moving)',
-      url: 'http://localhost:8000/admin/vendors/lets-get-moving/logic',
+              url: 'https://movedin-backend.onrender.com/admin/vendors/lets-get-moving/logic',
       method: 'GET'
     },
     {
       name: 'Bulk Availability',
-      url: 'http://localhost:8000/admin/vendors/availability/bulk?vendor_slug=lets-get-moving&start_date=2025-08-01&end_date=2025-08-07',
+              url: 'https://movedin-backend.onrender.com/admin/vendors/availability/bulk?vendor_slug=lets-get-moving&start_date=2025-08-01&end_date=2025-08-07',
       method: 'GET'
     },
     {
@@ -170,7 +170,7 @@ const SystemMonitoring: React.FC = () => {
 
   const loadVendorLiveStatus = async () => {
     try {
-      const response = await fetch('http://localhost:8000/admin/vendors/live-status');
+      const response = await fetch('https://movedin-backend.onrender.com/admin/vendors/live-status');
       if (response.ok) {
         const data = await response.json();
         setVendorStatus(data);
@@ -184,7 +184,7 @@ const SystemMonitoring: React.FC = () => {
 
   const loadDataValidation = async () => {
     try {
-      const response = await fetch('http://localhost:8000/admin/vendors/data-validation');
+      const response = await fetch('https://movedin-backend.onrender.com/admin/vendors/data-validation');
       if (response.ok) {
         const data = await response.json();
         setDataValidation(data);
