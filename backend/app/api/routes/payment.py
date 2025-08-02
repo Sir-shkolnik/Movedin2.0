@@ -39,7 +39,6 @@ async def create_payment_intent(req: PaymentIntentRequest):
             amount=req.amount,
             currency=req.currency,
             metadata=req.metadata,
-            payment_method_types=['card'],
             description=req.description or 'MovedIn 2.0 - $1 CAD Deposit',
             receipt_email=req.customer_email,
             automatic_payment_methods={
@@ -117,8 +116,10 @@ async def test_payment_connection():
         test_intent = stripe.PaymentIntent.create(
             amount=100,  # $1 CAD
             currency='cad',
-            payment_method_types=['card'],
-            description='Test payment intent'
+            description='Test payment intent',
+            automatic_payment_methods={
+                'enabled': True,
+            }
         )
         
         # Immediately cancel it
