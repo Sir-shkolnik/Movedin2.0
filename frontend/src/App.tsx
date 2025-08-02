@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './App.css';
 import Footer from './components/Footer/Footer';
 import Stepper from './components/Stepper/Stepper';
@@ -31,21 +32,61 @@ function App() {
 }
 
 function AppInner() {
-    const [currentStep, setCurrentStep] = useState(0);
+    const navigate = useNavigate();
+    const location = useLocation();
     const { data } = useForm();
+    
+    // Get current step from URL or default to 0
+    const getCurrentStepFromURL = () => {
+        const path = location.pathname;
+        if (path === '/step7') return 6;
+        if (path === '/step6') return 5;
+        if (path === '/step5') return 4;
+        if (path === '/step4') return 3;
+        if (path === '/step3') return 2;
+        if (path === '/step2') return 1;
+        return 0; // Default to step 1
+    };
+
+    const [currentStep, setCurrentStep] = useState(getCurrentStepFromURL());
+
+    // Update current step when URL changes
+    useEffect(() => {
+        const stepFromURL = getCurrentStepFromURL();
+        setCurrentStep(stepFromURL);
+    }, [location.pathname]);
 
     const goToStep = (stepIndex: number) => {
         if (stepIndex <= currentStep) {
             setCurrentStep(stepIndex);
+            if (stepIndex === 0) {
+                navigate('/');
+            } else {
+                navigate(`/step${stepIndex + 1}`);
+            }
         }
     };
 
     const goNext = () => {
-        setCurrentStep(prev => Math.min(prev + 1, steps.length - 1));
+        const nextStep = Math.min(currentStep + 1, steps.length - 1);
+        setCurrentStep(nextStep);
+        if (nextStep === 6) {
+            navigate('/step7');
+        } else if (nextStep === 0) {
+            navigate('/');
+        } else {
+            navigate(`/step${nextStep + 1}`);
+        }
     };
 
     const goBack = () => {
-        setCurrentStep(prev => Math.max(prev - 1, 0));
+        const prevStep = Math.max(currentStep - 1, 0);
+        setCurrentStep(prevStep);
+        if (prevStep === 0) {
+            navigate('/');
+        } else {
+            navigate(`/step${prevStep + 1}`);
+        }
     };
 
     const renderStep = () => {
@@ -115,11 +156,11 @@ function AppInner() {
     return (
         <div className="app">
             <div className="app-content">
-                <Stepper 
-                    steps={steps} 
-                    currentStep={currentStep} 
-                    onStepClick={goToStep}
-                />
+                            <Stepper 
+                steps={steps} 
+                currentStep={currentStep} 
+                goToStep={goToStep}
+            />
                 <div className="step-container">
                     {renderStep()}
                 </div>
