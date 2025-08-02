@@ -23,7 +23,7 @@ const Step1: React.FC<Step1Props> = ({ onNext }) => {
             ...prev,
             from,
             to,
-            date: date ? date.toISOString().split('T')[0] : 'http://localhost:8000',
+            date: date ? date.toISOString().split('T')[0] : '',
             time
         }));
         // eslint-disable-next-line react-hooks/exhaustive-deps

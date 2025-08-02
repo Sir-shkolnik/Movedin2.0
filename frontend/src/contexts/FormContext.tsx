@@ -47,14 +47,14 @@ export interface MoveDetails {
 }
 
 const defaultMoveDetails: MoveDetails = {
-  from: 'http://localhost:8000',
-  to: 'http://localhost:8000',
-  date: 'http://localhost:8000',
-  time: 'http://localhost:8000',
+  from: '',
+  to: '',
+  date: '',
+  time: '',
   fromDetails: {
     homeType: 'house',
     rooms: 1,
-    sqft: 'http://localhost:8000',
+    sqft: '',
     heavyItems: { piano: 0, safe: 0, treadmill: 0 },
     additionalServices: { packing: false, storage: false, cleaning: false, junk: false },
     floors: 1,
@@ -73,7 +73,7 @@ const defaultMoveDetails: MoveDetails = {
   vendor: null,
   quote: null,
   selectedQuote: null,
-  contact: { firstName: 'http://localhost:8000', lastName: 'http://localhost:8000', email: 'http://localhost:8000', phone: 'http://localhost:8000' },
+  contact: { firstName: '', lastName: '', email: '', phone: '' },
   paymentSuccess: false,
 };
 
