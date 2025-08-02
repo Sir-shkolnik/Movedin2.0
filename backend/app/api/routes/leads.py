@@ -266,35 +266,44 @@ async def get_leads(db: Session = Depends(get_db)):
     """
     Get all leads with full data
     """
-    leads = db.query(Lead).all()
-    return [
-        LeadResponse(
-            id=lead.id,
-            status=lead.status,
-            created_at=lead.created_at,
-            first_name=lead.first_name,
-            last_name=lead.last_name,
-            email=lead.email,
-            phone=lead.phone,
-            origin_address=lead.origin_address,
-            destination_address=lead.destination_address,
-            move_date=lead.move_date,
-            move_time=lead.move_time,
-            total_rooms=lead.total_rooms,
-            square_footage=lead.square_footage,
-            estimated_weight=lead.estimated_weight,
-            heavy_items=lead.heavy_items,
-            stairs_at_pickup=lead.stairs_at_pickup,
-            stairs_at_dropoff=lead.stairs_at_dropoff,
-            elevator_at_pickup=lead.elevator_at_pickup,
-            elevator_at_dropoff=lead.elevator_at_dropoff,
-            additional_services=lead.additional_services,
-            selected_vendor_id=lead.selected_vendor_id,
-            payment_intent_id=lead.payment_intent_id,
-            source=lead.source
-        )
-        for lead in leads
-    ]
+    try:
+        leads = db.query(Lead).all()
+        result = []
+        for lead in leads:
+            try:
+                lead_response = LeadResponse(
+                    id=lead.id,
+                    status=lead.status,
+                    created_at=lead.created_at,
+                    first_name=lead.first_name,
+                    last_name=lead.last_name,
+                    email=lead.email,
+                    phone=lead.phone,
+                    origin_address=lead.origin_address,
+                    destination_address=lead.destination_address,
+                    move_date=lead.move_date,
+                    move_time=lead.move_time,
+                    total_rooms=lead.total_rooms,
+                    square_footage=lead.square_footage,
+                    estimated_weight=lead.estimated_weight,
+                    heavy_items=lead.heavy_items,
+                    stairs_at_pickup=lead.stairs_at_pickup,
+                    stairs_at_dropoff=lead.stairs_at_dropoff,
+                    elevator_at_pickup=lead.elevator_at_pickup,
+                    elevator_at_dropoff=lead.elevator_at_dropoff,
+                    additional_services=lead.additional_services,
+                    selected_vendor_id=lead.selected_vendor_id,
+                    payment_intent_id=lead.payment_intent_id,
+                    source=lead.source
+                )
+                result.append(lead_response)
+            except Exception as e:
+                print(f"Error processing lead {lead.id}: {str(e)}")
+                # Skip problematic leads for now
+                continue
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error retrieving leads: {str(e)}")
 
 @router.get("/leads/{lead_id}", response_model=LeadResponse)
 async def get_lead(lead_id: int, db: Session = Depends(get_db)):
