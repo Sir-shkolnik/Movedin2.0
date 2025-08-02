@@ -13,8 +13,11 @@ const Step6: React.FC = () => {
   const [paymentError, setPaymentError] = useState<string | null>(null);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
-  // Real Stripe Payment Link URL
+  // Real Stripe Payment Link URL - Updated with correct hash routing
   const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/bJe14n2kFc4zenr3ST1wY00';
+  
+  // Note: The redirect URL in Stripe Dashboard should be set to:
+  // https://movedin-frontend.onrender.com/#/step7
 
   useEffect(() => {
     console.log('Step 6 - Data structure:', {
@@ -88,8 +91,10 @@ const Step6: React.FC = () => {
       const intentData = await intentResponse.json();
       console.log('Step 6 - Payment intent created:', intentData);
 
-      // Redirect to real Stripe Payment Link
+      // Redirect to real Stripe Payment Link with proper hash routing
       console.log('Step 6 - Redirecting to Stripe Payment Link...');
+      // Store payment intent data in sessionStorage for Step7
+      sessionStorage.setItem('paymentIntentData', JSON.stringify(intentData));
       window.location.href = STRIPE_PAYMENT_LINK;
       
     } catch (error) {

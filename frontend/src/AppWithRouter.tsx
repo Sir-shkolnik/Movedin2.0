@@ -11,6 +11,7 @@ import LeadManagement from './pages/Admin/LeadManagement';
 import SystemMonitoring from './pages/Admin/SystemMonitoring';
 import Analytics from './pages/Admin/Analytics';
 import VendorLocations from './pages/Admin/VendorLocations';
+import Step7 from './components/steps/Step7';
 import { ThemeProvider } from './contexts/ThemeContext';
 import './App.css';
 
@@ -21,6 +22,7 @@ function AppWithRouter() {
         <Router>
           <Routes>
             <Route path="/" element={<App />} />
+            <Route path="/step7" element={<Step7 />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/tips-guides" element={<TipsAndGuides />} />
