@@ -59,119 +59,39 @@ const Step6: React.FC<Step6Props> = ({ onNext, onBack }) => {
         console.log('Step 6 - Starting real payment process...');
 
         try {
-            // Step 1: Create payment intent
+            // Create payment intent on backend
             console.log('Step 6 - Creating payment intent...');
-            const paymentIntentResponse = await fetch(apiUrl('/api/create-intent'), {
+            console.log('Step 6 - Data structure:', { selectedQuote: data.selectedQuote, vendor: data.vendor, fromDetails: data.fromDetails, contact: data.contact });
+
+            const intentResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/create-intent`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify({
-                    amount: 100, // $1 CAD in cents
+                    amount: 100, // $1.00 CAD in cents
                     currency: 'cad',
-                    customer_email: data.contact?.email,
-                    description: `MovedIn 2.0 - $1 CAD Deposit for ${data.selectedQuote?.vendor_name}`,
-                    metadata: {
-                        vendor_name: data.selectedQuote?.vendor_name,
-                        vendor_slug: data.selectedQuote?.vendor_slug,
-                        move_date: data.date,
-                        move_time: data.time,
-                        from_address: data.from,
-                        to_address: data.to
-                    }
+                    selectedQuote: data.selectedQuote,
+                    vendor: data.vendor,
+                    fromDetails: data.fromDetails,
+                    contact: data.contact
                 }),
             });
 
-            if (!paymentIntentResponse.ok) {
-                const errorText = await paymentIntentResponse.text();
-                throw new Error(`Failed to create payment intent: ${errorText}`);
+            if (!intentResponse.ok) {
+                throw new Error(`Failed to create payment intent: ${await intentResponse.text()}`);
             }
 
-            const paymentIntent = await paymentIntentResponse.json();
-            console.log('Step 6 - Payment intent created:', paymentIntent);
+            const intentData = await intentResponse.json();
+            console.log('Step 6 - Payment intent created:', intentData);
 
-            // Step 2: Process payment with Stripe
-            console.log('Step 6 - Processing payment with Stripe...');
-            
-            // Check if Stripe publishable key is configured
-            const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
-            console.log('Step 6 - Stripe publishable key:', stripePublishableKey ? 'Configured' : 'NOT CONFIGURED');
-            console.log('Step 6 - Stripe key value:', stripePublishableKey ? `${stripePublishableKey.substring(0, 20)}...` : 'undefined');
-            
-            // Use Stripe Payment Link approach (simpler and more reliable)
-            console.log('Step 6 - Using Stripe Payment Link approach');
-            
-            // For now, use fallback payment simulation
-            // TODO: Replace with actual Stripe Payment Link URL
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            console.log('Step 6 - Payment simulation completed');
-            
-            // TODO: When you have the Payment Link, replace the simulation with:
-            // window.location.href = 'https://buy.stripe.com/YOUR_PAYMENT_LINK_ID';
+            // Redirect to Stripe Payment Link
+            console.log('Step 6 - Redirecting to Stripe Payment Link...');
+            window.location.href = 'https://buy.stripe.com/bJe14n2kFc4zenr3ST1wY00';
 
-            console.log('Step 6 - Payment confirmed successfully');
-
-            // Step 3: Confirm payment on backend and save lead
-            console.log('Step 6 - Confirming payment on backend...');
-            const confirmResponse = await fetch(apiUrl('/api/confirm-payment'), {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    payment_intent_id: paymentIntent.payment_intent_id,
-                    lead_data: {
-                        quote_data: {
-                            originAddress: data.from,
-                            destinationAddress: data.to,
-                            moveDate: data.date,
-                            moveTime: data.time,
-                            totalRooms: (data.fromDetails && data.fromDetails.rooms),
-                            squareFootage: (data.fromDetails && data.fromDetails.sqft),
-                            estimatedWeight: 0, // Will be calculated by backend
-                            heavyItems: (data.fromDetails && data.fromDetails.heavyItems) || {},
-                            stairsAtPickup: (data.fromDetails && data.fromDetails.stairs) || 0,
-                            stairsAtDropoff: (data.toDetails && data.toDetails.stairs) || 0,
-                            elevatorAtPickup: (data.fromDetails && data.fromDetails.elevator) || false,
-                            elevatorAtDropoff: (data.toDetails && data.toDetails.elevator) || false,
-                            additionalServices: (data.fromDetails && data.fromDetails.additionalServices) || {},
-                        },
-                        selected_quote: {
-                            vendor_id: (data.selectedQuote && data.selectedQuote.vendor_slug) || null,
-                            vendor_name: (data.selectedQuote && data.selectedQuote.vendor_name) || 'Unknown',
-                            total_cost: (data.selectedQuote && data.selectedQuote.total_cost) || 0,
-                            payment_intent_id: paymentIntent.payment_intent_id,
-                            breakdown: (data.selectedQuote && data.selectedQuote.breakdown) || {},
-                        },
-                        contact_data: {
-                            firstName: data.contact?.firstName,
-                            lastName: data.contact?.lastName,
-                            email: data.contact?.email,
-                            phone: data.contact?.phone,
-                        }
-                    }
-                }),
-            });
-
-            if (!confirmResponse.ok) {
-                const errorText = await confirmResponse.text();
-                throw new Error(`Failed to confirm payment: ${errorText}`);
-            }
-
-            const confirmResult = await confirmResponse.json();
-            console.log('Step 6 - Payment confirmed and lead saved:', confirmResult);
-
-            // Update form data to mark payment as successful
-            setData(prev => ({
-                ...prev,
-                paymentCompleted: true,
-                leadId: confirmResult.lead_id,
-                paymentIntentId: paymentIntent.payment_intent_id
-            }));
-
-            console.log('Step 6 - Payment and lead save completed, proceeding to next step');
-            onNext();
-
-        } catch (err) {
-            console.error('Step 6 - Payment error:', err);
-            setError(err instanceof Error ? err.message : 'Payment failed. Please try again.');
-        } finally {
+        } catch (error: any) {
+            console.error('Step 6 - Payment error:', error);
+            setError(error.message);
             setLoading(false);
         }
     };

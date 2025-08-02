@@ -3,19 +3,184 @@ import './Step.css';
 import { useForm } from '../../contexts/FormContext';
 
 const Step7: React.FC = () => {
-    const { data } = useForm();
+    const { data, setData } = useForm();
     const [showConfetti, setShowConfetti] = useState(false);
     const [leadId, setLeadId] = useState<string | null>(null);
+    const [paymentStatus, setPaymentStatus] = useState<'processing' | 'completed' | 'error'>('processing');
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     useEffect(() => {
-        // Show confetti animation after component mounts
-        setShowConfetti(true);
-        // Generate a simulated lead ID
-        setLeadId(`L${Date.now().toString().slice(-6)}`);
+        const handlePaymentCompletion = async () => {
+            // Check if we have a session_id in the URL (returned from Stripe)
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session_id');
+            
+            if (sessionId) {
+                console.log('Step 7 - Payment link completed, session_id:', sessionId);
+                
+                try {
+                    // Complete payment and save lead
+                    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/payment-link-complete`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            session_id: sessionId,
+                            lead_data: {
+                                quote_data: {
+                                    originAddress: data.from,
+                                    destinationAddress: data.to,
+                                    moveDate: data.date,
+                                    moveTime: data.time,
+                                    totalRooms: (data.fromDetails && data.fromDetails.rooms),
+                                    squareFootage: (data.fromDetails && data.fromDetails.sqft),
+                                    estimatedWeight: 0, // Will be calculated by backend
+                                    heavyItems: (data.fromDetails && data.fromDetails.heavyItems) || {},
+                                    stairsAtPickup: (data.fromDetails && data.fromDetails.stairs) || 0,
+                                    stairsAtDropoff: (data.toDetails && data.toDetails.stairs) || 0,
+                                    elevatorAtPickup: (data.fromDetails && data.fromDetails.elevator) || false,
+                                    elevatorAtDropoff: (data.toDetails && data.toDetails.elevator) || false,
+                                    additionalServices: (data.fromDetails && data.fromDetails.additionalServices) || {},
+                                },
+                                selected_quote: {
+                                    vendor_id: (data.selectedQuote && data.selectedQuote.vendor_slug) || null,
+                                    vendor_name: (data.selectedQuote && data.selectedQuote.vendor_name) || 'Unknown',
+                                    total_cost: (data.selectedQuote && data.selectedQuote.total_cost) || 0,
+                                    session_id: sessionId,
+                                    breakdown: (data.selectedQuote && data.selectedQuote.breakdown) || {},
+                                },
+                                contact_data: {
+                                    firstName: data.contact?.firstName,
+                                    lastName: data.contact?.lastName,
+                                    email: data.contact?.email,
+                                    phone: data.contact?.phone,
+                                }
+                            }
+                        }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Failed to complete payment: ${await response.text()}`);
+                    }
+
+                    const result = await response.json();
+                    console.log('Step 7 - Payment completed and lead saved:', result);
+                    
+                    // Update form data
+                    setData(prev => ({
+                        ...prev,
+                        paymentCompleted: true,
+                        leadId: result.lead_id,
+                        sessionId: sessionId
+                    }));
+                    
+                    setLeadId(result.lead_id);
+                    setPaymentStatus('completed');
+                    
+                    // Show confetti
+                    setShowConfetti(true);
+                    
+                    // Clean up URL
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                    
+                } catch (error) {
+                    console.error('Step 7 - Payment completion error:', error);
+                    setPaymentStatus('error');
+                    setErrorMessage(error.message);
+                }
+            } else {
+                // No session_id, assume payment was already completed or this is a direct visit
+                console.log('Step 7 - No session_id found, assuming payment already completed');
+                setPaymentStatus('completed');
+                setLeadId(data.leadId || `L${Date.now().toString().slice(-6)}`);
+                setShowConfetti(true);
+            }
+        };
+
+        handlePaymentCompletion();
+        
         // Hide confetti after 3 seconds
         const timer = setTimeout(() => setShowConfetti(false), 3000);
         return () => clearTimeout(timer);
-    }, []);
+    }, [data, setData]);
+
+    // Show loading state while processing payment
+    if (paymentStatus === 'processing') {
+        return (
+            <div className="step-card">
+                <div style={{
+                    maxWidth: '600px',
+                    margin: '0 auto',
+                    textAlign: 'center',
+                    padding: '40px 20px'
+                }}>
+                    <div style={{
+                        width: '60px',
+                        height: '60px',
+                        border: '4px solid #f3f3f3',
+                        borderTop: '4px solid #3498db',
+                        borderRadius: '50%',
+                        animation: 'spin 1s linear infinite',
+                        margin: '0 auto 20px'
+                    }}></div>
+                    <h2 style={{ color: '#2c3e50', marginBottom: '10px' }}>
+                        Processing Your Payment...
+                    </h2>
+                    <p style={{ color: '#7f8c8d', fontSize: '16px' }}>
+                        Please wait while we complete your booking and save your information.
+                    </p>
+                </div>
+            </div>
+        );
+    }
+
+    // Show error state
+    if (paymentStatus === 'error') {
+        return (
+            <div className="step-card">
+                <div style={{
+                    maxWidth: '600px',
+                    margin: '0 auto',
+                    textAlign: 'center',
+                    padding: '40px 20px'
+                }}>
+                    <div style={{
+                        width: '60px',
+                        height: '60px',
+                        borderRadius: '50%',
+                        backgroundColor: '#e74c3c',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        margin: '0 auto 20px'
+                    }}>
+                        <span style={{ fontSize: '30px', color: 'white' }}>✕</span>
+                    </div>
+                    <h2 style={{ color: '#e74c3c', marginBottom: '10px' }}>
+                        Payment Error
+                    </h2>
+                    <p style={{ color: '#7f8c8d', marginBottom: '20px' }}>
+                        {errorMessage || 'There was an error processing your payment.'}
+                    </p>
+                    <button
+                        onClick={() => window.location.href = '/#/step6'}
+                        style={{
+                            backgroundColor: '#3498db',
+                            color: 'white',
+                            border: 'none',
+                            padding: '12px 24px',
+                            borderRadius: '6px',
+                            cursor: 'pointer',
+                            fontSize: '16px'
+                        }}
+                    >
+                        Try Again
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     const formatCurrency = (amount: number): string => {
         return new Intl.NumberFormat('en-CA', {
