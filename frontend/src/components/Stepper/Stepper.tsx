@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './Stepper.css';
 
+// Import icons as modules
+import locationIcon from '../../assets/icons/location.svg';
+import homeIcon from '../../assets/icons/home.svg';
+import destinationIcon from '../../assets/icons/destination.svg';
+import moversIcon from '../../assets/icons/movers.svg';
+import contactIcon from '../../assets/icons/contact.svg';
+import reviewIcon from '../../assets/icons/review.svg';
+import thankyouIcon from '../../assets/icons/thankyou.svg';
+
 interface Step {
   label: string;
   subtitle?: string;
@@ -12,17 +21,15 @@ interface StepperProps {
   goToStep?: (idx: number) => void;
 }
 
-const iconNames = [
-  'location.svg',
-  'home.svg',
-  'destination.svg',
-  'movers.svg',
-  'contact.svg',
-  'review.svg',
-  'thankyou.svg'
+const iconImports = [
+  locationIcon,
+  homeIcon,
+  destinationIcon,
+  moversIcon,
+  contactIcon,
+  reviewIcon,
+  thankyouIcon
 ];
-
-const fallbackIcon = '/icons/location.svg';
 
 const Stepper: React.FC<StepperProps> = ({ steps, currentStep, goToStep }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -50,12 +57,12 @@ const Stepper: React.FC<StepperProps> = ({ steps, currentStep, goToStep }) => {
           >
             <div className="stepper-icon">
               <img
-                src={`/icons/${iconNames[idx]}`}
+                src={iconImports[idx]}
                 alt={step.label}
                 height={24}
                 width={24}
                 onError={e => {
-                  (e.target as HTMLImageElement).src = fallbackIcon;
+                  console.warn(`Failed to load icon for step ${idx + 1}: ${step.label}`);
                 }}
               />
             </div>

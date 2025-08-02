@@ -7,7 +7,11 @@ from contextlib import asynccontextmanager
 import uvicorn
 from app.api.routes import admin, leads, monitoring, payment, quotes, vendors, zoho
 from app.core.config import settings
-from app.core.database import init_db
+from app.core.database import engine, Base
+from app.services.sheets_monitor_service import sheets_monitor_service
+
+# Create database tables
+Base.metadata.create_all(bind=engine)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -16,15 +20,9 @@ async def lifespan(app: FastAPI):
     print(f"📊 Environment: {os.getenv('ENVIRONMENT', 'development')}")
     print(f"🌐 Allowed Origins: {os.getenv('ALLOWED_ORIGINS', 'http://localhost:5173')}")
     
-    # Initialize database tables
-    init_db()
-    
-    # Initialize sheets monitor service (will be imported when needed)
-    try:
-        from app.services.sheets_monitor_service import sheets_monitor_service
-        print("✅ Sheets monitor service initialized")
-    except Exception as e:
-        print(f"⚠️ Sheets monitor service warning: {e}")
+    # Start background tasks
+    # Initialize sheets monitor service (background tasks will start automatically)
+    sheets_monitor_service
     
     yield
     

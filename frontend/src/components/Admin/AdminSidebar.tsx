@@ -1,6 +1,9 @@
 import React from 'react';
 import './AdminSidebar.css';
 
+// Import logo as module
+import movedinLogo from '../../assets/icons/movedin-logo.png';
+
 type AdminSection = 'dashboard' | 'vendors' | 'leads' | 'system' | 'analytics' | 'vendor-locations' | 'database';
 
 interface AdminSidebarProps {
@@ -60,7 +63,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeSection, onSectionCha
       <div className="sidebar-header">
         <div className="logo-container">
           <div className="logo-icon">
-            <img src="/icons/movedin-logo.png" alt="MovedIn Logo" height={32} />
+            <img src={movedinLogo} alt="MovedIn Logo" height={32} />
           </div>
           <div className="logo-text">
             <span className="logo-main">MOVED</span>

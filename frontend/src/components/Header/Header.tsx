@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Header.css';
 
+// Import logo as module
+import movedinLogo from '../../assets/icons/movedin_logo.png';
+
 const Header: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const location = useLocation();
@@ -22,7 +25,7 @@ const Header: React.FC = () => {
                 <div className="logo">
                     <Link to="/">
                         <img
-                            src="/icons/movedin_logo.png"
+                            src={movedinLogo}
                             alt="MovedIn Logo"
                             className="header-logo"
                             style={{
