@@ -23,10 +23,23 @@ const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({ value, onChan
       return;
     }
 
+    // Check if Mapbox token is available
+    if (!MAPBOX_TOKEN) {
+      console.warn('Mapbox token not available. Autocomplete disabled.');
+      setSuggestions([]);
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     try {
       const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${MAPBOX_TOKEN}&autocomplete=true&limit=5&country=ca`;
       const res = await fetch(url);
+      
+      if (!res.ok) {
+        throw new Error(`Mapbox API error: ${res.status}`);
+      }
+      
       const data = await res.json();
       setSuggestions(data.features || []);
     } catch (error) {
