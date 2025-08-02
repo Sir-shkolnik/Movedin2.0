@@ -107,11 +107,11 @@ const Step6: React.FC<Step6Props> = ({ onNext, onBack }) => {
                     throw new Error('Stripe failed to load');
                 }
                 
-                // Use actual Stripe payment confirmation
+                // Redirect to Stripe payment page
                 const { error } = await stripe.confirmPayment({
                     clientSecret: paymentIntent.client_secret,
                     confirmParams: {
-                        return_url: `${window.location.origin}/payment-success`,
+                        return_url: `${window.location.origin}/#/step7`,
                         payment_method_data: {
                             billing_details: {
                                 name: `${data.contact?.firstName} ${data.contact?.lastName}`,
@@ -125,6 +125,10 @@ const Step6: React.FC<Step6Props> = ({ onNext, onBack }) => {
                 if (error) {
                     throw new Error(`Payment failed: ${error.message}`);
                 }
+                
+                // If we get here, the payment was successful and we're redirected
+                console.log('Step 6 - Payment redirected to Stripe');
+                return; // Don't continue with backend confirmation since we're redirected
             }
 
             console.log('Step 6 - Payment confirmed successfully');
@@ -235,7 +239,7 @@ const Step6: React.FC<Step6Props> = ({ onNext, onBack }) => {
     const totalTime = (selectedQuote.travel_time_hours || 0) + (selectedQuote.estimated_hours || 0);
 
     return (
-        <div className="step-card">
+        <div className="step-card step6-modern">
             <h2>Review & Complete Booking</h2>
             
             <div style={{ 
@@ -459,23 +463,32 @@ const Step6: React.FC<Step6Props> = ({ onNext, onBack }) => {
                     </div>
                 )}
 
+                {loading && (
+                    <div style={{
+                        backgroundColor: '#d4edda',
+                        border: '1px solid #c3e6cb',
+                        borderRadius: '6px',
+                        padding: '12px',
+                        marginBottom: '16px',
+                        color: '#155724',
+                        textAlign: 'center'
+                    }}>
+                        Processing payment... Please wait.
+                    </div>
+                )}
+
+                {/* Hidden payment button for footer trigger */}
                 <button
+                    ref={(el) => {
+                        if (el) {
+                            el.className = 'pay-button-modern';
+                        }
+                    }}
                     onClick={handlePayment}
                     disabled={loading}
-                    style={{
-                        width: '100%',
-                        padding: '16px',
-                        backgroundColor: loading ? '#6c757d' : '#28a745',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '8px',
-                        fontSize: '16px',
-                        fontWeight: 'bold',
-                        cursor: loading ? 'not-allowed' : 'pointer',
-                        transition: 'background-color 0.3s'
-                    }}
+                    style={{ display: 'none' }}
                 >
-                    {loading ? 'Processing Payment...' : 'Pay $1.00 CAD Deposit'}
+                    Pay $1.00 CAD Deposit
                 </button>
             </div>
 
