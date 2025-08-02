@@ -94,6 +94,7 @@ const Step6: React.FC<Step6Props> = ({ onNext, onBack }) => {
             // Check if Stripe publishable key is configured
             const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
             console.log('Step 6 - Stripe publishable key:', stripePublishableKey ? 'Configured' : 'NOT CONFIGURED');
+            console.log('Step 6 - Stripe key value:', stripePublishableKey ? `${stripePublishableKey.substring(0, 20)}...` : 'undefined');
             
             if (!stripePublishableKey) {
                 console.log('Step 6 - Stripe key not configured, using fallback payment simulation');
@@ -101,6 +102,7 @@ const Step6: React.FC<Step6Props> = ({ onNext, onBack }) => {
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 console.log('Step 6 - Payment simulation completed');
             } else {
+                console.log('Step 6 - Stripe key configured, redirecting to Stripe payment page');
                 // Load Stripe.js dynamically
                 const stripe = await loadStripe(stripePublishableKey);
                 if (!stripe) {
