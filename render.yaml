@@ -1,4 +1,17 @@
 services:
+  # PostgreSQL Database (must be first for dependencies)
+  - type: pserv
+    name: movedin-database
+    env: postgresql
+    plan: starter
+    ipAllowList: []
+
+  # Redis Cache
+  - type: redis
+    name: movedin-redis
+    plan: starter
+    ipAllowList: []
+
   # Backend API Service
   - type: web
     name: movedin-backend
@@ -41,17 +54,4 @@ services:
       - key: VITE_API_URL
         value: https://movedin-backend.onrender.com
       - key: VITE_MAPBOX_ACCESS_TOKEN
-        value: pk.eyJ1IjoibW92ZWRpbiIsImEiOiJjbGV4YW1wbGUifQ.example
-
-  # PostgreSQL Database
-  - type: pserv
-    name: movedin-database
-    env: postgresql
-    plan: starter
-    ipAllowList: []
-
-  # Redis Cache
-  - type: redis
-    name: movedin-redis
-    plan: starter
-    ipAllowList: [] 
+        value: pk.eyJ1IjoibW92ZWRpbiIsImEiOiJjbGV4YW1wbGUifQ.example 
