@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './SystemMonitoring.css';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
 interface SystemHealth {
   status: string;
   timestamp: string;
@@ -70,48 +72,48 @@ const SystemMonitoring: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [autoRefresh, setAutoRefresh] = useState(true);
-  const [lastUpdate, setLastUpdate] = useState<string>('');
+  const [lastUpdate, setLastUpdate] = useState<string>('http://localhost:8000');
 
   // Define all API endpoints to monitor
   const endpointsToMonitor: Omit<APIEndpoint, 'status' | 'response_time_ms' | 'last_check'>[] = [
     {
       name: 'System Health',
-      url: 'http://localhost:8000/health',
+      url: '${API_BASE_URL}/health',
       method: 'GET'
     },
     {
       name: 'Vendor Live Status',
-      url: 'http://localhost:8000/admin/vendors/live-status',
+      url: '${API_BASE_URL}/admin/vendors/live-status',
       method: 'GET'
     },
     {
       name: 'Data Validation',
-      url: 'http://localhost:8000/admin/vendors/data-validation',
+      url: '${API_BASE_URL}/admin/vendors/data-validation',
       method: 'GET'
     },
     {
       name: 'Vendor Locations',
-      url: 'http://localhost:8000/admin/vendors/locations',
+      url: '${API_BASE_URL}/admin/vendors/locations',
       method: 'GET'
     },
     {
       name: 'Vendor Logic (Let\'s Get Moving)',
-      url: 'http://localhost:8000/admin/vendors/lets-get-moving/logic',
+      url: '${API_BASE_URL}/admin/vendors/lets-get-moving/logic',
       method: 'GET'
     },
     {
       name: 'Bulk Availability',
-      url: 'http://localhost:8000/admin/vendors/availability/bulk?vendor_slug=lets-get-moving&start_date=2025-08-01&end_date=2025-08-07',
+      url: '${API_BASE_URL}/admin/vendors/availability/bulk?vendor_slug=lets-get-moving&start_date=2025-08-01&end_date=2025-08-07',
       method: 'GET'
     },
     {
       name: 'Leads API',
-      url: 'http://localhost:8000/api/leads/',
+      url: '${API_BASE_URL}/api/leads/',
       method: 'GET'
     },
     {
       name: 'Quote Generation',
-      url: 'http://localhost:8000/api/generate',
+      url: '${API_BASE_URL}/api/generate',
       method: 'POST'
     }
   ];
@@ -156,7 +158,7 @@ const SystemMonitoring: React.FC = () => {
 
   const loadSystemHealth = async () => {
     try {
-      const response = await fetch('http://localhost:8000/health');
+      const response = await fetch(`${API_BASE_URL}/health`);
       if (response.ok) {
         const data = await response.json();
         setSystemHealth(data);
@@ -170,7 +172,7 @@ const SystemMonitoring: React.FC = () => {
 
   const loadVendorLiveStatus = async () => {
     try {
-      const response = await fetch('http://localhost:8000/admin/vendors/live-status');
+      const response = await fetch(`${API_BASE_URL}/admin/vendors/live-status`);
       if (response.ok) {
         const data = await response.json();
         setVendorStatus(data);
@@ -184,7 +186,7 @@ const SystemMonitoring: React.FC = () => {
 
   const loadDataValidation = async () => {
     try {
-      const response = await fetch('http://localhost:8000/admin/vendors/data-validation');
+      const response = await fetch(`${API_BASE_URL}/admin/vendors/data-validation`);
       if (response.ok) {
         const data = await response.json();
         setDataValidation(data);

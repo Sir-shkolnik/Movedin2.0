@@ -82,7 +82,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeSection, onSectionCha
           {menuItems.map((item) => (
             <button
               key={item.id}
-              className={`nav-item ${activeSection === item.id ? 'active' : ''}`}
+              className={`nav-item ${activeSection === item.id ? 'active' : 'http://localhost:8000'}`}
               onClick={() => onSectionChange(item.id)}
             >
               <div className="nav-icon">{item.icon}</div>

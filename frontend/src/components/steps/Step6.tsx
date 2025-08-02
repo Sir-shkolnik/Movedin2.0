@@ -97,7 +97,7 @@ const Step6: React.FC<Step6Props> = ({ onNext, onBack }) => {
 
             console.log('Step 6 - Lead data to save:', leadData);
 
-            const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+            const API_BASE_URL = import.meta.env.VITE_API_URL || '${API_BASE_URL}';
             console.log('Step 6 - Sending lead data to:', `${API_BASE_URL}/api/leads`);
 
             const leadResponse = await fetch(`${API_BASE_URL}/api/leads`, {

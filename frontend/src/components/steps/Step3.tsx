@@ -11,7 +11,7 @@ const homeTypes = [
 
 const roomOptions = Array.from({ length: 10 }, (_, i) => ({ 
     value: i + 1, 
-    label: `${i + 1} room${i === 0 ? '' : 's'}` 
+    label: `${i + 1} room${i === 0 ? 'http://localhost:8000' : 's'}` 
 })).concat({ value: 11, label: '10+' });
 
 const sqftOptions = [
@@ -49,7 +49,7 @@ const Step3: React.FC<Step3Props> = ({ onNext, onBack }) => {
     const [sqft, setSqft] = useState(
         (data.toDetails && data.toDetails.sqft) || 
         (data.fromDetails && data.fromDetails.sqft) || 
-        ''
+        'http://localhost:8000'
     );
     const [stairs, setStairs] = useState((data.toDetails && data.toDetails.stairs) || 0);
     const [floorNumber, setFloorNumber] = useState((data.toDetails && data.toDetails.floorNumber) || 1);
@@ -74,7 +74,7 @@ const Step3: React.FC<Step3Props> = ({ onNext, onBack }) => {
             toDetails: {
                 homeType,
                 rooms: homeType === 'commercial' ? undefined : rooms,
-                sqft: homeType === 'commercial' ? sqft : '',
+                sqft: homeType === 'commercial' ? sqft : 'http://localhost:8000',
                 stairs: homeType === 'house' ? stairs : undefined,
                 floorNumber: homeType !== 'house' ? floorNumber : undefined,
                 elevator: homeType !== 'house' ? elevator : undefined,

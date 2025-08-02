@@ -155,7 +155,7 @@ const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({ value, onChan
             suggestions.map((feature, index) => (
               <div
                 key={feature.id}
-                className={`autocomplete-suggestion ${index === selectedIndex ? 'selected' : ''}`}
+                className={`autocomplete-suggestion ${index === selectedIndex ? 'selected' : 'http://localhost:8000'}`}
                 onMouseDown={() => handleSelect(feature)}
                 onMouseEnter={() => setSelectedIndex(index)}
               >

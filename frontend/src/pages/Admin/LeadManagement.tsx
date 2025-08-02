@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './LeadManagement.css';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
 interface Lead {
   id: number;
   status: string;
@@ -33,7 +35,7 @@ const LeadManagement: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState('all');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState('http://localhost:8000');
 
   useEffect(() => {
     loadLeads();
@@ -44,7 +46,7 @@ const LeadManagement: React.FC = () => {
       setLoading(true);
       setError(null);
       
-      const response = await fetch('http://localhost:8000/api/leads/');
+      const response = await fetch(`${API_BASE_URL}/api/leads/`);
       if (!response.ok) {
         throw new Error('Failed to load leads');
       }
@@ -87,12 +89,12 @@ const LeadManagement: React.FC = () => {
       ['ID', 'Name', 'Email', 'Phone', 'Origin', 'Destination', 'Move Date', 'Status', 'Created At'],
       ...leads.map(lead => [
         lead.id.toString(),
-        `${lead.first_name || ''} ${lead.last_name || ''}`.trim(),
-        lead.email || '',
-        lead.phone || '',
-        lead.origin_address || '',
-        lead.destination_address || '',
-        lead.move_date || '',
+        `${lead.first_name || 'http://localhost:8000'} ${lead.last_name || 'http://localhost:8000'}`.trim(),
+        lead.email || 'http://localhost:8000',
+        lead.phone || 'http://localhost:8000',
+        lead.origin_address || 'http://localhost:8000',
+        lead.destination_address || 'http://localhost:8000',
+        lead.move_date || 'http://localhost:8000',
         lead.status,
         new Date(lead.created_at).toLocaleDateString()
       ])
@@ -109,8 +111,8 @@ const LeadManagement: React.FC = () => {
 
   const filteredLeads = leads.filter(lead => {
     const matchesFilter = filter === 'all' || lead.status === filter;
-    const matchesSearch = searchTerm === '' || 
-      `${lead.first_name || ''} ${lead.last_name || ''} ${lead.email || ''} ${lead.phone || ''}`
+    const matchesSearch = searchTerm === 'http://localhost:8000' || 
+      `${lead.first_name || 'http://localhost:8000'} ${lead.last_name || 'http://localhost:8000'} ${lead.email || 'http://localhost:8000'} ${lead.phone || 'http://localhost:8000'}`
         .toLowerCase()
         .includes(searchTerm.toLowerCase());
     return matchesFilter && matchesSearch;
@@ -214,7 +216,7 @@ const LeadManagement: React.FC = () => {
                     {filteredLeads.map((lead) => (
                       <div
                         key={lead.id}
-                        className={`lead-card ${selectedLead && selectedLead.id === lead.id ? 'selected' : ''}`}
+                        className={`lead-card ${selectedLead && selectedLead.id === lead.id ? 'selected' : 'http://localhost:8000'}`}
                         onClick={() => handleLeadClick(lead)}
                       >
                         <div className="lead-header">

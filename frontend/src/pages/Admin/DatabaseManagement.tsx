@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './DatabaseManagement.css';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
 interface DatabaseSchema {
   table_name: string;
   column_name: string;
@@ -54,8 +56,8 @@ const DatabaseManagement: React.FC = () => {
   const [queryResults, setQueryResults] = useState<QueryResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedTable, setSelectedTable] = useState<string>('');
-  const [customQuery, setCustomQuery] = useState<string>('');
+  const [selectedTable, setSelectedTable] = useState<string>('http://localhost:8000');
+  const [customQuery, setCustomQuery] = useState<string>('http://localhost:8000');
   const [autoRefresh, setAutoRefresh] = useState(true);
 
   useEffect(() => {
@@ -72,28 +74,28 @@ const DatabaseManagement: React.FC = () => {
       setError(null);
 
       // Load database health
-      const healthResponse = await fetch('http://localhost:8000/admin/database/health');
+      const healthResponse = await fetch(`${API_BASE_URL}/admin/database/health`);
       if (healthResponse.ok) {
         const healthData = await healthResponse.json();
         setDatabaseHealth(healthData);
       }
 
       // Load table schemas
-      const schemasResponse = await fetch('http://localhost:8000/admin/database/schemas');
+      const schemasResponse = await fetch(`${API_BASE_URL}/admin/database/schemas`);
       if (schemasResponse.ok) {
         const schemasData = await schemasResponse.json();
         setSchemas(schemasData);
       }
 
       // Load table information
-      const tablesResponse = await fetch('http://localhost:8000/admin/database/tables');
+      const tablesResponse = await fetch(`${API_BASE_URL}/admin/database/tables`);
       if (tablesResponse.ok) {
         const tablesData = await tablesResponse.json();
         setTables(tablesData);
       }
 
       // Load data validations
-      const validationsResponse = await fetch('http://localhost:8000/admin/database/validate');
+      const validationsResponse = await fetch(`${API_BASE_URL}/admin/database/validate`);
       if (validationsResponse.ok) {
         const validationsData = await validationsResponse.json();
         setValidations(validationsData);
@@ -111,7 +113,7 @@ const DatabaseManagement: React.FC = () => {
     if (!customQuery.trim()) return;
 
     try {
-      const response = await fetch('http://localhost:8000/admin/database/query', {
+      const response = await fetch(`${API_BASE_URL}/admin/database/query`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -123,7 +125,7 @@ const DatabaseManagement: React.FC = () => {
       
       if (response.ok) {
         setQueryResults(prev => [result, ...prev.slice(0, 9)]); // Keep last 10 queries
-        setCustomQuery('');
+        setCustomQuery('http://localhost:8000');
       } else {
         setQueryResults(prev => [{
           query: customQuery,
@@ -149,7 +151,7 @@ const DatabaseManagement: React.FC = () => {
 
   const backupDatabase = async () => {
     try {
-      const response = await fetch('http://localhost:8000/admin/database/backup', {
+      const response = await fetch(`${API_BASE_URL}/admin/database/backup`, {
         method: 'POST',
       });
       

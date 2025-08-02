@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './VendorManagement.css';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
 interface VendorLocation {
   name: string;
   address: string;
@@ -83,7 +85,7 @@ interface VendorLogic {
 
 const VendorManagement: React.FC = () => {
   const [vendors, setVendors] = useState<Vendor[]>([]);
-  const [selectedVendor, setSelectedVendor] = useState<string>('');
+  const [selectedVendor, setSelectedVendor] = useState<string>('http://localhost:8000');
   const [vendorLogic, setVendorLogic] = useState<VendorLogic | null>(null);
   const [locationAvailability, setLocationAvailability] = useState<LocationAvailability[]>([]);
   const [loading, setLoading] = useState(true);
@@ -110,7 +112,7 @@ const VendorManagement: React.FC = () => {
       setLoading(true);
       setError(null);
       
-      const response = await fetch('http://localhost:8000/admin/vendors/locations');
+      const response = await fetch(`${API_BASE_URL}/admin/vendors/locations`);
       if (!response.ok) {
         throw new Error('Failed to load vendors');
       }
@@ -131,7 +133,7 @@ const VendorManagement: React.FC = () => {
 
   const loadVendorLogic = async (vendorSlug: string) => {
     try {
-      const response = await fetch(`http://localhost:8000/admin/vendors/${vendorSlug}/logic`);
+      const response = await fetch(`${API_BASE_URL}/admin/vendors/${vendorSlug}/logic`);
       if (!response.ok) {
         throw new Error('Failed to load vendor logic');
       }
@@ -148,7 +150,7 @@ const VendorManagement: React.FC = () => {
     try {
       setAvailabilityLoading(true);
       const response = await fetch(
-        `http://localhost:8000/admin/vendors/availability/bulk?vendor_slug=${vendorSlug}&start_date=${selectedDateRange.start}&end_date=${selectedDateRange.end}`
+        `${API_BASE_URL}/admin/vendors/availability/bulk?vendor_slug=${vendorSlug}&start_date=${selectedDateRange.start}&end_date=${selectedDateRange.end}`
       );
       if (!response.ok) {
         throw new Error('Failed to load location availability');
