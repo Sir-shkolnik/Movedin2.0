@@ -1,0 +1,7 @@
+# Handle static assets
+/icons/* /icons/:splat 200
+/logos/* /logos/:splat 200
+/new/* /new/:splat 200
+
+# Handle client-side routing for React Router
+/* /index.html 200 
