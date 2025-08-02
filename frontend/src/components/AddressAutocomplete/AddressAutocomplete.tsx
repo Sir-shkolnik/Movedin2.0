@@ -6,7 +6,7 @@ interface AddressAutocompleteProps {
   placeholder?: string;
 }
 
-const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
 const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({ value, onChange, placeholder }) => {
   const [suggestions, setSuggestions] = useState<any[]>([]);

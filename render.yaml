@@ -58,5 +58,5 @@ services:
     envVars:
       - key: VITE_API_URL
         value: https://movedin-backend.onrender.com
-      - key: VITE_MAPBOX_TOKEN
+      - key: VITE_MAPBOX_ACCESS_TOKEN
         sync: false 
