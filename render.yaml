@@ -23,9 +23,7 @@ services:
     name: movedin-backend
     runtime: docker
     plan: starter
-    dockerfilePath: backend/Dockerfile
-    build:
-      context: backend
+    dockerfilePath: Dockerfile.backend
     envVars:
       - key: DATABASE_URL
         fromDatabase:
