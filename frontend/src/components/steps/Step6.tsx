@@ -97,24 +97,26 @@ const Step6: React.FC<Step6Props> = ({ onNext, onBack }) => {
 
             console.log('Step 6 - Lead data to save:', leadData);
 
-            const API_BASE_URL = import.meta.env.VITE_API_URL || '${API_BASE_URL}';
+            const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
             console.log('Step 6 - Sending lead data to:', `${API_BASE_URL}/api/leads`);
 
-            const leadResponse = await fetch(`${API_BASE_URL}/api/leads`, {
+            const response = await fetch(`${API_BASE_URL}/api/leads`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify(leadData),
             });
 
-            console.log('Step 6 - Lead API response status:', leadResponse.status);
+            console.log('Step 6 - Lead API response status:', response.status);
 
-            if (!leadResponse.ok) {
-                const errorText = await leadResponse.text();
+            if (!response.ok) {
+                const errorText = await response.text();
                 console.error('Step 6 - Lead API error:', errorText);
-                throw new Error(`Failed to save lead to database: ${leadResponse.status} ${errorText}`);
+                throw new Error(`Failed to save lead to database: ${response.status} ${errorText}`);
             }
 
-            const leadResult = await leadResponse.json();
+            const leadResult = await response.json();
             console.log('Step 6 - Lead saved successfully:', leadResult);
 
             // Update form data to mark payment as successful
