@@ -204,8 +204,21 @@ const Step7: React.FC = () => {
                             </h3>
                             <div style={{ fontSize: '14px', color: '#6c757d' }}>
                                 <div><strong>Selected Vendor:</strong> {data.selectedQuote?.vendor_name || data.vendor?.vendor_name}</div>
-                                <div><strong>Total Cost:</strong> {formatCurrency(data.selectedQuote?.total_cost || data.vendor?.total_cost || 0)}</div>
+                                <div><strong>Estimated Cost:</strong> {formatCurrency(data.selectedQuote?.total_cost || data.vendor?.total_cost || 0)}</div>
                                 <div><strong>Booking Reference:</strong> {leadId || 'L' + Math.floor(Math.random() * 900000) + 100000}</div>
+                            </div>
+                            
+                            {/* Final Pricing Notice */}
+                            <div style={{
+                                backgroundColor: '#fff3cd',
+                                border: '1px solid #ffeaa7',
+                                borderRadius: '6px',
+                                padding: '10px',
+                                marginTop: '10px'
+                            }}>
+                                <p style={{ color: '#856404', fontSize: '12px', margin: 0, lineHeight: '1.3' }}>
+                                    <strong>⚠️ Final Price Notice:</strong> The actual cost may differ based on actual moving time and services required.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -235,7 +248,7 @@ const Step7: React.FC = () => {
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                             <span style={{ fontSize: '20px' }}>📞</span>
-                            <span><strong>Vendor Contact</strong> - Your selected moving company will contact you within 24 hours to confirm the final price and details</span>
+                            <span><strong>Vendor Contact</strong> - Your selected moving company will contact you within 24 hours to confirm the <strong>final price</strong> and details</span>
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                             <span style={{ fontSize: '20px' }}>📄</span>

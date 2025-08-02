@@ -252,6 +252,24 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
         <div className="step-card">
             <h2>Choose Your Moving Company</h2>
             
+            {/* Estimate Notice */}
+            <div style={{
+                backgroundColor: '#fff3cd',
+                border: '1px solid #ffeaa7',
+                borderRadius: '8px',
+                padding: '16px',
+                marginBottom: '24px'
+            }}>
+                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+                    <span style={{ fontSize: '18px', marginRight: '8px' }}>⚠️</span>
+                    <strong style={{ color: '#856404' }}>Important: All Prices Are Estimates</strong>
+                </div>
+                <p style={{ color: '#856404', fontSize: '14px', margin: 0, lineHeight: '1.4' }}>
+                    The prices shown are estimates based on your provided information. Final pricing will be determined by the moving company 
+                    based on actual moving time, additional services, and final assessment of your belongings.
+                </p>
+            </div>
+            
             <div className="vendor-grid-modern">
                 {vendors.map((vendor) => {
                     const theme = getVendorTheme(vendor.vendor_slug);
@@ -295,6 +313,23 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                                     <div className="total-time-modern">
                                         <span className="time-label">Est. Time:</span>
                                         <span className="time-value">{totalTime.toFixed(1)} hours</span>
+                                    </div>
+                                </div>
+                                
+                                {/* Total Cost Section */}
+                                <div style={{
+                                    marginTop: '12px',
+                                    padding: '10px',
+                                    backgroundColor: '#f8f9fa',
+                                    borderRadius: '6px',
+                                    border: '1px solid #e9ecef',
+                                    textAlign: 'center'
+                                }}>
+                                    <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#28a745' }}>
+                                        Estimated Total: {formatCurrency(vendor.total_cost)}
+                                    </div>
+                                    <div style={{ fontSize: '11px', color: '#856404', marginTop: '4px' }}>
+                                        ⚠️ Estimate only - final price may vary
                                     </div>
                                 </div>
 

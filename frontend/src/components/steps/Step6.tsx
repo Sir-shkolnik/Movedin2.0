@@ -215,8 +215,21 @@ const Step6: React.FC<Step6Props> = ({ onNext, onBack }) => {
                         <h3 style={{ marginBottom: '16px', color: '#495057' }}>🚛 Moving Company</h3>
                         <div style={{ display: 'grid', gap: '8px', fontSize: '14px' }}>
                             <div><strong>Vendor:</strong> {selectedQuote.vendor_name}</div>
-                            <div><strong>Total Cost:</strong> {formatCurrency(selectedQuote.total_cost || 0)}</div>
+                            <div><strong>Estimated Cost:</strong> {formatCurrency(selectedQuote.total_cost || 0)}</div>
                             <div><strong>Booking Reference:</strong> L{Math.floor(Math.random() * 900000) + 100000}</div>
+                        </div>
+                        
+                        {/* Estimate Disclaimer */}
+                        <div style={{
+                            backgroundColor: '#fff3cd',
+                            border: '1px solid #ffeaa7',
+                            borderRadius: '6px',
+                            padding: '8px 12px',
+                            marginTop: '12px'
+                        }}>
+                            <p style={{ color: '#856404', fontSize: '12px', margin: 0, lineHeight: '1.3' }}>
+                                <strong>⚠️ Estimate Only:</strong> Final price may vary based on actual moving time and services required.
+                            </p>
                         </div>
                     </div>
 
@@ -339,6 +352,37 @@ const Step6: React.FC<Step6Props> = ({ onNext, onBack }) => {
                     <p style={{ color: '#6c757d', fontSize: '14px', marginTop: '8px' }}>
                         This deposit reserves your move date and time. The remaining balance will be due on the day of your move.
                     </p>
+                </div>
+                
+                {/* Final Pricing Notice */}
+                <div style={{
+                    backgroundColor: '#d1ecf1',
+                    border: '1px solid #bee5eb',
+                    borderRadius: '8px',
+                    padding: '16px',
+                    marginBottom: '20px'
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+                        <span style={{ fontSize: '16px', marginRight: '8px' }}>ℹ️</span>
+                        <strong style={{ color: '#0c5460' }}>Final Pricing Information</strong>
+                    </div>
+                    <div style={{ color: '#0c5460', fontSize: '14px', lineHeight: '1.4' }}>
+                        <p style={{ margin: '0 0 8px 0' }}>
+                            <strong>Estimated Total:</strong> {formatCurrency(selectedQuote.total_cost || 0)}
+                        </p>
+                        <p style={{ margin: '0 0 8px 0' }}>
+                            <strong>Final Price Factors:</strong>
+                        </p>
+                        <ul style={{ margin: '0 0 8px 0', paddingLeft: '20px' }}>
+                            <li>Actual moving time (may differ from estimate)</li>
+                            <li>Additional services requested on move day</li>
+                            <li>Final vendor assessment of your belongings</li>
+                            <li>Any unforeseen circumstances or delays</li>
+                        </ul>
+                        <p style={{ margin: 0, fontStyle: 'italic' }}>
+                            You will receive the final invoice after your move is completed.
+                        </p>
+                    </div>
                 </div>
 
                 {error && (

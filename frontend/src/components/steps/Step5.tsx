@@ -99,6 +99,24 @@ const Step5: React.FC<Step5Props> = ({ onNext, onBack }) => {
                 <p style={{ marginBottom: 24, color: '#666', fontSize: '16px' }}>
                     Please provide your contact information so we can send you a detailed quote and confirm your booking.
                 </p>
+                
+                {/* Estimate Notice */}
+                <div style={{
+                    backgroundColor: '#fff3cd',
+                    border: '1px solid #ffeaa7',
+                    borderRadius: '8px',
+                    padding: '16px',
+                    marginBottom: '24px'
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+                        <span style={{ fontSize: '18px', marginRight: '8px' }}>⚠️</span>
+                        <strong style={{ color: '#856404' }}>Important: Estimate Notice</strong>
+                    </div>
+                    <p style={{ color: '#856404', fontSize: '14px', margin: 0, lineHeight: '1.4' }}>
+                        The prices shown are <strong>estimates only</strong>. Final pricing will be determined based on actual moving time, 
+                        any additional services required, and final vendor assessment on the day of your move.
+                    </p>
+                </div>
             </div>
 
             <div className="form-group">
