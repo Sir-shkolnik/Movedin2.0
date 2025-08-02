@@ -3,7 +3,6 @@ services:
   - type: pserv
     name: movedin-database
     plan: starter
-    startCommand: postgres
 
   # Redis Cache
   - type: redis
