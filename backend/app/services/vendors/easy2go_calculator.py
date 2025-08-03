@@ -195,7 +195,7 @@ class Easy2GoCalculator:
             return truck_fees[26]  # 26ft truck for heavier moves
     
     def _calculate_travel_time(self, origin: str, destination: str) -> float:
-        """Calculate travel time using Mapbox API with actual dispatcher location"""
+        """Calculate travel time using Mapbox API with actual dispatcher location and truck factor"""
         try:
             # Easy2Go dispatcher address
             dispatcher_address = "3397 American Drive, Mississauga, ON L4V 1T8"
@@ -219,26 +219,35 @@ class Easy2GoCalculator:
             
             if legs_with_data > 0:
                 # Convert seconds to hours
-                travel_hours = total_duration / 3600
-                print(f"Easy2Go Mapbox travel calculation: {legs_with_data}/3 legs, {travel_hours:.2f} hours")
-                return travel_hours
+                car_travel_hours = total_duration / 3600
+                
+                # Apply truck factor (1.3x for commercial trucks)
+                TRUCK_FACTOR = 1.3
+                truck_travel_hours = car_travel_hours * TRUCK_FACTOR
+                
+                print(f"Easy2Go Mapbox travel calculation: {legs_with_data}/3 legs, car: {car_travel_hours:.2f}h, truck: {truck_travel_hours:.2f}h")
+                return truck_travel_hours
             
             # If Mapbox fails for all legs, try a simpler approach
-            # Just calculate Origin to Destination and estimate 3-leg
+            # Just calculate Origin to Destination and estimate 3-leg with truck factor
             origin_to_dest = mapbox_service.get_directions(origin, destination)
             if origin_to_dest and 'duration' in origin_to_dest:
                 one_way_hours = origin_to_dest['duration'] / 3600
                 # Estimate 3-leg as 2.5x one-way (Dispatcher->Origin->Destination->Dispatcher)
-                three_leg_hours = one_way_hours * 2.5
-                print(f"Easy2Go Mapbox fallback calculation: {three_leg_hours:.2f} hours (2.5x one-way)")
-                return three_leg_hours
+                car_three_leg_hours = one_way_hours * 2.5
+                # Apply truck factor
+                TRUCK_FACTOR = 1.3
+                truck_three_leg_hours = car_three_leg_hours * TRUCK_FACTOR
+                
+                print(f"Easy2Go Mapbox fallback calculation: car: {car_three_leg_hours:.2f}h, truck: {truck_three_leg_hours:.2f}h")
+                return truck_three_leg_hours
             
             # Final fallback - should rarely happen
-            print("Easy2Go Mapbox calculation failed, using conservative estimate")
-            return 2.0  # Conservative 2 hours for 3-leg journey
+            print("Easy2Go Mapbox calculation failed, using conservative estimate with truck factor")
+            return 2.0 * 1.3  # Conservative 2 hours for 3-leg journey with truck factor
         except Exception as e:
             print(f"Easy2Go Mapbox directions error: {e}")
-            return 2.0  # Default 2 hours for 3-leg journey
+            return 2.0 * 1.3  # Default 2 hours for 3-leg journey with truck factor
     
     def _calculate_fuel_charge(self, travel_hours: float) -> float:
         """Calculate fuel charge based on travel time"""

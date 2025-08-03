@@ -667,23 +667,60 @@ class LetsGetMovingCalculator(VendorCalculator):
         return base_hours
     
     def _calculate_travel_time(self, origin: str, destination: str) -> float:
-        """Calculate travel time using Mapbox API with 3-leg journey"""
+        """Calculate travel time using Mapbox API with 3-leg journey and truck factor"""
         try:
-            # Try to get directions from Mapbox
-            directions = mapbox_service.get_directions(origin, destination)
-            if directions:
-                # Calculate 3-leg journey: Dispatcher -> Origin -> Destination -> Dispatcher
-                # For now, we'll use the one-way time and multiply by 2.5 to account for 3 legs
-                one_way_time = directions['duration'] / 3600  # Convert seconds to hours
-                three_leg_time = one_way_time * 2.5  # Dispatcher->Origin->Destination->Dispatcher
-                return three_leg_time
+            # Let's Get Moving dispatcher address (from Google Sheets data)
+            # We'll use a central GTA location as fallback
+            dispatcher_address = "Toronto, ON"
             
-            # Fallback to mock calculation if Mapbox fails
-            # Estimate based on typical 3-leg journey
-            return 2.0  # Default 2 hours for 3-leg journey
+            # Calculate 3-leg journey: Dispatcher -> Origin -> Destination -> Dispatcher
+            # Leg 1: Dispatcher to Origin
+            leg1 = mapbox_service.get_directions(dispatcher_address, origin)
+            # Leg 2: Origin to Destination  
+            leg2 = mapbox_service.get_directions(origin, destination)
+            # Leg 3: Destination to Dispatcher
+            leg3 = mapbox_service.get_directions(destination, dispatcher_address)
+            
+            total_duration = 0
+            legs_with_data = 0
+            
+            # Sum up all legs that have data
+            for leg in [leg1, leg2, leg3]:
+                if leg and 'duration' in leg:
+                    total_duration += leg['duration']
+                    legs_with_data += 1
+            
+            if legs_with_data > 0:
+                # Convert seconds to hours
+                car_travel_hours = total_duration / 3600
+                
+                # Apply truck factor (1.3x for commercial trucks)
+                TRUCK_FACTOR = 1.3
+                truck_travel_hours = car_travel_hours * TRUCK_FACTOR
+                
+                print(f"Let's Get Moving Mapbox travel calculation: {legs_with_data}/3 legs, car: {car_travel_hours:.2f}h, truck: {truck_travel_hours:.2f}h")
+                return truck_travel_hours
+            
+            # If Mapbox fails for all legs, try a simpler approach
+            # Just calculate Origin to Destination and estimate 3-leg with truck factor
+            origin_to_dest = mapbox_service.get_directions(origin, destination)
+            if origin_to_dest and 'duration' in origin_to_dest:
+                one_way_hours = origin_to_dest['duration'] / 3600
+                # Estimate 3-leg as 2.5x one-way (Dispatcher->Origin->Destination->Dispatcher)
+                car_three_leg_hours = one_way_hours * 2.5
+                # Apply truck factor
+                TRUCK_FACTOR = 1.3
+                truck_three_leg_hours = car_three_leg_hours * TRUCK_FACTOR
+                
+                print(f"Let's Get Moving Mapbox fallback calculation: car: {car_three_leg_hours:.2f}h, truck: {truck_three_leg_hours:.2f}h")
+                return truck_three_leg_hours
+            
+            # Final fallback - should rarely happen
+            print("Let's Get Moving Mapbox calculation failed, using conservative estimate with truck factor")
+            return 2.0 * 1.3  # Default 2 hours for 3-leg journey with truck factor
         except Exception as e:
-            print(f"Mapbox directions error: {e}")
-            return 2.0  # Default 2 hours for 3-leg journey
+            print(f"Let's Get Moving Mapbox directions error: {e}")
+            return 2.0 * 1.3  # Default 2 hours for 3-leg journey with truck factor
     
     def _calculate_fuel_charge(self, travel_hours: float) -> float:
         """Calculate fuel charge based on travel time - TRUE LGM FUEL TABLE"""
