@@ -122,11 +122,16 @@ This documentation suite provides comprehensive coverage of the MovedIn 2.0 syst
 
 - **[README.md](../VENDORS/README.md)** - Vendors overview
 - **[01-VENDOR-OVERVIEW.md](../VENDORS/01-VENDOR-OVERVIEW.md)** - Vendor system overview
+- **[02-EASY2GO-OFFICIAL-RULES.md](../VENDORS/02-EASY2GO-OFFICIAL-RULES.md)** - Easy2Go official pricing rules and implementation
+- **[03-VELOCITY-MOVERS-OFFICIAL-RULES.md](../VENDORS/03-VELOCITY-MOVERS-OFFICIAL-RULES.md)** - Velocity Movers official pricing rules and implementation
+- **[04-PIERRE-SONS-OFFICIAL-RULES.md](../VENDORS/04-PIERRE-SONS-OFFICIAL-RULES.md)** - Pierre & Sons official pricing rules and implementation
+- **[05-LETS-GET-MOVING-OFFICIAL-RULES.md](../VENDORS/05-LETS-GET-MOVING-OFFICIAL-RULES.md)** - Let's Get Moving vendor (needs verification)
+- **[OFFICIAL_VENDOR_RULES_SUMMARY_2025.md](../VENDORS/OFFICIAL_VENDOR_RULES_SUMMARY_2025.md)** - Comprehensive summary of all vendor official rules
 
 ## 📊 **Documentation Statistics**
 
 ### **📈 Coverage Metrics**
-- **Total Documents**: 40+ comprehensive documentation files
+- **Total Documents**: 45+ comprehensive documentation files
 - **System Coverage**: 100% of all major components
 - **Fix Documentation**: Complete coverage of all critical fixes
 - **Testing Coverage**: Comprehensive testing documentation
@@ -142,7 +147,7 @@ This documentation suite provides comprehensive coverage of the MovedIn 2.0 syst
 - **Backend**: 3 documents
 - **Frontend**: 2 documents
 - **Operations**: 2 documents
-- **Vendors**: 2 documents
+- **Vendors**: 7 documents (including official rules documentation)
 
 ## 🎯 **Quick Reference**
 

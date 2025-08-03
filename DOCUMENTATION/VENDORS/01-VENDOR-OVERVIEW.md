@@ -1,8 +1,19 @@
 # 🏢 Vendor Overview - MovedIn 2.0
 
-**Last Updated**: January 2025  
+**Last Updated**: August 3, 2025  
 **System Version**: 2.3.0  
-**Status**: ✅ **PRODUCTION READY - ALL SYSTEMS OPERATIONAL**
+**Status**: ✅ **PRODUCTION READY - OFFICIAL RULES IMPLEMENTED**
+
+## 📋 **OFFICIAL RULES STATUS**
+
+| Vendor | Official Rules | Implementation | Verification |
+|--------|----------------|----------------|--------------|
+| **Easy2Go** | ✅ Available | ✅ Correct | ✅ Verified |
+| **Velocity Movers** | ✅ Available | ✅ Correct | ✅ Verified |
+| **Pierre & Sons** | ✅ Available | ✅ Correct | ✅ Verified |
+| **Let's Get Moving** | ❌ Missing | ⚠️ Unverified | ⚠️ Needs Contact |
+
+**Source Documents:** All official pricing rules obtained from vendor emails to support@movedin.com
 
 ---
 
