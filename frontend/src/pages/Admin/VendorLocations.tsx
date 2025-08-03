@@ -407,36 +407,47 @@ const VendorLocations: React.FC = () => {
 
     console.log('Adding map markers for', filteredLocations.length, 'filtered locations');
 
-    // Remove existing source and layer if they exist
-    if (map.current.getSource('locations')) {
+    // Remove existing layers and source if they exist (layers must be removed before source)
+    if (map.current.getLayer('locations-glow')) {
+      map.current.removeLayer('locations-glow');
+    }
+    if (map.current.getLayer('locations')) {
       map.current.removeLayer('locations');
+    }
+    if (map.current.getSource('locations')) {
       map.current.removeSource('locations');
     }
+
+    // Create GeoJSON data for the filtered locations
+    const geojsonData = {
+      type: 'FeatureCollection',
+      features: filteredLocations.map(location => ({
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [location.coordinates.lng, location.coordinates.lat]
+        },
+        properties: {
+          id: location.id,
+          vendor_name: location.vendor_name,
+          vendor_slug: location.vendor_slug,
+          location_name: location.location_name,
+          address: location.address,
+          color: location.color,
+          dispatcher_name: location.dispatcher_name,
+          truck_count: location.truck_count,
+          phone: location.phone
+        }
+      }))
+    };
+
+    console.log('GeoJSON data:', geojsonData);
+    console.log('First location coordinates:', filteredLocations[0]?.coordinates);
 
     // Add a data source for the filtered locations
     map.current.addSource('locations', {
       type: 'geojson',
-      data: {
-        type: 'FeatureCollection',
-        features: filteredLocations.map(location => ({
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [location.coordinates.lng, location.coordinates.lat]
-          },
-          properties: {
-            id: location.id,
-            vendor_name: location.vendor_name,
-            vendor_slug: location.vendor_slug,
-            location_name: location.location_name,
-            address: location.address,
-            color: location.color,
-            dispatcher_name: location.dispatcher_name,
-            truck_count: location.truck_count,
-            phone: location.phone
-          }
-        }))
-      }
+      data: geojsonData
     });
 
     // Add a layer for the location markers with enhanced visibility
@@ -491,6 +502,31 @@ const VendorLocations: React.FC = () => {
     const features = map.current.querySourceFeatures('locations');
     console.log('Map features count:', features.length);
     console.log('Map features:', features.slice(0, 3)); // Log first 3 features
+    
+    // Fit map to show all locations if we have data
+    if (filteredLocations.length > 0) {
+      // Create bounds manually since mapboxgl is loaded dynamically
+      let minLng = Infinity, maxLng = -Infinity, minLat = Infinity, maxLat = -Infinity;
+      
+      filteredLocations.forEach(location => {
+        minLng = Math.min(minLng, location.coordinates.lng);
+        maxLng = Math.max(maxLng, location.coordinates.lng);
+        minLat = Math.min(minLat, location.coordinates.lat);
+        maxLat = Math.max(maxLat, location.coordinates.lat);
+      });
+      
+      // Fly to the center of all locations
+      const centerLng = (minLng + maxLng) / 2;
+      const centerLat = (minLat + maxLat) / 2;
+      
+      map.current.flyTo({
+        center: [centerLng, centerLat],
+        zoom: 8,
+        duration: 2000
+      });
+      
+      console.log('Flew to center:', [centerLng, centerLat]);
+    }
   };
 
   const addVendorAreas = () => {
@@ -614,10 +650,24 @@ const VendorLocations: React.FC = () => {
   const refreshMap = () => {
     if (mapLoaded && map.current) {
       console.log('Force refreshing map markers');
+      
+      // Clear existing layers and sources properly
+      if (map.current.getLayer('locations-glow')) {
+        map.current.removeLayer('locations-glow');
+      }
+      if (map.current.getLayer('locations')) {
+        map.current.removeLayer('locations');
+      }
+      if (map.current.getSource('locations')) {
+        map.current.removeSource('locations');
+      }
+      
+      // Re-add markers and areas
       addMapMarkers();
       if (showVendorAreas) {
         addVendorAreas();
       }
+      
       // Force a repaint
       map.current.triggerRepaint();
     }
