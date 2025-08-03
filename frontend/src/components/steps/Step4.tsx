@@ -218,7 +218,7 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                 <div className="loading-container" style={{ 
                     textAlign: 'center', 
                     padding: '60px 20px',
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    background: 'linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%)',
                     borderRadius: '16px',
                     marginBottom: '24px',
                     color: 'white'
@@ -266,14 +266,36 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                             animation: 'smoothSpin 1s linear infinite'
                         }}></div>
                         
-                        {/* Center Icon */}
+                        {/* Center Logo */}
                         <div style={{
                             position: 'relative',
-                            fontSize: '32px',
                             animation: 'gentlePulse 2s ease-in-out infinite',
                             filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))'
                         }}>
-                            📋
+                            <img 
+                                src="/logos/movedin_ne.png" 
+                                alt="MovedIn Logo"
+                                style={{
+                                    width: '40px',
+                                    height: '40px',
+                                    borderRadius: '8px',
+                                    backgroundColor: 'rgba(255,255,255,0.9)',
+                                    padding: '4px'
+                                }}
+                                onError={(e) => {
+                                    // Fallback to emoji if logo doesn't load
+                                    e.currentTarget.style.display = 'none';
+                                    const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                                    if (fallback) fallback.style.display = 'block';
+                                }}
+                            />
+                            <div style={{
+                                display: 'none',
+                                fontSize: '32px',
+                                color: 'white'
+                            }}>
+                                📋
+                            </div>
                         </div>
                     </div>
 
@@ -474,8 +496,12 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                             padding: 40px 16px !important;
                         }
                         .loading-animation {
-                            width: 100px !important;
-                            height: 100px !important;
+                            width: 80px !important;
+                            height: 80px !important;
+                        }
+                        .loading-animation img {
+                            width: 28px !important;
+                            height: 28px !important;
                         }
                         .progress-steps {
                             flex-direction: column !important;
