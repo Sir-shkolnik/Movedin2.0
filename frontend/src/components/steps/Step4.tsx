@@ -695,46 +695,79 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                             </div>
 
                             <div className="vendor-card-body-modern">
-                                <div className="vendor-pricing-modern">
-                                    <div className="hourly-rate-modern">
-                                        <span className="rate-label">Hourly Rate:</span>
-                                        <span className="rate-value">{formatCurrency(vendor.hourly_rate)}</span>
-                                    </div>
-                                    <div className="total-time-modern">
-                                        <span className="time-label">Est. Time:</span>
-                                        <span className="time-value">{totalTime.toFixed(1)} hours</span>
-                                    </div>
-                                </div>
-                                
-                                {/* Total Cost Section */}
+                                {/* Clean Pricing Section */}
                                 <div style={{
-                                    marginTop: '12px',
-                                    padding: '10px',
-                                    backgroundColor: '#f8f9fa',
-                                    borderRadius: '6px',
-                                    border: '1px solid #e9ecef',
-                                    textAlign: 'center'
+                                    textAlign: 'center',
+                                    marginBottom: '16px'
                                 }}>
-                                    <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#28a745' }}>
-                                        Estimated Total: {formatCurrency(vendor.total_cost)}
+                                    <div style={{
+                                        fontSize: '24px',
+                                        fontWeight: 'bold',
+                                        color: theme.primary,
+                                        marginBottom: '4px'
+                                    }}>
+                                        {formatCurrency(vendor.hourly_rate)}
                                     </div>
-                                    <div style={{ fontSize: '11px', color: '#856404', marginTop: '4px' }}>
-                                        ⚠️ Estimate only - final price may vary
+                                    <div style={{
+                                        fontSize: '14px',
+                                        color: '#6c757d'
+                                    }}>
+                                        Est. Time: {totalTime.toFixed(1)} hours
                                     </div>
                                 </div>
 
-                                <div className="vendor-stats-compact">
-                                    <div className="move-size-item-modern">
-                                        <span className="size-label">Move Size:</span>
-                                        <span className="size-value">
+                                {/* Move Details - Super Important */}
+                                <div style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: '1fr 1fr',
+                                    gap: '12px',
+                                    marginBottom: '16px'
+                                }}>
+                                    <div style={{
+                                        backgroundColor: '#f8f9fa',
+                                        padding: '12px',
+                                        borderRadius: '8px',
+                                        textAlign: 'center',
+                                        border: '1px solid #e9ecef'
+                                    }}>
+                                        <div style={{
+                                            fontSize: '16px',
+                                            fontWeight: 'bold',
+                                            color: '#495057',
+                                            marginBottom: '4px'
+                                        }}>
                                             {vendor.move_size.rooms > 0 ? `${vendor.move_size.rooms} rooms` : 
                                              vendor.move_size.square_footage > 0 ? `${vendor.move_size.square_footage} sq ft` : 
-                                             'Standard move'}
-                                        </span>
+                                             'Standard'}
+                                        </div>
+                                        <div style={{
+                                            fontSize: '12px',
+                                            color: '#6c757d'
+                                        }}>
+                                            Move Size
+                                        </div>
                                     </div>
-                                    <div className="crew-info-modern">
-                                        <span className="crew-label">Crew:</span>
-                                        <span className="crew-value">{vendor.crew_size} movers, {vendor.truck_count} truck{vendor.truck_count !== 1 ? 's' : ''}</span>
+                                    <div style={{
+                                        backgroundColor: '#f8f9fa',
+                                        padding: '12px',
+                                        borderRadius: '8px',
+                                        textAlign: 'center',
+                                        border: '1px solid #e9ecef'
+                                    }}>
+                                        <div style={{
+                                            fontSize: '16px',
+                                            fontWeight: 'bold',
+                                            color: '#495057',
+                                            marginBottom: '4px'
+                                        }}>
+                                            {vendor.crew_size} movers
+                                        </div>
+                                        <div style={{
+                                            fontSize: '12px',
+                                            color: '#6c757d'
+                                        }}>
+                                            {vendor.truck_count} truck{vendor.truck_count !== 1 ? 's' : ''}
+                                        </div>
                                     </div>
                                 </div>
 
