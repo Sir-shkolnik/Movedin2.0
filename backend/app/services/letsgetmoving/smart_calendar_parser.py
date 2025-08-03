@@ -481,6 +481,20 @@ class SmartCalendarParser:
             if owner_match:
                 owner = owner_match.group(1).strip()
                 location_details['ops_manager'] = owner
+            else:
+                # Try to find OPS MANAGER in a line with many commas
+                lines = csv_content.split('\n')
+                for line in lines:
+                    if 'OPS MANAGER:' in line:
+                        parts = line.split(',')
+                        for i, part in enumerate(parts):
+                            if 'OPS MANAGER:' in part:
+                                ops_part = part.split('OPS MANAGER:')[1].strip()
+                                if i + 1 < len(parts) and parts[i + 1].strip():
+                                    ops_part = parts[i + 1].strip()
+                                location_details['ops_manager'] = ops_part
+                                break
+                        break
         
         # SALES NUMBER
         sales_match = re.search(r'SALES #:\s*([^,\n]+)', csv_content)
@@ -498,6 +512,20 @@ class SmartCalendarParser:
             if sales_match:
                 sales_phone = sales_match.group(1).strip()
                 location_details['sales_phone'] = sales_phone
+            else:
+                # Try to find SALES # in a line with many commas
+                lines = csv_content.split('\n')
+                for line in lines:
+                    if 'SALES #:' in line:
+                        parts = line.split(',')
+                        for i, part in enumerate(parts):
+                            if 'SALES #:' in part:
+                                sales_part = part.split('SALES #:')[1].strip()
+                                if i + 1 < len(parts) and parts[i + 1].strip():
+                                    sales_part = parts[i + 1].strip()
+                                location_details['sales_phone'] = sales_part
+                                break
+                        break
         
         # INTERSECTION
         intersection_match = re.search(r'INTERSECTION:\s*([^,]+)', csv_content)
