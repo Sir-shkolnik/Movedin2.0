@@ -686,8 +686,24 @@ class SmartCalendarParser:
         # Fallback to GID mapping
         return self.gid_location_map.get(gid, f'GID_{gid}')
     
-    def get_location_coordinates(self, location_name: str) -> Tuple[float, float]:
-        """Get latitude/longitude for location"""
+    def get_location_coordinates(self, location_name: str, address: str = "") -> Tuple[float, float]:
+        """Get latitude/longitude for location using Mapbox geocoding"""
+        # First try hardcoded coordinates
+        if location_name in self.location_coordinates:
+            return self.location_coordinates[location_name]
+        
+        # If we have an address, use Mapbox geocoding
+        if address:
+            try:
+                from app.services.mapbox_service import mapbox_service
+                coords = mapbox_service.get_coordinates(address)
+                if coords:
+                    print(f"📍 Geocoded {location_name}: {address} -> {coords}")
+                    return coords
+            except Exception as e:
+                print(f"❌ Geocoding failed for {location_name}: {address} - {e}")
+        
+        # Fallback to hardcoded coordinates or default
         return self.location_coordinates.get(location_name, (0.0, 0.0))
     
     def parse_gid_complete(self, gid: str, csv_content: str) -> Dict[str, Any]:
@@ -716,8 +732,11 @@ class SmartCalendarParser:
         # Determine location name
         location_name = self.determine_location_name(csv_content, gid)
         
-        # Get coordinates
-        lat, lng = self.get_location_coordinates(location_name)
+        # Get address for geocoding
+        address = location_details.get("address", "")
+        
+        # Get coordinates using address for geocoding
+        lat, lng = self.get_location_coordinates(location_name, address)
         
         # Build complete result structure
         result = {
