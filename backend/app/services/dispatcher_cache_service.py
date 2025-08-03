@@ -442,6 +442,16 @@ class DispatcherCacheService:
         from app.services.mapbox_service import mapbox_service
         from datetime import datetime
         
+        logger.info(f"🔍 Finding closest location for address: {address}")
+        logger.info(f"🔍 Total dispatchers available: {len(all_data)}")
+        
+        # Log all available dispatchers for debugging
+        for gid, data in all_data.items():
+            location_details = data.get('location_details', {})
+            name = location_details.get('name', 'Unknown')
+            coords = data.get('coordinates', {})
+            logger.info(f"🔍 Dispatcher {gid}: {name} - Coordinates: {coords}")
+        
         def haversine(coord1, coord2):
             # Haversine formula to calculate the distance between two lat/lng points
             if not coord1 or not coord2:
@@ -498,6 +508,39 @@ class DispatcherCacheService:
             """Check if distance is reasonable for a moving company (max 100km)"""
             return distance_km <= 100
         
+        def is_valid_service_area(dispatcher_name: str, user_address: str) -> bool:
+            """Check if dispatcher can serve the user's area based on geographic logic"""
+            user_address_lower = user_address.lower()
+            dispatcher_name_lower = dispatcher_name.lower()
+            
+            # GTA dispatchers should serve GTA areas
+            gta_keywords = ['toronto', 'scarborough', 'north york', 'etobicoke', 'york', 'east york', 
+                           'mississauga', 'brampton', 'vaughan', 'markham', 'richmond hill', 
+                           'oakville', 'burlington', 'hamilton', 'oshawa', 'whitby', 'ajax', 'pickering']
+            
+            # BC dispatchers should serve BC areas
+            bc_keywords = ['vancouver', 'burnaby', 'surrey', 'richmond', 'coquitlam', 'langley', 'delta', 'maple ridge']
+            
+            # Check if user is in GTA and dispatcher is GTA
+            if any(keyword in user_address_lower for keyword in gta_keywords):
+                if any(keyword in dispatcher_name_lower for keyword in gta_keywords) or 'toronto' in dispatcher_name_lower:
+                    return True
+                else:
+                    logger.warning(f"❌ Geographic mismatch: GTA user {user_address} assigned to non-GTA dispatcher {dispatcher_name}")
+                    return False
+            
+            # Check if user is in BC and dispatcher is BC
+            if any(keyword in user_address_lower for keyword in bc_keywords):
+                if any(keyword in dispatcher_name_lower for keyword in bc_keywords) or 'vancouver' in dispatcher_name_lower:
+                    return True
+                else:
+                    logger.warning(f"❌ Geographic mismatch: BC user {user_address} assigned to non-BC dispatcher {dispatcher_name}")
+                    return False
+            
+            # For other areas, be more permissive but log
+            logger.info(f"⚠️ Geographic validation: {user_address} -> {dispatcher_name} (unknown region)")
+            return True
+        
         user_coords = mapbox_service.get_coordinates(address)
         best_gid = None
         best_score = -1
@@ -508,6 +551,9 @@ class DispatcherCacheService:
         far_locations = []
         
         for gid, data in all_data.items():
+            location_details = data.get('location_details', {})
+            name = location_details.get('name', 'Unknown')
+            
             if has_complete_data(data):
                 loc_coords = data.get('coordinates')
                 if loc_coords and user_coords:
@@ -518,16 +564,28 @@ class DispatcherCacheService:
                         loc_tuple = loc_coords
                     
                     # Debug logging
-                    logger.info(f"Distance calculation: user_coords={user_coords}, loc_tuple={loc_tuple}")
+                    logger.info(f"🔍 Distance calculation for {name}: user_coords={user_coords}, loc_tuple={loc_tuple}")
                     
                     dist = haversine(user_coords, loc_tuple)
+                    logger.info(f"🔍 {name} distance: {dist:.2f}km")
                     
-                    if dist <= 50:
-                        very_close_locations.append((gid, data, dist))
-                    elif dist <= 100:
-                        close_locations.append((gid, data, dist))
+                    # Apply geographic validation
+                    if is_valid_service_area(name, address):
+                        if dist <= 50:
+                            very_close_locations.append((gid, data, dist))
+                            logger.info(f"✅ {name} added to very_close_locations (≤50km)")
+                        elif dist <= 100:
+                            close_locations.append((gid, data, dist))
+                            logger.info(f"✅ {name} added to close_locations (≤100km)")
+                        else:
+                            far_locations.append((gid, data, dist))
+                            logger.info(f"⚠️ {name} added to far_locations (>100km)")
                     else:
-                        far_locations.append((gid, data, dist))
+                        logger.warning(f"❌ {name} rejected due to geographic validation")
+                else:
+                    logger.warning(f"❌ {name} missing coordinates: loc_coords={loc_coords}, user_coords={user_coords}")
+            else:
+                logger.warning(f"❌ {name} incomplete data")
         
         # Sort each category by distance
         very_close_locations.sort(key=lambda x: x[2])
@@ -537,13 +595,17 @@ class DispatcherCacheService:
         # Priority 1: Locations within 50km
         if very_close_locations:
             best_gid = very_close_locations[0][0]
-            logger.info(f"Selected very close dispatcher (≤50km): {very_close_locations[0][1].get('location_details', {}).get('name', 'Unknown')} at {very_close_locations[0][2]:.1f}km")
+            selected_name = very_close_locations[0][1].get('location_details', {}).get('name', 'Unknown')
+            selected_distance = very_close_locations[0][2]
+            logger.info(f"🎯 Selected very close dispatcher (≤50km): {selected_name} at {selected_distance:.1f}km")
             return best_gid
         
         # Priority 2: Locations within 100km
         if close_locations:
             best_gid = close_locations[0][0]
-            logger.info(f"Selected close dispatcher (≤100km): {close_locations[0][1].get('location_details', {}).get('name', 'Unknown')} at {close_locations[0][2]:.1f}km")
+            selected_name = close_locations[0][1].get('location_details', {}).get('name', 'Unknown')
+            selected_distance = close_locations[0][2]
+            logger.info(f"🎯 Selected close dispatcher (≤100km): {selected_name} at {selected_distance:.1f}km")
             return best_gid
         
         # Priority 3: If no close locations, try far locations but prioritize data completeness
@@ -551,7 +613,9 @@ class DispatcherCacheService:
             # Sort by data completeness first, then distance
             far_locations.sort(key=lambda x: (-get_data_completeness_score(x[1]), x[2]))
             best_gid = far_locations[0][0]
-            logger.warning(f"Selected far dispatcher (>100km): {far_locations[0][1].get('location_details', {}).get('name', 'Unknown')} at {far_locations[0][2]:.1f}km")
+            selected_name = far_locations[0][1].get('location_details', {}).get('name', 'Unknown')
+            selected_distance = far_locations[0][2]
+            logger.warning(f"⚠️ Selected far dispatcher (>100km): {selected_name} at {selected_distance:.1f}km")
             return best_gid
         
         # Fallback: try all locations with string matching
@@ -560,35 +624,43 @@ class DispatcherCacheService:
             if has_complete_data(data):
                 loc_coords = data.get('coordinates')
                 distance = float('inf')
+                location_details = data.get('location_details', {})
+                name = location_details.get('name', 'Unknown')
                 
-                if loc_coords and user_coords:
-                    # Convert coordinates to tuple format for haversine
-                    if isinstance(loc_coords, dict):
-                        loc_tuple = (loc_coords.get('lat', 0), loc_coords.get('lng', 0))
+                # First try geographic validation
+                if is_valid_service_area(name, address):
+                    if loc_coords and user_coords:
+                        # Convert coordinates to tuple format for haversine
+                        if isinstance(loc_coords, dict):
+                            loc_tuple = (loc_coords.get('lat', 0), loc_coords.get('lng', 0))
+                        else:
+                            loc_tuple = loc_coords
+                        
+                        distance = haversine(user_coords, loc_tuple)
                     else:
-                        loc_tuple = loc_coords
+                        # Fallback: string match
+                        loc_address = location_details.get('address', '').lower()
+                        address_lower = address.lower()
+                        word_matches = sum(1 for word in address_lower.split() if word in loc_address)
+                        distance = 1000 - (word_matches * 100)  # Closer for more word matches
                     
-                    distance = haversine(user_coords, loc_tuple)
+                    all_locations.append((gid, data, distance))
+                    logger.info(f"🔄 Fallback: {name} added with distance {distance:.2f}")
                 else:
-                    # Fallback: string match
-                    loc_details = data.get('location_details', {})
-                    loc_address = loc_details.get('address', '').lower()
-                    address_lower = address.lower()
-                    word_matches = sum(1 for word in address_lower.split() if word in loc_address)
-                    distance = 1000 - (word_matches * 100)  # Closer for more word matches
-                
-                all_locations.append((gid, data, distance))
+                    logger.warning(f"❌ Fallback: {name} rejected due to geographic validation")
         
         # Sort by distance and data completeness
         all_locations.sort(key=lambda x: (x[2], -get_data_completeness_score(x[1])))
         
         if all_locations:
             best_gid = all_locations[0][0]
-            logger.warning(f"Selected dispatcher using fallback: {all_locations[0][1].get('location_details', {}).get('name', 'Unknown')} at {all_locations[0][2]:.1f}km")
+            selected_name = all_locations[0][1].get('location_details', {}).get('name', 'Unknown')
+            selected_distance = all_locations[0][2]
+            logger.warning(f"🔄 Selected dispatcher using fallback: {selected_name} at {selected_distance:.1f}km")
             return best_gid
         
         # Final fallback
-        logger.error("No suitable dispatcher found")
+        logger.error("❌ No suitable dispatcher found")
         return None
 
 # Global instance
