@@ -26,12 +26,170 @@ const TipsAndGuides: React.FC = () => {
         <div className="page-content">
           <article className="page-card">
             <header>
-              <h1 id="tips-guides-title">Complete Moving Guide: Tips & Expert Advice for a Stress-Free Move</h1>
-              <p className="page-subtitle">Master the art of moving with our comprehensive guide. From planning to unpacking, we've got you covered with proven strategies used by professional movers across Canada. <Link to="/how-it-works">See how it works</Link> or <Link to="/about-us">learn about us</Link>.</p>
+              <h1 id="tips-guides-title">On The MovedIn: Your Ultimate Guide to a Seamless Relocation</h1>
+              <p className="page-subtitle">Mastering the Art of Packing, Planning, and Settling into Your New Home. Expert advice from MovedIn's comprehensive moving guide and blog articles. <Link to="/how-it-works">See how it works</Link> or <Link to="/about-us">learn about us</Link>.</p>
             </header>
+
+            {/* Blog Articles Section */}
+            <section className="blog-section">
+              <h2>Latest Moving Tips & Articles</h2>
+              <p className="section-intro">Stay updated with the latest moving advice, tips, and guides from our expert team.</p>
+              
+              <div className="blog-grid">
+                <article className="blog-card">
+                  <div className="blog-image">
+                    <img src="https://picsum.photos/400/200?random=1" alt="Address Change Checklist" />
+                  </div>
+                  <div className="blog-content">
+                    <div className="blog-meta">
+                      <span className="blog-date">15 Dec 2023</span>
+                      <span className="blog-author">MovedIn</span>
+                    </div>
+                    <h3>An Ultimate Checklist for Change of Address in Ontario</h3>
+                    <p>One of the essential tasks is updating several agencies and services about your new address. Our comprehensive checklist covers everything you need to update when moving in Ontario.</p>
+                    <Link to="/blog/address-change-checklist" className="read-more">Read More →</Link>
+                  </div>
+                </article>
+
+                <article className="blog-card">
+                  <div className="blog-image">
+                    <img src="https://picsum.photos/400/200?random=2" alt="Toronto Neighborhood Guide" />
+                  </div>
+                  <div className="blog-content">
+                    <div className="blog-meta">
+                      <span className="blog-date">14 Dec 2023</span>
+                      <span className="blog-author">MovedIn</span>
+                    </div>
+                    <h3>Toronto Neighborhood Guide: Choosing the Right Area for Your Move</h3>
+                    <p>Toronto has it all: cultural diversity, natural beauty, great restaurants, and vibrant neighborhoods. Find the perfect area that matches your lifestyle and needs.</p>
+                    <Link to="/blog/toronto-neighborhood-guide" className="read-more">Read More →</Link>
+                  </div>
+                </article>
+
+                <article className="blog-card">
+                  <div className="blog-image">
+                    <img src="https://picsum.photos/400/200?random=3" alt="Pre-Move Decluttering" />
+                  </div>
+                  <div className="blog-content">
+                    <div className="blog-meta">
+                      <span className="blog-date">13 Dec 2023</span>
+                      <span className="blog-author">MovedIn</span>
+                    </div>
+                    <h3>Pre-Move Decluttering: How to Lighten Your Load Before a Big Move</h3>
+                    <p>Decluttering saves you time on both ends because there's less to pack and unpack. Learn effective strategies to streamline your belongings before moving.</p>
+                    <Link to="/blog/pre-move-decluttering" className="read-more">Read More →</Link>
+                  </div>
+                </article>
+
+                <article className="blog-card">
+                  <div className="blog-image">
+                    <img src="https://picsum.photos/400/200?random=4" alt="Stress Free Move" />
+                  </div>
+                  <div className="blog-content">
+                    <div className="blog-meta">
+                      <span className="blog-date">12 Dec 2023</span>
+                      <span className="blog-author">MovedIn</span>
+                    </div>
+                    <h3>Incorporating Mindfulness into Your Move: A Stress Reduction Strategy</h3>
+                    <p>You may have heard of mindfulness as a strategy to improve mental health. Discover how mindfulness techniques can make your move less stressful and more enjoyable.</p>
+                    <Link to="/blog/stress-free-move" className="read-more">Read More →</Link>
+                  </div>
+                </article>
+
+                <article className="blog-card">
+                  <div className="blog-image">
+                    <img src="https://picsum.photos/400/200?random=5" alt="Professional Packing Services Toronto" />
+                  </div>
+                  <div className="blog-content">
+                    <div className="blog-meta">
+                      <span className="blog-date">11 Dec 2023</span>
+                      <span className="blog-author">MovedIn</span>
+                    </div>
+                    <h3>Professional Packing Services in Toronto: Are They Worth It?</h3>
+                    <p>Moving to a new home can be an exciting and adventurous experience. Learn about the benefits and costs of professional packing services in Toronto.</p>
+                    <Link to="/blog/professional-packing-services" className="read-more">Read More →</Link>
+                  </div>
+                </article>
+
+                <article className="blog-card">
+                  <div className="blog-image">
+                    <img src="https://picsum.photos/400/200?random=6" alt="Tips For Moving Home" />
+                  </div>
+                  <div className="blog-content">
+                    <div className="blog-meta">
+                      <span className="blog-date">9 Dec 2023</span>
+                      <span className="blog-author">MovedIn</span>
+                    </div>
+                    <h3>Navigating Toronto's Real Estate Market: Tips for Moving Home</h3>
+                    <p>If you're planning a move to Toronto or within Toronto, we have some tips to help you navigate the competitive real estate market successfully.</p>
+                    <Link to="/blog/tips-for-moving-home" className="read-more">Read More →</Link>
+                  </div>
+                </article>
+
+                <article className="blog-card">
+                  <div className="blog-image">
+                    <img src="https://picsum.photos/400/200?random=7" alt="Moving With Pets In Toronto" />
+                  </div>
+                  <div className="blog-content">
+                    <div className="blog-meta">
+                      <span className="blog-date">7 Dec 2023</span>
+                      <span className="blog-author">MovedIn</span>
+                    </div>
+                    <h3>Moving with Pets in Toronto: A Comprehensive Guide</h3>
+                    <p>Moving is stressful enough for humans, so imagine how anxious your pets might feel. Learn how to make the transition smooth for your furry family members.</p>
+                    <Link to="/blog/moving-with-pets" className="read-more">Read More →</Link>
+                  </div>
+                </article>
+
+                <article className="blog-card">
+                  <div className="blog-image">
+                    <img src="https://picsum.photos/400/200?random=8" alt="Moving Stress Free Toronto" />
+                  </div>
+                  <div className="blog-content">
+                    <div className="blog-meta">
+                      <span className="blog-date">15 Sep 2023</span>
+                      <span className="blog-author">MovedIn</span>
+                    </div>
+                    <h3>How to Plan a Stress-Free Move in Toronto</h3>
+                    <p>Moving is one of the most stressful things most people experience in life. Discover proven strategies to make your Toronto move as stress-free as possible.</p>
+                    <Link to="/blog/stress-free-move-toronto" className="read-more">Read More →</Link>
+                  </div>
+                </article>
+
+                <article className="blog-card">
+                  <div className="blog-image">
+                    <img src="https://picsum.photos/400/200?random=9" alt="Winter Moving Tips" />
+                  </div>
+                  <div className="blog-content">
+                    <div className="blog-meta">
+                      <span className="blog-date">16 Sep 2023</span>
+                      <span className="blog-author">MovedIn</span>
+                    </div>
+                    <h3>Moving in the Winter: Special Tips for Toronto Residents</h3>
+                    <p>Winter moves are never fun. Okay, let's face it—moving is no picnic at any time of year. Get expert tips for handling winter moves in Toronto's challenging weather.</p>
+                    <Link to="/blog/winter-moving-tips" className="read-more">Read More →</Link>
+                  </div>
+                </article>
+
+                <article className="blog-card">
+                  <div className="blog-image">
+                    <img src="https://picsum.photos/400/200?random=10" alt="Essential Moving" />
+                  </div>
+                  <div className="blog-content">
+                    <div className="blog-meta">
+                      <span className="blog-date">17 Sep 2023</span>
+                      <span className="blog-author">MovedIn</span>
+                    </div>
+                    <h3>The Essential Moving Checklist for Torontonians</h3>
+                    <p>Moving is never easy, but a well-planned move and a good checklist can help make the process much smoother. Get our comprehensive checklist designed specifically for Toronto moves.</p>
+                    <Link to="/blog/essential-moving" className="read-more">Read More →</Link>
+                  </div>
+                </article>
+              </div>
+            </section>
             
             <nav className="table-of-contents" aria-label="Quick Navigation">
-              <h2>Quick Navigation</h2>
+              <h2>Complete Moving Guide</h2>
               <ul>
                 <li><a href="#planning-phase">📋 Planning Phase (8-12 weeks before)</a></li>
                 <li><a href="#packing-phase">📦 Packing Phase (4-6 weeks before)</a></li>
