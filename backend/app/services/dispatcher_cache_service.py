@@ -72,14 +72,31 @@ class DispatcherCacheService:
     
     def _normalize_dispatcher_data(self, sheets_data: Dict[str, Any]) -> Dict[str, Any]:
         """Normalize Google Sheets data into standard format"""
+        # Handle both old and new data structures
+        location = sheets_data.get("location", "")
+        
+        # Get coordinates - handle both formats
+        coordinates = {}
+        if "coordinates" in sheets_data:
+            coordinates = sheets_data.get("coordinates", {})
+        elif "lat" in sheets_data and "lng" in sheets_data:
+            coordinates = {"lat": sheets_data.get("lat"), "lng": sheets_data.get("lng")}
+        
+        # Get address - handle both formats
+        address = ""
+        if "address" in sheets_data:
+            address = sheets_data.get("address", "")
+        elif "metadata" in sheets_data:
+            address = sheets_data.get("metadata", {}).get("address", "")
+        
         normalized = {
-            "location": sheets_data.get("location", ""),
+            "location": location,
             "location_details": self._normalize_location_details(sheets_data),
             "pricing_model": self._normalize_pricing_formula(sheets_data),
-            "calendar_data": self._normalize_calendar_rates(sheets_data),  # <-- changed from calendar_rates
+            "calendar_data": self._normalize_calendar_rates(sheets_data),
             "operational_rules": self._normalize_operational_rules(sheets_data),
-            "coordinates": sheets_data.get("coordinates", {}),  # Include coordinates for distance calculation
-            "address": sheets_data.get("address", ""),  # Include address for fallback
+            "coordinates": coordinates,
+            "address": address,
             "last_updated": datetime.now().isoformat()
         }
         
@@ -160,24 +177,50 @@ class DispatcherCacheService:
     def _normalize_location_details(self, sheets_data: Dict[str, Any]) -> Dict[str, Any]:
         """Normalize location details from smart parser data structure"""
         try:
-            # Get metadata from new structure
-            metadata = sheets_data.get("metadata", {})
-            
-            # Extract location name
+            # Handle both old and new data structures
             location_name = sheets_data.get("location", "Unknown")
             
-            # Build location details
-            location_details = {
-                "name": location_name,
-                "ops_manager": metadata.get("ops_manager", ""),
-                "address": metadata.get("address", ""),
-                "email": metadata.get("email", ""),
-                "terminal_id": metadata.get("terminal_id", ""),
-                "intersection": metadata.get("intersection", ""),
-                "truck_count": metadata.get("truck_count", ""),
-                "sales_phone": metadata.get("sales_phone", ""),
-                "timezone": metadata.get("timezone", "")
-            }
+            # Try new structure first
+            if "metadata" in sheets_data:
+                metadata = sheets_data.get("metadata", {})
+                location_details = {
+                    "name": location_name,
+                    "ops_manager": metadata.get("ops_manager", ""),
+                    "address": metadata.get("address", ""),
+                    "email": metadata.get("email", ""),
+                    "terminal_id": metadata.get("terminal_id", ""),
+                    "intersection": metadata.get("intersection", ""),
+                    "truck_count": metadata.get("truck_count", ""),
+                    "sales_phone": metadata.get("sales_phone", ""),
+                    "timezone": metadata.get("timezone", "")
+                }
+            # Try old structure
+            elif "location_details" in sheets_data:
+                old_details = sheets_data.get("location_details", {})
+                location_details = {
+                    "name": location_name,
+                    "ops_manager": old_details.get("ops_manager", ""),
+                    "address": old_details.get("address", ""),
+                    "email": old_details.get("email", ""),
+                    "terminal_id": old_details.get("terminal_id", ""),
+                    "intersection": old_details.get("intersection", ""),
+                    "truck_count": old_details.get("truck_count", ""),
+                    "sales_phone": old_details.get("sales_phone", ""),
+                    "timezone": old_details.get("timezone", "")
+                }
+            else:
+                # Fallback structure
+                location_details = {
+                    "name": location_name,
+                    "ops_manager": "",
+                    "address": "",
+                    "email": "",
+                    "terminal_id": "",
+                    "intersection": "",
+                    "truck_count": "",
+                    "sales_phone": "",
+                    "timezone": ""
+                }
             
             logger.info(f"✅ Normalized location details for {location_name}")
             return location_details
@@ -499,9 +542,28 @@ class DispatcherCacheService:
             calendar_data = data.get('calendar_data', {})
             daily_rates = calendar_data.get('daily_rates', {})
             
-            has_location = location_details.get('name') and location_details.get('address')
+            # Check if we have a location name
+            has_location = location_details.get('name') and location_details.get('name') != 'Unknown'
+            
+            # Check if we have daily rates (at least some)
             has_rates = len(daily_rates) > 0
-            has_coordinates = data.get('coordinates') is not None
+            
+            # Check if we have coordinates (either format)
+            has_coordinates = False
+            if data.get('coordinates'):
+                coords = data.get('coordinates', {})
+                if isinstance(coords, dict) and coords.get('lat') and coords.get('lng'):
+                    has_coordinates = True
+                elif isinstance(coords, (list, tuple)) and len(coords) == 2:
+                    has_coordinates = True
+            
+            # Log what we're missing for debugging
+            if not has_location:
+                logger.warning(f"❌ Missing location name for dispatcher")
+            if not has_rates:
+                logger.warning(f"❌ Missing daily rates for dispatcher")
+            if not has_coordinates:
+                logger.warning(f"❌ Missing coordinates for dispatcher")
             
             return has_location and has_rates and has_coordinates
         
