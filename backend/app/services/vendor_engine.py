@@ -256,6 +256,13 @@ class GeographicVendorDispatcher:
             "serves_vendors": ["lets-get-moving"],
             "base_rates": {"lets-get-moving": 139.0}
         },
+        "pierre-sons-etobicoke": {
+            "name": "Pierre & Sons Etobicoke",
+            "address": "1155 Kipling Ave, Etobicoke, ON M9B 3M4",
+            "coordinates": {"lat": 43.6247, "lng": -79.5783},
+            "serves_vendors": ["pierre-sons"],
+            "base_rates": {"pierre-sons": 135.0}
+        },
         
         # BRITISH COLUMBIA LOCATIONS
         "vancouver": {
