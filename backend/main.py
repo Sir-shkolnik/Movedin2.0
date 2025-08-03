@@ -84,4 +84,4 @@ if __name__ == "__main__":
         host="0.0.0.0",
         port=port,
         reload=False
-    ) 
+    ) # Manual deployment trigger - Sun Aug  3 17:41:40 EDT 2025
