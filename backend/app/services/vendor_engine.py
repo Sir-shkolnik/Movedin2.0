@@ -15,94 +15,376 @@ logger = logging.getLogger(__name__)
 class GeographicVendorDispatcher:
     """Handles geographic-based vendor dispatching and service area validation"""
     
-    # Vendor service areas - cities/regions each vendor serves
+    # Vendor service areas - TRUE NATIONAL COVERAGE (not limited to Ontario)
     VENDOR_SERVICE_AREAS = {
         "lets-get-moving": {
-            "cities": ["Toronto", "North York", "Scarborough", "Etobicoke", "York", "East York", "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill", "Oakville", "Burlington", "Hamilton", "Oshawa", "Whitby", "Ajax", "Pickering"],
-            "regions": ["GTA", "Greater Toronto Area", "Golden Horseshoe"],
-            "max_distance_km": 150,  # Maximum service distance
-            "location_based_rates": {}  # No hardcoded rates - uses Google Sheets data
+            "cities": [
+                # ONTARIO
+                "Toronto", "North York", "Scarborough", "Etobicoke", "York", "East York",
+                "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill", 
+                "Oakville", "Burlington", "Hamilton", "Oshawa", "Whitby", "Ajax", "Pickering",
+                "Barrie", "Aurora", "Brantford", "Kitchener", "Waterloo", "Windsor", "Peterborough",
+                # BRITISH COLUMBIA
+                "Vancouver", "Burnaby", "Richmond", "Victoria", "Abbotsford", "Port Moody",
+                # ALBERTA
+                "Calgary", "Edmonton",
+                # MANITOBA
+                "Winnipeg",
+                # SASKATCHEWAN
+                "Regina",
+                # QUEBEC
+                "Montreal",
+                # NOVA SCOTIA
+                "Halifax",
+                # NEW BRUNSWICK
+                "Fredericton"
+            ],
+            "regions": ["GTA", "Greater Toronto Area", "Golden Horseshoe", "British Columbia", "Alberta", "Manitoba", "Saskatchewan", "Quebec", "Nova Scotia", "New Brunswick"],
+            "max_distance_km": 500,  # TRUE NATIONAL COVERAGE
+            "location_based_rates": {}  # Uses Google Sheets data with 23+ locations
         },
         "easy2go": {
-            "cities": ["Toronto", "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill"],
-            "regions": ["GTA Core"],
-            "max_distance_km": 80,
+            "cities": [
+                # GTA CORE + ONTARIO EXPANSION
+                "Toronto", "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill",
+                "Oakville", "Burlington", "Hamilton", "Oshawa", "Whitby", "Ajax", "Pickering",
+                "Barrie", "Aurora", "Newmarket", "Milton", "Caledon", "King City", "Stouffville",
+                "Uxbridge", "Port Perry", "Bowmanville", "Cobourg", "Belleville", "Kingston",
+                "Ottawa", "Kitchener", "Waterloo", "Cambridge", "Guelph", "St. Catharines",
+                "Niagara Falls", "Welland", "Brantford", "Woodstock", "London", "Windsor",
+                "Sarnia", "Chatham", "Sault Ste. Marie", "Sudbury", "North Bay", "Timmins",
+                "Thunder Bay", "Kenora"
+            ],
+            "regions": ["GTA", "Greater Toronto Area", "Golden Horseshoe", "Ontario"],
+            "max_distance_km": 200,  # EXPANDED ONTARIO COVERAGE
             "location_based_rates": {
                 "Toronto": {"base_multiplier": 1.0, "fuel_surcharge": 0},
                 "Mississauga": {"base_multiplier": 0.98, "fuel_surcharge": 20},
                 "Brampton": {"base_multiplier": 0.95, "fuel_surcharge": 35},
                 "Vaughan": {"base_multiplier": 0.98, "fuel_surcharge": 25},
                 "Markham": {"base_multiplier": 0.98, "fuel_surcharge": 30},
-                "Richmond Hill": {"base_multiplier": 0.98, "fuel_surcharge": 35}
+                "Richmond Hill": {"base_multiplier": 0.98, "fuel_surcharge": 35},
+                "Oakville": {"base_multiplier": 0.95, "fuel_surcharge": 40},
+                "Burlington": {"base_multiplier": 0.92, "fuel_surcharge": 50},
+                "Hamilton": {"base_multiplier": 0.90, "fuel_surcharge": 60},
+                "Oshawa": {"base_multiplier": 0.88, "fuel_surcharge": 70},
+                "Barrie": {"base_multiplier": 0.85, "fuel_surcharge": 80},
+                "Ottawa": {"base_multiplier": 0.80, "fuel_surcharge": 120},
+                "London": {"base_multiplier": 0.75, "fuel_surcharge": 150},
+                "Windsor": {"base_multiplier": 0.70, "fuel_surcharge": 180}
             }
         },
         "velocity-movers": {
-            "cities": ["Toronto", "Mississauga", "Oakville", "Burlington", "Hamilton"],
-            "regions": ["GTA West", "Golden Horseshoe West"],
-            "max_distance_km": 120,
+            "cities": [
+                # GTA WEST + ONTARIO EXPANSION
+                "Toronto", "Mississauga", "Oakville", "Burlington", "Hamilton",
+                "Brampton", "Vaughan", "Milton", "Georgetown", "Acton", "Guelph",
+                "Kitchener", "Waterloo", "Cambridge", "Brantford", "St. Catharines",
+                "Niagara Falls", "Welland", "Grimsby", "Stoney Creek", "Ancaster",
+                "Dundas", "Flamborough", "Milton", "Georgetown", "Acton", "Guelph",
+                "Kitchener", "Waterloo", "Cambridge", "Brantford", "Woodstock",
+                "London", "St. Thomas", "Ingersoll", "Tillsonburg", "Simcoe",
+                "Brantford", "Paris", "Caledonia", "Dunnville", "Port Colborne",
+                "Fort Erie", "Niagara-on-the-Lake", "St. Catharines", "Thorold",
+                "Pelham", "Lincoln", "West Lincoln", "Grimsby", "Lincoln"
+            ],
+            "regions": ["GTA West", "Golden Horseshoe West", "Southwestern Ontario"],
+            "max_distance_km": 150,  # EXPANDED COVERAGE
             "location_based_rates": {
                 "Toronto": {"base_multiplier": 1.0, "fuel_surcharge": 0},
                 "Mississauga": {"base_multiplier": 0.97, "fuel_surcharge": 30},
                 "Oakville": {"base_multiplier": 0.92, "fuel_surcharge": 50},
                 "Burlington": {"base_multiplier": 0.88, "fuel_surcharge": 65},
-                "Hamilton": {"base_multiplier": 0.85, "fuel_surcharge": 80}
+                "Hamilton": {"base_multiplier": 0.85, "fuel_surcharge": 80},
+                "Brampton": {"base_multiplier": 0.90, "fuel_surcharge": 45},
+                "Vaughan": {"base_multiplier": 0.93, "fuel_surcharge": 35},
+                "Milton": {"base_multiplier": 0.87, "fuel_surcharge": 70},
+                "Guelph": {"base_multiplier": 0.80, "fuel_surcharge": 100},
+                "Kitchener": {"base_multiplier": 0.78, "fuel_surcharge": 110},
+                "Waterloo": {"base_multiplier": 0.78, "fuel_surcharge": 110},
+                "Cambridge": {"base_multiplier": 0.75, "fuel_surcharge": 120},
+                "Brantford": {"base_multiplier": 0.72, "fuel_surcharge": 130},
+                "St. Catharines": {"base_multiplier": 0.70, "fuel_surcharge": 140},
+                "Niagara Falls": {"base_multiplier": 0.68, "fuel_surcharge": 150},
+                "London": {"base_multiplier": 0.65, "fuel_surcharge": 170}
             }
         },
         "pierre-sons": {
-            "cities": ["Toronto", "Scarborough", "North York", "Etobicoke", "York", "East York"],
-            "regions": ["Toronto Core"],
-            "max_distance_km": 50,
+            "cities": [
+                # TORONTO CORE + GTA EXPANSION
+                "Toronto", "Scarborough", "North York", "Etobicoke", "York", "East York",
+                "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill",
+                "Oakville", "Burlington", "Ajax", "Pickering", "Whitby", "Oshawa",
+                "Aurora", "Newmarket", "King City", "Stouffville", "Uxbridge",
+                "Port Perry", "Bowmanville", "Cobourg", "Belleville", "Kingston",
+                "Ottawa", "Barrie", "Orillia", "Midland", "Penetanguishene",
+                "Collingwood", "Wasaga Beach", "Alliston", "Bradford", "Innisfil",
+                "Keswick", "Sutton", "Georgina", "Uxbridge", "Port Perry",
+                "Bowmanville", "Cobourg", "Belleville", "Kingston", "Ottawa"
+            ],
+            "regions": ["Toronto Core", "GTA", "Greater Toronto Area", "Eastern Ontario"],
+            "max_distance_km": 100,  # EXPANDED COVERAGE
             "location_based_rates": {
                 "Toronto": {"base_multiplier": 1.0, "fuel_surcharge": 0},
                 "Scarborough": {"base_multiplier": 0.98, "fuel_surcharge": 15},
                 "North York": {"base_multiplier": 0.98, "fuel_surcharge": 10},
                 "Etobicoke": {"base_multiplier": 0.98, "fuel_surcharge": 20},
                 "York": {"base_multiplier": 0.98, "fuel_surcharge": 5},
-                "East York": {"base_multiplier": 0.98, "fuel_surcharge": 12}
+                "East York": {"base_multiplier": 0.98, "fuel_surcharge": 12},
+                "Mississauga": {"base_multiplier": 0.95, "fuel_surcharge": 25},
+                "Brampton": {"base_multiplier": 0.92, "fuel_surcharge": 40},
+                "Vaughan": {"base_multiplier": 0.95, "fuel_surcharge": 30},
+                "Markham": {"base_multiplier": 0.95, "fuel_surcharge": 35},
+                "Richmond Hill": {"base_multiplier": 0.95, "fuel_surcharge": 40},
+                "Oakville": {"base_multiplier": 0.90, "fuel_surcharge": 50},
+                "Burlington": {"base_multiplier": 0.88, "fuel_surcharge": 60},
+                "Ajax": {"base_multiplier": 0.93, "fuel_surcharge": 35},
+                "Pickering": {"base_multiplier": 0.93, "fuel_surcharge": 40},
+                "Whitby": {"base_multiplier": 0.90, "fuel_surcharge": 50},
+                "Oshawa": {"base_multiplier": 0.88, "fuel_surcharge": 60},
+                "Barrie": {"base_multiplier": 0.85, "fuel_surcharge": 70},
+                "Ottawa": {"base_multiplier": 0.75, "fuel_surcharge": 120}
             }
         }
     }
     
-    # Dispatcher locations and their service areas (for non-Google Sheets vendors only)
+    # Dispatcher locations - TRUE NATIONAL COVERAGE (from Google Sheets data)
     DISPATCHER_LOCATIONS = {
-        "toronto-central": {
-            "name": "Toronto Central",
-            "address": "123 Queen St W, Toronto, ON",
+        # ONTARIO LOCATIONS
+        "toronto-north-york": {
+            "name": "Toronto (North York)",
+            "address": "Toronto, ON",
+            "coordinates": {"lat": 43.7615, "lng": -79.4111},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 119.0}
+        },
+        "downtown-toronto": {
+            "name": "Downtown Toronto", 
+            "address": "Toronto, ON",
             "coordinates": {"lat": 43.6532, "lng": -79.3832},
-            "serves_vendors": ["easy2go", "velocity-movers", "pierre-sons"],
-            "base_rates": {
-                "easy2go": 150.0,
-                "velocity-movers": 165.0,
-                "pierre-sons": 135.0
-            }
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 119.0}
         },
-        "mississauga-west": {
-            "name": "Mississauga West",
-            "address": "456 Hurontario St, Mississauga, ON",
-            "coordinates": {"lat": 43.5890, "lng": -79.6441},
-            "serves_vendors": ["easy2go", "velocity-movers"],
-            "base_rates": {
-                "easy2go": 140.0,
-                "velocity-movers": 155.0
-            }
+        "mississauga": {
+            "name": "Mississauga",
+            "address": "3225 Lenworth Dr, Mississauga, ON",
+            "coordinates": {"lat": 43.6247, "lng": -79.5783},
+            "serves_vendors": ["lets-get-moving", "easy2go", "velocity-movers"],
+            "base_rates": {"lets-get-moving": 139.0, "easy2go": 140.0, "velocity-movers": 155.0}
         },
-        "brampton-north": {
-            "name": "Brampton North",
-            "address": "789 Queen St E, Brampton, ON",
+        "ajax": {
+            "name": "Ajax",
+            "address": "18 Gadsden Ct, Ajax, ON",
+            "coordinates": {"lat": 43.8850, "lng": -79.0192},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        "aurora": {
+            "name": "Aurora",
+            "address": "Aurora, ON",
+            "coordinates": {"lat": 44.0001, "lng": -79.4663},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        "barrie": {
+            "name": "Barrie",
+            "address": "92 Caplan Ave, Barrie, ON",
+            "coordinates": {"lat": 44.3385, "lng": -79.6971},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        "brampton": {
+            "name": "Brampton",
+            "address": "Brampton, ON",
             "coordinates": {"lat": 43.6831, "lng": -79.7663},
-            "serves_vendors": ["easy2go"],
-            "base_rates": {
-                "easy2go": 130.0
-            }
+            "serves_vendors": ["lets-get-moving", "easy2go"],
+            "base_rates": {"lets-get-moving": 139.0, "easy2go": 130.0}
         },
-        "markham-east": {
-            "name": "Markham East",
-            "address": "321 Highway 7, Markham, ON",
-            "coordinates": {"lat": 43.8561, "lng": -79.3370},
-            "serves_vendors": ["easy2go"],
-            "base_rates": {
-                "easy2go": 140.0
-            }
+        "brantford": {
+            "name": "Brantford",
+            "address": "Brantford, ON",
+            "coordinates": {"lat": 43.1394, "lng": -80.2644},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        "burlington": {
+            "name": "Burlington",
+            "address": "750 Guelph Line, Burlington, ON",
+            "coordinates": {"lat": 43.3456, "lng": -79.7957},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        "hamilton": {
+            "name": "Hamilton",
+            "address": "65 Biggar Ave, Hamilton, ON",
+            "coordinates": {"lat": 43.2600, "lng": -79.8308},
+            "serves_vendors": ["lets-get-moving", "velocity-movers"],
+            "base_rates": {"lets-get-moving": 139.0, "velocity-movers": 155.0}
+        },
+        "kitchener": {
+            "name": "Kitchener",
+            "address": "Kitchener, ON",
+            "coordinates": {"lat": 43.4516, "lng": -80.4925},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        "oakville": {
+            "name": "Oakville",
+            "address": "550 Speers Rd, Oakville, ON",
+            "coordinates": {"lat": 43.4347, "lng": -79.7001},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        "peterborough": {
+            "name": "Peterborough",
+            "address": "796 Technology Drive, Peterborough, ON",
+            "coordinates": {"lat": 44.3091, "lng": -78.3197},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        "vaughan": {
+            "name": "Vaughan",
+            "address": "Vaughan, ON",
+            "coordinates": {"lat": 43.8361, "lng": -79.4987},
+            "serves_vendors": ["lets-get-moving", "easy2go"],
+            "base_rates": {"lets-get-moving": 139.0, "easy2go": 140.0}
+        },
+        "windsor": {
+            "name": "Windsor",
+            "address": "Windsor, ON",
+            "coordinates": {"lat": 42.3149, "lng": -83.0364},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        
+        # BRITISH COLUMBIA LOCATIONS
+        "vancouver": {
+            "name": "Vancouver",
+            "address": "400 Industrial Avenue, Vancouver, BC",
+            "coordinates": {"lat": 49.2692, "lng": -123.0955},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        "victoria": {
+            "name": "Victoria Island",
+            "address": "4402 West Shore pky, Victoria, BC",
+            "coordinates": {"lat": 48.4262, "lng": -123.5484},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        "richmond-bc": {
+            "name": "Richmond, BC",
+            "address": "13353 Commerce Pkwy, Richmond, BC",
+            "coordinates": {"lat": 49.1721, "lng": -123.0728},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        "abbotsford": {
+            "name": "Abbotsford",
+            "address": "Abbotsford, BC",
+            "coordinates": {"lat": 49.0504, "lng": -122.3045},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        "burnaby": {
+            "name": "Burnaby",
+            "address": "Burnaby, BC",
+            "coordinates": {"lat": 49.2488, "lng": -122.9805},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        "port-moody": {
+            "name": "Port Moody",
+            "address": "Port Moody, BC",
+            "coordinates": {"lat": 49.2833, "lng": -122.8319},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        "kelowna": {
+            "name": "Kelowna",
+            "address": "852 Crowley Ave, Kelowna, BC",
+            "coordinates": {"lat": 49.8983, "lng": -119.4841},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        
+        # ALBERTA LOCATIONS
+        "calgary": {
+            "name": "Calgary",
+            "address": "Calgary, AB",
+            "coordinates": {"lat": 51.0447, "lng": -114.0719},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        "edmonton": {
+            "name": "Edmonton",
+            "address": "Edmonton, AB",
+            "coordinates": {"lat": 53.5461, "lng": -113.4938},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        
+        # MANITOBA LOCATIONS
+        "winnipeg": {
+            "name": "Winnipeg",
+            "address": "50 Scurfield Boulevard, Winnipeg, MB",
+            "coordinates": {"lat": 49.8178, "lng": -97.1862},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        
+        # SASKATCHEWAN LOCATIONS
+        "regina": {
+            "name": "Regina",
+            "address": "2125 11th Avenue, Regina, SK",
+            "coordinates": {"lat": 50.4502, "lng": -104.6119},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        
+        # QUEBEC LOCATIONS
+        "montreal": {
+            "name": "Montreal",
+            "address": "3700 Rue Griffith, Saint-Laurent, QC",
+            "coordinates": {"lat": 45.4851, "lng": -73.6972},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        
+        # NOVA SCOTIA LOCATIONS
+        "halifax": {
+            "name": "Halifax",
+            "address": "Halifax, NS",
+            "coordinates": {"lat": 44.6488, "lng": -63.5752},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        
+        # NEW BRUNSWICK LOCATIONS
+        "fredericton": {
+            "name": "Fredericton",
+            "address": "Fredericton, NB",
+            "coordinates": {"lat": 45.9636, "lng": -66.6431},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        
+        # WATERLOO LOCATION
+        "waterloo": {
+            "name": "Waterloo",
+            "address": "110 Manitou Dr, Kitchener, ON",
+            "coordinates": {"lat": 43.4115, "lng": -80.4488},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
+        },
+        
+        # MILTON LOCATION
+        "milton": {
+            "name": "Milton",
+            "address": "5393 steeles avenue west milton, ON",
+            "coordinates": {"lat": 43.4978, "lng": -79.9213},
+            "serves_vendors": ["lets-get-moving"],
+            "base_rates": {"lets-get-moving": 139.0}
         }
     }
     
