@@ -132,6 +132,19 @@ async def process_vendor_quote(vendor_info, quote_request, db):
         quote_data = vendor_dispatcher.calculate_vendor_quote(vendor_slug, quote_request, db)
         
         if quote_data:
+            # Process additional services for "contact vendor" display
+            additional_services_info = []
+            if quote_request.additional_services:
+                for service, enabled in quote_request.additional_services.items():
+                    if enabled:
+                        service_display_name = {
+                            'packing': 'Packing Services',
+                            'storage': 'Storage Services', 
+                            'cleaning': 'Cleaning Services',
+                            'junk': 'Junk Removal'
+                        }.get(service, service.title())
+                        additional_services_info.append(service_display_name)
+            
             # Add vendor-specific info
             quote_data.update({
                 'vendor_slug': vendor_slug,
@@ -149,6 +162,7 @@ async def process_vendor_quote(vendor_info, quote_request, db):
                 'elevator_at_pickup': quote_request.elevator_at_pickup,
                 'elevator_at_dropoff': quote_request.elevator_at_dropoff,
                 'additional_services': quote_request.additional_services,
+                'additional_services_info': additional_services_info,
             })
             
             # Save quote to database

@@ -1066,15 +1066,10 @@ class LetsGetMovingCalculator(VendorCalculator):
         return total
     
     def _calculate_additional_services_cost(self, services: Dict[str, bool]) -> float:
-        """Calculate additional services cost"""
-        rates = {
-            "packing": 110, "storage": 200, "cleaning": 396, "junk": 150
-        }
-        total = 0
-        for service, enabled in services.items():
-            if enabled and service in rates:
-                total += rates[service]
-        return total
+        """Calculate additional services cost - REMOVED: Services require vendor assessment"""
+        # Additional services (packing, storage, cleaning, junk) require vendor assessment
+        # based on size, time, weight, and other factors - not included in base quote
+        return 0.0
 
 class Easy2GoCalculator(VendorCalculator):
     """Easy2Go - Crew Size Based Pricing (Official Rules)"""
@@ -1239,15 +1234,10 @@ class Easy2GoCalculator(VendorCalculator):
         return total
     
     def _calculate_additional_services_cost(self, services: Dict[str, bool]) -> float:
-        """Calculate additional services cost"""
-        rates = {
-            "packing": 110, "storage": 200, "cleaning": 396, "junk": 150
-        }
-        total = 0
-        for service, enabled in services.items():
-            if enabled and service in rates:
-                total += rates[service]
-        return total
+        """Calculate additional services cost - REMOVED: Services require vendor assessment"""
+        # Additional services (packing, storage, cleaning, junk) require vendor assessment
+        # based on size, time, weight, and other factors - not included in base quote
+        return 0.0
 
 class VelocityMoversCalculator(VendorCalculator):
     """Velocity Movers - Official Crew-Based Pricing"""
@@ -1401,15 +1391,10 @@ class VelocityMoversCalculator(VendorCalculator):
         return total
     
     def _calculate_additional_services_cost(self, services: Dict[str, bool]) -> float:
-        """Calculate additional services cost"""
-        rates = {
-            "packing": 110, "storage": 200, "cleaning": 396, "junk": 150
-        }
-        total = 0
-        for service, enabled in services.items():
-            if enabled and service in rates:
-                total += rates[service]
-        return total
+        """Calculate additional services cost - REMOVED: Services require vendor assessment"""
+        # Additional services (packing, storage, cleaning, junk) require vendor assessment
+        # based on size, time, weight, and other factors - not included in base quote
+        return 0.0
 
 class PierreSonsCalculator(VendorCalculator):
     """Pierre & Sons - Simple Hourly + Distance Surcharge"""
@@ -1575,15 +1560,10 @@ class PierreSonsCalculator(VendorCalculator):
         return total
     
     def _calculate_additional_services_cost(self, services: Dict[str, bool]) -> float:
-        """Calculate additional services cost"""
-        rates = {
-            "packing": 110, "storage": 200, "cleaning": 396, "junk": 150
-        }
-        total = 0
-        for service, enabled in services.items():
-            if enabled and service in rates:
-                total += rates[service]
-        return total
+        """Calculate additional services cost - REMOVED: Services require vendor assessment"""
+        # Additional services (packing, storage, cleaning, junk) require vendor assessment
+        # based on size, time, weight, and other factors - not included in base quote
+        return 0.0
 
 # Vendor calculator factory
 VENDOR_CALCULATORS = {
