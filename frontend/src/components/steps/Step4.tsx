@@ -266,35 +266,39 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                             animation: 'smoothSpin 1s linear infinite'
                         }}></div>
                         
-                        {/* Center Logo */}
+                        {/* Professional Search Icon */}
                         <div style={{
                             position: 'relative',
                             animation: 'gentlePulse 2s ease-in-out infinite',
                             filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))'
                         }}>
-                            <img 
-                                src="/logos/movedin_ne.png" 
-                                alt="MovedIn Logo"
-                                style={{
-                                    width: '40px',
-                                    height: '40px',
-                                    borderRadius: '8px',
-                                    backgroundColor: 'rgba(255,255,255,0.9)',
-                                    padding: '4px'
-                                }}
-                                onError={(e) => {
-                                    // Fallback to emoji if logo doesn't load
-                                    e.currentTarget.style.display = 'none';
-                                    const fallback = e.currentTarget.nextElementSibling as HTMLElement;
-                                    if (fallback) fallback.style.display = 'block';
-                                }}
-                            />
                             <div style={{
-                                display: 'none',
-                                fontSize: '32px',
-                                color: 'white'
+                                width: '48px',
+                                height: '48px',
+                                backgroundColor: 'rgba(255,255,255,0.95)',
+                                borderRadius: '12px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                border: '2px solid rgba(255,255,255,0.8)'
                             }}>
-                                📋
+                                <svg 
+                                    width="24" 
+                                    height="24" 
+                                    viewBox="0 0 24 24" 
+                                    fill="none" 
+                                    stroke="#5a67d8" 
+                                    strokeWidth="2.5" 
+                                    strokeLinecap="round" 
+                                    strokeLinejoin="round"
+                                    style={{
+                                        animation: 'gentlePulse 2s ease-in-out infinite'
+                                    }}
+                                >
+                                    <circle cx="11" cy="11" r="8"/>
+                                    <path d="21 21l-4.35-4.35"/>
+                                    <circle cx="11" cy="11" r="3" fill="#5a67d8" fillOpacity="0.2"/>
+                                </svg>
                             </div>
                         </div>
                     </div>
@@ -499,9 +503,13 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                             width: 80px !important;
                             height: 80px !important;
                         }
-                        .loading-animation img {
-                            width: 28px !important;
-                            height: 28px !important;
+                        .loading-animation > div > div {
+                            width: 36px !important;
+                            height: 36px !important;
+                        }
+                        .loading-animation svg {
+                            width: 18px !important;
+                            height: 18px !important;
                         }
                         .progress-steps {
                             flex-direction: column !important;
