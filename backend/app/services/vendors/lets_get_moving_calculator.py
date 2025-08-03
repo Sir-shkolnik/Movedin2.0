@@ -314,15 +314,10 @@ class LetsGetMovingCalculator:
         return total
     
     def _calculate_additional_services_cost(self, services: Dict[str, bool]) -> float:
-        """Calculate additional services cost - TRUE LGM RATES"""
-        rates = {
-            "packing": 110, "storage": 200, "cleaning": 396, "junk": 150
-        }
-        total = 0
-        for service, enabled in services.items():
-            if enabled and service in rates:
-                total += rates[service]
-        return total
+        """Calculate additional services cost - REMOVED: Services require vendor assessment"""
+        # Additional services (packing, storage, cleaning, junk) require vendor assessment
+        # based on size, time, weight, and other factors - not included in base quote
+        return 0.0
     
     def get_dispatcher_info(self, origin_address: str, destination_address: str, move_date: str) -> Optional[Dict[str, Any]]:
         """Get dispatcher info from Google Sheets data"""
