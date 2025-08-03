@@ -1,20 +1,15 @@
 from typing import Dict, Any, List, Optional
 from app.schemas.quote import QuoteRequest
-from app.services.vendor_engine import GeographicVendorDispatcher
-from app.services.vendors.easy2go_calculator import Easy2GoCalculator
-from app.services.vendors.velocity_movers_calculator import VelocityMoversCalculator
-from app.services.vendors.pierre_sons_calculator import PierreSonsCalculator
+from app.services.vendor_engine import GeographicVendorDispatcher, get_vendor_calculator
 from app.services.vendors.lets_get_moving_calculator import LetsGetMovingCalculator
 
 class VendorDispatcher:
     """Main vendor dispatcher - calls all vendors with their specific logic"""
     
     def __init__(self):
-        # Initialize vendor calculators
-        self.easy2go_calculator = Easy2GoCalculator()
-        self.velocity_movers_calculator = VelocityMoversCalculator()
-        self.pierre_sons_calculator = PierreSonsCalculator()
-        self.lets_get_moving_calculator = LetsGetMovingCalculator()
+        # Initialize vendor calculators - use integrated calculators from vendor_engine.py
+        self.lets_get_moving_calculator = LetsGetMovingCalculator()  # Keep this for Google Sheets integration
+        # Easy2Go, Velocity Movers, and Pierre & Sons use integrated calculators from vendor_engine.py
     
     def get_available_vendors_for_location(self, origin_address: str, destination_address: str) -> List[Dict[str, Any]]:
         """Get all available vendors for a location"""
@@ -41,20 +36,8 @@ class VendorDispatcher:
         origin_city = self._extract_city_from_address(origin_address)
         dest_city = self._extract_city_from_address(destination_address)
         
-        if vendor_slug == "lets-get-moving":
-            # Let's Get Moving uses GeographicVendorDispatcher
-            return GeographicVendorDispatcher._vendor_serves_location(vendor_slug, origin_city)
-        
-        elif vendor_slug == "easy2go":
-            return origin_city in self.easy2go_calculator.SERVICE_AREAS["cities"]
-        
-        elif vendor_slug == "velocity-movers":
-            return origin_city in self.velocity_movers_calculator.SERVICE_AREAS["cities"]
-        
-        elif vendor_slug == "pierre-sons":
-            return origin_city in self.pierre_sons_calculator.SERVICE_AREAS["cities"]
-        
-        return False
+        # All vendors now use GeographicVendorDispatcher for service area validation
+        return GeographicVendorDispatcher._vendor_serves_location(vendor_slug, origin_city)
     
     def _get_vendor_info(self, vendor_slug: str, vendor_name: str, origin_address: str) -> Optional[Dict[str, Any]]:
         """Get vendor information for availability check"""
@@ -78,67 +61,16 @@ class VendorDispatcher:
                 return dispatcher_info
             return None
         
-        elif vendor_slug == "easy2go":
-            return {
-                "vendor_slug": vendor_slug,
-                "vendor_name": vendor_name,
-                "dispatcher": {
-                    "id": "easy2go-depot",
-                    "name": "Easy2Go Depot",
-                    "address": "3397 American Drive, Mississauga, ON L4V 1T8",
-                    "coordinates": {"lat": 43.7001, "lng": -79.6247},
-                    "base_rate": 150.0,
-                    "total_distance_km": 0
-                },
-                "service_area": self.easy2go_calculator.SERVICE_AREAS,
-                "location_rates": self.easy2go_calculator.LOCATION_RATES.get(origin_city, self.easy2go_calculator.LOCATION_RATES["Toronto"]),
-                "distance_km": 0,
-                "serves_origin": True,
-                "serves_destination": True,
-                "within_distance": True
-            }
-        
-        elif vendor_slug == "velocity-movers":
-            return {
-                "vendor_slug": vendor_slug,
-                "vendor_name": vendor_name,
-                "dispatcher": {
-                    "id": "velocity-hq",
-                    "name": "Velocity HQ",
-                    "address": "100 Howden Road, Unit 2, Toronto, ON M1R 3E4",
-                    "coordinates": {"lat": 43.7505, "lng": -79.2952},
-                    "base_rate": 150.0,
-                    "total_distance_km": 0
-                },
-                "service_area": self.velocity_movers_calculator.SERVICE_AREAS,
-                "location_rates": self.velocity_movers_calculator.LOCATION_RATES.get(origin_city, self.velocity_movers_calculator.LOCATION_RATES["Toronto"]),
-                "distance_km": 0,
-                "serves_origin": True,
-                "serves_destination": True,
-                "within_distance": True
-            }
-        
-        elif vendor_slug == "pierre-sons":
-            return {
-                "vendor_slug": vendor_slug,
-                "vendor_name": vendor_name,
-                "dispatcher": {
-                    "id": "pierre-sons-etobicoke",
-                    "name": "Etobicoke HQ",
-                    "address": "1155 Kipling Ave, Etobicoke, ON M9B 3M4",
-                    "coordinates": {"lat": 43.6386, "lng": -79.5561},
-                    "base_rate": 135.0,
-                    "total_distance_km": 0
-                },
-                "service_area": self.pierre_sons_calculator.SERVICE_AREAS,
-                "location_rates": self.pierre_sons_calculator.LOCATION_RATES.get(origin_city, self.pierre_sons_calculator.LOCATION_RATES["Toronto"]),
-                "distance_km": 0,
-                "serves_origin": True,
-                "serves_destination": True,
-                "within_distance": True
-            }
-        
-        return None
+        else:
+            # For Easy2Go, Velocity Movers, and Pierre & Sons, use GeographicVendorDispatcher
+            dispatcher_info = GeographicVendorDispatcher._get_best_dispatcher_for_vendor(
+                vendor_slug, origin_address, origin_address
+            )
+            if dispatcher_info:
+                dispatcher_info["vendor_slug"] = vendor_slug
+                dispatcher_info["vendor_name"] = vendor_name
+                return dispatcher_info
+            return None
     
     def calculate_vendor_quote(self, vendor_slug: str, quote_request: QuoteRequest, db=None) -> Optional[Dict[str, Any]]:
         """Calculate quote for a specific vendor"""
@@ -174,49 +106,51 @@ class VendorDispatcher:
                 print(f"Error calculating quote for {vendor_slug}: {e}")
                 return None
         
-        elif vendor_slug == "easy2go":
-            # Easy2Go uses simple calculation with dispatcher info
-            dispatcher_info = self._get_vendor_info(vendor_slug, "Easy2Go", quote_request.origin_address)
-            if dispatcher_info and dispatcher_info.get("dispatcher"):
-                return self.easy2go_calculator.calculate_quote(quote_request, dispatcher_info["dispatcher"])
-            else:
-                # Fallback with basic dispatcher info
-                fallback_dispatcher = {
-                    "name": "Easy2Go Toronto",
-                    "address": "123 Queen St W, Toronto, ON",
-                    "total_distance_km": 0
-                }
-                return self.easy2go_calculator.calculate_quote(quote_request, fallback_dispatcher)
-        
-        elif vendor_slug == "velocity-movers":
-            # Velocity Movers uses simple calculation with dispatcher info
-            dispatcher_info = self._get_vendor_info(vendor_slug, "Velocity Movers", quote_request.origin_address)
-            if dispatcher_info and dispatcher_info.get("dispatcher"):
-                return self.velocity_movers_calculator.calculate_quote(quote_request, dispatcher_info["dispatcher"])
-            else:
-                # Fallback with basic dispatcher info
-                fallback_dispatcher = {
-                    "name": "Velocity Movers Toronto",
-                    "address": "456 Yonge St, Toronto, ON",
-                    "total_distance_km": 0
-                }
-                return self.velocity_movers_calculator.calculate_quote(quote_request, fallback_dispatcher)
-        
-        elif vendor_slug == "pierre-sons":
-            # Pierre & Sons uses simple calculation with dispatcher info
-            dispatcher_info = self._get_vendor_info(vendor_slug, "Pierre & Sons", quote_request.origin_address)
-            if dispatcher_info and dispatcher_info.get("dispatcher"):
-                return self.pierre_sons_calculator.calculate_quote(quote_request, dispatcher_info["dispatcher"])
-            else:
-                # Fallback with basic dispatcher info
-                fallback_dispatcher = {
-                    "name": "Pierre & Sons Etobicoke",
-                    "address": "1155 Kipling Ave, Etobicoke, ON M9B 3M4",
-                    "total_distance_km": 0
-                }
-                return self.pierre_sons_calculator.calculate_quote(quote_request, fallback_dispatcher)
-        
-        return None
+        else:
+            # For Easy2Go, Velocity Movers, and Pierre & Sons, use integrated calculators from vendor_engine.py
+            try:
+                # Get the integrated calculator
+                calculator = get_vendor_calculator(vendor_slug)
+                if not calculator:
+                    print(f"No calculator found for vendor: {vendor_slug}")
+                    return None
+                
+                # Get dispatcher info using GeographicVendorDispatcher
+                dispatcher_info = GeographicVendorDispatcher._get_best_dispatcher_for_vendor(
+                    vendor_slug, quote_request.origin_address, quote_request.destination_address
+                )
+                
+                if not dispatcher_info:
+                    # Fallback dispatcher info
+                    fallback_dispatchers = {
+                        "easy2go": {
+                            "name": "Easy2Go Depot",
+                            "address": "3397 American Drive, Mississauga, ON L4V 1T8",
+                            "total_distance_km": 0
+                        },
+                        "velocity-movers": {
+                            "name": "Velocity HQ",
+                            "address": "100 Howden Road, Unit 2, Toronto, ON M1R 3E4",
+                            "total_distance_km": 0
+                        },
+                        "pierre-sons": {
+                            "name": "Pierre & Sons Etobicoke",
+                            "address": "1155 Kipling Ave, Etobicoke, ON M9B 3M4",
+                            "total_distance_km": 0
+                        }
+                    }
+                    dispatcher_info = fallback_dispatchers.get(vendor_slug, {
+                        "name": f"{vendor_slug.title()}",
+                        "address": "Toronto, ON",
+                        "total_distance_km": 0
+                    })
+                
+                # Calculate quote using the integrated calculator
+                return calculator.calculate_quote(quote_request, dispatcher_info, db)
+                
+            except Exception as e:
+                print(f"Error calculating quote for {vendor_slug}: {e}")
+                return None
     
     def _extract_city_from_address(self, address: str) -> str:
         """Extract city from address"""
