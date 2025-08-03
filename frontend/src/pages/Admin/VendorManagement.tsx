@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './VendorManagement.css';
 
 interface VendorLocation {
@@ -93,37 +93,56 @@ const VendorManagement: React.FC = () => {
     start: '2025-08-01',
     end: '2025-08-31'
   });
+  
+  // New state for enhanced features
+  const [viewMode, setViewMode] = useState<'grid' | 'list' | 'table'>('grid');
+  const [filterStatus, setFilterStatus] = useState<'all' | 'available' | 'unavailable'>('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState<'name' | 'availability' | 'rate'>('name');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+  const [refreshInterval, setRefreshInterval] = useState<number | null>(null);
 
   useEffect(() => {
     loadVendors();
+    
+    // Auto-refresh every 5 minutes
+    const interval = setInterval(() => {
+      if (selectedVendor) {
+        loadLocationAvailability(selectedVendor);
+      }
+    }, 5 * 60 * 1000);
+    
+    setRefreshInterval(interval);
+    
+    return () => {
+      if (interval) clearInterval(interval);
+    };
   }, []);
-
-  useEffect(() => {
-    if (selectedVendor) {
-      loadVendorLogic(selectedVendor);
-      loadLocationAvailability(selectedVendor);
-    }
-  }, [selectedVendor, selectedDateRange]);
 
   const loadVendors = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      const response = await fetch('https://movedin-backend.onrender.com/admin/vendors/locations');
+      const response = await fetch('https://movedin-backend.onrender.com/admin/vendors/live-status');
       if (!response.ok) {
-        throw new Error('Failed to load vendors');
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
       
       const data = await response.json();
       setVendors(data);
       
-      if (data.length > 0) {
+      // Auto-select first vendor if none selected
+      if (data.length > 0 && !selectedVendor) {
         setSelectedVendor(data[0].vendor_slug);
+        await handleVendorChange(data[0].vendor_slug);
       }
-    } catch (error) {
-      console.error('Error loading vendors:', error);
-      setError('Failed to load vendors');
+      
+    } catch (err) {
+      console.error('Error loading vendors:', err);
+      setError(err instanceof Error ? err.message : 'Failed to load vendors');
     } finally {
       setLoading(false);
     }
@@ -132,33 +151,31 @@ const VendorManagement: React.FC = () => {
   const loadVendorLogic = async (vendorSlug: string) => {
     try {
       const response = await fetch(`https://movedin-backend.onrender.com/admin/vendors/${vendorSlug}/logic`);
-      if (!response.ok) {
-        throw new Error('Failed to load vendor logic');
+      if (response.ok) {
+        const data = await response.json();
+        setVendorLogic(data);
       }
-      
-      const data = await response.json();
-      setVendorLogic(data);
-    } catch (error) {
-      console.error('Error loading vendor logic:', error);
-      setError('Failed to load vendor logic');
+    } catch (err) {
+      console.error('Error loading vendor logic:', err);
     }
   };
 
   const loadLocationAvailability = async (vendorSlug: string) => {
     try {
       setAvailabilityLoading(true);
-      const response = await fetch(
-        `https://movedin-backend.onrender.com/admin/vendors/availability/bulk?vendor_slug=${vendorSlug}&start_date=${selectedDateRange.start}&end_date=${selectedDateRange.end}`
-      );
+      setError(null);
+      
+      const response = await fetch(`https://movedin-backend.onrender.com/admin/vendors/${vendorSlug}/availability?start_date=${selectedDateRange.start}&end_date=${selectedDateRange.end}`);
       if (!response.ok) {
-        throw new Error('Failed to load location availability');
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
       
       const data = await response.json();
       setLocationAvailability(data);
-    } catch (error) {
-      console.error('Error loading location availability:', error);
-      setError('Failed to load location availability');
+      
+    } catch (err) {
+      console.error('Error loading location availability:', err);
+      setError(err instanceof Error ? err.message : 'Failed to load location availability');
     } finally {
       setAvailabilityLoading(false);
     }
@@ -166,7 +183,111 @@ const VendorManagement: React.FC = () => {
 
   const handleVendorChange = async (vendorSlug: string) => {
     setSelectedVendor(vendorSlug);
+    await Promise.all([
+      loadVendorLogic(vendorSlug),
+      loadLocationAvailability(vendorSlug)
+    ]);
   };
+
+  const handleRefresh = async () => {
+    if (selectedVendor) {
+      await loadLocationAvailability(selectedVendor);
+    }
+  };
+
+  const handleBulkAction = async (action: 'refresh' | 'export' | 'analyze') => {
+    switch (action) {
+      case 'refresh':
+        await handleRefresh();
+        break;
+      case 'export':
+        exportLocationData();
+        break;
+      case 'analyze':
+        analyzeLocationData();
+        break;
+    }
+  };
+
+  const exportLocationData = () => {
+    const data = {
+      vendor: selectedVendor,
+      dateRange: selectedDateRange,
+      locations: locationAvailability,
+      exportDate: new Date().toISOString()
+    };
+    
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `vendor-locations-${selectedVendor}-${selectedDateRange.start}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const analyzeLocationData = () => {
+    const analysis = {
+      totalLocations: locationAvailability.length,
+      availableLocations: locationAvailability.filter(loc => loc.total_available_dates > 0).length,
+      unavailableLocations: locationAvailability.filter(loc => loc.total_available_dates === 0).length,
+      averageAvailability: locationAvailability.reduce((sum, loc) => sum + (loc.total_available_dates / loc.total_checked_dates), 0) / locationAvailability.length,
+      rateRange: {
+        min: Math.min(...locationAvailability.flatMap(loc => Object.values(loc.date_availability).map(d => d.daily_rate).filter(rate => rate !== null))),
+        max: Math.max(...locationAvailability.flatMap(loc => Object.values(loc.date_availability).map(d => d.daily_rate).filter(rate => rate !== null)))
+      }
+    };
+    
+    console.log('Location Analysis:', analysis);
+    alert(`Analysis Complete!\nTotal: ${analysis.totalLocations}\nAvailable: ${analysis.availableLocations}\nUnavailable: ${analysis.unavailableLocations}\nAvg Availability: ${(analysis.averageAvailability * 100).toFixed(1)}%`);
+  };
+
+  // Enhanced filtering and sorting
+  const filteredAndSortedLocations = useMemo(() => {
+    let filtered = locationAvailability;
+
+    // Apply search filter
+    if (searchTerm) {
+      filtered = filtered.filter(loc => 
+        loc.location_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        loc.metadata.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        loc.metadata.ops_manager.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Apply status filter
+    if (filterStatus !== 'all') {
+      filtered = filtered.filter(loc => {
+        const isAvailable = loc.total_available_dates > 0;
+        return filterStatus === 'available' ? isAvailable : !isAvailable;
+      });
+    }
+
+    // Apply sorting
+    filtered.sort((a, b) => {
+      let comparison = 0;
+      
+      switch (sortBy) {
+        case 'name':
+          comparison = a.location_name.localeCompare(b.location_name);
+          break;
+        case 'availability':
+          comparison = (a.total_available_dates / a.total_checked_dates) - (b.total_available_dates / b.total_checked_dates);
+          break;
+        case 'rate':
+          const aAvgRate = Object.values(a.date_availability).reduce((sum, d) => sum + (d.daily_rate || 0), 0) / Object.keys(a.date_availability).length;
+          const bAvgRate = Object.values(b.date_availability).reduce((sum, d) => sum + (d.daily_rate || 0), 0) / Object.keys(b.date_availability).length;
+          comparison = aAvgRate - bAvgRate;
+          break;
+      }
+      
+      return sortOrder === 'asc' ? comparison : -comparison;
+    });
+
+    return filtered;
+  }, [locationAvailability, searchTerm, filterStatus, sortBy, sortOrder]);
 
   const formatCurrency = (amount: number | null) => {
     if (amount === null) return 'N/A';
@@ -185,37 +306,53 @@ const VendorManagement: React.FC = () => {
   };
 
   const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'new': return '#3b82f6';
-      case 'contacted': return '#f59e0b';
-      case 'confirmed': return '#10b981';
-      case 'completed': return '#6b7280';
-      default: return '#6b7280';
+    switch (status.toLowerCase()) {
+      case 'available':
+      case 'active':
+        return '#10b981';
+      case 'unavailable':
+      case 'inactive':
+        return '#ef4444';
+      case 'warning':
+        return '#f59e0b';
+      default:
+        return '#6b7280';
     }
   };
 
+  const getAvailabilityPercentage = (location: LocationAvailability) => {
+    if (location.total_checked_dates === 0) return 0;
+    return (location.total_available_dates / location.total_checked_dates) * 100;
+  };
+
   const renderVendorOverview = () => {
-    const vendor = vendors.find(v => v.vendor_slug === selectedVendor);
-    if (!vendor) return null;
+    const selectedVendorData = vendors.find(v => v.vendor_slug === selectedVendor);
+    if (!selectedVendorData) return null;
+
+    const totalLocations = selectedVendorData.locations.length;
+    const availableLocations = locationAvailability.filter(loc => loc.total_available_dates > 0).length;
+    const totalCalendarDates = locationAvailability.reduce((sum, loc) => sum + loc.total_calendar_dates, 0);
 
     return (
       <div className="vendor-overview">
         <div className="overview-header">
-          <h2>{vendor.vendor_name}</h2>
-          <div className="vendor-stats">
-            <div className="stat">
-              <span className="stat-label">Locations</span>
-              <span className="stat-value">{vendor.locations.length}</span>
+          <h2>{selectedVendorData.vendor_name}</h2>
+          <div className="overview-stats">
+            <div className="stat-card">
+              <div className="stat-number">{totalLocations}</div>
+              <div className="stat-label">Total Locations</div>
             </div>
-            <div className="stat">
-              <span className="stat-label">Total Calendar Dates</span>
-              <span className="stat-value">
-                {vendor.locations.reduce((sum, loc) => sum + loc.calendar_dates_available, 0)}
-              </span>
+            <div className="stat-card">
+              <div className="stat-number">{availableLocations}</div>
+              <div className="stat-label">Available Locations</div>
             </div>
-            <div className="stat">
-              <span className="stat-label">Data Source</span>
-              <span className="stat-value">{vendor.locations[0]?.data_source || 'N/A'}</span>
+            <div className="stat-card">
+              <div className="stat-number">{totalCalendarDates.toLocaleString()}</div>
+              <div className="stat-label">Calendar Dates</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-number">{((availableLocations / totalLocations) * 100).toFixed(1)}%</div>
+              <div className="stat-label">Availability Rate</div>
             </div>
           </div>
         </div>
@@ -223,107 +360,273 @@ const VendorManagement: React.FC = () => {
     );
   };
 
+  const renderLocationCard = (location: LocationAvailability) => {
+    const availabilityPercentage = getAvailabilityPercentage(location);
+    const isSelected = selectedLocations.includes(location.location_name);
+    
+    return (
+      <div 
+        key={location.location_name}
+        className={`location-card ${isSelected ? 'selected' : ''} ${availabilityPercentage === 0 ? 'unavailable' : ''}`}
+        onClick={() => {
+          if (isSelected) {
+            setSelectedLocations(selectedLocations.filter(name => name !== location.location_name));
+          } else {
+            setSelectedLocations([...selectedLocations, location.location_name]);
+          }
+        }}
+      >
+        <div className="card-header">
+          <h3 className="location-name">{location.location_name}</h3>
+          <div className="availability-badge">
+            {availabilityPercentage > 0 ? '✅' : '❌'} {location.total_available_dates}/{location.total_checked_dates}
+          </div>
+        </div>
+        
+        <div className="card-content">
+          <div className="location-details">
+            <div className="detail-item">
+              <strong>Dispatcher:</strong> {location.dispatcher_name}
+            </div>
+            <div className="detail-item">
+              <strong>Address:</strong> {location.metadata.address || 'N/A'}
+            </div>
+            <div className="detail-item">
+              <strong>Manager:</strong> {location.metadata.ops_manager || 'N/A'}
+            </div>
+            <div className="detail-item">
+              <strong>Phone:</strong> {location.metadata.sales_phone || 'N/A'}
+            </div>
+            <div className="detail-item">
+              <strong>Trucks:</strong> {location.metadata.truck_count || 'N/A'}
+            </div>
+          </div>
+          
+          <div className="pricing-overview">
+            <h4>Pricing Overview</h4>
+            <div className="date-range">
+              {selectedDateRange.start} to {selectedDateRange.end}
+            </div>
+            <div className="pricing-grid">
+              {Object.entries(location.date_availability).slice(0, 7).map(([date, availability]) => (
+                <div key={date} className="pricing-item">
+                  <div className="date">{formatDate(date)}</div>
+                  <div className={`rate ${availability.available ? 'available' : 'unavailable'}`}>
+                    {availability.available ? formatCurrency(availability.daily_rate) : 'Unavailable'}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        
+        <div className="card-actions">
+          <button 
+            className="action-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              // Add action for viewing details
+            }}
+          >
+            View Details
+          </button>
+          <button 
+            className="action-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              // Add action for editing
+            }}
+          >
+            Edit
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  const renderLocationTable = () => {
+    return (
+      <div className="location-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Location</th>
+              <th>Availability</th>
+              <th>Manager</th>
+              <th>Phone</th>
+              <th>Trucks</th>
+              <th>Avg Rate</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredAndSortedLocations.map(location => {
+              const availabilityPercentage = getAvailabilityPercentage(location);
+              const avgRate = Object.values(location.date_availability)
+                .filter(d => d.available)
+                .reduce((sum, d) => sum + (d.daily_rate || 0), 0) / 
+                Object.values(location.date_availability).filter(d => d.available).length;
+              
+              return (
+                <tr key={location.location_name}>
+                  <td>
+                    <div className="location-cell">
+                      <strong>{location.location_name}</strong>
+                      <small>{location.metadata.address}</small>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="availability-cell">
+                      <div className="availability-bar">
+                        <div 
+                          className="availability-fill" 
+                          style={{ width: `${availabilityPercentage}%` }}
+                        ></div>
+                      </div>
+                      <span>{location.total_available_dates}/{location.total_checked_dates}</span>
+                    </div>
+                  </td>
+                  <td>{location.metadata.ops_manager || 'N/A'}</td>
+                  <td>{location.metadata.sales_phone || 'N/A'}</td>
+                  <td>{location.metadata.truck_count || 'N/A'}</td>
+                  <td>{formatCurrency(avgRate)}</td>
+                  <td>
+                    <div className="table-actions">
+                      <button className="btn-small">View</button>
+                      <button className="btn-small">Edit</button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+
   const renderLocationAvailability = () => {
     if (availabilityLoading) {
       return (
-        <div className="loading-section">
-          <div className="loading-spinner">🔄</div>
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
           <p>Loading location availability...</p>
+        </div>
+      );
+    }
+
+    if (error) {
+      return (
+        <div className="error-container">
+          <div className="error-message">
+            <h3>Error Loading Data</h3>
+            <p>{error}</p>
+            <button onClick={handleRefresh} className="retry-btn">
+              Retry
+            </button>
+          </div>
         </div>
       );
     }
 
     return (
       <div className="location-availability">
-        <div className="section-header">
-          <h3>Location Availability & Pricing</h3>
-          <div className="date-range-selector">
-            <label>Date Range:</label>
-            <input
-              type="date"
-              value={selectedDateRange.start}
-              onChange={(e) => setSelectedDateRange(prev => ({ ...prev, start: e.target.value }))}
-            />
-            <span>to</span>
-            <input
-              type="date"
-              value={selectedDateRange.end}
-              onChange={(e) => setSelectedDateRange(prev => ({ ...prev, end: e.target.value }))}
-            />
+        <div className="controls-section">
+          <div className="view-controls">
+            <div className="view-mode-buttons">
+              <button 
+                className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`}
+                onClick={() => setViewMode('grid')}
+              >
+                Grid View
+              </button>
+              <button 
+                className={`view-btn ${viewMode === 'list' ? 'active' : ''}`}
+                onClick={() => setViewMode('list')}
+              >
+                List View
+              </button>
+              <button 
+                className={`view-btn ${viewMode === 'table' ? 'active' : ''}`}
+                onClick={() => setViewMode('table')}
+              >
+                Table View
+              </button>
+            </div>
+            
+            <div className="filter-controls">
+              <input
+                type="text"
+                placeholder="Search locations..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="search-input"
+              />
+              
+              <select 
+                value={filterStatus} 
+                onChange={(e) => setFilterStatus(e.target.value as any)}
+                className="filter-select"
+              >
+                <option value="all">All Locations</option>
+                <option value="available">Available Only</option>
+                <option value="unavailable">Unavailable Only</option>
+              </select>
+              
+              <select 
+                value={sortBy} 
+                onChange={(e) => setSortBy(e.target.value as any)}
+                className="sort-select"
+              >
+                <option value="name">Sort by Name</option>
+                <option value="availability">Sort by Availability</option>
+                <option value="rate">Sort by Rate</option>
+              </select>
+              
+              <button 
+                onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+                className="sort-order-btn"
+              >
+                {sortOrder === 'asc' ? '↑' : '↓'}
+              </button>
+            </div>
+          </div>
+          
+          <div className="bulk-actions">
+            <button 
+              onClick={() => handleBulkAction('refresh')}
+              className="bulk-btn"
+            >
+              🔄 Refresh
+            </button>
+            <button 
+              onClick={() => handleBulkAction('export')}
+              className="bulk-btn"
+            >
+              📊 Export
+            </button>
+            <button 
+              onClick={() => handleBulkAction('analyze')}
+              className="bulk-btn"
+            >
+              📈 Analyze
+            </button>
           </div>
         </div>
-
-        <div className="locations-grid">
-          {locationAvailability.map((location, index) => (
-            <div key={index} className="location-card">
-              <div className="location-header">
-                <h4>{location.location_name}</h4>
-                <div className="location-meta">
-                  <span className="dispatcher">Dispatcher: {location.dispatcher_name}</span>
-                  <span className="available-dates">
-                    {location.total_available_dates}/{location.total_checked_dates} dates available
-                  </span>
-                </div>
-              </div>
-
-              <div className="location-details">
-                <div className="detail-row">
-                  <span className="label">Address:</span>
-                  <span className="value">{location.metadata.address}</span>
-                </div>
-                <div className="detail-row">
-                  <span className="label">Manager:</span>
-                  <span className="value">{location.metadata.ops_manager || 'N/A'}</span>
-                </div>
-                <div className="detail-row">
-                  <span className="label">Phone:</span>
-                  <span className="value">{location.metadata.sales_phone || 'N/A'}</span>
-                </div>
-                <div className="detail-row">
-                  <span className="label">Trucks:</span>
-                  <span className="value">{location.metadata.truck_count || 'N/A'}</span>
-                </div>
-              </div>
-
-              <div className="pricing-overview">
-                <h5>Pricing Overview</h5>
-                <div className="pricing-stats">
-                  {Object.entries(location.date_availability)
-                    .slice(0, 7) // Show first 7 days
-                    .map(([date, availability]) => (
-                      <div key={date} className="day-pricing">
-                        <div className="date">{formatDate(date)}</div>
-                        <div className={`rate ${availability.available ? 'available' : 'unavailable'}`}>
-                          {availability.available ? formatCurrency(availability.daily_rate) : 'Unavailable'}
-                        </div>
-                        <div className="availability-indicator">
-                          {availability.available ? '✅' : '❌'}
-                        </div>
-                      </div>
-                    ))}
-                </div>
-              </div>
-
-              <div className="crew-options">
-                <h5>Crew Options</h5>
-                <div className="crew-grid">
-                  {Object.entries(location.crew_rates).map(([truckType, crewOptions]) => (
-                    <div key={truckType} className="crew-type">
-                      <h6>{truckType.replace('_', ' ').toUpperCase()}</h6>
-                      <div className="crew-options-list">
-                        {Object.entries(crewOptions as Record<string, any>).map(([crewSize, count]) => (
-                          <div key={crewSize} className="crew-option">
-                            <span>{crewSize.replace('_', ' ')}</span>
-                            <span className="crew-count">{count} men</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
+        
+        <div className="results-summary">
+          <p>
+            Showing {filteredAndSortedLocations.length} of {locationAvailability.length} locations
+            {searchTerm && ` matching "${searchTerm}"`}
+          </p>
+        </div>
+        
+        <div className={`locations-container ${viewMode}`}>
+          {viewMode === 'table' ? (
+            renderLocationTable()
+          ) : (
+            filteredAndSortedLocations.map(renderLocationCard)
+          )}
         </div>
       </div>
     );
@@ -340,52 +643,42 @@ const VendorManagement: React.FC = () => {
             <h4>Calculator Class</h4>
             <p>{vendorLogic.calculator_class}</p>
           </div>
-          
           <div className="logic-card">
             <h4>Pricing Strategy</h4>
             <p>{vendorLogic.pricing_strategy}</p>
           </div>
-          
           <div className="logic-card">
             <h4>Crew Sizing Logic</h4>
             <p>{vendorLogic.crew_sizing_logic}</p>
           </div>
-          
           <div className="logic-card">
             <h4>Truck Sizing Logic</h4>
             <p>{vendorLogic.truck_sizing_logic}</p>
           </div>
-          
-          <div className="logic-card">
-            <h4>Cost Components</h4>
-            <ul>
-              {vendorLogic.cost_components.map((component, index) => (
-                <li key={index}>{component}</li>
-              ))}
-            </ul>
+        </div>
+        
+        <div className="features-section">
+          <h4>Special Features</h4>
+          <div className="features-grid">
+            {vendorLogic.special_features.map((feature, index) => (
+              <div key={index} className="feature-item">
+                {feature}
+              </div>
+            ))}
           </div>
-          
-          <div className="logic-card">
-            <h4>Special Features</h4>
-            <ul>
-              {vendorLogic.special_features.map((feature, index) => (
-                <li key={index}>{feature}</li>
-              ))}
-            </ul>
-          </div>
-          
-          <div className="logic-card">
-            <h4>Technology Stack</h4>
-            <div className="tech-stack">
-              <span className={`tech ${vendorLogic.uses_google_sheets ? 'enabled' : 'disabled'}`}>
-                📊 Google Sheets: {vendorLogic.uses_google_sheets ? 'Yes' : 'No'}
-              </span>
-              <span className={`tech ${vendorLogic.uses_mapbox ? 'enabled' : 'disabled'}`}>
-                🗺️ Mapbox: {vendorLogic.uses_mapbox ? 'Yes' : 'No'}
-              </span>
-              <span className={`tech ${vendorLogic.uses_geographic_dispatching ? 'enabled' : 'disabled'}`}>
-                📍 Geographic Dispatching: {vendorLogic.uses_geographic_dispatching ? 'Yes' : 'No'}
-              </span>
+        </div>
+        
+        <div className="technology-stack">
+          <h4>Technology Stack</h4>
+          <div className="tech-grid">
+            <div className={`tech-item ${vendorLogic.uses_google_sheets ? 'active' : ''}`}>
+              📊 Google Sheets: {vendorLogic.uses_google_sheets ? 'Yes' : 'No'}
+            </div>
+            <div className={`tech-item ${vendorLogic.uses_mapbox ? 'active' : ''}`}>
+              🗺️ Mapbox: {vendorLogic.uses_mapbox ? 'Yes' : 'No'}
+            </div>
+            <div className={`tech-item ${vendorLogic.uses_geographic_dispatching ? 'active' : ''}`}>
+              📍 Geographic Dispatching: {vendorLogic.uses_geographic_dispatching ? 'Yes' : 'No'}
             </div>
           </div>
         </div>
@@ -395,74 +688,64 @@ const VendorManagement: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="vendor-management">
-        <div className="vendor-container">
-          <div className="vendor-content">
-            <div className="vendor-management-main">
-              <div className="loading-section">
-                <div className="loading-spinner">🔄</div>
-                <p>Loading vendors...</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="vendor-management">
-        <div className="vendor-container">
-          <div className="vendor-content">
-            <div className="vendor-management-main">
-              <div className="error-section">
-                <span>⚠️ {error}</span>
-                <button onClick={loadVendors}>Retry</button>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading vendor management...</p>
       </div>
     );
   }
 
   return (
     <div className="vendor-management">
-      <div className="vendor-container">
-        <div className="vendor-content">
-          <div className="vendor-management-main">
-            <div className="page-header">
-              <h1>Vendor Management</h1>
-              <p>Manage vendors, view pricing, and monitor location availability</p>
-            </div>
-
-            {/* Vendor Selection */}
-            <div className="vendor-selection">
-              <label htmlFor="vendor-select">Select Vendor:</label>
-              <select
-                id="vendor-select"
-                value={selectedVendor}
-                onChange={(e) => handleVendorChange(e.target.value)}
-              >
-                {vendors.map((vendor) => (
-                  <option key={vendor.vendor_slug} value={vendor.vendor_slug}>
-                    {vendor.vendor_name} ({vendor.locations.length} locations)
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {selectedVendor && (
-              <>
-                {renderVendorOverview()}
-                {renderLocationAvailability()}
-                {renderVendorLogic()}
-              </>
-            )}
-          </div>
-        </div>
+      <div className="page-header">
+        <h1>Vendor Management</h1>
+        <p>Manage vendors, view pricing, and monitor location availability</p>
       </div>
+
+      <div className="vendor-selection">
+        <label htmlFor="vendor-select">Select Vendor:</label>
+        <select
+          id="vendor-select"
+          value={selectedVendor}
+          onChange={(e) => handleVendorChange(e.target.value)}
+          className="vendor-select"
+        >
+          {vendors.map(vendor => (
+            <option key={vendor.vendor_slug} value={vendor.vendor_slug}>
+              {vendor.vendor_name} ({vendor.locations.length} locations)
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {selectedVendor && (
+        <>
+          {renderVendorOverview()}
+          
+          <div className="date-range-section">
+            <label>Date Range:</label>
+            <input
+              type="date"
+              value={selectedDateRange.start}
+              onChange={(e) => setSelectedDateRange(prev => ({ ...prev, start: e.target.value }))}
+              className="date-input"
+            />
+            <span>to</span>
+            <input
+              type="date"
+              value={selectedDateRange.end}
+              onChange={(e) => setSelectedDateRange(prev => ({ ...prev, end: e.target.value }))}
+              className="date-input"
+            />
+            <button onClick={handleRefresh} className="refresh-btn">
+              🔄 Refresh
+            </button>
+          </div>
+
+          {renderLocationAvailability()}
+          {renderVendorLogic()}
+        </>
+      )}
     </div>
   );
 };
