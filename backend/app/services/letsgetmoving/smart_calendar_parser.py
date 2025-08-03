@@ -466,14 +466,26 @@ class SmartCalendarParser:
         location_details = {}
         
         # OPS MANAGER
-        ops_match = re.search(r'OPS MANAGER:\s*([^,]+)', csv_content)
+        ops_match = re.search(r'OPS MANAGER:\s*([^,\n]+)', csv_content)
         if ops_match:
-            location_details['ops_manager'] = ops_match.group(1).strip()
+            ops_manager = ops_match.group(1).strip()
+            # Clean up extra text
+            if 'E-TRANSFER:' in ops_manager:
+                ops_manager = ops_manager.split('E-TRANSFER:')[0].strip()
+            if '#' in ops_manager:
+                ops_manager = ops_manager.split('#')[0].strip()
+            location_details['ops_manager'] = ops_manager
         
         # SALES NUMBER
-        sales_match = re.search(r'SALES #:\s*([^,]+)', csv_content)
+        sales_match = re.search(r'SALES #:\s*([^,\n]+)', csv_content)
         if sales_match:
-            location_details['sales_phone'] = sales_match.group(1).strip()
+            sales_phone = sales_match.group(1).strip()
+            # Clean up extra text
+            if 'E-TRANSFER:' in sales_phone:
+                sales_phone = sales_phone.split('E-TRANSFER:')[0].strip()
+            if '#' in sales_phone:
+                sales_phone = sales_phone.split('#')[0].strip()
+            location_details['sales_phone'] = sales_phone
         
         # INTERSECTION
         intersection_match = re.search(r'INTERSECTION:\s*([^,]+)', csv_content)
@@ -481,12 +493,20 @@ class SmartCalendarParser:
             location_details['intersection'] = intersection_match.group(1).strip()
         
         # ADDRESS (clean version)
-        address_match = re.search(r'ADDRESS:\s*([^"]+)(?:[^,]*?)(?:,|$)', csv_content)
+        address_match = re.search(r'ADDRESS:\s*([^,\n]+)', csv_content)
         if address_match:
             address = address_match.group(1).strip()
-            # Clean up extra text
+            # Clean up extra text and stop at first significant delimiter
+            if 'E-TRANSFER:' in address:
+                address = address.split('E-TRANSFER:')[0].strip()
             if '1 HOUR MINIMUMS' in address:
                 address = address.split('1 HOUR MINIMUMS')[0].strip()
+            if '#' in address:
+                address = address.split('#')[0].strip()
+            if 'Terminal ID:' in address:
+                address = address.split('Terminal ID:')[0].strip()
+            # Remove trailing commas and clean up
+            address = address.rstrip(',').strip()
             location_details['address'] = address
         
         # E-TRANSFER (email)
@@ -495,14 +515,26 @@ class SmartCalendarParser:
             location_details['email'] = email_match.group(1).strip()
         
         # TRUCK COUNT
-        truck_match = re.search(r'# OF TRUCKS:\s*([^,]+)', csv_content)
+        truck_match = re.search(r'# OF TRUCKS:\s*([^,\n]+)', csv_content)
         if truck_match:
-            location_details['truck_count'] = truck_match.group(1).strip()
+            truck_count = truck_match.group(1).strip()
+            # Clean up extra text
+            if 'E-TRANSFER:' in truck_count:
+                truck_count = truck_count.split('E-TRANSFER:')[0].strip()
+            if 'Terminal ID:' in truck_count:
+                truck_count = truck_count.split('Terminal ID:')[0].strip()
+            location_details['truck_count'] = truck_count
         
         # TERMINAL ID
-        terminal_match = re.search(r'Terminal ID:\s*([^,]+)', csv_content)
+        terminal_match = re.search(r'Terminal ID:\s*([^,\n]+)', csv_content)
         if terminal_match:
-            location_details['terminal_id'] = terminal_match.group(1).strip()
+            terminal_id = terminal_match.group(1).strip()
+            # Clean up extra text
+            if 'E-TRANSFER:' in terminal_id:
+                terminal_id = terminal_id.split('E-TRANSFER:')[0].strip()
+            if '#' in terminal_id:
+                terminal_id = terminal_id.split('#')[0].strip()
+            location_details['terminal_id'] = terminal_id
         
         # TIME ZONE
         timezone_match = re.search(r'(\d+)\s+HOURS?\s+BEHIND', csv_content)
