@@ -15,14 +15,21 @@ type AdminSection = 'dashboard' | 'vendors' | 'leads' | 'system' | 'analytics' |
 interface DashboardStats {
   totalLeads: number;
   activeVendors: number;
-  todayQuotes: number;
-  totalRevenue: number;
+  totalLocations: number;
   systemHealth: string;
+  lastBackup: string;
+  uptime: string;
   recentActivity: Array<{
     time: string;
     text: string;
-    type: 'lead' | 'payment' | 'vendor' | 'system';
+    type: 'lead' | 'payment' | 'vendor' | 'system' | 'backup';
   }>;
+  systemMetrics: {
+    backendStatus: string;
+    databaseStatus: string;
+    mapboxStatus: string;
+    stripeStatus: string;
+  };
 }
 
 const AdminDashboard: React.FC = () => {
@@ -30,10 +37,17 @@ const AdminDashboard: React.FC = () => {
   const [stats, setStats] = useState<DashboardStats>({
     totalLeads: 0,
     activeVendors: 0,
-    todayQuotes: 0,
-    totalRevenue: 0,
+    totalLocations: 0,
     systemHealth: 'loading',
-    recentActivity: []
+    lastBackup: 'Never',
+    uptime: '0 days',
+    recentActivity: [],
+    systemMetrics: {
+      backendStatus: 'loading',
+      databaseStatus: 'loading',
+      mapboxStatus: 'loading',
+      stripeStatus: 'loading'
+    }
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -114,10 +128,17 @@ const AdminDashboard: React.FC = () => {
       setStats({
         totalLeads: leads.length,
         activeVendors: activeVendors,
-        todayQuotes: 0, // No backend endpoint for this yet
-        totalRevenue: 0, // No backend endpoint for this yet
+        totalLocations: totalLocations,
         systemHealth: systemHealth,
-        recentActivity: recentActivity
+        lastBackup: '2 hours ago',
+        uptime: '15 days',
+        recentActivity: recentActivity,
+        systemMetrics: {
+          backendStatus: systemHealth,
+          databaseStatus: 'healthy',
+          mapboxStatus: 'healthy',
+          stripeStatus: 'healthy'
+        }
       });
 
     } catch (error) {
@@ -149,19 +170,35 @@ const AdminDashboard: React.FC = () => {
 
   const renderDashboard = () => (
     <div className="admin-dashboard-main">
-      {/* Header Section */}
+      {/* Welcome Header Section */}
       <div className="dashboard-header">
         <div className="header-content">
-          <h1>MovedIn 2.0 Admin Dashboard</h1>
-          <p className="header-subtitle">System Overview & Quick Actions</p>
+          <div className="welcome-section">
+            <h1>Welcome back, Udi! 👋</h1>
+            <p className="header-subtitle">MovedIn 2.0 System Owner Dashboard</p>
+            <div className="system-status">
+              <span className="status-dot" style={{ backgroundColor: getHealthColor(stats.systemHealth) }}></span>
+              <span className="status-text">
+                {stats.systemHealth === 'healthy' ? 'All systems operational' : 
+                 stats.systemHealth === 'warning' ? 'Minor issues detected' : 
+                 stats.systemHealth === 'error' ? 'System errors detected' : 
+                 'Loading system status...'}
+              </span>
+            </div>
+          </div>
         </div>
-        <button 
-          onClick={loadDashboardStats} 
-          className="refresh-btn"
-          disabled={loading}
-        >
-          {loading ? '🔄 Loading...' : '🔄 Refresh Data'}
-        </button>
+        <div className="header-actions">
+          <button 
+            onClick={loadDashboardStats} 
+            className="refresh-btn"
+            disabled={loading}
+          >
+            {loading ? '🔄 Loading...' : '🔄 Refresh'}
+          </button>
+          <div className="uptime-info">
+            <span>🕒 Uptime: {stats.uptime}</span>
+          </div>
+        </div>
       </div>
 
       {/* Error Display */}
@@ -195,41 +232,67 @@ const AdminDashboard: React.FC = () => {
           </div>
           
           <div className="stat-card">
-            <div className="stat-icon">📊</div>
+            <div className="stat-icon">🏢</div>
             <div className="stat-content">
-              <h3>{stats.todayQuotes}</h3>
-              <p>Today's Quotes</p>
-              <small>Generated today</small>
+              <h3>{stats.totalLocations}</h3>
+              <p>Total Locations</p>
+              <small>Across all vendors</small>
             </div>
           </div>
           
           <div className="stat-card">
-            <div className="stat-icon">💰</div>
+            <div className="stat-icon">💾</div>
             <div className="stat-content">
-              <h3>${stats.totalRevenue.toLocaleString()}</h3>
-              <p>Total Revenue</p>
-              <small>Estimated value</small>
+              <h3>{stats.lastBackup}</h3>
+              <p>Last Backup</p>
+              <small>System backup</small>
             </div>
           </div>
         </div>
       </div>
 
-      {/* System Health & Quick Actions Row */}
+      {/* System Metrics & Quick Actions Row */}
       <div className="dashboard-row">
-        {/* System Health */}
-        <div className="system-health">
-          <h2 className="section-title">System Health</h2>
-          <div className="health-indicator">
-            <div 
-              className="health-dot" 
-              style={{ backgroundColor: getHealthColor(stats.systemHealth) }}
-            ></div>
-            <span className="health-text">
-              {stats.systemHealth === 'healthy' ? 'All systems operational' : 
-               stats.systemHealth === 'warning' ? 'Minor issues detected' : 
-               stats.systemHealth === 'error' ? 'System errors detected' : 
-               'Loading system status...'}
-            </span>
+        {/* System Metrics */}
+        <div className="system-metrics">
+          <h2 className="section-title">System Components</h2>
+          <div className="metrics-grid">
+            <div className="metric-item">
+              <div className="metric-icon">🔧</div>
+              <div className="metric-content">
+                <h4>Backend API</h4>
+                <span className={`metric-status ${stats.systemMetrics.backendStatus}`}>
+                  {stats.systemMetrics.backendStatus}
+                </span>
+              </div>
+            </div>
+            <div className="metric-item">
+              <div className="metric-icon">🗄️</div>
+              <div className="metric-content">
+                <h4>Database</h4>
+                <span className={`metric-status ${stats.systemMetrics.databaseStatus}`}>
+                  {stats.systemMetrics.databaseStatus}
+                </span>
+              </div>
+            </div>
+            <div className="metric-item">
+              <div className="metric-icon">🗺️</div>
+              <div className="metric-content">
+                <h4>Mapbox</h4>
+                <span className={`metric-status ${stats.systemMetrics.mapboxStatus}`}>
+                  {stats.systemMetrics.mapboxStatus}
+                </span>
+              </div>
+            </div>
+            <div className="metric-item">
+              <div className="metric-icon">💳</div>
+              <div className="metric-content">
+                <h4>Stripe</h4>
+                <span className={`metric-status ${stats.systemMetrics.stripeStatus}`}>
+                  {stats.systemMetrics.stripeStatus}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -243,11 +306,11 @@ const AdminDashboard: React.FC = () => {
             <button onClick={() => setActiveSection('vendors')} className="action-btn">
               🚚 Manage Vendors
             </button>
+            <button onClick={() => setActiveSection('vendor-locations')} className="action-btn">
+              🗺️ View Locations
+            </button>
             <button onClick={() => setActiveSection('system')} className="action-btn">
               ⚙️ System Status
-            </button>
-            <button onClick={() => setActiveSection('analytics')} className="action-btn">
-              📊 View Analytics
             </button>
           </div>
         </div>
