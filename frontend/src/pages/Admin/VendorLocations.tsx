@@ -167,22 +167,20 @@ const VendorLocations: React.FC = () => {
       setLoading(true);
       setError(null);
 
-      // Check cache first
-      const cachedData = getCachedData();
-      if (cachedData) {
-        setVendors(cachedData);
-        prepareMapLocations(cachedData);
-        setLoading(false);
-        return;
-      }
-
-      // Fetch fresh data
+      // Always fetch fresh data for now to debug
+      console.log('Loading fresh vendor locations data...');
+      
       const response = await fetch('https://movedin-backend.onrender.com/admin/vendors/locations');
       if (!response.ok) {
         throw new Error('Failed to load vendor locations');
       }
 
       const data = await response.json();
+      console.log('Received data from backend:', data.length, 'vendors');
+      data.forEach((vendor: any) => {
+        console.log(`${vendor.vendor_name}: ${vendor.locations.length} locations`);
+      });
+      
       setVendors(data);
       prepareMapLocations(data);
       
@@ -225,6 +223,9 @@ const VendorLocations: React.FC = () => {
           return;
         }
 
+        // Debug coordinates before processing
+        console.log(`Processing coordinates for ${location.name}:`, coordinates);
+        
         // Ensure coordinates are in correct format (lat should be positive for Canada, lng should be negative)
         if (coordinates.lat < 0 && coordinates.lng > 0) {
           // Coordinates are swapped, fix them
@@ -434,14 +435,21 @@ const VendorLocations: React.FC = () => {
     console.log('Adding map markers for', filteredLocations.length, 'filtered locations');
 
     // Remove existing layers and source if they exist (layers must be removed before source)
-    if (map.current.getLayer('locations-glow')) {
-      map.current.removeLayer('locations-glow');
-    }
-    if (map.current.getLayer('locations')) {
-      map.current.removeLayer('locations');
-    }
-    if (map.current.getSource('locations')) {
-      map.current.removeSource('locations');
+    try {
+      if (map.current.getLayer('locations-glow')) {
+        map.current.removeLayer('locations-glow');
+        console.log('Removed layer: locations-glow');
+      }
+      if (map.current.getLayer('locations')) {
+        map.current.removeLayer('locations');
+        console.log('Removed layer: locations');
+      }
+      if (map.current.getSource('locations')) {
+        map.current.removeSource('locations');
+        console.log('Removed source: locations');
+      }
+    } catch (error) {
+      console.log('Error removing existing layers/sources:', error);
     }
 
     // Create GeoJSON data for the filtered locations
@@ -471,10 +479,21 @@ const VendorLocations: React.FC = () => {
     console.log('First location coordinates:', filteredLocations[0]?.coordinates);
 
     // Add a data source for the filtered locations
-    map.current.addSource('locations', {
-      type: 'geojson',
-      data: geojsonData
-    });
+    try {
+      if (!map.current.getSource('locations')) {
+        map.current.addSource('locations', {
+          type: 'geojson',
+          data: geojsonData
+        });
+        console.log('Added source: locations');
+      } else {
+        console.log('Source locations already exists, updating data');
+        const source = map.current.getSource('locations') as any;
+        source.setData(geojsonData);
+      }
+    } catch (error) {
+      console.error('Error adding/updating source:', error);
+    }
 
     // Add a layer for the location markers with enhanced visibility
     map.current.addLayer({
