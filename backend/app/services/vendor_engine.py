@@ -338,21 +338,10 @@ class GeographicVendorDispatcher:
             # Use cached data instead of fetching fresh data every time
             db = next(get_db())
             
-            # Get all dispatchers from cache (4-hour TTL)
-            all_dispatchers = {}
-            gids = google_sheets_service._load_gids_from_file()
+            # Get all dispatchers from efficient cache (4-hour TTL)
+            all_dispatchers = dispatcher_cache_service.get_all_dispatchers_cached(db)
             
-            logger.info(f"Loading dispatcher data for {len(gids)} GIDs")
-            
-            for gid in gids:
-                cached_data = dispatcher_cache_service.get_dispatcher_data(gid, db)
-                if cached_data:
-                    all_dispatchers[gid] = cached_data
-                    logger.info(f"Loaded dispatcher {gid} with {len(cached_data.get('calendar_data', {}).get('daily_rates', {}))} daily rates")
-                else:
-                    logger.warning(f"No cached data for dispatcher {gid}")
-            
-            logger.info(f"Total dispatchers loaded: {len(all_dispatchers)}")
+            logger.info(f"Loaded {len(all_dispatchers)} dispatchers from cache")
             
             if not all_dispatchers:
                 logger.warning("No cached dispatcher data available")
