@@ -335,34 +335,67 @@ class GeographicVendorDispatcher:
         from app.core.database import get_db
         
         try:
-            # Use cached data instead of fetching fresh data every time
-            db = next(get_db())
+            # Use Google Sheets service directly (same as admin panel) for fresh data
+            from app.services.google_sheets_service import google_sheets_service
+            all_dispatchers = google_sheets_service.get_all_dispatchers_data()
             
-            # Get all dispatchers from efficient cache (4-hour TTL)
-            all_dispatchers = dispatcher_cache_service.get_all_dispatchers_cached(db)
-            
-            logger.info(f"Loaded {len(all_dispatchers)} dispatchers from cache")
+            logger.info(f"Loaded {len(all_dispatchers)} dispatchers from Google Sheets")
             
             if not all_dispatchers:
-                logger.warning("No cached dispatcher data available")
+                logger.warning("No dispatcher data available from Google Sheets")
                 return None
             
-            # Use the improved dispatcher selection logic from dispatcher_cache_service
-            best_gid = dispatcher_cache_service.find_closest_location(origin, all_dispatchers)
+            # Find the closest dispatcher using Google Sheets data format
+            best_gid = None
+            min_distance = float('inf')
+            
+            # Get user coordinates
+            try:
+                user_coords = mapbox_service.get_coordinates(origin)
+                if not user_coords:
+                    logger.warning("Could not get user coordinates")
+                    return None
+            except Exception as e:
+                logger.warning(f"Error getting user coordinates: {e}")
+                return None
+            
+            # Find closest dispatcher
+            for gid, dispatcher_data in all_dispatchers.items():
+                # Get coordinates from Google Sheets format
+                lat = dispatcher_data.get('lat')
+                lng = dispatcher_data.get('lng')
+                
+                if lat and lng:
+                    # Calculate distance using Haversine formula
+                    import math
+                    R = 6371  # Earth radius in km
+                    lat1, lon1 = math.radians(user_coords[0]), math.radians(user_coords[1])
+                    lat2, lon2 = math.radians(lat), math.radians(lng)
+                    dlat = lat2 - lat1
+                    dlon = lon2 - lon1
+                    a = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2
+                    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+                    distance = R * c
+                    
+                    if distance < min_distance:
+                        min_distance = distance
+                        best_gid = gid
             
             if not best_gid:
-                logger.warning("No suitable dispatcher found")
+                logger.warning("No suitable dispatcher found with coordinates")
                 return None
             
             # Debug: Check if coordinates are available
             best_dispatcher_data = all_dispatchers[best_gid]
-            coordinates = best_dispatcher_data.get('coordinates', {})
-            logger.info(f"Selected dispatcher {best_gid} with coordinates: {coordinates}")
+            lat = best_dispatcher_data.get('lat')
+            lng = best_dispatcher_data.get('lng')
+            logger.info(f"Selected dispatcher {best_gid} with coordinates: ({lat}, {lng}) at {min_distance:.2f}km")
             
-            best_dispatcher_data = all_dispatchers[best_gid]
-            location_details = best_dispatcher_data.get('location_details', {})
-            calendar_data = best_dispatcher_data.get('calendar_data', {})
-            daily_rates = calendar_data.get('daily_rates', {})
+            # Get data in Google Sheets format
+            location_name = best_dispatcher_data.get('location', 'Unknown')
+            metadata = best_dispatcher_data.get('metadata', {})
+            calendar_data = best_dispatcher_data.get('calendar_hourly_price', {})
+            address = best_dispatcher_data.get('address', metadata.get('address', ''))
             
             # Parse move_date as YYYY-MM-DD (smart parser format)
             try:
@@ -376,23 +409,19 @@ class GeographicVendorDispatcher:
                 check_date = move_dt + timedelta(days=offset)
                 date_key = check_date.strftime("%Y-%m-%d")  # Use YYYY-MM-DD format to match smart parser data
                 
-                if date_key in daily_rates:
-                    base_rate = daily_rates[date_key]
+                if date_key in calendar_data:
+                    base_rate = calendar_data[date_key]
                     break
             
             if not base_rate:
                 logger.warning(f"No available rates found for {move_date}")
                 return None
             
-            dispatcher_address = location_details.get('address', '')
-            if not dispatcher_address:
-                dispatcher_address = best_dispatcher_data.get('address', '')
-            
             # Calculate 3-leg distance for travel time
             try:
-                disp_to_origin = cls._fallback_distance_calculation(dispatcher_address, origin)
+                disp_to_origin = cls._fallback_distance_calculation(address, origin)
                 origin_to_dest = cls._fallback_distance_calculation(origin, destination)
-                dest_to_disp = cls._fallback_distance_calculation(destination, dispatcher_address)
+                dest_to_disp = cls._fallback_distance_calculation(destination, address)
                 total_distance = disp_to_origin + origin_to_dest + dest_to_disp
             except Exception as e:
                 logger.warning(f"Error calculating dispatcher distance: {e}")
@@ -400,15 +429,15 @@ class GeographicVendorDispatcher:
             
             best_dispatcher = {
                 "gid": best_gid,
-                "name": location_details.get('name', f'Location {best_gid}'),
-                "address": dispatcher_address,
-                "sales_phone": location_details.get('sales_phone', ''),
-                "email": location_details.get('email', ''),
-                "truck_count": location_details.get('truck_count', ''),
+                "name": location_name,
+                "address": address,
+                "sales_phone": metadata.get('sales_phone', ''),
+                "email": metadata.get('email', ''),
+                "truck_count": metadata.get('truck_count', ''),
                 "base_rate": base_rate,
                 "total_distance_km": total_distance,
-                "calendar_data": calendar_data,
-                "operational_notes": best_dispatcher_data.get('operational_notes', {})
+                "calendar_data": {"daily_rates": calendar_data},  # Convert to expected format
+                "operational_notes": best_dispatcher_data.get('operational_rules', {})
             }
             
             logger.info(f"Selected dispatcher: {best_dispatcher['name']} at {total_distance:.1f}km")
