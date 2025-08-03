@@ -21,16 +21,16 @@ function AppWithRouter() {
       <ThemeProvider>
         <Router>
           <Routes>
-            <Route path="/*" element={<App />} />
-            <Route path="/about-us" element={<AboutUs />} />
-            <Route path="/how-it-works" element={<HowItWorks />} />
-            <Route path="/tips-guides" element={<TipsAndGuides />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/vendors" element={<VendorManagement />} />
             <Route path="/admin/locations" element={<VendorLocations />} />
             <Route path="/admin/leads" element={<LeadManagement />} />
             <Route path="/admin/monitoring" element={<SystemMonitoring />} />
             <Route path="/admin/analytics" element={<Analytics />} />
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/how-it-works" element={<HowItWorks />} />
+            <Route path="/tips-guides" element={<TipsAndGuides />} />
+            <Route path="/*" element={<App />} />
           </Routes>
         </Router>
       </ThemeProvider>
