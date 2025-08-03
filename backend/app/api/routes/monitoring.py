@@ -142,6 +142,20 @@ async def clear_cache():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error clearing cache: {e}")
 
+@router.post("/cache/clear/dispatcher")
+async def clear_dispatcher_cache():
+    """Clear dispatcher cache to force refresh"""
+    try:
+        from app.services.dispatcher_cache_service import dispatcher_cache_service
+        dispatcher_cache_service.clear_all_cache()
+        
+        return {
+            "success": True,
+            "message": "Dispatcher cache cleared successfully - will refresh on next request"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error clearing dispatcher cache: {e}")
+
 @router.get("/endpoints/status")
 async def get_endpoints_status():
     """Get status of all critical endpoints"""
