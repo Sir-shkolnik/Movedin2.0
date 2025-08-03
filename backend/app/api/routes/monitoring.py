@@ -156,6 +156,39 @@ async def clear_dispatcher_cache():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error clearing dispatcher cache: {e}")
 
+@router.get("/debug/lets-get-moving")
+async def debug_lets_get_moving():
+    """Debug Let's Get Moving data"""
+    try:
+        from app.services.google_sheets_service import google_sheets_service
+        from app.services.vendor_engine import GeographicVendorDispatcher
+        
+        # Get all dispatchers data
+        all_dispatchers = google_sheets_service.get_all_dispatchers_data()
+        
+        # Test dispatcher selection
+        origin = "Toronto, ON"
+        destination = "Mississauga, ON"
+        move_date = "2025-01-20"
+        
+        dispatcher = GeographicVendorDispatcher.get_best_dispatcher_from_sheets(
+            "lets-get-moving", origin, destination, move_date
+        )
+        
+        return {
+            "success": True,
+            "total_dispatchers": len(all_dispatchers),
+            "dispatcher_keys": list(all_dispatchers.keys())[:5],  # First 5
+            "selected_dispatcher": dispatcher,
+            "sample_dispatcher_data": list(all_dispatchers.values())[0] if all_dispatchers else None
+        }
+    except Exception as e:
+        return {
+            "success": False,
+            "error": str(e),
+            "traceback": str(e.__traceback__)
+        }
+
 @router.get("/endpoints/status")
 async def get_endpoints_status():
     """Get status of all critical endpoints"""
