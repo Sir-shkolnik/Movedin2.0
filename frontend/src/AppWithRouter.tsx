@@ -42,4 +42,4 @@ function AppWithRouter() {
   );
 }
 
-export default AppWithRouter; 
+export default AppWithRouter; // Frontend deployment trigger - Sun Aug  3 17:44:30 EDT 2025
