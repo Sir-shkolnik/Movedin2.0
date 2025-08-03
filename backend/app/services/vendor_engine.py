@@ -788,17 +788,16 @@ class LetsGetMovingCalculator(VendorCalculator):
         return total
 
 class Easy2GoCalculator(VendorCalculator):
-    """Easy2Go - Weight-Based Pricing"""
+    """Easy2Go - Crew Size Based Pricing (Official Rules)"""
     
     def get_crew_size(self, quote_request: QuoteRequest) -> int:
-        """Crew size based on weight estimation"""
-        weight = self._estimate_weight(quote_request)
-        
-        if weight <= 2000:
+        """Crew size based on room count - OFFICIAL EASY2GO RULES"""
+        # Official Easy2Go crew sizing based on room count
+        if quote_request.total_rooms <= 2:
             return 2
-        elif weight <= 4000:
+        elif quote_request.total_rooms <= 3:
             return 3
-        elif weight <= 6000:
+        elif quote_request.total_rooms <= 4:
             return 4
         else:
             return 5
@@ -811,33 +810,35 @@ class Easy2GoCalculator(VendorCalculator):
             return 2
     
     def calculate_quote(self, quote_request: QuoteRequest, dispatcher_info: Dict[str, Any], db: Session = None) -> Dict[str, Any]:
-        """Calculate Easy2Go quote with weight-based pricing"""
+        """Calculate Easy2Go quote with official crew-based pricing"""
         crew_size = self.get_crew_size(quote_request)
         truck_count = self.get_truck_count(quote_request, crew_size)
         
-        # Estimate weight
-        estimated_weight = self._estimate_weight(quote_request)
-        
-        # Get rates from weight table
-        weight_rates = self._get_weight_rates(estimated_weight)
+        # Get official hourly rate based on crew size
+        hourly_rate = self._get_hourly_rate(crew_size)
         
         # Apply geographic pricing adjustments
         origin_city = GeographicVendorDispatcher._extract_city_from_address(quote_request.origin_address)
         location_pricing = GeographicVendorDispatcher.get_location_based_pricing(
-            "easy2go", origin_city, weight_rates["hourly_rate"]
+            "easy2go", origin_city, hourly_rate
         )
         
         adjusted_hourly_rate = location_pricing["adjusted_rate"]
         fuel_surcharge = location_pricing["fuel_surcharge"]
         
-        # Calculate costs
-        labor_cost = weight_rates["labor_hours"] * adjusted_hourly_rate
-        travel_cost = weight_rates["travel_hours"] * adjusted_hourly_rate
-        fuel_cost = self._calculate_fuel_charge(weight_rates["travel_hours"]) + fuel_surcharge
+        # Calculate labor and travel hours
+        labor_hours = self._estimate_labor_hours(quote_request.total_rooms)
+        travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
+        
+        # Calculate costs using official Easy2Go rules
+        labor_cost = labor_hours * adjusted_hourly_rate
+        travel_cost = travel_hours * adjusted_hourly_rate  # Travel charged at hourly rate
+        truck_fee = self._get_truck_fee(crew_size)  # One-time truck fee
+        fuel_cost = fuel_surcharge  # Only geographic fuel surcharge
         heavy_items_cost = self._calculate_heavy_items_cost(quote_request.heavy_items)
         additional_services_cost = self._calculate_additional_services_cost(quote_request.additional_services)
         
-        total_cost = labor_cost + travel_cost + fuel_cost + heavy_items_cost + additional_services_cost
+        total_cost = labor_cost + travel_cost + truck_fee + fuel_cost + heavy_items_cost + additional_services_cost
         
         return {
             "vendor_name": "Easy2Go",
@@ -851,9 +852,8 @@ class Easy2GoCalculator(VendorCalculator):
             },
             "crew_size": crew_size,
             "truck_count": truck_count,
-            "estimated_hours": weight_rates["labor_hours"],
-            "travel_time_hours": weight_rates["travel_hours"],
-            "estimated_weight": estimated_weight,
+            "estimated_hours": labor_hours,
+            "travel_time_hours": travel_hours,
             "dispatcher_info": {
                 "name": dispatcher_info["name"],
                 "address": dispatcher_info["address"],
@@ -874,44 +874,71 @@ class Easy2GoCalculator(VendorCalculator):
             "hourly_rate": adjusted_hourly_rate
         }
     
-    def _estimate_weight(self, quote_request: QuoteRequest) -> float:
-        """Estimate weight based on rooms and square footage"""
-        if quote_request.estimated_weight > 0:
-            return quote_request.estimated_weight
-        
-        # Estimate from room count
-        room_weight_map = {
-            1: 2000, 2: 3000, 3: 4000, 4: 5000, 5: 6000, 6: 7000, 7: 8000
+    def _get_hourly_rate(self, crew_size: int) -> float:
+        """Get hourly rate based on crew size - OFFICIAL EASY2GO RULES"""
+        rates = {
+            2: 150,  # 2 movers = $150/hr ✅
+            3: 200,  # 3 movers = $200/hr ✅
+            4: 250,  # 4 movers = $250/hr ✅
+            5: 300   # 5 movers = $300/hr ✅
         }
-        
-        base_weight = room_weight_map.get(quote_request.total_rooms, 4000)
-        
-        # Adjust for square footage if available
-        if quote_request.square_footage:
-            try:
-                sqft = float(quote_request.square_footage.replace("sq ft", "").strip())
-                weight_per_sqft = 8  # Average pounds per square foot
-                sqft_weight = sqft * weight_per_sqft
-                return max(base_weight, sqft_weight)
-            except:
-                pass
-        
-        return base_weight
+        return rates.get(crew_size, 150)
     
-    def _get_weight_rates(self, weight: float) -> Dict[str, float]:
-        """Get rates based on weight range"""
-        if weight <= 2000:
-            return {"crew_size": 2, "hourly_rate": 150, "labor_hours": 4, "travel_hours": 1}
-        elif weight <= 4000:
-            return {"crew_size": 3, "hourly_rate": 200, "labor_hours": 5, "travel_hours": 1.2}
-        elif weight <= 6000:
-            return {"crew_size": 4, "hourly_rate": 250, "labor_hours": 6, "travel_hours": 1.5}
+    def _estimate_labor_hours(self, room_count: int) -> float:
+        """Estimate labor hours based on room count"""
+        base_hours = {
+            1: 3.5, 2: 4.5, 3: 5.5, 4: 6.5, 5: 7.5, 6: 8.5, 7: 9.5
+        }.get(room_count, 7.5)
+        return base_hours
+    
+    def _calculate_travel_time(self, origin: str, destination: str) -> float:
+        """Calculate travel time using 3-leg journey to depot"""
+        try:
+            dispatcher_address = "3397 American Drive, Mississauga, ON L4V 1T8"
+            
+            # Calculate 3-leg journey: Dispatcher -> Origin -> Destination -> Dispatcher
+            leg1 = mapbox_service.get_directions(dispatcher_address, origin)
+            leg2 = mapbox_service.get_directions(origin, destination)
+            leg3 = mapbox_service.get_directions(destination, dispatcher_address)
+            
+            total_duration = 0
+            legs_with_data = 0
+            
+            for leg in [leg1, leg2, leg3]:
+                if leg and 'duration' in leg:
+                    total_duration += leg['duration']
+                    legs_with_data += 1
+            
+            if legs_with_data > 0:
+                car_travel_hours = total_duration / 3600
+                TRUCK_FACTOR = 1.3
+                truck_travel_hours = car_travel_hours * TRUCK_FACTOR
+                return truck_travel_hours
+            
+            # Fallback calculation
+            origin_to_dest = mapbox_service.get_directions(origin, destination)
+            if origin_to_dest and 'duration' in origin_to_dest:
+                one_way_hours = origin_to_dest['duration'] / 3600
+                car_three_leg_hours = one_way_hours * 2.5
+                TRUCK_FACTOR = 1.3
+                truck_three_leg_hours = car_three_leg_hours * TRUCK_FACTOR
+                return truck_three_leg_hours
+            
+            return 2.0 * 1.3
+        except Exception as e:
+            return 2.0 * 1.3
+    
+    def _get_truck_fee(self, crew_size: int) -> float:
+        """Get truck fee based on crew size - OFFICIAL EASY2GO RULES"""
+        # Official Easy2Go truck fees
+        if crew_size <= 3:
+            return 150  # 16ft or 20ft truck - $150
         else:
-            return {"crew_size": 5, "hourly_rate": 300, "labor_hours": 7, "travel_hours": 1.8}
+            return 200  # 26ft or 30ft truck - $200
     
     def _calculate_fuel_charge(self, travel_hours: float) -> float:
-        """Calculate fuel charge"""
-        return travel_hours * 50  # $50 per hour of travel
+        """Calculate fuel charge - only geographic surcharge for Easy2Go"""
+        return 0  # Easy2Go doesn't charge fuel per hour, only geographic surcharge
     
     def _calculate_heavy_items_cost(self, heavy_items: Dict[str, int]) -> float:
         """Calculate heavy items cost"""
@@ -934,17 +961,16 @@ class Easy2GoCalculator(VendorCalculator):
         return total
 
 class VelocityMoversCalculator(VendorCalculator):
-    """Velocity Movers - Weight-Based + Premium Service"""
+    """Velocity Movers - Official Crew-Based Pricing"""
     
     def get_crew_size(self, quote_request: QuoteRequest) -> int:
-        """Crew size based on weight estimation"""
-        weight = self._estimate_weight(quote_request)
-        
-        if weight <= 2000:
+        """Crew size based on room count - OFFICIAL VELOCITY MOVERS RULES"""
+        # Official Velocity Movers crew sizing based on room count
+        if quote_request.total_rooms <= 2:
             return 2
-        elif weight <= 4000:
+        elif quote_request.total_rooms <= 3:
             return 3
-        elif weight <= 6000:
+        elif quote_request.total_rooms <= 4:
             return 4
         else:
             return 5
@@ -957,20 +983,30 @@ class VelocityMoversCalculator(VendorCalculator):
             return 2
     
     def calculate_quote(self, quote_request: QuoteRequest, dispatcher_info: Dict[str, Any], db: Session = None) -> Dict[str, Any]:
-        """Calculate Velocity Movers quote with premium options"""
+        """Calculate Velocity Movers quote with official pricing"""
         crew_size = self.get_crew_size(quote_request)
         truck_count = self.get_truck_count(quote_request, crew_size)
         
-        # Estimate weight
-        estimated_weight = self._estimate_weight(quote_request)
+        # Get official hourly rate based on crew size
+        hourly_rate = self._get_hourly_rate(crew_size)
         
-        # Get base rates
-        base_rates = self._get_weight_rates(estimated_weight)
+        # Apply geographic pricing adjustments
+        origin_city = GeographicVendorDispatcher._extract_city_from_address(quote_request.origin_address)
+        location_pricing = GeographicVendorDispatcher.get_location_based_pricing(
+            "velocity-movers", origin_city, hourly_rate
+        )
         
-        # Calculate costs
-        labor_cost = base_rates["labor_hours"] * base_rates["hourly_rate"]
-        travel_cost = base_rates["travel_hours"] * base_rates["hourly_rate"]
-        fuel_cost = self._calculate_fuel_charge(base_rates["travel_hours"])
+        adjusted_hourly_rate = location_pricing["adjusted_rate"]
+        fuel_surcharge = location_pricing["fuel_surcharge"]
+        
+        # Calculate labor and travel hours
+        labor_hours = self._estimate_labor_hours(quote_request.total_rooms)
+        travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
+        
+        # Calculate costs using official Velocity Movers rules
+        labor_cost = labor_hours * adjusted_hourly_rate
+        travel_cost = travel_hours * adjusted_hourly_rate
+        fuel_cost = fuel_surcharge  # Only geographic fuel surcharge
         heavy_items_cost = self._calculate_heavy_items_cost(quote_request.heavy_items)
         additional_services_cost = self._calculate_additional_services_cost(quote_request.additional_services)
         
@@ -988,9 +1024,8 @@ class VelocityMoversCalculator(VendorCalculator):
             },
             "crew_size": crew_size,
             "truck_count": truck_count,
-            "estimated_hours": base_rates["labor_hours"],
-            "travel_time_hours": base_rates["travel_hours"],
-            "estimated_weight": estimated_weight,
+            "estimated_hours": labor_hours,
+            "travel_time_hours": travel_hours,
             "available_slots": ["8:00 AM", "9:00 AM", "10:00 AM"],
             "rating": 4.9,
             "reviews": 567,
@@ -1007,44 +1042,65 @@ class VelocityMoversCalculator(VendorCalculator):
             }
         }
     
-    def _estimate_weight(self, quote_request: QuoteRequest) -> float:
-        """Estimate weight based on rooms and square footage"""
-        if quote_request.estimated_weight > 0:
-            return quote_request.estimated_weight
+    def _get_hourly_rate(self, crew_size: int) -> float:
+        """Get hourly rate based on crew size - OFFICIAL VELOCITY MOVERS RULES"""
+        # Official Velocity Movers rule: "Two Movers $150.00 | Additional Movers $40.00"
+        base_rate = 150  # Two Movers base rate
+        additional_mover_rate = 40  # Additional movers rate
         
-        # Estimate from room count
-        room_weight_map = {
-            1: 2000, 2: 3000, 3: 4000, 4: 5000, 5: 6000, 6: 7000, 7: 8000
-        }
-        
-        base_weight = room_weight_map.get(quote_request.total_rooms, 4000)
-        
-        # Adjust for square footage if available
-        if quote_request.square_footage:
-            try:
-                sqft = float(quote_request.square_footage.replace("sq ft", "").strip())
-                weight_per_sqft = 8  # Average pounds per square foot
-                sqft_weight = sqft * weight_per_sqft
-                return max(base_weight, sqft_weight)
-            except:
-                pass
-        
-        return base_weight
-    
-    def _get_weight_rates(self, weight: float) -> Dict[str, float]:
-        """Get rates based on weight range"""
-        if weight <= 2000:
-            return {"crew_size": 2, "hourly_rate": 150, "labor_hours": 4, "travel_hours": 1}
-        elif weight <= 4000:
-            return {"crew_size": 3, "hourly_rate": 200, "labor_hours": 5, "travel_hours": 1.2}
-        elif weight <= 6000:
-            return {"crew_size": 4, "hourly_rate": 250, "labor_hours": 6, "travel_hours": 1.5}
+        if crew_size == 2:
+            return base_rate
         else:
-            return {"crew_size": 5, "hourly_rate": 300, "labor_hours": 7, "travel_hours": 1.8}
+            additional_movers = crew_size - 2
+            return base_rate + (additional_movers * additional_mover_rate)
+    
+    def _estimate_labor_hours(self, room_count: int) -> float:
+        """Estimate labor hours based on room count"""
+        base_hours = {
+            1: 3.5, 2: 4.5, 3: 5.5, 4: 6.5, 5: 7.5, 6: 8.5, 7: 9.5
+        }.get(room_count, 7.5)
+        return base_hours
+    
+    def _calculate_travel_time(self, origin: str, destination: str) -> float:
+        """Calculate travel time using 3-leg journey to depot"""
+        try:
+            dispatcher_address = "100 Howden Road, Unit 2, M1R 3E4, Toronto, ON"
+            
+            # Calculate 3-leg journey: Dispatcher -> Origin -> Destination -> Dispatcher
+            leg1 = mapbox_service.get_directions(dispatcher_address, origin)
+            leg2 = mapbox_service.get_directions(origin, destination)
+            leg3 = mapbox_service.get_directions(destination, dispatcher_address)
+            
+            total_duration = 0
+            legs_with_data = 0
+            
+            for leg in [leg1, leg2, leg3]:
+                if leg and 'duration' in leg:
+                    total_duration += leg['duration']
+                    legs_with_data += 1
+            
+            if legs_with_data > 0:
+                car_travel_hours = total_duration / 3600
+                TRUCK_FACTOR = 1.3
+                truck_travel_hours = car_travel_hours * TRUCK_FACTOR
+                return truck_travel_hours
+            
+            # Fallback calculation
+            origin_to_dest = mapbox_service.get_directions(origin, destination)
+            if origin_to_dest and 'duration' in origin_to_dest:
+                one_way_hours = origin_to_dest['duration'] / 3600
+                car_three_leg_hours = one_way_hours * 2.5
+                TRUCK_FACTOR = 1.3
+                truck_three_leg_hours = car_three_leg_hours * TRUCK_FACTOR
+                return truck_three_leg_hours
+            
+            return 2.0 * 1.3
+        except Exception as e:
+            return 2.0 * 1.3
     
     def _calculate_fuel_charge(self, travel_hours: float) -> float:
-        """Calculate fuel charge"""
-        return travel_hours * 60  # $60 per hour of travel
+        """Calculate fuel charge - only geographic surcharge for Velocity Movers"""
+        return 0  # Velocity Movers doesn't charge fuel per hour, only geographic surcharge
     
     def _calculate_heavy_items_cost(self, heavy_items: Dict[str, int]) -> float:
         """Calculate heavy items cost"""
