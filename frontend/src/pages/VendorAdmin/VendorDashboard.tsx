@@ -256,7 +256,7 @@ const VendorDashboard: React.FC = () => {
       <div className="vendor-dashboard-container">
         <VendorSidebar 
           activeSection={activeSection}
-          setActiveSection={setActiveSection}
+          setActiveSection={(section: string) => setActiveSection(section as VendorSection)}
           vendorInfo={vendorInfo}
           onLogout={handleLogout}
         />
@@ -273,7 +273,7 @@ const VendorDashboard: React.FC = () => {
         </main>
       </div>
 
-      <Footer />
+      <Footer onContinue={() => {}} />
     </div>
   );
 };

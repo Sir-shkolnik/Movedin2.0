@@ -151,7 +151,7 @@ const VendorLogin: React.FC = () => {
         </div>
       </main>
 
-      <Footer />
+      <Footer onContinue={() => {}} />
     </div>
   );
 };
