@@ -42,6 +42,7 @@ class QuoteResponse(BaseModel):
     premium_available: Optional[bool] = None
     premium_rate: Optional[float] = None
     dispatcher_info: Optional[Dict[str, Any]] = None
+    additional_services_info: Optional[List[str]] = None
 
 class QuoteListResponse(BaseModel):
     """Multiple quotes response schema"""
