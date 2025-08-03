@@ -44,7 +44,7 @@ const LeadManagement: React.FC = () => {
       setLoading(true);
       setError(null);
       
-      const response = await fetch('http://localhost:8000/api/leads/');
+      const response = await fetch('https://movedin-backend.onrender.com/api/leads/');
       if (!response.ok) {
         throw new Error('Failed to load leads');
       }

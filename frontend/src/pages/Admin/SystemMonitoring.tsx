@@ -76,7 +76,7 @@ const SystemMonitoring: React.FC = () => {
   const endpointsToMonitor: Omit<APIEndpoint, 'status' | 'response_time_ms' | 'last_check'>[] = [
     {
       name: 'System Health',
-      url: 'http://localhost:8000/health',
+              url: 'https://movedin-backend.onrender.com/health',
       method: 'GET'
     },
     {
@@ -106,12 +106,12 @@ const SystemMonitoring: React.FC = () => {
     },
     {
       name: 'Leads API',
-      url: 'http://localhost:8000/api/leads/',
+              url: 'https://movedin-backend.onrender.com/api/leads/',
       method: 'GET'
     },
     {
       name: 'Quote Generation',
-      url: 'http://localhost:8000/api/generate',
+              url: 'https://movedin-backend.onrender.com/api/generate',
       method: 'POST'
     }
   ];
@@ -156,7 +156,7 @@ const SystemMonitoring: React.FC = () => {
 
   const loadSystemHealth = async () => {
     try {
-      const response = await fetch('http://localhost:8000/health');
+      const response = await fetch('https://movedin-backend.onrender.com/health');
       if (response.ok) {
         const data = await response.json();
         setSystemHealth(data);

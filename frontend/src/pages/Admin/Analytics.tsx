@@ -44,7 +44,7 @@ const Analytics: React.FC = () => {
       setLoading(true);
       
       // Load leads data
-      const leadsResponse = await fetch('http://localhost:8000/api/leads/');
+              const leadsResponse = await fetch('https://movedin-backend.onrender.com/api/leads/');
       let leadsData = [];
       if (leadsResponse.ok) {
         leadsData = await leadsResponse.json();
