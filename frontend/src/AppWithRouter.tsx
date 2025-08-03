@@ -12,6 +12,8 @@ import SystemMonitoring from './pages/Admin/SystemMonitoring';
 import Analytics from './pages/Admin/Analytics';
 import VendorLocations from './pages/Admin/VendorLocations';
 import Step7 from './components/steps/Step7';
+import VendorLogin from './pages/VendorAdmin/VendorLogin';
+import VendorDashboard from './pages/VendorAdmin/VendorDashboard';
 import { ThemeProvider } from './contexts/ThemeContext';
 import './App.css';
 
@@ -27,6 +29,8 @@ function AppWithRouter() {
             <Route path="/admin/leads" element={<LeadManagement />} />
             <Route path="/admin/monitoring" element={<SystemMonitoring />} />
             <Route path="/admin/analytics" element={<Analytics />} />
+            <Route path="/vendor/login" element={<VendorLogin />} />
+            <Route path="/vendor/dashboard" element={<VendorDashboard />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/tips-guides" element={<TipsAndGuides />} />
