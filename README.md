@@ -81,10 +81,10 @@ curl http://localhost:5173
 - **All Services**: ✅ Operational
 
 ### **✅ Vendor Integration**
-- **Let's Get Moving**: ✅ 23 locations, 300+ calendar dates each
-- **Easy2Go**: ✅ Full integration
-- **Velocity Movers**: ✅ Full integration
-- **Pierre & Sons**: ✅ Full integration
+- **Let's Get Moving**: ✅ 40+ locations across 8 provinces (NATIONAL)
+- **Easy2Go**: ✅ 1 location in Ontario (REGIONAL)
+- **Velocity Movers**: ✅ 1 location in Ontario (REGIONAL)
+- **Pierre & Sons**: ✅ 1 location in Ontario (REGIONAL)
 
 ### **✅ API Endpoints**
 - `GET /health` - System health check

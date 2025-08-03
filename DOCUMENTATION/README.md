@@ -127,15 +127,17 @@ This documentation suite provides comprehensive coverage of the MovedIn 2.0 syst
 - **[04-PIERRE-SONS-OFFICIAL-RULES.md](../VENDORS/04-PIERRE-SONS-OFFICIAL-RULES.md)** - Pierre & Sons official pricing rules and implementation
 - **[05-LETS-GET-MOVING-OFFICIAL-RULES.md](../VENDORS/05-LETS-GET-MOVING-OFFICIAL-RULES.md)** - Let's Get Moving vendor (needs verification)
 - **[OFFICIAL_VENDOR_RULES_SUMMARY_2025.md](../VENDORS/OFFICIAL_VENDOR_RULES_SUMMARY_2025.md)** - Comprehensive summary of all vendor official rules
+- **[VENDOR_COVERAGE_TABLE_2025.md](VENDOR_COVERAGE_TABLE_2025.md)** - **NEW: Complete vendor coverage analysis with 40+ locations for Let's Get Moving**
 
 ## 📊 **Documentation Statistics**
 
 ### **📈 Coverage Metrics**
-- **Total Documents**: 45+ comprehensive documentation files
+- **Total Documents**: 46+ comprehensive documentation files
 - **System Coverage**: 100% of all major components
 - **Fix Documentation**: Complete coverage of all critical fixes
 - **Testing Coverage**: Comprehensive testing documentation
 - **Deployment Coverage**: Complete deployment guides
+- **Vendor Coverage**: Complete vendor analysis with 40+ locations documented
 
 ### **📋 Categories**
 - **System Status**: 2 documents
@@ -147,7 +149,7 @@ This documentation suite provides comprehensive coverage of the MovedIn 2.0 syst
 - **Backend**: 3 documents
 - **Frontend**: 2 documents
 - **Operations**: 2 documents
-- **Vendors**: 7 documents (including official rules documentation)
+- **Vendors**: 8 documents (including official rules documentation and coverage analysis)
 
 ## 🎯 **Quick Reference**
 
