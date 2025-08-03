@@ -537,7 +537,7 @@ class DispatcherCacheService:
             return R * c
         
         def has_complete_data(data: Dict[str, Any]) -> bool:
-            """Check if dispatcher has complete data"""
+            """Check if dispatcher has complete data - relaxed for Let's Get Moving"""
             location_details = data.get('location_details', {})
             calendar_data = data.get('calendar_data', {})
             daily_rates = calendar_data.get('daily_rates', {})
@@ -548,7 +548,7 @@ class DispatcherCacheService:
             # Check if we have daily rates (at least some)
             has_rates = len(daily_rates) > 0
             
-            # Check if we have coordinates (either format)
+            # For Let's Get Moving, coordinates are optional (we can use address-based fallback)
             has_coordinates = False
             if data.get('coordinates'):
                 coords = data.get('coordinates', {})
@@ -557,15 +557,19 @@ class DispatcherCacheService:
                 elif isinstance(coords, (list, tuple)) and len(coords) == 2:
                     has_coordinates = True
             
+            # For Let's Get Moving, we only require location name and daily rates
+            # Coordinates are nice to have but not required
+            if has_location and has_rates:
+                logger.info(f"✅ Dispatcher has complete data: {location_details.get('name')} with {len(daily_rates)} rates")
+                return True
+            
             # Log what we're missing for debugging
             if not has_location:
                 logger.warning(f"❌ Missing location name for dispatcher")
             if not has_rates:
                 logger.warning(f"❌ Missing daily rates for dispatcher")
-            if not has_coordinates:
-                logger.warning(f"❌ Missing coordinates for dispatcher")
             
-            return has_location and has_rates and has_coordinates
+            return False
         
         def is_valid_service_area(dispatcher_name: str, user_address: str) -> bool:
             """Validate service area - TRUE geographic logic only"""
@@ -628,7 +632,7 @@ class DispatcherCacheService:
         
         logger.info(f"📍 User coordinates: {user_coords}")
         
-        # Find valid dispatchers with coordinates
+        # Find valid dispatchers (coordinates optional for Let's Get Moving)
         valid_dispatchers = []
         
         for gid, data in all_data.items():
@@ -646,21 +650,41 @@ class DispatcherCacheService:
                 logger.warning(f"❌ {name} invalid service area - skipping")
                 continue
             
-            # Calculate distance
-            if isinstance(coords, dict):
-                loc_tuple = (coords.get('lat', 0), coords.get('lng', 0))
+            # Calculate distance (coordinates optional)
+            distance = float('inf')
+            if coords:
+                if isinstance(coords, dict):
+                    loc_tuple = (coords.get('lat', 0), coords.get('lng', 0))
+                else:
+                    loc_tuple = coords
+                
+                if loc_tuple and loc_tuple != (0, 0):
+                    distance = haversine(user_coords, loc_tuple)
+                    logger.info(f"✅ {name}: {distance:.2f}km (with coordinates)")
+                else:
+                    # Use fallback distance calculation
+                    dispatcher_address = location_details.get('address', '')
+                    if dispatcher_address:
+                        # Simple fallback: assume 50km if we have address but no coordinates
+                        distance = 50.0
+                        logger.info(f"✅ {name}: {distance:.2f}km (fallback distance)")
+                    else:
+                        logger.warning(f"❌ {name} no coordinates or address")
+                        continue
             else:
-                loc_tuple = coords
+                # No coordinates, use fallback
+                dispatcher_address = location_details.get('address', '')
+                if dispatcher_address:
+                    distance = 50.0  # Fallback distance
+                    logger.info(f"✅ {name}: {distance:.2f}km (no coordinates, using fallback)")
+                else:
+                    logger.warning(f"❌ {name} no coordinates or address")
+                    continue
             
-            if loc_tuple and loc_tuple != (0, 0):
-                distance = haversine(user_coords, loc_tuple)
-                valid_dispatchers.append((gid, data, distance, name))
-                logger.info(f"✅ {name}: {distance:.2f}km")
-            else:
-                logger.warning(f"❌ {name} invalid coordinates: {coords}")
+            valid_dispatchers.append((gid, data, distance, name))
         
         if not valid_dispatchers:
-            logger.error("❌ No valid dispatchers found with coordinates and service area")
+            logger.error("❌ No valid dispatchers found with service area")
             return None
         
         # Sort by distance (closest first)
