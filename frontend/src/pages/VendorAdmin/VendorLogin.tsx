@@ -33,7 +33,7 @@ const VendorLogin: React.FC = () => {
     setError(null);
 
     try {
-      const response = await fetch('https://movedin-backend.onrender.com/vendor/login', {
+      const response = await fetch('https://movedin-backend.onrender.com/vendor/vendor/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

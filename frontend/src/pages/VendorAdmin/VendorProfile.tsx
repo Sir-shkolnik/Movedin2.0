@@ -70,7 +70,7 @@ const VendorProfile: React.FC = () => {
       const token = localStorage.getItem('vendorToken');
       if (!token) return;
 
-      const response = await fetch('https://movedin-backend.onrender.com/vendor/profile', {
+      const response = await fetch('https://movedin-backend.onrender.com/vendor/vendor/profile', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ const VendorProfile: React.FC = () => {
       const token = localStorage.getItem('vendorToken');
       if (!token) return;
 
-      const response = await fetch('https://movedin-backend.onrender.com/vendor/profile', {
+      const response = await fetch('https://movedin-backend.onrender.com/vendor/vendor/profile', {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -152,7 +152,7 @@ const VendorProfile: React.FC = () => {
       const token = localStorage.getItem('vendorToken');
       if (!token) return;
 
-      const response = await fetch('https://movedin-backend.onrender.com/vendor/change-password', {
+      const response = await fetch('https://movedin-backend.onrender.com/vendor/vendor/change-password', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

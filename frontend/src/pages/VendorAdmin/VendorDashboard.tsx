@@ -87,7 +87,7 @@ const VendorDashboard: React.FC = () => {
       const token = localStorage.getItem('vendorToken');
       if (!token) return;
 
-      const response = await fetch('https://movedin-backend.onrender.com/vendor/analytics', {
+      const response = await fetch('https://movedin-backend.onrender.com/vendor/vendor/analytics', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
