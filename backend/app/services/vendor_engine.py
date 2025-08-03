@@ -1158,14 +1158,15 @@ class PierreSonsCalculator(VendorCalculator):
         travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
         distance_km = self._calculate_distance(quote_request.origin_address, quote_request.destination_address)
         
-        # Calculate costs
+        # Calculate costs using official Pierre & Sons rules
         labor_cost = hourly_rate * labor_hours
         travel_cost = hourly_rate * travel_hours
+        truck_fee = self._get_truck_fee(quote_request.total_rooms)
         fuel_surcharge = self._calculate_fuel_surcharge(distance_km)
         heavy_items_cost = self._calculate_heavy_items_cost(quote_request.heavy_items)
         additional_services_cost = self._calculate_additional_services_cost(quote_request.additional_services)
         
-        total_cost = labor_cost + travel_cost + fuel_surcharge + heavy_items_cost + additional_services_cost
+        total_cost = labor_cost + travel_cost + truck_fee + fuel_surcharge + heavy_items_cost + additional_services_cost
         
         return {
             "vendor_name": "Pierre & Sons",
@@ -1173,6 +1174,7 @@ class PierreSonsCalculator(VendorCalculator):
             "breakdown": {
                 "labor": round(labor_cost, 2),
                 "travel": round(travel_cost, 2),
+                "truck_fee": round(truck_fee, 2),
                 "fuel_surcharge": round(fuel_surcharge, 2),
                 "heavy_items": round(heavy_items_cost, 2),
                 "additional_services": round(additional_services_cost, 2)
@@ -1197,9 +1199,14 @@ class PierreSonsCalculator(VendorCalculator):
         }
     
     def _get_hourly_rate(self, crew_size: int) -> float:
-        """Get hourly rate based on crew size"""
+        """Get fixed hourly rate based on crew size - OFFICIAL PIERRE & SONS RULES"""
         rates = {
-            2: 135, 3: 165, 4: 195, 5: 225
+            1: 65,   # $65/hr for 1 guy ✅
+            2: 135,  # $135/hr for 2 guys ✅
+            3: 165,  # $165/hr for 3 guys ✅
+            4: 195,  # $195/hr for 4 guys ✅
+            5: 225,  # $225/hr for 5 guys ✅
+            6: 255   # $255/hr for 6 guys ✅
         }
         return rates.get(crew_size, 135)
     
@@ -1210,16 +1217,43 @@ class PierreSonsCalculator(VendorCalculator):
         }.get(room_count, 9.5)
         return base_hours
     
+    def _get_truck_fee(self, room_count: int) -> float:
+        """Get truck fee based on room count - OFFICIAL PIERRE & SONS RULES"""
+        # Official Pierre & Sons truck fees:
+        # $100 - Small truck (16ft) / For 1-bedroom moves within 50 km
+        # $140 - Medium truck (20ft) / For 2-bedroom moves within 50 km
+        # $180 - Big truck (26ft) / For 3-bedroom moves within 50 km
+        
+        if room_count == 1:
+            return 100  # Small truck (16ft) - $100
+        elif room_count == 2:
+            return 140  # Medium truck (20ft) - $140
+        elif room_count >= 3:
+            return 180  # Big truck (26ft) - $180
+        else:
+            return 100  # Default to small truck
+    
     def _calculate_travel_time(self, origin: str, destination: str) -> float:
-        """Calculate travel time using Mapbox API"""
+        """Calculate travel time - OFFICIAL PIERRE & SONS RULES"""
+        # Pierre & Sons official rule: 1 hour travel time fee included
+        # This covers the time it takes for the team to return to the office
+        
         try:
+            # Get one-way travel time
             directions = mapbox_service.get_directions(origin, destination)
             if directions:
-                return directions['duration'] / 3600  # Convert seconds to hours
-            return 1.2  # Default 1.2 hours
+                one_way_hours = directions['duration'] / 3600
+                
+                # Apply truck factor
+                TRUCK_FACTOR = 1.3
+                truck_one_way_hours = one_way_hours * TRUCK_FACTOR
+                
+                # Return time is included in the 1-hour travel time fee
+                return max(1.0, truck_one_way_hours)
+            
+            return 1.0  # Default 1 hour travel time fee
         except Exception as e:
-            print(f"Error calculating travel time: {e}")
-            return 1.2  # Default 1.2 hours
+            return 1.0  # Default 1 hour travel time fee
     
     def _calculate_distance(self, origin: str, destination: str) -> float:
         """Calculate distance using Mapbox API"""
@@ -1233,12 +1267,13 @@ class PierreSonsCalculator(VendorCalculator):
             return 25.0  # Default 25 km
     
     def _calculate_fuel_surcharge(self, distance_km: float) -> float:
-        """Calculate fuel surcharge for distances over 50km"""
+        """Calculate fuel surcharge for distances over 50km - OFFICIAL PIERRE & SONS RULES"""
+        # Official rule: If the distance exceeds 50 km, $1 per extra km will be added
         if distance_km <= 50:
             return 0
         else:
             extra_km = distance_km - 50
-            return extra_km * 2  # $2 per km over 50km
+            return extra_km * 1  # $1 per km over 50km
     
     def _calculate_heavy_items_cost(self, heavy_items: Dict[str, int]) -> float:
         """Calculate heavy items cost"""
