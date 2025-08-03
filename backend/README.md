@@ -381,4 +381,4 @@ curl -X GET "http://localhost:8000/health"
 - [Google Sheets Update System](./GOOGLE_SHEETS_UPDATE_SYSTEM_LETS_GET_MOVING.md)
 - [Geographic Vendor Logic](./GEOGRAPHIC_VENDOR_LOGIC.md)
 - [Lead Database Setup](./LEAD_DB_SETUP.md)
-- [Smart Parsing Implementation](./SMART_PARSING_IMPLEMENTATION_COMPLETE.md) 
+- [Smart Parsing Implementation](./SMART_PARSING_IMPLEMENTATION_COMPLETE.md) # Deployment trigger Sun Aug  3 17:27:40 EDT 2025
