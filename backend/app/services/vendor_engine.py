@@ -1031,8 +1031,8 @@ class VelocityMoversCalculator(VendorCalculator):
             "reviews": 567,
             "special_notes": "Premium service",
             "premium_available": True,
-            "premium_rate": base_rates["hourly_rate"] + 10,  # $10 premium per hour
-            "hourly_rate": base_rates["hourly_rate"],
+            "premium_rate": adjusted_hourly_rate + 10,  # $10 premium per hour
+            "hourly_rate": adjusted_hourly_rate,
             "dispatcher_info": {
                 "name": dispatcher_info["name"],
                 "address": dispatcher_info["address"],
