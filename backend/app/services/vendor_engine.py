@@ -1126,15 +1126,16 @@ class PierreSonsCalculator(VendorCalculator):
     """Pierre & Sons - Simple Hourly + Distance Surcharge"""
     
     def get_crew_size(self, quote_request: QuoteRequest) -> int:
-        """Crew size based on room count"""
-        if quote_request.total_rooms >= 6:
-            return 5
-        elif quote_request.total_rooms == 4:
-            return 4
-        elif quote_request.total_rooms == 3:
-            return 3
-        else:
+        """Crew size based on room count - OFFICIAL PIERRE & SONS RULES"""
+        # Official Pierre & Sons crew sizing based on room count
+        if quote_request.total_rooms <= 2:
             return 2
+        elif quote_request.total_rooms <= 3:
+            return 3
+        elif quote_request.total_rooms <= 4:
+            return 4
+        else:
+            return 5  # 5+ rooms = 5 movers
     
     def get_truck_count(self, quote_request: QuoteRequest, crew_size: int) -> int:
         """Truck count based on crew size"""
