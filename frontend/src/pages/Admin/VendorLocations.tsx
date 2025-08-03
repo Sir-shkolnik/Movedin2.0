@@ -331,9 +331,24 @@ const VendorLocations: React.FC = () => {
       });
 
       map.current.on('load', () => {
-        addMapMarkers();
-        if (showVendorAreas) {
-          addVendorAreas();
+        console.log('Map loaded, waiting for style to be ready...');
+        
+        // Wait for style to be fully loaded before adding layers
+        if (map.current.isStyleLoaded()) {
+          console.log('Style already loaded, adding markers immediately');
+          addMapMarkers();
+          if (showVendorAreas) {
+            addVendorAreas();
+          }
+        } else {
+          console.log('Waiting for style to load...');
+          map.current.once('styledata', () => {
+            console.log('Style loaded, adding markers');
+            addMapMarkers();
+            if (showVendorAreas) {
+              addVendorAreas();
+            }
+          });
         }
         
         // Set up click handler for location markers
@@ -430,7 +445,19 @@ const VendorLocations: React.FC = () => {
   };
 
   const addMapMarkers = () => {
-    if (!map.current || !mapLoaded) return;
+    if (!map.current || !mapLoaded) {
+      console.log('Map not ready, skipping marker addition');
+      return;
+    }
+    
+    if (!map.current.isStyleLoaded()) {
+      console.log('Map style not loaded, waiting...');
+      map.current.once('styledata', () => {
+        console.log('Style loaded, retrying marker addition');
+        addMapMarkers();
+      });
+      return;
+    }
 
     console.log('Adding map markers for', filteredLocations.length, 'filtered locations');
 
@@ -543,10 +570,23 @@ const VendorLocations: React.FC = () => {
       map.current.triggerRepaint();
     }
     
-    // Log the actual features for debugging
-    const features = map.current.querySourceFeatures('locations');
-    console.log('Map features count:', features.length);
-    console.log('Map features:', features.slice(0, 3)); // Log first 3 features
+    // Wait a bit for the features to be properly loaded before checking
+    setTimeout(() => {
+      if (map.current) {
+        // Log the actual features for debugging
+        const features = map.current.querySourceFeatures('locations');
+        console.log('Map features count:', features.length);
+        console.log('Map features:', features.slice(0, 3)); // Log first 3 features
+        
+        if (features.length === 0) {
+          console.warn('No features found, checking source data...');
+          const source = map.current.getSource('locations') as any;
+          if (source) {
+            console.log('Source data:', source._data);
+          }
+        }
+      }
+    }, 500);
     
     // Fit map to show all locations if we have data
     if (filteredLocations.length > 0) {
