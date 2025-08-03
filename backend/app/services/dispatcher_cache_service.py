@@ -20,6 +20,8 @@ class DispatcherCacheService:
         self.last_update = {}
         self._all_dispatchers_cache = None
         self._all_dispatchers_last_update = None
+        self._cache_version = "2025-01-20-v2"  # Version-based cache invalidation
+        self._force_refresh_on_startup = True  # Force refresh on application startup
     
     def get_dispatcher_data(self, location: str, db: Session) -> Optional[Dict[str, Any]]:
         """Get dispatcher data from cache or Google Sheets"""
@@ -32,6 +34,12 @@ class DispatcherCacheService:
     
     def _is_cache_valid(self, location: str) -> bool:
         """Check if cache is still valid for a location"""
+        # Force refresh on startup if enabled
+        if self._force_refresh_on_startup:
+            logger.info("Force refresh on startup enabled - invalidating cache")
+            self._force_refresh_on_startup = False
+            return False
+        
         if location not in self.last_update:
             return False
         
@@ -482,6 +490,18 @@ class DispatcherCacheService:
         self.last_update.clear()
         self._all_dispatchers_cache = None
         self._all_dispatchers_last_update = None
+        logger.info("All dispatcher cache cleared")
+
+    def force_cache_invalidation(self):
+        """Force cache invalidation for next request"""
+        self._force_refresh_on_startup = True
+        logger.info("Force cache invalidation enabled")
+
+    def update_cache_version(self, new_version: str):
+        """Update cache version to force invalidation"""
+        self._cache_version = new_version
+        self.clear_all_cache()
+        logger.info(f"Cache version updated to {new_version} - all caches cleared")
         logger.info("🧹 All dispatcher cache cleared")
     
     def get_all_dispatchers_cached(self, db: Session) -> Dict[str, Any]:

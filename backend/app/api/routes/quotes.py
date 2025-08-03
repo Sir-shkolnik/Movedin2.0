@@ -280,4 +280,46 @@ async def get_service_areas():
     return {
         "vendor_service_areas": GeographicVendorDispatcher.VENDOR_SERVICE_AREAS,
         "dispatcher_locations": GeographicVendorDispatcher.DISPATCHER_LOCATIONS
-    } 
+    }
+
+@router.post("/cache/refresh")
+async def refresh_cache(db: Session = Depends(get_db)):
+    """Force refresh all caches - AUTOMATIC CACHE INVALIDATION"""
+    try:
+        # Clear dispatcher cache
+        dispatcher_cache_service.clear_all_cache()
+        
+        # Clear Redis cache
+        redis_client.flushdb()
+        
+        # Refresh Google Sheets data
+        google_sheets_service.refresh_all_data()
+        
+        # Force refresh dispatcher cache
+        refresh_results = dispatcher_cache_service.refresh_all_caches(db)
+        
+        return {
+            "status": "success",
+            "message": "All caches refreshed successfully",
+            "dispatcher_cache_results": refresh_results,
+            "timestamp": datetime.now().isoformat()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Cache refresh failed: {str(e)}")
+
+@router.get("/cache/status")
+async def get_cache_status():
+    """Get cache status and TTL information"""
+    try:
+        cache_status = dispatcher_cache_service.get_cache_status()
+        
+        return {
+            "dispatcher_cache": cache_status,
+            "redis_cache": {
+                "keys_count": redis_client.dbsize(),
+                "info": redis_client.info()
+            },
+            "timestamp": datetime.now().isoformat()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Cache status check failed: {str(e)}") 
