@@ -1383,5 +1383,16 @@ class GoogleSheetsService:
                 results[gid] = {"error": str(e)}
         return results
 
+    def refresh_all_data(self):
+        """Force refresh all Google Sheets data by clearing cache"""
+        self._cache_data.clear()
+        self._cache_timestamps.clear()
+        logger.info("Google Sheets cache cleared - forcing refresh on next request")
+
+    def force_cache_invalidation(self):
+        """Force cache invalidation for next request"""
+        self.refresh_all_data()
+        logger.info("Google Sheets cache invalidation forced")
+
 # Global instance
 google_sheets_service = GoogleSheetsService() 

@@ -20,6 +20,25 @@ async def lifespan(app: FastAPI):
     print(f"📊 Environment: {os.getenv('ENVIRONMENT', 'development')}")
     print(f"🌐 Allowed Origins: {os.getenv('ALLOWED_ORIGINS', 'http://localhost:5173')}")
     
+    # AUTOMATIC CACHE REFRESH ON STARTUP
+    print("🔄 Refreshing all caches on startup...")
+    try:
+        from app.services.dispatcher_cache_service import dispatcher_cache_service
+        from app.services.google_sheets_service import google_sheets_service
+        from app.core.database import get_db
+        
+        # Clear all caches
+        dispatcher_cache_service.clear_all_cache()
+        google_sheets_service.refresh_all_data()
+        
+        # Force cache invalidation
+        dispatcher_cache_service.force_cache_invalidation()
+        google_sheets_service.force_cache_invalidation()
+        
+        print("✅ All caches refreshed successfully")
+    except Exception as e:
+        print(f"⚠️ Cache refresh warning: {e}")
+    
     # Start background tasks
     # Initialize sheets monitor service (background tasks will start automatically)
     sheets_monitor_service
