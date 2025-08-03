@@ -71,39 +71,39 @@ const VendorLocations: React.FC = () => {
   const CACHE_KEY = 'vendor_locations_enhanced_cache';
   const COORDINATES_CACHE_KEY = 'vendor_coordinates_cache';
 
-  // Vendor colors for map markers
+  // Enhanced vendor colors for map markers with better visibility
   const vendorColors = {
-    'lets-get-moving': '#3b82f6', // Blue
-    'easy2go': '#10b981', // Green
-    'velocity-movers': '#f59e0b', // Orange
-    'pierre-sons': '#ef4444' // Red
+    'lets-get-moving': '#2563eb', // Bright Blue
+    'easy2go': '#059669', // Bright Green
+    'velocity-movers': '#d97706', // Bright Orange
+    'pierre-sons': '#dc2626' // Bright Red
   };
 
-  // Vendor area circles (approximate service areas)
+  // Enhanced vendor area circles with better visibility
   const vendorAreas = {
     'lets-get-moving': {
       center: [-79.3832, 43.6532], // Toronto
-      radius: 100, // km
-      color: '#3b82f6',
-      opacity: 0.1
+      radius: 150, // km (increased)
+      color: '#2563eb',
+      opacity: 0.15 // Increased opacity
     },
     'easy2go': {
       center: [-79.3832, 43.6532], // Toronto
-      radius: 50, // km
-      color: '#10b981',
-      opacity: 0.1
+      radius: 80, // km (increased)
+      color: '#059669',
+      opacity: 0.15 // Increased opacity
     },
     'velocity-movers': {
       center: [-79.3832, 43.6532], // Toronto
-      radius: 75, // km
-      color: '#f59e0b',
-      opacity: 0.1
+      radius: 120, // km (increased)
+      color: '#d97706',
+      opacity: 0.15 // Increased opacity
     },
     'pierre-sons': {
       center: [-79.3832, 43.6532], // Toronto
-      radius: 60, // km
-      color: '#ef4444',
-      opacity: 0.1
+      radius: 100, // km (increased)
+      color: '#dc2626',
+      opacity: 0.15 // Increased opacity
     }
   };
 
@@ -439,7 +439,7 @@ const VendorLocations: React.FC = () => {
       }
     });
 
-    // Add a layer for the location markers with different sizes based on zoom
+    // Add a layer for the location markers with enhanced visibility
     map.current.addLayer({
       id: 'locations',
       type: 'circle',
@@ -449,18 +449,48 @@ const VendorLocations: React.FC = () => {
           'interpolate',
           ['linear'],
           ['zoom'],
-          2, 4,   // zoom level 2, radius 4
-          8, 12,  // zoom level 8, radius 12
-          15, 20  // zoom level 15, radius 20
+          2, 8,   // zoom level 2, radius 8 (increased)
+          8, 16,  // zoom level 8, radius 16 (increased)
+          15, 24  // zoom level 15, radius 24 (increased)
         ],
         'circle-color': ['get', 'color'],
-        'circle-stroke-width': 2,
+        'circle-stroke-width': 3, // Increased stroke width
         'circle-stroke-color': '#ffffff',
-        'circle-opacity': 0.8
+        'circle-opacity': 1.0 // Full opacity for better visibility
+      }
+    });
+
+    // Add a second layer for marker glow effect
+    map.current.addLayer({
+      id: 'locations-glow',
+      type: 'circle',
+      source: 'locations',
+      paint: {
+        'circle-radius': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          2, 12,  // zoom level 2, radius 12
+          8, 20,  // zoom level 8, radius 20
+          15, 28  // zoom level 15, radius 28
+        ],
+        'circle-color': ['get', 'color'],
+        'circle-stroke-width': 0,
+        'circle-opacity': 0.3 // Glow effect
       }
     });
 
     console.log('Added filtered locations layer');
+    
+    // Force a map repaint to ensure markers are visible
+    if (map.current) {
+      map.current.triggerRepaint();
+    }
+    
+    // Log the actual features for debugging
+    const features = map.current.querySourceFeatures('locations');
+    console.log('Map features count:', features.length);
+    console.log('Map features:', features.slice(0, 3)); // Log first 3 features
   };
 
   const addVendorAreas = () => {
@@ -579,6 +609,18 @@ const VendorLocations: React.FC = () => {
     localStorage.removeItem(COORDINATES_CACHE_KEY);
     alert('Cache cleared! Reloading data...');
     loadVendorLocations();
+  };
+
+  const refreshMap = () => {
+    if (mapLoaded && map.current) {
+      console.log('Force refreshing map markers');
+      addMapMarkers();
+      if (showVendorAreas) {
+        addVendorAreas();
+      }
+      // Force a repaint
+      map.current.triggerRepaint();
+    }
   };
 
   const renderMapView = () => (
@@ -742,6 +784,17 @@ const VendorLocations: React.FC = () => {
     };
   }, [filteredLocations]);
 
+  // Refresh markers when filtered locations change
+  useEffect(() => {
+    if (mapLoaded && map.current && filteredLocations.length > 0) {
+      console.log('Refreshing map markers for', filteredLocations.length, 'locations');
+      addMapMarkers();
+      if (showVendorAreas) {
+        addVendorAreas();
+      }
+    }
+  }, [filteredLocations, mapLoaded, showVendorAreas]);
+
   if (loading) {
     return (
       <div className="vendor-locations">
@@ -787,9 +840,9 @@ const VendorLocations: React.FC = () => {
                 <p className="header-subtitle">Interactive map and list of all vendor locations across Canada</p>
               </div>
               <div className="header-actions">
-                <button className="refresh-btn" onClick={loadVendorLocations}>
-                  🔄 Refresh
-                </button>
+                        <button className="refresh-btn" onClick={refreshMap}>
+          🔄 Refresh Map
+        </button>
                 <button 
                   className="cache-btn"
                   onClick={clearCache}
