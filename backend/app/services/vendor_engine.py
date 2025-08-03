@@ -813,15 +813,17 @@ class LetsGetMovingCalculator(VendorCalculator):
         return base_crew
     
     def _get_base_crew_size(self, room_count: int) -> int:
-        """Get base crew size based on room count"""
-        if room_count <= 3:
+        """Get base crew size based on room count - FIXED LOGIC"""
+        if room_count <= 2:
             return 2
-        elif room_count == 4:
-            return 3
-        elif room_count <= 6:
+        elif room_count <= 3:
+            return 3  # FIXED: 3 rooms = 3 crew
+        elif room_count <= 4:
             return 4
+        elif room_count <= 5:
+            return 5  # FIXED: 5 rooms = 5 crew
         else:
-            return 5
+            return 5  # FIXED: 6+ rooms = 5 crew
     
     def get_truck_count(self, quote_request: QuoteRequest, crew_size: int) -> int:
         """Truck count based on crew size - FIXED: 4+ movers need 2 trucks"""
@@ -1075,16 +1077,23 @@ class Easy2GoCalculator(VendorCalculator):
     """Easy2Go - Crew Size Based Pricing (Official Rules)"""
     
     def get_crew_size(self, quote_request: QuoteRequest) -> int:
-        """Crew size based on room count - OFFICIAL EASY2GO RULES"""
+        """Crew size based on room count AND heavy items - OFFICIAL EASY2GO RULES"""
         # Official Easy2Go crew sizing based on room count
         if quote_request.total_rooms <= 2:
-            return 2
+            base_crew = 2
         elif quote_request.total_rooms <= 3:
-            return 3
+            base_crew = 3
         elif quote_request.total_rooms <= 4:
-            return 4
+            base_crew = 4
         else:
-            return 5
+            base_crew = 5
+        
+        # Heavy items auto-upgrade crew to at least 3
+        heavy_items_count = sum(quote_request.heavy_items.values())
+        if heavy_items_count > 0:
+            return max(base_crew, 3)
+        
+        return base_crew
     
     def get_truck_count(self, quote_request: QuoteRequest, crew_size: int) -> int:
         """Truck count based on crew size"""
@@ -1243,16 +1252,23 @@ class VelocityMoversCalculator(VendorCalculator):
     """Velocity Movers - Official Crew-Based Pricing"""
     
     def get_crew_size(self, quote_request: QuoteRequest) -> int:
-        """Crew size based on room count - OFFICIAL VELOCITY MOVERS RULES"""
+        """Crew size based on room count AND heavy items - OFFICIAL VELOCITY MOVERS RULES"""
         # Official Velocity Movers crew sizing based on room count
         if quote_request.total_rooms <= 2:
-            return 2
+            base_crew = 2
         elif quote_request.total_rooms <= 3:
-            return 3
+            base_crew = 3
         elif quote_request.total_rooms <= 4:
-            return 4
+            base_crew = 4
         else:
-            return 5
+            base_crew = 5
+        
+        # Heavy items auto-upgrade crew to at least 3
+        heavy_items_count = sum(quote_request.heavy_items.values())
+        if heavy_items_count > 0:
+            return max(base_crew, 3)
+        
+        return base_crew
     
     def get_truck_count(self, quote_request: QuoteRequest, crew_size: int) -> int:
         """Truck count based on crew size"""
@@ -1400,16 +1416,23 @@ class PierreSonsCalculator(VendorCalculator):
     """Pierre & Sons - Simple Hourly + Distance Surcharge"""
     
     def get_crew_size(self, quote_request: QuoteRequest) -> int:
-        """Crew size based on room count - OFFICIAL PIERRE & SONS RULES"""
+        """Crew size based on room count AND heavy items - OFFICIAL PIERRE & SONS RULES"""
         # Official Pierre & Sons crew sizing based on room count
         if quote_request.total_rooms <= 2:
-            return 2
+            base_crew = 2
         elif quote_request.total_rooms <= 3:
-            return 3
+            base_crew = 3
         elif quote_request.total_rooms <= 4:
-            return 4
+            base_crew = 4
         else:
-            return 5  # 5+ rooms = 5 movers
+            base_crew = 5  # 5+ rooms = 5 movers
+        
+        # Heavy items auto-upgrade crew to at least 3
+        heavy_items_count = sum(quote_request.heavy_items.values())
+        if heavy_items_count > 0:
+            return max(base_crew, 3)
+        
+        return base_crew
     
     def get_truck_count(self, quote_request: QuoteRequest, crew_size: int) -> int:
         """Truck count based on crew size"""
