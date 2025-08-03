@@ -173,7 +173,7 @@ const VendorManagement: React.FC = () => {
       setAvailabilityLoading(true);
       setError(null);
       
-      const response = await fetch(`https://movedin-backend.onrender.com/admin/vendors/${vendorSlug}/availability?start_date=${selectedDateRange.start}&end_date=${selectedDateRange.end}`);
+      const response = await fetch(`https://movedin-backend.onrender.com/admin/vendors/availability/bulk?vendor_slug=${vendorSlug}&start_date=${selectedDateRange.start}&end_date=${selectedDateRange.end}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
