@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 import uvicorn
-from app.api.routes import admin, leads, monitoring, payment, quotes, vendors, zoho
+from app.api.routes import admin, leads, monitoring, payment, quotes, vendors, zoho, auth
 from app.core.config import settings
 from app.core.database import engine, Base
 from app.services.sheets_monitor_service import sheets_monitor_service
@@ -51,6 +51,7 @@ app.add_middleware(
 app.include_router(quotes.router, prefix="/api")
 app.include_router(leads.router, prefix="/api")
 app.include_router(payment.router, prefix="/api")
+app.include_router(auth.router, prefix="/api/auth")
 app.include_router(admin.router, prefix="/admin")
 app.include_router(vendors.router, prefix="/vendors")
 app.include_router(monitoring.router, prefix="/monitoring")
