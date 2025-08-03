@@ -475,6 +475,12 @@ class SmartCalendarParser:
             if '#' in ops_manager:
                 ops_manager = ops_manager.split('#')[0].strip()
             location_details['ops_manager'] = ops_manager
+        else:
+            # Try to find Owner: in a line with many commas (like GID 120281503)
+            owner_match = re.search(r'Owner:\s*([^,\n]+)', csv_content)
+            if owner_match:
+                owner = owner_match.group(1).strip()
+                location_details['ops_manager'] = owner
         
         # SALES NUMBER
         sales_match = re.search(r'SALES #:\s*([^,\n]+)', csv_content)
@@ -486,6 +492,12 @@ class SmartCalendarParser:
             if '#' in sales_phone:
                 sales_phone = sales_phone.split('#')[0].strip()
             location_details['sales_phone'] = sales_phone
+        else:
+            # Try alternative format for some GIDs
+            sales_match = re.search(r'SALES #:\s*([^,\n]+?)(?:\s*,|$)', csv_content)
+            if sales_match:
+                sales_phone = sales_match.group(1).strip()
+                location_details['sales_phone'] = sales_phone
         
         # INTERSECTION
         intersection_match = re.search(r'INTERSECTION:\s*([^,]+)', csv_content)
@@ -493,6 +505,7 @@ class SmartCalendarParser:
             location_details['intersection'] = intersection_match.group(1).strip()
         
         # ADDRESS (clean version)
+        # First try to find ADDRESS: followed by text before the next field
         address_match = re.search(r'ADDRESS:\s*([^,\n]+)', csv_content)
         if address_match:
             address = address_match.group(1).strip()
@@ -508,6 +521,23 @@ class SmartCalendarParser:
             # Remove trailing commas and clean up
             address = address.rstrip(',').strip()
             location_details['address'] = address
+        else:
+            # Try to find ADDRESS: in a line with many commas (like GID 120281503)
+            lines = csv_content.split('\n')
+            for line in lines:
+                if 'ADDRESS:' in line:
+                    # Extract everything after ADDRESS: but before the next field
+                    parts = line.split(',')
+                    for i, part in enumerate(parts):
+                        if 'ADDRESS:' in part:
+                            # Get the address part
+                            address_part = part.split('ADDRESS:')[1].strip()
+                            # If there are more parts, take the first one that's not empty
+                            if i + 1 < len(parts) and parts[i + 1].strip():
+                                address_part = parts[i + 1].strip()
+                            location_details['address'] = address_part
+                            break
+                    break
         
         # E-TRANSFER (email)
         email_match = re.search(r'E-TRANSFER:\s*([^,]+)', csv_content)
