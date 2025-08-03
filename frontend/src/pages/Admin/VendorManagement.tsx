@@ -132,12 +132,20 @@ const VendorManagement: React.FC = () => {
       }
       
       const data = await response.json();
-      setVendors(data);
+      
+      // Transform the API response to match our expected format
+      const transformedVendors: Vendor[] = Object.entries(data.vendors).map(([slug, vendorData]: [string, any]) => ({
+        vendor_name: vendorData.name,
+        vendor_slug: slug,
+        locations: [] // We'll load locations separately
+      }));
+      
+      setVendors(transformedVendors);
       
       // Auto-select first vendor if none selected
-      if (data.length > 0 && !selectedVendor) {
-        setSelectedVendor(data[0].vendor_slug);
-        await handleVendorChange(data[0].vendor_slug);
+      if (transformedVendors.length > 0 && !selectedVendor) {
+        setSelectedVendor(transformedVendors[0].vendor_slug);
+        await handleVendorChange(transformedVendors[0].vendor_slug);
       }
       
     } catch (err) {
@@ -329,9 +337,10 @@ const VendorManagement: React.FC = () => {
     const selectedVendorData = vendors.find(v => v.vendor_slug === selectedVendor);
     if (!selectedVendorData) return null;
 
-    const totalLocations = selectedVendorData.locations.length;
+    const totalLocations = locationAvailability.length;
     const availableLocations = locationAvailability.filter(loc => loc.total_available_dates > 0).length;
     const totalCalendarDates = locationAvailability.reduce((sum, loc) => sum + loc.total_calendar_dates, 0);
+    const availabilityRate = totalLocations > 0 ? ((availableLocations / totalLocations) * 100) : 0;
 
     return (
       <div className="vendor-overview">
@@ -351,7 +360,7 @@ const VendorManagement: React.FC = () => {
               <div className="stat-label">Calendar Dates</div>
             </div>
             <div className="stat-card">
-              <div className="stat-number">{((availableLocations / totalLocations) * 100).toFixed(1)}%</div>
+              <div className="stat-number">{availabilityRate.toFixed(1)}%</div>
               <div className="stat-label">Availability Rate</div>
             </div>
           </div>
@@ -712,7 +721,7 @@ const VendorManagement: React.FC = () => {
         >
           {vendors.map(vendor => (
             <option key={vendor.vendor_slug} value={vendor.vendor_slug}>
-              {vendor.vendor_name} ({vendor.locations.length} locations)
+              {vendor.vendor_name} ({vendor.vendor_slug === selectedVendor ? locationAvailability.length : '...'} locations)
             </option>
           ))}
         </select>
