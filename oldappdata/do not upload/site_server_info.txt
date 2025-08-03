@@ -1,0 +1,17 @@
+Server IP: 52.60.55.252
+SSH User: master_fhwwtsmvcf
+WordPress DB: tckyfefgub
+WP Admin User: udi (email: udi.shkolnik@alicesolutions.co.il)
+Active Theme: movedin
+B76Aw7jTQzfc
+
+Other notes:
+- Plugins and all themes except 'movedin' are disabled or not compatible.
+- Last known working password for 'udi': NewSecurePassword2024!
+- WordPress and server are running on Cloudways/Debian. 
+
+SERVER="52.60.55.252"
+USER="master_fhwwtsmvcf"
+SSH_KEY="cloudways/server/macbook_pro_sagi_id_rsa"
+THEME_PATH="applications/tckyfefgub/public_html/wp-content/themes/movedin"
+LOCAL_THEME_PATH="movedin"

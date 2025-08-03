@@ -147,59 +147,34 @@ class PierreSonsCalculator:
         return labor_hours_map.get(room_count, 7.5)  # Default to 7.5 for larger moves
     
     def _calculate_travel_time(self, origin: str, destination: str) -> float:
-        """Calculate travel time using Mapbox API with actual dispatcher location and truck factor"""
+        """Calculate travel time - OFFICIAL PIERRE & SONS RULES"""
+        # Pierre & Sons official rule: 1 hour travel time fee included
+        # This covers the time it takes for the team to return to the office
+        
         try:
-            # Pierre & Sons dispatcher address
-            dispatcher_address = "1155 Kipling Ave, Etobicoke, ON M9B 3M4"
-            
-            # Calculate 3-leg journey: Dispatcher -> Origin -> Destination -> Dispatcher
-            # Leg 1: Dispatcher to Origin
-            leg1 = mapbox_service.get_directions(dispatcher_address, origin)
-            # Leg 2: Origin to Destination  
-            leg2 = mapbox_service.get_directions(origin, destination)
-            # Leg 3: Destination to Dispatcher
-            leg3 = mapbox_service.get_directions(destination, dispatcher_address)
-            
-            total_duration = 0
-            legs_with_data = 0
-            
-            # Sum up all legs that have data
-            for leg in [leg1, leg2, leg3]:
-                if leg and 'duration' in leg:
-                    total_duration += leg['duration']
-                    legs_with_data += 1
-            
-            if legs_with_data > 0:
-                # Convert seconds to hours
-                car_travel_hours = total_duration / 3600
+            # Get one-way travel time
+            directions = mapbox_service.get_directions(origin, destination)
+            if directions:
+                one_way_hours = directions['duration'] / 3600
                 
-                # Apply truck factor (1.3x for commercial trucks)
-                TRUCK_FACTOR = 1.3
-                truck_travel_hours = car_travel_hours * TRUCK_FACTOR
-                
-                print(f"Pierre & Sons Mapbox travel calculation: {legs_with_data}/3 legs, car: {car_travel_hours:.2f}h, truck: {truck_travel_hours:.2f}h")
-                return truck_travel_hours
-            
-            # If Mapbox fails for all legs, try a simpler approach
-            # Just calculate Origin to Destination and estimate 3-leg with truck factor
-            origin_to_dest = mapbox_service.get_directions(origin, destination)
-            if origin_to_dest and 'duration' in origin_to_dest:
-                one_way_hours = origin_to_dest['duration'] / 3600
-                # Estimate 3-leg as 2.5x one-way (Dispatcher->Origin->Destination->Dispatcher)
-                car_three_leg_hours = one_way_hours * 2.5
                 # Apply truck factor
                 TRUCK_FACTOR = 1.3
-                truck_three_leg_hours = car_three_leg_hours * TRUCK_FACTOR
+                truck_one_way_hours = one_way_hours * TRUCK_FACTOR
                 
-                print(f"Pierre & Sons Mapbox fallback calculation: car: {car_three_leg_hours:.2f}h, truck: {truck_three_leg_hours:.2f}h")
-                return truck_three_leg_hours
+                # Pierre & Sons rule: If move is more than 1 hour away, 
+                # travel time fee matches the time it takes to return to office
+                if truck_one_way_hours > 1:
+                    print(f"Pierre & Sons travel time: {truck_one_way_hours:.2f}h (over 1 hour, full travel time)")
+                    return truck_one_way_hours  # Full travel time
+                else:
+                    print(f"Pierre & Sons travel time: 1.0h (minimum 1 hour travel time fee)")
+                    return 1.0  # Minimum 1 hour travel time fee
             
-            # Final fallback - should rarely happen
-            print("Pierre & Sons Mapbox calculation failed, using conservative estimate with truck factor")
-            return 2.0 * 1.3  # Conservative 2 hours for 3-leg journey with truck factor
+            print("Pierre & Sons travel time: 1.0h (default minimum 1 hour travel time fee)")
+            return 1.0  # Default 1 hour travel time fee
         except Exception as e:
-            print(f"Pierre & Sons Mapbox directions error: {e}")
-            return 2.0 * 1.3  # Default 2 hours for 3-leg journey with truck factor
+            print(f"Pierre & Sons travel time error: {e}, using default 1.0h")
+            return 1.0  # Default 1 hour travel time fee
     
     def _calculate_distance(self, origin: str, destination: str) -> float:
         """Calculate distance using Mapbox API"""
@@ -216,21 +191,29 @@ class PierreSonsCalculator:
             return 25.0  # Default 25km if Mapbox fails
     
     def _calculate_fuel_surcharge(self, distance_km: float) -> float:
-        """Calculate fuel surcharge for distance over 50km"""
+        """Calculate fuel surcharge - OFFICIAL PIERRE & SONS RULES"""
+        # Pierre & Sons rule: If distance exceeds 50 km, $1 per extra km
         if distance_km <= 50:
             return 0.0
         
-        # $2/km over 50km
-        overage_km = distance_km - 50
-        return overage_km * 2.0
+        extra_km = distance_km - 50
+        return extra_km * 1.0  # $1 per extra km
     
     def _get_truck_fee_from_rooms(self, room_count: int) -> float:
-        """Get truck fee based on room count - Based on old app data"""
-        # Pierre & Sons truck fees from old app data
-        if room_count >= 4:
-            return 140  # $140 (20ft) for 2-bed/2-truck, within 50km
+        """Get truck fee based on room count - OFFICIAL PIERRE & SONS RULES"""
+        # Official Pierre & Sons truck fees:
+        # $100 - Small truck (16ft) / For 1-bedroom moves within 50 km
+        # $140 - Medium truck (20ft) / For 2-bedroom moves within 50 km
+        # $180 - Big truck (26ft) / For 3-bedroom moves within 50 km
+        
+        if room_count == 1:
+            return 100  # Small truck (16ft) - $100
+        elif room_count == 2:
+            return 140  # Medium truck (20ft) - $140
+        elif room_count >= 3:
+            return 180  # Big truck (26ft) - $180
         else:
-            return 100  # $100 (16ft) for 1-bed/1-truck, within 50km
+            return 100  # Default to small truck
     
     def _calculate_heavy_items_cost(self, heavy_items: Dict[str, int]) -> float:
         """Calculate heavy items cost"""

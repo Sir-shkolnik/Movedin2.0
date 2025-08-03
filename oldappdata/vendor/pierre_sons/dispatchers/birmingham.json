@@ -1,0 +1,26 @@
+{
+    "name": "Pierre & Sons Birmingham",
+    "address": "234 Birmingham Street, Etobicoke (New Toronto), Toronto, ON M8V 2C8",
+    "province": "ON",
+    "postal_code": "M8V 2C8",
+    "phone": "519-808-5122",
+    "lat": 43.6000,
+    "lng": -79.5000,
+    "services": ["residential", "delivery", "storage"],
+    "truck_sizes": ["16ft", "20ft", "26ft"],
+    "equipment": ["dollies", "blankets", "tapes", "shrink wrap"],
+    "languages": ["en"],
+    "coverage_area": "Etobicoke, Toronto, GTA",
+    "notes": "Birmingham Street office",
+    "room_to_movers": { "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6 },
+    "rates": {
+        "weekday": { "1": 65, "2": 135, "3": 165, "4": 195, "5": 225, "6": 255 },
+        "weekend": { "1": 75, "2": 145, "3": 175, "4": 205, "5": 235, "6": 265 },
+        "month_start": { "1": 80, "2": 150, "3": 180, "4": 210, "5": 240, "6": 270 },
+        "month_end": { "1": 80, "2": 150, "3": 180, "4": 210, "5": 240, "6": 270 }
+    },
+    "surcharges": {
+        "holiday": 0.15,
+        "evening": 0.1
+    }
+}

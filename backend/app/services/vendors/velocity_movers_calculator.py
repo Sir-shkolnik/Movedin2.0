@@ -156,14 +156,16 @@ class VelocityMoversCalculator:
         }
     
     def _get_hourly_rate(self, crew_size: int) -> float:
-        """Get hourly rate based on crew size - Based on old app data"""
-        rates = {
-            2: 150,  # Two Movers: $150.00/hr
-            3: 190,  # 3 movers: $190/hr
-            4: 230,  # 4 movers: $230/hr
-            5: 270   # 5 movers: $270/hr
-        }
-        return rates.get(crew_size, 150)
+        """Get hourly rate based on crew size - OFFICIAL VELOCITY MOVERS RULES"""
+        # Official Velocity Movers rule: "Two Movers $150.00 | Additional Movers $40.00"
+        base_rate = 150  # Two Movers base rate
+        additional_mover_rate = 40  # Additional movers rate
+        
+        if crew_size == 2:
+            return base_rate
+        else:
+            additional_movers = crew_size - 2
+            return base_rate + (additional_movers * additional_mover_rate)
     
     def _estimate_labor_hours_from_rooms(self, rooms: int) -> float:
         """Estimate labor hours from rooms - Based on old app data"""
