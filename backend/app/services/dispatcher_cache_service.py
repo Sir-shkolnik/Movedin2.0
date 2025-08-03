@@ -513,6 +513,12 @@ class DispatcherCacheService:
             user_address_lower = user_address.lower()
             dispatcher_name_lower = dispatcher_name.lower()
             
+            # Blacklist: FREDERICTON cannot serve GTA or BC moves
+            if dispatcher_name_lower == 'fredericton':
+                if any(keyword in user_address_lower for keyword in ['toronto', 'scarborough', 'mississauga', 'brampton', 'vaughan', 'markham', 'vancouver', 'burnaby']):
+                    logger.warning(f"❌ FREDERICTON blacklisted for {user_address}")
+                    return False
+            
             # GTA dispatchers should serve GTA areas
             gta_keywords = ['toronto', 'scarborough', 'north york', 'etobicoke', 'york', 'east york', 
                            'mississauga', 'brampton', 'vaughan', 'markham', 'richmond hill', 
@@ -540,6 +546,25 @@ class DispatcherCacheService:
             # For other areas, be more permissive but log
             logger.info(f"⚠️ Geographic validation: {user_address} -> {dispatcher_name} (unknown region)")
             return True
+        
+        def get_name_match_score(dispatcher_name: str, user_address: str) -> float:
+            """Get a score for name matching between dispatcher and user address"""
+            user_address_lower = user_address.lower()
+            dispatcher_name_lower = dispatcher_name.lower()
+            
+            # Direct name matches get highest score
+            if dispatcher_name_lower in user_address_lower or user_address_lower in dispatcher_name_lower:
+                return 100.0
+            
+            # Word matching
+            user_words = set(user_address_lower.split())
+            dispatcher_words = set(dispatcher_name_lower.split())
+            common_words = user_words.intersection(dispatcher_words)
+            
+            if common_words:
+                return len(common_words) * 10.0
+            
+            return 0.0
         
         user_coords = mapbox_service.get_coordinates(address)
         best_gid = None
@@ -657,6 +682,30 @@ class DispatcherCacheService:
             selected_name = all_locations[0][1].get('location_details', {}).get('name', 'Unknown')
             selected_distance = all_locations[0][2]
             logger.warning(f"🔄 Selected dispatcher using fallback: {selected_name} at {selected_distance:.1f}km")
+            return best_gid
+        
+        # Smart fallback: Use name matching when coordinate-based selection fails
+        logger.warning("🔄 Coordinate-based selection failed, trying name-based matching...")
+        
+        name_based_candidates = []
+        for gid, data in all_data.items():
+            if has_complete_data(data):
+                location_details = data.get('location_details', {})
+                name = location_details.get('name', 'Unknown')
+                
+                if is_valid_service_area(name, address):
+                    name_score = get_name_match_score(name, address)
+                    if name_score > 0:
+                        name_based_candidates.append((gid, data, name_score))
+                        logger.info(f"🔄 Name-based candidate: {name} with score {name_score}")
+        
+        if name_based_candidates:
+            # Sort by name match score (highest first)
+            name_based_candidates.sort(key=lambda x: x[2], reverse=True)
+            best_gid = name_based_candidates[0][0]
+            selected_name = name_based_candidates[0][1].get('location_details', {}).get('name', 'Unknown')
+            selected_score = name_based_candidates[0][2]
+            logger.info(f"🎯 Selected dispatcher using name matching: {selected_name} with score {selected_score}")
             return best_gid
         
         # Final fallback
