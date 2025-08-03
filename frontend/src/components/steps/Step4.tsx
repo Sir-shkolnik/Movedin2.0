@@ -724,58 +724,40 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                                     </div>
                                 </div>
 
-                                {/* Move Details - Super Important */}
+                                {/* Compact Move Details - Clean like mobile */}
                                 <div style={{
-                                    display: 'grid',
-                                    gridTemplateColumns: '1fr 1fr',
-                                    gap: '12px',
-                                    marginBottom: '16px'
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    backgroundColor: '#f8f9fa',
+                                    padding: '8px 12px',
+                                    borderRadius: '6px',
+                                    border: '1px solid #e9ecef',
+                                    marginBottom: '12px',
+                                    fontSize: '13px'
                                 }}>
                                     <div style={{
-                                        backgroundColor: '#f8f9fa',
-                                        padding: '12px',
-                                        borderRadius: '8px',
-                                        textAlign: 'center',
-                                        border: '1px solid #e9ecef'
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '4px',
+                                        color: '#495057',
+                                        fontWeight: '600'
                                     }}>
-                                        <div style={{
-                                            fontSize: '16px',
-                                            fontWeight: 'bold',
-                                            color: '#495057',
-                                            marginBottom: '4px'
-                                        }}>
+                                        <span>Move Size:</span>
+                                        <span style={{ color: '#007bff' }}>
                                             {vendor.move_size.rooms > 0 ? `${vendor.move_size.rooms} rooms` : 
                                              vendor.move_size.square_footage > 0 ? `${vendor.move_size.square_footage} sq ft` : 
                                              'Standard'}
-                                        </div>
-                                        <div style={{
-                                            fontSize: '12px',
-                                            color: '#6c757d'
-                                        }}>
-                                            Move Size
-                                        </div>
+                                        </span>
                                     </div>
                                     <div style={{
-                                        backgroundColor: '#f8f9fa',
-                                        padding: '12px',
-                                        borderRadius: '8px',
-                                        textAlign: 'center',
-                                        border: '1px solid #e9ecef'
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '4px',
+                                        color: '#495057',
+                                        fontWeight: '600'
                                     }}>
-                                        <div style={{
-                                            fontSize: '16px',
-                                            fontWeight: 'bold',
-                                            color: '#495057',
-                                            marginBottom: '4px'
-                                        }}>
-                                            {vendor.crew_size} movers
-                                        </div>
-                                        <div style={{
-                                            fontSize: '12px',
-                                            color: '#6c757d'
-                                        }}>
-                                            {vendor.truck_count} truck{vendor.truck_count !== 1 ? 's' : ''}
-                                        </div>
+                                        <span>{vendor.crew_size} movers, {vendor.truck_count} truck{vendor.truck_count !== 1 ? 's' : ''}</span>
                                     </div>
                                 </div>
 
