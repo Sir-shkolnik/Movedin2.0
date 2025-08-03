@@ -520,9 +520,15 @@ class SmartCalendarParser:
                         parts = line.split(',')
                         for i, part in enumerate(parts):
                             if 'SALES #:' in part:
+                                # Check if there's a phone number in the same part after SALES #:
                                 sales_part = part.split('SALES #:')[1].strip()
-                                if i + 1 < len(parts) and parts[i + 1].strip():
+                                # If no phone number in this part, check the next part
+                                if not sales_part and i + 1 < len(parts):
                                     sales_part = parts[i + 1].strip()
+                                # Clean up the phone number
+                                if sales_part:
+                                    # Remove extra spaces and clean up
+                                    sales_part = ' '.join(sales_part.split())
                                 location_details['sales_phone'] = sales_part
                                 break
                         break
