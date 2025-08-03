@@ -9,5 +9,5 @@
 /admin /index.html 200
 /admin/* /index.html 200
 
-# Handle client-side routing for React Router
+# Handle all other routes for React Router BrowserRouter
 /* /index.html 200 
