@@ -214,8 +214,8 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
             <div className="step-card">
                 <h2>Choose Your Moving Company</h2>
                 
-                {/* Enhanced Loading Experience */}
-                <div style={{ 
+                {/* Professional Loading Experience */}
+                <div className="loading-container" style={{ 
                     textAlign: 'center', 
                     padding: '60px 20px',
                     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -223,30 +223,57 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                     marginBottom: '24px',
                     color: 'white'
                 }}>
-                    {/* Animated Loading Icon */}
-                    <div style={{
-                        width: '80px',
-                        height: '80px',
-                        margin: '0 auto 24px',
+                    {/* Professional Loading Animation */}
+                    <div className="loading-animation" style={{
+                        width: '120px',
+                        height: '120px',
+                        margin: '0 auto 32px',
                         position: 'relative',
-                        animation: 'spin 2s linear infinite'
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
                     }}>
-                        <div style={{
-                            width: '100%',
-                            height: '100%',
-                            border: '4px solid rgba(255,255,255,0.3)',
-                            borderTop: '4px solid white',
-                            borderRadius: '50%',
-                            animation: 'spin 1s linear infinite'
-                        }}></div>
+                        {/* Outer Ring */}
                         <div style={{
                             position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            fontSize: '24px'
+                            width: '100%',
+                            height: '100%',
+                            border: '3px solid rgba(255,255,255,0.2)',
+                            borderRadius: '50%',
+                            borderTop: '3px solid rgba(255,255,255,0.8)',
+                            animation: 'smoothSpin 2s linear infinite'
+                        }}></div>
+                        
+                        {/* Middle Ring */}
+                        <div style={{
+                            position: 'absolute',
+                            width: '80%',
+                            height: '80%',
+                            border: '2px solid rgba(255,255,255,0.3)',
+                            borderRadius: '50%',
+                            borderRight: '2px solid rgba(255,255,255,0.9)',
+                            animation: 'smoothSpin 1.5s linear infinite reverse'
+                        }}></div>
+                        
+                        {/* Inner Ring */}
+                        <div style={{
+                            position: 'absolute',
+                            width: '60%',
+                            height: '60%',
+                            border: '2px solid rgba(255,255,255,0.4)',
+                            borderRadius: '50%',
+                            borderBottom: '2px solid white',
+                            animation: 'smoothSpin 1s linear infinite'
+                        }}></div>
+                        
+                        {/* Center Icon */}
+                        <div style={{
+                            position: 'relative',
+                            fontSize: '32px',
+                            animation: 'gentlePulse 2s ease-in-out infinite',
+                            filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))'
                         }}>
-                            🚛
+                            📋
                         </div>
                     </div>
 
@@ -261,7 +288,7 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                     </h3>
 
                     {/* Progress Steps */}
-                    <div style={{
+                    <div className="progress-steps" style={{
                         display: 'flex',
                         justifyContent: 'center',
                         gap: '20px',
@@ -415,9 +442,19 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
 
                 {/* CSS Animations */}
                 <style>{`
-                    @keyframes spin {
+                    @keyframes smoothSpin {
                         0% { transform: rotate(0deg); }
                         100% { transform: rotate(360deg); }
+                    }
+                    @keyframes gentlePulse {
+                        0%, 100% { 
+                            opacity: 1; 
+                            transform: scale(1); 
+                        }
+                        50% { 
+                            opacity: 0.8; 
+                            transform: scale(1.1); 
+                        }
                     }
                     @keyframes pulse {
                         0%, 100% { opacity: 1; transform: scale(1); }
@@ -431,6 +468,19 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                         0% { width: 0%; }
                         50% { width: 60%; }
                         100% { width: 100%; }
+                    }
+                    @media (max-width: 768px) {
+                        .loading-container {
+                            padding: 40px 16px !important;
+                        }
+                        .loading-animation {
+                            width: 100px !important;
+                            height: 100px !important;
+                        }
+                        .progress-steps {
+                            flex-direction: column !important;
+                            gap: 12px !important;
+                        }
                     }
                 `}</style>
             </div>
