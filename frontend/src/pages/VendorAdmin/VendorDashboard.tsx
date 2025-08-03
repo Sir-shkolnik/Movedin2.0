@@ -65,7 +65,8 @@ const VendorDashboard: React.FC = () => {
     const vendorInfoStr = localStorage.getItem('vendorInfo');
     
     if (!token || !vendorInfoStr) {
-      navigate('/vendor/login');
+      // Use window.location for proper HashRouter navigation
+      window.location.href = '/#/vendor/login';
       return;
     }
 
@@ -75,7 +76,8 @@ const VendorDashboard: React.FC = () => {
     } catch (err) {
       localStorage.removeItem('vendorToken');
       localStorage.removeItem('vendorInfo');
-      navigate('/vendor/login');
+      // Use window.location for proper HashRouter navigation
+      window.location.href = '/#/vendor/login';
     }
   };
 
@@ -110,7 +112,8 @@ const VendorDashboard: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem('vendorToken');
     localStorage.removeItem('vendorInfo');
-    navigate('/vendor/login');
+    // Use window.location for proper HashRouter navigation
+    window.location.href = '/#/vendor/login';
   };
 
   const renderDashboard = () => (

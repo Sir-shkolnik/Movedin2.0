@@ -53,7 +53,7 @@ const VendorLogin: React.FC = () => {
         }));
         
         // Redirect to vendor dashboard
-        navigate('/vendor/dashboard');
+        window.location.href = '/#/vendor/dashboard';
       } else {
         const errorData = await response.json();
         setError(errorData.detail || 'Login failed. Please check your credentials.');
