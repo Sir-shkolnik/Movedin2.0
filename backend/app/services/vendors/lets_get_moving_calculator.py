@@ -38,8 +38,8 @@ class LetsGetMovingCalculator:
             return 5
     
     def get_truck_count(self, quote_request: QuoteRequest, crew_size: int) -> int:
-        """Truck count based on crew size - TRUE LGM LOGIC"""
-        if crew_size <= 4:
+        """Truck count based on crew size - FIXED: 4+ movers need 2 trucks (max 3 per truck)"""
+        if crew_size <= 3:
             return 1
         else:
             return 2

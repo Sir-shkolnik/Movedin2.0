@@ -14,8 +14,8 @@ This document details the calculation logic, formulas, and business rules for th
      - 7+ rooms: 5 crew
      - Any heavy items: minimum 3 crew
 2. **Truck Count**
-   - 1 truck for up to 4 crew
-   - 2 trucks for 5+ crew
+   - 1 truck for up to 3 crew (max 3 movers per truck)
+   - 2 trucks for 4+ crew
 3. **Base Rate Selection**
    - Fetched from Google Sheets daily rates for the dispatcher location and move date.
 4. **Geographic Pricing Adjustments**
