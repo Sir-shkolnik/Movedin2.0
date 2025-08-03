@@ -75,7 +75,7 @@ function AppInner() {
         // Step 5 validation - contact information
         const { firstName, lastName, email, phone } = data.contact || {};
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        continueDisabled = !(firstName && firstName.trim()) || !(lastName && lastName.trim()) || !(email && email.trim()) || !(phone && phone.trim()) || !emailRegex.test(email || 'http://localhost:8000') || (phone || 'http://localhost:8000').length < 10;
+        continueDisabled = !(firstName && firstName.trim()) || !(lastName && lastName.trim()) || !(email && email.trim()) || !(phone && phone.trim()) || !emailRegex.test(email || '') || (phone || '').length < 10;
     }
     // Custom button text and actions for different steps
     let continueButtonText = "Continue";
