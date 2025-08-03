@@ -199,19 +199,41 @@ const VendorLocations: React.FC = () => {
 
   const prepareMapLocations = (vendorsData: Vendor[]) => {
     const locations: MapLocation[] = [];
+    let totalLocations = 0;
+    let skippedLocations = 0;
+    
+    console.log('Processing vendors data:', vendorsData.length, 'vendors');
     
     vendorsData.forEach(vendor => {
+      console.log(`Processing vendor: ${vendor.vendor_name} with ${vendor.locations.length} locations`);
+      totalLocations += vendor.locations.length;
+      
       vendor.locations.forEach(location => {
         // Use cached coordinates if available, otherwise use provided coordinates
         let coordinates = location.coordinates;
-        if (!coordinates || (!coordinates.lat && !coordinates.lng)) {
-          const cachedCoords = getCachedCoordinates(location.address);
-          if (cachedCoords) {
-            coordinates = cachedCoords;
-          } else {
-            // Skip locations without coordinates
-            return;
-          }
+        
+        // Debug coordinate data
+        if (!coordinates) {
+          console.log(`No coordinates for location: ${location.name}`);
+          skippedLocations++;
+          return;
+        }
+        
+        if (typeof coordinates.lat !== 'number' || typeof coordinates.lng !== 'number') {
+          console.log(`Invalid coordinates for location: ${location.name}`, coordinates);
+          skippedLocations++;
+          return;
+        }
+
+        // Ensure coordinates are in correct format (lat should be positive for Canada, lng should be negative)
+        if (coordinates.lat < 0 && coordinates.lng > 0) {
+          // Coordinates are swapped, fix them
+          const temp = coordinates.lat;
+          coordinates = {
+            lat: coordinates.lng,
+            lng: temp
+          };
+          console.log(`Fixed swapped coordinates for ${location.name}:`, coordinates);
         }
 
         locations.push({
@@ -231,7 +253,11 @@ const VendorLocations: React.FC = () => {
       });
     });
 
+    console.log(`Total locations processed: ${totalLocations}`);
+    console.log(`Locations with valid coordinates: ${locations.length}`);
+    console.log(`Skipped locations: ${skippedLocations}`);
     console.log('Prepared map locations:', locations.length);
+    
     setMapLocations(locations);
     setFilteredLocations(locations);
   };
@@ -407,146 +433,125 @@ const VendorLocations: React.FC = () => {
 
     console.log('Adding map markers for', filteredLocations.length, 'filtered locations');
 
-    try {
-      // Safely remove existing layers and source
-      const layersToRemove = ['locations-glow', 'locations'];
-      const sourcesToRemove = ['locations'];
+    // Remove existing layers and source if they exist (layers must be removed before source)
+    if (map.current.getLayer('locations-glow')) {
+      map.current.removeLayer('locations-glow');
+    }
+    if (map.current.getLayer('locations')) {
+      map.current.removeLayer('locations');
+    }
+    if (map.current.getSource('locations')) {
+      map.current.removeSource('locations');
+    }
 
-      // Remove layers first
-      layersToRemove.forEach(layerId => {
-        if (map.current.getLayer(layerId)) {
-          map.current.removeLayer(layerId);
-          console.log(`Removed layer: ${layerId}`);
+    // Create GeoJSON data for the filtered locations
+    const geojsonData = {
+      type: 'FeatureCollection',
+      features: filteredLocations.map(location => ({
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [location.coordinates.lng, location.coordinates.lat]
+        },
+        properties: {
+          id: location.id,
+          vendor_name: location.vendor_name,
+          vendor_slug: location.vendor_slug,
+          location_name: location.location_name,
+          address: location.address,
+          color: location.color,
+          dispatcher_name: location.dispatcher_name,
+          truck_count: location.truck_count,
+          phone: location.phone
         }
+      }))
+    };
+
+    console.log('GeoJSON data:', geojsonData);
+    console.log('First location coordinates:', filteredLocations[0]?.coordinates);
+
+    // Add a data source for the filtered locations
+    map.current.addSource('locations', {
+      type: 'geojson',
+      data: geojsonData
+    });
+
+    // Add a layer for the location markers with enhanced visibility
+    map.current.addLayer({
+      id: 'locations',
+      type: 'circle',
+      source: 'locations',
+      paint: {
+        'circle-radius': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          2, 8,   // zoom level 2, radius 8 (increased)
+          8, 16,  // zoom level 8, radius 16 (increased)
+          15, 24  // zoom level 15, radius 24 (increased)
+        ],
+        'circle-color': ['get', 'color'],
+        'circle-stroke-width': 3, // Increased stroke width
+        'circle-stroke-color': '#ffffff',
+        'circle-opacity': 1.0 // Full opacity for better visibility
+      }
+    });
+
+    // Add a second layer for marker glow effect
+    map.current.addLayer({
+      id: 'locations-glow',
+      type: 'circle',
+      source: 'locations',
+      paint: {
+        'circle-radius': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          2, 12,  // zoom level 2, radius 12
+          8, 20,  // zoom level 8, radius 20
+          15, 28  // zoom level 15, radius 28
+        ],
+        'circle-color': ['get', 'color'],
+        'circle-stroke-width': 0,
+        'circle-opacity': 0.3 // Glow effect
+      }
+    });
+
+    console.log('Added filtered locations layer');
+    
+    // Force a map repaint to ensure markers are visible
+    if (map.current) {
+      map.current.triggerRepaint();
+    }
+    
+    // Log the actual features for debugging
+    const features = map.current.querySourceFeatures('locations');
+    console.log('Map features count:', features.length);
+    console.log('Map features:', features.slice(0, 3)); // Log first 3 features
+    
+    // Fit map to show all locations if we have data
+    if (filteredLocations.length > 0) {
+      // Create bounds manually since mapboxgl is loaded dynamically
+      let minLng = Infinity, maxLng = -Infinity, minLat = Infinity, maxLat = -Infinity;
+      
+      filteredLocations.forEach(location => {
+        minLng = Math.min(minLng, location.coordinates.lng);
+        maxLng = Math.max(maxLng, location.coordinates.lng);
+        minLat = Math.min(minLat, location.coordinates.lat);
+        maxLat = Math.max(maxLat, location.coordinates.lat);
       });
-
-      // Remove sources after layers
-      sourcesToRemove.forEach(sourceId => {
-        if (map.current.getSource(sourceId)) {
-          map.current.removeSource(sourceId);
-          console.log(`Removed source: ${sourceId}`);
-        }
+      
+      // Fly to the center of all locations
+      const centerLng = (minLng + maxLng) / 2;
+      const centerLat = (minLat + maxLat) / 2;
+      
+      map.current.flyTo({
+        center: [centerLng, centerLat],
+        zoom: 8,
+        duration: 2000
       });
-
-      // Wait a bit for cleanup
-      setTimeout(() => {
-        if (!map.current) return;
-
-        // Create GeoJSON data for the filtered locations
-        const geojsonData = {
-          type: 'FeatureCollection',
-          features: filteredLocations.map(location => ({
-            type: 'Feature',
-            geometry: {
-              type: 'Point',
-              coordinates: [location.coordinates.lng, location.coordinates.lat]
-            },
-            properties: {
-              id: location.id,
-              vendor_name: location.vendor_name,
-              vendor_slug: location.vendor_slug,
-              location_name: location.location_name,
-              address: location.address,
-              color: location.color,
-              dispatcher_name: location.dispatcher_name,
-              truck_count: location.truck_count,
-              phone: location.phone
-            }
-          }))
-        };
-
-        console.log('GeoJSON data:', geojsonData);
-        console.log('First location coordinates:', filteredLocations[0]?.coordinates);
-
-        // Add source
-        map.current.addSource('locations', {
-          type: 'geojson',
-          data: geojsonData
-        });
-        console.log('Added source: locations');
-
-        // Add main markers layer
-        map.current.addLayer({
-          id: 'locations',
-          type: 'circle',
-          source: 'locations',
-          paint: {
-            'circle-radius': [
-              'interpolate',
-              ['linear'],
-              ['zoom'],
-              2, 12,   // zoom level 2, radius 12
-              8, 20,   // zoom level 8, radius 20
-              15, 30   // zoom level 15, radius 30
-            ],
-            'circle-color': ['get', 'color'],
-            'circle-stroke-width': 4,
-            'circle-stroke-color': '#ffffff',
-            'circle-opacity': 1.0
-          }
-        });
-        console.log('Added layer: locations');
-
-        // Add glow effect layer
-        map.current.addLayer({
-          id: 'locations-glow',
-          type: 'circle',
-          source: 'locations',
-          paint: {
-            'circle-radius': [
-              'interpolate',
-              ['linear'],
-              ['zoom'],
-              2, 18,   // zoom level 2, radius 18
-              8, 28,   // zoom level 8, radius 28
-              15, 38   // zoom level 15, radius 38
-            ],
-            'circle-color': ['get', 'color'],
-            'circle-stroke-width': 0,
-            'circle-opacity': 0.4
-          }
-        });
-        console.log('Added layer: locations-glow');
-
-        // Force repaint
-        map.current.triggerRepaint();
-
-        // Verify features are loaded
-        setTimeout(() => {
-          if (map.current) {
-            const features = map.current.querySourceFeatures('locations');
-            console.log('Map features count:', features.length);
-            console.log('Map features:', features.slice(0, 3));
-            
-            // Auto-center map
-            if (filteredLocations.length > 0) {
-              let minLng = Infinity, maxLng = -Infinity, minLat = Infinity, maxLat = -Infinity;
-              
-              filteredLocations.forEach(location => {
-                minLng = Math.min(minLng, location.coordinates.lng);
-                maxLng = Math.max(maxLng, location.coordinates.lng);
-                minLat = Math.min(minLat, location.coordinates.lat);
-                maxLat = Math.max(maxLat, location.coordinates.lat);
-              });
-              
-              const centerLng = (minLng + maxLng) / 2;
-              const centerLat = (minLat + maxLat) / 2;
-              
-              map.current.flyTo({
-                center: [centerLng, centerLat],
-                zoom: 7,
-                duration: 2000
-              });
-              
-              console.log('Flew to center:', [centerLng, centerLat]);
-            }
-          }
-        }, 100);
-
-      }, 50);
-
-    } catch (error) {
-      console.error('Error adding map markers:', error);
+      
+      console.log('Flew to center:', [centerLng, centerLat]);
     }
   };
 
@@ -664,7 +669,8 @@ const VendorLocations: React.FC = () => {
   const clearCache = () => {
     localStorage.removeItem(CACHE_KEY);
     localStorage.removeItem(COORDINATES_CACHE_KEY);
-    alert('Cache cleared! Reloading data...');
+    console.log('Cache cleared, reloading fresh data...');
+    alert('Cache cleared! Reloading fresh data...');
     loadVendorLocations();
   };
 
@@ -672,13 +678,25 @@ const VendorLocations: React.FC = () => {
     if (mapLoaded && map.current) {
       console.log('Force refreshing map markers');
       
-      // Use the same safe approach as addMapMarkers
-      addMapMarkers();
+      // Clear existing layers and sources properly
+      if (map.current.getLayer('locations-glow')) {
+        map.current.removeLayer('locations-glow');
+      }
+      if (map.current.getLayer('locations')) {
+        map.current.removeLayer('locations');
+      }
+      if (map.current.getSource('locations')) {
+        map.current.removeSource('locations');
+      }
       
-      // Re-add vendor areas if enabled
+      // Re-add markers and areas
+      addMapMarkers();
       if (showVendorAreas) {
         addVendorAreas();
       }
+      
+      // Force a repaint
+      map.current.triggerRepaint();
     }
   };
 
@@ -847,21 +865,9 @@ const VendorLocations: React.FC = () => {
   useEffect(() => {
     if (mapLoaded && map.current && filteredLocations.length > 0) {
       console.log('Refreshing map markers for', filteredLocations.length, 'locations');
-      
-      // Ensure map is fully loaded before adding markers
-      if (map.current.isStyleLoaded()) {
-        addMapMarkers();
-        if (showVendorAreas) {
-          addVendorAreas();
-        }
-      } else {
-        // Wait for style to load
-        map.current.once('styledata', () => {
-          addMapMarkers();
-          if (showVendorAreas) {
-            addVendorAreas();
-          }
-        });
+      addMapMarkers();
+      if (showVendorAreas) {
+        addVendorAreas();
       }
     }
   }, [filteredLocations, mapLoaded, showVendorAreas]);
@@ -974,8 +980,8 @@ const VendorLocations: React.FC = () => {
               <div className="stat-card">
                 <div className="stat-icon">📍</div>
                 <div className="stat-content">
-                  <h3>{filteredLocations.length}</h3>
-                  <p>Locations Found</p>
+                  <h3>{mapLocations.length}</h3>
+                  <p>Total Locations</p>
                 </div>
               </div>
               <div className="stat-card">
