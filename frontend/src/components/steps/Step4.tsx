@@ -588,7 +588,7 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                 {vendors.map((vendor) => {
                     const theme = getVendorTheme(vendor.vendor_slug);
                     const isSelected = selected === vendor.vendor_slug;
-                    const totalTime = vendor.travel_time_hours + vendor.estimated_hours;
+                    const totalTime = vendor.estimated_hours; // Use only estimated_hours as it already includes travel time
                     
                     return (
                         <div

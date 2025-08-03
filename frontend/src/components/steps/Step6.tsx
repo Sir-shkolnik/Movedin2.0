@@ -126,7 +126,7 @@ const Step6: React.FC = () => {
   }
 
   const selectedQuote = data.selectedQuote;
-  const totalTime = (selectedQuote.travel_time_hours || 0) + (selectedQuote.estimated_hours || 0);
+          const totalTime = selectedQuote.estimated_hours || 0; // Use only estimated_hours as it already includes travel time
 
   return (
     <div className="step-card step6-modern">
