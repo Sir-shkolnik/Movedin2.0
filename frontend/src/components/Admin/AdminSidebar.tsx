@@ -1,5 +1,4 @@
 import React from 'react';
-import { useAuth } from '../../contexts/AuthContext';
 import './AdminSidebar.css';
 
 // Import logo as module
@@ -13,8 +12,6 @@ interface AdminSidebarProps {
 }
 
 const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeSection, onSectionChange }) => {
-  const { user, logout } = useAuth();
-
   const menuItems = [
     {
       id: 'dashboard' as AdminSection,
@@ -59,10 +56,6 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeSection, onSectionCha
       description: 'Database health and schemas'
     }
   ];
-
-  const handleLogout = () => {
-    logout();
-  };
 
   return (
     <div className="admin-sidebar">
@@ -110,11 +103,11 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeSection, onSectionCha
             <span className="avatar-icon">👤</span>
           </div>
           <div className="user-details">
-            <span className="user-name">{user?.name || 'Admin User'}</span>
-            <span className="user-role">{user?.role || 'Administrator'}</span>
+            <span className="user-name">Admin User</span>
+            <span className="user-role">Administrator</span>
           </div>
         </div>
-        <button className="logout-btn" onClick={handleLogout}>
+        <button className="logout-btn">
           <span className="logout-icon">🚪</span>
           <span className="logout-text">Logout</span>
         </button>
