@@ -5,5 +5,9 @@
 /favicon.ico /favicon.ico 200
 /vite.svg /vite.svg 200
 
+# Handle admin routes specifically
+/admin /index.html 200
+/admin/* /index.html 200
+
 # Handle client-side routing for React Router
 /* /index.html 200 
