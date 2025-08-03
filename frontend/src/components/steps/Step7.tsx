@@ -208,6 +208,26 @@ const Step7: React.FC = () => {
                                 <div><strong>Booking Reference:</strong> {leadId || 'L' + Math.floor(Math.random() * 900000) + 100000}</div>
                             </div>
                             
+                            {/* Additional Services Section */}
+                            {data.selectedQuote?.additional_services_info && data.selectedQuote.additional_services_info.length > 0 && (
+                                <div style={{
+                                    backgroundColor: '#e8f4f8',
+                                    border: '1px solid #bee5eb',
+                                    borderRadius: '6px',
+                                    padding: '10px',
+                                    marginTop: '10px'
+                                }}>
+                                    <p style={{ color: '#0c5460', fontSize: '12px', margin: '0 0 6px 0', fontWeight: 'bold' }}>
+                                        🔧 Additional Services (Contact vendor for pricing):
+                                    </p>
+                                    <ul style={{ margin: 0, paddingLeft: '16px', color: '#0c5460', fontSize: '11px' }}>
+                                        {data.selectedQuote.additional_services_info.map((service: string, index: number) => (
+                                            <li key={index} style={{ marginBottom: '2px' }}>{service}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+                            
                             {/* Final Pricing Notice */}
                             <div style={{
                                 backgroundColor: '#fff3cd',
@@ -248,7 +268,7 @@ const Step7: React.FC = () => {
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                             <span style={{ fontSize: '20px' }}>📞</span>
-                            <span><strong>Vendor Contact</strong> - Your selected moving company will contact you within 24 hours to confirm the <strong>final price</strong> and details</span>
+                            <span><strong>Vendor Contact</strong> - Your selected moving company will contact you within 24 hours to confirm the <strong>final price</strong>, details, and provide pricing for any additional services</span>
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                             <span style={{ fontSize: '20px' }}>📄</span>

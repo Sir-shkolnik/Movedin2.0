@@ -276,6 +276,31 @@ const Step6: React.FC = () => {
                 <div style={{ fontSize: '12px', color: '#6c757d' }}>Hourly Rate</div>
               </div>
             </div>
+
+            {/* Additional Services Section */}
+            {selectedQuote.additional_services_info && selectedQuote.additional_services_info.length > 0 && (
+              <div style={{ marginTop: '20px' }}>
+                <h4 style={{ marginBottom: '12px', color: '#495057', fontSize: '16px' }}>🔧 Additional Services</h4>
+                <div style={{
+                  backgroundColor: '#fff3cd',
+                  border: '1px solid #ffeaa7',
+                  borderRadius: '8px',
+                  padding: '12px'
+                }}>
+                  <p style={{ color: '#856404', fontSize: '12px', margin: '0 0 8px 0', fontWeight: 'bold' }}>
+                    📞 Contact vendor for pricing on these services:
+                  </p>
+                  <ul style={{ margin: 0, paddingLeft: '16px', color: '#856404', fontSize: '12px' }}>
+                    {selectedQuote.additional_services_info.map((service: string, index: number) => (
+                      <li key={index} style={{ marginBottom: '4px' }}>{service}</li>
+                    ))}
+                  </ul>
+                  <p style={{ color: '#856404', fontSize: '11px', margin: '8px 0 0 0', fontStyle: 'italic' }}>
+                    Pricing depends on size, complexity, and specific requirements
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Route Map */}
@@ -397,7 +422,7 @@ const Step6: React.FC = () => {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ fontSize: '18px' }}>📞</span>
-            <span><strong>Vendor Contact</strong> - Your selected moving company will contact you within 24 hours to confirm the final price and details</span>
+            <span><strong>Vendor Contact</strong> - Your selected moving company will contact you within 24 hours to confirm the final price, details, and provide pricing for any additional services</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ fontSize: '18px' }}>📄</span>
