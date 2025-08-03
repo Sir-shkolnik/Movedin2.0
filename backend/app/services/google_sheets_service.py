@@ -84,15 +84,30 @@ class GoogleSheetsService:
         
         try:
             dispatchers_data = {}
+            specialized_data = {}
             
+            # First, fetch specialized tabs (TRUCKS/STORAGE/CX, TIME ZONES, DISCOUNTS)
+            specialized_gids = ["895613602", "2046372794", "885243828"]
+            for gid in specialized_gids:
+                if gid in self.gids:
+                    logger.info(f"Processing specialized GID: {gid}")
+                    csv_data = self._fetch_csv_by_gid(gid)
+                    if csv_data:
+                        specialized_data[gid] = self._parse_specialized_csv(csv_data, gid)
+            
+            # Then process all location GIDs
             for gid in self.gids:
-                logger.info(f"Processing GID: {gid}")
+                # Skip specialized GIDs as they're already processed
+                if gid in specialized_gids:
+                    continue
+                    
+                logger.info(f"Processing location GID: {gid}")
                 
                 # Fetch CSV data using public export URL
                 csv_data = self._fetch_csv_by_gid(gid)
                 if csv_data:
-                    # Parse the CSV data
-                    dispatcher_data = self._parse_csv_data(csv_data, gid)
+                    # Parse the CSV data with specialized data context
+                    dispatcher_data = self._parse_csv_data(csv_data, gid, specialized_data)
                     if dispatcher_data:
                         dispatchers_data[gid] = dispatcher_data
             
@@ -153,7 +168,7 @@ class GoogleSheetsService:
             logger.error(f"Error fetching CSV for GID {gid}: {e}")
             return None
     
-    def _parse_csv_data(self, csv_text: str, gid: str) -> Dict[str, Any]:
+    def _parse_csv_data(self, csv_text: str, gid: str, specialized_data: Dict[str, Any] = None) -> Dict[str, Any]:
         """
         Parse CSV data using smart parser for all GIDs
         Returns complete data structure with all calendar data
@@ -168,6 +183,10 @@ class GoogleSheetsService:
             # Use smart parser for all GIDs
             result = smart_parser.parse_gid_complete(gid, csv_text)
             
+            # Enhance with specialized data if available
+            if specialized_data:
+                result = self._enhance_with_specialized_data(result, gid, specialized_data)
+            
             # Log success
             logger.info(f"✅ Smart parser extracted {len(result.get('calendar_hourly_price', {}))} calendar dates for GID {gid}")
             
@@ -178,6 +197,137 @@ class GoogleSheetsService:
             
             # Fallback to basic parsing if smart parser fails
             return self._fallback_parse_csv(csv_text, gid)
+    
+    def _parse_specialized_csv(self, csv_text: str, gid: str) -> Dict[str, Any]:
+        """Parse specialized CSV data (TRUCKS/STORAGE/CX, TIME ZONES, DISCOUNTS)"""
+        try:
+            rows = list(csv.reader(StringIO(csv_text)))
+            
+            if gid == "895613602":  # TRUCKS/STORAGE/CX
+                return self._parse_trucks_storage_cx(rows)
+            elif gid == "2046372794":  # TIME ZONES
+                return self._parse_time_zones(rows)
+            elif gid == "885243828":  # DISCOUNTS
+                return self._parse_discounts(rows)
+            else:
+                return {"type": "unknown_specialized", "data": rows}
+                
+        except Exception as e:
+            logger.error(f"❌ Error parsing specialized CSV for GID {gid}: {e}")
+            return {"type": "error", "error": str(e)}
+    
+    def _parse_trucks_storage_cx(self, rows: List[List[str]]) -> Dict[str, Any]:
+        """Parse TRUCKS/STORAGE/CX data"""
+        try:
+            data = {
+                "type": "trucks_storage_cx",
+                "locations": {},
+                "truck_info": {},
+                "storage_info": {},
+                "cx_care": {}
+            }
+            
+            for row in rows:
+                if len(row) >= 3:
+                    location = row[0].strip()
+                    if location and location != "LOCATION":
+                        data["locations"][location] = {
+                            "contact": row[1].strip() if len(row) > 1 else "",
+                            "direct_line": row[2].strip() if len(row) > 2 else "",
+                            "ownership_type": row[3].strip() if len(row) > 3 else "",
+                            "trucks": row[4].strip() if len(row) > 4 else "",
+                            "trucks_shared_with": row[5].strip() if len(row) > 5 else "",
+                            "storage": row[6].strip() if len(row) > 6 else "",
+                            "storage_sizes_prices": row[7].strip() if len(row) > 7 else "",
+                            "cx_care": row[8].strip() if len(row) > 8 else ""
+                        }
+            
+            return data
+            
+        except Exception as e:
+            logger.error(f"❌ Error parsing trucks/storage/cx data: {e}")
+            return {"type": "trucks_storage_cx", "error": str(e)}
+    
+    def _parse_time_zones(self, rows: List[List[str]]) -> Dict[str, Any]:
+        """Parse TIME ZONES data"""
+        try:
+            data = {
+                "type": "time_zones",
+                "locations": {}
+            }
+            
+            for row in rows:
+                if len(row) >= 2:
+                    location = row[0].strip()
+                    timezone = row[1].strip()
+                    if location and location != "LOCATION" and timezone:
+                        data["locations"][location] = timezone
+            
+            return data
+            
+        except Exception as e:
+            logger.error(f"❌ Error parsing time zones data: {e}")
+            return {"type": "time_zones", "error": str(e)}
+    
+    def _parse_discounts(self, rows: List[List[str]]) -> Dict[str, Any]:
+        """Parse DISCOUNTS data"""
+        try:
+            data = {
+                "type": "discounts",
+                "locations": {}
+            }
+            
+            for row in rows:
+                if len(row) >= 2:
+                    location = row[0].strip()
+                    discount = row[1].strip()
+                    if location and location != "LOCATIONS" and discount:
+                        data["locations"][location] = discount
+            
+            return data
+            
+        except Exception as e:
+            logger.error(f"❌ Error parsing discounts data: {e}")
+            return {"type": "discounts", "error": str(e)}
+    
+    def _enhance_with_specialized_data(self, result: Dict[str, Any], gid: str, specialized_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Enhance location data with specialized data"""
+        try:
+            location_name = result.get("location", "")
+            
+            # Add timezone information
+            if "2046372794" in specialized_data:
+                timezone_data = specialized_data["2046372794"]
+                if timezone_data.get("type") == "time_zones":
+                    timezone = timezone_data.get("locations", {}).get(location_name, "")
+                    if timezone:
+                        result["metadata"]["timezone"] = timezone
+            
+            # Add discount information
+            if "885243828" in specialized_data:
+                discount_data = specialized_data["885243828"]
+                if discount_data.get("type") == "discounts":
+                    discount = discount_data.get("locations", {}).get(location_name, "")
+                    if discount:
+                        result["operational_rules"]["discounts"] = discount
+            
+            # Add truck/storage information
+            if "895613602" in specialized_data:
+                trucks_data = specialized_data["895613602"]
+                if trucks_data.get("type") == "trucks_storage_cx":
+                    location_info = trucks_data.get("locations", {}).get(location_name, {})
+                    if location_info:
+                        result["metadata"]["truck_count"] = location_info.get("trucks", "")
+                        result["metadata"]["storage_info"] = location_info.get("storage", "")
+                        result["metadata"]["cx_care"] = location_info.get("cx_care", "")
+                        result["metadata"]["contact"] = location_info.get("contact", "")
+                        result["metadata"]["direct_line"] = location_info.get("direct_line", "")
+            
+            return result
+            
+        except Exception as e:
+            logger.error(f"❌ Error enhancing data with specialized data for GID {gid}: {e}")
+            return result
     
     def _fallback_parse_csv(self, csv_text: str, gid: str) -> Dict[str, Any]:
         """Fallback parsing method if smart parser fails"""
