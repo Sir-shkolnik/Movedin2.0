@@ -29,6 +29,9 @@ class QuoteResponse(BaseModel):
     vendor_slug: str
     vendor_name: str
     total_cost: float
+    original_cost: Optional[float] = None
+    markup_amount: Optional[float] = None
+    markup_percentage: Optional[float] = None
     breakdown: Dict[str, float]
     crew_size: int
     truck_count: int
