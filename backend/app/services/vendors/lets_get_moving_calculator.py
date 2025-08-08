@@ -209,17 +209,16 @@ class LetsGetMovingCalculator:
     
     def _estimate_labor_hours(self, room_count: int, crew_size: int) -> float:
         """Estimate labor hours based on room count and crew efficiency - TRUE LGM LOGIC"""
-        # Base hours from old app data - EXTENDED for 8+ rooms with proper scaling
+        # Base hours from old app data - CORRECTED for 1 room
         base_hours = {
-            1: 2.5, 2: 4.5, 3: 5.5, 4: 6.5, 5: 7.5, 6: 8.5, 7: 9.5,
-            8: 10.5, 9: 11.5, 10: 12.5, 11: 13.5, 12: 14.5, 13: 15.5, 14: 16.5, 15: 17.5
-        }.get(room_count, 9.5 + (room_count - 7) * 1.0)  # Scale by 1 hour per additional room beyond 7
+            1: 2.5, 2: 4.5, 3: 5.5, 4: 6.5, 5: 7.5, 6: 8.5, 7: 9.5
+        }.get(room_count, 9.5)
         
         # Crew efficiency adjustments from old app data
         if crew_size >= 4:
-            base_hours = base_hours * 0.8  # 20% faster for 4+ crew
+            base_hours = max(base_hours * 0.8, base_hours - 1)  # 20% faster or 1 hour less
         elif crew_size >= 3:
-            base_hours = base_hours * 0.85  # 15% faster for 3 crew
+            base_hours = max(base_hours * 0.85, base_hours - 0.5)  # 15% faster or 0.5 hour less
         
         # MINIMUM 2 HOURS LABOR COST - TRUE LGM REQUIREMENT
         return max(base_hours, 2.0)
