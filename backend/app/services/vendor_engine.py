@@ -858,7 +858,7 @@ class LetsGetMovingCalculator(VendorCalculator):
         # Calculate hourly rate with crew multiplier
         hourly_rate = self._calculate_hourly_rate(base_rate, crew_size, truck_count)
         # Estimate labor hours
-        labor_hours = self._estimate_labor_hours(quote_request.total_rooms, crew_size)
+        labor_hours = self._estimate_labor_hours(quote_request.total_rooms, crew_size, quote_request)
         # Calculate travel time (3-leg journey)
         travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
         
@@ -960,8 +960,8 @@ class LetsGetMovingCalculator(VendorCalculator):
         
         return base_rate
     
-    def _estimate_labor_hours(self, room_count: int, crew_size: int) -> float:
-        """Estimate labor hours based on room count and crew efficiency - TRUE LGM LOGIC"""
+    def _estimate_labor_hours(self, room_count: int, crew_size: int, quote_request: QuoteRequest = None) -> float:
+        """Estimate labor hours based on room count, crew efficiency, and stairs - TRUE LGM LOGIC"""
         # Base hours from old app data
         base_hours = {
             1: 3.5, 2: 4.5, 3: 5.5, 4: 6.5, 5: 7.5, 6: 8.5, 7: 9.5
@@ -973,7 +973,30 @@ class LetsGetMovingCalculator(VendorCalculator):
         elif crew_size >= 3:
             base_hours = max(base_hours * 0.85, base_hours - 0.5)  # 15% faster or 0.5 hour less
         
+        # Add stair time if quote_request is provided
+        if quote_request:
+            stair_time = self._calculate_stair_time(quote_request)
+            base_hours += stair_time
+        
         return base_hours
+    
+    def _calculate_stair_time(self, quote_request: QuoteRequest) -> float:
+        """Calculate additional time for stairs - GENERAL RULE FOR ALL VENDORS"""
+        # General rule: 15 minutes per flight of stairs (up or down)
+        # This accounts for the extra time to carry items up/down stairs
+        stair_time_per_flight = 0.25  # 15 minutes = 0.25 hours
+        
+        total_stair_time = 0
+        
+        # Add time for pickup stairs
+        if quote_request.stairs_at_pickup > 0:
+            total_stair_time += quote_request.stairs_at_pickup * stair_time_per_flight
+        
+        # Add time for dropoff stairs  
+        if quote_request.stairs_at_dropoff > 0:
+            total_stair_time += quote_request.stairs_at_dropoff * stair_time_per_flight
+        
+        return total_stair_time
     
     def _calculate_travel_time(self, origin: str, destination: str) -> float:
         """Calculate travel time using Mapbox API with 3-leg journey and truck factor"""
@@ -1120,7 +1143,7 @@ class Easy2GoCalculator(VendorCalculator):
         fuel_surcharge = location_pricing["fuel_surcharge"]
         
         # Calculate labor and travel hours
-        labor_hours = self._estimate_labor_hours(quote_request.total_rooms)
+        labor_hours = self._estimate_labor_hours(quote_request.total_rooms, quote_request)
         travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
         
         # Calculate costs using official Easy2Go rules
@@ -1177,12 +1200,35 @@ class Easy2GoCalculator(VendorCalculator):
         }
         return rates.get(crew_size, 150)
     
-    def _estimate_labor_hours(self, room_count: int) -> float:
-        """Estimate labor hours based on room count"""
+    def _estimate_labor_hours(self, room_count: int, quote_request: QuoteRequest = None) -> float:
+        """Estimate labor hours based on room count and stairs"""
         base_hours = {
             1: 3.5, 2: 4.5, 3: 5.5, 4: 6.5, 5: 7.5, 6: 8.5, 7: 9.5
         }.get(room_count, 7.5)
+        
+        # Add stair time if quote_request is provided
+        if quote_request:
+            stair_time = self._calculate_stair_time(quote_request)
+            base_hours += stair_time
+        
         return base_hours
+    
+    def _calculate_stair_time(self, quote_request: QuoteRequest) -> float:
+        """Calculate additional time for stairs - GENERAL RULE FOR ALL VENDORS"""
+        # General rule: 15 minutes per flight of stairs (up or down)
+        stair_time_per_flight = 0.25  # 15 minutes = 0.25 hours
+        
+        total_stair_time = 0
+        
+        # Add time for pickup stairs
+        if quote_request.stairs_at_pickup > 0:
+            total_stair_time += quote_request.stairs_at_pickup * stair_time_per_flight
+        
+        # Add time for dropoff stairs  
+        if quote_request.stairs_at_dropoff > 0:
+            total_stair_time += quote_request.stairs_at_dropoff * stair_time_per_flight
+        
+        return total_stair_time
     
     def _calculate_travel_time(self, origin: str, destination: str) -> float:
         """Calculate travel time using 3-leg journey to depot"""
@@ -1295,7 +1341,7 @@ class VelocityMoversCalculator(VendorCalculator):
         fuel_surcharge = location_pricing["fuel_surcharge"]
         
         # Calculate labor and travel hours
-        labor_hours = self._estimate_labor_hours(quote_request.total_rooms)
+        labor_hours = self._estimate_labor_hours(quote_request.total_rooms, quote_request)
         travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
         
         # Calculate costs using official Velocity Movers rules
@@ -1349,12 +1395,35 @@ class VelocityMoversCalculator(VendorCalculator):
             additional_movers = crew_size - 2
             return base_rate + (additional_movers * additional_mover_rate)
     
-    def _estimate_labor_hours(self, room_count: int) -> float:
-        """Estimate labor hours based on room count"""
+    def _estimate_labor_hours(self, room_count: int, quote_request: QuoteRequest = None) -> float:
+        """Estimate labor hours based on room count and stairs"""
         base_hours = {
             1: 3.5, 2: 4.5, 3: 5.5, 4: 6.5, 5: 7.5, 6: 8.5, 7: 9.5
         }.get(room_count, 7.5)
+        
+        # Add stair time if quote_request is provided
+        if quote_request:
+            stair_time = self._calculate_stair_time(quote_request)
+            base_hours += stair_time
+        
         return base_hours
+    
+    def _calculate_stair_time(self, quote_request: QuoteRequest) -> float:
+        """Calculate additional time for stairs - GENERAL RULE FOR ALL VENDORS"""
+        # General rule: 15 minutes per flight of stairs (up or down)
+        stair_time_per_flight = 0.25  # 15 minutes = 0.25 hours
+        
+        total_stair_time = 0
+        
+        # Add time for pickup stairs
+        if quote_request.stairs_at_pickup > 0:
+            total_stair_time += quote_request.stairs_at_pickup * stair_time_per_flight
+        
+        # Add time for dropoff stairs  
+        if quote_request.stairs_at_dropoff > 0:
+            total_stair_time += quote_request.stairs_at_dropoff * stair_time_per_flight
+        
+        return total_stair_time
     
     def _calculate_travel_time(self, origin: str, destination: str) -> float:
         """Calculate travel time using 3-leg journey to depot"""
@@ -1450,7 +1519,7 @@ class PierreSonsCalculator(VendorCalculator):
         hourly_rate = self._get_hourly_rate(crew_size)
         
         # Estimate labor hours
-        labor_hours = self._estimate_labor_hours(quote_request.total_rooms)
+        labor_hours = self._estimate_labor_hours(quote_request.total_rooms, quote_request)
         
         # Calculate travel time and distance
         travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
@@ -1508,12 +1577,35 @@ class PierreSonsCalculator(VendorCalculator):
         }
         return rates.get(crew_size, 135)
     
-    def _estimate_labor_hours(self, room_count: int) -> float:
-        """Estimate labor hours based on room count"""
+    def _estimate_labor_hours(self, room_count: int, quote_request: QuoteRequest = None) -> float:
+        """Estimate labor hours based on room count and stairs"""
         base_hours = {
             1: 3.5, 2: 4.5, 3: 5.5, 4: 6.5, 5: 7.5, 6: 8.5, 7: 9.5
         }.get(room_count, 9.5)
+        
+        # Add stair time if quote_request is provided
+        if quote_request:
+            stair_time = self._calculate_stair_time(quote_request)
+            base_hours += stair_time
+        
         return base_hours
+    
+    def _calculate_stair_time(self, quote_request: QuoteRequest) -> float:
+        """Calculate additional time for stairs - GENERAL RULE FOR ALL VENDORS"""
+        # General rule: 15 minutes per flight of stairs (up or down)
+        stair_time_per_flight = 0.25  # 15 minutes = 0.25 hours
+        
+        total_stair_time = 0
+        
+        # Add time for pickup stairs
+        if quote_request.stairs_at_pickup > 0:
+            total_stair_time += quote_request.stairs_at_pickup * stair_time_per_flight
+        
+        # Add time for dropoff stairs  
+        if quote_request.stairs_at_dropoff > 0:
+            total_stair_time += quote_request.stairs_at_dropoff * stair_time_per_flight
+        
+        return total_stair_time
     
     def _get_truck_fee(self, room_count: int) -> float:
         """Get truck fee based on room count - OFFICIAL PIERRE & SONS RULES"""
