@@ -295,8 +295,9 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                                         animation: 'gentlePulse 2s ease-in-out infinite'
                                     }}
                                 >
+                                    {/* Search icon - Fixed SVG path syntax - Updated 2025-01-15 */}
                                     <circle cx="11" cy="11" r="8"/>
-                                    <path d="21 21l-4.35-4.35"/>
+                                    <path d="M21 21l-4.35-4.35"/>
                                     <circle cx="11" cy="11" r="3" fill="#5a67d8" fillOpacity="0.2"/>
                                 </svg>
                             </div>
@@ -703,13 +704,28 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                             </div>
 
                             <div className="vendor-card-body-modern">
-                                {/* Clean Pricing Section */}
-                                <div style={{
+                                {/* Mobile-Style Layout - Vendor Name */}
+                                <h3 className="vendor-name-modern" style={{
+                                    fontSize: '18px',
+                                    fontWeight: 'bold',
+                                    margin: '0 0 8px 0',
                                     textAlign: 'center',
-                                    marginBottom: '16px'
+                                    color: '#1f2937'
                                 }}>
-                                    <div style={{
-                                        fontSize: '24px',
+                                    {vendor.vendor_name}
+                                </h3>
+
+                                {/* Mobile-Style Pricing Section */}
+                                <div className="vendor-pricing-modern" style={{
+                                    backgroundColor: theme.secondary,
+                                    padding: '12px',
+                                    borderRadius: '8px',
+                                    textAlign: 'center',
+                                    marginBottom: '12px',
+                                    border: `1px solid ${theme.primary}20`
+                                }}>
+                                    <div className="hourly-rate-modern" style={{
+                                        fontSize: '20px',
                                         fontWeight: 'bold',
                                         color: theme.primary,
                                         marginBottom: '4px'
@@ -717,47 +733,46 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                                         {formatCurrency(vendor.hourly_rate)}
                                     </div>
                                     <div style={{
-                                        fontSize: '14px',
+                                        fontSize: '12px',
                                         color: '#6c757d'
                                     }}>
                                         Est. Time: {totalTime.toFixed(1)} hours
                                     </div>
                                 </div>
 
-                                {/* Compact Move Details - Clean like mobile */}
-                                <div style={{
+                                {/* Mobile-Style Move Details */}
+                                <div className="move-size-details-modern" style={{
                                     display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    backgroundColor: '#f8f9fa',
-                                    padding: '8px 12px',
-                                    borderRadius: '6px',
-                                    border: '1px solid #e9ecef',
-                                    marginBottom: '12px',
-                                    fontSize: '13px'
+                                    flexDirection: 'column',
+                                    gap: '8px',
+                                    marginBottom: '12px'
                                 }}>
-                                    <div style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '4px',
-                                        color: '#495057',
-                                        fontWeight: '600'
+                                    <div className="move-size-item-modern" style={{
+                                        backgroundColor: '#f8f9fa',
+                                        padding: '8px 12px',
+                                        borderRadius: '6px',
+                                        border: '1px solid #e9ecef',
+                                        fontSize: '13px',
+                                        textAlign: 'center'
                                     }}>
-                                        <span>Move Size:</span>
+                                        <span style={{ fontWeight: '600', color: '#495057' }}>Move Size: </span>
                                         <span style={{ color: '#007bff' }}>
                                             {vendor.move_size.rooms > 0 ? `${vendor.move_size.rooms} rooms` : 
                                              vendor.move_size.square_footage > 0 ? `${vendor.move_size.square_footage} sq ft` : 
                                              'Standard'}
                                         </span>
                                     </div>
-                                    <div style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '4px',
-                                        color: '#495057',
-                                        fontWeight: '600'
+                                    <div className="move-size-item-modern" style={{
+                                        backgroundColor: '#f8f9fa',
+                                        padding: '8px 12px',
+                                        borderRadius: '6px',
+                                        border: '1px solid #e9ecef',
+                                        fontSize: '13px',
+                                        textAlign: 'center'
                                     }}>
-                                        <span>{vendor.crew_size} movers, {vendor.truck_count} truck{vendor.truck_count !== 1 ? 's' : ''}</span>
+                                        <span style={{ fontWeight: '600', color: '#495057' }}>
+                                            {vendor.crew_size} movers, {vendor.truck_count} truck{vendor.truck_count !== 1 ? 's' : ''}
+                                        </span>
                                     </div>
                                 </div>
 

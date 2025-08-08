@@ -1615,14 +1615,14 @@ textarea:focus,
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     position: relative;
     overflow: hidden;
-    height: 220px;
+    height: 320px;
     display: flex;
     flex-direction: column;
 }
 
 @media (max-width: 768px) {
     .vendor-card-modern {
-        height: 160px;
+        height: 320px;
         border-radius: 8px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     }
@@ -1673,11 +1673,11 @@ textarea:focus,
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     border-radius: 10px;
     background: white;
-    padding: 6px;
+    padding: 10px;
     margin: 0 auto 8px auto;
     border: 2px solid #e2e8f0;
     transition: all 0.3s ease;
@@ -1686,10 +1686,10 @@ textarea:focus,
 
 @media (max-width: 768px) {
     .vendor-logo-section-modern {
-        width: 40px;
-        height: 40px;
+        width: 70px;
+        height: 70px;
         border-radius: 8px;
-        padding: 4px;
+        padding: 10px;
         margin: 0 auto 6px auto;
     }
 }
@@ -1706,18 +1706,18 @@ textarea:focus,
     height: 100%;
     object-fit: contain;
     border-radius: 6px;
-    max-width: 38px;
-    max-height: 38px;
-    min-width: 38px;
-    min-height: 38px;
+    max-width: 50px;
+    max-height: 50px;
+    min-width: 50px;
+    min-height: 50px;
 }
 
 @media (max-width: 768px) {
     .vendor-logo-modern {
-        max-width: 32px;
-        max-height: 32px;
-        min-width: 32px;
-        min-height: 32px;
+        max-width: 50px;
+        max-height: 50px;
+        min-width: 50px;
+        min-height: 50px;
         border-radius: 4px;
     }
 }
@@ -2685,6 +2685,12 @@ textarea:focus,
     .step6-modern {
         padding: 0 8px;
     }
+    /* Mobile-first responsive layout */
+    .step6-layout-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+        margin-bottom: 20px !important;
+    }
     .step6-title-modern {
         font-size: 24px;
         margin-bottom: 8px;
@@ -2723,6 +2729,54 @@ textarea:focus,
     }
     .detail-value-modern {
         font-size: 13px;
+    }
+    /* Step 6 Mobile-specific styles */
+    .step6-card-mobile {
+        padding: 12px !important;
+        border-radius: 8px !important;
+    }
+    .step6-card-title {
+        font-size: 14px !important;
+        margin-bottom: 10px !important;
+    }
+    .step6-card-content {
+        gap: 6px !important;
+        font-size: 12px !important;
+    }
+    .step6-detail-row {
+        font-size: 12px !important;
+        line-height: 1.4;
+    }
+    .step6-service-grid {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+    }
+    .step6-service-grid>div {
+        padding: 6px 8px !important;
+        font-size: 12px !important;
+    }
+    .step6-service-grid>div>div:first-child {
+        font-size: 14px !important;
+    }
+    .step6-service-grid>div>div:last-child {
+        font-size: 10px !important;
+    }
+    .step6-next-steps {
+        gap: 8px !important;
+        font-size: 12px !important;
+    }
+    .step6-next-steps>div {
+        align-items: flex-start !important;
+        gap: 6px !important;
+    }
+    .step6-next-steps>div>span:first-child {
+        font-size: 14px !important;
+        margin-top: 2px;
+        flex-shrink: 0;
+    }
+    .step6-next-steps>div>span:last-child {
+        font-size: 11px !important;
+        line-height: 1.4;
     }
     .service-stats-modern {
         grid-template-columns: repeat(2, 1fr);

@@ -24,6 +24,17 @@ const Step7: React.FC = () => {
         }).format(amount);
     };
 
+    // Function to provide detailed explanations for additional services
+    const getServiceExplanation = (service: string): string => {
+        const explanations: { [key: string]: string } = {
+            'Packing Services': 'Depends on number of items, fragility, special materials needed, and time required',
+            'Storage Services': 'Based on storage duration, unit size, climate control needs, and accessibility requirements',
+            'Cleaning Services': 'Varies by property size, cleaning depth required, and specific areas to be cleaned',
+            'Junk Removal': 'Determined by volume, weight, disposal requirements, and local dump fees'
+        };
+        return explanations[service] || 'Pricing varies based on specific requirements and scope of work';
+    };
+
     return (
         <div className="step-card">
             {/* Confetti Animation */}
@@ -213,18 +224,39 @@ const Step7: React.FC = () => {
                                 <div style={{
                                     backgroundColor: '#e8f4f8',
                                     border: '1px solid #bee5eb',
-                                    borderRadius: '6px',
-                                    padding: '10px',
-                                    marginTop: '10px'
+                                    borderRadius: '8px',
+                                    padding: '12px',
+                                    marginTop: '12px'
                                 }}>
-                                    <p style={{ color: '#0c5460', fontSize: '12px', margin: '0 0 6px 0', fontWeight: 'bold' }}>
-                                        🔧 Additional Services (Contact vendor for pricing):
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
+                                        <span style={{ fontSize: '16px' }}>🔧</span>
+                                        <p style={{ color: '#0c5460', fontSize: '13px', margin: 0, fontWeight: 'bold' }}>
+                                            Additional Services Requested
+                                        </p>
+                                    </div>
+                                    
+                                    <p style={{ color: '#0c5460', fontSize: '11px', margin: '0 0 8px 0', lineHeight: '1.3' }}>
+                                        Your vendor will contact you with pricing for these services:
                                     </p>
-                                    <ul style={{ margin: 0, paddingLeft: '16px', color: '#0c5460', fontSize: '11px' }}>
+                                    
+                                    <ul style={{ margin: '0 0 8px 12px', color: '#0c5460', fontSize: '11px', lineHeight: '1.3' }}>
                                         {data.selectedQuote.additional_services_info.map((service: string, index: number) => (
-                                            <li key={index} style={{ marginBottom: '2px' }}>{service}</li>
+                                            <li key={index} style={{ marginBottom: '4px' }}>
+                                                <strong>{service}</strong> - {getServiceExplanation(service)}
+                                            </li>
                                         ))}
                                     </ul>
+                                    
+                                    <div style={{
+                                        backgroundColor: '#bee5eb',
+                                        borderRadius: '4px',
+                                        padding: '6px',
+                                        marginTop: '8px'
+                                    }}>
+                                        <p style={{ color: '#0c5460', fontSize: '10px', margin: 0, fontWeight: 'bold' }}>
+                                            💡 Personal assessment ensures fair, accurate pricing for your specific needs
+                                        </p>
+                                    </div>
                                 </div>
                             )}
                             

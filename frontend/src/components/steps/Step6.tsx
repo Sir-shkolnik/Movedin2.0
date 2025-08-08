@@ -13,6 +13,17 @@ const Step6: React.FC = () => {
   const [paymentError, setPaymentError] = useState<string | null>(null);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
+  // Function to provide detailed explanations for additional services
+  const getServiceExplanation = (service: string): string => {
+    const explanations: { [key: string]: string } = {
+      'Packing Services': 'Depends on number of items, fragility, special materials needed, and time required',
+      'Storage Services': 'Based on storage duration, unit size, climate control needs, and accessibility requirements',
+      'Cleaning Services': 'Varies by property size, cleaning depth required, and specific areas to be cleaned',
+      'Junk Removal': 'Determined by volume, weight, disposal requirements, and local dump fees'
+    };
+    return explanations[service] || 'Pricing varies based on specific requirements and scope of work';
+  };
+
   // Real Stripe Payment Link URL - Updated with correct hash routing
   const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/bJe14n2kFc4zenr3ST1wY00';
   
@@ -132,7 +143,7 @@ const Step6: React.FC = () => {
     <div className="step-card step6-modern">
       <h2>Review & Complete Booking</h2>
       
-      <div style={{ 
+      <div className="step6-layout-grid" style={{ 
         display: 'grid', 
         gridTemplateColumns: '1fr 1fr', 
         gap: '24px',
@@ -145,33 +156,33 @@ const Step6: React.FC = () => {
           gap: '20px' 
         }}>
           {/* Move Details Card */}
-          <div style={{
+          <div className="step6-card-mobile" style={{
             backgroundColor: '#f8f9fa',
             border: '1px solid #e9ecef',
             borderRadius: '12px',
             padding: '20px'
           }}>
-            <h3 style={{ marginBottom: '16px', color: '#495057' }}>📍 Move Details</h3>
-            <div style={{ display: 'grid', gap: '8px', fontSize: '14px' }}>
-              <div><strong>Date:</strong> {data.date} at {data.time}</div>
-              <div><strong>From:</strong> {data.from}</div>
-              <div><strong>To:</strong> {data.to}</div>
-              <div><strong>Move Size:</strong> {data.fromDetails?.rooms || 'N/A'} rooms</div>
+            <h3 className="step6-card-title" style={{ marginBottom: '16px', color: '#495057', fontSize: '16px' }}>📍 Move Details</h3>
+            <div className="step6-card-content" style={{ display: 'grid', gap: '8px', fontSize: '14px' }}>
+              <div className="step6-detail-row"><strong>Date:</strong> {data.date} at {data.time}</div>
+              <div className="step6-detail-row"><strong>From:</strong> <span style={{ fontSize: '13px', wordBreak: 'break-word' }}>{data.from}</span></div>
+              <div className="step6-detail-row"><strong>To:</strong> <span style={{ fontSize: '13px', wordBreak: 'break-word' }}>{data.to}</span></div>
+              <div className="step6-detail-row"><strong>Move Size:</strong> {data.fromDetails?.rooms || 'N/A'} rooms</div>
             </div>
           </div>
 
           {/* Vendor Card */}
-          <div style={{
+          <div className="step6-card-mobile" style={{
             backgroundColor: '#f8f9fa',
             border: '1px solid #e9ecef',
             borderRadius: '12px',
             padding: '20px'
           }}>
-            <h3 style={{ marginBottom: '16px', color: '#495057' }}>🚛 Moving Company</h3>
-            <div style={{ display: 'grid', gap: '8px', fontSize: '14px' }}>
-              <div><strong>Vendor:</strong> {selectedQuote.vendor_name}</div>
-              <div><strong>Estimated Cost:</strong> {formatCurrency(selectedQuote.total_cost || 0)}</div>
-              <div><strong>Booking Reference:</strong> L{Math.floor(Math.random() * 900000) + 100000}</div>
+            <h3 className="step6-card-title" style={{ marginBottom: '16px', color: '#495057', fontSize: '16px' }}>🚛 Moving Company</h3>
+            <div className="step6-card-content" style={{ display: 'grid', gap: '8px', fontSize: '14px' }}>
+              <div className="step6-detail-row"><strong>Vendor:</strong> {selectedQuote.vendor_name}</div>
+              <div className="step6-detail-row"><strong>Estimated Cost:</strong> {formatCurrency(selectedQuote.total_cost || 0)}</div>
+              <div className="step6-detail-row"><strong>Booking Reference:</strong> L{Math.floor(Math.random() * 900000) + 100000}</div>
             </div>
             
             {/* Estimate Disclaimer */}
@@ -189,17 +200,17 @@ const Step6: React.FC = () => {
           </div>
 
           {/* Contact Information Card */}
-          <div style={{
+          <div className="step6-card-mobile" style={{
             backgroundColor: '#f8f9fa',
             border: '1px solid #e9ecef',
             borderRadius: '12px',
             padding: '20px'
           }}>
-            <h3 style={{ marginBottom: '16px', color: '#495057' }}>👤 Contact Information</h3>
-            <div style={{ display: 'grid', gap: '8px', fontSize: '14px' }}>
-              <div><strong>Name:</strong> {data.contact?.firstName} {data.contact?.lastName}</div>
-              <div><strong>Email:</strong> {data.contact?.email}</div>
-              <div><strong>Phone:</strong> {data.contact?.phone}</div>
+            <h3 className="step6-card-title" style={{ marginBottom: '16px', color: '#495057', fontSize: '16px' }}>👤 Contact Information</h3>
+            <div className="step6-card-content" style={{ display: 'grid', gap: '8px', fontSize: '14px' }}>
+              <div className="step6-detail-row"><strong>Name:</strong> {data.contact?.firstName} {data.contact?.lastName}</div>
+              <div className="step6-detail-row"><strong>Email:</strong> <span style={{ fontSize: '13px', wordBreak: 'break-word' }}>{data.contact?.email}</span></div>
+              <div className="step6-detail-row"><strong>Phone:</strong> {data.contact?.phone}</div>
             </div>
           </div>
         </div>
@@ -211,14 +222,14 @@ const Step6: React.FC = () => {
           gap: '20px' 
         }}>
           {/* Service Details Card */}
-          <div style={{
+          <div className="step6-card-mobile" style={{
             backgroundColor: '#f8f9fa',
             border: '1px solid #e9ecef',
             borderRadius: '12px',
             padding: '20px'
           }}>
-            <h3 style={{ marginBottom: '16px', color: '#495057' }}>⚙️ Service Details</h3>
-            <div style={{ 
+            <h3 className="step6-card-title" style={{ marginBottom: '16px', color: '#495057', fontSize: '16px' }}>⚙️ Service Details</h3>
+            <div className="step6-service-grid" style={{ 
               display: 'grid', 
               gridTemplateColumns: '1fr 1fr', 
               gap: '12px',
@@ -280,51 +291,69 @@ const Step6: React.FC = () => {
             {/* Additional Services Section */}
             {selectedQuote.additional_services_info && selectedQuote.additional_services_info.length > 0 && (
               <div style={{ marginTop: '20px' }}>
-                <h4 style={{ marginBottom: '12px', color: '#495057', fontSize: '16px' }}>🔧 Additional Services</h4>
+                <h4 style={{ marginBottom: '12px', color: '#495057', fontSize: '16px' }}>🔧 Additional Services Requested</h4>
                 <div style={{
                   backgroundColor: '#fff3cd',
                   border: '1px solid #ffeaa7',
                   borderRadius: '8px',
-                  padding: '12px'
+                  padding: '16px'
                 }}>
-                  <p style={{ color: '#856404', fontSize: '12px', margin: '0 0 8px 0', fontWeight: 'bold' }}>
-                    📞 Contact vendor for pricing on these services:
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                    <span style={{ fontSize: '18px' }}>💡</span>
+                    <p style={{ color: '#856404', fontSize: '14px', margin: 0, fontWeight: 'bold' }}>
+                      Why These Services Require Personal Assessment
+                    </p>
+                  </div>
+                  
+                  <p style={{ color: '#856404', fontSize: '12px', margin: '0 0 12px 0', lineHeight: '1.4' }}>
+                    The following services require individual assessment because pricing depends on multiple factors that can only be determined through direct consultation:
                   </p>
-                  <ul style={{ margin: 0, paddingLeft: '16px', color: '#856404', fontSize: '12px' }}>
+                  
+                  <ul style={{ margin: '0 0 12px 16px', color: '#856404', fontSize: '12px', lineHeight: '1.4' }}>
                     {selectedQuote.additional_services_info.map((service: string, index: number) => (
-                      <li key={index} style={{ marginBottom: '4px' }}>{service}</li>
+                      <li key={index} style={{ marginBottom: '6px' }}>
+                        <strong>{service}</strong> - {getServiceExplanation(service)}
+                      </li>
                     ))}
                   </ul>
-                  <p style={{ color: '#856404', fontSize: '11px', margin: '8px 0 0 0', fontStyle: 'italic' }}>
-                    Pricing depends on size, complexity, and specific requirements
-                  </p>
+                  
+                  <div style={{
+                    backgroundColor: '#ffeaa7',
+                    borderRadius: '6px',
+                    padding: '10px',
+                    marginTop: '12px'
+                  }}>
+                    <p style={{ color: '#856404', fontSize: '11px', margin: 0, fontWeight: 'bold' }}>
+                      🤝 We're Here to Help: Your moving company will provide detailed quotes for these services during their consultation call, ensuring you get fair, accurate pricing based on your specific needs.
+                    </p>
+                  </div>
                 </div>
               </div>
             )}
           </div>
 
           {/* Route Map */}
-          <div style={{
+          <div className="step6-card-mobile" style={{
             backgroundColor: '#f8f9fa',
             border: '1px solid #e9ecef',
             borderRadius: '12px',
             padding: '20px'
           }}>
-            <h3 style={{ marginBottom: '16px', color: '#495057' }}>🗺️ Route Map</h3>
+            <h3 className="step6-card-title" style={{ marginBottom: '16px', color: '#495057', fontSize: '16px' }}>🗺️ Route Map</h3>
             <RouteMap from={data.from} to={data.to} />
           </div>
         </div>
       </div>
 
       {/* Payment Section */}
-      <div style={{
+      <div className="step6-card-mobile" style={{
         backgroundColor: '#f8f9fa',
         border: '1px solid #e9ecef',
         borderRadius: '12px',
         padding: '24px',
         marginBottom: '24px'
       }}>
-        <h3 style={{ marginBottom: '16px', color: '#495057' }}>💳 Payment</h3>
+        <h3 className="step6-card-title" style={{ marginBottom: '16px', color: '#495057', fontSize: '16px' }}>💳 Payment</h3>
         <div style={{ marginBottom: '20px' }}>
           <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#28a745' }}>
             $1.00 CAD Deposit Amount
@@ -408,14 +437,14 @@ const Step6: React.FC = () => {
       </div>
 
       {/* What Happens Next */}
-      <div style={{
+      <div className="step6-card-mobile" style={{
         backgroundColor: '#e7f3ff',
         border: '1px solid #b3d9ff',
         borderRadius: '12px',
         padding: '20px'
       }}>
-        <h3 style={{ marginBottom: '16px', color: '#0056b3' }}>🎯 What Happens Next?</h3>
-        <div style={{ display: 'grid', gap: '12px', fontSize: '14px' }}>
+        <h3 className="step6-card-title" style={{ marginBottom: '16px', color: '#0056b3', fontSize: '16px' }}>🎯 What Happens Next?</h3>
+        <div className="step6-next-steps" style={{ display: 'grid', gap: '12px', fontSize: '14px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ fontSize: '18px' }}>📧</span>
             <span><strong>Email Confirmation</strong> - You'll receive a detailed confirmation email within 5 minutes</span>
