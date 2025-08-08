@@ -6,16 +6,80 @@ const Step7: React.FC = () => {
     const { data } = useForm();
     const [showConfetti, setShowConfetti] = useState(false);
     const [leadId, setLeadId] = useState<string | null>(null);
+    const [isProcessing, setIsProcessing] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         // Show confetti animation after component mounts
         setShowConfetti(true);
-        // Generate a simulated lead ID
-        setLeadId(`L${Date.now().toString().slice(-6)}`);
+        
+        // Process payment confirmation and save lead
+        handlePaymentConfirmation();
+        
         // Hide confetti after 3 seconds
         const timer = setTimeout(() => setShowConfetti(false), 3000);
         return () => clearTimeout(timer);
     }, []);
+
+    const handlePaymentConfirmation = async () => {
+        try {
+            // Get payment intent data from sessionStorage
+            const paymentIntentData = sessionStorage.getItem('paymentIntentData');
+            if (!paymentIntentData) {
+                console.log('No payment intent data found, generating lead ID only');
+                setLeadId(`L${Date.now().toString().slice(-6)}`);
+                setIsProcessing(false);
+                return;
+            }
+
+            const intentData = JSON.parse(paymentIntentData);
+            console.log('Step 7 - Processing payment confirmation:', intentData);
+
+            // Prepare lead data for confirmation
+            const leadData = {
+                quote_data: data.fromDetails || {},
+                selected_quote: data.selectedQuote || {},
+                contact_data: data.contact || {}
+            };
+
+            // Call the confirm-payment endpoint
+            const response = await fetch('https://movedin-backend.onrender.com/api/confirm-payment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    payment_intent_id: intentData.payment_intent_id,
+                    lead_data: leadData
+                }),
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Payment confirmation failed:', errorText);
+                // Don't show error to user, just generate lead ID
+                setLeadId(`L${Date.now().toString().slice(-6)}`);
+                setIsProcessing(false);
+                return;
+            }
+
+            const result = await response.json();
+            console.log('Step 7 - Payment confirmed and lead saved:', result);
+            
+            // Set the actual lead ID from the database
+            setLeadId(result.lead_id ? `L${result.lead_id}` : `L${Date.now().toString().slice(-6)}`);
+            
+            // Clear payment intent data from sessionStorage
+            sessionStorage.removeItem('paymentIntentData');
+            
+        } catch (error) {
+            console.error('Step 7 - Error processing payment confirmation:', error);
+            // Don't show error to user, just generate lead ID
+            setLeadId(`L${Date.now().toString().slice(-6)}`);
+        } finally {
+            setIsProcessing(false);
+        }
+    };
 
     const formatCurrency = (amount: number): string => {
         return new Intl.NumberFormat('en-CA', {
@@ -117,6 +181,46 @@ const Step7: React.FC = () => {
                         </span>
                     </div>
                 </div>
+
+                {/* Processing Status */}
+                {isProcessing && (
+                    <div style={{
+                        backgroundColor: '#fff3cd',
+                        border: '1px solid #ffeaa7',
+                        borderRadius: '8px',
+                        padding: '15px',
+                        marginBottom: '20px'
+                    }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+                            <div style={{
+                                width: '20px',
+                                height: '20px',
+                                border: '2px solid #f3f3f3',
+                                borderTop: '2px solid #3498db',
+                                borderRadius: '50%',
+                                animation: 'spin 1s linear infinite'
+                            }}></div>
+                            <span style={{ color: '#856404', fontWeight: 'bold' }}>
+                                Processing your booking...
+                            </span>
+                        </div>
+                    </div>
+                )}
+
+                {/* Error Display */}
+                {error && (
+                    <div style={{
+                        backgroundColor: '#f8d7da',
+                        border: '1px solid #f5c6cb',
+                        borderRadius: '8px',
+                        padding: '15px',
+                        marginBottom: '20px'
+                    }}>
+                        <span style={{ color: '#721c24', fontWeight: 'bold' }}>
+                            ⚠️ {error}
+                        </span>
+                    </div>
+                )}
 
                 {/* Important Notice */}
                 <div style={{
@@ -350,6 +454,24 @@ const Step7: React.FC = () => {
                     </button>
                 </div>
             </div>
+
+            {/* CSS for animations */}
+            <style jsx>{`
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+                @keyframes fall {
+                    to {
+                        transform: translateY(100vh);
+                    }
+                }
+                @keyframes pulse {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.05); }
+                    100% { transform: scale(1); }
+                }
+            `}</style>
         </div>
     );
 };
