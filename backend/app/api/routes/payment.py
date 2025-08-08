@@ -11,7 +11,7 @@ from app.core.database import get_db
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/api", tags=["payment"])
+router = APIRouter(tags=["payment"])
 
 class PaymentIntentRequest(BaseModel):
     amount: int
