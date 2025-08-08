@@ -165,6 +165,22 @@ async def process_vendor_quote(vendor_info, quote_request, db):
                 'additional_services_info': additional_services_info,
             })
             
+            # Apply 20% markup for middleman margin
+            original_total_cost = quote_data.get('total_cost', 0)
+            markup_amount = original_total_cost * 0.20
+            final_total_cost = original_total_cost + markup_amount
+            
+            # Update total cost and add markup info
+            quote_data['total_cost'] = round(final_total_cost, 2)
+            quote_data['original_cost'] = round(original_total_cost, 2)
+            quote_data['markup_amount'] = round(markup_amount, 2)
+            quote_data['markup_percentage'] = 20.0
+            
+            # Update breakdown to include markup
+            if 'breakdown' in quote_data:
+                quote_data['breakdown']['markup'] = round(markup_amount, 2)
+                quote_data['breakdown']['original_total'] = round(original_total_cost, 2)
+            
             # Save quote to database
             saved_quote = save_quote_to_database(db, quote_data, vendor)
             
