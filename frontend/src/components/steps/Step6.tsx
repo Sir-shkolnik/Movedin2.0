@@ -80,7 +80,7 @@ const Step6: React.FC = () => {
         contact: data.contact
       });
 
-      const intentResponse = await fetch('https://movedin-backend.onrender.com/api/api/create-intent', {
+      const intentResponse = await fetch('https://movedin-backend.onrender.com/api/create-intent', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
