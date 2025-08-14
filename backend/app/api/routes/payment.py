@@ -135,7 +135,21 @@ async def create_payment_intent(req: PaymentIntentRequest, db: Session = Depends
             
             # Prepare lead data in the format expected by create_lead_internal
             lead_data_for_creation = {
-                'quote_data': req.fromDetails,
+                'quote_data': {
+                    'originAddress': req.fromDetails.get('originAddress', req.fromDetails.get('from', '')),
+                    'destinationAddress': req.fromDetails.get('destinationAddress', req.fromDetails.get('to', '')),
+                    'moveDate': req.fromDetails.get('moveDate', req.fromDetails.get('date', '')),
+                    'moveTime': req.fromDetails.get('moveTime', req.fromDetails.get('time', '')),
+                    'totalRooms': req.fromDetails.get('totalRooms', req.fromDetails.get('rooms', 0)),
+                    'squareFootage': req.fromDetails.get('squareFootage', req.fromDetails.get('sqft', '')),
+                    'estimatedWeight': req.fromDetails.get('estimatedWeight', 2500),
+                    'heavyItems': req.fromDetails.get('heavyItems', {'piano': 0, 'safe': 0, 'treadmill': 0}),
+                    'stairsAtPickup': req.fromDetails.get('stairsAtPickup', req.fromDetails.get('stairs', 0)),
+                    'stairsAtDropoff': req.fromDetails.get('stairsAtDropoff', 0),
+                    'elevatorAtPickup': req.fromDetails.get('elevatorAtPickup', False),
+                    'elevatorAtDropoff': req.fromDetails.get('elevatorAtDropoff', False),
+                    'additionalServices': req.fromDetails.get('additionalServices', {'packing': False, 'storage': False, 'cleaning': False, 'junk': False})
+                },
                 'selected_quote': {
                     'vendor_slug': req.selectedQuote.get('vendor_id'),  # Use vendor_id as slug
                     'vendor_name': req.selectedQuote.get('vendor_name'),
