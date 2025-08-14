@@ -117,7 +117,7 @@ async def send_vendor_email(lead_data: Dict[str, Any], vendor_email: str, lead_i
         return False
 
 @router.post('/create-intent')
-async def create_payment_intent(req: PaymentIntentRequest):
+async def create_payment_intent(req: PaymentIntentRequest, db: Session = Depends(get_db)):
     """
     Create a Stripe PaymentIntent for the $1 CAD deposit
     """
@@ -138,9 +138,7 @@ async def create_payment_intent(req: PaymentIntentRequest):
         # Create lead with pending payment status
         try:
             from app.api.routes.leads import create_lead_internal
-            # Get proper database session
-            db_session = next(get_db())
-            lead_result = await create_lead_internal(lead_data, db_session, 'pending_payment')
+            lead_result = await create_lead_internal(lead_data, db, 'pending_payment')
             lead_id = lead_result.get('id')
             logger.info(f"Lead created with ID: {lead_id} and status 'pending_payment'")
         except Exception as lead_error:
