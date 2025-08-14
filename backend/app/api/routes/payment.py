@@ -171,14 +171,13 @@ async def create_payment_intent(req: PaymentIntentRequest, db: Session = Depends
             # Continue with payment intent creation even if lead creation fails
             lead_id = None
         
-        # Store lead data in metadata for webhook processing
+        # Store lead data in metadata for webhook processing (keep under 500 chars)
         metadata = {
-            'selectedQuote': str(req.selectedQuote) if req.selectedQuote else '',
-            'vendor': str(req.vendor) if req.vendor else '',
-            'fromDetails': str(req.fromDetails) if req.fromDetails else '',
-            'contact': str(req.contact) if req.contact else '',
-            'lead_data': str(lead_data_for_creation), # Store the prepared lead_data
-            'lead_id': str(lead_id) if lead_id else ''
+            'lead_id': str(lead_id) if lead_id else '',
+            'vendor_slug': req.selectedQuote.get('vendor_id', '') if req.selectedQuote else '',
+            'customer_email': req.customer_email or '',
+            'amount': str(req.amount),
+            'currency': req.currency
         }
         
         # Create payment intent for $1 CAD (100 cents)
@@ -261,7 +260,7 @@ async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
 
 async def handle_payment_success(payment_intent: Dict[str, Any], db: Session):
     """
-    Handle successful payment and save lead data
+    Handle successful payment and update lead status
     """
     try:
         payment_intent_id = payment_intent['id']
@@ -269,25 +268,73 @@ async def handle_payment_success(payment_intent: Dict[str, Any], db: Session):
         
         logger.info(f"Processing successful payment: {payment_intent_id}")
         
-        # Extract lead data from metadata
-        lead_data_str = metadata.get('lead_data', '{}')
-        if not lead_data_str:
-            logger.error(f"No lead data found in payment intent: {payment_intent_id}")
+        # Extract lead_id from metadata
+        lead_id = metadata.get('lead_id')
+        if not lead_id:
+            logger.error(f"No lead_id found in payment intent: {payment_intent_id}")
             return
         
-        # Parse lead data (this is a simplified version - you might want to use JSON)
-        import ast
+        # Retrieve full lead data from the database
+        lead = db.query(Lead).filter(Lead.id == int(lead_id)).first()
+        if not lead:
+            logger.error(f"Lead with ID {lead_id} not found in database.")
+            return
+        
+        # Update lead status to payment_completed
+        lead.status = 'payment_completed'
+        lead.payment_intent_id = payment_intent_id
+        db.commit()
+        db.refresh(lead)
+        
+        logger.info(f"Payment confirmed and lead {lead_id} status updated to 'payment_completed'")
+        
+        # Send email notification to vendor
         try:
-            lead_data = ast.literal_eval(lead_data_str)
-        except:
-            logger.error(f"Failed to parse lead data: {lead_data_str}")
-            return
-        
-        # Save lead data to database
-        from app.api.routes.leads import create_lead_internal
-        lead_result = await create_lead_internal(lead_data, db)
-        
-        logger.info(f"Payment confirmed and lead saved: {lead_result.get('id')}")
+            if lead.selected_vendor_id:
+                vendor = db.query(Vendor).filter(Vendor.id == lead.selected_vendor_id).first()
+                if vendor and vendor.email:
+                    # Prepare lead data for email
+                    lead_data = {
+                        'quote_data': {
+                            'originAddress': lead.origin_address,
+                            'destinationAddress': lead.destination_address,
+                            'moveDate': lead.move_date.isoformat() if lead.move_date else '',
+                            'moveTime': lead.move_time,
+                            'totalRooms': lead.total_rooms,
+                            'squareFootage': lead.square_footage,
+                            'estimatedWeight': lead.estimated_weight,
+                            'heavyItems': lead.heavy_items or {},
+                            'stairsAtPickup': lead.stairs_at_pickup,
+                            'stairsAtDropoff': lead.stairs_at_dropoff,
+                            'elevatorAtPickup': lead.elevator_at_pickup,
+                            'elevatorAtDropoff': lead.elevator_at_dropoff,
+                            'additionalServices': lead.additional_services or {}
+                        },
+                        'selected_quote': {
+                            'vendor_name': vendor.name,
+                            'total_cost': 0,  # We don't have this in lead table
+                            'crew_size': 2,   # Default values
+                            'truck_count': 1,
+                            'estimated_hours': 4.0,
+                            'travel_time_hours': 1.0
+                        },
+                        'contact_data': {
+                            'firstName': lead.first_name,
+                            'lastName': lead.last_name,
+                            'email': lead.email,
+                            'phone': lead.phone
+                        }
+                    }
+                    
+                    await send_vendor_email(lead_data, vendor.email, int(lead_id))
+                    logger.info(f"Vendor email sent to {vendor.email} for lead {lead_id}")
+                else:
+                    logger.warning(f"No vendor email found for vendor {lead.selected_vendor_id}")
+            else:
+                logger.warning(f"No vendor found for lead {lead_id}")
+        except Exception as email_error:
+            logger.error(f"Failed to send vendor email: {email_error}")
+            # Don't fail the payment processing if email fails
         
     except Exception as e:
         logger.error(f"Failed to handle payment success: {e}")
