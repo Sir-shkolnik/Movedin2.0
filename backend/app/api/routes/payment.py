@@ -128,17 +128,28 @@ async def create_payment_intent(req: PaymentIntentRequest, db: Session = Depends
         # IMPORTANT: Create lead BEFORE payment with status 'pending_payment'
         logger.info("Creating lead BEFORE payment...")
         
-        # Prepare lead data
-        lead_data = {
-            'quote_data': req.fromDetails,
-            'selected_quote': req.selectedQuote,
-            'contact_data': req.contact
-        }
-        
         # Create lead with pending payment status
         try:
+            # Import here to avoid circular imports
             from app.api.routes.leads import create_lead_internal
-            lead_result = await create_lead_internal(lead_data, db, 'pending_payment')
+            
+            # Prepare lead data in the format expected by create_lead_internal
+            lead_data_for_creation = {
+                'quote_data': req.fromDetails,
+                'selected_quote': {
+                    'vendor_slug': req.selectedQuote.get('vendor_id'),  # Use vendor_id as slug
+                    'vendor_name': req.selectedQuote.get('vendor_name'),
+                    'total_cost': req.selectedQuote.get('total_cost'),
+                    'crew_size': req.selectedQuote.get('crew_size', 2),
+                    'truck_count': req.selectedQuote.get('truck_count', 1),
+                    'estimated_hours': req.selectedQuote.get('estimated_hours', 4.0),
+                    'travel_time_hours': req.selectedQuote.get('travel_time_hours', 1.0),
+                    'breakdown': req.selectedQuote.get('breakdown', {})
+                },
+                'contact_data': req.contact
+            }
+            
+            lead_result = await create_lead_internal(lead_data_for_creation, db, 'pending_payment')
             lead_id = lead_result.get('id')
             logger.info(f"Lead created with ID: {lead_id} and status 'pending_payment'")
         except Exception as lead_error:
@@ -152,7 +163,7 @@ async def create_payment_intent(req: PaymentIntentRequest, db: Session = Depends
             'vendor': str(req.vendor) if req.vendor else '',
             'fromDetails': str(req.fromDetails) if req.fromDetails else '',
             'contact': str(req.contact) if req.contact else '',
-            'lead_data': str(lead_data),
+            'lead_data': str(lead_data_for_creation), # Store the prepared lead_data
             'lead_id': str(lead_id) if lead_id else ''
         }
         
