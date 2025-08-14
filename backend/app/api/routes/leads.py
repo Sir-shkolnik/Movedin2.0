@@ -98,11 +98,11 @@ async def create_lead_internal(lead_data: Dict[str, Any], db: Session, status: s
         contact_data = lead_data.get('contact_data', {})
         
         # Get vendor
-        vendor_slug = selected_quote.get('vendor_id')
+        vendor_slug = selected_quote.get('vendor_id') or selected_quote.get('vendor_slug')
         vendor = get_vendor_by_slug(db, vendor_slug) if vendor_slug else None
         
         if not vendor:
-            raise HTTPException(status_code=400, detail="Vendor not found")
+            raise HTTPException(status_code=400, detail=f"Vendor not found for slug: {vendor_slug}")
         
         # Create lead
         lead = Lead(
