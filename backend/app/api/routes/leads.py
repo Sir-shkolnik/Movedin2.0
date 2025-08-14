@@ -87,7 +87,7 @@ def get_quote_by_vendor_and_lead(db: Session, vendor_id: int, lead_id: int) -> O
         Quote.lead_id == lead_id
     ).first()
 
-async def create_lead_internal(lead_data: Dict[str, Any], db: Session) -> Dict[str, Any]:
+async def create_lead_internal(lead_data: Dict[str, Any], db: Session, status: str = 'payment_completed') -> Dict[str, Any]:
     """
     Internal function to create a lead (used by payment processing)
     """
@@ -125,7 +125,7 @@ async def create_lead_internal(lead_data: Dict[str, Any], db: Session) -> Dict[s
             additional_services=quote_data.get('additionalServices', {}),
             selected_vendor_id=vendor.id,
             payment_intent_id=selected_quote.get('payment_intent_id'),
-            status='payment_completed',
+            status=status,  # Use the passed status parameter
             source='web_form'
         )
         

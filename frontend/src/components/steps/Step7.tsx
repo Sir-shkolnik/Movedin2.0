@@ -39,7 +39,8 @@ const Step7: React.FC = () => {
             const leadData = {
                 quote_data: data.fromDetails || {},
                 selected_quote: data.selectedQuote || {},
-                contact_data: data.contact || {}
+                contact_data: data.contact || {},
+                lead_id: intentData.lead_id || null  // Include lead_id if available
             };
 
             // Call the confirm-payment endpoint
