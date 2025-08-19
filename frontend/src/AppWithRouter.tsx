@@ -27,22 +27,22 @@ function AppWithRouter() {
       <ThemeProvider>
         <Router>
           <Routes>
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/vendors" element={<VendorManagement />} />
-            <Route path="/admin/locations" element={<VendorLocations />} />
-            <Route path="/admin/leads" element={<LeadManagement />} />
-            <Route path="/admin/monitoring" element={<SystemMonitoring />} />
-            <Route path="/admin/analytics" element={<Analytics />} />
-            <Route path="/vendor/login" element={<VendorLogin />} />
-            <Route path="/vendor/dashboard" element={<VendorDashboard />} />
-            <Route path="/about-us" element={<AboutUs />} />
-            <Route path="/how-it-works" element={<HowItWorks />} />
-            <Route path="/tips-guides" element={<TipsAndGuides />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms-of-service" element={<TermsOfService />} />
-            <Route path="/cookie-policy" element={<CookiePolicy />} />
-            <Route path="/accessibility" element={<Accessibility />} />
-            <Route path="/*" element={<App />} />
+            <Route path="admin" element={<AdminDashboard />} />
+            <Route path="admin/vendors" element={<VendorManagement />} />
+            <Route path="admin/locations" element={<VendorLocations />} />
+            <Route path="admin/leads" element={<LeadManagement />} />
+            <Route path="admin/monitoring" element={<SystemMonitoring />} />
+            <Route path="admin/analytics" element={<Analytics />} />
+            <Route path="vendor/login" element={<VendorLogin />} />
+            <Route path="vendor/dashboard" element={<VendorDashboard />} />
+            <Route path="about-us" element={<AboutUs />} />
+            <Route path="how-it-works" element={<HowItWorks />} />
+            <Route path="tips-guides" element={<TipsAndGuides />} />
+            <Route path="privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="terms-of-service" element={<TermsOfService />} />
+            <Route path="cookie-policy" element={<CookiePolicy />} />
+            <Route path="accessibility" element={<Accessibility />} />
+            <Route path="*" element={<App />} />
           </Routes>
         </Router>
       </ThemeProvider>
