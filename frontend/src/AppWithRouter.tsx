@@ -5,6 +5,10 @@ import App from './App';
 import AboutUs from './pages/AboutUs';
 import HowItWorks from './pages/HowItWorks';
 import TipsAndGuides from './pages/TipsAndGuides';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
+import CookiePolicy from './pages/CookiePolicy';
+import Accessibility from './pages/Accessibility';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import VendorManagement from './pages/Admin/VendorManagement';
 import LeadManagement from './pages/Admin/LeadManagement';
@@ -34,6 +38,10 @@ function AppWithRouter() {
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/tips-guides" element={<TipsAndGuides />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/cookie-policy" element={<CookiePolicy />} />
+            <Route path="/accessibility" element={<Accessibility />} />
             <Route path="/*" element={<App />} />
           </Routes>
         </Router>
