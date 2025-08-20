@@ -52,7 +52,7 @@ const AboutUs: React.FC = () => {
           <article className="page-card">
             <header>
               <h1 id="about-title">About MovedIn: Your Moving Partner</h1>
-              <p className="page-subtitle">Connecting Canadians with trusted moving companies since 2024. <Link to="/how-it-works">See how it works</Link> | <Link to="/tips-guides">Get moving tips</Link></p>
+              <p className="page-subtitle">Connecting Canadians with trusted moving companies since 2024. <Link to="/#/how-it-works">See how it works</Link> | <Link to="/#/tips-guides">Get moving tips</Link></p>
             </header>
             
             <div className="about-section">
@@ -75,13 +75,13 @@ const AboutUs: React.FC = () => {
                 <div className="value-card">
                   <div className="value-icon">🛡️</div>
                   <h3>Verified Movers</h3>
-                  <p>All moving companies are licensed, insured, and customer-approved. <Link to="/how-it-works">Learn more</Link></p>
+                  <p>All moving companies are licensed, insured, and customer-approved. <Link to="/#/how-it-works">Learn more</Link></p>
                 </div>
                 
                 <div className="value-card">
                   <div className="value-icon">💰</div>
                   <h3>Transparent Pricing</h3>
-                  <p>See exactly what you're paying for with detailed cost breakdowns. <Link to="/tips-guides">Get cost-saving tips</Link></p>
+                  <p>See exactly what you're paying for with detailed cost breakdowns. <Link to="/#/tips-guides">Get cost-saving tips</Link></p>
                 </div>
                 
                 <div className="value-card">
@@ -133,8 +133,8 @@ const AboutUs: React.FC = () => {
               </ul>
               
               <p>
-                Ready to get started? <Link to="/">Get your free quote now</Link> or 
-                <Link to="/tips-guides"> browse our moving guides</Link> for expert advice.
+                Ready to get started? <Link to="/#/">Get your free quote now</Link> or 
+                <Link to="/#/tips-guides"> browse our moving guides</Link> for expert advice.
               </p>
             </div>
             
@@ -158,10 +158,10 @@ const AboutUs: React.FC = () => {
               <h2>Legal & Policies</h2>
               <p>Your trust and privacy are important to us:</p>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                <li><Link to="/privacy-policy">Privacy Policy</Link> - How we protect your information</li>
-                <li><Link to="/terms-of-service">Terms of Service</Link> - Our service agreement</li>
-                <li><Link to="/cookie-policy">Cookie Policy</Link> - How we use cookies</li>
-                <li><Link to="/accessibility">Accessibility Statement</Link> - Our accessibility commitment</li>
+                <li><Link to="/#/privacy-policy">Privacy Policy</Link> - How we protect your information</li>
+                <li><Link to="/#/terms-of-service">Terms of Service</Link> - Our service agreement</li>
+                <li><Link to="/#/cookie-policy">Cookie Policy</Link> - How we use cookies</li>
+                <li><Link to="/#/accessibility">Accessibility Statement</Link> - Our accessibility commitment</li>
               </ul>
             </div>
             
@@ -171,7 +171,7 @@ const AboutUs: React.FC = () => {
                 Join thousands of Canadians who trust MovedIn for their moving needs. 
                 Get instant quotes, compare options, and book with confidence.
               </p>
-              <button className="cta-button" onClick={() => navigate('/')}>
+              <button className="cta-button" onClick={() => navigate('/#/')}>
                 Get Your Free Quote
               </button>
               <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: '#666' }}>
@@ -181,7 +181,7 @@ const AboutUs: React.FC = () => {
           </article>
         </div>
       </main>
-      <Footer onContinue={() => navigate('/')} showContinue={true} label="Get Quote" />
+      <Footer onContinue={() => navigate('/#/')} showContinue={true} label="Get Quote" />
     </>
   );
 };
