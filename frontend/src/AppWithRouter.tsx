@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { HashRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
 import AboutUs from './pages/AboutUs';
@@ -21,47 +21,28 @@ import VendorDashboard from './pages/VendorAdmin/VendorDashboard';
 import { ThemeProvider } from './contexts/ThemeContext';
 import './App.css';
 
-// Component to handle redirects from direct URLs to hash URLs
-function RedirectHandler() {
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // Check if we're on a direct URL (no hash) and redirect to hash version
-    if (location.pathname !== '/' && !location.hash) {
-      const path = location.pathname;
-      // Remove leading slash and redirect to hash version
-      const hashPath = path.startsWith('/') ? path.substring(1) : path;
-      navigate(`/#/${hashPath}`, { replace: true });
-    }
-  }, [location, navigate]);
-
-  return null;
-}
-
 function AppWithRouter() {
   return (
     <HelmetProvider>
       <ThemeProvider>
         <Router>
-          <RedirectHandler />
           <Routes>
-            <Route path="admin" element={<AdminDashboard />} />
-            <Route path="admin/vendors" element={<VendorManagement />} />
-            <Route path="admin/locations" element={<VendorLocations />} />
-            <Route path="admin/leads" element={<LeadManagement />} />
-            <Route path="admin/monitoring" element={<SystemMonitoring />} />
-            <Route path="admin/analytics" element={<Analytics />} />
-            <Route path="vendor/login" element={<VendorLogin />} />
-            <Route path="vendor/dashboard" element={<VendorDashboard />} />
-            <Route path="about-us" element={<AboutUs />} />
-            <Route path="how-it-works" element={<HowItWorks />} />
-            <Route path="tips-guides" element={<TipsAndGuides />} />
-            <Route path="privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="terms-of-service" element={<TermsOfService />} />
-            <Route path="cookie-policy" element={<CookiePolicy />} />
-            <Route path="accessibility" element={<Accessibility />} />
-            <Route path="*" element={<App />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/vendors" element={<VendorManagement />} />
+            <Route path="/admin/locations" element={<VendorLocations />} />
+            <Route path="/admin/leads" element={<LeadManagement />} />
+            <Route path="/admin/monitoring" element={<SystemMonitoring />} />
+            <Route path="/admin/analytics" element={<Analytics />} />
+            <Route path="/vendor/login" element={<VendorLogin />} />
+            <Route path="/vendor/dashboard" element={<VendorDashboard />} />
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/how-it-works" element={<HowItWorks />} />
+            <Route path="/tips-guides" element={<TipsAndGuides />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/cookie-policy" element={<CookiePolicy />} />
+            <Route path="/accessibility" element={<Accessibility />} />
+            <Route path="/*" element={<App />} />
           </Routes>
         </Router>
       </ThemeProvider>
