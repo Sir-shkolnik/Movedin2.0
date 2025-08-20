@@ -21,10 +21,10 @@ const Accessibility: React.FC = () => {
         <meta property="og:url" content="https://movedin.com/accessibility" />
         <meta name="robots" content="index, follow" />
       </Helmet>
-      <Header />
+    <Header />
       <main className="page-container" aria-labelledby="accessibility-title">
-        <div className="page-content">
-          <article className="page-card">
+      <div className="page-content">
+        <article className="page-card">
             <header>
               <h1 id="accessibility-title">Accessibility Statement</h1>
               <p className="page-subtitle">Last Updated: January 15, 2025 | AODA Compliant | WCAG 2.1 AA Standards</p>
@@ -328,7 +328,7 @@ const Accessibility: React.FC = () => {
                 <li><strong>User Feedback:</strong> Incorporating accessibility suggestions</li>
                 <li><strong>Standard Updates:</strong> Reflecting new accessibility requirements</li>
                 <li><strong>Feature Additions:</strong> Documenting new accessibility features</li>
-              </ul>
+            </ul>
             </div>
 
             <div className="cta-section">
@@ -341,12 +341,12 @@ const Accessibility: React.FC = () => {
                 <Link to="/about-us">About Us</Link> | <Link to="/privacy-policy">Privacy Policy</Link> | <Link to="/terms-of-service">Terms of Service</Link>
               </p>
             </div>
-          </article>
-        </div>
-      </main>
+        </article>
+      </div>
+    </main>
       <Footer onContinue={() => navigate('/')} showContinue={true} label="Get Quote" />
-    </>
-  );
+  </>
+);
 };
 
 export default Accessibility; 

@@ -21,10 +21,10 @@ const TermsOfService: React.FC = () => {
         <meta property="og:url" content="https://movedin.com/terms-of-service" />
         <meta name="robots" content="index, follow" />
       </Helmet>
-      <Header />
+    <Header />
       <main className="page-container" aria-labelledby="terms-title">
-        <div className="page-content">
-          <article className="page-card">
+      <div className="page-content">
+        <article className="page-card">
             <header>
               <h1 id="terms-title">Terms of Service</h1>
               <p className="page-subtitle">Last Updated: January 15, 2025 | Effective Date: January 15, 2025</p>
@@ -296,7 +296,7 @@ const TermsOfService: React.FC = () => {
                 <li>If direct resolution fails, disputes may be resolved through mediation</li>
                 <li>Legal proceedings must be brought in courts of competent jurisdiction in Ontario</li>
                 <li>You agree to submit to the personal jurisdiction of such courts</li>
-              </ul>
+            </ul>
 
               <h3>Class Action Waiver</h3>
               <p>
@@ -306,7 +306,7 @@ const TermsOfService: React.FC = () => {
             </div>
 
             <div className="about-section">
-              <h2>Changes to Terms</h2>
+            <h2>Changes to Terms</h2>
               <p>
                 We may update these Terms from time to time. When we make changes:
               </p>
@@ -348,12 +348,12 @@ const TermsOfService: React.FC = () => {
                 <Link to="/about-us">About Us</Link> | <Link to="/privacy-policy">Privacy Policy</Link> | <Link to="/cookie-policy">Cookie Policy</Link>
               </p>
             </div>
-          </article>
-        </div>
-      </main>
+        </article>
+      </div>
+    </main>
       <Footer onContinue={() => navigate('/')} showContinue={true} label="Get Quote" />
-    </>
-  );
+  </>
+);
 };
 
 export default TermsOfService; 
