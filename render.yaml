@@ -70,39 +70,6 @@ services:
       - path: /admin/*
         name: Cache-Control
         value: no-cache, no-store, must-revalidate
-    routes:
-      # Handle React Router client-side routing
-      - type: rewrite
-        source: /privacy-policy
-        destination: /
-      - type: rewrite
-        source: /terms-of-service
-        destination: /
-      - type: rewrite
-        source: /cookie-policy
-        destination: /
-      - type: rewrite
-        source: /accessibility
-        destination: /
-      - type: rewrite
-        source: /about-us
-        destination: /
-      - type: rewrite
-        source: /how-it-works
-        destination: /
-      - type: rewrite
-        source: /tips-guides
-        destination: /
-      - type: rewrite
-        source: /admin/*
-        destination: /
-      - type: rewrite
-        source: /vendor/*
-        destination: /
-      # Catch-all for any other routes
-      - type: rewrite
-        source: /*
-        destination: /
     envVars:
       - key: VITE_API_URL
         value: https://movedin-backend.onrender.com
