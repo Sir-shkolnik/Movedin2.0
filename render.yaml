@@ -63,6 +63,9 @@ services:
     runtime: static
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist
+    domains:
+      - movedin.com
+      - www.movedin.com
     headers:
       - path: /*
         name: Cache-Control
