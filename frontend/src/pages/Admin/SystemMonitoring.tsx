@@ -229,7 +229,16 @@ const SystemMonitoring: React.FC = () => {
         statusCode = response.status;
 
         if (response.ok) {
-          status = responseTime < 1000 ? 'healthy' : 'warning';
+          // Adjust thresholds for Render's performance characteristics
+          // Render can be slower due to cold starts and Google Sheets API calls
+          if (responseTime < 2000) {
+            status = 'healthy';
+          } else if (responseTime < 8000) {
+            status = 'warning';
+          } else {
+            status = 'error';
+          }
+          
           try {
             const data = await response.json();
             dataSample = data;
@@ -365,6 +374,18 @@ const SystemMonitoring: React.FC = () => {
           </div>
         </div>
       )}
+      
+      {/* Performance Note */}
+      <div className="performance-note">
+        <div className="note-icon">ℹ️</div>
+        <div className="note-content">
+          <h5>Performance Note</h5>
+          <p>
+            Some API endpoints may show warning status due to Render's cold start behavior and Google Sheets API processing. 
+            Response times under 8 seconds are considered normal for complex operations.
+          </p>
+        </div>
+      </div>
     </div>
   );
 
