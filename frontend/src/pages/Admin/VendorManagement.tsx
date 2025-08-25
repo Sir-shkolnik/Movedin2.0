@@ -81,6 +81,22 @@ interface VendorLogic {
   uses_geographic_dispatching: boolean;
 }
 
+// Add new interfaces for calculator control
+interface CalculatorSettings {
+  heavy_items_rates: Record<string, number>;
+  additional_services_rates: Record<string, number>;
+  fuel_charges: Record<string, number>;
+  crew_sizing_rules: Record<string, any>;
+  truck_sizing_rules: Record<string, any>;
+}
+
+interface QuotePreview {
+  original_quote: any;
+  modified_quote: any;
+  differences: any;
+  loading: boolean;
+}
+
 const VendorManagement: React.FC = () => {
   const [vendors, setVendors] = useState<Vendor[]>([]);
   const [selectedVendor, setSelectedVendor] = useState<string>('');
@@ -103,6 +119,48 @@ const VendorManagement: React.FC = () => {
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [refreshInterval, setRefreshInterval] = useState<number | null>(null);
+
+  // New state for calculator control
+  const [calculatorSettings, setCalculatorSettings] = useState<CalculatorSettings>({
+    heavy_items_rates: { piano: 250, safe: 300, treadmill: 100 },
+    additional_services_rates: { packing: 110, storage: 200, cleaning: 396, junk: 150 },
+    fuel_charges: {},
+    crew_sizing_rules: {},
+    truck_sizing_rules: {}
+  });
+  const [quotePreview, setQuotePreview] = useState<QuotePreview>({
+    original_quote: null,
+    modified_quote: null,
+    differences: null,
+    loading: false
+  });
+  const [showCalculatorPanel, setShowCalculatorPanel] = useState(false);
+  const [testQuoteRequest, setTestQuoteRequest] = useState({
+    origin_address: 'Toronto, ON',
+    destination_address: 'Mississauga, ON',
+    move_date: '2025-04-07',
+    move_time: '09:00',
+    total_rooms: 3,
+    square_footage: '1500',
+    estimated_weight: 3000,
+    heavy_items: { piano: 0, safe: 0, treadmill: 0 },
+    stairs_at_pickup: 0,
+    stairs_at_dropoff: 0,
+    elevator_at_pickup: false,
+    elevator_at_dropoff: false,
+    additional_services: { packing: false, storage: false, cleaning: false, junk: false }
+  });
+
+  // Notification state
+  const [notification, setNotification] = useState<{
+    type: 'success' | 'error' | 'info';
+    message: string;
+    visible: boolean;
+  }>({
+    type: 'info',
+    message: '',
+    visible: false
+  });
 
   useEffect(() => {
     loadVendors();
@@ -250,6 +308,137 @@ const VendorManagement: React.FC = () => {
     
     console.log('Location Analysis:', analysis);
     alert(`Analysis Complete!\nTotal: ${analysis.totalLocations}\nAvailable: ${analysis.availableLocations}\nUnavailable: ${analysis.unavailableLocations}\nAvg Availability: ${(analysis.averageAvailability * 100).toFixed(1)}%`);
+  };
+
+  // Calculator Control Functions
+  const modifyVendorRates = async (vendorSlug: string, modifications: any) => {
+    try {
+      const response = await fetch(`https://movedin-backend.onrender.com/admin/vendors/${vendorSlug}/modify`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ modifications, description: 'Modified via admin panel' })
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Vendor rates modified:', result);
+        // Update local settings
+        setCalculatorSettings(prev => ({
+          ...prev,
+          ...modifications
+        }));
+        showNotification('success', `Vendor ${vendorSlug} rates modified successfully!`);
+        return result;
+      } else {
+        throw new Error('Failed to modify vendor rates');
+      }
+    } catch (error) {
+      console.error('Error modifying vendor rates:', error);
+      showNotification('error', `Failed to modify vendor rates: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw error;
+    }
+  };
+
+  const generateQuotePreview = async () => {
+    if (!selectedVendor) return;
+    
+    setQuotePreview(prev => ({ ...prev, loading: true }));
+    
+    try {
+      // Generate quote with current settings
+      const response = await fetch('https://movedin-backend.onrender.com/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(testQuoteRequest)
+      });
+      
+      if (response.ok) {
+        const quotes = await response.json();
+        const vendorQuote = quotes.find((q: any) => q.vendor_slug === selectedVendor);
+        
+        if (vendorQuote) {
+          setQuotePreview(prev => ({
+            ...prev,
+            original_quote: vendorQuote,
+            loading: false
+          }));
+        }
+      }
+    } catch (error) {
+      console.error('Error generating quote preview:', error);
+      setQuotePreview(prev => ({ ...prev, loading: false }));
+    }
+  };
+
+  const resetVendorLogic = async (vendorSlug: string) => {
+    try {
+      const response = await fetch(`https://movedin-backend.onrender.com/admin/vendors/${vendorSlug}/reset`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Vendor logic reset:', result);
+        // Reset local settings to defaults
+        setCalculatorSettings({
+          heavy_items_rates: { piano: 250, safe: 300, treadmill: 100 },
+          additional_services_rates: { packing: 110, storage: 200, cleaning: 396, junk: 150 },
+          fuel_charges: {},
+          crew_sizing_rules: {},
+          truck_sizing_rules: {}
+        });
+        showNotification('success', `Vendor ${vendorSlug} logic reset to defaults!`);
+        return result;
+      } else {
+        throw new Error('Failed to reset vendor logic');
+      }
+    } catch (error) {
+      console.error('Error resetting vendor logic:', error);
+      showNotification('error', `Failed to reset vendor logic: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw error;
+    }
+  };
+
+  const compareVendorQuotes = async () => {
+    try {
+      const response = await fetch('https://movedin-backend.onrender.com/admin/vendors/compare', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: 'Admin Panel Comparison',
+          test_request: testQuoteRequest
+        })
+      });
+      
+      if (response.ok) {
+        const comparison = await response.json();
+        setQuotePreview(prev => ({
+          ...prev,
+          original_quote: comparison.original_results[selectedVendor],
+          modified_quote: comparison.modified_results[selectedVendor],
+          differences: comparison.differences[selectedVendor]
+        }));
+        return comparison;
+      } else {
+        throw new Error('Failed to compare vendor quotes');
+      }
+    } catch (error) {
+      console.error('Error comparing vendor quotes:', error);
+      throw error;
+    }
+  };
+
+  // Notification functions
+  const showNotification = (type: 'success' | 'error' | 'info', message: string) => {
+    setNotification({ type, message, visible: true });
+    setTimeout(() => {
+      setNotification(prev => ({ ...prev, visible: false }));
+    }, 5000);
+  };
+
+  const hideNotification = () => {
+    setNotification(prev => ({ ...prev, visible: false }));
   };
 
   // Enhanced filtering and sorting
@@ -691,6 +880,259 @@ const VendorManagement: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Calculator Control Panel */}
+        <div className="calculator-control-panel">
+          <div className="panel-header">
+            <h4>🧮 Calculator Control Panel</h4>
+            <button 
+              className="toggle-btn"
+              onClick={() => setShowCalculatorPanel(!showCalculatorPanel)}
+            >
+              {showCalculatorPanel ? 'Hide' : 'Show'} Calculator Controls
+            </button>
+          </div>
+          
+          {showCalculatorPanel && (
+            <div className="calculator-controls">
+              {/* Rate Editing Interface */}
+              <div className="rate-editing-section">
+                <h5>💰 Rate Editing</h5>
+                <div className="rate-grid">
+                  <div className="rate-category">
+                    <h6>Heavy Items Rates</h6>
+                    {Object.entries(calculatorSettings.heavy_items_rates).map(([item, rate]) => (
+                      <div key={item} className="rate-input-group">
+                        <label>{item.charAt(0).toUpperCase() + item.slice(1)}:</label>
+                        <input
+                          type="number"
+                          value={rate}
+                          onChange={(e) => setCalculatorSettings(prev => ({
+                            ...prev,
+                            heavy_items_rates: {
+                              ...prev.heavy_items_rates,
+                              [item]: parseFloat(e.target.value) || 0
+                            }
+                          }))}
+                          min="0"
+                          step="10"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="rate-category">
+                    <h6>Additional Services Rates</h6>
+                    {Object.entries(calculatorSettings.additional_services_rates).map(([service, rate]) => (
+                      <div key={service} className="rate-input-group">
+                        <label>{service.charAt(0).toUpperCase() + service.slice(1)}:</label>
+                        <input
+                          type="number"
+                          value={rate}
+                          onChange={(e) => setCalculatorSettings(prev => ({
+                            ...prev,
+                            additional_services_rates: {
+                              ...prev.additional_services_rates,
+                              [service]: parseFloat(e.target.value) || 0
+                            }
+                          }))}
+                          min="0"
+                          step="10"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="rate-actions">
+                  <button 
+                    className="action-btn primary"
+                    onClick={() => modifyVendorRates(selectedVendor, {
+                      heavy_items_rates: calculatorSettings.heavy_items_rates,
+                      additional_services_rates: calculatorSettings.additional_services_rates
+                    })}
+                  >
+                    💾 Apply Rate Changes
+                  </button>
+                  <button 
+                    className="action-btn secondary"
+                    onClick={() => resetVendorLogic(selectedVendor)}
+                  >
+                    🔄 Reset to Defaults
+                  </button>
+                </div>
+              </div>
+
+              {/* Real-time Quote Preview */}
+              <div className="quote-preview-section">
+                <h5>📊 Real-time Quote Preview</h5>
+                <div className="test-quote-form">
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>Origin:</label>
+                      <input
+                        type="text"
+                        value={testQuoteRequest.origin_address}
+                        onChange={(e) => setTestQuoteRequest(prev => ({
+                          ...prev,
+                          origin_address: e.target.value
+                        }))}
+                        placeholder="Toronto, ON"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Destination:</label>
+                      <input
+                        type="text"
+                        value={testQuoteRequest.destination_address}
+                        onChange={(e) => setTestQuoteRequest(prev => ({
+                          ...prev,
+                          destination_address: e.target.value
+                        }))}
+                        placeholder="Mississauga, ON"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>Rooms:</label>
+                      <input
+                        type="number"
+                        value={testQuoteRequest.total_rooms}
+                        onChange={(e) => setTestQuoteRequest(prev => ({
+                          ...prev,
+                          total_rooms: parseInt(e.target.value) || 1
+                        }))}
+                        min="1"
+                        max="10"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Weight (lbs):</label>
+                      <input
+                        type="number"
+                        value={testQuoteRequest.estimated_weight}
+                        onChange={(e) => setTestQuoteRequest(prev => ({
+                          ...prev,
+                          estimated_weight: parseInt(e.target.value) || 1000
+                        }))}
+                        min="500"
+                        step="500"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="quote-preview-actions">
+                    <button 
+                      className="action-btn primary"
+                      onClick={generateQuotePreview}
+                      disabled={quotePreview.loading}
+                    >
+                      {quotePreview.loading ? '🔄 Generating...' : '📊 Generate Quote Preview'}
+                    </button>
+                    <button 
+                      className="action-btn secondary"
+                      onClick={compareVendorQuotes}
+                    >
+                      ⚖️ Compare Quotes
+                    </button>
+                  </div>
+                </div>
+
+                {/* Quote Preview Results */}
+                {quotePreview.original_quote && (
+                  <div className="quote-preview-results">
+                    <h6>Quote Results</h6>
+                    <div className="quote-comparison">
+                      <div className="quote-card">
+                        <h7>Original Quote</h7>
+                        <div className="quote-details">
+                          <p><strong>Total Cost:</strong> ${quotePreview.original_quote.total_cost?.toFixed(2) || 'N/A'}</p>
+                          <p><strong>Crew Size:</strong> {quotePreview.original_quote.crew_size || 'N/A'}</p>
+                          <p><strong>Truck Count:</strong> {quotePreview.original_quote.truck_count || 'N/A'}</p>
+                          <p><strong>Estimated Hours:</strong> {quotePreview.original_quote.estimated_hours || 'N/A'}</p>
+                        </div>
+                      </div>
+                      
+                      {quotePreview.modified_quote && (
+                        <div className="quote-card">
+                          <h7>Modified Quote</h7>
+                          <div className="quote-details">
+                            <p><strong>Total Cost:</strong> ${quotePreview.modified_quote.total_cost?.toFixed(2) || 'N/A'}</p>
+                            <p><strong>Crew Size:</strong> {quotePreview.modified_quote.crew_size || 'N/A'}</p>
+                            <p><strong>Truck Count:</strong> {quotePreview.modified_quote.truck_count || 'N/A'}</p>
+                            <p><strong>Estimated Hours:</strong> {quotePreview.modified_quote.estimated_hours || 'N/A'}</p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    
+                    {quotePreview.differences && (
+                      <div className="quote-differences">
+                        <h7>Changes</h7>
+                        <div className="differences-grid">
+                          <div className="difference-item">
+                            <span>Cost Difference:</span>
+                            <span className={quotePreview.differences.cost_difference > 0 ? 'positive' : 'negative'}>
+                              ${quotePreview.differences.cost_difference?.toFixed(2) || '0.00'}
+                            </span>
+                          </div>
+                          <div className="difference-item">
+                            <span>Percentage Change:</span>
+                            <span className={quotePreview.differences.percentage_change > 0 ? 'positive' : 'negative'}>
+                              {quotePreview.differences.percentage_change?.toFixed(2) || '0.00'}%
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Calculator Settings Panel */}
+              <div className="calculator-settings-section">
+                <h5>⚙️ Calculator Settings</h5>
+                <div className="settings-grid">
+                  <div className="setting-group">
+                    <h6>Service Area Configuration</h6>
+                    <div className="service-area-info">
+                      <p><strong>Max Distance:</strong> {vendorLogic.service_area.max_distance_km || 'N/A'} km</p>
+                      <p><strong>Cities Covered:</strong> {vendorLogic.service_area.cities?.length || 'N/A'}</p>
+                      <p><strong>Regions Covered:</strong> {vendorLogic.service_area.regions?.length || 'N/A'}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="setting-group">
+                    <h6>Calculation Parameters</h6>
+                    <div className="calculation-info">
+                      <p><strong>Real Calculation Engine:</strong> {vendorLogic.real_calculation_engine ? '✅ Yes' : '❌ No'}</p>
+                      <p><strong>Uses Google Sheets:</strong> {vendorLogic.uses_google_sheets ? '✅ Yes' : '❌ No'}</p>
+                      <p><strong>Uses Mapbox:</strong> {vendorLogic.uses_mapbox ? '✅ Yes' : '❌ No'}</p>
+                      <p><strong>Geographic Dispatching:</strong> {vendorLogic.uses_geographic_dispatching ? '✅ Yes' : '❌ No'}</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="settings-actions">
+                  <button 
+                    className="action-btn info"
+                    onClick={() => window.open(`/admin/vendors/${selectedVendor}/logic`, '_blank')}
+                  >
+                    📋 View Full Logic
+                  </button>
+                  <button 
+                    className="action-btn warning"
+                    onClick={() => compareVendorQuotes()}
+                  >
+                    🔍 Test Calculator
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     );
   };
@@ -706,9 +1148,44 @@ const VendorManagement: React.FC = () => {
 
   return (
     <div className="vendor-management">
-      <div className="page-header">
-        <h1>Vendor Management</h1>
-        <p>Manage vendors, view pricing, and monitor location availability</p>
+      {/* Notification Component */}
+      {notification.visible && (
+        <div className={`notification notification-${notification.type}`}>
+          <div className="notification-content">
+            <span className="notification-icon">
+              {notification.type === 'success' && '✅'}
+              {notification.type === 'error' && '❌'}
+              {notification.type === 'info' && 'ℹ️'}
+            </span>
+            <span className="notification-message">{notification.message}</span>
+          </div>
+          <button className="notification-close" onClick={hideNotification}>
+            ×
+          </button>
+        </div>
+      )}
+
+      <div className="vendor-management-header">
+        <div className="header-content">
+          <h2>Vendor Management</h2>
+          <p>Manage vendors, locations, and pricing logic</p>
+        </div>
+        
+        <div className="header-actions">
+          <button 
+            className="action-btn primary"
+            onClick={() => setShowCalculatorPanel(!showCalculatorPanel)}
+          >
+            🧮 {showCalculatorPanel ? 'Hide' : 'Show'} Calculator Controls
+          </button>
+          <button 
+            className="action-btn secondary"
+            onClick={handleRefresh}
+            disabled={availabilityLoading}
+          >
+            🔄 Refresh
+          </button>
+        </div>
       </div>
 
       <div className="vendor-selection">
