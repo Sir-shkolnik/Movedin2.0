@@ -716,10 +716,49 @@ class GeographicVendorDispatcher:
                     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
                     distance = R * c
                     
-                    logger.info(f"Dispatcher {gid} ({dispatcher_data.get('location', 'Unknown')}) at ({lat}, {lng}) - distance: {distance:.2f}km")
+                    # Apply GTA priority scoring
+                    location_name = dispatcher_data.get('location', '')
+                    gta_priority_score = 0
                     
-                    if distance < min_distance:
-                        min_distance = distance
+                    # Check if origin is in GTA
+                    origin_lower = origin.lower()
+                    is_gta_origin = any(city in origin_lower for city in [
+                        'toronto', 'mississauga', 'brampton', 'vaughan', 'markham', 
+                        'richmond hill', 'oakville', 'burlington', 'hamilton', 'ajax', 
+                        'pickering', 'whitby', 'oshawa', 'aurora', 'barrie', 'scarborough', 
+                        'etobicoke', 'north york', 'york', 'east york'
+                    ])
+                    
+                    # If origin is in GTA, prioritize GTA dispatchers
+                    if is_gta_origin:
+                        # Check if dispatcher location name contains GTA city names
+                        location_lower = location_name.lower()
+                        gta_cities_in_dispatcher = [
+                            'toronto', 'mississauga', 'brampton', 'vaughan', 'markham',
+                            'richmond hill', 'oakville', 'burlington', 'hamilton', 'ajax',
+                            'pickering', 'whitby', 'oshawa', 'aurora', 'barrie', 'scarborough',
+                            'etobicoke', 'north york', 'york', 'east york'
+                        ]
+                        
+                        for city in gta_cities_in_dispatcher:
+                            if city in location_lower:
+                                gta_priority_score = 1000  # High priority for GTA dispatchers
+                                break
+                        
+                        # Penalize non-GTA dispatchers
+                        non_gta_indicators = ['saint john', 'halifax', 'moncton', 'fredericton', 'new brunswick', 'nova scotia']
+                        for indicator in non_gta_indicators:
+                            if indicator in location_lower:
+                                gta_priority_score = -1000  # Low priority for non-GTA dispatchers
+                                break
+                    
+                    # Apply priority score to distance
+                    adjusted_distance = distance - gta_priority_score
+                    
+                    logger.info(f"Dispatcher {gid} ({location_name}) at ({lat}, {lng}) - distance: {distance:.2f}km, priority_score: {gta_priority_score}, adjusted_distance: {adjusted_distance:.2f}km")
+                    
+                    if adjusted_distance < min_distance:
+                        min_distance = adjusted_distance
                         best_gid = gid
                 else:
                     logger.warning(f"Dispatcher {gid} has no coordinates: lat={lat}, lng={lng}")
