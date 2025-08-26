@@ -634,6 +634,31 @@ class GeographicVendorDispatcher:
                 logger.warning("No dispatcher data available from Google Sheets")
                 return None
             
+            # Hardcoded GTA dispatcher coordinates as fallback
+            gta_dispatcher_coordinates = {
+                "TORONTO (NORTH YORK)": (43.7615, -79.4111),
+                "DOWNTOWN TORONTO": (43.6532, -79.3832),
+                "MISSISSAUGA": (43.5890, -79.6441),
+                "BRAMPTON": (43.6832, -79.7629),
+                "VAUGHAN": (43.8361, -79.4987),
+                "MARKHAM": (43.9068, -79.2629),
+                "RICHMOND HILL": (43.8828, -79.4403),
+                "OAKVILLE": (43.4675, -79.6877),
+                "BURLINGTON": (43.3255, -79.7990),
+                "HAMILTON": (43.2557, -79.8711),
+                "AJAX": (43.8509, -79.0205),
+                "PICKERING": (43.8384, -79.0868),
+                "WHITBY": (43.8975, -78.9428),
+                "OSHAWA": (43.8971, -78.8658),
+                "AURORA": (44.0001, -79.4663),
+                "BARRIE": (44.3894, -79.6903),
+                "SCARBOROUGH": (43.7764, -79.2318),
+                "ETOBICOKE": (43.6205, -79.5132),
+                "NORTH YORK": (43.7615, -79.4111),
+                "YORK": (43.6869, -79.4000),
+                "EAST YORK": (43.6900, -79.3400)
+            }
+            
             # Find the closest dispatcher using Google Sheets data format
             best_gid = None
             min_distance = float('inf')
@@ -663,6 +688,13 @@ class GeographicVendorDispatcher:
                     coords = dispatcher_data.get('coordinates', {})
                     lat = coords.get('lat')
                     lng = coords.get('lng')
+                
+                # If no coordinates found, try to get from location name using hardcoded GTA coordinates
+                if not lat or not lng:
+                    location_name = dispatcher_data.get('location', '')
+                    if location_name in gta_dispatcher_coordinates:
+                        lat, lng = gta_dispatcher_coordinates[location_name]
+                        logger.info(f"Using hardcoded coordinates for {location_name}: ({lat}, {lng})")
                 
                 if lat and lng:
                     # Calculate distance using Haversine formula
@@ -701,6 +733,12 @@ class GeographicVendorDispatcher:
                 coords = best_dispatcher_data.get('coordinates', {})
                 lat = coords.get('lat')
                 lng = coords.get('lng')
+            
+            # Fallback to hardcoded coordinates if still missing
+            if not lat or not lng:
+                location_name = best_dispatcher_data.get('location', '')
+                if location_name in gta_dispatcher_coordinates:
+                    lat, lng = gta_dispatcher_coordinates[location_name]
             
             logger.info(f"Selected dispatcher {best_gid} with coordinates: ({lat}, {lng}) at {min_distance:.2f}km")
             
