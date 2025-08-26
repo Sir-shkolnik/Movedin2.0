@@ -1,0 +1,58 @@
+index-XuaMtIxt.js:14 Step 2 - Initializing rooms state: {fromDetails: {…}, initialRooms: 1, defaultRooms: 1}
+index-XuaMtIxt.js:14 Step 2 - Component rendered with rooms: 1
+index-XuaMtIxt.js:14 Step 2 - Auto-saving data: {homeType: 'house', selectedRooms: 1, savedRooms: 1, homeTypeCondition: false, fullFromDetails: {…}}
+index-XuaMtIxt.js:14 Step 2 - Component rendered with rooms: 1
+index-XuaMtIxt.js:14 Step 2 - Component rendered with rooms: 1
+index-XuaMtIxt.js:14 Step 2 - Auto-saving data: {homeType: 'house', selectedRooms: 1, savedRooms: 1, homeTypeCondition: false, fullFromDetails: {…}}
+index-XuaMtIxt.js:14 Step 2 - Component rendered with rooms: 1
+index-XuaMtIxt.js:14 Step 2 - Component rendered with rooms: 1
+index-XuaMtIxt.js:14 Step 2 - Auto-saving data: {homeType: 'house', selectedRooms: 1, savedRooms: 1, homeTypeCondition: false, fullFromDetails: {…}}
+index-XuaMtIxt.js:14 Step 2 - Component rendered with rooms: 1
+index-XuaMtIxt.js:14 Step 2 - Component rendered with rooms: 1
+index-XuaMtIxt.js:14 Step 2 - Auto-saving data: {homeType: 'house', selectedRooms: 1, savedRooms: 1, homeTypeCondition: false, fullFromDetails: {…}}
+index-XuaMtIxt.js:14 Step 2 - Component rendered with rooms: 1
+index-XuaMtIxt.js:14 Step 2 - Component rendered with rooms: 1
+index-XuaMtIxt.js:14 Step 2 - Auto-saving data: {homeType: 'house', selectedRooms: 1, savedRooms: 1, homeTypeCondition: false, fullFromDetails: {…}}
+index-XuaMtIxt.js:14 Step 2 - Component rendered with rooms: 1
+index-XuaMtIxt.js:14 Step 2 - Room selection changed: {oldRooms: 1, newRooms: 5}
+index-XuaMtIxt.js:14 Step 2 - Component rendered with rooms: 5
+index-XuaMtIxt.js:14 Step 2 - Auto-saving data: {homeType: 'house', selectedRooms: 5, savedRooms: 5, homeTypeCondition: false, fullFromDetails: {…}}
+index-XuaMtIxt.js:14 Step 2 - Component rendered with rooms: 5
+index-XuaMtIxt.js:14 Step 2 - Component rendered with rooms: 5
+index-XuaMtIxt.js:14 Step 2 - Auto-saving data: {homeType: 'house', selectedRooms: 5, savedRooms: 5, homeTypeCondition: false, fullFromDetails: {…}}
+index-XuaMtIxt.js:14 Step 2 - Component rendered with rooms: 5
+index-XuaMtIxt.js:14 Step 2 - Component rendered with rooms: 5
+index-XuaMtIxt.js:14 Step 2 - Auto-saving data: {homeType: 'house', selectedRooms: 5, savedRooms: 5, homeTypeCondition: false, fullFromDetails: {…}}
+index-XuaMtIxt.js:14 Step 2 - Component rendered with rooms: 5
+index-XuaMtIxt.js:14 🔍 DEBUG: Quote Request Data: {total_rooms: 5, fromDetails: {…}, rooms: 5, homeType: 'house', fullData: {…}}
+/#/:1 Access to fetch at 'https://movedin-backend.onrender.com/api/generate' from origin 'https://movedin.com' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+index-XuaMtIxt.js:14  POST https://movedin-backend.onrender.com/api/generate net::ERR_FAILED
+v @ index-XuaMtIxt.js:14
+(anonymous) @ index-XuaMtIxt.js:14
+al @ vendor-D3F3s8fL.js:32
+Ln @ vendor-D3F3s8fL.js:32
+sc @ vendor-D3F3s8fL.js:32
+nn @ vendor-D3F3s8fL.js:32
+la @ vendor-D3F3s8fL.js:32
+Ot @ vendor-D3F3s8fL.js:30
+(anonymous) @ vendor-D3F3s8fL.js:32
+index-XuaMtIxt.js:14 Error fetching vendor quotes: TypeError: Failed to fetch
+    at v (index-XuaMtIxt.js:14:112813)
+    at index-XuaMtIxt.js:14:114344
+    at al (vendor-D3F3s8fL.js:32:24320)
+    at Ln (vendor-D3F3s8fL.js:32:42500)
+    at sc (vendor-D3F3s8fL.js:32:41309)
+    at nn (vendor-D3F3s8fL.js:32:40343)
+    at la (vendor-D3F3s8fL.js:32:36944)
+    at Ot (vendor-D3F3s8fL.js:30:3257)
+    at vendor-D3F3s8fL.js:32:34301
+v @ index-XuaMtIxt.js:14
+await in v
+(anonymous) @ index-XuaMtIxt.js:14
+al @ vendor-D3F3s8fL.js:32
+Ln @ vendor-D3F3s8fL.js:32
+sc @ vendor-D3F3s8fL.js:32
+nn @ vendor-D3F3s8fL.js:32
+la @ vendor-D3F3s8fL.js:32
+Ot @ vendor-D3F3s8fL.js:30
+(anonymous) @ vendor-D3F3s8fL.js:32

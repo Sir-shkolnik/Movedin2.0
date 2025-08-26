@@ -32,30 +32,12 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "your-secret-key-here"
     
     # CORS - Handle as string and split into list
-    # Include production domains by default; can be overridden via env
-    ALLOWED_ORIGINS: str = (
-        "http://localhost:5173,"
-        "http://localhost:5177,"
-        "http://localhost:5178,"
-        "http://localhost:3000,"
-        "https://movedin-frontend.onrender.com,"
-        "https://movedin.com,"
-        "https://www.movedin.com"
-    )
+    ALLOWED_ORIGINS: str = "http://localhost:5173,http://localhost:5177,http://localhost:5178,http://localhost:3000"
     
     @property
     def allowed_origins_list(self) -> List[str]:
         """Convert ALLOWED_ORIGINS string to list"""
-        origins = [origin.strip() for origin in self.ALLOWED_ORIGINS.split(",") if origin.strip()]
-        # Always include production domains
-        for prod in [
-            "https://movedin.com",
-            "https://www.movedin.com",
-            "https://movedin-frontend.onrender.com"
-        ]:
-            if prod not in origins:
-                origins.append(prod)
-        return origins
+        return [origin.strip() for origin in self.ALLOWED_ORIGINS.split(",") if origin.strip()]
     
     # Vendor Settings
     GOOGLE_SHEETS_SYNC_INTERVAL: int = 14400  # 4 hours in seconds
