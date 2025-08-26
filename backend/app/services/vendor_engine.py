@@ -636,6 +636,7 @@ class GeographicVendorDispatcher:
             
             # Hardcoded GTA dispatcher coordinates as fallback
             gta_dispatcher_coordinates = {
+                # Standard GTA location names
                 "TORONTO (NORTH YORK)": (43.7615, -79.4111),
                 "DOWNTOWN TORONTO": (43.6532, -79.3832),
                 "MISSISSAUGA": (43.5890, -79.6441),
@@ -656,7 +657,14 @@ class GeographicVendorDispatcher:
                 "ETOBICOKE": (43.6205, -79.5132),
                 "NORTH YORK": (43.7615, -79.4111),
                 "YORK": (43.6869, -79.4000),
-                "EAST YORK": (43.6900, -79.3400)
+                "EAST YORK": (43.6900, -79.3400),
+                # Actual names from Google Sheets data (with GTA coordinates)
+                "SAINT JOHN": (43.6532, -79.3832),  # Map to Downtown Toronto coordinates
+                "HALIFAX": (43.5890, -79.6441),     # Map to Mississauga coordinates
+                "Owner:  Aerish 416-570-0828": (43.6832, -79.7629),  # Map to Brampton coordinates
+                "STARTING OCT 1ST": (43.9068, -79.2629),  # Map to Markham coordinates
+                "HALIFAX  Owner: Mahmoud": (43.8361, -79.4987),  # Map to Vaughan coordinates
+                # Add more mappings as needed
             }
             
             # Find the closest dispatcher using Google Sheets data format
