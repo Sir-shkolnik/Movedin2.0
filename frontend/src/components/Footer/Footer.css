@@ -109,6 +109,7 @@
         gap: 0;
         pointer-events: auto;
         border-top: 1px solid #ececec;
+        overflow: hidden; /* Prevent any overflow */
     }
     .footer-continue-btn,
     .footer-back-btn {
@@ -125,5 +126,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        overflow: hidden; /* Prevent any overflow */
     }
 }

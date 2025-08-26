@@ -83,6 +83,7 @@
     .main-layout {
         flex-direction: column;
         align-items: stretch;
+        overflow-x: hidden; /* Prevent horizontal scrolling */
     }
     .sidebar {
         width: 100vw;
@@ -97,6 +98,7 @@
         background: #f7f7fb;
         min-height: unset;
         padding-bottom: 0.5rem;
+        overflow-x: hidden; /* Prevent horizontal scrolling */
     }
     .step-card {
         padding: clamp(0.7rem, 2vw, 1.2rem) clamp(0.5rem, 2vw, 1.2rem);
@@ -104,6 +106,7 @@
         min-width: 0;
         margin: 0 auto;
         box-sizing: border-box;
+        overflow-x: hidden; /* Prevent horizontal scrolling */
     }
     .grouped-dropdowns {
         flex-direction: column;
@@ -124,6 +127,7 @@
         max-width: calc(100vw - 8px) !important;
         padding: 0.5rem 0.2rem;
         box-sizing: border-box;
+        overflow-x: hidden; /* Prevent horizontal scrolling */
     }
     .footer-btn {
         min-height: 38px;
