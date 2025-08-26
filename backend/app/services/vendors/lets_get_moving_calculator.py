@@ -27,12 +27,15 @@ class LetsGetMovingCalculator:
         return base_crew
     
     def _get_base_crew_size(self, room_count: int) -> int:
-        """Get base crew size based on room count - TRUE LGM LOGIC"""
-        if room_count <= 3:
+        """Get base crew size based on room count - FIXED LGM LOGIC"""
+        # Expected behavior (used across codebase/tests):
+        # 1–2 rooms → 2 crew, 3 rooms → 3 crew, 4 rooms → 4 crew,
+        # 5+ rooms → 5 crew (cap at 5 by business rule)
+        if room_count <= 2:
             return 2
-        elif room_count == 4:
+        elif room_count <= 3:
             return 3
-        elif room_count <= 6:
+        elif room_count <= 4:
             return 4
         else:
             return 5

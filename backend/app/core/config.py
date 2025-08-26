@@ -32,7 +32,16 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "your-secret-key-here"
     
     # CORS - Handle as string and split into list
-    ALLOWED_ORIGINS: str = "http://localhost:5173,http://localhost:5177,http://localhost:5178,http://localhost:3000"
+    # Include production domains by default; can be overridden via env
+    ALLOWED_ORIGINS: str = (
+        "http://localhost:5173,"
+        "http://localhost:5177,"
+        "http://localhost:5178,"
+        "http://localhost:3000,"
+        "https://movedin-frontend.onrender.com,"
+        "https://movedin.com,"
+        "https://www.movedin.com"
+    )
     
     @property
     def allowed_origins_list(self) -> List[str]:
