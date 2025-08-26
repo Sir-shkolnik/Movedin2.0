@@ -650,9 +650,19 @@ class GeographicVendorDispatcher:
             
             # Find closest dispatcher
             for gid, dispatcher_data in all_dispatchers.items():
-                # Get coordinates from Google Sheets format
-                lat = dispatcher_data.get('lat')
-                lng = dispatcher_data.get('lng')
+                # Get coordinates from Google Sheets format - handle both formats
+                lat = None
+                lng = None
+                
+                # Try direct lat/lng fields first
+                if 'lat' in dispatcher_data and 'lng' in dispatcher_data:
+                    lat = dispatcher_data.get('lat')
+                    lng = dispatcher_data.get('lng')
+                # Try coordinates dictionary format (from smart parser)
+                elif 'coordinates' in dispatcher_data:
+                    coords = dispatcher_data.get('coordinates', {})
+                    lat = coords.get('lat')
+                    lng = coords.get('lng')
                 
                 if lat and lng:
                     # Calculate distance using Haversine formula
@@ -666,9 +676,13 @@ class GeographicVendorDispatcher:
                     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
                     distance = R * c
                     
+                    logger.info(f"Dispatcher {gid} ({dispatcher_data.get('location', 'Unknown')}) at ({lat}, {lng}) - distance: {distance:.2f}km")
+                    
                     if distance < min_distance:
                         min_distance = distance
                         best_gid = gid
+                else:
+                    logger.warning(f"Dispatcher {gid} has no coordinates: lat={lat}, lng={lng}")
             
             if not best_gid:
                 logger.warning("No suitable dispatcher found with coordinates")
@@ -676,8 +690,18 @@ class GeographicVendorDispatcher:
             
             # Debug: Check if coordinates are available
             best_dispatcher_data = all_dispatchers[best_gid]
-            lat = best_dispatcher_data.get('lat')
-            lng = best_dispatcher_data.get('lng')
+            
+            # Get coordinates in the same way as above
+            lat = None
+            lng = None
+            if 'lat' in best_dispatcher_data and 'lng' in best_dispatcher_data:
+                lat = best_dispatcher_data.get('lat')
+                lng = best_dispatcher_data.get('lng')
+            elif 'coordinates' in best_dispatcher_data:
+                coords = best_dispatcher_data.get('coordinates', {})
+                lat = coords.get('lat')
+                lng = coords.get('lng')
+            
             logger.info(f"Selected dispatcher {best_gid} with coordinates: ({lat}, {lng}) at {min_distance:.2f}km")
             
             # Get data in Google Sheets format
