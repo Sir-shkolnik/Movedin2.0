@@ -143,8 +143,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
     z-index: 110;
 }
 
@@ -157,17 +157,18 @@
     right: -100vw;
     width: 85vw;
     max-width: 360px;
-    height: 100vh;
+    height: 50vh; /* Half header size as requested */
     background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
-    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 100px 32px 32px 32px;
-    gap: 8px;
+    padding: 80px 24px 24px 24px;
+    gap: 6px;
     transition: right 0.3s cubic-bezier(.4, 0, .2, 1);
     z-index: 130;
     border-left: 1px solid #e5e7eb;
+    border-radius: 0 0 0 16px;
 }
 
 .mobile-nav.open {
@@ -175,10 +176,10 @@
 }
 
 .mobile-nav .nav-link {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #374151;
     width: 100%;
-    padding: 16px 0;
+    padding: 12px 0;
     border-bottom: 1px solid #f1f3f4;
     text-align: left;
     font-weight: 500;
@@ -190,8 +191,8 @@
 
 .mobile-nav .nav-link::before {
     content: "";
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -223,8 +224,8 @@
     color: #4f46e5;
     border-bottom: 2px solid #4f46e5;
     background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
-    margin: 0 -32px;
-    padding: 16px 32px;
+    margin: 0 -24px;
+    padding: 12px 24px;
     border-radius: 8px;
     margin-bottom: 4px;
 }
@@ -259,9 +260,9 @@
 
 @media (max-width: 600px) {
     .main-header {
-        height: 64px !important;
-        min-height: 64px !important;
-        max-height: 64px !important;
+        height: 48px !important; /* Smaller header */
+        min-height: 48px !important;
+        max-height: 48px !important;
         background: rgba(255, 255, 255, 0.98) !important;
         padding: 0 !important;
         margin: 0 !important;
@@ -270,40 +271,40 @@
         border-bottom: 1px solid #f1f3f4;
     }
     .header-content {
-        height: 64px !important;
-        min-height: 64px !important;
-        max-height: 64px !important;
+        height: 48px !important; /* Smaller header */
+        min-height: 48px !important;
+        max-height: 48px !important;
         display: flex;
         align-items: center;
         justify-content: space-between;
         width: 100vw;
-        padding: 0 16px !important;
+        padding: 0 12px !important; /* Reduced padding */
         position: relative;
     }
     .logo {
         display: flex;
         align-items: center;
         justify-content: center;
-        min-width: 160px;
-        max-width: 200px;
+        min-width: 120px; /* Smaller container */
+        max-width: 160px;
         margin: 0 auto;
-        padding: 0 12px;
-        height: 64px;
-        gap: 8px;
+        padding: 0 8px; /* Reduced padding */
+        height: 48px;
+        gap: 6px; /* Reduced gap */
     }
     .header-logo {
-        height: 48px !important;
+        height: 36px !important; /* Bigger logo relative to smaller header */
         width: auto !important;
-        max-width: 140px !important;
-        max-height: 48px !important;
+        max-width: 120px !important;
+        max-height: 36px !important;
         margin: 0 !important;
         display: block;
         object-fit: contain;
     }
     .hamburger {
         display: flex !important;
-        width: 40px;
-        height: 40px;
+        width: 36px; /* Smaller hamburger */
+        height: 36px;
         margin-left: 0;
         position: static;
         z-index: 2;
@@ -314,7 +315,7 @@
         background: #f3f4f6;
     }
     .hamburger span {
-        width: 22px;
+        width: 20px; /* Smaller hamburger lines */
         height: 2px;
         margin: 2px 0;
     }
@@ -325,28 +326,28 @@
         display: none !important;
     }
     .header-content {
-        padding: 0 12px !important;
+        padding: 0 8px !important; /* Reduced padding */
     }
     .logo {
-        min-width: 140px;
-        max-width: 180px;
-        padding: 0 8px;
-        gap: 6px;
+        min-width: 100px; /* Smaller container */
+        max-width: 140px;
+        padding: 0 6px; /* Reduced padding */
+        gap: 4px; /* Reduced gap */
     }
     .header-logo {
-        max-width: 120px !important;
-        max-height: 44px !important;
+        max-width: 100px !important; /* Bigger logo */
+        max-height: 32px !important;
     }
 }
 
 @media (max-width: 360px) {
     .logo {
-        min-width: 120px;
-        max-width: 160px;
-        gap: 4px;
+        min-width: 80px; /* Smaller container */
+        max-width: 120px;
+        gap: 3px; /* Reduced gap */
     }
     .header-logo {
-        max-width: 100px !important;
-        max-height: 40px !important;
+        max-width: 80px !important; /* Bigger logo */
+        max-height: 28px !important;
     }
 }
