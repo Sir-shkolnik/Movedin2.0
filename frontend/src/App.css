@@ -96,7 +96,7 @@ body {
 @media (max-width: 600px) {
     .app-root {
         flex-direction: column;
-        padding: 44px 0 0 0;
+        padding: 64px 0 0 0; /* Updated for new header height */
         margin: 0;
         max-width: 100vw;
         gap: 0;

@@ -158,7 +158,7 @@
     width: 85vw;
     max-width: 360px;
     height: 100vh;
-    background: #fff;
+    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
     box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
     display: flex;
     flex-direction: column;
@@ -167,6 +167,7 @@
     gap: 8px;
     transition: right 0.3s cubic-bezier(.4, 0, .2, 1);
     z-index: 130;
+    border-left: 1px solid #e5e7eb;
 }
 
 .mobile-nav.open {
@@ -181,15 +182,51 @@
     border-bottom: 1px solid #f1f3f4;
     text-align: left;
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.2s ease;
+}
+
+.mobile-nav .nav-link::before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    flex-shrink: 0;
+}
+
+.mobile-nav .nav-link[href="/"]::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'/%3E%3C/svg%3E");
+}
+
+.mobile-nav .nav-link[href="/how-it-works"]::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'/%3E%3C/svg%3E");
+}
+
+.mobile-nav .nav-link[href="/tips-guides"]::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253'/%3E%3C/svg%3E");
+}
+
+.mobile-nav .nav-link[href="/about-us"]::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'/%3E%3C/svg%3E");
+}
+
+.mobile-nav .nav-link[href="/admin"]::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z'/%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15 12a3 3 0 11-6 0 3 3 0 016 0z'/%3E%3C/svg%3E");
 }
 
 .mobile-nav .nav-link.active,
 .mobile-nav .nav-link:hover {
     color: #4f46e5;
     border-bottom: 2px solid #4f46e5;
-    background: #f8fafc;
+    background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
     margin: 0 -32px;
     padding: 16px 32px;
+    border-radius: 8px;
+    margin-bottom: 4px;
 }
 
 @media (max-width: 1200px) {
@@ -222,9 +259,9 @@
 
 @media (max-width: 600px) {
     .main-header {
-        height: 56px !important;
-        min-height: 56px !important;
-        max-height: 56px !important;
+        height: 64px !important;
+        min-height: 64px !important;
+        max-height: 64px !important;
         background: rgba(255, 255, 255, 0.98) !important;
         padding: 0 !important;
         margin: 0 !important;
@@ -233,9 +270,9 @@
         border-bottom: 1px solid #f1f3f4;
     }
     .header-content {
-        height: 56px !important;
-        min-height: 56px !important;
-        max-height: 56px !important;
+        height: 64px !important;
+        min-height: 64px !important;
+        max-height: 64px !important;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -247,32 +284,37 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        min-width: 140px;
-        max-width: 180px;
+        min-width: 160px;
+        max-width: 200px;
         margin: 0 auto;
         padding: 0 12px;
-        height: 56px;
+        height: 64px;
         gap: 8px;
     }
     .header-logo {
-        height: 40px !important;
+        height: 48px !important;
         width: auto !important;
-        max-width: 100px !important;
-        max-height: 40px !important;
+        max-width: 140px !important;
+        max-height: 48px !important;
         margin: 0 !important;
         display: block;
         object-fit: contain;
     }
     .hamburger {
         display: flex !important;
-        width: 36px;
-        height: 36px;
+        width: 40px;
+        height: 40px;
         margin-left: 0;
         position: static;
         z-index: 2;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+    .hamburger:hover {
+        background: #f3f4f6;
     }
     .hamburger span {
-        width: 20px;
+        width: 22px;
         height: 2px;
         margin: 2px 0;
     }
@@ -286,25 +328,25 @@
         padding: 0 12px !important;
     }
     .logo {
-        min-width: 120px;
-        max-width: 160px;
+        min-width: 140px;
+        max-width: 180px;
         padding: 0 8px;
         gap: 6px;
     }
     .header-logo {
-        max-width: 90px !important;
-        max-height: 36px !important;
+        max-width: 120px !important;
+        max-height: 44px !important;
     }
 }
 
 @media (max-width: 360px) {
     .logo {
-        min-width: 100px;
-        max-width: 140px;
+        min-width: 120px;
+        max-width: 160px;
         gap: 4px;
     }
     .header-logo {
-        max-width: 80px !important;
-        max-height: 32px !important;
+        max-width: 100px !important;
+        max-height: 40px !important;
     }
 }
