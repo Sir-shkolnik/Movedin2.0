@@ -218,10 +218,12 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                 <div className="loading-container" style={{ 
                     textAlign: 'center', 
                     padding: '60px 20px',
-                    background: 'linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%)',
+                    background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
                     borderRadius: '16px',
                     marginBottom: '24px',
-                    color: 'white'
+                    color: '#1e293b',
+                    border: '2px solid #e2e8f0',
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)'
                 }}>
                     {/* Professional Loading Animation */}
                     <div className="loading-animation" style={{
@@ -238,9 +240,9 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                             position: 'absolute',
                             width: '100%',
                             height: '100%',
-                            border: '3px solid rgba(255,255,255,0.2)',
+                            border: '3px solid #e2e8f0',
                             borderRadius: '50%',
-                            borderTop: '3px solid rgba(255,255,255,0.8)',
+                            borderTop: '3px solid #3b82f6',
                             animation: 'smoothSpin 2s linear infinite'
                         }}></div>
                         
@@ -249,9 +251,9 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                             position: 'absolute',
                             width: '80%',
                             height: '80%',
-                            border: '2px solid rgba(255,255,255,0.3)',
+                            border: '2px solid #f1f5f9',
                             borderRadius: '50%',
-                            borderRight: '2px solid rgba(255,255,255,0.9)',
+                            borderRight: '2px solid #10b981',
                             animation: 'smoothSpin 1.5s linear infinite reverse'
                         }}></div>
                         
@@ -260,9 +262,9 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                             position: 'absolute',
                             width: '60%',
                             height: '60%',
-                            border: '2px solid rgba(255,255,255,0.4)',
+                            border: '2px solid #f8fafc',
                             borderRadius: '50%',
-                            borderBottom: '2px solid white',
+                            borderBottom: '2px solid #f59e0b',
                             animation: 'smoothSpin 1s linear infinite'
                         }}></div>
                         
@@ -270,24 +272,25 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                         <div style={{
                             position: 'relative',
                             animation: 'gentlePulse 2s ease-in-out infinite',
-                            filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))'
+                            filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
                         }}>
                             <div style={{
                                 width: '48px',
                                 height: '48px',
-                                backgroundColor: 'rgba(255,255,255,0.95)',
+                                backgroundColor: 'white',
                                 borderRadius: '12px',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                border: '2px solid rgba(255,255,255,0.8)'
+                                border: '2px solid #e2e8f0',
+                                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
                             }}>
                                 <svg 
                                     width="24" 
                                     height="24" 
                                     viewBox="0 0 24 24" 
                                     fill="none" 
-                                    stroke="#5a67d8" 
+                                    stroke="#3b82f6" 
                                     strokeWidth="2.5" 
                                     strokeLinecap="round" 
                                     strokeLinejoin="round"
@@ -298,7 +301,7 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                                     {/* Search icon - Fixed SVG path syntax - Updated 2025-01-15 */}
                                     <circle cx="11" cy="11" r="8"/>
                                     <path d="M21 21l-4.35-4.35"/>
-                                    <circle cx="11" cy="11" r="3" fill="#5a67d8" fillOpacity="0.2"/>
+                                    <circle cx="11" cy="11" r="3" fill="#3b82f6" fillOpacity="0.2"/>
                                 </svg>
                             </div>
                         </div>
@@ -309,7 +312,8 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                         fontSize: '24px',
                         marginBottom: '16px',
                         fontWeight: 'bold',
-                        textShadow: '0 2px 4px rgba(0,0,0,0.3)'
+                        color: '#1e293b',
+                        textShadow: 'none'
                     }}>
                         Finding Your Perfect Moving Company
                     </h3>
@@ -327,36 +331,42 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                             alignItems: 'center',
                             gap: '8px',
                             padding: '8px 16px',
-                            backgroundColor: 'rgba(255,255,255,0.2)',
+                            backgroundColor: 'white',
                             borderRadius: '20px',
+                            border: '1px solid #e2e8f0',
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
                             animation: 'pulse 2s ease-in-out infinite'
                         }}>
                             <span style={{ fontSize: '16px' }}>🔍</span>
-                            <span style={{ fontSize: '14px' }}>Searching</span>
+                            <span style={{ fontSize: '14px', color: '#374151' }}>Searching</span>
                         </div>
                         <div style={{
                             display: 'flex',
                             alignItems: 'center',
                             gap: '8px',
                             padding: '8px 16px',
-                            backgroundColor: 'rgba(255,255,255,0.2)',
+                            backgroundColor: 'white',
                             borderRadius: '20px',
+                            border: '1px solid #e2e8f0',
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
                             animation: 'pulse 2s ease-in-out infinite 0.5s'
                         }}>
                             <span style={{ fontSize: '16px' }}>📊</span>
-                            <span style={{ fontSize: '14px' }}>Calculating</span>
+                            <span style={{ fontSize: '14px', color: '#374151' }}>Calculating</span>
                         </div>
                         <div style={{
                             display: 'flex',
                             alignItems: 'center',
                             gap: '8px',
                             padding: '8px 16px',
-                            backgroundColor: 'rgba(255,255,255,0.2)',
+                            backgroundColor: 'white',
                             borderRadius: '20px',
+                            border: '1px solid #e2e8f0',
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
                             animation: 'pulse 2s ease-in-out infinite 1s'
                         }}>
                             <span style={{ fontSize: '16px' }}>💰</span>
-                            <span style={{ fontSize: '14px' }}>Pricing</span>
+                            <span style={{ fontSize: '14px', color: '#374151' }}>Pricing</span>
                         </div>
                     </div>
 
@@ -364,15 +374,17 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                     <p style={{
                         fontSize: '18px',
                         marginBottom: '12px',
-                        fontWeight: '500'
+                        fontWeight: '500',
+                        color: '#374151'
                     }}>
                         We're connecting with top-rated moving companies in your area...
                     </p>
                     
                     <p style={{
                         fontSize: '14px',
-                        opacity: '0.8',
-                        marginBottom: '24px'
+                        opacity: '0.7',
+                        marginBottom: '24px',
+                        color: '#6b7280'
                     }}>
                         This ensures you get the best service and competitive pricing
                     </p>
@@ -389,7 +401,7 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                                 style={{
                                     width: '8px',
                                     height: '8px',
-                                    backgroundColor: 'white',
+                                    backgroundColor: '#3b82f6',
                                     borderRadius: '50%',
                                     animation: `bounce 1.4s ease-in-out infinite ${i * 0.16}s`
                                 }}
