@@ -8,22 +8,27 @@ from app.services.dispatcher_cache_service import dispatcher_cache_service
 class LetsGetMovingCalculator:
     """Let's Get Moving - NEW Tiered Travel Fee Pricing Model (August 2025)"""
     
-    # NEW: Travel fee thresholds for new pricing model
+    # NEW: Travel fee thresholds for new pricing model (EXACT EMAIL REQUIREMENTS)
     TRAVEL_FEE_THRESHOLDS = {
-        "local_move_max": 0.983,      # 59 minutes
-        "extended_local_max": 1.733,   # 1 hour 44 minutes
+        "tier_1_max": 0.233,      # 14 minutes (0.233 hours)
+        "tier_2_max": 0.483,      # 29 minutes (0.483 hours) 
+        "tier_3_max": 0.733,      # 44 minutes (0.733 hours)
+        "tier_4_max": 0.983,      # 59 minutes (0.983 hours)
+        "tier_5_max": 1.233,      # 1:14 (1.233 hours)
+        "tier_6_max": 1.483,      # 1:29 (1.483 hours)
+        "tier_7_max": 1.733,      # 1:44 (1.733 hours)
         "long_distance_rate": 4.50     # $4.50 per mile per truck
     }
     
-    # NEW: Time rounding increments (15-minute rounding)
-    TIME_ROUNDING = {
-        "15_min": 0.25,
-        "30_min": 0.5,
-        "45_min": 0.75,
-        "1_hour": 1.0,
-        "1_15": 1.25,
-        "1_30": 1.5,
-        "1_45": 1.75
+    # NEW: Time-based flat fees (EXACT EMAIL REQUIREMENTS)
+    TIME_BASED_FLAT_FEES = {
+        "0-14_min": 0.25,         # 15 minutes flat
+        "15-29_min": 0.5,         # 30 minutes flat
+        "30-44_min": 0.75,        # 45 minutes flat
+        "45-59_min": 1.0,         # 1 hour flat
+        "1:00-1:14": 1.25,        # 1 hour 15 minutes flat
+        "1:15-1:29": 1.5,         # 1 hour 30 minutes flat
+        "1:30-1:44": 1.75         # 1 hour 45 minutes flat
     }
     
     # Service Area
@@ -265,7 +270,7 @@ class LetsGetMovingCalculator:
     def _calculate_fuel_charge(self, travel_hours: float) -> float:
         """Calculate fuel charge - NEW: Only for long distance moves over 1:44 (August 2025)"""
         # NEW: Fuel charges only apply to long distance moves (job travel over 1:44)
-        if travel_hours <= 1.733:  # 1 hour 44 minutes or less
+        if travel_hours <= 1.733:  # 1 hour 44 minutes or less (matches tier 7 max)
             print(f"[LGM NEW MODEL] No fuel charge for local moves (≤1:44): {travel_hours:.2f}h")
             return 0  # No fuel charge for local moves
         
@@ -425,17 +430,37 @@ class LetsGetMovingCalculator:
             
             print(f"[LGM NEW MODEL] Office→Origin: {office_to_origin_hours:.2f}h, Dest→Office: {dest_to_office_hours:.2f}h, Total: {total_travel_hours:.2f}h")
             
-            # Apply new tiered pricing
-            if total_travel_hours <= self.TRAVEL_FEE_THRESHOLDS["local_move_max"]:  # 59 minutes
-                travel_fee = hourly_rate * 1.0 * truck_count
-                print(f"[LGM NEW MODEL] Local move (≤59min): 1 hour flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
+            # Apply new tiered pricing (EXACT EMAIL REQUIREMENTS - 7 tiers)
+            if total_travel_hours <= self.TRAVEL_FEE_THRESHOLDS["tier_1_max"]:  # 0-14 minutes
+                travel_fee = hourly_rate * self.TIME_BASED_FLAT_FEES["0-14_min"] * truck_count
+                print(f"[LGM NEW MODEL] Tier 1 (0-14min): 15 min flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
                 return travel_fee
-            elif total_travel_hours <= self.TRAVEL_FEE_THRESHOLDS["extended_local_max"]:  # 1 hour 44 minutes
-                travel_fee = hourly_rate * 1.5 * truck_count
-                print(f"[LGM NEW MODEL] Extended local (1:00-1:44): 1.5 hours flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
+            elif total_travel_hours <= self.TRAVEL_FEE_THRESHOLDS["tier_2_max"]:  # 15-29 minutes
+                travel_fee = hourly_rate * self.TIME_BASED_FLAT_FEES["15-29_min"] * truck_count
+                print(f"[LGM NEW MODEL] Tier 2 (15-29min): 30 min flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
+                return travel_fee
+            elif total_travel_hours <= self.TRAVEL_FEE_THRESHOLDS["tier_3_max"]:  # 30-44 minutes
+                travel_fee = hourly_rate * self.TIME_BASED_FLAT_FEES["30-44_min"] * truck_count
+                print(f"[LGM NEW MODEL] Tier 3 (30-44min): 45 min flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
+                return travel_fee
+            elif total_travel_hours <= self.TRAVEL_FEE_THRESHOLDS["tier_4_max"]:  # 45-59 minutes
+                travel_fee = hourly_rate * self.TIME_BASED_FLAT_FEES["45-59_min"] * truck_count
+                print(f"[LGM NEW MODEL] Tier 4 (45-59min): 1 hour flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
+                return travel_fee
+            elif total_travel_hours <= self.TRAVEL_FEE_THRESHOLDS["tier_5_max"]:  # 1:00-1:14
+                travel_fee = hourly_rate * self.TIME_BASED_FLAT_FEES["1:00-1:14"] * truck_count
+                print(f"[LGM NEW MODEL] Tier 5 (1:00-1:14): 1h 15min flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
+                return travel_fee
+            elif total_travel_hours <= self.TRAVEL_FEE_THRESHOLDS["tier_6_max"]:  # 1:15-1:29
+                travel_fee = hourly_rate * self.TIME_BASED_FLAT_FEES["1:15-1:29"] * truck_count
+                print(f"[LGM NEW MODEL] Tier 6 (1:15-1:29): 1h 30min flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
+                return travel_fee
+            elif total_travel_hours <= self.TRAVEL_FEE_THRESHOLDS["tier_7_max"]:  # 1:30-1:44
+                travel_fee = hourly_rate * self.TIME_BASED_FLAT_FEES["1:30-1:44"] * truck_count
+                print(f"[LGM NEW MODEL] Tier 7 (1:30-1:44): 1h 45min flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
                 return travel_fee
             else:
-                # Long distance: $4.50 per mile per truck
+                # Long distance: $4.50 per mile per truck (over 1:44)
                 total_miles = self._calculate_total_miles(origin, destination, dispatcher_info)
                 travel_fee = total_miles * self.TRAVEL_FEE_THRESHOLDS["long_distance_rate"] * truck_count
                 print(f"[LGM NEW MODEL] Long distance (>1:44): {total_miles} miles × $4.50 × {truck_count} trucks = ${travel_fee}")
@@ -513,11 +538,21 @@ class LetsGetMovingCalculator:
             dest_to_office = self._get_travel_time_hours(destination, dispatcher_address)
             total_travel = office_to_origin + dest_to_office
             
-            # Validate against thresholds
-            if total_travel <= self.TRAVEL_FEE_THRESHOLDS["local_move_max"]:
-                expected_fee = hourly_rate * 1.0 * truck_count
-            elif total_travel <= self.TRAVEL_FEE_THRESHOLDS["extended_local_max"]:
-                expected_fee = hourly_rate * 1.5 * truck_count
+            # Validate against thresholds (EXACT EMAIL REQUIREMENTS - 7 tiers)
+            if total_travel <= self.TRAVEL_FEE_THRESHOLDS["tier_1_max"]:  # 0-14 minutes
+                expected_fee = hourly_rate * self.TIME_BASED_FLAT_FEES["0-14_min"] * truck_count
+            elif total_travel <= self.TRAVEL_FEE_THRESHOLDS["tier_2_max"]:  # 15-29 minutes
+                expected_fee = hourly_rate * self.TIME_BASED_FLAT_FEES["15-29_min"] * truck_count
+            elif total_travel <= self.TRAVEL_FEE_THRESHOLDS["tier_3_max"]:  # 30-44 minutes
+                expected_fee = hourly_rate * self.TIME_BASED_FLAT_FEES["30-44_min"] * truck_count
+            elif total_travel <= self.TRAVEL_FEE_THRESHOLDS["tier_4_max"]:  # 45-59 minutes
+                expected_fee = hourly_rate * self.TIME_BASED_FLAT_FEES["45-59_min"] * truck_count
+            elif total_travel <= self.TRAVEL_FEE_THRESHOLDS["tier_5_max"]:  # 1:00-1:14
+                expected_fee = hourly_rate * self.TIME_BASED_FLAT_FEES["1:00-1:14"] * truck_count
+            elif total_travel <= self.TRAVEL_FEE_THRESHOLDS["tier_6_max"]:  # 1:15-1:29
+                expected_fee = hourly_rate * self.TIME_BASED_FLAT_FEES["1:15-1:29"] * truck_count
+            elif total_travel <= self.TRAVEL_FEE_THRESHOLDS["tier_7_max"]:  # 1:30-1:44
+                expected_fee = hourly_rate * self.TIME_BASED_FLAT_FEES["1:30-1:44"] * truck_count
             else:
                 # Long distance - validate mileage calculation
                 total_miles = self._calculate_total_miles(origin, destination, dispatcher_info)
