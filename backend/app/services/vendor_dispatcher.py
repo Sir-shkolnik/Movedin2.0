@@ -1,7 +1,7 @@
 from typing import Dict, Any, List, Optional
 from app.schemas.quote import QuoteRequest
 from app.services.vendor_engine import GeographicVendorDispatcher, get_vendor_calculator
-from app.services.vendors.lets_get_moving_calculator import LetsGetMovingCalculator
+from app.services.vendor_engine import LetsGetMovingCalculator
 
 class VendorDispatcher:
     """Main vendor dispatcher - calls all vendors with their specific logic"""

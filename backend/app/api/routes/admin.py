@@ -11,7 +11,7 @@ from app.models.vendor import Vendor
 from app.schemas.quote import QuoteRequest
 from app.services.google_sheets_service import google_sheets_service
 from app.services.vendor_engine import GeographicVendorDispatcher, get_vendor_calculator
-from app.services.vendors.lets_get_moving_calculator import LetsGetMovingCalculator
+from app.services.vendor_engine import LetsGetMovingCalculator
 from app.services.vendors.easy2go_calculator import Easy2GoCalculator
 from app.services.vendors.velocity_movers_calculator import VelocityMoversCalculator
 from app.services.vendors.pierre_sons_calculator import PierreSonsCalculator
