@@ -17,7 +17,7 @@ class LetsGetMovingCalculator:
         "tier_5_max": 1.233,      # 1:14 (1.233 hours)
         "tier_6_max": 1.483,      # 1:29 (1.483 hours)
         "tier_7_max": 1.733,      # 1:44 (1.733 hours)
-        "long_distance_rate": 4.50     # $4.50 per mile per truck
+        "long_distance_rate": 5.99     # $5.99 per mile per truck
     }
     
     # NEW: Time-based flat fees (EXACT EMAIL REQUIREMENTS)
