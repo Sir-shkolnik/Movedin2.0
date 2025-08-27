@@ -908,7 +908,7 @@ class VendorCalculator(ABC):
         pass
 
 class LetsGetMovingCalculator(VendorCalculator):
-    """Let's Get Moving - NEW Tiered Travel Fee Pricing Model (August 2025)"""
+    """Let's Get Moving - NEW Tiered Travel Fee Pricing Model (August 2025) - DEPLOYMENT TEST"""
     
     # NEW: Travel fee thresholds for new pricing model
     TRAVEL_FEE_THRESHOLDS = {
