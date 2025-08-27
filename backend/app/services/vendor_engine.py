@@ -910,22 +910,17 @@ class VendorCalculator(ABC):
 class LetsGetMovingCalculator(VendorCalculator):
     """Let's Get Moving - NEW Tiered Travel Fee Pricing Model (August 2025) - DEPLOYMENT TEST"""
     
-    # NEW: Travel fee thresholds for new pricing model
+    # UPDATED: Travel fee thresholds for new pricing model (Aug 22, 2025 email)
     TRAVEL_FEE_THRESHOLDS = {
-        "local_move_max": 0.983,      # 59 minutes
-        "extended_local_max": 1.733,   # 1 hour 44 minutes
-        "long_distance_rate": 4.50     # $4.50 per mile per truck
-    }
-    
-    # NEW: Time rounding increments (15-minute rounding)
-    TIME_ROUNDING = {
-        "15_min": 0.25,
-        "30_min": 0.5,
-        "45_min": 0.75,
-        "1_hour": 1.0,
-        "1_15": 1.25,
-        "1_30": 1.5,
-        "1_45": 1.75
+        "15_min": 0.25,        # 15 minutes
+        "30_min": 0.5,         # 30 minutes  
+        "45_min": 0.75,        # 45 minutes
+        "1_hour": 1.0,         # 1 hour
+        "1_15": 1.25,          # 1 hour 15 minutes
+        "1_30": 1.5,           # 1 hour 30 minutes
+        "1_45": 1.75,          # 1 hour 45 minutes
+        "long_distance_min": 1.733,  # 1 hour 44 minutes (over this = long distance)
+        "long_distance_rate": 4.50   # $4.50 per mile per truck
     }
     
     def get_crew_size(self, quote_request: QuoteRequest) -> int:
@@ -1055,7 +1050,7 @@ class LetsGetMovingCalculator(VendorCalculator):
             "available_slots": ["8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM"],
             "rating": 4.8,
             "reviews": 1247,
-            "special_notes": "NEW PRICING MODEL - August 2025",
+            "special_notes": "UPDATED PRICING MODEL - August 22, 2025 (15-min increments)",
             "pricing_model": "NEW_TIERED_TRAVEL_FEES",    # NEW: Indicate new model
             "base_rate": base_rate,
             "move_date": move_date,
@@ -1251,20 +1246,40 @@ class LetsGetMovingCalculator(VendorCalculator):
             
             print(f"[LGM NEW MODEL] Office→Origin: {office_to_origin_hours:.2f}h, Dest→Office: {dest_to_office_hours:.2f}h, Total: {total_travel_hours:.2f}h")
             
-            # Apply new tiered pricing
-            if total_travel_hours <= self.TRAVEL_FEE_THRESHOLDS["local_move_max"]:  # 59 minutes
-                travel_fee = hourly_rate * 1.0 * truck_count
-                print(f"[LGM NEW MODEL] Local move (≤59min): 1 hour flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
+            # Apply UPDATED tiered pricing (Aug 22, 2025 email) - 15-minute increments
+            if total_travel_hours <= self.TRAVEL_FEE_THRESHOLDS["15_min"]:  # 0-14 minutes
+                travel_fee = hourly_rate * 0.25 * truck_count  # 15 minutes flat
+                print(f"[LGM UPDATED MODEL] 0-14 min: 15 min flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
                 return travel_fee
-            elif total_travel_hours <= self.TRAVEL_FEE_THRESHOLDS["extended_local_max"]:  # 1 hour 44 minutes
-                travel_fee = hourly_rate * 1.5 * truck_count
-                print(f"[LGM NEW MODEL] Extended local (1:00-1:44): 1.5 hours flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
+            elif total_travel_hours <= self.TRAVEL_FEE_THRESHOLDS["30_min"]:  # 15-29 minutes
+                travel_fee = hourly_rate * 0.5 * truck_count   # 30 minutes flat
+                print(f"[LGM UPDATED MODEL] 15-29 min: 30 min flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
+                return travel_fee
+            elif total_travel_hours <= self.TRAVEL_FEE_THRESHOLDS["45_min"]:  # 30-44 minutes
+                travel_fee = hourly_rate * 0.75 * truck_count  # 45 minutes flat
+                print(f"[LGM UPDATED MODEL] 30-44 min: 45 min flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
+                return travel_fee
+            elif total_travel_hours <= self.TRAVEL_FEE_THRESHOLDS["1_hour"]:  # 45-59 minutes
+                travel_fee = hourly_rate * 1.0 * truck_count   # 1 hour flat
+                print(f"[LGM UPDATED MODEL] 45-59 min: 1 hour flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
+                return travel_fee
+            elif total_travel_hours <= self.TRAVEL_FEE_THRESHOLDS["1_15"]:  # 1:00-1:14
+                travel_fee = hourly_rate * 1.25 * truck_count  # 1 hour 15 minutes flat
+                print(f"[LGM UPDATED MODEL] 1:00-1:14: 1.25 hours flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
+                return travel_fee
+            elif total_travel_hours <= self.TRAVEL_FEE_THRESHOLDS["1_30"]:  # 1:15-1:29
+                travel_fee = hourly_rate * 1.5 * truck_count   # 1 hour 30 minutes flat
+                print(f"[LGM UPDATED MODEL] 1:15-1:29: 1.5 hours flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
+                return travel_fee
+            elif total_travel_hours <= self.TRAVEL_FEE_THRESHOLDS["1_45"]:  # 1:30-1:44
+                travel_fee = hourly_rate * 1.75 * truck_count  # 1 hour 45 minutes flat
+                print(f"[LGM UPDATED MODEL] 1:30-1:44: 1.75 hours flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
                 return travel_fee
             else:
-                # Long distance: $4.50 per mile per truck
+                # Long distance: $4.50 per mile per truck (over 1:44)
                 total_miles = self._calculate_total_miles(origin, destination, dispatcher_info)
                 travel_fee = total_miles * self.TRAVEL_FEE_THRESHOLDS["long_distance_rate"] * truck_count
-                print(f"[LGM NEW MODEL] Long distance (>1:44): {total_miles} miles × $4.50 × {truck_count} trucks = ${travel_fee}")
+                print(f"[LGM UPDATED MODEL] Long distance (>1:44): {total_miles} miles × $4.50 × {truck_count} trucks = ${travel_fee}")
                 return travel_fee
                 
         except Exception as e:
