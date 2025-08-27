@@ -22,9 +22,14 @@
    - Old: Charged from office departure to office return
    - New: Hourly rates only during actual job time (origin to destination)
 
-2. **🆕 New Truck Fee Structure (Travel Time Based):**
-   - **0-59 minutes**: 1 hour flat rate
-   - **1:00-1:44**: 1.5 hours flat rate  
+2. **🆕 UPDATED Truck Fee Structure (Travel Time Based) - Aug 22, 2025:**
+   - **0-14 minutes**: 15 minutes flat rate
+   - **15-29 minutes**: 30 minutes flat rate
+   - **30-44 minutes**: 45 minutes flat rate
+   - **45-59 minutes**: 1 hour flat rate
+   - **1:00-1:14**: 1 hour 15 minutes flat rate
+   - **1:15-1:29**: 1 hour 30 minutes flat rate
+   - **1:30-1:44**: 1 hour 45 minutes flat rate
    - **Over 1:44**: $4.50 per mile per truck
 
 3. **⏰ Travel Time Calculation:**
@@ -50,12 +55,17 @@
 - ✅ Updated response structure with new fields
 - ✅ Updated fuel charge logic (only for long distance moves)
 
-#### **2. New Pricing Model Logic**
-- ✅ **0-59 minutes**: 1 hour flat rate × hourly rate × truck count
-- ✅ **1:00-1:44**: 1.5 hours flat rate × hourly rate × truck count
+#### **2. UPDATED Pricing Model Logic (Aug 22, 2025 Email)**
+- ✅ **0-14 minutes**: 15 minutes flat rate × hourly rate × truck count
+- ✅ **15-29 minutes**: 30 minutes flat rate × hourly rate × truck count
+- ✅ **30-44 minutes**: 45 minutes flat rate × hourly rate × truck count
+- ✅ **45-59 minutes**: 1 hour flat rate × hourly rate × truck count
+- ✅ **1:00-1:14**: 1 hour 15 minutes flat rate × hourly rate × truck count
+- ✅ **1:15-1:29**: 1 hour 30 minutes flat rate × hourly rate × truck count
+- ✅ **1:30-1:44**: 1 hour 45 minutes flat rate × hourly rate × truck count
 - ✅ **Over 1:44**: $4.50 per mile per truck
 - ✅ Job time = labor hours + origin to destination travel only
-- ✅ Travel fees = office to origin + destination to office (separate calculation)
+- ✅ Travel fees = office to origin + destination to office (15-minute increment calculation)
 
 #### **3. Deployment Status**
 - ✅ Code committed to GitHub (commit: `d5a1793`)
@@ -106,7 +116,7 @@
     "heavy_items": 0.0,
     "additional_services": 0.0
   },
-  "special_notes": "NEW PRICING MODEL - August 2025",  // ✅ NEW
+  "special_notes": "UPDATED PRICING MODEL - August 22, 2025 (15-min increments)",  // ✅ UPDATED
   "pricing_model": "NEW_TIERED_TRAVEL_FEES"           // ✅ NEW
 }
 ```
