@@ -1004,6 +1004,7 @@ class LetsGetMovingCalculator(VendorCalculator):
         self._validate_travel_fee_calculation(quote_request.origin_address, quote_request.destination_address, travel_fees, hourly_rate, truck_count, dispatcher_info)
         return {
             "vendor_name": "Let's Get Moving",
+            "vendor_slug": "lets-get-moving",
             "total_cost": round(total_cost, 2),
             "breakdown": {
                 "job_cost": round(job_cost, 2),           # NEW: Job time only
