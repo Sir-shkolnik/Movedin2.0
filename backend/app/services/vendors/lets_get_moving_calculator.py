@@ -6,7 +6,25 @@ from app.services.google_sheets_service import google_sheets_service
 from app.services.dispatcher_cache_service import dispatcher_cache_service
 
 class LetsGetMovingCalculator:
-    """Let's Get Moving - Dynamic Calendar-Based Pricing with Google Sheets Integration"""
+    """Let's Get Moving - NEW Tiered Travel Fee Pricing Model (August 2025)"""
+    
+    # NEW: Travel fee thresholds for new pricing model
+    TRAVEL_FEE_THRESHOLDS = {
+        "local_move_max": 0.983,      # 59 minutes
+        "extended_local_max": 1.733,   # 1 hour 44 minutes
+        "long_distance_rate": 4.50     # $4.50 per mile per truck
+    }
+    
+    # NEW: Time rounding increments (15-minute rounding)
+    TIME_ROUNDING = {
+        "15_min": 0.25,
+        "30_min": 0.5,
+        "45_min": 0.75,
+        "1_hour": 1.0,
+        "1_15": 1.25,
+        "1_30": 1.5,
+        "1_45": 1.75
+    }
     
     # Service Area
     SERVICE_AREAS = {
@@ -95,60 +113,30 @@ class LetsGetMovingCalculator:
         # Estimate labor hours - TRUE LGM LOGIC
         labor_hours = self._estimate_labor_hours(quote_request.total_rooms, crew_size)
         
-        # Calculate travel time (3-leg journey) using actual dispatcher
-        dispatcher_address = dispatcher_info.get('address', 'Toronto, ON, Canada')
-        travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address, dispatcher_address)
+        # NEW PRICING MODEL (August 2025): Calculate job time (origin to destination only)
+        origin_to_dest_travel = self._calculate_origin_to_destination_travel(quote_request.origin_address, quote_request.destination_address)
+        job_hours = labor_hours + origin_to_dest_travel
         
-        # Check 10-hour travel time limit - Let's Get Moving doesn't do these moves
-        if travel_hours > 10:
-            # Return a valid quote response with zero cost to indicate no availability
-            return {
-                "vendor_name": "Let's Get Moving",
-                "vendor_slug": "lets-get-moving",
-                "total_cost": 0.0,
-                "breakdown": {
-                    "labor": 0.0,
-                    "fuel": 0.0,
-                    "heavy_items": 0.0,
-                    "additional_services": 0.0
-                },
-                "crew_size": 0,
-                "truck_count": 0,
-                "estimated_hours": 0.0,
-                "travel_time_hours": travel_hours,
-                "hourly_rate": 0.0,
-                "available_slots": [],
-                "rating": 4.8,
-                "reviews": 1247,
-                "special_notes": f"Travel time {travel_hours:.1f} hours exceeds 10-hour limit",
-                "premium_available": None,
-                "premium_rate": None
-            }
+        # NEW: Calculate travel fees (office to origin + destination to office)
+        travel_fees = self._calculate_travel_fees(quote_request.origin_address, quote_request.destination_address, hourly_rate, truck_count, dispatcher_info)
         
-        # Calculate total billable hours (labor + travel) - TRUE LGM LOGIC
-        total_billable_hours = labor_hours + travel_hours
-        
-        # MINIMUM 2 HOURS LABOR COST - TRUE LGM REQUIREMENT
-        # Apply minimum to total billable hours, not just labor hours
-        original_billable_hours = total_billable_hours
-        total_billable_hours = max(total_billable_hours, 2.0)
-        print(f"Minimum 2-hour logic: {original_billable_hours:.2f} -> {total_billable_hours:.2f} hours")
-        
-        # Calculate costs
-        labor_cost = hourly_rate * total_billable_hours  # Include travel time in billable hours
-        print(f"Labor cost calculation: ${hourly_rate:.2f} × {total_billable_hours:.2f} hours = ${labor_cost:.2f}")
-        fuel_cost = self._calculate_fuel_charge(travel_hours)  # TRUE LGM fuel table
+        # NEW: Calculate total cost with new model
+        job_cost = hourly_rate * job_hours
+        fuel_cost = self._calculate_fuel_charge(origin_to_dest_travel)  # Fuel only for job travel
         heavy_items_cost = self._calculate_heavy_items_cost(quote_request.heavy_items)
         additional_services_cost = self._calculate_additional_services_cost(quote_request.additional_services)
+        total_cost = job_cost + travel_fees + fuel_cost + heavy_items_cost + additional_services_cost
         
-        total_cost = labor_cost + fuel_cost + heavy_items_cost + additional_services_cost
+        # NEW: Validate travel fee calculation
+        self._validate_travel_fee_calculation(quote_request.origin_address, quote_request.destination_address, travel_fees, hourly_rate, truck_count, dispatcher_info)
         
         return {
             "vendor_name": "Let's Get Moving",
             "vendor_slug": "lets-get-moving",
             "total_cost": round(total_cost, 2),
             "breakdown": {
-                "labor": round(labor_cost, 2),
+                "job_cost": round(job_cost, 2),           # NEW: Job time only
+                "travel_fees": round(travel_fees, 2),     # NEW: Travel fees
                 "fuel": round(fuel_cost, 2),
                 "heavy_items": round(heavy_items_cost, 2),
                 "additional_services": round(additional_services_cost, 2)
@@ -156,7 +144,8 @@ class LetsGetMovingCalculator:
             "crew_size": crew_size,
             "truck_count": truck_count,
             "estimated_hours": labor_hours,
-            "travel_time_hours": travel_hours,
+            "job_travel_hours": origin_to_dest_travel,    # NEW: Origin to destination only
+            "office_travel_fees": round(travel_fees, 2),  # NEW: Office travel fees
             "hourly_rate": hourly_rate,
             "dispatcher_info": {
                 "name": dispatcher_info.get("name", "Let's Get Moving"),
@@ -171,7 +160,8 @@ class LetsGetMovingCalculator:
             "available_slots": ["8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM"],
             "rating": 4.8,
             "reviews": 1247,
-            "special_notes": "Most popular choice",
+            "special_notes": "NEW PRICING MODEL - August 2025",
+            "pricing_model": "NEW_TIERED_TRAVEL_FEES",    # NEW: Indicate new model
             "premium_available": None,
             "premium_rate": None
         }
@@ -273,19 +263,23 @@ class LetsGetMovingCalculator:
             return 2.0  # Default 2 hours for 3-leg journey
     
     def _calculate_fuel_charge(self, travel_hours: float) -> float:
-        """Calculate fuel charge based on travel time - TRUE LGM FUEL TABLE STARTING FROM 1:45 HOURS"""
-        # Official Let's Get Moving fuel charge table based on round-trip travel time
-        # Starting from 1:45 hours (1.75 hours) as specified
+        """Calculate fuel charge - NEW: Only for long distance moves over 1:44 (August 2025)"""
+        # NEW: Fuel charges only apply to long distance moves (job travel over 1:44)
+        if travel_hours <= 1.733:  # 1 hour 44 minutes or less
+            print(f"[LGM NEW MODEL] No fuel charge for local moves (≤1:44): {travel_hours:.2f}h")
+            return 0  # No fuel charge for local moves
+        
+        # For long distance moves, use existing fuel table
         fuel_charge_table = [
             [1.75, 2.75, 260],   # 1:45–2:45 Hours, $260
             [2.75, 3.75, 450],   # 2:45–3:45 Hours, $450
             [3.75, 4.75, 580],   # 3:45–4:45 Hours, $580
-            [4.75, 5.75, 710],   # 4:45–5:45 Hours, $710
+            [4.75, 5.75, 710],   # 4:45–5:75 Hours, $710
             [5.75, 6.75, 840],   # 5:45–6:45 Hours, $840
-            [6.75, 7.75, 970],   # 6:45–7:45 Hours, $970
-            [7.75, 8.75, 1100],  # 7:45–8:45 Hours, $1,100
-            [8.75, 9.75, 1230],  # 8:45–9:45 Hours, $1,230
-            [9.75, 10.75, 1360]  # 9:45–10:45 Hours, $1,360
+            [6.75, 7.75, 970],   # 6:45–7:75 Hours, $970
+            [7.75, 8.75, 1100],  # 7:45–8:75 Hours, $1,100
+            [8.75, 9.75, 1230],  # 8:45–9:75 Hours, $1,230
+            [9.75, 10.75, 1360]  # 9:45–10:75 Hours, $1,360
         ]
         
         # Check 10-hour travel time limit
@@ -295,16 +289,10 @@ class LetsGetMovingCalculator:
         # Find the appropriate fuel charge based on travel time
         for min_hours, max_hours, charge in fuel_charge_table:
             if travel_hours >= min_hours and travel_hours < max_hours:
-                print(f"Fuel charge: {travel_hours:.2f} hours = ${charge} (range {min_hours}-{max_hours})")
+                print(f"[LGM NEW MODEL] Fuel charge for long distance: {travel_hours:.2f}h = ${charge}")
                 return charge
         
         # If travel time is less than 1.75 hours, no fuel charge
-        if travel_hours < 1.75:
-            print(f"No fuel charge: {travel_hours:.2f} hours < 1.75 hours minimum")
-            return 0
-        
-        # Fallback - should not happen with proper table
-        print(f"Fuel charge fallback: {travel_hours:.2f} hours = $0")
         return 0
     
     def _calculate_heavy_items_cost(self, heavy_items: Dict[str, int]) -> float:
@@ -413,4 +401,135 @@ class LetsGetMovingCalculator:
             
         except Exception as e:
             print(f"Error getting dispatcher info: {e}")
-            return None 
+            return None
+    
+    # NEW METHODS FOR NEW PRICING MODEL (August 2025)
+    
+    def _calculate_travel_fees(self, origin: str, destination: str, hourly_rate: float, truck_count: int, dispatcher_info: Dict[str, Any] = None) -> float:
+        """Calculate travel fees based on NEW tiered pricing model (August 2025)"""
+        try:
+            # Get dispatcher address from dispatcher_info or use default
+            if dispatcher_info and 'address' in dispatcher_info:
+                dispatcher_address = dispatcher_info['address']
+            else:
+                dispatcher_address = "Toronto, ON"  # Default fallback
+            
+            # Calculate office to origin travel time
+            office_to_origin_hours = self._get_travel_time_hours(dispatcher_address, origin)
+            
+            # Calculate destination to office travel time  
+            dest_to_office_hours = self._get_travel_time_hours(destination, dispatcher_address)
+            
+            # Total travel time (office → origin + destination → office)
+            total_travel_hours = office_to_origin_hours + dest_to_office_hours
+            
+            print(f"[LGM NEW MODEL] Office→Origin: {office_to_origin_hours:.2f}h, Dest→Office: {dest_to_office_hours:.2f}h, Total: {total_travel_hours:.2f}h")
+            
+            # Apply new tiered pricing
+            if total_travel_hours <= self.TRAVEL_FEE_THRESHOLDS["local_move_max"]:  # 59 minutes
+                travel_fee = hourly_rate * 1.0 * truck_count
+                print(f"[LGM NEW MODEL] Local move (≤59min): 1 hour flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
+                return travel_fee
+            elif total_travel_hours <= self.TRAVEL_FEE_THRESHOLDS["extended_local_max"]:  # 1 hour 44 minutes
+                travel_fee = hourly_rate * 1.5 * truck_count
+                print(f"[LGM NEW MODEL] Extended local (1:00-1:44): 1.5 hours flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
+                return travel_fee
+            else:
+                # Long distance: $4.50 per mile per truck
+                total_miles = self._calculate_total_miles(origin, destination, dispatcher_info)
+                travel_fee = total_miles * self.TRAVEL_FEE_THRESHOLDS["long_distance_rate"] * truck_count
+                print(f"[LGM NEW MODEL] Long distance (>1:44): {total_miles} miles × $4.50 × {truck_count} trucks = ${travel_fee}")
+                return travel_fee
+                
+        except Exception as e:
+            print(f"[LGM NEW MODEL] Error calculating travel fees: {e}")
+            # Fallback to old method
+            return hourly_rate * 1.0 * truck_count
+    
+    def _calculate_origin_to_destination_travel(self, origin: str, destination: str) -> float:
+        """Calculate travel time ONLY from origin to destination (for job time billing)"""
+        try:
+            # Only calculate origin to destination (not office travel)
+            directions = mapbox_service.get_directions(origin, destination)
+            if directions and 'duration' in directions:
+                travel_hours = directions['duration'] / 3600
+                # Apply truck factor for commercial trucks
+                TRUCK_FACTOR = 1.3
+                truck_travel_hours = travel_hours * TRUCK_FACTOR
+                print(f"[LGM NEW MODEL] Origin→Destination: {travel_hours:.2f}h car, {truck_travel_hours:.2f}h truck")
+                return truck_travel_hours
+            return 0.0
+        except Exception as e:
+            print(f"[LGM NEW MODEL] Error calculating origin to destination travel: {e}")
+            return 0.0
+    
+    def _get_travel_time_hours(self, origin: str, destination: str) -> float:
+        """Get travel time in hours between two addresses"""
+        try:
+            directions = mapbox_service.get_directions(origin, destination)
+            if directions and 'duration' in directions:
+                return directions['duration'] / 3600
+            return 0.0
+        except Exception as e:
+            print(f"[LGM NEW MODEL] Error getting travel time: {e}")
+            return 0.0
+    
+    def _calculate_total_miles(self, origin: str, destination: str, dispatcher_info: Dict[str, Any] = None) -> float:
+        """Calculate total miles for long distance pricing"""
+        try:
+            # Get dispatcher address from dispatcher_info or use default
+            if dispatcher_info and 'address' in dispatcher_info:
+                dispatcher_address = dispatcher_info['address']
+            else:
+                dispatcher_address = "Toronto, ON"  # Default fallback
+            
+            # Calculate office to origin miles
+            office_to_origin = mapbox_service.get_directions(dispatcher_address, origin)
+            dest_to_office = mapbox_service.get_directions(destination, dispatcher_address)
+            
+            total_miles = 0
+            if office_to_origin and 'distance' in office_to_origin:
+                total_miles += office_to_origin['distance'] / 1609.34  # Convert meters to miles
+            if dest_to_office and 'distance' in dest_to_office:
+                total_miles += dest_to_office['distance'] / 1609.34  # Convert meters to miles
+            
+            print(f"[LGM NEW MODEL] Total travel miles: {total_miles:.1f}")
+            return total_miles
+        except Exception as e:
+            print(f"[LGM NEW MODEL] Error calculating total miles: {e}")
+            return 25.0  # Default fallback
+    
+    def _validate_travel_fee_calculation(self, origin: str, destination: str, travel_fees: float, hourly_rate: float, truck_count: int, dispatcher_info: Dict[str, Any] = None) -> bool:
+        """Validate travel fee calculation meets new requirements"""
+        try:
+            # Get dispatcher address from dispatcher_info or use default
+            if dispatcher_info and 'address' in dispatcher_info:
+                dispatcher_address = dispatcher_info['address']
+            else:
+                dispatcher_address = "Toronto, ON"  # Default fallback
+            
+            # Calculate total travel time
+            office_to_origin = self._get_travel_time_hours(dispatcher_address, origin)
+            dest_to_office = self._get_travel_time_hours(destination, dispatcher_address)
+            total_travel = office_to_origin + dest_to_office
+            
+            # Validate against thresholds
+            if total_travel <= self.TRAVEL_FEE_THRESHOLDS["local_move_max"]:
+                expected_fee = hourly_rate * 1.0 * truck_count
+            elif total_travel <= self.TRAVEL_FEE_THRESHOLDS["extended_local_max"]:
+                expected_fee = hourly_rate * 1.5 * truck_count
+            else:
+                # Long distance - validate mileage calculation
+                total_miles = self._calculate_total_miles(origin, destination, dispatcher_info)
+                expected_fee = total_miles * self.TRAVEL_FEE_THRESHOLDS["long_distance_rate"] * truck_count
+            
+            # Allow small tolerance for floating point precision
+            tolerance = 0.01
+            is_valid = abs(travel_fees - expected_fee) <= tolerance
+            
+            print(f"[LGM NEW MODEL] Validation: Expected ${expected_fee:.2f}, Actual ${travel_fees:.2f}, Valid: {is_valid}")
+            return is_valid
+            
+        except Exception as e:
+            print(f"[LGM NEW MODEL] Error validating travel fee calculation: {e}")
+            return False 
