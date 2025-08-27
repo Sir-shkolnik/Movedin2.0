@@ -119,11 +119,25 @@ class LetsGetMovingCalculator:
         labor_hours = self._estimate_labor_hours(quote_request.total_rooms, crew_size)
         
         # NEW PRICING MODEL (August 2025): Calculate job time (origin to destination only)
-        origin_to_dest_travel = self._calculate_origin_to_destination_travel(quote_request.origin_address, quote_request.destination_address)
-        job_hours = labor_hours + origin_to_dest_travel
+        print(f"[LGM DEBUG] Starting new pricing model calculation...")
+        try:
+            origin_to_dest_travel = self._calculate_origin_to_destination_travel(quote_request.origin_address, quote_request.destination_address)
+            print(f"[LGM DEBUG] Origin to destination travel: {origin_to_dest_travel:.2f}h")
+            job_hours = labor_hours + origin_to_dest_travel
+            print(f"[LGM DEBUG] Job hours: {job_hours:.2f}h")
+        except Exception as e:
+            print(f"[LGM DEBUG] Error in origin to destination calculation: {e}")
+            origin_to_dest_travel = 0.0
+            job_hours = labor_hours
         
         # NEW: Calculate travel fees (office to origin + destination to office)
-        travel_fees = self._calculate_travel_fees(quote_request.origin_address, quote_request.destination_address, hourly_rate, truck_count, dispatcher_info)
+        print(f"[LGM DEBUG] Calculating travel fees...")
+        try:
+            travel_fees = self._calculate_travel_fees(quote_request.origin_address, quote_request.destination_address, hourly_rate, truck_count, dispatcher_info)
+            print(f"[LGM DEBUG] Travel fees: ${travel_fees:.2f}")
+        except Exception as e:
+            print(f"[LGM DEBUG] Error in travel fees calculation: {e}")
+            travel_fees = hourly_rate * 1.0 * truck_count  # Fallback
         
         # NEW: Calculate total cost with new model
         job_cost = hourly_rate * job_hours
@@ -460,10 +474,10 @@ class LetsGetMovingCalculator:
                 print(f"[LGM NEW MODEL] Tier 7 (1:30-1:44): 1h 45min flat × ${hourly_rate} × {truck_count} trucks = ${travel_fee}")
                 return travel_fee
             else:
-                # Long distance: $4.50 per mile per truck (over 1:44)
+                # Long distance: $5.99 per mile per truck (over 1:44)
                 total_miles = self._calculate_total_miles(origin, destination, dispatcher_info)
                 travel_fee = total_miles * self.TRAVEL_FEE_THRESHOLDS["long_distance_rate"] * truck_count
-                print(f"[LGM NEW MODEL] Long distance (>1:44): {total_miles} miles × $4.50 × {truck_count} trucks = ${travel_fee}")
+                print(f"[LGM NEW MODEL] Long distance (>1:44): {total_miles} miles × $5.99 × {truck_count} trucks = ${travel_fee}")
                 return travel_fee
                 
         except Exception as e:
