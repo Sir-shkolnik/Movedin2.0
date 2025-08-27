@@ -920,7 +920,7 @@ class LetsGetMovingCalculator(VendorCalculator):
         "1_30": 1.5,           # 1 hour 30 minutes
         "1_45": 1.75,          # 1 hour 45 minutes
         "long_distance_min": 1.733,  # 1 hour 44 minutes (over this = long distance)
-        "long_distance_rate": 4.50   # $4.50 per mile per truck
+        "long_distance_rate": 5.99   # $5.99 per mile per truck
     }
     
     def get_crew_size(self, quote_request: QuoteRequest) -> int:
@@ -1279,7 +1279,7 @@ class LetsGetMovingCalculator(VendorCalculator):
                 # Long distance: $4.50 per mile per truck (over 1:44)
                 total_miles = self._calculate_total_miles(origin, destination, dispatcher_info)
                 travel_fee = total_miles * self.TRAVEL_FEE_THRESHOLDS["long_distance_rate"] * truck_count
-                print(f"[LGM UPDATED MODEL] Long distance (>1:44): {total_miles} miles × $4.50 × {truck_count} trucks = ${travel_fee}")
+                print(f"[LGM UPDATED MODEL] Long distance (>1:44): {total_miles} miles × $5.99 × {truck_count} trucks = ${travel_fee}")
                 return travel_fee
                 
         except Exception as e:
