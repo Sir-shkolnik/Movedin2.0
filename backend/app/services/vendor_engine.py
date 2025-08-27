@@ -1016,6 +1016,7 @@ class LetsGetMovingCalculator(VendorCalculator):
             "crew_size": crew_size,
             "truck_count": truck_count,
             "estimated_hours": labor_hours,
+            "travel_time_hours": origin_to_dest_travel,   # Keep for compatibility
             "job_travel_hours": origin_to_dest_travel,    # NEW: Origin to destination only
             "office_travel_fees": round(travel_fees, 2),  # NEW: Office travel fees
             "hourly_rate": hourly_rate,
