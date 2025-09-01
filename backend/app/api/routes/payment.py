@@ -118,25 +118,37 @@ async def create_payment_intent(req: PaymentIntentRequest, db: Session = Depends
             'currency': req.currency
         }
         
-        # Create payment intent for $1 CAD (100 cents)
-        intent = stripe.PaymentIntent.create(
-            amount=req.amount,
-            currency=req.currency,
+        # Create a dynamic Stripe Payment Link with proper redirect URL
+        payment_link = stripe.PaymentLink.create(
+            line_items=[{
+                'price_data': {
+                    'currency': req.currency,
+                    'product_data': {
+                        'name': 'MovedIn 2.0 - $1 CAD Deposit',
+                        'description': 'Deposit to reserve your move date and time'
+                    },
+                    'unit_amount': req.amount,
+                },
+                'quantity': 1,
+            }],
+            after_completion={
+                'type': 'redirect',
+                'redirect': {
+                    'url': 'https://movedin-frontend.onrender.com/#/step7'
+                }
+            },
             metadata=metadata,
-            description=req.description or 'MovedIn 2.0 - $1 CAD Deposit',
-            receipt_email=req.customer_email,
-            automatic_payment_methods={
-                'enabled': True,
-            }
+            customer_email=req.customer_email,
+            allow_promotion_codes=True
         )
         
-        logger.info(f"Created payment intent: {intent.id} for amount: {req.amount}")
+        logger.info(f"Created payment link: {payment_link.id} for amount: {req.amount}")
         
         return {
-            'client_secret': intent.client_secret,
-            'payment_intent_id': intent.id,
-            'amount': intent.amount,
-            'currency': intent.currency,
+            'payment_link_url': payment_link.url,
+            'payment_intent_id': payment_link.id,
+            'amount': req.amount,
+            'currency': req.currency,
             'lead_id': lead_id
         }
         
@@ -183,9 +195,9 @@ async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
             raise HTTPException(status_code=400, detail="Invalid signature")
         
         # Handle the event
-        if event['type'] == 'payment_intent.succeeded':
+        if event['type'] == 'checkout.session.completed':
             await handle_payment_success(event['data']['object'], db)
-        elif event['type'] == 'payment_intent.payment_failed':
+        elif event['type'] == 'checkout.session.expired':
             await handle_payment_failure(event['data']['object'], db)
         else:
             logger.info(f"Unhandled event type: {event['type']}")
@@ -196,20 +208,20 @@ async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
         logger.error(f"Webhook error: {e}")
         raise HTTPException(status_code=500, detail="Webhook processing failed")
 
-async def handle_payment_success(payment_intent: Dict[str, Any], db: Session):
+async def handle_payment_success(checkout_session: Dict[str, Any], db: Session):
     """
     Handle successful payment and update lead status
     """
     try:
-        payment_intent_id = payment_intent['id']
-        metadata = payment_intent.get('metadata', {})
+        session_id = checkout_session['id']
+        metadata = checkout_session.get('metadata', {})
         
-        logger.info(f"Processing successful payment: {payment_intent_id}")
+        logger.info(f"Processing successful payment: {session_id}")
         
         # Extract lead_id from metadata
         lead_id = metadata.get('lead_id')
         if not lead_id:
-            logger.error(f"No lead_id found in payment intent: {payment_intent_id}")
+            logger.error(f"No lead_id found in checkout session: {session_id}")
             return
         
         # Retrieve full lead data from the database
@@ -220,7 +232,7 @@ async def handle_payment_success(payment_intent: Dict[str, Any], db: Session):
         
         # Update lead status to payment_completed
         lead.status = 'payment_completed'
-        lead.payment_intent_id = payment_intent_id
+        lead.payment_intent_id = session_id
         db.commit()
         db.refresh(lead)
         
@@ -277,13 +289,13 @@ async def handle_payment_success(payment_intent: Dict[str, Any], db: Session):
     except Exception as e:
         logger.error(f"Failed to handle payment success: {e}")
 
-async def handle_payment_failure(payment_intent: Dict[str, Any], db: Session):
+async def handle_payment_failure(checkout_session: Dict[str, Any], db: Session):
     """
     Handle failed payment
     """
     try:
-        payment_intent_id = payment_intent['id']
-        logger.info(f"Payment failed: {payment_intent_id}")
+        session_id = checkout_session['id']
+        logger.info(f"Payment failed: {session_id}")
         # You could implement retry logic or customer notification here
     except Exception as e:
         logger.error(f"Failed to handle payment failure: {e}")

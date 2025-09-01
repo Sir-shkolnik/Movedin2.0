@@ -41,11 +41,8 @@ const Step6: React.FC = () => {
     }
   };
 
-  // Real Stripe Payment Link URL - Updated with correct hash routing
-  const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/bJe14n2kFc4zenr3ST1wY00';
-  
-  // Note: The redirect URL in Stripe Dashboard should be set to:
-  // https://movedin-frontend.onrender.com/#/step7
+  // Dynamic Stripe Payment Links are now created by the backend
+  // with proper redirect URLs configured automatically
 
   useEffect(() => {
     console.log('Step 6 - Data structure:', {
@@ -119,11 +116,11 @@ const Step6: React.FC = () => {
       const intentData = await intentResponse.json();
       console.log('Step 6 - Payment intent created:', intentData);
 
-      // Redirect to real Stripe Payment Link with proper hash routing
-      console.log('Step 6 - Redirecting to Stripe Payment Link...');
+      // Redirect to dynamic Stripe Payment Link with proper redirect URL
+      console.log('Step 6 - Redirecting to dynamic Stripe Payment Link...');
       // Store payment intent data in sessionStorage for Step7
       sessionStorage.setItem('paymentIntentData', JSON.stringify(intentData));
-      window.location.href = STRIPE_PAYMENT_LINK;
+      window.location.href = intentData.payment_link_url;
       
     } catch (error) {
       console.error('Step 6 - Payment error:', error);
