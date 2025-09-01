@@ -157,6 +157,45 @@ async def process_manual_payment(request: Request, db: Session = Depends(get_db)
         logger.error(f"Manual payment processing error: {e}")
         raise HTTPException(status_code=500, detail="Failed to process payment")
 
+@router.post('/update-payment-amounts')
+async def update_payment_amounts(request: Request, db: Session = Depends(get_db)):
+    """Manually update payment amounts for completed leads without Stripe verification"""
+    try:
+        body = await request.json()
+        lead_id = body.get('lead_id')
+        amount = body.get('amount', 100)  # Default $1 CAD
+        currency = body.get('currency', 'cad')
+        
+        if not lead_id:
+            raise HTTPException(status_code=400, detail="lead_id is required")
+        
+        # Retrieve lead from database
+        lead = db.query(Lead).filter(Lead.id == int(lead_id)).first()
+        if not lead:
+            raise HTTPException(status_code=404, detail=f"Lead with ID {lead_id} not found")
+        
+        # Update payment details
+        lead.payment_amount = amount / 100.0  # Convert cents to dollars
+        lead.payment_currency = currency.upper()
+        lead.payment_status = 'succeeded'
+        lead.status = 'payment_completed'
+        
+        db.commit()
+        db.refresh(lead)
+        
+        logger.info(f"Payment amounts updated for lead {lead_id}: ${amount/100.0} {currency.upper()}")
+        
+        return {
+            'status': 'success',
+            'message': f'Payment amounts updated for lead {lead_id}',
+            'amount': amount / 100.0,
+            'currency': currency.upper()
+        }
+        
+    except Exception as e:
+        logger.error(f"Update payment amounts error: {e}")
+        raise HTTPException(status_code=500, detail="Failed to update payment amounts")
+
 @router.post('/webhook/stripe')
 async def stripe_webhook_simple(request: Request, db: Session = Depends(get_db)):
     """Simple webhook endpoint that processes Stripe events"""
