@@ -15,7 +15,9 @@ from app.services.vendor_engine import LetsGetMovingCalculator
 from app.services.vendors.easy2go_calculator import Easy2GoCalculator
 from app.services.vendors.velocity_movers_calculator import VelocityMoversCalculator
 from app.services.vendors.pierre_sons_calculator import PierreSonsCalculator
+import logging
 
+logger = logging.getLogger(__name__)
 router = APIRouter()
 
 @router.get("/vendors", response_model=List[Dict[str, Any]])
@@ -1940,3 +1942,64 @@ async def create_database_backup():
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Backup creation failed: {str(e)}") 
+
+@router.post("/update-vendor-emails")
+async def update_vendor_emails(db: Session = Depends(get_db)):
+    """Update vendor emails with proper addresses"""
+    try:
+        # Vendor email mappings
+        vendor_emails = {
+            "lets-get-moving": "bookings@letsgetmovinggroup.com",
+            "easy2go": "info@easy2gomoving.com", 
+            "velocity-movers": "bookings@velocitymovers.ca",
+            "pierre-sons": "info@pierreandsonsmoving.com"
+        }
+        
+        updated_vendors = []
+        
+        for slug, email in vendor_emails.items():
+            vendor = db.query(Vendor).filter(Vendor.slug == slug).first()
+            if vendor:
+                vendor.email = email
+                updated_vendors.append({
+                    "name": vendor.name,
+                    "slug": vendor.slug,
+                    "email": email
+                })
+                logger.info(f"Updated {vendor.name} email to: {email}")
+            else:
+                logger.warning(f"Vendor not found: {slug}")
+        
+        db.commit()
+        
+        return {
+            "status": "success",
+            "message": f"Updated {len(updated_vendors)} vendor emails",
+            "updated_vendors": updated_vendors
+        }
+        
+    except Exception as e:
+        logger.error(f"Error updating vendor emails: {e}")
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Failed to update vendor emails: {str(e)}")
+
+@router.get("/vendors")
+async def get_vendors(db: Session = Depends(get_db)):
+    """Get all vendors with their email addresses"""
+    try:
+        vendors = db.query(Vendor).all()
+        return {
+            "vendors": [
+                {
+                    "id": vendor.id,
+                    "name": vendor.name,
+                    "slug": vendor.slug,
+                    "email": vendor.email,
+                    "is_active": vendor.is_active
+                }
+                for vendor in vendors
+            ]
+        }
+    except Exception as e:
+        logger.error(f"Error fetching vendors: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch vendors: {str(e)}")
