@@ -20,11 +20,10 @@ def update_lead_payment(lead_id):
     """Update a single lead with payment information"""
     try:
         print(f"🔧 Updating lead {lead_id}...")
-        url = f"{BACKEND_URL}/api/payment-simple/process-manual"
+        url = f"{BACKEND_URL}/api/payment-simple/update-payment-amounts"
         data = {
             "lead_id": lead_id,
-            "payment_intent_id": f"manual_update_{lead_id}",
-            "amount": PAYMENT_AMOUNT,
+            "amount": int(PAYMENT_AMOUNT * 100),  # Convert to cents
             "currency": PAYMENT_CURRENCY.lower()
         }
         

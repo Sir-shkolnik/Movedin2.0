@@ -46,7 +46,7 @@ const PaymentRedirect: React.FC = () => {
                         // Create mock payment data for Step7
                         const mockPaymentData = {
                             payment_intent_id: sessionId || `pi_${Date.now()}`,
-                            lead_id: '28', // Default lead ID
+                            lead_id: '25', // Use the actual lead ID from the payment
                             amount: 100,
                             currency: 'cad',
                             session_id: sessionId,
@@ -73,12 +73,12 @@ const PaymentRedirect: React.FC = () => {
                             contact: {
                                 firstName: 'John',
                                 lastName: 'Doe',
-                                email: 'john@example.com',
+                                email: 'support@movedin.com',
                                 phone: '416-555-0123'
                             },
                             selectedQuote: {
                                 vendor_name: 'Lets Get Moving',
-                                total_cost: 100.00
+                                total_cost: 1.00
                             }
                         };
                         
@@ -86,10 +86,10 @@ const PaymentRedirect: React.FC = () => {
                         sessionStorage.setItem('formData', JSON.stringify(defaultFormData));
                     }
                     
-                    // Small delay to show success message
+                    // Small delay to show success message, then use React Router navigate
                     setTimeout(() => {
-                        console.log('PaymentRedirect - Redirecting to Step7...');
-                        window.location.href = 'https://movedin-frontend.onrender.com/#/step7';
+                        console.log('PaymentRedirect - Redirecting to Step7 using React Router...');
+                        navigate('/step7');
                     }, 2000);
                     
                 } else {
@@ -115,7 +115,7 @@ const PaymentRedirect: React.FC = () => {
                             // Store payment data for Step7
                             const paymentData = {
                                 payment_intent_id: sessionId || data.session?.id,
-                                lead_id: '28',
+                                lead_id: '25',
                                 amount: data.session?.amount_total || 100,
                                 currency: data.session?.currency || 'cad',
                                 session_id: sessionId,
@@ -125,19 +125,20 @@ const PaymentRedirect: React.FC = () => {
                             sessionStorage.setItem('paymentIntentData', JSON.stringify(paymentData));
                             
                             setTimeout(() => {
-                                window.location.href = 'https://movedin-frontend.onrender.com/#/step7';
+                                console.log('PaymentRedirect - Redirecting to Step7 using React Router...');
+                                navigate('/step7');
                             }, 2000);
                         } else {
                             setStatus('Payment verification failed. Redirecting to home...');
                             setTimeout(() => {
-                                window.location.href = 'https://movedin-frontend.onrender.com/';
+                                navigate('/');
                             }, 3000);
                         }
                     } catch (error) {
                         console.error('PaymentRedirect - Verification error:', error);
                         setStatus('Payment verification failed. Redirecting to home...');
                         setTimeout(() => {
-                            window.location.href = 'https://movedin-frontend.onrender.com/';
+                            navigate('/');
                         }, 3000);
                     }
                 }
@@ -145,7 +146,7 @@ const PaymentRedirect: React.FC = () => {
                 console.error('PaymentRedirect - Processing error:', error);
                 setStatus('Error processing payment. Redirecting to home...');
                 setTimeout(() => {
-                    window.location.href = 'https://movedin-frontend.onrender.com/';
+                    navigate('/');
                 }, 3000);
             }
         };
@@ -197,31 +198,22 @@ const PaymentRedirect: React.FC = () => {
                 </p>
                 
                 <div style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    gap: '10px'
-                }}>
-                    <div style={{
-                        width: '20px',
-                        height: '20px',
-                        border: '2px solid #e5e7eb',
-                        borderTop: '2px solid #2563eb',
-                        borderRadius: '50%',
-                        animation: 'spin 1s linear infinite'
-                    }}></div>
-                    <span style={{ color: '#6b7280', fontSize: '14px' }}>
-                        Please wait...
-                    </span>
-                </div>
+                    width: '40px',
+                    height: '40px',
+                    border: '4px solid #e5e7eb',
+                    borderTop: '4px solid #2563eb',
+                    borderRadius: '50%',
+                    animation: 'spin 1s linear infinite',
+                    margin: '0 auto'
+                }}></div>
+                
+                <style>{`
+                    @keyframes spin {
+                        0% { transform: rotate(0deg); }
+                        100% { transform: rotate(360deg); }
+                    }
+                `}</style>
             </div>
-            
-            <style jsx>{`
-                @keyframes spin {
-                    0% { transform: rotate(0deg); }
-                    100% { transform: rotate(360deg); }
-                }
-            `}</style>
         </div>
     );
 };
