@@ -24,6 +24,11 @@ async def test_payment_router():
     """Test endpoint to verify payment router is loaded"""
     return {"status": "success", "message": "Payment router is working!"}
 
+@router.get('/webhook/test')
+async def test_webhook_endpoint():
+    """Test webhook endpoint"""
+    return {"status": "success", "message": "Webhook endpoint is accessible!"}
+
 class PaymentIntentRequest(BaseModel):
     amount: int
     currency: str = "cad"

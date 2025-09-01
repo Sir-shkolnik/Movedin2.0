@@ -73,12 +73,24 @@ app.include_router(leads.router, prefix="/api")
 # Debug payment router import
 try:
     print("🔧 Loading payment router...")
+    print(f"🔧 Payment router object: {payment}")
+    print(f"🔧 Payment router type: {type(payment)}")
     app.include_router(payment.router, prefix="/api")
     print("✅ Payment router loaded successfully")
 except Exception as e:
     print(f"❌ Error loading payment router: {e}")
     import traceback
     traceback.print_exc()
+    # Try to import payment module directly
+    try:
+        print("🔧 Trying direct import...")
+        import app.api.routes.payment as payment_module
+        print(f"🔧 Payment module: {payment_module}")
+        app.include_router(payment_module.router, prefix="/api")
+        print("✅ Payment router loaded via direct import")
+    except Exception as e2:
+        print(f"❌ Direct import also failed: {e2}")
+        traceback.print_exc()
 
 app.include_router(admin.router, prefix="/admin")
 app.include_router(vendors.router, prefix="/vendors")
