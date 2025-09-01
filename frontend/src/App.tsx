@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation, Routes, Route } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './App.css';
 import Footer from './components/Footer/Footer';
 import Stepper from './components/Stepper/Stepper';
@@ -39,12 +39,15 @@ function AppInner() {
     // Get current step from URL or default to 0
     const getCurrentStepFromURL = () => {
         const path = location.pathname;
-        if (path === '/step7') return 6;
-        if (path === '/step6') return 5;
-        if (path === '/step5') return 4;
-        if (path === '/step4') return 3;
-        if (path === '/step3') return 2;
-        if (path === '/step2') return 1;
+        const hash = location.hash;
+        
+        // Check both pathname and hash for step routing
+        if (path === '/step7' || hash === '#/step7') return 6;
+        if (path === '/step6' || hash === '#/step6') return 5;
+        if (path === '/step5' || hash === '#/step5') return 4;
+        if (path === '/step4' || hash === '#/step4') return 3;
+        if (path === '/step3' || hash === '#/step3') return 2;
+        if (path === '/step2' || hash === '#/step2') return 1;
         return 0; // Default to step 1
     };
 
@@ -62,7 +65,7 @@ function AppInner() {
             if (stepIndex === 0) {
                 navigate('/');
             } else {
-                navigate(`/step${stepIndex + 1}`);
+                navigate(`#/step${stepIndex + 1}`);
             }
         }
     };
@@ -71,11 +74,11 @@ function AppInner() {
         const nextStep = Math.min(currentStep + 1, steps.length - 1);
         setCurrentStep(nextStep);
         if (nextStep === 6) {
-            navigate('/step7');
+            navigate('#/step7');
         } else if (nextStep === 0) {
             navigate('/');
         } else {
-            navigate(`/step${nextStep + 1}`);
+            navigate(`#/step${nextStep + 1}`);
         }
     };
 
@@ -85,7 +88,7 @@ function AppInner() {
         if (prevStep === 0) {
             navigate('/');
         } else {
-            navigate(`/step${prevStep + 1}`);
+            navigate(`#/step${prevStep + 1}`);
         }
     };
 
@@ -143,15 +146,13 @@ function AppInner() {
                     goToStep={goToStep}
                 />
                 <div className="step-container">
-                    <Routes>
-                        <Route path="/" element={<Step1 onNext={goNext} />} />
-                        <Route path="/step2" element={<Step2 onNext={goNext} onBack={goBack} />} />
-                        <Route path="/step3" element={<Step3 onNext={goNext} onBack={goBack} />} />
-                        <Route path="/step4" element={<Step4 onNext={goNext} onBack={goBack} />} />
-                        <Route path="/step5" element={<Step5 onNext={goNext} onBack={goBack} />} />
-                        <Route path="/step6" element={<Step6 onNext={goNext} onBack={goBack} />} />
-                        <Route path="/step7" element={<Step7 />} />
-                    </Routes>
+                    {currentStep === 0 && <Step1 onNext={goNext} />}
+                    {currentStep === 1 && <Step2 onNext={goNext} onBack={goBack} />}
+                    {currentStep === 2 && <Step3 onNext={goNext} onBack={goBack} />}
+                    {currentStep === 3 && <Step4 onNext={goNext} onBack={goBack} />}
+                    {currentStep === 4 && <Step5 onNext={goNext} onBack={goBack} />}
+                    {currentStep === 5 && <Step6 onNext={goNext} onBack={goBack} />}
+                    {currentStep === 6 && <Step7 />}
                 </div>
             </div>
             <Footer 
