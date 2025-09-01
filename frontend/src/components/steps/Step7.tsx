@@ -3,15 +3,19 @@ import './Step.css';
 import { useForm } from '../../contexts/FormContext';
 
 const Step7: React.FC = () => {
-    const { data } = useForm();
+    const { data, setData } = useForm();
     const [showConfetti, setShowConfetti] = useState(false);
     const [leadId, setLeadId] = useState<string | null>(null);
     const [isProcessing, setIsProcessing] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [displayData, setDisplayData] = useState<any>(null);
 
     useEffect(() => {
         // Show confetti animation after component mounts
         setShowConfetti(true);
+        
+        // Load data from sessionStorage if coming from payment redirect
+        loadDataFromSessionStorage();
         
         // Process payment confirmation and save lead
         handlePaymentConfirmation();
@@ -20,6 +24,45 @@ const Step7: React.FC = () => {
         const timer = setTimeout(() => setShowConfetti(false), 3000);
         return () => clearTimeout(timer);
     }, []);
+
+    const loadDataFromSessionStorage = () => {
+        try {
+            // Check if we have form data in sessionStorage (from payment redirect)
+            const formData = sessionStorage.getItem('formData');
+            const paymentSuccess = sessionStorage.getItem('paymentSuccess');
+            
+            console.log('Step7 - Loading data from sessionStorage:', { 
+                hasFormData: !!formData, 
+                hasPaymentSuccess: !!paymentSuccess 
+            });
+            
+            if (formData && paymentSuccess) {
+                const parsedFormData = JSON.parse(formData);
+                console.log('Step7 - Loaded form data from sessionStorage:', parsedFormData);
+                
+                // Update the form context with the data from sessionStorage
+                setData(prev => ({
+                    ...prev,
+                    ...parsedFormData
+                }));
+                
+                // Set display data for rendering
+                setDisplayData(parsedFormData);
+                
+                // Clear the sessionStorage data after loading
+                sessionStorage.removeItem('formData');
+                sessionStorage.removeItem('paymentSuccess');
+            } else {
+                // Use data from form context (normal flow)
+                console.log('Step7 - Using data from form context:', data);
+                setDisplayData(data);
+            }
+        } catch (error) {
+            console.error('Step7 - Error loading data from sessionStorage:', error);
+            // Fallback to form context data
+            setDisplayData(data);
+        }
+    };
 
     const handlePaymentConfirmation = async () => {
         try {
@@ -284,9 +327,9 @@ const Step7: React.FC = () => {
                                 👤 Contact Information
                             </h3>
                             <div style={{ fontSize: '14px', color: '#6c757d' }}>
-                                <div><strong>Name:</strong> {data.contact?.firstName} {data.contact?.lastName}</div>
-                                <div><strong>Email:</strong> {data.contact?.email}</div>
-                                <div><strong>Phone:</strong> {data.contact?.phone}</div>
+                                <div><strong>Name:</strong> {displayData?.contact?.firstName} {displayData?.contact?.lastName}</div>
+                                <div><strong>Email:</strong> {displayData?.contact?.email}</div>
+                                <div><strong>Phone:</strong> {displayData?.contact?.phone}</div>
                             </div>
                         </div>
 
@@ -296,9 +339,9 @@ const Step7: React.FC = () => {
                                 🏠 Move Details
                             </h3>
                             <div style={{ fontSize: '14px', color: '#6c757d' }}>
-                                <div><strong>Date:</strong> {data.date} at {data.time}</div>
-                                <div><strong>Rooms:</strong> {data.fromDetails?.rooms || 'N/A'}</div>
-                                <div><strong>Square Footage:</strong> {data.fromDetails?.sqft || 'N/A'}</div>
+                                <div><strong>Date:</strong> {displayData?.date} at {displayData?.time}</div>
+                                <div><strong>Rooms:</strong> {displayData?.fromDetails?.rooms || 'N/A'}</div>
+                                <div><strong>Square Footage:</strong> {displayData?.fromDetails?.sqft || 'N/A'}</div>
                             </div>
                         </div>
 
@@ -308,8 +351,8 @@ const Step7: React.FC = () => {
                                 📍 Addresses
                             </h3>
                             <div style={{ fontSize: '14px', color: '#6c757d' }}>
-                                <div><strong>From:</strong> {data.from}</div>
-                                <div><strong>To:</strong> {data.to}</div>
+                                <div><strong>From:</strong> {displayData?.from}</div>
+                                <div><strong>To:</strong> {displayData?.to}</div>
                             </div>
                         </div>
 
@@ -319,13 +362,13 @@ const Step7: React.FC = () => {
                                 🚛 Moving Company
                             </h3>
                             <div style={{ fontSize: '14px', color: '#6c757d' }}>
-                                <div><strong>Selected Vendor:</strong> {data.selectedQuote?.vendor_name || data.vendor?.vendor_name}</div>
-                                <div><strong>Estimated Cost:</strong> {formatCurrency(data.selectedQuote?.total_cost || data.vendor?.total_cost || 0)}</div>
+                                <div><strong>Selected Vendor:</strong> {displayData?.selectedQuote?.vendor_name || displayData?.vendor?.vendor_name}</div>
+                                <div><strong>Estimated Cost:</strong> {formatCurrency(displayData?.selectedQuote?.total_cost || displayData?.vendor?.total_cost || 0)}</div>
                                 <div><strong>Booking Reference:</strong> {leadId || 'L' + Math.floor(Math.random() * 900000) + 100000}</div>
                             </div>
                             
                             {/* Additional Services Section */}
-                            {data.selectedQuote?.additional_services_info && data.selectedQuote.additional_services_info.length > 0 && (
+                            {displayData?.selectedQuote?.additional_services_info && displayData.selectedQuote.additional_services_info.length > 0 && (
                                 <div style={{
                                     backgroundColor: '#e8f4f8',
                                     border: '1px solid #bee5eb',
@@ -345,7 +388,7 @@ const Step7: React.FC = () => {
                                     </p>
                                     
                                     <ul style={{ margin: '0 0 8px 12px', color: '#0c5460', fontSize: '11px', lineHeight: '1.3' }}>
-                                        {data.selectedQuote.additional_services_info.map((service: string, index: number) => (
+                                        {displayData.selectedQuote.additional_services_info.map((service: string, index: number) => (
                                             <li key={index} style={{ marginBottom: '4px' }}>
                                                 <strong>{service}</strong> - {getServiceExplanation(service)}
                                             </li>
