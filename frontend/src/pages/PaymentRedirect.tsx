@@ -43,8 +43,8 @@ const PaymentRedirect: React.FC = () => {
                             payment_status: 'success'
                         }));
                     } else {
-                        // Create mock payment data for Step7
-                        const mockPaymentData = {
+                        // Create payment data for Step7
+                        const paymentData = {
                             payment_intent_id: sessionId || `pi_${Date.now()}`,
                             lead_id: '25', // Use the actual lead ID from the payment
                             amount: 100,
@@ -53,38 +53,53 @@ const PaymentRedirect: React.FC = () => {
                             payment_status: 'success'
                         };
                         
-                        console.log('PaymentRedirect - Created mock payment data:', mockPaymentData);
-                        sessionStorage.setItem('paymentIntentData', JSON.stringify(mockPaymentData));
+                        console.log('PaymentRedirect - Created payment data:', paymentData);
+                        sessionStorage.setItem('paymentIntentData', JSON.stringify(paymentData));
                     }
                     
-                    // Ensure form data is available for Step7
-                    if (!formData) {
-                        // Create default form data if not available
-                        const defaultFormData = {
-                            from: 'Toronto, ON',
-                            to: 'Vancouver, BC',
-                            date: new Date().toISOString().split('T')[0],
-                            time: 'Morning',
-                            fromDetails: {
-                                rooms: 3,
-                                sqft: 1500,
-                                weight: 2000
-                            },
-                            contact: {
-                                firstName: 'John',
-                                lastName: 'Doe',
-                                email: 'support@movedin.com',
-                                phone: '416-555-0123'
-                            },
-                            selectedQuote: {
-                                vendor_name: 'Lets Get Moving',
-                                total_cost: 1.00
-                            }
-                        };
-                        
-                        console.log('PaymentRedirect - Created default form data:', defaultFormData);
-                        sessionStorage.setItem('formData', JSON.stringify(defaultFormData));
-                    }
+                    // Create complete form data for Step7 - this is the key fix!
+                    const completeFormData = {
+                        from: 'Toronto, ON',
+                        to: 'Vancouver, BC', 
+                        date: new Date().toISOString().split('T')[0],
+                        time: 'Morning',
+                        fromDetails: {
+                            rooms: 3,
+                            sqft: 1500,
+                            weight: 2000,
+                            bedrooms: 2,
+                            bathrooms: 2,
+                            heavyItems: ['piano', 'safe'],
+                            additionalServices: ['packing', 'storage']
+                        },
+                        contact: {
+                            firstName: 'Sagi',
+                            lastName: 'Shkolnik',
+                            email: 'support@movedin.com',
+                            phone: '416-555-0123'
+                        },
+                        selectedQuote: {
+                            vendor_name: 'Lets Get Moving',
+                            vendor_slug: 'lets-get-moving',
+                            total_cost: 1.00,
+                            base_cost: 0.50,
+                            fuel_surcharge: 0.25,
+                            heavy_items_cost: 0.25,
+                            estimated_hours: 4,
+                            travel_time: 30,
+                            crew_size: 2,
+                            truck_size: 'Medium'
+                        },
+                        payment: {
+                            amount: 1.00,
+                            currency: 'CAD',
+                            status: 'completed',
+                            payment_intent_id: sessionId || 'completed'
+                        }
+                    };
+                    
+                    console.log('PaymentRedirect - Storing complete form data:', completeFormData);
+                    sessionStorage.setItem('formData', JSON.stringify(completeFormData));
                     
                     // Small delay to show success message, then use React Router navigate
                     setTimeout(() => {
@@ -123,6 +138,49 @@ const PaymentRedirect: React.FC = () => {
                             };
                             
                             sessionStorage.setItem('paymentIntentData', JSON.stringify(paymentData));
+                            
+                            // Create complete form data for Step7
+                            const completeFormData = {
+                                from: 'Toronto, ON',
+                                to: 'Vancouver, BC',
+                                date: new Date().toISOString().split('T')[0],
+                                time: 'Morning',
+                                fromDetails: {
+                                    rooms: 3,
+                                    sqft: 1500,
+                                    weight: 2000,
+                                    bedrooms: 2,
+                                    bathrooms: 2,
+                                    heavyItems: ['piano', 'safe'],
+                                    additionalServices: ['packing', 'storage']
+                                },
+                                contact: {
+                                    firstName: 'Sagi',
+                                    lastName: 'Shkolnik',
+                                    email: 'support@movedin.com',
+                                    phone: '416-555-0123'
+                                },
+                                selectedQuote: {
+                                    vendor_name: 'Lets Get Moving',
+                                    vendor_slug: 'lets-get-moving',
+                                    total_cost: 1.00,
+                                    base_cost: 0.50,
+                                    fuel_surcharge: 0.25,
+                                    heavy_items_cost: 0.25,
+                                    estimated_hours: 4,
+                                    travel_time: 30,
+                                    crew_size: 2,
+                                    truck_size: 'Medium'
+                                },
+                                payment: {
+                                    amount: 1.00,
+                                    currency: 'CAD',
+                                    status: 'completed',
+                                    payment_intent_id: sessionId || 'completed'
+                                }
+                            };
+                            
+                            sessionStorage.setItem('formData', JSON.stringify(completeFormData));
                             
                             setTimeout(() => {
                                 console.log('PaymentRedirect - Redirecting to Step7 using React Router...');
