@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import './Page.css';
-import './AboutUs.css';
+// Removed AboutUs.css import since it's now imported in index.css
 
 const AboutUs: React.FC = () => {
   const navigate = useNavigate();
