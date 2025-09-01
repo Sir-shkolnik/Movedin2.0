@@ -153,7 +153,14 @@ function AppInner() {
                     {currentStep === 3 && <Step4 onNext={goNext} onBack={goBack} />}
                     {currentStep === 4 && <Step5 onNext={goNext} onBack={goBack} />}
                     {currentStep === 5 && <Step6 onNext={goNext} onBack={goBack} />}
-                    {currentStep === 6 && (data.selectedQuote ? <Step7 /> : <div className="step-card"><h2>Redirecting...</h2><p>Please complete the booking process to access the confirmation page.</p></div>)}
+                    {currentStep === 6 && (
+                        data.selectedQuote || sessionStorage.getItem('paymentSuccess') ? 
+                        <Step7 /> : 
+                        <div className="step-card">
+                            <h2>Redirecting...</h2>
+                            <p>Please complete the booking process to access the confirmation page.</p>
+                        </div>
+                    )}
                 </div>
             </div>
             <Footer 

@@ -158,6 +158,28 @@ async def create_payment_intent(req: PaymentIntentRequest, db: Session = Depends
         logger.error(f"Payment intent creation error: {e}")
         raise HTTPException(status_code=500, detail="Failed to create payment intent")
 
+@router.post("/verify")
+async def verify_payment(request: Request):
+    """Verify payment status from frontend"""
+    try:
+        body = await request.json()
+        session_id = body.get('session_id')
+        
+        if not session_id:
+            return {"success": False, "error": "No session_id provided"}
+        
+        # Retrieve the session from Stripe
+        session = stripe.checkout.Session.retrieve(session_id)
+        
+        if session.payment_status == 'paid':
+            return {"success": True, "session": session}
+        else:
+            return {"success": False, "error": "Payment not completed"}
+            
+    except Exception as e:
+        logger.error(f"Payment verification error: {str(e)}")
+        return {"success": False, "error": str(e)}
+
 @router.post('/webhook/stripe')
 async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
     """

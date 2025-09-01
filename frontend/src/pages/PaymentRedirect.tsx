@@ -6,11 +6,20 @@ const PaymentRedirect: React.FC = () => {
     const [status, setStatus] = useState('Processing payment...');
 
     useEffect(() => {
-        // Check if we have payment intent data in sessionStorage
+        // Check URL parameters for payment status
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get('session_id');
+        const paymentStatus = urlParams.get('payment_status');
+        
+        // Also check if we have payment data in sessionStorage (fallback)
         const paymentIntentData = sessionStorage.getItem('paymentIntentData');
         
-        if (paymentIntentData) {
+        if (sessionId || paymentStatus === 'success' || paymentIntentData) {
             setStatus('Payment successful! Redirecting to confirmation...');
+            
+            // Store payment success in sessionStorage for Step7
+            sessionStorage.setItem('paymentSuccess', 'true');
+            sessionStorage.setItem('sessionId', sessionId || 'completed');
             
             // Small delay to show success message
             setTimeout(() => {
@@ -18,12 +27,37 @@ const PaymentRedirect: React.FC = () => {
                 window.location.href = 'https://movedin-frontend.onrender.com/#/step7';
             }, 2000);
         } else {
-            setStatus('No payment data found. Redirecting to home...');
+            setStatus('Payment verification in progress...');
             
-            // Redirect to home if no payment data
-            setTimeout(() => {
-                window.location.href = 'https://movedin-frontend.onrender.com/';
-            }, 3000);
+            // Try to verify payment with backend
+            fetch('https://movedin-backend.onrender.com/api/payment/verify', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ session_id: sessionId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    setStatus('Payment verified! Redirecting to confirmation...');
+                    sessionStorage.setItem('paymentSuccess', 'true');
+                    setTimeout(() => {
+                        window.location.href = 'https://movedin-frontend.onrender.com/#/step7';
+                    }, 2000);
+                } else {
+                    setStatus('Payment verification failed. Redirecting to home...');
+                    setTimeout(() => {
+                        window.location.href = 'https://movedin-frontend.onrender.com/';
+                    }, 3000);
+                }
+            })
+            .catch(() => {
+                setStatus('Payment verification failed. Redirecting to home...');
+                setTimeout(() => {
+                    window.location.href = 'https://movedin-frontend.onrender.com/';
+                }, 3000);
+            });
         }
     }, [navigate]);
 
