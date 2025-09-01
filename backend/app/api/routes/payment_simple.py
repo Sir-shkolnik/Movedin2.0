@@ -43,8 +43,8 @@ async def create_payment_link(request: Request, db: Session = Depends(get_db)):
         
         logger.info(f"Creating payment link for lead {lead_id} with amount {amount} {currency}")
         
-        # Create a dynamic Stripe Payment Link
-        payment_link = stripe.PaymentLink.create(
+        # Create a dynamic Stripe Checkout Session for better redirect control
+        checkout_session = stripe.checkout.Session.create(
             line_items=[{
                 'price_data': {
                     'currency': currency,
@@ -56,25 +56,23 @@ async def create_payment_link(request: Request, db: Session = Depends(get_db)):
                 },
                 'quantity': 1,
             }],
-            after_completion={
-                'type': 'redirect',
-                'redirect': {
-                    'url': f'https://movedin-frontend.onrender.com/#/thank-you?lead_id={lead_id}&vendor={vendor_slug}&amount={amount}&currency={currency}&email={customer_email}'
-                }
-            },
+            mode='payment',
+            success_url=f'https://movedin-frontend.onrender.com/#/thank-you?lead_id={lead_id}&vendor={vendor_slug}&amount={amount}&currency={currency}&email={customer_email}&session_id={{CHECKOUT_SESSION_ID}}',
+            cancel_url='https://movedin-frontend.onrender.com/#/',
             metadata=metadata,
             allow_promotion_codes=True
         )
         
-        logger.info(f"Created payment link: {payment_link.id} for lead {lead_id}")
+        logger.info(f"Created checkout session: {checkout_session.id} for lead {lead_id}")
         
         return {
-            'payment_link_url': payment_link.url,
-            'payment_intent_id': payment_link.id,
+            'payment_link_url': checkout_session.url,
+            'payment_intent_id': checkout_session.id,
             'amount': amount,
             'currency': currency,
             'lead_id': lead_id,
-            'metadata': metadata
+            'metadata': metadata,
+            'session_id': checkout_session.id
         }
         
     except stripe.error.StripeError as e:
