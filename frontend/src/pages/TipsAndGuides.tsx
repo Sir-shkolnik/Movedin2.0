@@ -191,12 +191,12 @@ const TipsAndGuides: React.FC = () => {
             <nav className="table-of-contents" aria-label="Quick Navigation">
               <h2>Complete Moving Guide</h2>
               <ul>
-                <li><a href="#planning-phase">📋 Planning Phase (8-12 weeks before)</a></li>
-                <li><a href="#packing-phase">📦 Packing Phase (4-6 weeks before)</a></li>
-                <li><a href="#moving-day">🚚 Moving Day</a></li>
-                <li><a href="#settling-in">🏠 Settling In (After the move)</a></li>
-                <li><a href="#special-situations">⚡ Special Situations</a></li>
-                <li><a href="#cost-saving-tips">💰 Cost-Saving Tips</a></li>
+                <li><Link to="/guides/planning-phase">📋 Planning Phase (8-12 weeks before)</Link></li>
+                <li><Link to="/guides/packing-phase">📦 Packing Phase (4-6 weeks before)</Link></li>
+                <li><Link to="/guides/moving-day">🚚 Moving Day</Link></li>
+                <li><Link to="/guides/settling-in">🏠 Settling In (After the move)</Link></li>
+                <li><Link to="/guides/special-situations">⚡ Special Situations</Link></li>
+                <li><Link to="/guides/cost-saving-tips">💰 Cost-Saving Tips</Link></li>
               </ul>
             </nav>
 
