@@ -40,14 +40,15 @@ function AppInner() {
     const getCurrentStepFromURL = () => {
         const path = location.pathname;
         const hash = location.hash;
+        const fullPath = path + hash;
         
         // Check both pathname and hash for step routing
-        if (path === '/step7' || hash === '#/step7') return 6;
-        if (path === '/step6' || hash === '#/step6') return 5;
-        if (path === '/step5' || hash === '#/step5') return 4;
-        if (path === '/step4' || hash === '#/step4') return 3;
-        if (path === '/step3' || hash === '#/step3') return 2;
-        if (path === '/step2' || hash === '#/step2') return 1;
+        if (path === '/step7' || hash === '#/step7' || fullPath.includes('step7')) return 6;
+        if (path === '/step6' || hash === '#/step6' || fullPath.includes('step6')) return 5;
+        if (path === '/step5' || hash === '#/step5' || fullPath.includes('step5')) return 4;
+        if (path === '/step4' || hash === '#/step4' || fullPath.includes('step4')) return 3;
+        if (path === '/step3' || hash === '#/step3' || fullPath.includes('step3')) return 2;
+        if (path === '/step2' || hash === '#/step2' || fullPath.includes('step2')) return 1;
         return 0; // Default to step 1
     };
 
@@ -57,7 +58,7 @@ function AppInner() {
     useEffect(() => {
         const stepFromURL = getCurrentStepFromURL();
         setCurrentStep(stepFromURL);
-    }, [location.pathname]);
+    }, [location.pathname, location.hash]);
 
     const goToStep = (stepIndex: number) => {
         if (stepIndex <= currentStep) {
@@ -152,7 +153,7 @@ function AppInner() {
                     {currentStep === 3 && <Step4 onNext={goNext} onBack={goBack} />}
                     {currentStep === 4 && <Step5 onNext={goNext} onBack={goBack} />}
                     {currentStep === 5 && <Step6 onNext={goNext} onBack={goBack} />}
-                    {currentStep === 6 && <Step7 />}
+                    {currentStep === 6 && (data.selectedQuote ? <Step7 /> : <div className="step-card"><h2>Redirecting...</h2><p>Please complete the booking process to access the confirmation page.</p></div>)}
                 </div>
             </div>
             <Footer 
