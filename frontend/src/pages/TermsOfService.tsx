@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
-import './Page.css';
+// Using AboutUs styling for consistency
 
 const TermsOfService: React.FC = () => {
   const navigate = useNavigate();
@@ -11,349 +11,304 @@ const TermsOfService: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Terms of Service | MovedIn - Service Agreement & Legal Terms</title>
-        <meta name="description" content="MovedIn's Terms of Service governing the use of our moving platform. Read our service agreement, user obligations, and legal terms." />
-        <meta name="keywords" content="terms of service, service agreement, user agreement, legal terms, MovedIn terms, moving platform terms" />
+        <title>Terms of Service | MovedIn - Moving Platform Terms & Conditions</title>
+        <meta name="description" content="MovedIn's Terms of Service outline the rules, rights, and responsibilities for using our moving platform. Read our comprehensive terms and conditions." />
+        <meta name="keywords" content="terms of service, terms and conditions, moving platform terms, MovedIn terms, legal agreement" />
         <link rel="canonical" href="https://movedin.com/terms-of-service" />
-        <meta property="og:title" content="Terms of Service | MovedIn - Service Agreement" />
-        <meta property="og:description" content="Terms of Service governing the use of MovedIn's moving platform and services." />
+        <meta property="og:title" content="Terms of Service | MovedIn - Platform Terms" />
+        <meta property="og:description" content="Comprehensive terms and conditions for using the MovedIn moving platform." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://movedin.com/terms-of-service" />
         <meta name="robots" content="index, follow" />
       </Helmet>
-    <Header />
-      <main className="page-container" aria-labelledby="terms-title">
-      <div className="page-content">
-        <article className="page-card">
-            <header>
-              <h1 id="terms-title">Terms of Service</h1>
-              <p className="page-subtitle">Last Updated: January 15, 2025 | Effective Date: January 15, 2025</p>
-            </header>
-            
-            <div className="about-section">
-              <h2>Agreement to Terms</h2>
-              <p>
-                These Terms of Service ("Terms") constitute a legally binding agreement between you ("User," "Customer," or "you") 
-                and MovedIn ("Company," "we," "us," or "our") regarding your use of our moving platform, website, and services 
-                (collectively, the "Service").
-              </p>
-              <p>
-                By accessing or using our Service, you agree to be bound by these Terms. If you disagree with any part of these 
-                Terms, you may not access or use our Service. These Terms apply to all users, visitors, and others who access or 
-                use the Service.
-              </p>
-              <p>
-                <strong>Important:</strong> Please read these Terms carefully before using our Service. These Terms contain important 
-                information about your rights and obligations, including limitations of liability and dispute resolution procedures.
-              </p>
+      <Header />
+      <main className="about-page" aria-labelledby="terms-title">
+        
+        {/* Hero Section */}
+        <section className="hero-section">
+          <div className="hero-content">
+            <h1 id="terms-title" className="hero-title">
+              Terms of Service
+            </h1>
+            <p className="hero-subtitle">
+              Last Updated: January 15, 2025 | Comprehensive Platform Terms & Conditions
+            </p>
+            <div className="hero-stats">
+              <div className="stat-item">
+                <span className="stat-number">100%</span>
+                <span className="stat-label">Transparent</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">24/7</span>
+                <span className="stat-label">Support</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">Legal</span>
+                <span className="stat-label">Compliant</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">Secure</span>
+                <span className="stat-label">Platform</span>
+              </div>
             </div>
-
-            <div className="about-section">
-              <h2>Service Description</h2>
-              <p>
-                MovedIn is a technology platform that connects customers with licensed, insured moving companies. Our Service 
-                includes but is not limited to:
-              </p>
-              <ul>
-                <li>Providing instant moving quotes from verified moving companies</li>
-                <li>Facilitating connections between customers and moving service providers</li>
-                <li>Processing payments and managing bookings</li>
-                <li>Providing customer support and dispute resolution</li>
-                <li>Offering moving tips, guides, and educational content</li>
-              </ul>
-              
-              <h3>What We Are Not</h3>
-              <p>
-                MovedIn is <strong>not a moving company</strong>. We do not provide moving services directly. We are a platform 
-                that facilitates connections between customers and moving service providers. All actual moving services are provided 
-                by independent, licensed moving companies.
-              </p>
+            <div className="hero-cta">
+              <button className="cta-button primary" onClick={() => navigate('/')}>
+                Get Your Free Quote Now
+              </button>
+              <p className="cta-subtitle">No hidden fees • Licensed movers • Instant quotes</p>
             </div>
+          </div>
+        </section>
 
-            <div className="about-section">
-              <h2>Eligibility & Account Requirements</h2>
-              
-              <h3>Age Requirements</h3>
-              <ul>
-                <li>You must be at least 18 years old to use our Service</li>
-                <li>If you are under 18, you may only use our Service with parental or guardian consent</li>
-                <li>By using our Service, you represent that you meet these age requirements</li>
-              </ul>
-
-              <h3>Account Registration</h3>
-              <ul>
-                <li>You may be required to create an account to access certain features</li>
-                <li>You are responsible for maintaining the confidentiality of your account credentials</li>
-                <li>You are responsible for all activities that occur under your account</li>
-                <li>You must notify us immediately of any unauthorized use of your account</li>
-              </ul>
-
-              <h3>Accuracy of Information</h3>
-              <ul>
-                <li>You must provide accurate, current, and complete information when using our Service</li>
-                <li>You must update your information promptly if it changes</li>
-                <li>Providing false or misleading information may result in account termination</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Acceptable Use & Prohibited Activities</h2>
-              
-              <h3>Acceptable Use</h3>
-              <p>You may use our Service only for lawful purposes and in accordance with these Terms:</p>
-              <ul>
-                <li>Obtaining moving quotes and booking moving services</li>
-                <li>Accessing educational content and moving resources</li>
-                <li>Communicating with our customer support team</li>
-                <li>Providing feedback and reviews about services received</li>
-              </ul>
-
-              <h3>Prohibited Activities</h3>
-              <p>You agree not to use our Service to:</p>
-              <ul>
-                <li>Violate any applicable laws, regulations, or legal obligations</li>
-                <li>Infringe upon the rights of others, including intellectual property rights</li>
-                <li>Transmit harmful, offensive, or inappropriate content</li>
-                <li>Attempt to gain unauthorized access to our systems or other users' accounts</li>
-                <li>Use automated systems to access our Service without permission</li>
-                <li>Interfere with or disrupt the Service or servers</li>
-                <li>Attempt to reverse engineer or compromise our platform security</li>
-                <li>Use our Service for fraudulent or deceptive purposes</li>
-                <li>Harass, abuse, or harm other users or our employees</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Service Availability & Modifications</h2>
-              
-              <h3>Service Availability</h3>
-              <ul>
-                <li>We strive to maintain 24/7 availability but cannot guarantee uninterrupted service</li>
-                <li>Service may be temporarily unavailable due to maintenance, updates, or technical issues</li>
-                <li>We are not liable for any damages resulting from service interruptions</li>
-                <li>We will provide reasonable notice for scheduled maintenance when possible</li>
-              </ul>
-
-              <h3>Service Modifications</h3>
-              <ul>
-                <li>We reserve the right to modify, suspend, or discontinue any part of our Service</li>
-                <li>We may add new features or remove existing features at our discretion</li>
-                <li>We will provide reasonable notice for significant changes when possible</li>
-                <li>Continued use of our Service after changes constitutes acceptance of modifications</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Payment Terms & Refund Policy</h2>
-              
-              <h3>Payment Processing</h3>
-              <ul>
-                <li>All payments are processed securely through Stripe, our payment processor</li>
-                <li>We charge a $1 CAD deposit to secure your booking</li>
-                <li>Full payment for moving services is made directly to the moving company</li>
-                <li>All prices are quoted in Canadian Dollars (CAD) unless otherwise specified</li>
-              </ul>
-
-              <h3>Refund Policy</h3>
-              <ul>
-                <li><strong>Platform Fee ($1 CAD):</strong> Non-refundable once service is confirmed</li>
-                <li><strong>Moving Services:</strong> Refund policies are determined by individual moving companies</li>
-                <li><strong>Cancellation:</strong> Cancellation policies vary by moving company and are disclosed during booking</li>
-                <li><strong>Disputes:</strong> We will assist in resolving payment disputes with moving companies</li>
-              </ul>
-
-              <h3>Price Changes</h3>
-              <ul>
-                <li>Moving company quotes are valid for the time period specified</li>
-                <li>Prices may change due to fuel costs, seasonal demand, or other factors</li>
-                <li>Final pricing is confirmed at the time of booking</li>
-                <li>We are not responsible for price changes by moving companies</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>User Obligations & Responsibilities</h2>
-              
-              <h3>Accurate Information</h3>
-              <ul>
-                <li>Provide accurate and complete information about your move requirements</li>
-                <li>Disclose any special circumstances or requirements that may affect pricing</li>
-                <li>Ensure all information provided is current and truthful</li>
-                <li>Notify us promptly of any changes to your move details</li>
-              </ul>
-
-              <h3>Compliance with Laws</h3>
-              <ul>
-                <li>Comply with all applicable laws and regulations</li>
-                <li>Ensure you have the legal right to move from and to the specified locations</li>
-                <li>Comply with any restrictions on moving certain items (e.g., hazardous materials)</li>
-                <li>Obtain necessary permits or permissions for your move</li>
-              </ul>
-
-              <h3>Cooperation with Service Providers</h3>
-              <ul>
-                <li>Provide reasonable access to your property for moving companies</li>
-                <li>Prepare your belongings according to moving company instructions</li>
-                <li>Be present or available during scheduled move times</li>
-                <li>Provide accurate contact information for coordination</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Limitation of Liability & Disclaimers</h2>
-              
-              <h3>Service Limitations</h3>
-              <p>
-                Our Service is provided "as is" and "as available" without warranties of any kind. We do not guarantee:
-              </p>
-              <ul>
-                <li>Uninterrupted or error-free service</li>
-                <li>Accuracy of quotes or pricing information</li>
-                <li>Availability of moving companies in all areas</li>
-                <li>Specific outcomes or results from using our Service</li>
-              </ul>
-
-              <h3>Liability Limitations</h3>
-              <ul>
-                <li>Our total liability to you shall not exceed the amount you paid for our Service</li>
-                <li>We are not liable for indirect, incidental, or consequential damages</li>
-                <li>We are not liable for damages caused by moving companies or third parties</li>
-                <li>We are not liable for damages resulting from force majeure events</li>
-              </ul>
-
-              <h3>Third-Party Services</h3>
-              <ul>
-                <li>We are not responsible for the quality of services provided by moving companies</li>
-                <li>We do not guarantee the reliability or safety of third-party service providers</li>
-                <li>Disputes with moving companies should be resolved directly with the service provider</li>
-                <li>We will assist in dispute resolution but are not liable for third-party actions</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Intellectual Property Rights</h2>
-              
-              <h3>Our Intellectual Property</h3>
-              <ul>
-                <li>All content, features, and functionality of our Service are owned by MovedIn</li>
-                <li>Our trademarks, logos, and brand elements are protected intellectual property</li>
-                <li>You may not use our intellectual property without written permission</li>
-                <li>Unauthorized use may result in legal action</li>
-              </ul>
-
-              <h3>User Content</h3>
-              <ul>
-                <li>You retain ownership of content you submit to our Service</li>
-                <li>By submitting content, you grant us a license to use it for service provision</li>
-                <li>You represent that you have the right to grant this license</li>
-                <li>We may remove content that violates these Terms or is inappropriate</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Privacy & Data Protection</h2>
-              <p>
-                Your privacy is important to us. Our collection, use, and protection of your personal information is governed 
-                by our <Link to="/privacy-policy">Privacy Policy</Link>, which is incorporated into these Terms by reference.
-              </p>
-              <p>
-                By using our Service, you consent to the collection and use of your information as described in our Privacy Policy.
-              </p>
-            </div>
-
-            <div className="about-section">
-              <h2>Termination & Account Suspension</h2>
-              
-              <h3>Termination by You</h3>
-              <ul>
-                <li>You may stop using our Service at any time</li>
-                <li>You may request account deletion by contacting our support team</li>
-                <li>Account deletion will remove your personal information from our systems</li>
-                <li>Some information may be retained for legal or regulatory compliance</li>
-              </ul>
-
-              <h3>Termination by Us</h3>
-              <ul>
-                <li>We may suspend or terminate your access to our Service for violations of these Terms</li>
-                <li>We may terminate accounts that are inactive for extended periods</li>
-                <li>We will provide reasonable notice before terminating accounts when possible</li>
-                <li>Termination does not affect your obligations under these Terms</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Dispute Resolution & Governing Law</h2>
-              
-              <h3>Governing Law</h3>
-              <p>
-                These Terms are governed by and construed in accordance with the laws of the Province of Ontario, Canada, 
-                without regard to conflict of law principles.
-              </p>
-
-              <h3>Dispute Resolution</h3>
-              <ul>
-                <li>We encourage resolving disputes through direct communication</li>
-                <li>If direct resolution fails, disputes may be resolved through mediation</li>
-                <li>Legal proceedings must be brought in courts of competent jurisdiction in Ontario</li>
-                <li>You agree to submit to the personal jurisdiction of such courts</li>
-            </ul>
-
-              <h3>Class Action Waiver</h3>
-              <p>
-                You agree to resolve disputes individually and waive any right to participate in class action lawsuits 
-                or class-wide arbitration.
-              </p>
-            </div>
-
-            <div className="about-section">
-            <h2>Changes to Terms</h2>
-              <p>
-                We may update these Terms from time to time. When we make changes:
-              </p>
-              <ul>
-                <li>We will post the updated Terms on our website</li>
-                <li>We will update the "Last Updated" date at the top of these Terms</li>
-                <li>We will notify you of significant changes via email or platform notice</li>
-                <li>Continued use of our Service after changes constitutes acceptance of new Terms</li>
-                <li>If you disagree with changes, you must stop using our Service</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Contact Information</h2>
-              <p>If you have questions about these Terms of Service, please contact us:</p>
-              <div className="contact-info">
-                <div className="contact-item">
-                  <strong>Legal Department:</strong> legal@movedin.ca
-                </div>
-                <div className="contact-item">
-                  <strong>General Inquiries:</strong> hello@movedin.ca
-                </div>
-                <div className="contact-item">
-                  <strong>Phone:</strong> 1-800-MOVEDIN (1-800-668-3346)
-                </div>
-                <div className="contact-item">
-                  <strong>Address:</strong> MovedIn Legal Department, Toronto, Ontario, Canada
+        {/* Story Section */}
+        <section className="story-section">
+          <div className="container">
+            <div className="story-content">
+              <div className="story-text">
+                <h2>Agreement to Terms</h2>
+                <p className="story-lead">Clear terms for a smooth moving experience</p>
+                <p>
+                  These Terms of Service ("Terms") govern your use of the MovedIn platform and services. By accessing or using our platform, 
+                  you agree to be bound by these Terms. If you disagree with any part of these terms, you may not access our services.
+                </p>
+                <p>
+                  MovedIn ("we," "our," or "us") provides a technology platform that connects customers with licensed moving companies. 
+                  We facilitate the booking process but are not a moving company ourselves.
+                </p>
+                <p>
+                  <strong>Effective Date:</strong> January 15, 2025<br />
+                  <strong>Last Review:</strong> January 15, 2025<br />
+                  <strong>Next Review:</strong> July 15, 2025
+                </p>
+              </div>
+              <div className="story-visual">
+                <div className="moving-illustration">
+                  <div className="truck-icon">📋</div>
+                  <div className="route-line"></div>
+                  <div className="house-icon">⚖️</div>
                 </div>
               </div>
             </div>
+          </div>
+        </section>
 
-            <div className="cta-section">
-              <h2>Questions About These Terms?</h2>
-              <p>We're here to help clarify any questions about our Terms of Service.</p>
-              <button className="cta-button" onClick={() => navigate('/')}>
-                Return to Home
-              </button>
-              <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: '#666' }}>
-                <Link to="/about-us">About Us</Link> | <Link to="/privacy-policy">Privacy Policy</Link> | <Link to="/cookie-policy">Cookie Policy</Link>
-              </p>
+        {/* Mission Section */}
+        <section className="mission-section">
+          <div className="container">
+            <h2>Platform Services & Description</h2>
+            <p className="section-lead">
+              Understanding what MovedIn provides and how our platform works
+            </p>
+            <div className="values-grid">
+              <div className="value-card">
+                <div className="value-icon">🔍</div>
+                <h3>Quote Generation</h3>
+                <p>Instant moving quotes based on your specific requirements and location.</p>
+              </div>
+              <div className="value-card">
+                <div className="value-icon">🤝</div>
+                <h3>Vendor Matching</h3>
+                <p>Connecting you with verified, licensed moving companies in your area.</p>
+              </div>
+              <div className="value-card">
+                <div className="value-icon">💳</div>
+                <h3>Payment Processing</h3>
+                <p>Secure payment processing for deposits and full payments via Stripe.</p>
+              </div>
             </div>
-        </article>
-      </div>
-    </main>
+          </div>
+        </section>
+
+        {/* Process Section */}
+        <section className="process-section">
+          <div className="container">
+            <h2>User Responsibilities & Conduct</h2>
+            <p className="section-lead">
+              Your role in ensuring a successful moving experience
+            </p>
+            <div className="process-steps">
+              <div className="step">
+                <div className="step-number">1</div>
+                <h3>Accurate Information</h3>
+                <p>Provide truthful and complete information about your move requirements.</p>
+              </div>
+              <div className="step">
+                <div className="step-number">2</div>
+                <h3>Timely Communication</h3>
+                <p>Respond promptly to mover inquiries and maintain open communication.</p>
+              </div>
+              <div className="step">
+                <div className="step-number">3</div>
+                <h3>Payment Obligations</h3>
+                <p>Pay agreed-upon amounts on time and in accordance with payment terms.</p>
+              </div>
+              <div className="step">
+                <div className="step-number">4</div>
+                <h3>Respectful Behavior</h3>
+                <p>Treat moving crews and platform staff with respect and professionalism.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Services Section */}
+        <section className="services-section">
+          <div className="container">
+            <h2>Payment Terms & Conditions</h2>
+            <p className="section-lead">
+              Clear understanding of payment obligations and refund policies
+            </p>
+            <div className="services-grid">
+              <div className="service-card">
+                <h3>Deposit Requirements</h3>
+                <ul>
+                  <li>Initial deposit required to secure your move date</li>
+                  <li>Deposit amounts vary based on move complexity</li>
+                  <li>Deposits are non-refundable after 24 hours</li>
+                  <li>Full payment due before or on move day</li>
+                </ul>
+              </div>
+              <div className="service-card">
+                <h3>Payment Methods</h3>
+                <ul>
+                  <li>Credit and debit cards accepted</li>
+                  <li>Secure payment processing via Stripe</li>
+                  <li>Electronic invoices and receipts provided</li>
+                  <li>Payment plans available for large moves</li>
+                </ul>
+              </div>
+              <div className="service-card">
+                <h3>Refund Policies</h3>
+                <ul>
+                  <li>24-hour grace period for deposit refunds</li>
+                  <li>Weather-related cancellations fully refundable</li>
+                  <li>Mover no-shows result in full refunds</li>
+                  <li>Service quality issues handled case-by-case</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Trust Section */}
+        <section className="trust-section">
+          <div className="container">
+            <h2>Limitation of Liability</h2>
+            <p className="section-lead">
+              Understanding our liability and your protection
+            </p>
+            <div className="trust-grid">
+              <div className="trust-item">
+                <h3>Platform Liability</h3>
+                <p>MovedIn is not liable for damages caused by moving companies or third-party services.</p>
+              </div>
+              <div className="trust-item">
+                <h3>Service Quality</h3>
+                <p>We facilitate connections but don't guarantee specific service outcomes or quality levels.</p>
+              </div>
+              <div className="trust-item">
+                <h3>Maximum Liability</h3>
+                <p>Our maximum liability is limited to the amount of fees paid for our platform services.</p>
+              </div>
+              <div className="trust-item">
+                <h3>Force Majeure</h3>
+                <p>We're not liable for delays or cancellations due to circumstances beyond our control.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Success Section */}
+        <section className="success-section">
+          <div className="container">
+            <h2>Dispute Resolution</h2>
+            <p className="section-lead">
+              Fair and efficient ways to resolve any issues or concerns
+            </p>
+            <div className="testimonials-grid">
+              <div className="testimonial-card">
+                <div className="testimonial-content">
+                  <p>Direct communication with our customer service team for most issues and concerns.</p>
+                </div>
+                <div className="testimonial-author">
+                  <strong>Customer Service</strong>
+                  <span>24/7 support available</span>
+                </div>
+              </div>
+              <div className="testimonial-card">
+                <div className="testimonial-content">
+                  <p>Mediation services available for complex disputes that can't be resolved directly.</p>
+                </div>
+                <div className="testimonial-author">
+                  <strong>Mediation</strong>
+                  <span>Third-party neutral mediator</span>
+                </div>
+              </div>
+              <div className="testimonial-card">
+                <div className="testimonial-content">
+                  <p>Legal action as a last resort, with proper jurisdiction and venue requirements.</p>
+                </div>
+                <div className="testimonial-author">
+                  <strong>Legal Action</strong>
+                  <span>Toronto, Ontario jurisdiction</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Final CTA Section */}
+        <section className="final-cta-section">
+          <div className="container">
+            <h2>Ready to Start Your Move?</h2>
+            <p>Understanding our terms helps ensure a smooth and successful moving experience.</p>
+            <div className="cta-buttons">
+              <button className="cta-button primary" onClick={() => navigate('/')}>
+                Get Your Free Quote
+              </button>
+              <button className="cta-button secondary" onClick={() => navigate('/about-us')}>
+                About Us
+              </button>
+            </div>
+            <div className="trust-badges">
+              <span className="badge">Transparent Terms</span>
+              <span className="badge">24/7 Support</span>
+              <span className="badge">Legal Compliant</span>
+              <span className="badge">Secure Platform</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Contact Section */}
+        <section className="contact-section">
+          <div className="container">
+            <h2>Questions About Our Terms?</h2>
+            <p className="section-lead">
+              Our legal team is here to clarify any terms or conditions
+            </p>
+            <div className="contact-grid">
+              <div className="contact-item">
+                <h3>Legal Department</h3>
+                <p>legal@movedin.ca</p>
+                <p>Terms and legal compliance questions</p>
+              </div>
+              <div className="contact-item">
+                <h3>Customer Support</h3>
+                <p>1-800-MOVEDIN (1-800-668-3346)</p>
+                <p>General questions and assistance</p>
+              </div>
+              <div className="contact-item">
+                <h3>Office Address</h3>
+                <p>MovedIn Legal Department</p>
+                <p>Toronto, Ontario, Canada</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
       <Footer onContinue={() => navigate('/')} showContinue={true} label="Get Quote" />
-  </>
-);
+    </>
+  );
 };
 
 export default TermsOfService; 

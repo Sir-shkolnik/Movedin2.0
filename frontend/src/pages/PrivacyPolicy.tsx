@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
-import './Page.css';
+// Using AboutUs styling for consistency
 
 const PrivacyPolicy: React.FC = () => {
   const navigate = useNavigate();
@@ -22,286 +22,291 @@ const PrivacyPolicy: React.FC = () => {
         <meta name="robots" content="index, follow" />
       </Helmet>
       <Header />
-      <main className="page-container" aria-labelledby="privacy-title">
-        <div className="page-content">
-          <article className="page-card">
-            <header>
-              <h1 id="privacy-title">Privacy Policy</h1>
-              <p className="page-subtitle">Last Updated: January 15, 2025 | PIPEDA Compliant | Canadian Privacy Law Compliant</p>
-            </header>
-            
-            <div className="about-section">
-              <h2>Introduction & Scope</h2>
-              <p>
-                MovedIn ("we," "our," or "us") is committed to protecting your privacy and ensuring the security of your personal information. 
-                This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our moving platform 
-                and services.
-              </p>
-              <p>
-                This policy is compliant with the <strong>Personal Information Protection and Electronic Documents Act (PIPEDA)</strong> and 
-                applicable Canadian privacy laws. By using our services, you consent to the collection and use of your information as 
-                described in this policy.
-              </p>
-              <p>
-                <strong>Effective Date:</strong> January 15, 2025<br />
-                <strong>Last Review:</strong> January 15, 2025<br />
-                <strong>Next Review:</strong> July 15, 2025
-              </p>
+      <main className="about-page" aria-labelledby="privacy-title">
+        
+        {/* Hero Section */}
+        <section className="hero-section">
+          <div className="hero-content">
+            <h1 id="privacy-title" className="hero-title">
+              Privacy Policy
+            </h1>
+            <p className="hero-subtitle">
+              Last Updated: January 15, 2025 | PIPEDA Compliant | Canadian Privacy Law Compliant
+            </p>
+            <div className="hero-stats">
+              <div className="stat-item">
+                <span className="stat-number">PIPEDA</span>
+                <span className="stat-label">Compliant</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">GDPR</span>
+                <span className="stat-label">Ready</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">100%</span>
+                <span className="stat-label">Secure</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">24/7</span>
+                <span className="stat-label">Support</span>
+              </div>
             </div>
-
-            <div className="about-section">
-              <h2>Information We Collect</h2>
-              
-              <h3>Personal Information You Provide</h3>
-              <ul>
-                <li><strong>Contact Information:</strong> Name, email address, phone number, and mailing address</li>
-                <li><strong>Move Details:</strong> Origin and destination addresses, move dates, property information</li>
-                <li><strong>Property Information:</strong> Number of rooms, square footage, property type, special requirements</li>
-                <li><strong>Payment Information:</strong> Payment method details, billing information (processed securely via Stripe)</li>
-                <li><strong>Communication Preferences:</strong> Marketing preferences, notification settings</li>
-              </ul>
-
-              <h3>Information We Collect Automatically</h3>
-              <ul>
-                <li><strong>Usage Data:</strong> Pages visited, time spent on site, features used</li>
-                <li><strong>Device Information:</strong> IP address, browser type, operating system, device identifiers</li>
-                <li><strong>Location Data:</strong> General location information for service area verification</li>
-                <li><strong>Cookies and Tracking:</strong> Session cookies, analytics cookies, preference cookies</li>
-              </ul>
-
-              <h3>Information from Third Parties</h3>
-              <ul>
-                <li><strong>Moving Companies:</strong> Service completion confirmations, feedback, ratings</li>
-                <li><strong>Payment Processors:</strong> Payment confirmation and transaction details</li>
-                <li><strong>Public Records:</strong> Business registration and licensing information for verification</li>
-              </ul>
+            <div className="hero-cta">
+              <button className="cta-button primary" onClick={() => navigate('/')}>
+                Get Your Free Quote Now
+              </button>
+              <p className="cta-subtitle">No hidden fees • Licensed movers • Instant quotes</p>
             </div>
+          </div>
+        </section>
 
-            <div className="about-section">
-              <h2>How We Use Your Information</h2>
-              <p>We use your personal information for the following purposes:</p>
-              
-              <h3>Primary Service Delivery</h3>
-              <ul>
-                <li>Providing moving quotes and connecting you with moving companies</li>
-                <li>Processing payments and managing your account</li>
-                <li>Coordinating with moving companies for service delivery</li>
-                <li>Providing customer support and resolving issues</li>
-              </ul>
-
-              <h3>Platform Improvement</h3>
-              <ul>
-                <li>Analyzing usage patterns to improve our services</li>
-                <li>Developing new features and functionality</li>
-                <li>Conducting research and analytics</li>
-                <li>Quality assurance and service monitoring</li>
-              </ul>
-
-              <h3>Communication & Marketing</h3>
-              <ul>
-                <li>Sending service updates and important notifications</li>
-                <li>Providing customer support and assistance</li>
-                <li>Sending marketing communications (with your consent)</li>
-                <li>Responding to inquiries and feedback</li>
-              </ul>
-
-              <h3>Legal & Compliance</h3>
-              <ul>
-                <li>Complying with applicable laws and regulations</li>
-                <li>Protecting our rights and preventing fraud</li>
-                <li>Responding to legal requests and investigations</li>
-                <li>Maintaining security and preventing abuse</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Information Sharing & Disclosure</h2>
-              <p>We may share your information in the following circumstances:</p>
-              
-              <h3>Service Providers & Partners</h3>
-              <ul>
-                <li><strong>Moving Companies:</strong> Essential move details to facilitate your service</li>
-                <li><strong>Payment Processors:</strong> Payment information for transaction processing</li>
-                <li><strong>Technology Partners:</strong> Analytics and platform improvement services</li>
-                <li><strong>Customer Support:</strong> Third-party support services (with confidentiality agreements)</li>
-              </ul>
-
-              <h3>Legal Requirements</h3>
-              <ul>
-                <li>Compliance with Canadian laws and regulations</li>
-                <li>Response to valid legal requests and court orders</li>
-                <li>Protection of rights, property, and safety</li>
-                <li>Investigation of potential violations or fraud</li>
-              </ul>
-
-              <h3>Business Transfers</h3>
-              <ul>
-                <li>In connection with a merger, acquisition, or sale of assets</li>
-                <li>During bankruptcy proceedings or business restructuring</li>
-                <li>With your explicit consent for specific purposes</li>
-              </ul>
-
-              <p><strong>We do not sell, rent, or trade your personal information to third parties for marketing purposes.</strong></p>
-            </div>
-
-            <div className="about-section">
-              <h2>Data Security & Protection</h2>
-              <p>We implement comprehensive security measures to protect your personal information:</p>
-              
-              <h3>Technical Security Measures</h3>
-              <ul>
-                <li><strong>Encryption:</strong> All data transmitted and stored using industry-standard encryption (AES-256)</li>
-                <li><strong>Secure Connections:</strong> HTTPS/TLS encryption for all web communications</li>
-                <li><strong>Access Controls:</strong> Multi-factor authentication and role-based access management</li>
-                <li><strong>Regular Security Audits:</strong> Third-party security assessments and penetration testing</li>
-              </ul>
-
-              <h3>Operational Security</h3>
-              <ul>
-                <li><strong>Employee Training:</strong> Regular privacy and security training for all staff</li>
-                <li><strong>Data Access Logs:</strong> Comprehensive logging of all data access and modifications</li>
-                <li><strong>Incident Response:</strong> Established procedures for security incident handling</li>
-                <li><strong>Physical Security:</strong> Secure data centers with environmental controls</li>
-              </ul>
-
-              <h3>Data Retention & Disposal</h3>
-              <ul>
-                <li><strong>Retention Periods:</strong> Data retained only as long as necessary for business purposes</li>
-                <li><strong>Secure Disposal:</strong> Proper deletion and destruction of data when no longer needed</li>
-                <li><strong>Backup Security:</strong> Encrypted backups with limited access</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Your Privacy Rights (PIPEDA Compliance)</h2>
-              <p>Under Canadian privacy law (PIPEDA), you have the following rights:</p>
-              
-              <h3>Access & Correction Rights</h3>
-              <ul>
-                <li><strong>Access Your Data:</strong> Request a copy of your personal information</li>
-                <li><strong>Data Correction:</strong> Request correction of inaccurate or incomplete information</li>
-                <li><strong>Data Portability:</strong> Request your data in a portable, machine-readable format</li>
-                <li><strong>Verification:</strong> Confirm what information we have about you</li>
-              </ul>
-
-              <h3>Control & Consent Rights</h3>
-              <ul>
-                <li><strong>Withdraw Consent:</strong> Opt out of marketing communications and data processing</li>
-                <li><strong>Data Deletion:</strong> Request deletion of your personal information</li>
-                <li><strong>Processing Restrictions:</strong> Limit how we use your information</li>
-                <li><strong>Object to Processing:</strong> Object to certain types of data processing</li>
-              </ul>
-
-              <h3>How to Exercise Your Rights</h3>
-              <p>To exercise any of these rights, contact us:</p>
-              <ul>
-                <li><strong>Email:</strong> privacy@movedin.ca</li>
-                <li><strong>Phone:</strong> 1-800-MOVEDIN (1-800-668-3346)</li>
-                <li><strong>Online Form:</strong> <a href="/privacy-request">Privacy Request Form</a></li>
-                <li><strong>Response Time:</strong> We will respond within 30 days of receiving your request</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Cookies & Tracking Technologies</h2>
-              <p>We use cookies and similar technologies to enhance your experience:</p>
-              
-              <h3>Types of Cookies We Use</h3>
-              <ul>
-                <li><strong>Essential Cookies:</strong> Required for basic platform functionality</li>
-                <li><strong>Performance Cookies:</strong> Analytics and performance monitoring</li>
-                <li><strong>Functional Cookies:</strong> Remember your preferences and settings</li>
-                <li><strong>Marketing Cookies:</strong> Personalized content and advertising (with consent)</li>
-              </ul>
-
-              <h3>Cookie Management</h3>
-              <ul>
-                <li><strong>Browser Settings:</strong> Control cookies through your browser preferences</li>
-                <li><strong>Opt-Out Tools:</strong> Use our cookie preference center</li>
-                <li><strong>Third-Party Opt-Outs:</strong> Opt out of third-party tracking services</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>International Data Transfers</h2>
-              <p>Your information may be processed in countries other than Canada:</p>
-              
-              <h3>Data Processing Locations</h3>
-              <ul>
-                <li><strong>Primary Location:</strong> Canada (Toronto, Ontario)</li>
-                <li><strong>Cloud Services:</strong> United States (with adequate protection measures)</li>
-                <li><strong>Support Services:</strong> Various locations with data protection agreements</li>
-              </ul>
-
-              <h3>Protection Measures</h3>
-              <ul>
-                <li><strong>Data Protection Agreements:</strong> Standard contractual clauses with all processors</li>
-                <li><strong>Adequacy Decisions:</strong> Processing only in countries with adequate protection</li>
-                <li><strong>Security Standards:</strong> Consistent security measures across all locations</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Children's Privacy</h2>
-              <p>Our services are not intended for children under 13 years of age:</p>
-              <ul>
-                <li>We do not knowingly collect personal information from children under 13</li>
-                <li>If we become aware of such information, we will delete it immediately</li>
-                <li>Parents or guardians should contact us if they believe we have collected such information</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Changes to This Privacy Policy</h2>
-              <p>We may update this Privacy Policy from time to time:</p>
-              <ul>
-                <li><strong>Notification:</strong> We will notify you of significant changes via email or platform notice</li>
-                <li><strong>Review Period:</strong> Changes will be effective 30 days after notification</li>
-                <li><strong>Continued Use:</strong> Continued use of our services constitutes acceptance of changes</li>
-                <li><strong>Version History:</strong> Previous versions available upon request</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Contact Information & Complaints</h2>
-              <p>For privacy-related questions, concerns, or complaints:</p>
-              
-              <h3>Primary Contact</h3>
-              <div className="contact-info">
-                <div className="contact-item">
-                  <strong>Privacy Officer:</strong> privacy@movedin.ca
-                </div>
-                <div className="contact-item">
-                  <strong>General Inquiries:</strong> hello@movedin.ca
-                </div>
-                <div className="contact-item">
-                  <strong>Phone:</strong> 1-800-MOVEDIN (1-800-668-3346)
-                </div>
-                <div className="contact-item">
-                  <strong>Address:</strong> MovedIn Privacy Office, Toronto, Ontario, Canada
+        {/* Story Section */}
+        <section className="story-section">
+          <div className="container">
+            <div className="story-content">
+              <div className="story-text">
+                <h2>Introduction & Scope</h2>
+                <p className="story-lead">Your privacy is our priority</p>
+                <p>
+                  MovedIn ("we," "our," or "us") is committed to protecting your privacy and ensuring the security of your personal information. 
+                  This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our moving platform 
+                  and services.
+                </p>
+                <p>
+                  This policy is compliant with the <strong>Personal Information Protection and Electronic Documents Act (PIPEDA)</strong> and 
+                  applicable Canadian privacy laws. By using our services, you consent to the collection and use of your information as 
+                  described in this policy.
+                </p>
+                <p>
+                  <strong>Effective Date:</strong> January 15, 2025<br />
+                  <strong>Last Review:</strong> January 15, 2025<br />
+                  <strong>Next Review:</strong> July 15, 2025
+                </p>
+              </div>
+              <div className="story-visual">
+                <div className="moving-illustration">
+                  <div className="truck-icon">🔒</div>
+                  <div className="route-line"></div>
+                  <div className="house-icon">🏠</div>
                 </div>
               </div>
-
-              <h3>Regulatory Complaints</h3>
-              <p>If you have concerns about our privacy practices, you may also contact:</p>
-              <ul>
-                <li><strong>Office of the Privacy Commissioner of Canada:</strong> <a href="https://www.priv.gc.ca" target="_blank" rel="noopener noreferrer">www.priv.gc.ca</a></li>
-                <li><strong>Provincial Privacy Commissioners:</strong> For province-specific privacy laws</li>
-              </ul>
             </div>
+          </div>
+        </section>
 
-            <div className="cta-section">
-              <h2>Questions About Your Privacy?</h2>
-              <p>We're committed to transparency and protecting your privacy rights. Contact us with any questions or concerns.</p>
-              <button className="cta-button" onClick={() => navigate('/')}>
-                Return to Home
+        {/* Mission Section */}
+        <section className="mission-section">
+          <div className="container">
+            <h2>Information We Collect</h2>
+            <p className="section-lead">
+              We collect only the information necessary to provide you with exceptional moving services
+            </p>
+            <div className="values-grid">
+              <div className="value-card">
+                <div className="value-icon">👤</div>
+                <h3>Personal Information</h3>
+                <p>Contact details, move information, property details, and payment information processed securely via Stripe.</p>
+              </div>
+              <div className="value-card">
+                <div className="value-icon">📊</div>
+                <h3>Usage Data</h3>
+                <p>Pages visited, time spent on site, features used, and device information for service improvement.</p>
+              </div>
+              <div className="value-card">
+                <div className="value-icon">🤝</div>
+                <h3>Third-Party Data</h3>
+                <p>Service confirmations, feedback, ratings, and verification information from trusted partners.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Process Section */}
+        <section className="process-section">
+          <div className="container">
+            <h2>How We Use Your Information</h2>
+            <p className="section-lead">
+              Your data is used exclusively to provide and improve our moving services
+            </p>
+            <div className="process-steps">
+              <div className="step">
+                <div className="step-number">1</div>
+                <h3>Service Delivery</h3>
+                <p>Providing moving quotes, processing payments, coordinating with movers, and customer support.</p>
+              </div>
+              <div className="step">
+                <div className="step-number">2</div>
+                <h3>Platform Improvement</h3>
+                <p>Analyzing usage patterns, developing new features, and conducting quality assurance.</p>
+              </div>
+              <div className="step">
+                <div className="step-number">3</div>
+                <h3>Communication</h3>
+                <p>Service updates, notifications, customer support, and marketing (with consent).</p>
+              </div>
+              <div className="step">
+                <div className="step-number">4</div>
+                <h3>Legal Compliance</h3>
+                <p>Complying with laws, protecting rights, preventing fraud, and maintaining security.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Services Section */}
+        <section className="services-section">
+          <div className="container">
+            <h2>Data Security & Protection</h2>
+            <p className="section-lead">
+              Enterprise-grade security measures to protect your information
+            </p>
+            <div className="services-grid">
+              <div className="service-card">
+                <h3>Encryption & Security</h3>
+                <ul>
+                  <li>End-to-end encryption for all data transmission</li>
+                  <li>Secure data centers with 24/7 monitoring</li>
+                  <li>Regular security audits and penetration testing</li>
+                  <li>Multi-factor authentication for account access</li>
+                </ul>
+              </div>
+              <div className="service-card">
+                <h3>Access Control</h3>
+                <ul>
+                  <li>Role-based access controls for all employees</li>
+                  <li>Regular access reviews and permission audits</li>
+                  <li>Secure disposal of data when no longer needed</li>
+                  <li>Encrypted backups with limited access</li>
+                </ul>
+              </div>
+              <div className="service-card">
+                <h3>Compliance & Monitoring</h3>
+                <ul>
+                  <li>Continuous security monitoring and threat detection</li>
+                  <li>Regular compliance assessments and updates</li>
+                  <li>Incident response procedures and protocols</li>
+                  <li>Employee security training and awareness</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Trust Section */}
+        <section className="trust-section">
+          <div className="container">
+            <h2>Your Privacy Rights (PIPEDA Compliance)</h2>
+            <p className="section-lead">
+              Under Canadian privacy law, you have comprehensive rights over your data
+            </p>
+            <div className="trust-grid">
+              <div className="trust-item">
+                <h3>Access & Correction</h3>
+                <p>Request a copy of your data, correct inaccuracies, and verify what information we have about you.</p>
+              </div>
+              <div className="trust-item">
+                <h3>Control & Consent</h3>
+                <p>Withdraw consent, request data deletion, and limit how we use your information.</p>
+              </div>
+              <div className="trust-item">
+                <h3>Data Portability</h3>
+                <p>Request your data in a portable, machine-readable format for easy transfer.</p>
+              </div>
+              <div className="trust-item">
+                <h3>Complaint Rights</h3>
+                <p>File complaints with us or directly with the Privacy Commissioner of Canada.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Success Section */}
+        <section className="success-section">
+          <div className="container">
+            <h2>Contact Information & Complaints</h2>
+            <p className="section-lead">
+              We're here to help with all your privacy questions and concerns
+            </p>
+            <div className="testimonials-grid">
+              <div className="testimonial-card">
+                <div className="testimonial-content">
+                  <p>For privacy-related questions, concerns, or complaints, contact our dedicated privacy team.</p>
+                </div>
+                <div className="testimonial-author">
+                  <strong>Privacy Officer</strong>
+                  <span>privacy@movedin.ca</span>
+                </div>
+              </div>
+              <div className="testimonial-card">
+                <div className="testimonial-content">
+                  <p>General inquiries and support available 24/7 through our customer service team.</p>
+                </div>
+                <div className="testimonial-author">
+                  <strong>Customer Support</strong>
+                  <span>1-800-MOVEDIN (1-800-668-3346)</span>
+                </div>
+              </div>
+              <div className="testimonial-card">
+                <div className="testimonial-content">
+                  <p>Regulatory complaints can be filed directly with the Privacy Commissioner of Canada.</p>
+                </div>
+                <div className="testimonial-author">
+                  <strong>Regulatory Contact</strong>
+                  <span>www.priv.gc.ca</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Final CTA Section */}
+        <section className="final-cta-section">
+          <div className="container">
+            <h2>Questions About Your Privacy?</h2>
+            <p>We're committed to transparency and protecting your privacy rights. Contact us with any questions or concerns.</p>
+            <div className="cta-buttons">
+              <button className="cta-button primary" onClick={() => navigate('/')}>
+                Get Your Free Quote
               </button>
-              <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: '#666' }}>
-                <Link to="/about-us">About Us</Link> | <Link to="/terms-of-service">Terms of Service</Link> | <Link to="/cookie-policy">Cookie Policy</Link>
-              </p>
+              <button className="cta-button secondary" onClick={() => navigate('/about-us')}>
+                About Us
+              </button>
             </div>
-          </article>
-        </div>
+            <div className="trust-badges">
+              <span className="badge">PIPEDA Compliant</span>
+              <span className="badge">Canadian Privacy Law</span>
+              <span className="badge">GDPR Ready</span>
+              <span className="badge">100% Secure</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Contact Section */}
+        <section className="contact-section">
+          <div className="container">
+            <h2>Need Help?</h2>
+            <p className="section-lead">
+              Our privacy team is here to assist you with any questions or concerns
+            </p>
+            <div className="contact-grid">
+              <div className="contact-item">
+                <h3>Privacy Officer</h3>
+                <p>privacy@movedin.ca</p>
+                <p>Dedicated privacy support and compliance</p>
+              </div>
+              <div className="contact-item">
+                <h3>Customer Support</h3>
+                <p>1-800-MOVEDIN (1-800-668-3346)</p>
+                <p>24/7 assistance and general inquiries</p>
+              </div>
+              <div className="contact-item">
+                <h3>Office Address</h3>
+                <p>MovedIn Privacy Office</p>
+                <p>Toronto, Ontario, Canada</p>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
       <Footer onContinue={() => navigate('/')} showContinue={true} label="Get Quote" />
     </>

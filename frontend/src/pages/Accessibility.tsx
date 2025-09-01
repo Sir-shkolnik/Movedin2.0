@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
-import './Page.css';
+// Using AboutUs styling for consistency
 
 const Accessibility: React.FC = () => {
   const navigate = useNavigate();
@@ -21,332 +21,295 @@ const Accessibility: React.FC = () => {
         <meta property="og:url" content="https://movedin.com/accessibility" />
         <meta name="robots" content="index, follow" />
       </Helmet>
-    <Header />
-      <main className="page-container" aria-labelledby="accessibility-title">
-      <div className="page-content">
-        <article className="page-card">
-            <header>
-              <h1 id="accessibility-title">Accessibility Statement</h1>
-              <p className="page-subtitle">Last Updated: January 15, 2025 | AODA Compliant | WCAG 2.1 AA Standards</p>
-            </header>
-            
-            <div className="about-section">
-              <h2>Our Commitment to Accessibility</h2>
-              <p>
-                MovedIn is committed to ensuring digital accessibility for people with disabilities. We are continually improving 
-                the user experience for everyone and applying the relevant accessibility standards to ensure our platform is 
-                accessible to all users, regardless of their abilities or disabilities.
-              </p>
-              <p>
-                This accessibility statement outlines our commitment to accessibility, the standards we follow, the features 
-                we provide, and how you can contact us if you encounter accessibility barriers or need accommodations.
-              </p>
-              <p>
-                <strong>Effective Date:</strong> January 15, 2025<br />
-                <strong>Last Review:</strong> January 15, 2025<br />
-                <strong>Next Review:</strong> July 15, 2025
-              </p>
+      <Header />
+      <main className="about-page" aria-labelledby="accessibility-title">
+        
+        {/* Hero Section */}
+        <section className="hero-section">
+          <div className="hero-content">
+            <h1 id="accessibility-title" className="hero-title">
+              Accessibility Statement
+            </h1>
+            <p className="hero-subtitle">
+              Last Updated: January 15, 2025 | AODA Compliant | WCAG 2.1 AA Standards
+            </p>
+            <div className="hero-stats">
+              <div className="stat-item">
+                <span className="stat-number">WCAG</span>
+                <span className="stat-label">2.1 AA</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">AODA</span>
+                <span className="stat-label">Compliant</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">100%</span>
+                <span className="stat-label">Inclusive</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">24/7</span>
+                <span className="stat-label">Support</span>
+              </div>
             </div>
-
-            <div className="about-section">
-              <h2>Accessibility Standards & Compliance</h2>
-              
-              <h3>Primary Standards</h3>
-              <ul>
-                <li><strong>WCAG 2.1 AA:</strong> Web Content Accessibility Guidelines 2.1 Level AA compliance</li>
-                <li><strong>AODA:</strong> Accessibility for Ontarians with Disabilities Act compliance</li>
-                <li><strong>Canadian Standards:</strong> Compliance with Canadian accessibility requirements</li>
-                <li><strong>International Standards:</strong> Following global accessibility best practices</li>
-              </ul>
-
-              <h3>Compliance Levels</h3>
-              <ul>
-                <li><strong>Level A:</strong> Basic accessibility requirements (fully compliant)</li>
-                <li><strong>Level AA:</strong> Enhanced accessibility features (fully compliant)</li>
-                <li><strong>Level AAA:</strong> Advanced accessibility features (partially compliant)</li>
-                <li><strong>Ongoing Improvement:</strong> Continuous enhancement of accessibility features</li>
-              </ul>
+            <div className="hero-cta">
+              <button className="cta-button primary" onClick={() => navigate('/')}>
+                Get Your Free Quote Now
+              </button>
+              <p className="cta-subtitle">No hidden fees • Licensed movers • Instant quotes</p>
             </div>
+          </div>
+        </section>
 
-            <div className="about-section">
-              <h2>Accessibility Features & Capabilities</h2>
-              
-              <h3>Keyboard Navigation</h3>
-              <ul>
-                <li><strong>Full Keyboard Access:</strong> All functionality accessible via keyboard</li>
-                <li><strong>Logical Tab Order:</strong> Intuitive navigation flow</li>
-                <li><strong>Keyboard Shortcuts:</strong> Efficient navigation options</li>
-                <li><strong>Focus Indicators:</strong> Clear visual focus indicators</li>
-              </ul>
-
-              <h3>Screen Reader Support</h3>
-              <ul>
-                <li><strong>Semantic HTML:</strong> Proper heading structure and landmarks</li>
-                <li><strong>Alt Text:</strong> Descriptive alternative text for images</li>
-                <li><strong>ARIA Labels:</strong> Enhanced screen reader descriptions</li>
-                <li><strong>Form Labels:</strong> Clear form field identification</li>
-              </ul>
-
-              <h3>Visual Accessibility</h3>
-              <ul>
-                <li><strong>Color Contrast:</strong> WCAG AA compliant color ratios</li>
-                <li><strong>Text Scaling:</strong> Support for browser text scaling up to 200%</li>
-                <li><strong>Font Options:</strong> Readable, sans-serif fonts</li>
-                <li><strong>Visual Indicators:</strong> Multiple ways to convey information</li>
-              </ul>
-
-              <h3>Content Accessibility</h3>
-              <ul>
-                <li><strong>Clear Language:</strong> Simple, understandable content</li>
-                <li><strong>Logical Structure:</strong> Well-organized information hierarchy</li>
-                <li><strong>Multiple Formats:</strong> Information available in various formats</li>
-                <li><strong>Error Prevention:</strong> Clear error messages and validation</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Specific Accessibility Features</h2>
-              
-              <h3>Navigation & Structure</h3>
-              <ul>
-                <li><strong>Skip Links:</strong> Skip to main content and navigation</li>
-                <li><strong>Breadcrumbs:</strong> Clear navigation path indicators</li>
-                <li><strong>Search Functionality:</strong> Accessible search with clear results</li>
-                <li><strong>Site Map:</strong> Comprehensive site structure overview</li>
-              </ul>
-
-              <h3>Forms & Interactive Elements</h3>
-              <ul>
-                <li><strong>Form Validation:</strong> Clear error messages and success indicators</li>
-                <li><strong>Required Fields:</strong> Clearly marked required form fields</li>
-                <li><strong>Error Handling:</strong> Helpful error messages and suggestions</li>
-                <li><strong>Auto-complete:</strong> Smart form completion assistance</li>
-              </ul>
-
-              <h3>Multimedia & Media</h3>
-              <ul>
-                <li><strong>Image Descriptions:</strong> Comprehensive alt text for all images</li>
-                <li><strong>Video Captions:</strong> Closed captions for video content</li>
-                <li><strong>Audio Descriptions:</strong> Audio descriptions for visual content</li>
-                <li><strong>Transcripts:</strong> Text transcripts for audio content</li>
-              </ul>
-
-              <h3>Mobile Accessibility</h3>
-              <ul>
-                <li><strong>Responsive Design:</strong> Accessible on all device sizes</li>
-                <li><strong>Touch Targets:</strong> Adequate size for touch interaction</li>
-                <li><strong>Gesture Support:</strong> Alternative to complex gestures</li>
-                <li><strong>Orientation Support:</strong> Works in all device orientations</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Browser & Technology Support</h2>
-              
-              <h3>Supported Browsers</h3>
-              <ul>
-                <li><strong>Chrome:</strong> Latest versions with accessibility features</li>
-                <li><strong>Firefox:</strong> Full accessibility support and customization</li>
-                <li><strong>Safari:</strong> Native accessibility features support</li>
-                <li><strong>Edge:</strong> Modern accessibility standards compliance</li>
-              </ul>
-
-              <h3>Assistive Technologies</h3>
-              <ul>
-                <li><strong>Screen Readers:</strong> JAWS, NVDA, VoiceOver, TalkBack</li>
-                <li><strong>Magnification Software:</strong> ZoomText, Windows Magnifier</li>
-                <li><strong>Voice Recognition:</strong> Dragon NaturallySpeaking, built-in OS tools</li>
-                <li><strong>Switch Devices:</strong> Support for alternative input methods</li>
-              </ul>
-
-              <h3>Mobile Accessibility</h3>
-              <ul>
-                <li><strong>iOS Accessibility:</strong> VoiceOver, Zoom, Dynamic Type</li>
-                <li><strong>Android Accessibility:</strong> TalkBack, Magnification, Switch Access</li>
-                <li><strong>Responsive Design:</strong> Adapts to accessibility settings</li>
-                <li><strong>Touch Accommodations:</strong> Support for touch accessibility features</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Accessibility Testing & Evaluation</h2>
-              
-              <h3>Testing Methods</h3>
-              <ul>
-                <li><strong>Automated Testing:</strong> Regular automated accessibility scans</li>
-                <li><strong>Manual Testing:</strong> Human evaluation of accessibility features</li>
-                <li><strong>User Testing:</strong> Testing with users with disabilities</li>
-                <li><strong>Expert Review:</strong> Accessibility expert consultation</li>
-              </ul>
-
-              <h3>Testing Tools</h3>
-              <ul>
-                <li><strong>WAVE:</strong> Web Accessibility Evaluation Tool</li>
-                <li><strong>axe DevTools:</strong> Automated accessibility testing</li>
-                <li><strong>Lighthouse:</strong> Google's accessibility auditing tool</li>
-                <li><strong>Screen Readers:</strong> Testing with actual assistive technology</li>
-              </ul>
-
-              <h3>Continuous Monitoring</h3>
-              <ul>
-                <li><strong>Regular Audits:</strong> Quarterly accessibility assessments</li>
-                <li><strong>User Feedback:</strong> Monitoring accessibility-related feedback</li>
-                <li><strong>Compliance Updates:</strong> Staying current with accessibility standards</li>
-                <li><strong>Performance Metrics:</strong> Tracking accessibility improvements</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Known Limitations & Areas for Improvement</h2>
-              
-              <h3>Current Limitations</h3>
-              <p>While we strive for full accessibility, we acknowledge some areas for improvement:</p>
-              <ul>
-                <li><strong>Complex Forms:</strong> Some advanced form interactions may be challenging</li>
-                <li><strong>Third-Party Content:</strong> External content may not meet our standards</li>
-                <li><strong>Legacy Content:</strong> Some older content may need updates</li>
-                <li><strong>Advanced Features:</strong> Some cutting-edge features need accessibility refinement</li>
-              </ul>
-
-              <h3>Improvement Plans</h3>
-              <ul>
-                <li><strong>Regular Updates:</strong> Continuous accessibility enhancements</li>
-                <li><strong>User Feedback Integration:</strong> Incorporating accessibility suggestions</li>
-                <li><strong>Technology Advancement:</strong> Adopting new accessibility technologies</li>
-                <li><strong>Training & Awareness:</strong> Ongoing staff accessibility education</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Requesting Accommodations & Support</h2>
-              
-              <h3>How to Request Accommodations</h3>
-              <p>If you need accessibility accommodations or encounter barriers:</p>
-              <ul>
-                <li><strong>Email:</strong> accessibility@movedin.ca</li>
-                <li><strong>Phone:</strong> 1-800-MOVEDIN (1-800-668-3346)</li>
-                <li><strong>Online Form:</strong> <a href="/accessibility-request">Accessibility Request Form</a></li>
-                <li><strong>Response Time:</strong> We will respond within 48 hours</li>
-              </ul>
-
-              <h3>Types of Accommodations</h3>
-              <ul>
-                <li><strong>Content Format:</strong> Alternative formats for information</li>
-                <li><strong>Communication Methods:</strong> Alternative communication channels</li>
-                <li><strong>Service Modifications:</strong> Customized service delivery</li>
-                <li><strong>Technical Support:</strong> Accessibility troubleshooting assistance</li>
-              </ul>
-
-              <h3>Feedback & Suggestions</h3>
-              <ul>
-                <li><strong>Accessibility Issues:</strong> Report barriers you encounter</li>
-                <li><strong>Improvement Ideas:</strong> Suggest accessibility enhancements</li>
-                <li><strong>Feature Requests:</strong> Request new accessibility features</li>
-                <li><strong>General Feedback:</strong> Share your accessibility experience</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Training & Staff Awareness</h2>
-              
-              <h3>Staff Training</h3>
-              <ul>
-                <li><strong>Accessibility Fundamentals:</strong> Basic accessibility principles</li>
-                <li><strong>WCAG Guidelines:</strong> Understanding accessibility standards</li>
-                <li><strong>Assistive Technology:</strong> Working with accessibility tools</li>
-                <li><strong>Customer Service:</strong> Serving customers with disabilities</li>
-              </ul>
-
-              <h3>Ongoing Education</h3>
-              <ul>
-                <li><strong>Regular Updates:</strong> Staying current with accessibility standards</li>
-                <li><strong>Best Practices:</strong> Learning from accessibility experts</li>
-                <li><strong>User Experience:</strong> Understanding accessibility from user perspective</li>
-                <li><strong>Technology Changes:</strong> Adapting to new accessibility technologies</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Compliance & Legal Framework</h2>
-              
-              <h3>Canadian Accessibility Laws</h3>
-              <ul>
-                <li><strong>AODA:</strong> Accessibility for Ontarians with Disabilities Act</li>
-                <li><strong>Provincial Standards:</strong> Compliance with provincial accessibility requirements</li>
-                <li><strong>Federal Guidelines:</strong> Following federal accessibility recommendations</li>
-                <li><strong>Industry Standards:</strong> Meeting industry accessibility best practices</li>
-              </ul>
-
-              <h3>International Standards</h3>
-              <ul>
-                <li><strong>WCAG 2.1:</strong> Web Content Accessibility Guidelines</li>
-                <li><strong>ISO Standards:</strong> International accessibility standards</li>
-                <li><strong>UN Convention:</strong> Rights of Persons with Disabilities</li>
-                <li><strong>Global Best Practices:</strong> International accessibility frameworks</li>
-              </ul>
-            </div>
-
-            <div className="about-section">
-              <h2>Contact Information & Support</h2>
-              <p>For accessibility-related questions, concerns, or support:</p>
-              
-              <h3>Primary Accessibility Contact</h3>
-              <div className="contact-info">
-                <div className="contact-item">
-                  <strong>Accessibility Officer:</strong> accessibility@movedin.ca
-                </div>
-                <div className="contact-item">
-                  <strong>General Inquiries:</strong> hello@movedin.ca
-                </div>
-                <div className="contact-item">
-                  <strong>Phone:</strong> 1-800-MOVEDIN (1-800-668-3346)
-                </div>
-                <div className="contact-item">
-                  <strong>TTY/TDD:</strong> Available upon request
-                </div>
-                <div className="contact-item">
-                  <strong>Address:</strong> MovedIn Accessibility Office, Toronto, Ontario, Canada
+        {/* Story Section */}
+        <section className="story-section">
+          <div className="container">
+            <div className="story-content">
+              <div className="story-text">
+                <h2>Our Commitment to Accessibility</h2>
+                <p className="story-lead">Making our platform accessible to everyone</p>
+                <p>
+                  MovedIn is committed to ensuring digital accessibility for people with disabilities. We are continually improving 
+                  the user experience for everyone and applying the relevant accessibility standards to ensure our platform is 
+                  accessible to all users, regardless of their abilities or disabilities.
+                </p>
+                <p>
+                  This accessibility statement outlines our commitment to accessibility, the standards we follow, the features 
+                  we provide, and how you can contact us if you encounter accessibility barriers or need accommodations.
+                </p>
+                <p>
+                  <strong>Effective Date:</strong> January 15, 2025<br />
+                  <strong>Last Review:</strong> January 15, 2025<br />
+                  <strong>Next Review:</strong> July 15, 2025
+                </p>
+              </div>
+              <div className="story-visual">
+                <div className="moving-illustration">
+                  <div className="truck-icon">♿</div>
+                  <div className="route-line"></div>
+                  <div className="house-icon">🌐</div>
                 </div>
               </div>
-
-              <h3>Response Times</h3>
-              <ul>
-                <li><strong>General Inquiries:</strong> Within 24 hours</li>
-                <li><strong>Accessibility Issues:</strong> Within 48 hours</li>
-                <li><strong>Accommodation Requests:</strong> Within 72 hours</li>
-                <li><strong>Complex Requests:</strong> Within 1 week with progress updates</li>
-              </ul>
             </div>
+          </div>
+        </section>
 
-            <div className="about-section">
-              <h2>Updates to This Statement</h2>
-              <p>
-                We may update this Accessibility Statement to reflect improvements, changes in standards, or feedback from users:
-              </p>
-              <ul>
-                <li><strong>Regular Reviews:</strong> Bi-annual accessibility statement reviews</li>
-                <li><strong>User Feedback:</strong> Incorporating accessibility suggestions</li>
-                <li><strong>Standard Updates:</strong> Reflecting new accessibility requirements</li>
-                <li><strong>Feature Additions:</strong> Documenting new accessibility features</li>
-            </ul>
+        {/* Mission Section */}
+        <section className="mission-section">
+          <div className="container">
+            <h2>Accessibility Standards & Compliance</h2>
+            <p className="section-lead">
+              We follow international and Canadian accessibility standards
+            </p>
+            <div className="values-grid">
+              <div className="value-card">
+                <div className="value-icon">🌍</div>
+                <h3>WCAG 2.1 AA</h3>
+                <p>Web Content Accessibility Guidelines 2.1 Level AA compliance for international standards.</p>
+              </div>
+              <div className="value-card">
+                <div className="value-icon">🍁</div>
+                <h3>AODA Compliance</h3>
+                <p>Accessibility for Ontarians with Disabilities Act compliance for Canadian standards.</p>
+              </div>
+              <div className="value-card">
+                <div className="value-icon">📱</div>
+                <h3>Mobile Accessibility</h3>
+                <p>Full accessibility support across all devices and screen sizes.</p>
+              </div>
             </div>
+          </div>
+        </section>
 
-            <div className="cta-section">
-              <h2>Help Us Improve Accessibility</h2>
-              <p>Your feedback helps us make our platform more accessible for everyone. Contact us with your suggestions and experiences.</p>
-              <button className="cta-button" onClick={() => navigate('/')}>
-                Return to Home
+        {/* Process Section */}
+        <section className="process-section">
+          <div className="container">
+            <h2>Accessibility Features & Capabilities</h2>
+            <p className="section-lead">
+              Comprehensive accessibility features for all users
+            </p>
+            <div className="process-steps">
+              <div className="step">
+                <div className="step-number">1</div>
+                <h3>Keyboard Navigation</h3>
+                <p>Full keyboard access with logical tab order and clear focus indicators.</p>
+              </div>
+              <div className="step">
+                <div className="step-number">2</div>
+                <h3>Screen Reader Support</h3>
+                <p>Semantic HTML, ARIA labels, and descriptive alternative text for images.</p>
+              </div>
+              <div className="step">
+                <div className="step-number">3</div>
+                <h3>Visual Accessibility</h3>
+                <p>WCAG AA compliant color ratios and support for text scaling up to 200%.</p>
+              </div>
+              <div className="step">
+                <div className="step-number">4</div>
+                <h3>Content Accessibility</h3>
+                <p>Clear language, proper heading structure, and multiple ways to convey information.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Services Section */}
+        <section className="services-section">
+          <div className="container">
+            <h2>Specific Accessibility Features</h2>
+            <p className="section-lead">
+              Detailed breakdown of our accessibility implementations
+            </p>
+            <div className="services-grid">
+              <div className="service-card">
+                <h3>Navigation & Structure</h3>
+                <ul>
+                  <li>Logical heading hierarchy and landmark regions</li>
+                  <li>Skip navigation links for keyboard users</li>
+                  <li>Breadcrumb navigation for orientation</li>
+                  <li>Consistent navigation patterns</li>
+                </ul>
+              </div>
+              <div className="service-card">
+                <h3>Forms & Inputs</h3>
+                <ul>
+                  <li>Clear form labels and field descriptions</li>
+                  <li>Error messages and validation feedback</li>
+                  <li>Required field indicators</li>
+                  <li>Logical tab order and grouping</li>
+                </ul>
+              </div>
+              <div className="service-card">
+                <h3>Media & Content</h3>
+                <ul>
+                  <li>Descriptive alternative text for images</li>
+                  <li>Captions and transcripts for videos</li>
+                  <li>High contrast mode options</li>
+                  <li>Resizable text and scalable layouts</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Trust Section */}
+        <section className="trust-section">
+          <div className="container">
+            <h2>Testing & Compliance</h2>
+            <p className="section-lead">
+              Regular testing and ongoing improvement of accessibility features
+            </p>
+            <div className="trust-grid">
+              <div className="trust-item">
+                <h3>Automated Testing</h3>
+                <p>Regular automated accessibility testing using industry-standard tools.</p>
+              </div>
+              <div className="trust-item">
+                <h3>Manual Testing</h3>
+                <p>Manual testing with screen readers and keyboard navigation.</p>
+              </div>
+              <div className="trust-item">
+                <h3>User Feedback</h3>
+                <p>Continuous improvement based on user feedback and accessibility reports.</p>
+              </div>
+              <div className="trust-item">
+                <h3>Regular Audits</h3>
+                <p>Quarterly accessibility audits and compliance reviews.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Success Section */}
+        <section className="success-section">
+          <div className="container">
+            <h2>Requesting Accommodations</h2>
+            <p className="section-lead">
+              We're here to help with any accessibility needs or accommodations
+            </p>
+            <div className="testimonials-grid">
+              <div className="testimonial-card">
+                <div className="testimonial-content">
+                  <p>Contact our accessibility team for any specific accommodations or assistance needs.</p>
+                </div>
+                <div className="testimonial-author">
+                  <strong>Accessibility Team</strong>
+                  <span>accessibility@movedin.ca</span>
+                </div>
+              </div>
+              <div className="testimonial-card">
+                <div className="testimonial-content">
+                  <p>Report accessibility barriers or issues you encounter while using our platform.</p>
+                </div>
+                <div className="testimonial-author">
+                  <strong>Barrier Reporting</strong>
+                  <span>24/7 support available</span>
+                </div>
+              </div>
+              <div className="testimonial-card">
+                <div className="testimonial-content">
+                  <p>Request alternative formats or communication methods for any content.</p>
+                </div>
+                <div className="testimonial-author">
+                  <strong>Alternative Formats</strong>
+                  <span>Multiple options available</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Final CTA Section */}
+        <section className="final-cta-section">
+          <div className="container">
+            <h2>Ready to Start Your Move?</h2>
+            <p>Our platform is designed to be accessible to everyone, regardless of abilities or disabilities.</p>
+            <div className="cta-buttons">
+              <button className="cta-button primary" onClick={() => navigate('/')}>
+                Get Your Free Quote
               </button>
-              <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: '#666' }}>
-                <Link to="/about-us">About Us</Link> | <Link to="/privacy-policy">Privacy Policy</Link> | <Link to="/terms-of-service">Terms of Service</Link>
-              </p>
+              <button className="cta-button secondary" onClick={() => navigate('/about-us')}>
+                About Us
+              </button>
             </div>
-        </article>
-      </div>
-    </main>
+            <div className="trust-badges">
+              <span className="badge">WCAG 2.1 AA</span>
+              <span className="badge">AODA Compliant</span>
+              <span className="badge">100% Inclusive</span>
+              <span className="badge">24/7 Support</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Contact Section */}
+        <section className="contact-section">
+          <div className="container">
+            <h2>Accessibility Support</h2>
+            <p className="section-lead">
+              Our dedicated accessibility team is here to help
+            </p>
+            <div className="contact-grid">
+              <div className="contact-item">
+                <h3>Accessibility Team</h3>
+                <p>accessibility@movedin.ca</p>
+                <p>Accessibility questions and accommodations</p>
+              </div>
+              <div className="contact-item">
+                <h3>Customer Support</h3>
+                <p>1-800-MOVEDIN (1-800-668-3346)</p>
+                <p>General assistance and barrier reporting</p>
+              </div>
+              <div className="contact-item">
+                <h3>Office Address</h3>
+                <p>MovedIn Accessibility Office</p>
+                <p>Toronto, Ontario, Canada</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
       <Footer onContinue={() => navigate('/')} showContinue={true} label="Get Quote" />
-  </>
-);
+    </>
+  );
 };
 
 export default Accessibility; 
