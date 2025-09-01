@@ -83,7 +83,7 @@ async def health_check():
     return {
         "status": "healthy",
         "timestamp": "2025-01-15T10:00:00Z",
-        "version": "2.0"
+        "version": "2.4.0"
     }
 
 # Root endpoint
