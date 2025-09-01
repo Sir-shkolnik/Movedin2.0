@@ -18,6 +18,72 @@ async def test_simple_payment():
     """Simple test endpoint"""
     return {"status": "success", "message": "Simple payment router is working!"}
 
+@router.post('/create-payment-link')
+async def create_payment_link(request: Request, db: Session = Depends(get_db)):
+    """Create a Stripe Payment Link with proper metadata"""
+    try:
+        body = await request.json()
+        amount = body.get('amount', 100)  # Default $1 CAD
+        currency = body.get('currency', 'cad')
+        lead_id = body.get('lead_id')
+        customer_email = body.get('customer_email', '')
+        vendor_slug = body.get('vendor_slug', '')
+        
+        if not lead_id:
+            raise HTTPException(status_code=400, detail="lead_id is required")
+        
+        # Prepare metadata for the payment link
+        metadata = {
+            'lead_id': str(lead_id),
+            'customer_email': customer_email,
+            'vendor_slug': vendor_slug,
+            'amount': str(amount),
+            'currency': currency
+        }
+        
+        logger.info(f"Creating payment link for lead {lead_id} with amount {amount} {currency}")
+        
+        # Create a dynamic Stripe Payment Link
+        payment_link = stripe.PaymentLink.create(
+            line_items=[{
+                'price_data': {
+                    'currency': currency,
+                    'product_data': {
+                        'name': 'MovedIn 2.0 - $1 CAD Deposit',
+                        'description': 'Deposit to reserve your move date and time'
+                    },
+                    'unit_amount': amount,
+                },
+                'quantity': 1,
+            }],
+            after_completion={
+                'type': 'redirect',
+                'redirect': {
+                    'url': 'https://movedin-frontend.onrender.com/payment-redirect'
+                }
+            },
+            metadata=metadata,
+            allow_promotion_codes=True
+        )
+        
+        logger.info(f"Created payment link: {payment_link.id} for lead {lead_id}")
+        
+        return {
+            'payment_link_url': payment_link.url,
+            'payment_intent_id': payment_link.id,
+            'amount': amount,
+            'currency': currency,
+            'lead_id': lead_id,
+            'metadata': metadata
+        }
+        
+    except stripe.error.StripeError as e:
+        logger.error(f"Stripe error: {e}")
+        raise HTTPException(status_code=400, detail=f"Payment error: {str(e)}")
+    except Exception as e:
+        logger.error(f"Payment link creation error: {e}")
+        raise HTTPException(status_code=500, detail="Failed to create payment link")
+
 @router.post('/verify')
 async def verify_payment(request: Request):
     """Verify payment status from frontend"""
