@@ -448,7 +448,7 @@ async def test_thank_you():
     """Test endpoint to simulate thank you page redirect"""
     return {
         'message': 'Test thank you page redirect',
-        'test_url': 'https://movedin-frontend.onrender.com/thank-you.html?lead_id=25&vendor=lets-get-moving&amount=100&currency=cad&email=support@movedin.com',
+        'test_url': 'https://movedin-frontend.onrender.com/#/thank-you?lead_id=25&vendor=lets-get-moving&amount=100&currency=cad&email=support@movedin.com',
         'description': 'This URL simulates the redirect after payment completion',
         'data': {
             'lead_id': '25',
