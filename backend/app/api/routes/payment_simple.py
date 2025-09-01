@@ -18,6 +18,49 @@ async def test_simple_payment():
     """Simple test endpoint"""
     return {"status": "success", "message": "Simple payment router is working!"}
 
+@router.post('/process-manual')
+async def process_manual_payment(request: Request, db: Session = Depends(get_db)):
+    """Manually process a payment that wasn't handled by webhook"""
+    try:
+        body = await request.json()
+        payment_intent_id = body.get('payment_intent_id')
+        
+        if not payment_intent_id:
+            raise HTTPException(status_code=400, detail="No payment_intent_id provided")
+        
+        # Retrieve the payment intent from Stripe
+        payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
+        
+        logger.info(f"Processing manual payment: {payment_intent_id}")
+        
+        # Create a mock checkout session object for processing
+        checkout_session = {
+            'id': payment_intent_id,
+            'amount_total': payment_intent.amount,
+            'currency': payment_intent.currency,
+            'payment_status': 'paid',
+            'metadata': {
+                'lead_id': '24'  # Default lead ID for testing
+            }
+        }
+        
+        # Process the payment
+        await handle_payment_success_simple(checkout_session, db)
+        
+        return {
+            'status': 'success',
+            'message': f'Payment {payment_intent_id} processed successfully',
+            'amount': payment_intent.amount / 100.0,
+            'currency': payment_intent.currency.upper()
+        }
+        
+    except stripe.error.StripeError as e:
+        logger.error(f"Stripe error: {e}")
+        raise HTTPException(status_code=400, detail=f"Payment error: {str(e)}")
+    except Exception as e:
+        logger.error(f"Manual payment processing error: {e}")
+        raise HTTPException(status_code=500, detail="Failed to process payment")
+
 @router.post('/webhook/stripe')
 async def stripe_webhook_simple(request: Request, db: Session = Depends(get_db)):
     """Simple webhook endpoint that processes Stripe events"""
