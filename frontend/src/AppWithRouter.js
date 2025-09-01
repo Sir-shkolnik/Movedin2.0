@@ -29,7 +29,6 @@ function AppWithRouter() {
                             children: [
                                 _jsx(Route, { path: "/test-step7", element: _jsx(TestStep7, {}) }),
                                 _jsx(Route, { path: "/thank-you", element: _jsx(ThankYou, {}) }),
-                                _jsx(Route, { path: "/*", element: _jsx(App, {}) }),
                                 _jsx(Route, { path: "/about-us", element: _jsx(AboutUs, {}) }),
                                 _jsx(Route, { path: "/how-it-works", element: _jsx(HowItWorks, {}) }),
                                 _jsx(Route, { path: "/tips-guides", element: _jsx(TipsAndGuides, {}) }),
@@ -38,7 +37,8 @@ function AppWithRouter() {
                                 _jsx(Route, { path: "/admin/locations", element: _jsx(VendorLocations, {}) }),
                                 _jsx(Route, { path: "/admin/leads", element: _jsx(LeadManagement, {}) }),
                                 _jsx(Route, { path: "/admin/monitoring", element: _jsx(SystemMonitoring, {}) }),
-                                _jsx(Route, { path: "/admin/analytics", element: _jsx(Analytics, {}) })
+                                _jsx(Route, { path: "/admin/analytics", element: _jsx(Analytics, {}) }),
+                                _jsx(Route, { path: "/*", element: _jsx(App, {}) })
                             ]
                         })
                     ]
