@@ -18,6 +18,12 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter(tags=["payment"])
 
+# Debug: Add a simple test endpoint
+@router.get('/test')
+async def test_payment_router():
+    """Test endpoint to verify payment router is loaded"""
+    return {"status": "success", "message": "Payment router is working!"}
+
 class PaymentIntentRequest(BaseModel):
     amount: int
     currency: str = "cad"
