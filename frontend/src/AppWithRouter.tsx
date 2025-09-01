@@ -28,6 +28,8 @@ import CostSavingTips from './pages/guides/CostSavingTips';
 import AddressChangeChecklist from './pages/articles/AddressChangeChecklist';
 import TorontoNeighborhoodGuide from './pages/articles/TorontoNeighborhoodGuide';
 import PreMoveDecluttering from './pages/articles/PreMoveDecluttering';
+import StressFreeMove from './pages/articles/StressFreeMove';
+import ProfessionalPackingServices from './pages/articles/ProfessionalPackingServices';
 import { ThemeProvider } from './contexts/ThemeContext';
 import './App.css';
 
@@ -63,6 +65,8 @@ function AppWithRouter() {
             <Route path="/articles/address-change-checklist" element={<AddressChangeChecklist />} />
             <Route path="/articles/toronto-neighborhood-guide" element={<TorontoNeighborhoodGuide />} />
             <Route path="/articles/pre-move-decluttering" element={<PreMoveDecluttering />} />
+            <Route path="/articles/stress-free-move" element={<StressFreeMove />} />
+            <Route path="/articles/professional-packing-services" element={<ProfessionalPackingServices />} />
             <Route path="/*" element={<App />} />
           </Routes>
         </Router>

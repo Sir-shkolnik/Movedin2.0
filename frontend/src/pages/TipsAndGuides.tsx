@@ -92,7 +92,7 @@ const TipsAndGuides: React.FC = () => {
                     </div>
                     <h3>Incorporating Mindfulness into Your Move: A Stress Reduction Strategy</h3>
                     <p>You may have heard of mindfulness as a strategy to improve mental health. Discover how mindfulness techniques can make your move less stressful and more enjoyable.</p>
-                    <Link to="/blog/stress-free-move" className="read-more">Read More →</Link>
+                    <Link to="/articles/stress-free-move" className="read-more">Read More →</Link>
                   </div>
                 </article>
 
@@ -107,7 +107,7 @@ const TipsAndGuides: React.FC = () => {
                     </div>
                     <h3>Professional Packing Services in Toronto: Are They Worth It?</h3>
                     <p>Moving to a new home can be an exciting and adventurous experience. Learn about the benefits and costs of professional packing services in Toronto.</p>
-                    <Link to="/blog/professional-packing-services" className="read-more">Read More →</Link>
+                    <Link to="/articles/professional-packing-services" className="read-more">Read More →</Link>
                   </div>
                 </article>
 
