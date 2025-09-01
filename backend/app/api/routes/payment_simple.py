@@ -59,7 +59,7 @@ async def create_payment_link(request: Request, db: Session = Depends(get_db)):
             after_completion={
                 'type': 'redirect',
                 'redirect': {
-                    'url': 'https://movedin-frontend.onrender.com/#/step7'  # Use hash-based URL
+                    'url': f'https://movedin-frontend.onrender.com/thank-you.html?lead_id={lead_id}&vendor={vendor_slug}&amount={amount}&currency={currency}&email={customer_email}'
                 }
             },
             metadata=metadata,
@@ -442,3 +442,19 @@ async def handle_payment_success_simple(checkout_session: dict, db: Session):
     except Exception as e:
         logger.error(f"Payment processing error: {e}")
         db.rollback()
+
+@router.get('/test-thank-you')
+async def test_thank_you():
+    """Test endpoint to simulate thank you page redirect"""
+    return {
+        'message': 'Test thank you page redirect',
+        'test_url': 'https://movedin-frontend.onrender.com/thank-you.html?lead_id=25&vendor=lets-get-moving&amount=100&currency=cad&email=support@movedin.com',
+        'description': 'This URL simulates the redirect after payment completion',
+        'data': {
+            'lead_id': '25',
+            'vendor': 'lets-get-moving',
+            'amount': '100',
+            'currency': 'cad',
+            'email': 'support@movedin.com'
+        }
+    }
