@@ -186,9 +186,12 @@ async def process_manual_payment(request: Request, db: Session = Depends(get_db)
         if not lead:
             return {"success": False, "error": f"Lead {lead_id} not found"}
         
-        # Update lead status
+        # Update lead status and payment details
         lead.status = 'payment_completed'
         lead.payment_intent_id = payment_intent_id
+        lead.payment_amount = payment_intent.amount / 100.0  # Convert from cents to dollars
+        lead.payment_currency = payment_intent.currency.upper()
+        lead.payment_status = payment_intent.status
         db.commit()
         
         # Send email notifications
@@ -215,7 +218,7 @@ async def process_manual_payment(request: Request, db: Session = Depends(get_db)
                         },
                         'selected_quote': {
                             'vendor_name': vendor.name,
-                            'total_cost': 100.00,
+                            'total_cost': lead.payment_amount or 100.00,  # Use actual payment amount
                             'crew_size': 2,
                             'truck_count': 1,
                             'estimated_hours': 4.0,
@@ -340,9 +343,12 @@ async def handle_payment_success(checkout_session: Dict[str, Any], db: Session):
             logger.error(f"Lead with ID {lead_id} not found in database.")
             return
         
-        # Update lead status to payment_completed
+        # Update lead status to payment_completed with payment details
         lead.status = 'payment_completed'
         lead.payment_intent_id = session_id
+        lead.payment_amount = checkout_session.get('amount_total', 0) / 100.0  # Convert from cents to dollars
+        lead.payment_currency = checkout_session.get('currency', 'cad').upper()
+        lead.payment_status = checkout_session.get('payment_status', 'paid')
         db.commit()
         db.refresh(lead)
         
@@ -372,7 +378,7 @@ async def handle_payment_success(checkout_session: Dict[str, Any], db: Session):
                         },
                         'selected_quote': {
                             'vendor_name': vendor.name,
-                            'total_cost': 0,  # We don't have this in lead table
+                            'total_cost': lead.payment_amount or 100.00,  # Use actual payment amount
                             'crew_size': 2,   # Default values
                             'truck_count': 1,
                             'estimated_hours': 4.0,

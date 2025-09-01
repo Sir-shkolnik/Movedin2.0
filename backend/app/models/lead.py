@@ -39,6 +39,9 @@ class Lead(Base):
     
     # Payment information
     payment_intent_id = Column(String)  # Stripe payment intent ID
+    payment_amount = Column(Float)  # Payment amount in CAD
+    payment_currency = Column(String, default="CAD")  # Payment currency
+    payment_status = Column(String)  # Payment status from Stripe
     
     # Status
     status = Column(String, default="new")  # new, contacted, qualified, converted, lost

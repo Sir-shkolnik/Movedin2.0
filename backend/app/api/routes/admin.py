@@ -1947,12 +1947,12 @@ async def create_database_backup():
 async def update_vendor_emails(db: Session = Depends(get_db)):
     """Update vendor emails with proper addresses"""
     try:
-        # Vendor email mappings
+        # Vendor email mappings - ALL SET TO support@movedin.com for security
         vendor_emails = {
-            "lets-get-moving": "bookings@letsgetmovinggroup.com",
-            "easy2go": "info@easy2gomoving.com", 
-            "velocity-movers": "bookings@velocitymovers.ca",
-            "pierre-sons": "info@pierreandsonsmoving.com"
+            "lets-get-moving": "support@movedin.com",
+            "easy2go": "support@movedin.com", 
+            "velocity-movers": "support@movedin.com",
+            "pierre-sons": "support@movedin.com"
         }
         
         updated_vendors = []
