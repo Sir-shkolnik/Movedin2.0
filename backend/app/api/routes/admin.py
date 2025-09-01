@@ -1983,6 +1983,76 @@ async def update_vendor_emails(db: Session = Depends(get_db)):
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to update vendor emails: {str(e)}")
 
+@router.post("/run-migration")
+async def run_database_migration(db: Session = Depends(get_db)):
+    """Run database migration to add payment fields"""
+    try:
+        from sqlalchemy import text
+        
+        # Check if columns already exist
+        result = db.execute(text("""
+            SELECT column_name 
+            FROM information_schema.columns 
+            WHERE table_name = 'leads' 
+            AND column_name IN ('payment_amount', 'payment_currency', 'payment_status')
+        """))
+        
+        existing_columns = [row[0] for row in result]
+        
+        migration_results = []
+        
+        if 'payment_amount' not in existing_columns:
+            db.execute(text("ALTER TABLE leads ADD COLUMN payment_amount FLOAT"))
+            migration_results.append("payment_amount column added")
+        else:
+            migration_results.append("payment_amount column already exists")
+        
+        if 'payment_currency' not in existing_columns:
+            db.execute(text("ALTER TABLE leads ADD COLUMN payment_currency VARCHAR(10) DEFAULT 'CAD'"))
+            migration_results.append("payment_currency column added")
+        else:
+            migration_results.append("payment_currency column already exists")
+        
+        if 'payment_status' not in existing_columns:
+            db.execute(text("ALTER TABLE leads ADD COLUMN payment_status VARCHAR(50)"))
+            migration_results.append("payment_status column added")
+        else:
+            migration_results.append("payment_status column already exists")
+        
+        # Update existing completed payments with default values
+        db.execute(text("""
+            UPDATE leads 
+            SET payment_amount = 1.00, 
+                payment_currency = 'CAD', 
+                payment_status = 'succeeded'
+            WHERE status = 'payment_completed' 
+            AND payment_amount IS NULL
+        """))
+        
+        # Count updated records
+        result = db.execute(text("""
+            SELECT COUNT(*) 
+            FROM leads 
+            WHERE status = 'payment_completed' 
+            AND payment_amount IS NOT NULL
+        """))
+        
+        updated_count = result.fetchone()[0]
+        
+        db.commit()
+        
+        return {
+            "status": "success",
+            "message": "Database migration completed successfully",
+            "migration_results": migration_results,
+            "updated_payments": updated_count
+        }
+        
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Migration failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Migration failed: {str(e)}")
+
 @router.get("/vendors")
 async def get_vendors(db: Session = Depends(get_db)):
     """Get all vendors with their email addresses"""
