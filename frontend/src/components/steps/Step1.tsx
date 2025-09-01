@@ -5,6 +5,9 @@ import { useForm } from '../../contexts/FormContext';
 import AddressAutocomplete from '../AddressAutocomplete/AddressAutocomplete';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { registerLocale } from 'react-datepicker';
+import en from 'react-datepicker/locale/en-US';
+registerLocale('en', en);
 
 interface Step1Props {
     onNext: () => void;
@@ -71,7 +74,8 @@ const Step1: React.FC<Step1Props> = ({ onNext }) => {
                             minDate={new Date()}
                             placeholderText="Select move date"
                             className="date-picker-input"
-                        wrapperClassName="date-picker-wrapper"
+                            wrapperClassName="date-picker-wrapper"
+                            locale="en"
                         />
                 </div>
 
