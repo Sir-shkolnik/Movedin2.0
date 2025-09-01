@@ -138,7 +138,6 @@ async def create_payment_intent(req: PaymentIntentRequest, db: Session = Depends
                 }
             },
             metadata=metadata,
-            customer_email=req.customer_email,
             allow_promotion_codes=True
         )
         
