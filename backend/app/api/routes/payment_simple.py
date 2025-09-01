@@ -239,6 +239,76 @@ async def stripe_webhook_simple(request: Request, db: Session = Depends(get_db))
         logger.error(f"Webhook error: {e}")
         raise HTTPException(status_code=500, detail="Webhook processing failed")
 
+@router.get('/test-redirect')
+async def test_payment_redirect():
+    """Test endpoint to simulate payment redirect flow"""
+    try:
+        # Create test payment data
+        test_payment_data = {
+            "payment_intent_id": "pi_test_redirect",
+            "lead_id": "25",
+            "amount": 100,
+            "currency": "cad",
+            "session_id": "cs_test_redirect",
+            "payment_status": "success"
+        }
+        
+        # Create test form data
+        test_form_data = {
+            "from": "Toronto, ON",
+            "to": "Vancouver, BC",
+            "date": "2025-02-01",
+            "time": "Morning",
+            "fromDetails": {
+                "rooms": 3,
+                "sqft": 1500,
+                "weight": 2000,
+                "bedrooms": 2,
+                "bathrooms": 2,
+                "heavyItems": ["piano", "safe"],
+                "additionalServices": ["packing", "storage"]
+            },
+            "contact": {
+                "firstName": "Sagi",
+                "lastName": "Shkolnik",
+                "email": "support@movedin.com",
+                "phone": "416-555-0123"
+            },
+            "selectedQuote": {
+                "vendor_name": "Lets Get Moving",
+                "vendor_slug": "lets-get-moving",
+                "total_cost": 1.00,
+                "base_cost": 0.50,
+                "fuel_surcharge": 0.25,
+                "heavy_items_cost": 0.25,
+                "estimated_hours": 4,
+                "travel_time": 30,
+                "crew_size": 2,
+                "truck_size": "Medium"
+            },
+            "payment": {
+                "amount": 1.00,
+                "currency": "CAD",
+                "status": "completed",
+                "payment_intent_id": "pi_test_redirect"
+            }
+        }
+        
+        return {
+            "status": "success",
+            "message": "Test redirect data created",
+            "redirect_url": "https://movedin-frontend.onrender.com/payment-redirect?session_id=cs_test_redirect&payment_status=success",
+            "test_data": {
+                "payment_intent_data": test_payment_data,
+                "form_data": test_form_data
+            },
+            "instructions": "Use this URL to test the redirect flow without making a payment"
+        }
+        
+    except Exception as e:
+        logger.error(f"Test redirect error: {e}")
+        raise HTTPException(status_code=500, detail="Failed to create test redirect data")
+
 async def handle_payment_success_simple(checkout_session: dict, db: Session):
     """Handle successful payment and update lead status"""
     try:
