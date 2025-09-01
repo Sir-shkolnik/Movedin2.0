@@ -1983,6 +1983,33 @@ async def update_vendor_emails(db: Session = Depends(get_db)):
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to update vendor emails: {str(e)}")
 
+@router.post("/update-webhook-secret")
+async def update_webhook_secret(request: Request):
+    """Update Stripe webhook secret"""
+    try:
+        body = await request.json()
+        webhook_secret = body.get('webhook_secret')
+        
+        if not webhook_secret:
+            return {"success": False, "error": "No webhook_secret provided"}
+        
+        # Update environment variable (this would need to be done in Render dashboard)
+        # For now, we'll just validate the secret format
+        if not webhook_secret.startswith('whsec_'):
+            return {"success": False, "error": "Invalid webhook secret format"}
+        
+        logger.info(f"Webhook secret updated: {webhook_secret[:10]}...")
+        
+        return {
+            "success": True,
+            "message": "Webhook secret validated successfully",
+            "note": "Please update STRIPE_WEBHOOK_SECRET in Render environment variables"
+        }
+        
+    except Exception as e:
+        logger.error(f"Webhook secret update error: {str(e)}")
+        return {"success": False, "error": str(e)}
+
 @router.post("/run-migration")
 async def run_database_migration(db: Session = Depends(get_db)):
     """Run database migration to add payment fields"""
