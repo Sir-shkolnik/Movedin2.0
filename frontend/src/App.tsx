@@ -11,6 +11,7 @@ import Step4 from './components/steps/Step4';
 import Step5 from './components/steps/Step5';
 import Step6 from './components/steps/Step6';
 import Step7 from './components/steps/Step7';
+import PaymentRedirect from './pages/PaymentRedirect';
 import { FormProvider, useForm } from './contexts/FormContext';
 
 const steps = [
@@ -35,6 +36,14 @@ function AppInner() {
     const navigate = useNavigate();
     const location = useLocation();
     const { data } = useForm();
+    
+    // Check if we're on the payment redirect path
+    const isPaymentRedirect = location.pathname === '/payment-redirect';
+    
+    // If we're on payment redirect, render the PaymentRedirect component
+    if (isPaymentRedirect) {
+        return <PaymentRedirect />;
+    }
     
     // Get current step from URL or default to 0
     const getCurrentStepFromURL = () => {
