@@ -158,6 +158,95 @@ async def create_payment_intent(req: PaymentIntentRequest, db: Session = Depends
         logger.error(f"Payment intent creation error: {e}")
         raise HTTPException(status_code=500, detail="Failed to create payment intent")
 
+@router.post("/process-manual")
+async def process_manual_payment(request: Request, db: Session = Depends(get_db)):
+    """Manually process a payment that wasn't handled by webhook"""
+    try:
+        body = await request.json()
+        payment_intent_id = body.get('payment_intent_id')
+        
+        if not payment_intent_id:
+            return {"success": False, "error": "No payment_intent_id provided"}
+        
+        # Retrieve the payment from Stripe
+        payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
+        
+        if payment_intent.status != 'succeeded':
+            return {"success": False, "error": f"Payment not succeeded. Status: {payment_intent.status}"}
+        
+        # Get metadata
+        metadata = payment_intent.metadata
+        lead_id = metadata.get('lead_id')
+        
+        if not lead_id:
+            return {"success": False, "error": "No lead_id in payment metadata"}
+        
+        # Update lead in database
+        lead = db.query(Lead).filter(Lead.id == int(lead_id)).first()
+        if not lead:
+            return {"success": False, "error": f"Lead {lead_id} not found"}
+        
+        # Update lead status
+        lead.status = 'payment_completed'
+        lead.payment_intent_id = payment_intent_id
+        db.commit()
+        
+        # Send email notifications
+        try:
+            if lead.selected_vendor_id:
+                vendor = db.query(Vendor).filter(Vendor.id == lead.selected_vendor_id).first()
+                if vendor and vendor.email:
+                    # Prepare lead data for email
+                    lead_data = {
+                        'quote_data': {
+                            'originAddress': lead.origin_address,
+                            'destinationAddress': lead.destination_address,
+                            'moveDate': lead.move_date.isoformat() if lead.move_date else '',
+                            'moveTime': lead.move_time,
+                            'totalRooms': lead.total_rooms,
+                            'squareFootage': lead.square_footage,
+                            'estimatedWeight': lead.estimated_weight,
+                            'heavyItems': lead.heavy_items or {},
+                            'stairsAtPickup': lead.stairs_at_pickup,
+                            'stairsAtDropoff': lead.stairs_at_dropoff,
+                            'elevatorAtPickup': lead.elevator_at_pickup,
+                            'elevatorAtDropoff': lead.elevator_at_dropoff,
+                            'additionalServices': lead.additional_services or {}
+                        },
+                        'selected_quote': {
+                            'vendor_name': vendor.name,
+                            'total_cost': 100.00,
+                            'crew_size': 2,
+                            'truck_count': 1,
+                            'estimated_hours': 4.0,
+                            'travel_time_hours': 1.0
+                        },
+                        'contact_data': {
+                            'firstName': lead.first_name,
+                            'lastName': lead.last_name,
+                            'email': lead.email,
+                            'phone': lead.phone
+                        }
+                    }
+                    
+                    await send_vendor_email(lead_data, vendor.email, int(lead_id))
+                    logger.info(f"Vendor email sent to {vendor.email} for lead {lead_id}")
+                else:
+                    logger.warning(f"No vendor email found for vendor {lead.selected_vendor_id}")
+        except Exception as email_error:
+            logger.error(f"Failed to send vendor email: {email_error}")
+        
+        return {
+            "success": True, 
+            "message": f"Payment {payment_intent_id} processed successfully",
+            "lead_id": lead_id,
+            "status": "payment_completed"
+        }
+            
+    except Exception as e:
+        logger.error(f"Manual payment processing error: {str(e)}")
+        return {"success": False, "error": str(e)}
+
 @router.post("/verify")
 async def verify_payment(request: Request):
     """Verify payment status from frontend"""
