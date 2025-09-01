@@ -309,6 +309,63 @@ async def test_payment_redirect():
         logger.error(f"Test redirect error: {e}")
         raise HTTPException(status_code=500, detail="Failed to create test redirect data")
 
+@router.get('/test-step7')
+async def test_step7_direct():
+    """Test endpoint to directly access Step7 data without payment redirect"""
+    try:
+        # Create complete test data for Step7
+        test_data = {
+            "status": "success",
+            "message": "Direct Step7 test data",
+            "step7_url": "https://movedin-frontend.onrender.com/#/step7",
+            "test_data": {
+                "from": "Toronto, ON",
+                "to": "Vancouver, BC",
+                "date": "2025-02-01",
+                "time": "Morning",
+                "fromDetails": {
+                    "rooms": 3,
+                    "sqft": 1500,
+                    "weight": 2000,
+                    "bedrooms": 2,
+                    "bathrooms": 2,
+                    "heavyItems": ["piano", "safe"],
+                    "additionalServices": ["packing", "storage"]
+                },
+                "contact": {
+                    "firstName": "Sagi",
+                    "lastName": "Shkolnik",
+                    "email": "support@movedin.com",
+                    "phone": "416-555-0123"
+                },
+                "selectedQuote": {
+                    "vendor_name": "Lets Get Moving",
+                    "vendor_slug": "lets-get-moving",
+                    "total_cost": 1.00,
+                    "base_cost": 0.50,
+                    "fuel_surcharge": 0.25,
+                    "heavy_items_cost": 0.25,
+                    "estimated_hours": 4,
+                    "travel_time": 30,
+                    "crew_size": 2,
+                    "truck_size": "Medium"
+                },
+                "payment": {
+                    "amount": 1.00,
+                    "currency": "CAD",
+                    "status": "completed",
+                    "payment_intent_id": "pi_test_direct"
+                }
+            },
+            "instructions": "Use this data to test Step7 directly. The payment redirect is not working yet."
+        }
+        
+        return test_data
+        
+    except Exception as e:
+        logger.error(f"Test Step7 error: {e}")
+        raise HTTPException(status_code=500, detail="Failed to create test Step7 data")
+
 async def handle_payment_success_simple(checkout_session: dict, db: Session):
     """Handle successful payment and update lead status"""
     try:
