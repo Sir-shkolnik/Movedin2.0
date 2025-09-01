@@ -59,7 +59,7 @@ async def create_payment_link(request: Request, db: Session = Depends(get_db)):
             after_completion={
                 'type': 'redirect',
                 'redirect': {
-                    'url': f'https://movedin-frontend.onrender.com/thank-you.html?lead_id={lead_id}&vendor={vendor_slug}&amount={amount}&currency={currency}&email={customer_email}'
+                    'url': f'https://movedin-frontend.onrender.com/#/thank-you?lead_id={lead_id}&vendor={vendor_slug}&amount={amount}&currency={currency}&email={customer_email}'
                 }
             },
             metadata=metadata,
