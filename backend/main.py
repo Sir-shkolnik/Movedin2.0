@@ -6,6 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 import uvicorn
 from app.api.routes import admin, leads, monitoring, payment, quotes, vendors, zoho, vendor_auth, email_test
+from app.api.routes import payment_simple
 from app.core.config import settings
 from app.core.database import engine, Base
 from app.services.sheets_monitor_service import sheets_monitor_service
@@ -91,6 +92,14 @@ except Exception as e:
     except Exception as e2:
         print(f"❌ Direct import also failed: {e2}")
         traceback.print_exc()
+
+# Try simple payment router
+try:
+    print("🔧 Loading simple payment router...")
+    app.include_router(payment_simple.router, prefix="/api/payment-simple")
+    print("✅ Simple payment router loaded successfully")
+except Exception as e:
+    print(f"❌ Simple payment router failed: {e}")
 
 app.include_router(admin.router, prefix="/admin")
 app.include_router(vendors.router, prefix="/vendors")
