@@ -6,8 +6,12 @@ from app.core.database import get_db
 from app.models.lead import Lead
 from app.models.quote import Quote
 from app.models.vendor import Vendor
+from app.services.email_service import email_service
 from datetime import datetime
 import re
+import logging
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
@@ -161,6 +165,14 @@ async def create_lead_internal(lead_data: Dict[str, Any], db: Session, status: s
         
         db.add(quote)
         db.commit()
+        
+        # Send support notification for new lead
+        try:
+            support_success = email_service.send_lead_notification_to_support(lead_data, lead.id)
+            logger.info(f"Support notification sent for new lead {lead.id}: {support_success}")
+        except Exception as email_error:
+            logger.error(f"Failed to send support notification: {email_error}")
+            # Don't fail lead creation if email fails
         
         return {
             'id': lead.id,

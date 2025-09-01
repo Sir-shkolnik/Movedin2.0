@@ -22,6 +22,12 @@ class Settings(BaseSettings):
     ZOHO_TOKEN_URL: str = "https://accounts.zoho.com/oauth/v2/token"
     ZOHO_CRM_API_URL: str = "https://www.zohoapis.com/crm/v3"
     
+    # Email Configuration
+    SMTP_SERVER: str = "smtp.gmail.com"
+    SMTP_PORT: int = 587
+    SMTP_USERNAME: str = "support@movedin.com"
+    SMTP_PASSWORD: Optional[str] = None
+    
     # Google Sheets Integration
     GOOGLE_SHEETS_SPREADSHEET_ID: str = "1_S92sCx4r9EkZl_zlM5mT120SfsVQqSBqeN1k_gIOrA"
     GOOGLE_SHEETS_CREDENTIALS_FILE: str = "google-sheets-credentials.json"
