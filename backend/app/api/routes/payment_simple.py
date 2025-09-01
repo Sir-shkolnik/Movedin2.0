@@ -53,14 +53,15 @@ async def process_manual_payment(request: Request, db: Session = Depends(get_db)
     try:
         body = await request.json()
         payment_intent_id = body.get('payment_intent_id')
+        lead_id = body.get('lead_id')  # Get the provided lead_id
         
         if not payment_intent_id:
-            raise HTTPException(status_code=400, detail="No payment_intent_id provided")
+            raise HTTPException(status_code=400, detail="payment_intent_id is required")
         
         # Retrieve the payment intent from Stripe
         payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
         
-        logger.info(f"Processing manual payment: {payment_intent_id}")
+        logger.info(f"Processing manual payment: {payment_intent_id} for lead: {lead_id}")
         
         # Create a mock checkout session object for processing
         checkout_session = {
@@ -69,7 +70,7 @@ async def process_manual_payment(request: Request, db: Session = Depends(get_db)
             'currency': payment_intent.currency,
             'payment_status': 'paid',
             'metadata': {
-                'lead_id': '24'  # Default lead ID for testing
+                'lead_id': str(lead_id) if lead_id else None  # Use provided lead_id or None
             }
         }
         
@@ -185,7 +186,7 @@ async def handle_payment_success_simple(checkout_session: dict, db: Session):
                         },
                         'selected_quote': {
                             'vendor_name': vendor.name,
-                            'total_cost': lead.payment_amount or 100.00
+                            'total_cost': checkout_session.get('amount_total', 0) / 100.0
                         },
                         'contact_data': {
                             'firstName': lead.first_name,

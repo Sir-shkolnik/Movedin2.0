@@ -30,7 +30,7 @@ const PaymentRedirect: React.FC = () => {
             setStatus('Payment verification in progress...');
             
             // Try to verify payment with backend
-            fetch('https://movedin-backend.onrender.com/api/payment/verify', {
+            fetch('https://movedin-backend.onrender.com/api/payment-simple/verify', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
