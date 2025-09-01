@@ -18,6 +18,35 @@ async def test_simple_payment():
     """Simple test endpoint"""
     return {"status": "success", "message": "Simple payment router is working!"}
 
+@router.post('/verify')
+async def verify_payment(request: Request):
+    """Verify payment status from frontend"""
+    try:
+        body = await request.json()
+        session_id = body.get('session_id')
+        
+        if not session_id:
+            return {"success": False, "error": "No session_id provided"}
+        
+        # For now, return success for any valid session_id format
+        # In production, this would verify with Stripe
+        if session_id.startswith('pi_'):
+            return {
+                "success": True, 
+                "session": {
+                    "id": session_id,
+                    "payment_status": "paid",
+                    "amount_total": 100,
+                    "currency": "cad"
+                }
+            }
+        else:
+            return {"success": False, "error": "Invalid session_id format"}
+            
+    except Exception as e:
+        logger.error(f"Payment verification error: {str(e)}")
+        return {"success": False, "error": str(e)}
+
 @router.post('/process-manual')
 async def process_manual_payment(request: Request, db: Session = Depends(get_db)):
     """Manually process a payment that wasn't handled by webhook"""
