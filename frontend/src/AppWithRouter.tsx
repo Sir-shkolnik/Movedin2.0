@@ -18,6 +18,13 @@ import VendorLocations from './pages/Admin/VendorLocations';
 import Step7 from './components/steps/Step7';
 import VendorLogin from './pages/VendorAdmin/VendorLogin';
 import VendorDashboard from './pages/VendorAdmin/VendorDashboard';
+// Guide pages
+import PlanningPhase from './pages/guides/PlanningPhase';
+import PackingPhase from './pages/guides/PackingPhase';
+import MovingDay from './pages/guides/MovingDay';
+import SettlingIn from './pages/guides/SettlingIn';
+import SpecialSituations from './pages/guides/SpecialSituations';
+import CostSavingTips from './pages/guides/CostSavingTips';
 import { ThemeProvider } from './contexts/ThemeContext';
 import './App.css';
 
@@ -42,6 +49,13 @@ function AppWithRouter() {
             <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="/cookie-policy" element={<CookiePolicy />} />
             <Route path="/accessibility" element={<Accessibility />} />
+            {/* Guide pages */}
+            <Route path="/guides/planning-phase" element={<PlanningPhase />} />
+            <Route path="/guides/packing-phase" element={<PackingPhase />} />
+            <Route path="/guides/moving-day" element={<MovingDay />} />
+            <Route path="/guides/settling-in" element={<SettlingIn />} />
+            <Route path="/guides/special-situations" element={<SpecialSituations />} />
+            <Route path="/guides/cost-saving-tips" element={<CostSavingTips />} />
             <Route path="/*" element={<App />} />
           </Routes>
         </Router>
