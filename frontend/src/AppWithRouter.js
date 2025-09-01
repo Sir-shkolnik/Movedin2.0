@@ -5,6 +5,7 @@ import App from './App';
 import AboutUs from './pages/AboutUs';
 import HowItWorks from './pages/HowItWorks';
 import TipsAndGuides from './pages/TipsAndGuides';
+import TestStep7 from './pages/TestStep7';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import VendorManagement from './pages/Admin/VendorManagement';
 import LeadManagement from './pages/Admin/LeadManagement';
@@ -25,6 +26,7 @@ function AppWithRouter() {
                         _jsx(Header, {}),
                         _jsxs(Routes, {
                             children: [
+                                _jsx(Route, { path: "/test-step7", element: _jsx(TestStep7, {}) }),
                                 _jsx(Route, { path: "/*", element: _jsx(App, {}) }),
                                 _jsx(Route, { path: "/about-us", element: _jsx(AboutUs, {}) }),
                                 _jsx(Route, { path: "/how-it-works", element: _jsx(HowItWorks, {}) }),
