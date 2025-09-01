@@ -101,10 +101,10 @@ const PaymentRedirect: React.FC = () => {
                     console.log('PaymentRedirect - Storing complete form data:', completeFormData);
                     sessionStorage.setItem('formData', JSON.stringify(completeFormData));
                     
-                    // Small delay to show success message, then use React Router navigate
+                    // Small delay to show success message, then redirect to hash-based URL
                     setTimeout(() => {
-                        console.log('PaymentRedirect - Redirecting to Step7 using React Router...');
-                        navigate('/step7');
+                        console.log('PaymentRedirect - Redirecting to #/step7 using hash-based URL...');
+                        window.location.href = 'https://movedin-frontend.onrender.com/#/step7';
                     }, 2000);
                     
                 } else {
@@ -183,20 +183,20 @@ const PaymentRedirect: React.FC = () => {
                             sessionStorage.setItem('formData', JSON.stringify(completeFormData));
                             
                             setTimeout(() => {
-                                console.log('PaymentRedirect - Redirecting to Step7 using React Router...');
-                                navigate('/step7');
+                                console.log('PaymentRedirect - Redirecting to #/step7 using hash-based URL...');
+                                window.location.href = 'https://movedin-frontend.onrender.com/#/step7';
                             }, 2000);
                         } else {
                             setStatus('Payment verification failed. Redirecting to home...');
                             setTimeout(() => {
-                                navigate('/');
+                                window.location.href = 'https://movedin-frontend.onrender.com/#/';
                             }, 3000);
                         }
                     } catch (error) {
                         console.error('PaymentRedirect - Verification error:', error);
                         setStatus('Payment verification failed. Redirecting to home...');
                         setTimeout(() => {
-                            navigate('/');
+                            window.location.href = 'https://movedin-frontend.onrender.com/#/';
                         }, 3000);
                     }
                 }
@@ -204,7 +204,7 @@ const PaymentRedirect: React.FC = () => {
                 console.error('PaymentRedirect - Processing error:', error);
                 setStatus('Error processing payment. Redirecting to home...');
                 setTimeout(() => {
-                    navigate('/');
+                    window.location.href = 'https://movedin-frontend.onrender.com/#/';
                 }, 3000);
             }
         };

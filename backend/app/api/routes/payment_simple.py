@@ -59,7 +59,7 @@ async def create_payment_link(request: Request, db: Session = Depends(get_db)):
             after_completion={
                 'type': 'redirect',
                 'redirect': {
-                    'url': 'https://movedin-frontend.onrender.com/payment-redirect'
+                    'url': 'https://movedin-frontend.onrender.com/#/step7'  # Use hash-based URL
                 }
             },
             metadata=metadata,
