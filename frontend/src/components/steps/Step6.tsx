@@ -24,6 +24,23 @@ const Step6: React.FC = () => {
     return explanations[service] || 'Pricing varies based on specific requirements and scope of work';
   };
 
+  // Function to format travel time in a user-friendly way
+  const formatTravelTime = (hours: number | null | undefined): string => {
+    if (!hours || hours <= 0) return 'N/A';
+    
+    const totalMinutes = Math.round(hours * 60);
+    const displayHours = Math.floor(totalMinutes / 60);
+    const displayMinutes = totalMinutes % 60;
+    
+    if (displayHours === 0) {
+      return `${displayMinutes}m`;
+    } else if (displayMinutes === 0) {
+      return `${displayHours}h`;
+    } else {
+      return `${displayHours}h ${displayMinutes}m`;
+    }
+  };
+
   // Real Stripe Payment Link URL - Updated with correct hash routing
   const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/bJe14n2kFc4zenr3ST1wY00';
   
@@ -272,7 +289,7 @@ const Step6: React.FC = () => {
                 textAlign: 'center',
                 border: '1px solid #b3d9ff'
               }}>
-                <div style={{ fontWeight: 'bold', color: '#0056b3' }}>🚗 {selectedQuote.travel_time_hours || 'N/A'}h</div>
+                <div style={{ fontWeight: 'bold', color: '#0056b3' }}>🚗 {formatTravelTime(selectedQuote.travel_time_hours)}</div>
                 <div style={{ fontSize: '12px', color: '#6c757d' }}>Travel Time</div>
               </div>
               <div style={{
