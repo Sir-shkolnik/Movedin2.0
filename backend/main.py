@@ -69,7 +69,17 @@ app.add_middleware(
 # Include API routes
 app.include_router(quotes.router, prefix="/api")
 app.include_router(leads.router, prefix="/api")
-app.include_router(payment.router, prefix="/api")
+
+# Debug payment router import
+try:
+    print("🔧 Loading payment router...")
+    app.include_router(payment.router, prefix="/api")
+    print("✅ Payment router loaded successfully")
+except Exception as e:
+    print(f"❌ Error loading payment router: {e}")
+    import traceback
+    traceback.print_exc()
+
 app.include_router(admin.router, prefix="/admin")
 app.include_router(vendors.router, prefix="/vendors")
 app.include_router(vendor_auth.router, prefix="/vendor")
