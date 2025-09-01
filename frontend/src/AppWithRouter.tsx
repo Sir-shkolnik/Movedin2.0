@@ -25,6 +25,9 @@ import MovingDay from './pages/guides/MovingDay';
 import SettlingIn from './pages/guides/SettlingIn';
 import SpecialSituations from './pages/guides/SpecialSituations';
 import CostSavingTips from './pages/guides/CostSavingTips';
+import AddressChangeChecklist from './pages/articles/AddressChangeChecklist';
+import TorontoNeighborhoodGuide from './pages/articles/TorontoNeighborhoodGuide';
+import PreMoveDecluttering from './pages/articles/PreMoveDecluttering';
 import { ThemeProvider } from './contexts/ThemeContext';
 import './App.css';
 
@@ -56,6 +59,10 @@ function AppWithRouter() {
             <Route path="/guides/settling-in" element={<SettlingIn />} />
             <Route path="/guides/special-situations" element={<SpecialSituations />} />
             <Route path="/guides/cost-saving-tips" element={<CostSavingTips />} />
+            {/* Article pages */}
+            <Route path="/articles/address-change-checklist" element={<AddressChangeChecklist />} />
+            <Route path="/articles/toronto-neighborhood-guide" element={<TorontoNeighborhoodGuide />} />
+            <Route path="/articles/pre-move-decluttering" element={<PreMoveDecluttering />} />
             <Route path="/*" element={<App />} />
           </Routes>
         </Router>

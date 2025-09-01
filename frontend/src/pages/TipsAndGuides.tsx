@@ -47,7 +47,7 @@ const TipsAndGuides: React.FC = () => {
                     </div>
                     <h3>An Ultimate Checklist for Change of Address in Ontario</h3>
                     <p>One of the essential tasks is updating several agencies and services about your new address. Our comprehensive checklist covers everything you need to update when moving in Ontario.</p>
-                    <Link to="/blog/address-change-checklist" className="read-more">Read More →</Link>
+                    <Link to="/articles/address-change-checklist" className="read-more">Read More →</Link>
                   </div>
                 </article>
 
@@ -62,7 +62,7 @@ const TipsAndGuides: React.FC = () => {
                     </div>
                     <h3>Toronto Neighborhood Guide: Choosing the Right Area for Your Move</h3>
                     <p>Toronto has it all: cultural diversity, natural beauty, great restaurants, and vibrant neighborhoods. Find the perfect area that matches your lifestyle and needs.</p>
-                    <Link to="/blog/toronto-neighborhood-guide" className="read-more">Read More →</Link>
+                    <Link to="/articles/toronto-neighborhood-guide" className="read-more">Read More →</Link>
                   </div>
                 </article>
 
@@ -77,7 +77,7 @@ const TipsAndGuides: React.FC = () => {
                     </div>
                     <h3>Pre-Move Decluttering: How to Lighten Your Load Before a Big Move</h3>
                     <p>Decluttering saves you time on both ends because there's less to pack and unpack. Learn effective strategies to streamline your belongings before moving.</p>
-                    <Link to="/blog/pre-move-decluttering" className="read-more">Read More →</Link>
+                    <Link to="/articles/pre-move-decluttering" className="read-more">Read More →</Link>
                   </div>
                 </article>
 
