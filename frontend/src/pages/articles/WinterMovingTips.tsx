@@ -279,7 +279,7 @@ const WinterMovingTips: React.FC = () => {
               <ul>
                 <li><strong>Reduced Competition</strong> - Fewer people moving means better availability</li>
                 <li><strong>Lower Costs</strong> - Often reduced rates and better deals</li>
-                <strong>Flexible Scheduling</strong> - More options for dates and times</li>
+                <li><strong>Flexible Scheduling</strong> - More options for dates and times</li>
                 <li><strong>Professional Attention</strong> - Moving companies can focus more on your move</li>
                 <li><strong>Weather Preparation</strong> - Forces you to be more organized and prepared</li>
                 <li><strong>Year-Round Availability</strong> - Don't have to wait for summer</li>
