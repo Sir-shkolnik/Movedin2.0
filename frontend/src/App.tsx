@@ -13,7 +13,6 @@ import Step6 from './components/steps/Step6';
 import Step7 from './components/steps/Step7';
 import PaymentRedirect from './pages/PaymentRedirect';
 import { FormProvider, useForm } from './contexts/FormContext';
-import Header from './components/Header/Header';
 
 const steps = [
     { label: 'Move Details', subtitle: 'Where and when are you moving?' },
@@ -28,7 +27,6 @@ const steps = [
 function App() {
     return (
         <>
-            <Header />
             <FormProvider>
                 <AppInner />
             </FormProvider>

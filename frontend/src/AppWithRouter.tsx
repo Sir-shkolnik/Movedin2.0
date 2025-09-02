@@ -38,12 +38,14 @@ import WinterMovingTips from './pages/articles/WinterMovingTips';
 import EssentialMovingChecklist from './pages/articles/EssentialMovingChecklist';
 import { ThemeProvider } from './contexts/ThemeContext';
 import './App.css';
+import Header from './components/Header/Header';
 
 function AppWithRouter() {
   return (
     <HelmetProvider>
       <ThemeProvider>
         <Router>
+          <Header />
           <Routes>
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/vendors" element={<VendorManagement />} />
