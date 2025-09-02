@@ -122,7 +122,7 @@ const TipsAndGuides: React.FC = () => {
                     </div>
                     <h3>Navigating Toronto's Real Estate Market: Tips for Moving Home</h3>
                     <p>If you're planning a move to Toronto or within Toronto, we have some tips to help you navigate the competitive real estate market successfully.</p>
-                    <Link to="/blog/tips-for-moving-home" className="read-more">Read More →</Link>
+                    <Link to="/articles/tips-for-moving-home" className="read-more">Read More →</Link>
                   </div>
                 </article>
 
