@@ -52,17 +52,15 @@ function AppInner() {
     // Get current step from URL or default to 0
     const getCurrentStepFromURL = () => {
         const path = location.pathname;
-        const hash = location.hash;
-        const fullPath = path + hash;
         
-        // Check both pathname and hash for step routing
-        if (path === '/step7' || hash === '#/step7' || fullPath.includes('step7')) return 6;
-        if (path === '/step6' || hash === '#/step6' || fullPath.includes('step6')) return 5;
-        if (path === '/step5' || hash === '#/step5' || fullPath.includes('step5')) return 4;
-        if (path === '/step4' || hash === '#/step4' || fullPath.includes('step4')) return 3;
-        if (path === '/step3' || hash === '#/step3' || fullPath.includes('step3')) return 2;
-        if (path === '/step2' || hash === '#/step2' || fullPath.includes('step2')) return 1;
-        return 0; // Default to step 1
+        // Check pathname for step routing (no more hash)
+        if (path === '/step7') return 6;
+        if (path === '/step6') return 5;
+        if (path === '/step5') return 4;
+        if (path === '/step4') return 3;
+        if (path === '/step3') return 2;
+        if (path === '/step2') return 1;
+        return 0; // Default to step 1 (root)
     };
 
     const [currentStep, setCurrentStep] = useState(getCurrentStepFromURL());
@@ -79,7 +77,7 @@ function AppInner() {
             if (stepIndex === 0) {
                 navigate('/');
             } else {
-                navigate(`#/step${stepIndex + 1}`);
+                navigate(`/step${stepIndex + 1}`);
             }
         }
     };
@@ -88,11 +86,11 @@ function AppInner() {
         const nextStep = Math.min(currentStep + 1, steps.length - 1);
         setCurrentStep(nextStep);
         if (nextStep === 6) {
-            navigate('#/step7');
+            navigate('/step7');
         } else if (nextStep === 0) {
             navigate('/');
         } else {
-            navigate(`#/step${nextStep + 1}`);
+            navigate(`/step${nextStep + 1}`);
         }
     };
 
@@ -102,7 +100,7 @@ function AppInner() {
         if (prevStep === 0) {
             navigate('/');
         } else {
-            navigate(`#/step${prevStep + 1}`);
+            navigate(`/step${prevStep + 1}`);
         }
     };
 
