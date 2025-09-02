@@ -123,7 +123,7 @@ const CookiePolicy: React.FC = () => {
                 <li><strong>30 days:</strong> Analytics and performance cookies</li>
                 <li><strong>90 days:</strong> Functional and preference cookies</li>
                 <li><strong>1 year:</strong> Marketing and advertising cookies</li>
-                <strong>2 years:</strong> Security and authentication cookies</li>
+                <li><strong>2 years:</strong> Security and authentication cookies</li>
               </ul>
             </section>
 
