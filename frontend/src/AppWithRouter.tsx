@@ -25,12 +25,17 @@ import MovingDay from './pages/guides/MovingDay';
 import SettlingIn from './pages/guides/SettlingIn';
 import SpecialSituations from './pages/guides/SpecialSituations';
 import CostSavingTips from './pages/guides/CostSavingTips';
+// Article pages
 import AddressChangeChecklist from './pages/articles/AddressChangeChecklist';
 import TorontoNeighborhoodGuide from './pages/articles/TorontoNeighborhoodGuide';
 import PreMoveDecluttering from './pages/articles/PreMoveDecluttering';
 import StressFreeMove from './pages/articles/StressFreeMove';
 import ProfessionalPackingServices from './pages/articles/ProfessionalPackingServices';
 import TipsForMovingHome from './pages/articles/TipsForMovingHome';
+import MovingWithPets from './pages/articles/MovingWithPets';
+import MovingStressFreeToronto from './pages/articles/MovingStressFreeToronto';
+import WinterMovingTips from './pages/articles/WinterMovingTips';
+import EssentialMovingChecklist from './pages/articles/EssentialMovingChecklist';
 import { ThemeProvider } from './contexts/ThemeContext';
 import './App.css';
 
@@ -69,6 +74,10 @@ function AppWithRouter() {
             <Route path="/articles/stress-free-move" element={<StressFreeMove />} />
             <Route path="/articles/professional-packing-services" element={<ProfessionalPackingServices />} />
             <Route path="/articles/tips-for-moving-home" element={<TipsForMovingHome />} />
+            <Route path="/articles/moving-with-pets" element={<MovingWithPets />} />
+            <Route path="/articles/moving-stress-free-toronto" element={<MovingStressFreeToronto />} />
+            <Route path="/articles/winter-moving-tips" element={<WinterMovingTips />} />
+            <Route path="/articles/essential-moving-checklist" element={<EssentialMovingChecklist />} />
             <Route path="/*" element={<App />} />
           </Routes>
         </Router>

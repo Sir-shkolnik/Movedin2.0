@@ -137,7 +137,7 @@ const TipsAndGuides: React.FC = () => {
                     </div>
                     <h3>Moving with Pets in Toronto: A Comprehensive Guide</h3>
                     <p>Moving is stressful enough for humans, so imagine how anxious your pets might feel. Learn how to make the transition smooth for your furry family members.</p>
-                    <Link to="/blog/moving-with-pets" className="read-more">Read More →</Link>
+                    <Link to="/articles/moving-with-pets" className="read-more">Read More →</Link>
                   </div>
                 </article>
 
@@ -152,7 +152,7 @@ const TipsAndGuides: React.FC = () => {
                     </div>
                     <h3>How to Plan a Stress-Free Move in Toronto</h3>
                     <p>Moving is one of the most stressful things most people experience in life. Discover proven strategies to make your Toronto move as stress-free as possible.</p>
-                    <Link to="/blog/stress-free-move-toronto" className="read-more">Read More →</Link>
+                    <Link to="/articles/moving-stress-free-toronto" className="read-more">Read More →</Link>
                   </div>
                 </article>
 
@@ -167,7 +167,7 @@ const TipsAndGuides: React.FC = () => {
                     </div>
                     <h3>Moving in the Winter: Special Tips for Toronto Residents</h3>
                     <p>Winter moves are never fun. Okay, let's face it—moving is no picnic at any time of year. Get expert tips for handling winter moves in Toronto's challenging weather.</p>
-                    <Link to="/blog/winter-moving-tips" className="read-more">Read More →</Link>
+                    <Link to="/articles/winter-moving-tips" className="read-more">Read More →</Link>
                   </div>
                 </article>
 
@@ -182,7 +182,7 @@ const TipsAndGuides: React.FC = () => {
                     </div>
                     <h3>The Essential Moving Checklist for Torontonians</h3>
                     <p>Moving is never easy, but a well-planned move and a good checklist can help make the process much smoother. Get our comprehensive checklist designed specifically for Toronto moves.</p>
-                    <Link to="/blog/essential-moving" className="read-more">Read More →</Link>
+                    <Link to="/articles/essential-moving-checklist" className="read-more">Read More →</Link>
                   </div>
                 </article>
               </div>
