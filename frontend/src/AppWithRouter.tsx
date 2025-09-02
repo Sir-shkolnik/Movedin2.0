@@ -39,6 +39,9 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import './App.css';
 import Header from './components/Header/Header';
 
+// Import performance and PWA utilities
+import './utils/initialize';
+
 function AppWithRouter() {
   return (
     <HelmetProvider>
