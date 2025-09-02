@@ -145,7 +145,7 @@ async def create_payment_intent(req: PaymentIntentRequest, db: Session = Depends
             after_completion={
                 'type': 'redirect',
                 'redirect': {
-                    'url': 'https://movedin-frontend.onrender.com/payment-redirect'
+                    'url': 'https://movedin-frontend.onrender.com/#/step7'
                 }
             },
             metadata=metadata,

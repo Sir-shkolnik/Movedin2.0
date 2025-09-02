@@ -116,10 +116,25 @@ const Step6: React.FC = () => {
       const intentData = await intentResponse.json();
       console.log('Step 6 - Payment intent created:', intentData);
 
+      // Store complete form data in sessionStorage for Step7
+      const completeFormData = {
+        selectedQuote: data.selectedQuote,
+        vendor: data.vendor,
+        fromDetails: data.fromDetails,
+        contact: data.contact,
+        date: data.date,
+        time: data.time,
+        from: data.from,
+        to: data.to,
+        paymentIntentData: intentData
+      };
+      
+      console.log('Step 6 - Storing complete form data for Step7:', completeFormData);
+      sessionStorage.setItem('formData', JSON.stringify(completeFormData));
+      sessionStorage.setItem('paymentSuccess', 'true');
+
       // Redirect to dynamic Stripe Payment Link with proper redirect URL
       console.log('Step 6 - Redirecting to dynamic Stripe Payment Link...');
-      // Store payment intent data in sessionStorage for Step7
-      sessionStorage.setItem('paymentIntentData', JSON.stringify(intentData));
       window.location.href = intentData.payment_link_url;
       
     } catch (error) {

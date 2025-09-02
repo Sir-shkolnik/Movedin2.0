@@ -49,6 +49,11 @@ const Step7: React.FC = () => {
                 // Set display data for rendering
                 setDisplayData(parsedFormData);
                 
+                // Store payment intent data separately for handlePaymentConfirmation
+                if (parsedFormData.paymentIntentData) {
+                    sessionStorage.setItem('paymentIntentData', JSON.stringify(parsedFormData.paymentIntentData));
+                }
+                
                 // Clear the sessionStorage data after loading
                 sessionStorage.removeItem('formData');
                 sessionStorage.removeItem('paymentSuccess');

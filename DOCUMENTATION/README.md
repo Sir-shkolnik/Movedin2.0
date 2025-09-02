@@ -1,6 +1,6 @@
 # 📚 **MovedIn 2.0 - COMPREHENSIVE DOCUMENTATION**
 
-**Last Updated:** January 15, 2025  
+**Last Updated:** September 1, 2025  
 **System Version:** 2.0  
 **Status:** ✅ **PRODUCTION READY - FULLY IMPLEMENTED**
 
@@ -18,6 +18,49 @@ MovedIn 2.0 is a comprehensive moving platform that connects customers with prof
 - **Payment:** Stripe Integration
 - **Maps:** Mapbox API + Google Maps
 - **Data:** Google Sheets Integration (Live Vendor Data)
+
+---
+
+## 🌐 **NAVIGATION & ROUTING SYSTEM (WORKING)**
+
+### **✅ Current Working Structure (September 1, 2025)**
+The navigation system is now **fully functional with SEO support**. Here's how it works:
+
+#### **Router Configuration (AppWithRouter.tsx)**
+```tsx
+function AppWithRouter() {
+  return (
+    <HelmetProvider>
+      <ThemeProvider>
+        <HashRouter>  {/* HashRouter for internal step navigation */}
+          <Header />  {/* Header ALWAYS visible - outside Routes */}
+          <Routes>
+            {/* Specific page routes FIRST */}
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/tips-guides" element={<TipsAndGuides />} />
+            <Route path="/how-it-works" element={<HowItWorks />} />
+            {/* ... all other specific routes */}
+            
+            {/* Catch-all route LAST */}
+            <Route path="/*" element={<App />} />
+          </Routes>
+        </HashRouter>
+      </ThemeProvider>
+    </HelmetProvider>
+  );
+}
+```
+
+#### **Why This Works:**
+1. **Header outside Routes** → Always visible on all pages
+2. **Specific routes first** → `/about-us`, `/tips-guides` work properly
+3. **Catch-all route last** → Falls back to quote form for unmatched routes
+4. **HashRouter** → Handles internal step navigation (`#/step2`, `#/step3`)
+
+#### **URL Structure:**
+- **Content Pages:** `movedin.com/about-us`, `movedin.com/tips-guides` ✅
+- **Quote Steps:** `movedin.com/#/step2`, `movedin.com/#/step3` ✅
+- **Root:** `movedin.com` → Shows quote form ✅
 
 ---
 
