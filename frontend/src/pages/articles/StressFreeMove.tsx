@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
+import StaticFooter from '../components/Footer/StaticFooter';
 import '../Page.css';
 
 const StressFreeMove: React.FC = () => {
@@ -275,7 +275,7 @@ const StressFreeMove: React.FC = () => {
           </article>
         </div>
       </main>
-      <Footer onContinue={() => navigate('/')} showContinue={true} label="Get Quote" />
+      <StaticFooter />
     </>
   );
 };
