@@ -78,7 +78,7 @@ function AppWithRouter() {
             <Route path="/articles/moving-stress-free-toronto" element={<MovingStressFreeToronto />} />
             <Route path="/articles/winter-moving-tips" element={<WinterMovingTips />} />
             <Route path="/articles/essential-moving-checklist" element={<EssentialMovingChecklist />} />
-            <Route path="/*" element={<App />} />
+            <Route path="*" element={<App />} />
           </Routes>
         </Router>
       </ThemeProvider>
