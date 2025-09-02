@@ -78,6 +78,13 @@ function AppWithRouter() {
             <Route path="/articles/moving-stress-free-toronto" element={<MovingStressFreeToronto />} />
             <Route path="/articles/winter-moving-tips" element={<WinterMovingTips />} />
             <Route path="/articles/essential-moving-checklist" element={<EssentialMovingChecklist />} />
+            {/* Step routes for the quote form */}
+            <Route path="/step2" element={<App />} />
+            <Route path="/step3" element={<App />} />
+            <Route path="/step4" element={<App />} />
+            <Route path="/step5" element={<App />} />
+            <Route path="/step6" element={<App />} />
+            <Route path="/step7" element={<App />} />
             <Route path="/*" element={<App />} />
           </Routes>
         </Router>
