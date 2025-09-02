@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Header from '../../components/Header/Header';
-import StaticFooter from '../components/Footer/StaticFooter';
+import StaticFooter from '../../components/Footer/StaticFooter';
 import '../Page.css';
 
 const AddressChangeChecklist: React.FC = () => {
