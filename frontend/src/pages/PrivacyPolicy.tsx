@@ -11,13 +11,68 @@ const PrivacyPolicy: React.FC = () => {
       <Helmet>
         <title>Privacy Policy | MovedIn - How We Protect Your Data</title>
         <meta name="description" content="Learn how MovedIn collects, uses, and protects your personal information. Our privacy policy ensures your data security and compliance with Canadian privacy laws." />
+        <meta name="keywords" content="privacy policy, data protection, PIPEDA compliance, Canadian privacy laws, MovedIn privacy, personal information" />
         <link rel="canonical" href="https://movedin.com/privacy-policy" />
-        <meta property="og:title" content="Privacy Policy | MovedIn" />
-        <meta property="og:description" content="Learn how MovedIn collects, uses, and protects your personal information." />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:title" content="Privacy Policy | MovedIn - How We Protect Your Data" />
+        <meta property="og:description" content="Learn how MovedIn collects, uses, and protects your personal information. Our privacy policy ensures your data security and compliance with Canadian privacy laws." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://movedin.com/privacy-policy" />
         <meta property="og:site_name" content="MovedIn" />
-        <meta name="robots" content="index, follow" />
+        <meta property="og:locale" content="en_CA" />
+        <meta property="og:image" content="https://movedin.com/og-image-privacy.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Privacy Policy | MovedIn" />
+        <meta name="twitter:description" content="Learn how MovedIn collects, uses, and protects your personal information." />
+        <meta name="twitter:image" content="https://movedin.com/twitter-image-privacy.jpg" />
+        
+        {/* Additional Meta Tags */}
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <meta name="author" content="MovedIn" />
+        <meta name="language" content="English" />
+        <meta name="geo.region" content="CA" />
+        <meta name="geo.placename" content="Canada" />
+        <meta name="geo.position" content="43.6532;-79.3832" />
+        <meta name="ICBM" content="43.6532, -79.3832" />
+        
+        {/* Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Privacy Policy",
+            "description": "MovedIn's privacy policy explaining how we collect, use, and protect your personal information",
+            "url": "https://movedin.com/privacy-policy",
+            "mainEntity": {
+              "@type": "Organization",
+              "name": "MovedIn",
+              "url": "https://movedin.com",
+              "description": "Canada's premier moving platform connecting customers with verified, licensed moving companies",
+              "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "CA",
+                "addressRegion": "Ontario"
+              },
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "contactType": "customer service",
+                "email": "support@movedin.com",
+                "telephone": "+1-437-979-3830"
+              }
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "MovedIn",
+              "url": "https://movedin.com"
+            },
+            "dateModified": "2025-09-01"
+          })}
+        </script>
       </Helmet>
       <Header />
       <main className="page-container" aria-labelledby="privacy-title">

@@ -25,6 +25,25 @@ const AboutUs: React.FC = () => {
         <meta name="language" content="English" />
         <meta name="geo.region" content="CA" />
         <meta name="geo.placename" content="Canada" />
+        <meta name="geo.position" content="43.6532;-79.3832" />
+        <meta name="ICBM" content="43.6532, -79.3832" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:title" content="About MovedIn | Canada's Premier Moving Platform" />
+        <meta property="og:description" content="Connect with verified moving companies across Canada. Get instant quotes and professional service." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://movedin.com/about-us" />
+        <meta property="og:site_name" content="MovedIn" />
+        <meta property="og:locale" content="en_CA" />
+        <meta property="og:image" content="https://movedin.com/og-image-about.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="About MovedIn | Canada's Premier Moving Platform" />
+        <meta name="twitter:description" content="Connect with verified moving companies across Canada. Get instant quotes and professional service." />
+        <meta name="twitter:image" content="https://movedin.com/twitter-image-about.jpg" />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -41,7 +60,56 @@ const AboutUs: React.FC = () => {
             "contactPoint": {
               "@type": "ContactPoint",
               "contactType": "customer service",
-              "email": "support@movedin.com"
+              "email": "support@movedin.com",
+              "telephone": "+1-437-979-3830"
+            },
+            "sameAs": [
+              "https://movedin.com/about-us",
+              "https://movedin.com/how-it-works",
+              "https://movedin.com/tips-guides"
+            ],
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Moving Services",
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Residential Moving",
+                    "description": "Professional residential moving services across Canada"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Commercial Moving",
+                    "description": "Commercial and office relocation services"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Long Distance Moving",
+                    "description": "Cross-province and long-distance moving services"
+                  }
+                }
+              ]
+            },
+            "areaServed": {
+              "@type": "Country",
+              "name": "Canada"
+            },
+            "serviceArea": {
+              "@type": "GeoCircle",
+              "geoMidpoint": {
+                "@type": "GeoCoordinates",
+                "latitude": 43.6532,
+                "longitude": -79.3832
+              },
+              "geoRadius": "5000000"
             }
           })}
         </script>

@@ -11,13 +11,69 @@ const TermsOfService: React.FC = () => {
       <Helmet>
         <title>Terms of Service | MovedIn - Platform Terms and Conditions</title>
         <meta name="description" content="Read MovedIn's terms of service. Our platform terms and conditions govern the use of our moving services and ensure a fair experience for all users." />
+        <meta name="keywords" content="terms of service, moving platform terms, MovedIn terms, legal agreement, moving services Canada" />
         <link rel="canonical" href="https://movedin.com/terms-of-service" />
-        <meta property="og:title" content="Terms of Service | MovedIn" />
-        <meta property="og:description" content="Read MovedIn's terms of service and platform terms." />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:title" content="Terms of Service | MovedIn - Platform Terms and Conditions" />
+        <meta property="og:description" content="Read MovedIn's terms of service. Our platform terms and conditions govern the use of our moving services and ensure a fair experience for all users." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://movedin.com/terms-of-service" />
         <meta property="og:site_name" content="MovedIn" />
-        <meta name="robots" content="index, follow" />
+        <meta property="og:locale" content="en_CA" />
+        <meta property="og:image" content="https://movedin.com/og-image-terms.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Terms of Service | MovedIn" />
+        <meta name="twitter:description" content="Read MovedIn's terms of service and platform terms." />
+        <meta name="twitter:image" content="https://movedin.com/twitter-image-terms.jpg" />
+        
+        {/* Additional Meta Tags */}
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <meta name="author" content="MovedIn" />
+        <meta name="language" content="English" />
+        <meta name="geo.region" content="CA" />
+        <meta name="geo.placename" content="Canada" />
+        <meta name="geo.position" content="43.6532;-79.3832" />
+        <meta name="ICBM" content="43.6532, -79.3832" />
+        
+        {/* Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Terms of Service",
+            "description": "MovedIn's terms of service and platform terms and conditions",
+            "url": "https://movedin.com/terms-of-service",
+            "mainEntity": {
+              "@type": "Service",
+              "name": "MovedIn Moving Platform",
+              "provider": {
+                "@type": "Organization",
+                "name": "MovedIn",
+                "url": "https://movedin.com",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressCountry": "CA",
+                  "addressRegion": "Ontario"
+                }
+              },
+              "areaServed": {
+                "@type": "Country",
+                "name": "Canada"
+              }
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "MovedIn",
+              "url": "https://movedin.com"
+            },
+            "dateModified": "2025-09-01"
+          })}
+        </script>
       </Helmet>
       <Header />
       <main className="page-container" aria-labelledby="terms-title">
