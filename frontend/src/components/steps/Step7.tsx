@@ -10,7 +10,19 @@ const Step7: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [displayData, setDisplayData] = useState<any>(null);
 
+    console.log('🔍 Step7 Component Rendered - Debug Info:', {
+        hasData: !!data,
+        dataKeys: data ? Object.keys(data) : [],
+        hasSelectedQuote: !!data?.selectedQuote,
+        hasVendor: !!data?.vendor,
+        hasContact: !!data?.contact,
+        sessionStorageFormData: sessionStorage.getItem('formData'),
+        sessionStoragePaymentSuccess: sessionStorage.getItem('paymentSuccess'),
+        sessionStoragePaymentIntent: sessionStorage.getItem('paymentIntentData')
+    });
+
     useEffect(() => {
+        console.log('🔍 Step7 useEffect triggered');
         // Show confetti animation after component mounts
         setShowConfetti(true);
         

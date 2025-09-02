@@ -15,7 +15,6 @@ import LeadManagement from './pages/Admin/LeadManagement';
 import SystemMonitoring from './pages/Admin/SystemMonitoring';
 import Analytics from './pages/Admin/Analytics';
 import VendorLocations from './pages/Admin/VendorLocations';
-import Step7 from './components/steps/Step7';
 import VendorLogin from './pages/VendorAdmin/VendorLogin';
 import VendorDashboard from './pages/VendorAdmin/VendorDashboard';
 // Guide pages
