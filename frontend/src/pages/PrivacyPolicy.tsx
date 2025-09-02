@@ -1,314 +1,226 @@
 import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header/Header';
-import Footer from '../components/Footer/Footer';
-// Using AboutUs styling for consistency
+import StaticFooter from '../components/Footer/StaticFooter';
+import './Page.css';
 
 const PrivacyPolicy: React.FC = () => {
-  const navigate = useNavigate();
-  
   return (
     <>
       <Helmet>
-        <title>Privacy Policy | MovedIn - Canadian Data Protection & Privacy</title>
-        <meta name="description" content="MovedIn's comprehensive Privacy Policy compliant with PIPEDA and Canadian privacy laws. Learn how we protect your personal information and data rights." />
-        <meta name="keywords" content="privacy policy Canada, PIPEDA compliance, data protection, personal information, Canadian privacy laws, MovedIn privacy" />
+        <title>Privacy Policy | MovedIn - How We Protect Your Data</title>
+        <meta name="description" content="Learn how MovedIn collects, uses, and protects your personal information. Our privacy policy ensures your data security and compliance with Canadian privacy laws." />
         <link rel="canonical" href="https://movedin.com/privacy-policy" />
-        <meta property="og:title" content="Privacy Policy | MovedIn - Canadian Data Protection" />
-        <meta property="og:description" content="Comprehensive privacy policy compliant with PIPEDA and Canadian privacy laws. Learn how we protect your data." />
+        <meta property="og:title" content="Privacy Policy | MovedIn" />
+        <meta property="og:description" content="Learn how MovedIn collects, uses, and protects your personal information." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://movedin.com/privacy-policy" />
+        <meta property="og:site_name" content="MovedIn" />
         <meta name="robots" content="index, follow" />
       </Helmet>
       <Header />
-      <main className="about-page" aria-labelledby="privacy-title">
-        
-        {/* Hero Section */}
-        <section className="hero-section">
-          <div className="hero-content">
-            <h1 id="privacy-title" className="hero-title">
-              Privacy Policy
-            </h1>
-            <p className="hero-subtitle">
-              Last Updated: January 15, 2025 | PIPEDA Compliant | Canadian Privacy Law Compliant
-            </p>
-            <div className="hero-stats">
-              <div className="stat-item">
-                <span className="stat-number">PIPEDA</span>
-                <span className="stat-label">Compliant</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-number">GDPR</span>
-                <span className="stat-label">Ready</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-number">100%</span>
-                <span className="stat-label">Secure</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-number">24/7</span>
-                <span className="stat-label">Support</span>
-              </div>
-            </div>
-            <div className="hero-cta">
-              <button className="cta-button primary" onClick={() => navigate('/')}>
-                Get Your Free Quote Now
-              </button>
-              <p className="cta-subtitle">No hidden fees • Licensed movers • Instant quotes</p>
-            </div>
-          </div>
-        </section>
+      <main className="page-container" aria-labelledby="privacy-title">
+        <div className="page-content">
+          <article className="page-card">
+            <header>
+              <h1 id="privacy-title">Privacy Policy</h1>
+              <p className="page-subtitle">How MovedIn collects, uses, and protects your personal information. <Link to="/about-us">Learn more about us</Link> or <Link to="/terms-of-service">view our terms of service</Link>.</p>
+            </header>
 
-        {/* Story Section */}
-        <section className="story-section">
-          <div className="container">
-            <div className="story-content">
-              <div className="story-text">
-                <h2>Introduction & Scope</h2>
-                <p className="story-lead">Your privacy is our priority</p>
-                <p>
-                  MovedIn ("we," "our," or "us") is committed to protecting your privacy and ensuring the security of your personal information. 
-                  This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our moving platform 
-                  and services.
-                </p>
-                <p>
-                  This policy is compliant with the <strong>Personal Information Protection and Electronic Documents Act (PIPEDA)</strong> and 
-                  applicable Canadian privacy laws. By using our services, you consent to the collection and use of your information as 
-                  described in this policy.
-                </p>
-                <p>
-                  <strong>Effective Date:</strong> January 15, 2025<br />
-                  <strong>Last Review:</strong> January 15, 2025<br />
-                  <strong>Next Review:</strong> July 15, 2025
-                </p>
-              </div>
-              <div className="story-visual">
-                <div className="moving-illustration">
-                  <div className="truck-icon">🔒</div>
-                  <div className="route-line"></div>
-                  <div className="house-icon">🏠</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+            <section className="policy-section">
+              <h2>Introduction</h2>
+              <p>MovedIn ("we," "our," or "us") is committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our moving platform and services.</p>
+              <p>This policy complies with Canadian privacy laws, including the Personal Information Protection and Electronic Documents Act (PIPEDA) and applicable provincial privacy legislation.</p>
+            </section>
 
-        {/* Mission Section */}
-        <section className="mission-section">
-          <div className="container">
-            <h2>Information We Collect</h2>
-            <p className="section-lead">
-              We collect only the information necessary to provide you with exceptional moving services
-            </p>
-            <div className="values-grid">
-              <div className="value-card">
-                <div className="value-icon">👤</div>
-                <h3>Personal Information</h3>
-                <p>Contact details, move information, property details, and payment information processed securely via Stripe.</p>
-              </div>
-              <div className="value-card">
-                <div className="value-icon">📊</div>
-                <h3>Usage Data</h3>
-                <p>Pages visited, time spent on site, features used, and device information for service improvement.</p>
-              </div>
-              <div className="value-card">
-                <div className="value-icon">🤝</div>
-                <h3>Third-Party Data</h3>
-                <p>Service confirmations, feedback, ratings, and verification information from trusted partners.</p>
-              </div>
-            </div>
-          </div>
-        </section>
+            <section className="policy-section">
+              <h2>Information We Collect</h2>
+              <h3>Personal Information</h3>
+              <p>We collect information that you provide directly to us, including:</p>
+              <ul>
+                <li><strong>Contact Information:</strong> Name, email address, phone number, and mailing address</li>
+                <li><strong>Move Details:</strong> Origin and destination addresses, move dates, and home specifications</li>
+                <li><strong>Account Information:</strong> Username, password, and profile preferences</li>
+                <li><strong>Payment Information:</strong> Credit card details and billing information (processed securely through Stripe)</li>
+                <li><strong>Communication Records:</strong> Emails, chat messages, and support tickets</li>
+              </ul>
 
-        {/* Process Section */}
-        <section className="process-section">
-          <div className="container">
-            <h2>How We Use Your Information</h2>
-            <p className="section-lead">
-              Your data is used exclusively to provide and improve our moving services
-            </p>
-            <div className="process-steps">
-              <div className="step">
-                <div className="step-number">1</div>
-                <h3>Service Delivery</h3>
-                <p>Providing moving quotes, processing payments, coordinating with movers, and customer support.</p>
-              </div>
-              <div className="step">
-                <div className="step-number">2</div>
-                <h3>Platform Improvement</h3>
-                <p>Analyzing usage patterns, developing new features, and conducting quality assurance.</p>
-              </div>
-              <div className="step">
-                <div className="step-number">3</div>
-                <h3>Communication</h3>
-                <p>Service updates, notifications, customer support, and marketing (with consent).</p>
-              </div>
-              <div className="step">
-                <div className="step-number">4</div>
-                <h3>Legal Compliance</h3>
-                <p>Complying with laws, protecting rights, preventing fraud, and maintaining security.</p>
-              </div>
-            </div>
-          </div>
-        </section>
+              <h3>Automatically Collected Information</h3>
+              <p>When you visit our website, we automatically collect:</p>
+              <ul>
+                <li><strong>Device Information:</strong> IP address, browser type, operating system, and device identifiers</li>
+                <li><strong>Usage Data:</strong> Pages visited, time spent on pages, and navigation patterns</li>
+                <li><strong>Cookies and Similar Technologies:</strong> Small data files stored on your device to enhance your experience</li>
+              </ul>
+            </section>
 
-        {/* Services Section */}
-        <section className="services-section">
-          <div className="container">
-            <h2>Data Security & Protection</h2>
-            <p className="section-lead">
-              Enterprise-grade security measures to protect your information
-            </p>
-            <div className="services-grid">
-              <div className="service-card">
-                <h3>Encryption & Security</h3>
-                <ul>
-                  <li>End-to-end encryption for all data transmission</li>
-                  <li>Secure data centers with 24/7 monitoring</li>
-                  <li>Regular security audits and penetration testing</li>
-                  <li>Multi-factor authentication for account access</li>
-                </ul>
-              </div>
-              <div className="service-card">
-                <h3>Access Control</h3>
-                <ul>
-                  <li>Role-based access controls for all employees</li>
-                  <li>Regular access reviews and permission audits</li>
-                  <li>Secure disposal of data when no longer needed</li>
-                  <li>Encrypted backups with limited access</li>
-                </ul>
-              </div>
-              <div className="service-card">
-                <h3>Compliance & Monitoring</h3>
-                <ul>
-                  <li>Continuous security monitoring and threat detection</li>
-                  <li>Regular compliance assessments and updates</li>
-                  <li>Incident response procedures and protocols</li>
-                  <li>Employee security training and awareness</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
+            <section className="policy-section">
+              <h2>How We Use Your Information</h2>
+              <p>We use the information we collect to:</p>
+              <ul>
+                <li><strong>Provide Services:</strong> Process your move requests, connect you with moving companies, and facilitate payments</li>
+                <li><strong>Communication:</strong> Send you updates about your move, respond to inquiries, and provide customer support</li>
+                <li><strong>Improve Services:</strong> Analyze usage patterns to enhance our platform and user experience</li>
+                <li><strong>Security:</strong> Protect against fraud, unauthorized access, and other security threats</li>
+                <li><strong>Legal Compliance:</strong> Meet our legal obligations and enforce our terms of service</li>
+              </ul>
+            </section>
 
-        {/* Trust Section */}
-        <section className="trust-section">
-          <div className="container">
-            <h2>Your Privacy Rights (PIPEDA Compliance)</h2>
-            <p className="section-lead">
-              Under Canadian privacy law, you have comprehensive rights over your data
-            </p>
-            <div className="trust-grid">
-              <div className="trust-item">
-                <h3>Access & Correction</h3>
-                <p>Request a copy of your data, correct inaccuracies, and verify what information we have about you.</p>
-              </div>
-              <div className="trust-item">
-                <h3>Control & Consent</h3>
-                <p>Withdraw consent, request data deletion, and limit how we use your information.</p>
-              </div>
-              <div className="trust-item">
-                <h3>Data Portability</h3>
-                <p>Request your data in a portable, machine-readable format for easy transfer.</p>
-              </div>
-              <div className="trust-item">
-                <h3>Complaint Rights</h3>
-                <p>File complaints with us or directly with the Privacy Commissioner of Canada.</p>
-              </div>
-            </div>
-          </div>
-        </section>
+            <section className="policy-section">
+              <h2>Information Sharing and Disclosure</h2>
+              <p>We do not sell, trade, or rent your personal information to third parties. We may share your information in the following circumstances:</p>
+              
+              <h3>Service Providers</h3>
+              <p>We share information with trusted third-party service providers who assist us in operating our platform:</p>
+              <ul>
+                <li><strong>Moving Companies:</strong> Your move details are shared with selected moving companies to provide quotes and services</li>
+                <li><strong>Payment Processors:</strong> Stripe processes your payments securely</li>
+                <li><strong>Email Services:</strong> We use email services to send notifications and updates</li>
+                <li><strong>Analytics Providers:</strong> We use analytics tools to understand website usage and improve our services</li>
+              </ul>
 
-        {/* Success Section */}
-        <section className="success-section">
-          <div className="container">
-            <h2>Contact Information & Complaints</h2>
-            <p className="section-lead">
-              We're here to help with all your privacy questions and concerns
-            </p>
-            <div className="testimonials-grid">
-              <div className="testimonial-card">
-                <div className="testimonial-content">
-                  <p>For privacy-related questions, concerns, or complaints, contact our dedicated privacy team.</p>
-                </div>
-                <div className="testimonial-author">
-                  <strong>Privacy Officer</strong>
-                  <span>privacy@movedin.ca</span>
-                </div>
-              </div>
-              <div className="testimonial-card">
-                <div className="testimonial-content">
-                  <p>General inquiries and support available 24/7 through our customer service team.</p>
-                </div>
-                <div className="testimonial-author">
-                  <strong>Customer Support</strong>
-                  <span>1-800-MOVEDIN (1-800-668-3346)</span>
-                </div>
-              </div>
-              <div className="testimonial-card">
-                <div className="testimonial-content">
-                  <p>Regulatory complaints can be filed directly with the Privacy Commissioner of Canada.</p>
-                </div>
-                <div className="testimonial-author">
-                  <strong>Regulatory Contact</strong>
-                  <span>www.priv.gc.ca</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+              <h3>Legal Requirements</h3>
+              <p>We may disclose your information when required by law, court order, or government request, or to protect our rights, property, or safety.</p>
+            </section>
 
-        {/* Final CTA Section */}
-        <section className="final-cta-section">
-          <div className="container">
-            <h2>Questions About Your Privacy?</h2>
-            <p>We're committed to transparency and protecting your privacy rights. Contact us with any questions or concerns.</p>
-            <div className="cta-buttons">
-              <button className="cta-button primary" onClick={() => navigate('/')}>
-                Get Your Free Quote
-              </button>
-              <button className="cta-button secondary" onClick={() => navigate('/about-us')}>
-                About Us
-              </button>
-            </div>
-            <div className="trust-badges">
-              <span className="badge">PIPEDA Compliant</span>
-              <span className="badge">Canadian Privacy Law</span>
-              <span className="badge">GDPR Ready</span>
-              <span className="badge">100% Secure</span>
-            </div>
-          </div>
-        </section>
+            <section className="policy-section">
+              <h2>Data Security</h2>
+              <p>We implement appropriate technical and organizational measures to protect your personal information:</p>
+              <ul>
+                <li><strong>Encryption:</strong> All data transmitted between your device and our servers is encrypted using SSL/TLS</li>
+                <li><strong>Access Controls:</strong> Limited access to personal information on a need-to-know basis</li>
+                <li><strong>Regular Security Audits:</strong> We conduct regular security assessments and updates</li>
+                <li><strong>Secure Payment Processing:</strong> Payment information is processed securely through Stripe's PCI DSS compliant systems</li>
+              </ul>
+            </section>
 
-        {/* Contact Section */}
-        <section className="contact-section">
-          <div className="container">
-            <h2>Need Help?</h2>
-            <p className="section-lead">
-              Our privacy team is here to assist you with any questions or concerns
-            </p>
-            <div className="contact-grid">
-              <div className="contact-item">
-                <h3>Privacy Officer</h3>
-                <p>privacy@movedin.ca</p>
-                <p>Dedicated privacy support and compliance</p>
+            <section className="policy-section">
+              <h2>Data Retention</h2>
+              <p>We retain your personal information for as long as necessary to provide our services and fulfill the purposes outlined in this policy:</p>
+              <ul>
+                <li><strong>Account Information:</strong> Retained while your account is active and for a reasonable period after deactivation</li>
+                <li><strong>Move Records:</strong> Kept for legal and business purposes, typically for 7 years</li>
+                <li><strong>Payment Information:</strong> Retained as required by financial regulations and for customer service purposes</li>
+                <li><strong>Communication Records:</strong> Kept for customer service and legal compliance purposes</li>
+              </ul>
+            </section>
+
+            <section className="policy-section">
+              <h2>Your Rights and Choices</h2>
+              <p>Under Canadian privacy laws, you have the following rights regarding your personal information:</p>
+              
+              <h3>Access and Correction</h3>
+              <p>You can request access to your personal information and ask us to correct any inaccuracies.</p>
+              
+              <h3>Withdrawal of Consent</h3>
+              <p>You can withdraw your consent for certain uses of your information at any time.</p>
+              
+              <h3>Data Portability</h3>
+              <p>You can request a copy of your personal information in a portable format.</p>
+              
+              <h3>Deletion</h3>
+              <p>You can request deletion of your personal information, subject to legal and business requirements.</p>
+              
+              <h3>Marketing Preferences</h3>
+              <p>You can opt out of marketing communications while still receiving essential service updates.</p>
+            </section>
+
+            <section className="policy-section">
+              <h2>Cookies and Tracking Technologies</h2>
+              <p>We use cookies and similar technologies to enhance your experience on our platform:</p>
+              
+              <h3>Essential Cookies</h3>
+              <p>These cookies are necessary for the website to function properly and cannot be disabled.</p>
+              
+              <h3>Analytics Cookies</h3>
+              <p>We use analytics cookies to understand how visitors use our website and improve our services.</p>
+              
+              <h3>Marketing Cookies</h3>
+              <p>These cookies help us deliver relevant content and advertisements.</p>
+              
+              <p>You can control cookie settings through your browser preferences. However, disabling certain cookies may affect the functionality of our website.</p>
+            </section>
+
+            <section className="policy-section">
+              <h2>Third-Party Links</h2>
+              <p>Our website may contain links to third-party websites, including moving company websites and payment processors. We are not responsible for the privacy practices of these third-party sites. We encourage you to review their privacy policies before providing any personal information.</p>
+            </section>
+
+            <section className="policy-section">
+              <h2>Children's Privacy</h2>
+              <p>Our services are not intended for children under the age of 18. We do not knowingly collect personal information from children under 18. If you believe we have collected information from a child under 18, please contact us immediately.</p>
+            </section>
+
+            <section className="policy-section">
+              <h2>International Data Transfers</h2>
+              <p>Your personal information is primarily processed and stored in Canada. However, some of our service providers may be located in other countries. We ensure that any international transfers comply with applicable privacy laws and provide adequate protection for your information.</p>
+            </section>
+
+            <section className="policy-section">
+              <h2>Changes to This Policy</h2>
+              <p>We may update this Privacy Policy from time to time to reflect changes in our practices or applicable laws. We will notify you of any material changes by:</p>
+              <ul>
+                <li>Posting the updated policy on our website</li>
+                <li>Sending you an email notification</li>
+                <li>Displaying a prominent notice on our platform</li>
+              </ul>
+              <p>Your continued use of our services after any changes indicates your acceptance of the updated policy.</p>
+            </section>
+
+            <section className="policy-section">
+              <h2>Contact Us</h2>
+              <p>If you have any questions about this Privacy Policy or our privacy practices, please contact us:</p>
+              
+              <div className="contact-info">
+                <p><strong>Email:</strong> <a href="mailto:support@movedin.com">support@movedin.com</a></p>
+                <p><strong>Phone:</strong> <a href="tel:+1-437-979-3830">+1 (437) 979-3830</a></p>
+                <p><strong>Address:</strong> Ontario, Canada</p>
               </div>
-              <div className="contact-item">
-                <h3>Customer Support</h3>
-                <p>1-800-MOVEDIN (1-800-668-3346)</p>
-                <p>24/7 assistance and general inquiries</p>
+              
+              <p>We will respond to your inquiry within 30 days and address any concerns you may have about your privacy.</p>
+            </section>
+
+            <section className="policy-section">
+              <h2>Complaints and Dispute Resolution</h2>
+              <p>If you believe we have not handled your personal information in accordance with this policy or applicable privacy laws, you may file a complaint with us. We will investigate and respond to your complaint promptly.</p>
+              
+              <p>You also have the right to file a complaint with the Office of the Privacy Commissioner of Canada or your provincial privacy commissioner if you are not satisfied with our response.</p>
+            </section>
+
+            <section className="policy-section">
+              <h2>Effective Date</h2>
+              <p>This Privacy Policy is effective as of September 1, 2025, and was last updated on that date.</p>
+            </section>
+
+            <section className="related-links">
+              <h2>Related Information</h2>
+              <div className="links-grid">
+                <Link to="/terms-of-service" className="related-link">
+                  <h3>Terms of Service</h3>
+                  <p>Our terms and conditions for using the MovedIn platform</p>
+                </Link>
+                
+                <Link to="/cookie-policy" className="related-link">
+                  <h3>Cookie Policy</h3>
+                  <p>Detailed information about how we use cookies and tracking technologies</p>
+                </Link>
+                
+                <Link to="/accessibility" className="related-link">
+                  <h3>Accessibility Statement</h3>
+                  <p>Our commitment to making our platform accessible to all users</p>
+                </Link>
+                
+                <Link to="/about-us" className="related-link">
+                  <h3>About MovedIn</h3>
+                  <p>Learn more about our company and mission</p>
+                </Link>
               </div>
-              <div className="contact-item">
-                <h3>Office Address</h3>
-                <p>MovedIn Privacy Office</p>
-                <p>Toronto, Ontario, Canada</p>
-              </div>
-            </div>
-          </div>
-        </section>
+            </section>
+          </article>
+        </div>
       </main>
-      <Footer onContinue={() => navigate('/')} showContinue={true} label="Get Quote" />
+      <StaticFooter />
     </>
   );
 };
