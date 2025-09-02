@@ -13,25 +13,24 @@ const StaticFooter: React.FC = () => {
           <h4>Quick Links</h4>
           <ul>
             <li><a href="/#/">Get a Quote</a></li>
-            <li><a href="/how-it-works">How It Works</a></li>
-            <li><a href="/tips-guides">Tips & Guides</a></li>
-            <li><a href="/about-us">About Us</a></li>
+            <li><a href="/#/how-it-works">How It Works</a></li>
+            <li><a href="/#/tips-guides">Tips & Guides</a></li>
+            <li><a href="/#/about-us">About Us</a></li>
           </ul>
         </div>
         <div className="footer-section">
           <h4>Legal</h4>
           <ul>
-            <li><a href="/privacy-policy">Privacy Policy</a></li>
-            <li><a href="/terms-of-service">Terms of Service</a></li>
-            <li><a href="/cookie-policy">Cookie Policy</a></li>
-            <li><a href="/accessibility">Accessibility</a></li>
+            <li><a href="/#/privacy-policy">Privacy Policy</a></li>
+            <li><a href="/#/terms-of-service">Terms of Service</a></li>
+            <li><a href="/#/cookie-policy">Cookie Policy</a></li>
+            <li><a href="/#/accessibility">Accessibility</a></li>
           </ul>
         </div>
         <div className="footer-section">
           <h4>Contact</h4>
           <p>Email: support@movedin.com</p>
-          <p>Phone: +1 (437) 979-3830</p>
-          <p>Service Area: All of Canada</p>
+          <p>Service Areas: Toronto, Vancouver, Montreal, Calgary, Edmonton, Ottawa, Winnipeg, Quebec City, Hamilton, Kitchener-Waterloo, London, Victoria, Halifax, Saskatoon, Regina, St. John's, and all major Canadian cities</p>
         </div>
       </div>
       <div className="footer-bottom">

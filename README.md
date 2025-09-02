@@ -2,7 +2,8 @@
 
 **Last Updated:** September 1, 2025  
 **System Version:** 2.4.1  
-**Status:** 🟢 **FULLY OPERATIONAL**
+**Status:** 🟢 **FULLY OPERATIONAL**  
+**Developer:** Sagi Ehud Shkolnik (AliceSolutions Venture)
 
 ## 🎯 **Latest Achievements (September 1, 2025)**
 
@@ -158,6 +159,15 @@ GOOGLE_SHEETS_CREDENTIALS=...
 - **Input Validation**: All API inputs validated
 - **CORS**: Properly configured
 
+## 👨‍💻 **Development Team**
+
+### **Lead Developer**
+- **Name**: Sagi Ehud Shkolnik
+- **Company**: AliceSolutions Venture
+- **Role**: Sole Developer & Architect
+- **Expertise**: Full-Stack Development, System Architecture, API Design
+- **Contact**: Available through AliceSolutions Venture
+
 ## 📞 **Support**
 
 - **Email**: support@movedin.com
@@ -167,4 +177,4 @@ GOOGLE_SHEETS_CREDENTIALS=...
 
 ---
 
-**Built with ❤️ for modern moving solutions**
+**Built with ❤️ by Sagi Ehud Shkolnik from AliceSolutions Venture for modern moving solutions**
