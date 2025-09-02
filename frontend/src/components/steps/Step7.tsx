@@ -69,15 +69,20 @@ const Step7: React.FC = () => {
                 // Clear the sessionStorage data after loading
                 sessionStorage.removeItem('formData');
                 sessionStorage.removeItem('paymentSuccess');
-            } else {
+            } else if (data && Object.keys(data).length > 0) {
                 // Use data from form context (normal flow)
                 console.log('Step7 - Using data from form context:', data);
                 setDisplayData(data);
+            } else {
+                // No data available - show error state
+                console.error('Step7 - No data available from sessionStorage or form context');
+                setError('No booking data available. Please complete the booking process.');
+                setDisplayData({});
             }
         } catch (error) {
             console.error('Step7 - Error loading data from sessionStorage:', error);
-            // Fallback to form context data
-            setDisplayData(data);
+            setError('Error loading booking data. Please try again.');
+            setDisplayData({});
         }
     };
 

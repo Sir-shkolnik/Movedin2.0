@@ -47,23 +47,65 @@ class PaymentConfirmRequest(BaseModel):
 from app.services.email_service import email_service
 
 async def send_vendor_email(lead_data: Dict[str, Any], vendor_email: str, lead_id: int, payment_intent_id: str = None):
-    """
-    Send email notification to vendor after successful payment
-    """
+    """Send email notification to vendor about new lead"""
     try:
-        # Send vendor notification
-        vendor_success = email_service.send_vendor_notification(lead_data, vendor_email, lead_id, payment_intent_id)
+        # Email content for vendor
+        subject = f"New Moving Lead #{lead_id} - MovedIn Platform"
         
-        # Send support notification for new leads
-        if not payment_intent_id:
-            support_success = email_service.send_lead_notification_to_support(lead_data, lead_id)
-            logger.info(f"Support notification sent: {support_success}")
+        # Prepare email body
+        body = f"""
+        🚛 New Moving Lead Received - MovedIn Platform
         
-        return vendor_success
+        Lead ID: {lead_id}
+        Payment Status: {'Completed' if payment_intent_id else 'Pending'}
+        Payment ID: {payment_intent_id or 'N/A'}
+        
+        Customer Details:
+        - Name: {lead_data.get('first_name', 'N/A')} {lead_data.get('last_name', 'N/A')}
+        - Email: {lead_data.get('email', 'N/A')}
+        - Phone: {lead_data.get('phone', 'N/A')}
+        
+        Move Details:
+        - From: {lead_data.get('origin_address', 'N/A')}
+        - To: {lead_data.get('destination_address', 'N/A')}
+        - Date: {lead_data.get('move_date', 'N/A')}
+        - Time: {lead_data.get('move_time', 'N/A')}
+        - Rooms: {lead_data.get('total_rooms', 'N/A')}
+        - Square Footage: {lead_data.get('square_footage', 'N/A')}
+        
+        This lead came from the MovedIn platform. Please contact the customer within 24 hours to confirm final pricing and details.
+        
+        Best regards,
+        MovedIn Team
+        """
+        
+        # Send email
+        await send_email(vendor_email, subject, body)
+        return True
         
     except Exception as e:
         logger.error(f"Failed to send vendor email: {e}")
         return False
+
+def get_vendor_by_slug(vendor_slug: str, db: Session):
+    """Get vendor by slug from database"""
+    try:
+        # Map vendor slugs to vendor IDs
+        vendor_mapping = {
+            'lets-get-moving': 1,
+            'easy2go': 2,
+            'velocity-movers': 3,
+            'pierre-sons': 4
+        }
+        
+        vendor_id = vendor_mapping.get(vendor_slug)
+        if vendor_id:
+            return db.query(Vendor).filter(Vendor.id == vendor_id).first()
+        return None
+        
+    except Exception as e:
+        logger.error(f"Failed to get vendor by slug {vendor_slug}: {e}")
+        return None
 
 @router.post('/create-intent')
 async def create_payment_intent(req: PaymentIntentRequest, db: Session = Depends(get_db)):
@@ -319,10 +361,12 @@ async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
             raise HTTPException(status_code=400, detail="Invalid signature")
         
         # Handle the event
-        if event['type'] == 'checkout.session.completed':
-            await handle_payment_success(event['data']['object'], db)
-        elif event['type'] == 'checkout.session.expired':
-            await handle_payment_failure(event['data']['object'], db)
+        if event['type'] == 'payment_link.updated':
+            await handle_payment_link_updated(event['data']['object'], db)
+        elif event['type'] == 'payment_intent.succeeded':
+            await handle_payment_intent_success(event['data']['object'], db)
+        elif event['type'] == 'payment_intent.payment_failed':
+            await handle_payment_intent_failure(event['data']['object'], db)
         else:
             logger.info(f"Unhandled event type: {event['type']}")
         
@@ -332,20 +376,18 @@ async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
         logger.error(f"Webhook error: {e}")
         raise HTTPException(status_code=500, detail="Webhook processing failed")
 
-async def handle_payment_success(checkout_session: Dict[str, Any], db: Session):
-    """
-    Handle successful payment and update lead status
-    """
+async def handle_payment_link_updated(payment_link: Dict[str, Any], db: Session):
+    """Handle Payment Link updates (when payment is completed)"""
     try:
-        session_id = checkout_session['id']
-        metadata = checkout_session.get('metadata', {})
+        payment_link_id = payment_link['id']
+        metadata = payment_link.get('metadata', {})
         
-        logger.info(f"Processing successful payment: {session_id}")
+        logger.info(f"Processing Payment Link update: {payment_link_id}")
         
         # Extract lead_id from metadata
         lead_id = metadata.get('lead_id')
         if not lead_id:
-            logger.error(f"No lead_id found in checkout session: {session_id}")
+            logger.error(f"No lead_id found in Payment Link: {payment_link_id}")
             return
         
         # Retrieve full lead data from the database
@@ -354,12 +396,12 @@ async def handle_payment_success(checkout_session: Dict[str, Any], db: Session):
             logger.error(f"Lead with ID {lead_id} not found in database.")
             return
         
-        # Update lead status to payment_completed with payment details
+        # Update lead status to payment_completed
         lead.status = 'payment_completed'
-        lead.payment_intent_id = session_id
-        lead.payment_amount = checkout_session.get('amount_total', 0) / 100.0  # Convert from cents to dollars
-        lead.payment_currency = checkout_session.get('currency', 'cad').upper()
-        lead.payment_status = checkout_session.get('payment_status', 'paid')
+        lead.payment_intent_id = payment_link_id
+        lead.payment_amount = 1.00  # $1 CAD deposit
+        lead.payment_currency = 'CAD'
+        lead.payment_status = 'succeeded'
         db.commit()
         db.refresh(lead)
         
@@ -367,65 +409,79 @@ async def handle_payment_success(checkout_session: Dict[str, Any], db: Session):
         
         # Send email notification to vendor
         try:
-            if lead.selected_vendor_id:
-                vendor = db.query(Vendor).filter(Vendor.id == lead.selected_vendor_id).first()
-                if vendor and vendor.email:
-                    # Prepare lead data for email
-                    lead_data = {
-                        'quote_data': {
-                            'originAddress': lead.origin_address,
-                            'destinationAddress': lead.destination_address,
-                            'moveDate': lead.move_date.isoformat() if lead.move_date else '',
-                            'moveTime': lead.move_time,
-                            'totalRooms': lead.total_rooms,
-                            'squareFootage': lead.square_footage,
-                            'estimatedWeight': lead.estimated_weight,
-                            'heavyItems': lead.heavy_items or {},
-                            'stairsAtPickup': lead.stairs_at_pickup,
-                            'stairsAtDropoff': lead.stairs_at_dropoff,
-                            'elevatorAtPickup': lead.elevator_at_pickup,
-                            'elevatorAtDropoff': lead.elevator_at_dropoff,
-                            'additionalServices': lead.additional_services or {}
-                        },
-                        'selected_quote': {
-                            'vendor_name': vendor.name,
-                            'total_cost': lead.payment_amount or 100.00,  # Use actual payment amount
-                            'crew_size': 2,   # Default values
-                            'truck_count': 1,
-                            'estimated_hours': 4.0,
-                            'travel_time_hours': 1.0
-                        },
-                        'contact_data': {
-                            'firstName': lead.first_name,
-                            'lastName': lead.last_name,
-                            'email': lead.email,
-                            'phone': lead.phone
-                        }
-                    }
-                    
-                    await send_vendor_email(lead_data, vendor.email, int(lead_id))
-                    logger.info(f"Vendor email sent to {vendor.email} for lead {lead_id}")
+            vendor_slug = metadata.get('vendor_slug')
+            if vendor_slug:
+                vendor = get_vendor_by_slug(vendor_slug, db)
+                if vendor:
+                    await send_vendor_email(lead, vendor.email, lead_id, payment_link_id)
+                    logger.info(f"Vendor email sent for lead {lead_id}")
                 else:
-                    logger.warning(f"No vendor email found for vendor {lead.selected_vendor_id}")
+                    logger.error(f"Vendor not found for slug: {vendor_slug}")
             else:
-                logger.warning(f"No vendor found for lead {lead_id}")
+                logger.error(f"No vendor_slug found in Payment Link metadata")
         except Exception as email_error:
             logger.error(f"Failed to send vendor email: {email_error}")
-            # Don't fail the payment processing if email fails
         
     except Exception as e:
-        logger.error(f"Failed to handle payment success: {e}")
+        logger.error(f"Failed to handle Payment Link update: {e}")
 
-async def handle_payment_failure(checkout_session: Dict[str, Any], db: Session):
-    """
-    Handle failed payment
-    """
+async def handle_payment_intent_success(payment_intent: Dict[str, Any], db: Session):
+    """Handle successful Payment Intent"""
     try:
-        session_id = checkout_session['id']
-        logger.info(f"Payment failed: {session_id}")
-        # You could implement retry logic or customer notification here
+        payment_intent_id = payment_intent['id']
+        metadata = payment_intent.get('metadata', {})
+        
+        logger.info(f"Processing successful Payment Intent: {payment_intent_id}")
+        
+        # Extract lead_id from metadata
+        lead_id = metadata.get('lead_id')
+        if not lead_id:
+            logger.error(f"No lead_id found in Payment Intent: {payment_intent_id}")
+            return
+        
+        # Retrieve full lead data from the database
+        lead = db.query(Lead).filter(Lead.id == int(lead_id)).first()
+        if not lead:
+            logger.error(f"Lead with ID {lead_id} not found in database.")
+            return
+        
+        # Update lead status to payment_completed
+        lead.status = 'payment_completed'
+        lead.payment_intent_id = payment_intent_id
+        lead.payment_amount = payment_intent.get('amount', 0) / 100.0  # Convert from cents
+        lead.payment_currency = payment_intent.get('currency', 'cad').upper()
+        lead.payment_status = 'succeeded'
+        db.commit()
+        db.refresh(lead)
+        
+        logger.info(f"Payment Intent confirmed and lead {lead_id} status updated to 'payment_completed'")
+        
     except Exception as e:
-        logger.error(f"Failed to handle payment failure: {e}")
+        logger.error(f"Failed to handle Payment Intent success: {e}")
+
+async def handle_payment_intent_failure(payment_intent: Dict[str, Any], db: Session):
+    """Handle failed Payment Intent"""
+    try:
+        payment_intent_id = payment_intent['id']
+        metadata = payment_intent.get('metadata', {})
+        
+        logger.info(f"Processing failed Payment Intent: {payment_intent_id}")
+        
+        # Extract lead_id from metadata
+        lead_id = metadata.get('lead_id')
+        if not lead_id:
+            logger.error(f"No lead_id found in Payment Intent: {payment_intent_id}")
+            return
+        
+        # Update lead status to indicate payment failure
+        lead = db.query(Lead).filter(Lead.id == int(lead_id)).first()
+        if lead:
+            lead.payment_status = 'failed'
+            db.commit()
+            logger.info(f"Lead {lead_id} payment status updated to 'failed'")
+        
+    except Exception as e:
+        logger.error(f"Failed to handle Payment Intent failure: {e}")
 
 @router.post('/confirm-payment')
 async def confirm_payment(

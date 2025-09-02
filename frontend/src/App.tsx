@@ -165,7 +165,7 @@ function AppInner() {
                     {currentStep === 4 && <Step5 onNext={goNext} onBack={goBack} />}
                     {currentStep === 5 && <Step6 onNext={goNext} onBack={goBack} />}
                     {currentStep === 6 && (
-                        data.selectedQuote || sessionStorage.getItem('paymentSuccess') ? 
+                        (data.selectedQuote || sessionStorage.getItem('paymentSuccess') || location.hash === '#/step7') ? 
                         <Step7 /> : 
                         <div className="step-card">
                             <h2>Redirecting...</h2>
