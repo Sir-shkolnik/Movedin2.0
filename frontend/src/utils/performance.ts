@@ -184,8 +184,8 @@ export function addResourceHints() {
 
   // Preload critical resources
   const preload = [
-    { href: '/static/css/main.css', as: 'style' },
-    { href: '/static/js/bundle.js', as: 'script' },
+    { href: '/src/index.css', as: 'style' },
+    { href: '/src/App.css', as: 'style' },
     { href: '/icon-192x192.png', as: 'image' }
   ];
   
@@ -224,17 +224,14 @@ export function optimizeImages() {
 export function optimizeFonts() {
   // Preload critical fonts
   const criticalFonts = [
-    '/fonts/Inter-Regular.woff2',
-    '/fonts/Inter-Bold.woff2'
+    'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
   ];
   
   criticalFonts.forEach(font => {
     const link = document.createElement('link');
     link.rel = 'preload';
     link.href = font;
-    link.as = 'font';
-    link.type = 'font/woff2';
-    link.crossOrigin = 'anonymous';
+    link.as = 'style';
     document.head.appendChild(link);
   });
 }

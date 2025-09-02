@@ -3,7 +3,7 @@
 export function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      const swUrl = `${process.env.PUBLIC_URL}/sw.js`;
+      const swUrl = '/sw.js';
 
       navigator.serviceWorker
         .register(swUrl)

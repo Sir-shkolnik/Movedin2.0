@@ -89,9 +89,10 @@ window.addEventListener('load', () => {
   
   // Check Core Web Vitals after page load
   setTimeout(() => {
-    const { checkCoreWebVitals } = require('./performance');
-    const result = checkCoreWebVitals();
-    console.log('📈 Core Web Vitals check:', result);
+    import('./performance').then(({ checkCoreWebVitals }) => {
+      const result = checkCoreWebVitals();
+      console.log('📈 Core Web Vitals check:', result);
+    });
   }, 2000);
 });
 
