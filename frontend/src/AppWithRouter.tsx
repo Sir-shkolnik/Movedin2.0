@@ -78,10 +78,8 @@ function AppWithRouter() {
             <Route path="/articles/moving-stress-free-toronto" element={<MovingStressFreeToronto />} />
             <Route path="/articles/winter-moving-tips" element={<WinterMovingTips />} />
             <Route path="/articles/essential-moving-checklist" element={<EssentialMovingChecklist />} />
-            {/* Root route - must be last so specific routes can match first */}
-            <Route path="/" element={<App />} />
-            {/* Catch-all for any unmatched routes - must be last */}
-            <Route path="*" element={<App />} />
+            {/* Catch-all route must be last */}
+            <Route path="/*" element={<App />} />
           </Routes>
         </Router>
       </ThemeProvider>
