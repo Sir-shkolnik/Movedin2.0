@@ -45,7 +45,6 @@ function AppWithRouter() {
       <ThemeProvider>
         <Router>
           <Routes>
-            <Route path="*" element={<App />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/vendors" element={<VendorManagement />} />
             <Route path="/admin/locations" element={<VendorLocations />} />
@@ -79,6 +78,10 @@ function AppWithRouter() {
             <Route path="/articles/moving-stress-free-toronto" element={<MovingStressFreeToronto />} />
             <Route path="/articles/winter-moving-tips" element={<WinterMovingTips />} />
             <Route path="/articles/essential-moving-checklist" element={<EssentialMovingChecklist />} />
+            {/* Root route - must be last so specific routes can match first */}
+            <Route path="/" element={<App />} />
+            {/* Catch-all for any unmatched routes - must be last */}
+            <Route path="*" element={<App />} />
           </Routes>
         </Router>
       </ThemeProvider>
