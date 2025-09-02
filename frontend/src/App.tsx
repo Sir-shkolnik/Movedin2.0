@@ -27,9 +27,12 @@ const steps = [
 
 function App() {
     return (
-        <FormProvider>
-            <AppInner />
-        </FormProvider>
+        <>
+            <Header />
+            <FormProvider>
+                <AppInner />
+            </FormProvider>
+        </>
     );
 }
 
@@ -150,7 +153,6 @@ function AppInner() {
 
         return (
         <div className="app">
-            {currentStep === 0 && <Header />}
             <div className="app-content">
                 <Stepper 
                     steps={steps} 
