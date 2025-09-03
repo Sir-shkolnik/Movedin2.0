@@ -83,10 +83,10 @@ function AppWithRouter() {
             <Route path="/articles/moving-stress-free-toronto" element={<MovingStressFreeToronto />} />
             <Route path="/articles/winter-moving-tips" element={<WinterMovingTips />} />
             <Route path="/articles/essential-moving-checklist" element={<EssentialMovingChecklist />} />
-            {/* Quote form route */}
-            <Route path="/quote" element={<App />} />
             {/* Home page route */}
             <Route path="/" element={<HomePage />} />
+            {/* Quote form route */}
+            <Route path="/quote" element={<App />} />
             {/* Catch-all route must be last */}
             <Route path="/*" element={<HomePage />} />
           </Routes>

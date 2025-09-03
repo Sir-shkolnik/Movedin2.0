@@ -9,7 +9,7 @@ const HomePage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleGetQuote = () => {
-    navigate('/#/quote');
+    navigate('/quote');
   };
 
   return (

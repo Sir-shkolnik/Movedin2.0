@@ -12,7 +12,7 @@ const StaticFooter: React.FC = () => {
         <div className="footer-section">
           <h4>Quick Links</h4>
           <ul>
-            <li><a href="/#/quote">Get a Quote</a></li>
+            <li><a href="/quote">Get a Quote</a></li>
             <li><a href="/#/how-it-works">How It Works</a></li>
             <li><a href="/#/tips-guides">Tips & Guides</a></li>
             <li><a href="/#/about-us">About Us</a></li>
