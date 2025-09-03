@@ -83,17 +83,22 @@ const HomePage: React.FC = () => {
       <main className="page-container" aria-labelledby="homepage-title">
         <div className="page-content">
           
-          {/* Hero Section */}
-          <section className="hero-section">
-            <div className="hero-content">
-              <h1 id="homepage-title" className="hero-title">
-                Get Moving Quotes from <span className="highlight">Verified Canadian Movers</span> in Minutes
-              </h1>
-              <p className="hero-subtitle">
-                Connect with licensed, insured moving companies across Canada. Compare prices, read reviews, and book with confidence. 
-                <strong> No hidden fees. No spam calls. Just great service.</strong>
+          {/* Main Content */}
+          <article className="page-card">
+            <header>
+              <h1 id="homepage-title">Welcome to MovedIn</h1>
+              <p className="page-subtitle">
+                Canada's premier moving platform connecting customers with verified, licensed moving companies. 
+                Get instant quotes, compare prices, and book with confidence. <Link to="/quote">Get a quote now</Link> or explore our <Link to="/tips-guides">moving tips & guides</Link>.
               </p>
-              <div className="hero-cta">
+            </header>
+
+            <section className="intro-section">
+              <h2>Why Choose MovedIn?</h2>
+              <p>
+                Moving can be stressful, but finding the right moving company shouldn't be. MovedIn simplifies the process by connecting you with verified, licensed moving companies across Canada. Our platform ensures you get the best service at competitive prices, with complete transparency and no hidden fees.
+              </p>
+              <div className="cta-section">
                 <button 
                   className="cta-button primary" 
                   onClick={handleGetQuote}
@@ -101,253 +106,163 @@ const HomePage: React.FC = () => {
                 >
                   Get Free Quote Now
                 </button>
-                <p className="cta-note">✓ Free • ✓ No obligation • ✓ Instant quotes</p>
+                <p className="cta-subtitle">✓ Free quotes • ✓ No obligation • ✓ Licensed movers • ✓ Transparent pricing</p>
               </div>
-              <div className="trust-indicators">
-                <div className="trust-item">
-                  <span className="trust-number">10,000+</span>
-                  <span className="trust-label">Happy Customers</span>
-                </div>
-                <div className="trust-item">
-                  <span className="trust-number">500+</span>
-                  <span className="trust-label">Verified Movers</span>
-                </div>
-                <div className="trust-item">
-                  <span className="trust-number">4.8★</span>
-                  <span className="trust-label">Average Rating</span>
-                </div>
-              </div>
-            </div>
-          </section>
+            </section>
+          </article>
 
-          {/* How It Works Section */}
-          <section className="how-it-works-section">
-            <div className="section-header">
+          <article className="page-card">
+            <section className="how-it-works-section">
               <h2>How MovedIn Works</h2>
-              <p>Get your moving quote in 4 simple steps</p>
-            </div>
-            <div className="steps-grid">
-              <div className="step-card">
-                <div className="step-number">1</div>
-                <h3>Tell Us About Your Move</h3>
-                <p>Share your moving details - where, when, and what you're moving. Takes just 2 minutes.</p>
+              <p className="section-intro">Get your moving quote in 4 simple steps</p>
+              
+              <div className="steps-container">
+                <div className="step-item">
+                  <div className="step-number">1</div>
+                  <div className="step-content">
+                    <h3>Tell Us About Your Move</h3>
+                    <p>Share your moving details - where, when, and what you're moving. Takes just 2 minutes to complete our simple form.</p>
+                  </div>
+                </div>
+                <div className="step-item">
+                  <div className="step-number">2</div>
+                  <div className="step-content">
+                    <h3>Get Instant Quotes</h3>
+                    <p>Receive quotes from verified, licensed moving companies in your area within minutes. No waiting for callbacks.</p>
+                  </div>
+                </div>
+                <div className="step-item">
+                  <div className="step-number">3</div>
+                  <div className="step-content">
+                    <h3>Compare & Choose</h3>
+                    <p>Review detailed quotes, read reviews, and select the mover that's right for you. All pricing is transparent with no hidden fees.</p>
+                  </div>
+                </div>
+                <div className="step-item">
+                  <div className="step-number">4</div>
+                  <div className="step-content">
+                    <h3>Book & Move</h3>
+                    <p>Secure your booking with a small deposit and move with confidence. Your mover will handle everything from there.</p>
+                  </div>
+                </div>
               </div>
-              <div className="step-card">
-                <div className="step-number">2</div>
-                <h3>Get Instant Quotes</h3>
-                <p>Receive quotes from verified, licensed moving companies in your area within minutes.</p>
-              </div>
-              <div className="step-card">
-                <div className="step-number">3</div>
-                <h3>Compare & Choose</h3>
-                <p>Review detailed quotes, read reviews, and select the mover that's right for you.</p>
-              </div>
-              <div className="step-card">
-                <div className="step-number">4</div>
-                <h3>Book & Move</h3>
-                <p>Secure your booking with a small deposit and move with confidence.</p>
-              </div>
-            </div>
-          </section>
+            </section>
+          </article>
 
-          {/* Why Choose MovedIn */}
-          <section className="why-choose-section">
-            <div className="section-header">
+          <article className="page-card">
+            <section className="why-choose-section">
               <h2>Why Choose MovedIn?</h2>
-              <p>Canada's most trusted moving platform</p>
-            </div>
-            <div className="benefits-grid">
-              <div className="benefit-card">
-                <div className="benefit-icon">🛡️</div>
-                <h3>Verified & Licensed</h3>
-                <p>All moving companies are fully licensed, insured, and background-checked for your peace of mind.</p>
+              <p className="section-intro">Canada's most trusted moving platform</p>
+              
+              <div className="benefits-grid">
+                <div className="benefit-item">
+                  <h3>🛡️ Verified & Licensed</h3>
+                  <p>All moving companies are fully licensed, insured, and background-checked for your peace of mind.</p>
+                </div>
+                <div className="benefit-item">
+                  <h3>⚡ Instant Quotes</h3>
+                  <p>Get multiple quotes in minutes, not days. No waiting for callbacks or lengthy phone calls.</p>
+                </div>
+                <div className="benefit-item">
+                  <h3>💰 Transparent Pricing</h3>
+                  <p>No hidden fees or surprise charges. See exactly what you'll pay before you book.</p>
+                </div>
+                <div className="benefit-item">
+                  <h3>🇨🇦 Canadian Owned</h3>
+                  <p>Supporting local Canadian businesses. We understand Canadian moving needs and regulations.</p>
+                </div>
+                <div className="benefit-item">
+                  <h3>⭐ Customer Reviews</h3>
+                  <p>Read real reviews from real customers. Make informed decisions based on actual experiences.</p>
+                </div>
+                <div className="benefit-item">
+                  <h3>📞 24/7 Support</h3>
+                  <p>Our customer support team is here to help you every step of the way, whenever you need us.</p>
+                </div>
               </div>
-              <div className="benefit-card">
-                <div className="benefit-icon">⚡</div>
-                <h3>Instant Quotes</h3>
-                <p>Get multiple quotes in minutes, not days. No waiting for callbacks or lengthy phone calls.</p>
-              </div>
-              <div className="benefit-card">
-                <div className="benefit-icon">💰</div>
-                <h3>Transparent Pricing</h3>
-                <p>No hidden fees or surprise charges. See exactly what you'll pay before you book.</p>
-              </div>
-              <div className="benefit-card">
-                <div className="benefit-icon">🇨🇦</div>
-                <h3>Canadian Owned</h3>
-                <p>Supporting local Canadian businesses. We understand Canadian moving needs and regulations.</p>
-              </div>
-              <div className="benefit-card">
-                <div className="benefit-icon">⭐</div>
-                <h3>Customer Reviews</h3>
-                <p>Read real reviews from real customers. Make informed decisions based on actual experiences.</p>
-              </div>
-              <div className="benefit-card">
-                <div className="benefit-icon">📞</div>
-                <h3>24/7 Support</h3>
-                <p>Our customer support team is here to help you every step of the way, whenever you need us.</p>
-              </div>
-            </div>
-          </section>
+            </section>
+          </article>
 
-          {/* Service Areas */}
-          <section className="service-areas-section">
-            <div className="section-header">
+          <article className="page-card">
+            <section className="service-areas-section">
               <h2>We Serve All Major Canadian Cities</h2>
-              <p>From coast to coast, we connect you with the best local movers</p>
-            </div>
-            <div className="cities-grid">
-              <div className="city-group">
-                <h3>Ontario</h3>
-                <ul>
-                  <li>Toronto</li>
-                  <li>Ottawa</li>
-                  <li>Hamilton</li>
-                  <li>Kitchener-Waterloo</li>
-                  <li>London</li>
-                  <li>Windsor</li>
-                </ul>
+              <p className="section-intro">From coast to coast, we connect you with the best local movers</p>
+              
+              <div className="cities-grid">
+                <div className="city-group">
+                  <h3>Ontario</h3>
+                  <p>Toronto, Ottawa, Hamilton, Kitchener-Waterloo, London, Windsor, and all major Ontario cities.</p>
+                </div>
+                <div className="city-group">
+                  <h3>British Columbia</h3>
+                  <p>Vancouver, Victoria, Surrey, Burnaby, Richmond, Kelowna, and throughout BC.</p>
+                </div>
+                <div className="city-group">
+                  <h3>Quebec</h3>
+                  <p>Montreal, Quebec City, Laval, Gatineau, Longueuil, Sherbrooke, and across Quebec.</p>
+                </div>
+                <div className="city-group">
+                  <h3>Alberta</h3>
+                  <p>Calgary, Edmonton, Red Deer, Lethbridge, St. Albert, Medicine Hat, and all Alberta cities.</p>
+                </div>
+                <div className="city-group">
+                  <h3>Other Provinces</h3>
+                  <p>Winnipeg (MB), Halifax (NS), Saskatoon & Regina (SK), St. John's (NL), Charlottetown (PE), and more.</p>
+                </div>
               </div>
-              <div className="city-group">
-                <h3>British Columbia</h3>
-                <ul>
-                  <li>Vancouver</li>
-                  <li>Victoria</li>
-                  <li>Surrey</li>
-                  <li>Burnaby</li>
-                  <li>Richmond</li>
-                  <li>Kelowna</li>
-                </ul>
-              </div>
-              <div className="city-group">
-                <h3>Quebec</h3>
-                <ul>
-                  <li>Montreal</li>
-                  <li>Quebec City</li>
-                  <li>Laval</li>
-                  <li>Gatineau</li>
-                  <li>Longueuil</li>
-                  <li>Sherbrooke</li>
-                </ul>
-              </div>
-              <div className="city-group">
-                <h3>Alberta</h3>
-                <ul>
-                  <li>Calgary</li>
-                  <li>Edmonton</li>
-                  <li>Red Deer</li>
-                  <li>Lethbridge</li>
-                  <li>St. Albert</li>
-                  <li>Medicine Hat</li>
-                </ul>
-              </div>
-              <div className="city-group">
-                <h3>Other Provinces</h3>
-                <ul>
-                  <li>Winnipeg, MB</li>
-                  <li>Halifax, NS</li>
-                  <li>Saskatoon, SK</li>
-                  <li>Regina, SK</li>
-                  <li>St. John's, NL</li>
-                  <li>Charlottetown, PE</li>
-                </ul>
-              </div>
-            </div>
-          </section>
+            </section>
+          </article>
 
-          {/* Customer Testimonials */}
-          <section className="testimonials-section">
-            <div className="section-header">
+          <article className="page-card">
+            <section className="testimonials-section">
               <h2>What Our Customers Say</h2>
-              <p>Real reviews from real customers across Canada</p>
-            </div>
-            <div className="testimonials-grid">
-              <div className="testimonial-card">
-                <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
-                <p>"MovedIn made finding a mover so easy! Got 3 quotes in minutes and saved $500 compared to the first company I called. Highly recommend!"</p>
-                <div className="testimonial-author">
-                  <strong>Sarah M.</strong>
-                  <span>Toronto, ON</span>
+              <p className="section-intro">Real reviews from real customers across Canada</p>
+              
+              <div className="testimonials-grid">
+                <div className="testimonial-item">
+                  <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                  <blockquote>
+                    "MovedIn made finding a mover so easy! Got 3 quotes in minutes and saved $500 compared to the first company I called. Highly recommend!"
+                  </blockquote>
+                  <cite>— Sarah M., Toronto, ON</cite>
+                </div>
+                <div className="testimonial-item">
+                  <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                  <blockquote>
+                    "The movers were professional, on time, and careful with our belongings. The booking process was seamless. Will definitely use again!"
+                  </blockquote>
+                  <cite>— Michael R., Vancouver, BC</cite>
+                </div>
+                <div className="testimonial-item">
+                  <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                  <blockquote>
+                    "No more calling multiple companies! MovedIn gave me all the quotes I needed in one place. The transparency in pricing was refreshing."
+                  </blockquote>
+                  <cite>— Jennifer L., Montreal, QC</cite>
                 </div>
               </div>
-              <div className="testimonial-card">
-                <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
-                <p>"The movers were professional, on time, and careful with our belongings. The booking process was seamless. Will definitely use again!"</p>
-                <div className="testimonial-author">
-                  <strong>Michael R.</strong>
-                  <span>Vancouver, BC</span>
-                </div>
-              </div>
-              <div className="testimonial-card">
-                <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
-                <p>"No more calling multiple companies! MovedIn gave me all the quotes I needed in one place. The transparency in pricing was refreshing."</p>
-                <div className="testimonial-author">
-                  <strong>Jennifer L.</strong>
-                  <span>Montreal, QC</span>
-                </div>
-              </div>
-            </div>
-          </section>
+            </section>
+          </article>
 
-          {/* Featured Content Section */}
-          <section className="featured-content-section">
-            <div className="section-header">
-              <h2>Moving Resources & Expert Tips</h2>
-              <p>Everything you need to know for a successful move</p>
-            </div>
-            <div className="content-grid">
-              <div className="content-card">
-                <div className="content-icon">📋</div>
-                <h3>Essential Moving Checklist</h3>
-                <p>Complete step-by-step guide to organize your move from start to finish.</p>
-                <Link to="/#/articles/essential-moving-checklist" className="content-link">
-                  Read Guide →
-                </Link>
-              </div>
-              <div className="content-card">
-                <div className="content-icon">🏠</div>
-                <h3>Toronto Neighborhood Guide</h3>
-                <p>Discover the best neighborhoods in Toronto for your new home and lifestyle.</p>
-                <Link to="/#/articles/toronto-neighborhood-guide" className="content-link">
-                  Explore Areas →
-                </Link>
-              </div>
-              <div className="content-card">
-                <div className="content-icon">🐕</div>
-                <h3>Moving with Pets</h3>
-                <p>Expert tips to ensure your furry friends have a stress-free moving experience.</p>
-                <Link to="/#/articles/moving-with-pets" className="content-link">
-                  Learn More →
-                </Link>
-              </div>
-            </div>
-          </section>
-
-          {/* Final CTA Section */}
-          <section className="final-cta-section">
-            <div className="cta-content">
+          <article className="page-card">
+            <section className="final-cta-section">
               <h2>Ready to Make Your Move?</h2>
-              <p>Join thousands of Canadians who trust MovedIn for their moving needs. Get your free quote today!</p>
-              <div className="cta-buttons">
+              <p>Join thousands of Canadians who trust MovedIn for their moving needs. Get your free quote today and experience the difference of working with verified, professional movers.</p>
+              
+              <div className="cta-section">
                 <button 
-                  className="cta-button primary large" 
+                  className="cta-button primary" 
                   onClick={handleGetQuote}
                   aria-label="Get your free moving quote now"
                 >
                   Get Free Quote Now
                 </button>
-                <Link to="/#/how-it-works" className="cta-button secondary large">
-                  Learn How It Works
-                </Link>
+                <p className="cta-subtitle">✓ Free quotes • ✓ No obligation • ✓ Licensed movers • ✓ Transparent pricing</p>
               </div>
-              <div className="cta-guarantees">
-                <span>✓ Free quotes</span>
-                <span>✓ No obligation</span>
-                <span>✓ Licensed movers</span>
-                <span>✓ Transparent pricing</span>
-              </div>
-            </div>
-          </section>
+              
+              <p>Want to learn more about our process? <Link to="/how-it-works">See how MovedIn works</Link> or explore our <Link to="/tips-guides">moving tips and guides</Link>.</p>
+            </section>
+          </article>
 
         </div>
       </main>
