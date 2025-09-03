@@ -289,6 +289,40 @@ const HomePage: React.FC = () => {
             </div>
           </section>
 
+          {/* Featured Content Section */}
+          <section className="featured-content-section">
+            <div className="section-header">
+              <h2>Moving Resources & Expert Tips</h2>
+              <p>Everything you need to know for a successful move</p>
+            </div>
+            <div className="content-grid">
+              <div className="content-card">
+                <div className="content-icon">📋</div>
+                <h3>Essential Moving Checklist</h3>
+                <p>Complete step-by-step guide to organize your move from start to finish.</p>
+                <Link to="/#/articles/essential-moving-checklist" className="content-link">
+                  Read Guide →
+                </Link>
+              </div>
+              <div className="content-card">
+                <div className="content-icon">🏠</div>
+                <h3>Toronto Neighborhood Guide</h3>
+                <p>Discover the best neighborhoods in Toronto for your new home and lifestyle.</p>
+                <Link to="/#/articles/toronto-neighborhood-guide" className="content-link">
+                  Explore Areas →
+                </Link>
+              </div>
+              <div className="content-card">
+                <div className="content-icon">🐕</div>
+                <h3>Moving with Pets</h3>
+                <p>Expert tips to ensure your furry friends have a stress-free moving experience.</p>
+                <Link to="/#/articles/moving-with-pets" className="content-link">
+                  Learn More →
+                </Link>
+              </div>
+            </div>
+          </section>
+
           {/* Final CTA Section */}
           <section className="final-cta-section">
             <div className="cta-content">

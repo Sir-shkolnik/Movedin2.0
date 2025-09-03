@@ -41,8 +41,8 @@ const Header: React.FC = () => {
                 </div>
                 <nav className="nav-links">
                     <Link
-                        to="/"
-                        className={`nav-link ${isActive('/') ? 'active' : ''}`}
+                        to="/quote"
+                        className={`nav-link ${isActive('/quote') ? 'active' : ''}`}
                     >
                         Get a quote
                     </Link>
@@ -92,8 +92,8 @@ const Header: React.FC = () => {
                 aria-hidden={!menuOpen}
             >
                 <Link
-                    to="/"
-                    className={`nav-link ${isActive('/') ? 'active' : ''}`}
+                    to="/quote"
+                    className={`nav-link ${isActive('/quote') ? 'active' : ''}`}
                     onClick={handleNavClick}
                 >
                     Get a quote
