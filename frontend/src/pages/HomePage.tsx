@@ -1,114 +1,324 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header/Header';
-import './HomePage.css';
+import StaticFooter from '../components/Footer/StaticFooter';
+import './Page.css';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleGetQuote = () => {
-    // Navigate to the quote form (App component)
-    navigate('/quote');
+    navigate('/#/quote');
   };
 
   return (
-    <div className="homepage">
-      <Header />
-      
-      <main className="main-content">
-        {/* Hero Section */}
-        <section className="hero-section">
-          <div className="hero-content">
-            <h1 className="hero-title">
-              Get Moving Quotes in Minutes
-            </h1>
-            <p className="hero-subtitle">
-              Compare prices from Toronto's top moving companies. 
-              Save time, save money, and move with confidence.
-            </p>
-            <button 
-              className="cta-button"
-              onClick={handleGetQuote}
-            >
-              Get Free Quote Now
-            </button>
-          </div>
-        </section>
+    <>
+      <Helmet>
+        <title>MovedIn - Get Moving Quotes from Verified Canadian Movers | Free Instant Quotes</title>
+        <meta name="description" content="Get instant moving quotes from verified, licensed Canadian moving companies. Compare prices, read reviews, and book with confidence. Serving all major Canadian cities." />
+        <meta name="keywords" content="moving quotes, Canadian movers, moving companies, Toronto movers, Vancouver movers, Montreal movers, Calgary movers, moving services, instant quotes, verified movers" />
+        <link rel="canonical" href="https://movedin.com/" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:title" content="MovedIn - Get Moving Quotes from Verified Canadian Movers" />
+        <meta property="og:description" content="Get instant moving quotes from verified, licensed Canadian moving companies. Compare prices and book with confidence." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://movedin.com/" />
+        <meta property="og:site_name" content="MovedIn" />
+        <meta property="og:locale" content="en_CA" />
+        <meta property="og:image" content="https://movedin.com/og-image-home.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="MovedIn - Get Moving Quotes from Verified Canadian Movers" />
+        <meta name="twitter:description" content="Get instant moving quotes from verified, licensed Canadian moving companies. Compare prices and book with confidence." />
+        <meta name="twitter:image" content="https://movedin.com/twitter-image-home.jpg" />
+        
+        {/* Additional Meta Tags */}
+        <meta name="robots" content="index, follow" />
+        <meta name="author" content="MovedIn" />
+        <meta name="geo.region" content="CA" />
+        <meta name="geo.placename" content="Canada" />
+        <meta name="geo.position" content="43.6532;-79.3832" />
+        <meta name="ICBM" content="43.6532, -79.3832" />
+        
+        {/* Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "MovedIn",
+            "description": "Canada's premier moving platform connecting customers with verified, licensed moving companies",
+            "url": "https://movedin.com",
+            "logo": "https://movedin.com/logo.png",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+1-800-MOVEDIN",
+              "contactType": "customer service",
+              "email": "support@movedin.com"
+            },
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "CA"
+            },
+            "areaServed": {
+              "@type": "Country",
+              "name": "Canada"
+            },
+            "serviceType": "Moving Services",
+            "offers": {
+              "@type": "Offer",
+              "description": "Instant moving quotes from verified Canadian moving companies",
+              "price": "0",
+              "priceCurrency": "CAD"
+            }
+          })}
+        </script>
+      </Helmet>
 
-        {/* Features Section */}
-        <section className="features-section">
-          <div className="container">
-            <h2 className="section-title">Why Choose MovedIn?</h2>
-            <div className="features-grid">
-              <div className="feature-card">
-                <div className="feature-icon">🚚</div>
-                <h3>Top Moving Companies</h3>
-                <p>Vetted, licensed, and insured movers in the Greater Toronto Area</p>
+      <Header />
+      <main className="page-container" aria-labelledby="homepage-title">
+        <div className="page-content">
+          
+          {/* Hero Section */}
+          <section className="hero-section">
+            <div className="hero-content">
+              <h1 id="homepage-title" className="hero-title">
+                Get Moving Quotes from <span className="highlight">Verified Canadian Movers</span> in Minutes
+              </h1>
+              <p className="hero-subtitle">
+                Connect with licensed, insured moving companies across Canada. Compare prices, read reviews, and book with confidence. 
+                <strong> No hidden fees. No spam calls. Just great service.</strong>
+              </p>
+              <div className="hero-cta">
+                <button 
+                  className="cta-button primary" 
+                  onClick={handleGetQuote}
+                  aria-label="Get your free moving quote now"
+                >
+                  Get Free Quote Now
+                </button>
+                <p className="cta-note">✓ Free • ✓ No obligation • ✓ Instant quotes</p>
               </div>
-              <div className="feature-card">
-                <div className="feature-icon">⚡</div>
-                <h3>Instant Quotes</h3>
-                <p>Get multiple quotes in minutes, not days</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon">💰</div>
-                <h3>Best Prices</h3>
-                <p>Compare rates and save up to 40% on your move</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon">🛡️</div>
-                <h3>Secure & Safe</h3>
-                <p>Your information is protected with bank-level security</p>
+              <div className="trust-indicators">
+                <div className="trust-item">
+                  <span className="trust-number">10,000+</span>
+                  <span className="trust-label">Happy Customers</span>
+                </div>
+                <div className="trust-item">
+                  <span className="trust-number">500+</span>
+                  <span className="trust-label">Verified Movers</span>
+                </div>
+                <div className="trust-item">
+                  <span className="trust-number">4.8★</span>
+                  <span className="trust-label">Average Rating</span>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* How It Works Section */}
-        <section className="how-it-works-section">
-          <div className="container">
-            <h2 className="section-title">How It Works</h2>
+          {/* How It Works Section */}
+          <section className="how-it-works-section">
+            <div className="section-header">
+              <h2>How MovedIn Works</h2>
+              <p>Get your moving quote in 4 simple steps</p>
+            </div>
             <div className="steps-grid">
               <div className="step-card">
                 <div className="step-number">1</div>
                 <h3>Tell Us About Your Move</h3>
-                <p>Enter your move details - from where, to where, and when</p>
+                <p>Share your moving details - where, when, and what you're moving. Takes just 2 minutes.</p>
               </div>
               <div className="step-card">
                 <div className="step-number">2</div>
                 <h3>Get Instant Quotes</h3>
-                <p>Receive competitive quotes from top Toronto movers</p>
+                <p>Receive quotes from verified, licensed moving companies in your area within minutes.</p>
               </div>
               <div className="step-card">
                 <div className="step-number">3</div>
-                <h3>Choose & Book</h3>
-                <p>Select your preferred mover and book your move</p>
+                <h3>Compare & Choose</h3>
+                <p>Review detailed quotes, read reviews, and select the mover that's right for you.</p>
+              </div>
+              <div className="step-card">
+                <div className="step-number">4</div>
+                <h3>Book & Move</h3>
+                <p>Secure your booking with a small deposit and move with confidence.</p>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* CTA Section */}
-        <section className="cta-section">
-          <div className="container">
-            <h2>Ready to Start Your Move?</h2>
-            <p>Join thousands of satisfied customers who've moved with MovedIn</p>
-            <button 
-              className="cta-button-large"
-              onClick={handleGetQuote}
-            >
-              Get Your Free Quote
-            </button>
-          </div>
-        </section>
-      </main>
+          {/* Why Choose MovedIn */}
+          <section className="why-choose-section">
+            <div className="section-header">
+              <h2>Why Choose MovedIn?</h2>
+              <p>Canada's most trusted moving platform</p>
+            </div>
+            <div className="benefits-grid">
+              <div className="benefit-card">
+                <div className="benefit-icon">🛡️</div>
+                <h3>Verified & Licensed</h3>
+                <p>All moving companies are fully licensed, insured, and background-checked for your peace of mind.</p>
+              </div>
+              <div className="benefit-card">
+                <div className="benefit-icon">⚡</div>
+                <h3>Instant Quotes</h3>
+                <p>Get multiple quotes in minutes, not days. No waiting for callbacks or lengthy phone calls.</p>
+              </div>
+              <div className="benefit-card">
+                <div className="benefit-icon">💰</div>
+                <h3>Transparent Pricing</h3>
+                <p>No hidden fees or surprise charges. See exactly what you'll pay before you book.</p>
+              </div>
+              <div className="benefit-card">
+                <div className="benefit-icon">🇨🇦</div>
+                <h3>Canadian Owned</h3>
+                <p>Supporting local Canadian businesses. We understand Canadian moving needs and regulations.</p>
+              </div>
+              <div className="benefit-card">
+                <div className="benefit-icon">⭐</div>
+                <h3>Customer Reviews</h3>
+                <p>Read real reviews from real customers. Make informed decisions based on actual experiences.</p>
+              </div>
+              <div className="benefit-card">
+                <div className="benefit-icon">📞</div>
+                <h3>24/7 Support</h3>
+                <p>Our customer support team is here to help you every step of the way, whenever you need us.</p>
+              </div>
+            </div>
+          </section>
 
-      <footer className="simple-footer">
-        <div className="container">
-          <p>&copy; 2025 MovedIn. All rights reserved.</p>
+          {/* Service Areas */}
+          <section className="service-areas-section">
+            <div className="section-header">
+              <h2>We Serve All Major Canadian Cities</h2>
+              <p>From coast to coast, we connect you with the best local movers</p>
+            </div>
+            <div className="cities-grid">
+              <div className="city-group">
+                <h3>Ontario</h3>
+                <ul>
+                  <li>Toronto</li>
+                  <li>Ottawa</li>
+                  <li>Hamilton</li>
+                  <li>Kitchener-Waterloo</li>
+                  <li>London</li>
+                  <li>Windsor</li>
+                </ul>
+              </div>
+              <div className="city-group">
+                <h3>British Columbia</h3>
+                <ul>
+                  <li>Vancouver</li>
+                  <li>Victoria</li>
+                  <li>Surrey</li>
+                  <li>Burnaby</li>
+                  <li>Richmond</li>
+                  <li>Kelowna</li>
+                </ul>
+              </div>
+              <div className="city-group">
+                <h3>Quebec</h3>
+                <ul>
+                  <li>Montreal</li>
+                  <li>Quebec City</li>
+                  <li>Laval</li>
+                  <li>Gatineau</li>
+                  <li>Longueuil</li>
+                  <li>Sherbrooke</li>
+                </ul>
+              </div>
+              <div className="city-group">
+                <h3>Alberta</h3>
+                <ul>
+                  <li>Calgary</li>
+                  <li>Edmonton</li>
+                  <li>Red Deer</li>
+                  <li>Lethbridge</li>
+                  <li>St. Albert</li>
+                  <li>Medicine Hat</li>
+                </ul>
+              </div>
+              <div className="city-group">
+                <h3>Other Provinces</h3>
+                <ul>
+                  <li>Winnipeg, MB</li>
+                  <li>Halifax, NS</li>
+                  <li>Saskatoon, SK</li>
+                  <li>Regina, SK</li>
+                  <li>St. John's, NL</li>
+                  <li>Charlottetown, PE</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          {/* Customer Testimonials */}
+          <section className="testimonials-section">
+            <div className="section-header">
+              <h2>What Our Customers Say</h2>
+              <p>Real reviews from real customers across Canada</p>
+            </div>
+            <div className="testimonials-grid">
+              <div className="testimonial-card">
+                <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                <p>"MovedIn made finding a mover so easy! Got 3 quotes in minutes and saved $500 compared to the first company I called. Highly recommend!"</p>
+                <div className="testimonial-author">
+                  <strong>Sarah M.</strong>
+                  <span>Toronto, ON</span>
+                </div>
+              </div>
+              <div className="testimonial-card">
+                <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                <p>"The movers were professional, on time, and careful with our belongings. The booking process was seamless. Will definitely use again!"</p>
+                <div className="testimonial-author">
+                  <strong>Michael R.</strong>
+                  <span>Vancouver, BC</span>
+                </div>
+              </div>
+              <div className="testimonial-card">
+                <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                <p>"No more calling multiple companies! MovedIn gave me all the quotes I needed in one place. The transparency in pricing was refreshing."</p>
+                <div className="testimonial-author">
+                  <strong>Jennifer L.</strong>
+                  <span>Montreal, QC</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Final CTA Section */}
+          <section className="final-cta-section">
+            <div className="cta-content">
+              <h2>Ready to Make Your Move?</h2>
+              <p>Join thousands of Canadians who trust MovedIn for their moving needs. Get your free quote today!</p>
+              <div className="cta-buttons">
+                <button 
+                  className="cta-button primary large" 
+                  onClick={handleGetQuote}
+                  aria-label="Get your free moving quote now"
+                >
+                  Get Free Quote Now
+                </button>
+                <Link to="/#/how-it-works" className="cta-button secondary large">
+                  Learn How It Works
+                </Link>
+              </div>
+              <div className="cta-guarantees">
+                <span>✓ Free quotes</span>
+                <span>✓ No obligation</span>
+                <span>✓ Licensed movers</span>
+                <span>✓ Transparent pricing</span>
+              </div>
+            </div>
+          </section>
+
         </div>
-      </footer>
-    </div>
+      </main>
+      <StaticFooter />
+    </>
   );
 };
 
