@@ -49,8 +49,8 @@ function showUpdateNotification() {
   if ('Notification' in window && Notification.permission === 'granted') {
     const notification = new Notification('MovedIn Update Available', {
       body: 'A new version is available. Click to refresh.',
-      icon: '/icon-192x192.png',
-      badge: '/icon-72x72.png',
+      icon: '/icon-192x192.svg',
+      badge: '/icon-192x192.svg',
       tag: 'update-available'
     });
 
@@ -135,7 +135,7 @@ async function installApp() {
       const registration = await navigator.serviceWorker.ready;
       await registration.showNotification('Installing MovedIn...', {
         body: 'Please wait while we install the app.',
-        icon: '/icon-192x192.png'
+        icon: '/icon-192x192.svg'
       });
       
       // Trigger install prompt

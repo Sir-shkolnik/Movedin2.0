@@ -90,7 +90,7 @@ export function initializePerformanceMonitoring() {
     try {
       fcpObserver.observe({ entryTypes: ['first-contentful-paint'] });
     } catch (e) {
-      console.warn('FCP observer failed:', e);
+      console.warn('FCP observer failed (not supported in this browser):', e);
     }
   }
 
@@ -184,9 +184,7 @@ export function addResourceHints() {
 
   // Preload critical resources
   const preload = [
-    { href: '/src/index.css', as: 'style' },
-    { href: '/src/App.css', as: 'style' },
-    { href: '/icon-192x192.png', as: 'image' }
+    { href: '/icon-192x192.svg', as: 'image' }
   ];
   
   preload.forEach(({ href, as }) => {
