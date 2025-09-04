@@ -188,8 +188,8 @@ const HowItWorks: React.FC = () => {
                     <div className="step-tip">
                       <span className="tip-icon">🔍</span>
                       <span className="tip-text">Take your time comparing - all quotes are valid for 24 hours!</span>
-                    </div>
-                  </div>
+                </div>
+              </div>
                 </div>
 
                 <div className="timeline-item" id="step-4">
@@ -206,8 +206,8 @@ const HowItWorks: React.FC = () => {
                     <div className="step-tip">
                       <span className="tip-icon">✅</span>
                       <span className="tip-text">Your move is now secured and confirmed!</span>
-                    </div>
-                  </div>
+                </div>
+              </div>
                 </div>
               </div>
             </section>

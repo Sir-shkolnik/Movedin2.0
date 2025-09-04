@@ -75,15 +75,15 @@ const TermsOfService: React.FC = () => {
           })}
         </script>
       </Helmet>
-      <Header />
+    <Header />
       <main className="page-container" aria-labelledby="terms-title">
-        <div className="page-content">
-          <article className="page-card">
+      <div className="page-content">
+        <article className="page-card">
             <header>
               <h1 id="terms-title">Terms of Service</h1>
               <p className="page-subtitle">Our platform terms and conditions that govern the use of MovedIn services. <Link to="/about-us">Learn more about us</Link> or <Link to="/privacy-policy">view our privacy policy</Link>.</p>
             </header>
-
+            
             <section className="policy-section">
               <h2>Acceptance of Terms</h2>
               <p>By accessing and using the MovedIn platform and services, you accept and agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use our services.</p>
@@ -265,7 +265,7 @@ const TermsOfService: React.FC = () => {
             </section>
 
             <section className="policy-section">
-              <h2>Changes to Terms</h2>
+            <h2>Changes to Terms</h2>
               <p>We reserve the right to modify these Terms at any time. Changes will be effective immediately upon posting on our platform. We will notify you of material changes by:</p>
               <ul>
                 <li>Posting a notice on our website</li>
@@ -313,14 +313,14 @@ const TermsOfService: React.FC = () => {
                   <h3>About MovedIn</h3>
                   <p>Learn more about our company and mission</p>
                 </Link>
-              </div>
+            </div>
             </section>
-          </article>
-        </div>
-      </main>
+        </article>
+      </div>
+    </main>
       <StaticFooter />
-    </>
-  );
+  </>
+);
 };
 
 export default TermsOfService; 

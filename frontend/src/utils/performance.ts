@@ -182,16 +182,18 @@ export function addResourceHints() {
     head.appendChild(link);
   });
 
-  // Preload critical resources - Removed to fix 404 warnings
-  const preload: Array<{href: string, as: string}> = [];
+  // Preload critical resources (DISABLED - causing 404 errors)
+  // const preload = [
+  //   { href: '/icon-192x192.svg', as: 'image' }
+  // ];
   
-  preload.forEach(({ href, as }) => {
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.href = href;
-    link.as = as as any;
-    head.appendChild(link);
-  });
+  // preload.forEach(({ href, as }) => {
+  //   const link = document.createElement('link');
+  //   link.rel = 'preload';
+  //   link.href = href;
+  //   link.as = as as any;
+  //   head.appendChild(link);
+  // });
 }
 
 // Optimize images for performance
@@ -218,8 +220,18 @@ export function optimizeImages() {
 
 // Optimize fonts for performance
 export function optimizeFonts() {
-  // Font optimization disabled to prevent preload warnings
-  console.log('Font optimization disabled to prevent console warnings');
+  // Preload critical fonts
+  const criticalFonts = [
+    'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
+  ];
+  
+  // criticalFonts.forEach(font => {
+  //   const link = document.createElement('link');
+  //   link.rel = 'preload';
+  //   link.href = font;
+  //   link.as = 'style';
+  //   document.head.appendChild(link);
+  // });
 }
 
 // Debounce function for performance

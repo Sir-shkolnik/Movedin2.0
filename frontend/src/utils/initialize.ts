@@ -10,11 +10,11 @@ export async function initializeAllSystems(): Promise<void> {
   try {
     console.log('🚀 Initializing MovedIn systems...');
     
-    // 1. Initialize PWA features
-    console.log('📱 Initializing PWA features...');
-    registerServiceWorker();
-    setupInstallPrompt();
-    requestNotificationPermission();
+    // 1. Initialize PWA features (DISABLED - causing 404 errors)
+    console.log('📱 PWA features disabled to prevent 404 errors');
+    // registerServiceWorker();
+    // setupInstallPrompt();
+    // requestNotificationPermission();
     
     // 2. Initialize image optimization
     console.log('🖼️ Initializing image optimization...');
@@ -41,7 +41,7 @@ export async function initializeAllSystems(): Promise<void> {
 // Log system status
 function logSystemStatus(): void {
   console.log('📊 MovedIn System Status:');
-  console.log('├── PWA: ✅ Service Worker registered');
+  console.log('├── PWA: ❌ Disabled (preventing 404 errors)');
   console.log('├── Images: ✅ WebP + Lazy loading enabled');
   console.log('├── Performance: ✅ Core Web Vitals monitoring');
   console.log('├── Caching: ✅ Multi-strategy caching enabled');

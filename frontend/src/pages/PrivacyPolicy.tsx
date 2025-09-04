@@ -82,7 +82,7 @@ const PrivacyPolicy: React.FC = () => {
               <h1 id="privacy-title">Privacy Policy</h1>
               <p className="page-subtitle">How MovedIn collects, uses, and protects your personal information. <Link to="/about-us">Learn more about us</Link> or <Link to="/terms-of-service">view our terms of service</Link>.</p>
             </header>
-
+            
             <section className="policy-section">
               <h2>Introduction</h2>
               <p>MovedIn ("we," "our," or "us") is committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our moving platform and services.</p>
@@ -232,7 +232,7 @@ const PrivacyPolicy: React.FC = () => {
                 <p><strong>Phone:</strong> <a href="tel:+1-437-979-3830">+1 (437) 979-3830</a></p>
                 <p><strong>Address:</strong> Ontario, Canada</p>
               </div>
-              
+
               <p>We will respond to your inquiry within 30 days and address any concerns you may have about your privacy.</p>
             </section>
 
@@ -270,7 +270,7 @@ const PrivacyPolicy: React.FC = () => {
                   <h3>About MovedIn</h3>
                   <p>Learn more about our company and mission</p>
                 </Link>
-              </div>
+            </div>
             </section>
           </article>
         </div>
