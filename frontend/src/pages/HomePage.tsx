@@ -86,43 +86,41 @@ const HomePage: React.FC = () => {
           {/* Hero Section */}
           <section className="hero-section">
             <div className="hero-content">
-              <div className="hero-text">
-                <h1 id="homepage-title">
-                  Get Moving Quotes from <span className="highlight">Verified Canadian Movers</span> in Minutes
-                </h1>
-                <p className="hero-description">
-                  Connect with licensed, insured moving companies across Canada. Compare prices, read reviews, and book with confidence. 
-                  <strong> No hidden fees. No spam calls. Just great service.</strong>
-                </p>
-                <div className="hero-actions">
-                  <button 
-                    className="cta-button primary large" 
-                    onClick={handleGetQuote}
-                    aria-label="Get your free moving quote now"
-                  >
-                    Get Free Quote Now
-                  </button>
-                  <Link to="/how-it-works" className="cta-button secondary large">
-                    How It Works
-                  </Link>
-                </div>
-                <div className="hero-trust">
-                  <p>✓ Free • ✓ No obligation • ✓ Instant quotes • ✓ Licensed movers</p>
-                </div>
+              <h1 id="homepage-title">
+                Get Moving Quotes from <span className="highlight">Verified Canadian Movers</span> in Minutes
+              </h1>
+              <p className="hero-subtitle">
+                Connect with licensed, insured moving companies across Canada. Compare prices, read reviews, and book with confidence. 
+                <strong> No hidden fees. No spam calls. Just great service.</strong>
+              </p>
+              <div className="hero-actions">
+                <button 
+                  className="cta-button primary large" 
+                  onClick={handleGetQuote}
+                  aria-label="Get your free moving quote now"
+                >
+                  Get Free Quote Now
+                </button>
+                <Link to="/how-it-works" className="cta-button secondary large">
+                  How It Works
+                </Link>
               </div>
-              <div className="hero-stats">
-                <div className="stat-item">
-                  <div className="stat-number">10,000+</div>
-                  <div className="stat-label">Happy Customers</div>
-                </div>
-                <div className="stat-item">
-                  <div className="stat-number">500+</div>
-                  <div className="stat-label">Verified Movers</div>
-                </div>
-                <div className="stat-item">
-                  <div className="stat-number">4.8★</div>
-                  <div className="stat-label">Average Rating</div>
-                </div>
+              <div className="hero-trust">
+                <p>✓ Free • ✓ No obligation • ✓ Instant quotes • ✓ Licensed movers</p>
+              </div>
+            </div>
+            <div className="hero-stats">
+              <div className="stat-item">
+                <div className="stat-number">10,000+</div>
+                <div className="stat-label">Happy Customers</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-number">500+</div>
+                <div className="stat-label">Verified Movers</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-number">4.8★</div>
+                <div className="stat-label">Average Rating</div>
               </div>
             </div>
           </section>
@@ -136,27 +134,23 @@ const HomePage: React.FC = () => {
             <div className="steps-grid">
               <div className="step-card">
                 <div className="step-icon">📝</div>
-                <div className="step-number">1</div>
                 <h3>Tell Us About Your Move</h3>
-                <p>Share your moving details - where, when, and what you're moving. Takes just 2 minutes to complete our simple form.</p>
+                <p>Share your moving details - where, when, and what you're moving. Takes just 2 minutes.</p>
               </div>
               <div className="step-card">
                 <div className="step-icon">⚡</div>
-                <div className="step-number">2</div>
                 <h3>Get Instant Quotes</h3>
-                <p>Receive quotes from verified, licensed moving companies in your area within minutes. No waiting for callbacks.</p>
+                <p>Receive quotes from verified, licensed moving companies in your area within minutes.</p>
               </div>
               <div className="step-card">
                 <div className="step-icon">📊</div>
-                <div className="step-number">3</div>
                 <h3>Compare & Choose</h3>
-                <p>Review detailed quotes, read reviews, and select the mover that's right for you. All pricing is transparent with no hidden fees.</p>
+                <p>Review detailed quotes, read reviews, and select the mover that's right for you.</p>
               </div>
               <div className="step-card">
                 <div className="step-icon">🚚</div>
-                <div className="step-number">4</div>
                 <h3>Book & Move</h3>
-                <p>Secure your booking with a small deposit and move with confidence. Your mover will handle everything from there.</p>
+                <p>Secure your booking with a small deposit and move with confidence.</p>
               </div>
             </div>
           </section>
@@ -236,7 +230,7 @@ const HomePage: React.FC = () => {
             </div>
           </section>
 
-          {/* Testimonials Section */}
+          {/* Customer Testimonials */}
           <section className="testimonials-section">
             <div className="section-header">
               <h2>What Our Customers Say</h2>
@@ -245,41 +239,26 @@ const HomePage: React.FC = () => {
             <div className="testimonials-grid">
               <div className="testimonial-card">
                 <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
-                <blockquote>
-                  "MovedIn made finding a mover so easy! Got 3 quotes in minutes and saved $500 compared to the first company I called. Highly recommend!"
-                </blockquote>
+                <p>"MovedIn made finding a mover so easy! Got 3 quotes in minutes and saved $500 compared to the first company I called. Highly recommend!"</p>
                 <div className="testimonial-author">
-                  <div className="author-avatar">SM</div>
-                  <div className="author-info">
-                    <div className="author-name">Sarah M.</div>
-                    <div className="author-location">Toronto, ON</div>
-                  </div>
+                  <strong>Sarah M.</strong>
+                  <span>Toronto, ON</span>
                 </div>
               </div>
               <div className="testimonial-card">
                 <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
-                <blockquote>
-                  "The movers were professional, on time, and careful with our belongings. The booking process was seamless. Will definitely use again!"
-                </blockquote>
+                <p>"The movers were professional, on time, and careful with our belongings. The booking process was seamless. Will definitely use again!"</p>
                 <div className="testimonial-author">
-                  <div className="author-avatar">MR</div>
-                  <div className="author-info">
-                    <div className="author-name">Michael R.</div>
-                    <div className="author-location">Vancouver, BC</div>
-                  </div>
+                  <strong>Michael R.</strong>
+                  <span>Vancouver, BC</span>
                 </div>
               </div>
               <div className="testimonial-card">
                 <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
-                <blockquote>
-                  "No more calling multiple companies! MovedIn gave me all the quotes I needed in one place. The transparency in pricing was refreshing."
-                </blockquote>
+                <p>"No more calling multiple companies! MovedIn gave me all the quotes I needed in one place. The transparency in pricing was refreshing."</p>
                 <div className="testimonial-author">
-                  <div className="author-avatar">JL</div>
-                  <div className="author-info">
-                    <div className="author-name">Jennifer L.</div>
-                    <div className="author-location">Montreal, QC</div>
-                  </div>
+                  <strong>Jennifer L.</strong>
+                  <span>Montreal, QC</span>
                 </div>
               </div>
             </div>
@@ -289,9 +268,8 @@ const HomePage: React.FC = () => {
           <section className="final-cta-section">
             <div className="cta-content">
               <h2>Ready to Make Your Move?</h2>
-              <p>Join thousands of Canadians who trust MovedIn for their moving needs. Get your free quote today and experience the difference of working with verified, professional movers.</p>
-              
-              <div className="cta-actions">
+              <p>Join thousands of Canadians who trust MovedIn for their moving needs. Get your free quote today!</p>
+              <div className="cta-buttons">
                 <button 
                   className="cta-button primary large" 
                   onClick={handleGetQuote}
@@ -303,7 +281,6 @@ const HomePage: React.FC = () => {
                   Learn How It Works
                 </Link>
               </div>
-              
               <div className="cta-guarantees">
                 <span>✓ Free quotes</span>
                 <span>✓ No obligation</span>
