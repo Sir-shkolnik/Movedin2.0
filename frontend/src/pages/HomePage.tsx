@@ -83,33 +83,33 @@ const HomePage: React.FC = () => {
       <main className="page-container" aria-labelledby="homepage-title">
         <div className="page-content">
           
-          {/* Hero Section */}
-          <section className="hero-section">
-            <div className="hero-content">
-              <h1 id="homepage-title">
-                Get Moving Quotes from <span className="highlight">Verified Canadian Movers</span> in Minutes
-              </h1>
-              <p className="hero-subtitle">
-                Connect with licensed, insured moving companies across Canada. Compare prices, read reviews, and book with confidence. 
-                <strong> No hidden fees. No spam calls. Just great service.</strong>
+          {/* Main Content */}
+          <article className="page-card">
+            <header>
+              <h1 id="homepage-title">Welcome to MovedIn</h1>
+              <p className="page-subtitle">
+                Canada's premier moving platform connecting customers with verified, licensed moving companies. 
+                Get instant quotes, compare prices, and book with confidence. <Link to="/quote">Get a quote now</Link> or explore our <Link to="/tips-guides">moving tips & guides</Link>.
               </p>
-              <div className="hero-actions">
+            </header>
+
+            <section className="intro-section">
+              <h2>Why Choose MovedIn?</h2>
+              <p>
+                Moving can be stressful, but finding the right moving company shouldn't be. MovedIn simplifies the process by connecting you with verified, licensed moving companies across Canada. Our platform ensures you get the best service at competitive prices, with complete transparency and no hidden fees.
+              </p>
+              <div className="cta-section">
                 <button 
-                  className="cta-button primary large" 
+                  className="cta-button primary" 
                   onClick={handleGetQuote}
                   aria-label="Get your free moving quote now"
                 >
                   Get Free Quote Now
                 </button>
-                <Link to="/how-it-works" className="cta-button secondary large">
-                  How It Works
-                </Link>
+                <p className="cta-subtitle">✓ Free quotes • ✓ No obligation • ✓ Licensed movers • ✓ Transparent pricing</p>
               </div>
-              <div className="hero-trust">
-                <p>✓ Free • ✓ No obligation • ✓ Instant quotes • ✓ Licensed movers</p>
-              </div>
-            </div>
-          </section>
+            </section>
+          </article>
 
           {/* How It Works Section */}
           <section className="how-it-works-section">
