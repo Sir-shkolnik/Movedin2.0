@@ -1873,7 +1873,236 @@
     opacity: 0.8;
 }
 
-/* Home Page Specific Styles - Clean Text-Focused Design */
+/* Home Page Specific Styles - Modern Minimalist Design */
+
+/* Hero Section */
+.hero-section {
+    padding: 8rem 2rem 6rem;
+    text-align: center;
+    background: #ffffff;
+}
+
+.hero-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.hero-description {
+    font-size: 1.25rem;
+    color: #666666;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+.hero-cta-button {
+    background: #1a1a1a;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 1.5rem;
+}
+
+.hero-cta-button:hover {
+    background: #333333;
+    transform: translateY(-1px);
+}
+
+.hero-trust {
+    font-size: 0.9rem;
+    color: #999999;
+    margin: 0;
+}
+
+/* Process Section */
+.process-section {
+    padding: 6rem 2rem;
+    background: #f8f9fa;
+    text-align: center;
+}
+
+.process-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 3rem;
+}
+
+.process-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.process-step {
+    text-align: center;
+}
+
+.step-number {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 auto 1.5rem;
+}
+
+.process-step h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+}
+
+.process-step p {
+    color: #666666;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Benefits Section */
+.benefits-section {
+    padding: 6rem 2rem;
+    background: white;
+    text-align: center;
+}
+
+.benefits-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 3rem;
+}
+
+.benefits-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.benefit-item {
+    text-align: center;
+}
+
+.benefit-item h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+}
+
+.benefit-item p {
+    color: #666666;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* CTA Section */
+.cta-section {
+    padding: 6rem 2rem;
+    background: #1a1a1a;
+    color: white;
+    text-align: center;
+}
+
+.cta-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.cta-section p {
+    font-size: 1.1rem;
+    color: #cccccc;
+    margin-bottom: 2rem;
+}
+
+.cta-button {
+    background: white;
+    color: #1a1a1a;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cta-button:hover {
+    background: #f0f0f0;
+    transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-description {
+        font-size: 1.1rem;
+    }
+    
+    .process-section h2,
+    .benefits-section h2,
+    .cta-section h2 {
+        font-size: 2rem;
+    }
+    
+    .process-steps {
+        gap: 2rem;
+    }
+    
+    .benefits-list {
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section {
+        padding: 6rem 1rem 4rem;
+    }
+    
+    .process-section,
+    .benefits-section,
+    .cta-section {
+        padding: 4rem 1rem;
+    }
+    
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    .process-section h2,
+    .benefits-section h2,
+    .cta-section h2 {
+        font-size: 1.75rem;
+    }
+}
 
 .section-header {
     text-align: center;
