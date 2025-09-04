@@ -283,12 +283,12 @@ export function initializeImageOptimization() {
   // Setup lazy loading
   setupLazyLoading();
   
-  // Preload critical images
-  const criticalImages = [
-    '/icon-192x192.svg',
-    '/icon-512x512.svg'
-  ];
-  preloadCriticalImages(criticalImages);
+  // Preload critical images (DISABLED - causing 404 errors)
+  // const criticalImages = [
+  //   '/icon-192x192.svg',
+  //   '/icon-512x512.svg'
+  // ];
+  // preloadCriticalImages(criticalImages);
   
   console.log('Image optimization initialized');
 }

@@ -2161,11 +2161,8 @@
 }
 
 .final-cta-section {
-    margin: 4rem 0;
-    padding: 3rem 2rem;
-    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-    color: white;
-    border-radius: 20px;
+    margin: 2rem 0;
+    padding: 0;
     text-align: center;
 }
 
@@ -2184,28 +2181,6 @@
     margin-right: auto;
 }
 
-.cta-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
-}
-
-.cta-guarantees {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-    font-size: 0.9rem;
-    opacity: 0.8;
-}
-
-.cta-guarantees span {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
 
 /* Responsive Design for Home Page */
 @media (max-width: 768px) {
@@ -2258,15 +2233,4 @@
         padding: 1.5rem;
     }
     
-    .final-cta-section {
-        padding: 2rem 1rem;
-    }
-    
-    .cta-content h2 {
-        font-size: 2rem;
-    }
-    
-    .cta-content p {
-        font-size: 1.1rem;
-    }
 }

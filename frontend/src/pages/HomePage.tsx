@@ -250,31 +250,25 @@ const HomePage: React.FC = () => {
             </div>
           </section>
 
-          {/* Final CTA Section */}
-          <section className="final-cta-section">
-            <div className="cta-content">
+          <article className="page-card">
+            <section className="final-cta-section">
               <h2>Ready to Make Your Move?</h2>
-              <p>Join thousands of Canadians who trust MovedIn for their moving needs. Get your free quote today!</p>
-              <div className="cta-buttons">
+              <p>Join thousands of Canadians who trust MovedIn for their moving needs. Get your free quote today and experience the difference of working with verified, professional movers.</p>
+              
+              <div className="cta-section">
                 <button 
-                  className="cta-button primary large" 
+                  className="cta-button primary" 
                   onClick={handleGetQuote}
                   aria-label="Get your free moving quote now"
                 >
                   Get Free Quote Now
                 </button>
-                <Link to="/how-it-works" className="cta-button secondary large">
-                  Learn How It Works
-                </Link>
+                <p className="cta-subtitle">✓ Free quotes • ✓ No obligation • ✓ Licensed movers • ✓ Transparent pricing</p>
               </div>
-              <div className="cta-guarantees">
-                <span>✓ Free quotes</span>
-                <span>✓ No obligation</span>
-                <span>✓ Licensed movers</span>
-                <span>✓ Transparent pricing</span>
-              </div>
-            </div>
-          </section>
+              
+              <p>Want to learn more about our process? <Link to="/how-it-works">See how MovedIn works</Link> or explore our <Link to="/tips-guides">moving tips and guides</Link>.</p>
+            </section>
+          </article>
 
         </div>
       </main>
