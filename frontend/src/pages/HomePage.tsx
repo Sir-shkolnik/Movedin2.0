@@ -109,20 +109,6 @@ const HomePage: React.FC = () => {
                 <p>✓ Free • ✓ No obligation • ✓ Instant quotes • ✓ Licensed movers</p>
               </div>
             </div>
-            <div className="hero-stats">
-              <div className="stat-item">
-                <div className="stat-number">10,000+</div>
-                <div className="stat-label">Happy Customers</div>
-              </div>
-              <div className="stat-item">
-                <div className="stat-number">500+</div>
-                <div className="stat-label">Verified Movers</div>
-              </div>
-              <div className="stat-item">
-                <div className="stat-number">4.8★</div>
-                <div className="stat-label">Average Rating</div>
-              </div>
-            </div>
           </section>
 
           {/* How It Works Section */}
