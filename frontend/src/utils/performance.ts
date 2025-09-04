@@ -182,10 +182,8 @@ export function addResourceHints() {
     head.appendChild(link);
   });
 
-  // Preload critical resources
-  const preload = [
-    { href: '/icon-192x192.svg', as: 'image' }
-  ];
+  // Preload critical resources - Removed to fix 404 warnings
+  const preload: Array<{href: string, as: string}> = [];
   
   preload.forEach(({ href, as }) => {
     const link = document.createElement('link');
@@ -220,18 +218,8 @@ export function optimizeImages() {
 
 // Optimize fonts for performance
 export function optimizeFonts() {
-  // Preload critical fonts
-  const criticalFonts = [
-    'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
-  ];
-  
-  criticalFonts.forEach(font => {
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.href = font;
-    link.as = 'style';
-    document.head.appendChild(link);
-  });
+  // Font optimization disabled to prevent preload warnings
+  console.log('Font optimization disabled to prevent console warnings');
 }
 
 // Debounce function for performance
