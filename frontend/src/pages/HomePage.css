@@ -18,10 +18,14 @@
     background: var(--white) !important;
 }
 
-/* Override body background specifically for homepage */
+/* Fix white banner during redirects */
 body:has(.homepage-container) {
     background: var(--white) !important;
-    background-color: var(--white) !important;
+}
+
+/* Ensure all pages have white background when navigating */
+.page-container {
+    background: var(--white) !important;
 }
 
 .homepage-container .hero-section,
@@ -615,6 +619,11 @@ body:has(.homepage-container) {
     .homepage-container .feature-item:nth-child(2),
     .homepage-container .feature-item:nth-child(3) {
         direction: ltr;
+    }
+    
+    .homepage-container .hero-illustration,
+    .homepage-container .feature-image {
+        max-height: 300px;
     }
     
     .homepage-container .feature-content h2 {
