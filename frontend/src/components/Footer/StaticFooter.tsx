@@ -1,40 +1,69 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Footer.css';
+import movedinLogo from '../../assets/logos-png/movedin-logo_png.png';
+import facebookIcon from '../../assets/icons-svg/footer_icon-facebook.svg';
+import instagramIcon from '../../assets/icons-svg/footer_icon-instagram.svg';
+import linkedinIcon from '../../assets/icons-svg/footer_icon-linkedin.svg';
 
 const StaticFooter: React.FC = () => {
   return (
     <footer className="static-footer">
       <div className="footer-content">
-        <div className="footer-section">
-          <h4>MovedIn</h4>
-          <p>Canada's premier moving platform connecting customers with verified, licensed moving companies.</p>
+        {/* Brand Section */}
+        <div className="footer-brand">
+          <div className="footer-logo">
+            <img src={movedinLogo} alt="MovedIn Logo" className="logo-image" />
+            <span className="logo-text">MOVEDIN.</span>
+          </div>
+          <p className="footer-tagline">Moving should be easy</p>
+          <div className="social-icons">
+            <a href="https://facebook.com/movedin" target="_blank" rel="noopener noreferrer" className="social-icon">
+              <img src={facebookIcon} alt="Facebook" />
+            </a>
+            <a href="https://instagram.com/movedin" target="_blank" rel="noopener noreferrer" className="social-icon">
+              <img src={instagramIcon} alt="Instagram" />
+            </a>
+            <a href="https://linkedin.com/company/movedin" target="_blank" rel="noopener noreferrer" className="social-icon">
+              <img src={linkedinIcon} alt="LinkedIn" />
+            </a>
+          </div>
         </div>
-        <div className="footer-section">
-          <h4>Quick Links</h4>
-          <ul>
-            <li><a href="/quote">Get a Quote</a></li>
-            <li><a href="/#/how-it-works">How It Works</a></li>
-            <li><a href="/#/tips-guides">Tips & Guides</a></li>
-            <li><a href="/#/about-us">About Us</a></li>
+
+        {/* CTA Section */}
+        <div className="footer-cta">
+          <Link to="/quote" className="footer-quote-button">Get a quote</Link>
+          <Link to="/partners" className="footer-partners-link">Partners</Link>
+        </div>
+
+        {/* Company Column */}
+        <div className="footer-column">
+          <h4 className="footer-column-title">Company</h4>
+          <ul className="footer-links">
+            <li><Link to="/about-us">About us</Link></li>
+            <li><Link to="/careers">Careers</Link></li>
+            <li>
+              <Link to="/tips-guides" className="footer-link-with-tag">
+                Tips & Guides
+                <span className="new-tag">New</span>
+              </Link>
+            </li>
           </ul>
         </div>
-        <div className="footer-section">
-          <h4>Legal</h4>
-          <ul>
-            <li><a href="/#/privacy-policy">Privacy Policy</a></li>
-            <li><a href="/#/terms-of-service">Terms of Service</a></li>
-            <li><a href="/#/cookie-policy">Cookie Policy</a></li>
-            <li><a href="/#/accessibility">Accessibility</a></li>
+
+        {/* Legal Column */}
+        <div className="footer-column">
+          <h4 className="footer-column-title">Legal</h4>
+          <ul className="footer-links">
+            <li><Link to="/terms">Terms</Link></li>
+            <li><Link to="/privacy">Privacy</Link></li>
+            <li><Link to="/contact">Contact</Link></li>
           </ul>
-        </div>
-        <div className="footer-section">
-          <h4>Contact</h4>
-          <p>Email: support@movedin.com</p>
-          <p>Service Areas: Toronto, Vancouver, Montreal, Calgary, Edmonton, Ottawa, Winnipeg, Quebec City, Hamilton, Kitchener-Waterloo, London, Victoria, Halifax, Saskatoon, Regina, St. John's, and all major Canadian cities</p>
         </div>
       </div>
+      
       <div className="footer-bottom">
-        <p>&copy; 2025 MovedIn. All rights reserved. Canadian owned and operated.</p>
+        <p>&copy; 2023 MovedIn. All rights reserved.</p>
       </div>
     </footer>
   );
