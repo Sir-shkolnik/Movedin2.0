@@ -102,6 +102,12 @@
     margin-top: 2rem;
 }
 
+.tips-guides-container .blog-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
 .tips-guides-container .blog-card {
     background: var(--white);
     border-radius: 12px;

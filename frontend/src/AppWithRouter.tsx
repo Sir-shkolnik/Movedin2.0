@@ -36,6 +36,8 @@ import MovingWithPets from './pages/articles/MovingWithPets';
 import MovingStressFreeToronto from './pages/articles/MovingStressFreeToronto';
 import WinterMovingTips from './pages/articles/WinterMovingTips';
 import EssentialMovingChecklist from './pages/articles/EssentialMovingChecklist';
+import MovingStress from './pages/articles/MovingStress';
+import EssentialChecklist from './pages/articles/EssentialChecklist';
 import { ThemeProvider } from './contexts/ThemeContext';
 import './App.css';
 import Header from './components/Header/Header';
@@ -83,6 +85,8 @@ function AppWithRouter() {
             <Route path="/articles/moving-stress-free-toronto" element={<MovingStressFreeToronto />} />
             <Route path="/articles/winter-moving-tips" element={<WinterMovingTips />} />
             <Route path="/articles/essential-moving-checklist" element={<EssentialMovingChecklist />} />
+            <Route path="/articles/moving-stress" element={<MovingStress />} />
+            <Route path="/articles/essential-checklist" element={<EssentialChecklist />} />
             {/* Home page route */}
             <Route path="/" element={<HomePage />} />
             {/* Quote form route */}

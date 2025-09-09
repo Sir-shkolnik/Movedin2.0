@@ -47,9 +47,9 @@ const TipsAndGuides: React.FC = () => {
               <p className="hero-subtitle">
                 Mastering the Art of Packing, Planning, and Settling into Your New Home
               </p>
-            </div>
-          </section>
-
+              </div>
+            </section>
+            
           {/* Blog Grid Section */}
           <section className="blog-grid-section">
             <div className="blog-grid-content">
@@ -58,85 +58,91 @@ const TipsAndGuides: React.FC = () => {
               <div className="blog-grid">
                 
                 {/* Blog Card 1 */}
-                <article className="blog-card">
-                  <img 
-                    src={blogMovingStress} 
-                    alt="Dealing with Moving Stress" 
-                    className="blog-card-image"
-                  />
-                  <div className="blog-card-content">
-                    <h3 className="blog-card-title">Dealing with Moving Stress: Top Relaxation Techniques</h3>
-                    <p className="blog-card-excerpt">
-                      Moving to a new home can be one of the most stressful times. You are uprooting your entire life...
-                    </p>
-                    <div className="blog-card-meta">
-                      <img 
-                        src={profileNarender} 
-                        alt="Narender Surakandi" 
-                        className="blog-card-author-image"
-                      />
-                      <div className="blog-card-author-info">
-                        <span className="blog-card-author-name">Narender Surakandi</span>
-                        <span className="blog-card-date">18 Sep 2023</span>
+                <Link to="/articles/moving-stress" className="blog-card-link">
+                  <article className="blog-card">
+                    <img 
+                      src={blogMovingStress} 
+                      alt="Dealing with Moving Stress" 
+                      className="blog-card-image"
+                    />
+                    <div className="blog-card-content">
+                      <h3 className="blog-card-title">Dealing with Moving Stress: Top Relaxation Techniques</h3>
+                      <p className="blog-card-excerpt">
+                        Moving to a new home can be one of the most stressful times. You are uprooting your entire life...
+                      </p>
+                      <div className="blog-card-meta">
+                        <img 
+                          src={profileNarender} 
+                          alt="Narender Surakandi" 
+                          className="blog-card-author-image"
+                        />
+                        <div className="blog-card-author-info">
+                          <span className="blog-card-author-name">Narender Surakandi</span>
+                          <span className="blog-card-date">18 Sep 2023</span>
+                        </div>
                       </div>
+                      <img src={arrowIcon} alt="Read more" className="blog-card-arrow" />
                     </div>
-                    <img src={arrowIcon} alt="Read more" className="blog-card-arrow" />
-                  </div>
-                </article>
+                  </article>
+                </Link>
 
                 {/* Blog Card 2 */}
-                <article className="blog-card">
-                  <img 
-                    src={blogEssentialChecklist} 
-                    alt="Essential Moving Checklist" 
-                    className="blog-card-image"
-                  />
-                  <div className="blog-card-content">
-                    <h3 className="blog-card-title">The Essential Moving Checklist for Torontonians</h3>
-                    <p className="blog-card-excerpt">
-                      Moving is one of the most stressful things most people experience in life. Not least of all...
-                    </p>
-                    <div className="blog-card-meta">
-                      <img 
-                        src={profileNarender} 
-                        alt="Narender Surakandi" 
-                        className="blog-card-author-image"
-                      />
-                      <div className="blog-card-author-info">
-                        <span className="blog-card-author-name">Narender Surakandi</span>
-                        <span className="blog-card-date">18 Sep 2023</span>
+                <Link to="/articles/essential-checklist" className="blog-card-link">
+                  <article className="blog-card">
+                    <img 
+                      src={blogEssentialChecklist} 
+                      alt="Essential Moving Checklist" 
+                      className="blog-card-image"
+                    />
+                    <div className="blog-card-content">
+                      <h3 className="blog-card-title">The Essential Moving Checklist for Torontonians</h3>
+                      <p className="blog-card-excerpt">
+                        Moving is one of the most stressful things most people experience in life. Not least of all...
+                      </p>
+                      <div className="blog-card-meta">
+                        <img 
+                          src={profileNarender} 
+                          alt="Narender Surakandi" 
+                          className="blog-card-author-image"
+                        />
+                        <div className="blog-card-author-info">
+                          <span className="blog-card-author-name">Narender Surakandi</span>
+                          <span className="blog-card-date">18 Sep 2023</span>
+                        </div>
                       </div>
+                      <img src={arrowIcon} alt="Read more" className="blog-card-arrow" />
                     </div>
-                    <img src={arrowIcon} alt="Read more" className="blog-card-arrow" />
-                  </div>
-                </article>
+                  </article>
+                </Link>
 
                 {/* Blog Card 3 */}
-                <article className="blog-card">
-                  <img 
-                    src={blogWinterTips} 
-                    alt="Winter Moving Tips" 
-                    className="blog-card-image"
-                  />
-                  <div className="blog-card-content">
-                    <h3 className="blog-card-title">Moving in the Winter: Special Tips for Toronto Residents</h3>
-                    <p className="blog-card-excerpt">
-                      Moving to a new home can be one of the most stressful times. You are uprooting your entire life...
-                    </p>
-                    <div className="blog-card-meta">
-                      <img 
-                        src={profileNarender} 
-                        alt="Narender Surakandi" 
-                        className="blog-card-author-image"
-                      />
-                      <div className="blog-card-author-info">
-                        <span className="blog-card-author-name">Narender Surakandi</span>
-                        <span className="blog-card-date">18 Sep 2023</span>
+                <Link to="/articles/winter-moving-tips" className="blog-card-link">
+                  <article className="blog-card">
+                    <img 
+                      src={blogWinterTips} 
+                      alt="Winter Moving Tips" 
+                      className="blog-card-image"
+                    />
+                    <div className="blog-card-content">
+                      <h3 className="blog-card-title">Moving in the Winter: Special Tips for Toronto Residents</h3>
+                      <p className="blog-card-excerpt">
+                        Moving to a new home can be one of the most stressful times. You are uprooting your entire life...
+                      </p>
+                      <div className="blog-card-meta">
+                        <img 
+                          src={profileNarender} 
+                          alt="Narender Surakandi" 
+                          className="blog-card-author-image"
+                        />
+                        <div className="blog-card-author-info">
+                          <span className="blog-card-author-name">Narender Surakandi</span>
+                          <span className="blog-card-date">18 Sep 2023</span>
+                        </div>
                       </div>
+                      <img src={arrowIcon} alt="Read more" className="blog-card-arrow" />
                     </div>
-                    <img src={arrowIcon} alt="Read more" className="blog-card-arrow" />
-                  </div>
-                </article>
+                  </article>
+                </Link>
 
                 {/* Featured Blog Card */}
                 <article className="blog-card featured">
@@ -159,14 +165,14 @@ const TipsAndGuides: React.FC = () => {
                       <div className="blog-card-author-info">
                         <span className="blog-card-author-name">Narender Surakandi</span>
                         <span className="blog-card-date">18 Sep 2023</span>
-                      </div>
+                  </div>
                     </div>
                     <img src={arrowIcon} alt="Read more" className="blog-card-arrow" />
                   </div>
                 </article>
 
-              </div>
-
+                </div>
+                
               {/* Newsletter Section */}
               <aside className="newsletter-section">
                 <img src={sendIcon} alt="Newsletter" className="newsletter-icon" />
@@ -190,9 +196,9 @@ const TipsAndGuides: React.FC = () => {
                 </form>
               </aside>
 
-            </div>
-          </section>
-
+              </div>
+            </section>
+            
         </div>
       </main>
       
@@ -201,4 +207,4 @@ const TipsAndGuides: React.FC = () => {
   );
 };
 
-export default TipsAndGuides;
+export default TipsAndGuides; 
