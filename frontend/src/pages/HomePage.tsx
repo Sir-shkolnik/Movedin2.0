@@ -5,6 +5,13 @@ import Header from '../components/Header/Header';
 import StaticFooter from '../components/Footer/StaticFooter';
 import './Page.css';
 
+// Import brand assets
+import truckIcon from '../assets/icons-svg/icon_truck-white.svg';
+import checkIcon from '../assets/icons-svg/icon_check-purple.svg';
+import starIcon from '../assets/icons-svg/icon_star-yellow.svg';
+import locationIcon from '../assets/icons-svg/icon_location-white.svg';
+import heroIllustration from '../assets/imgs-png/img_one-stop-illustration.png';
+
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
 
@@ -86,18 +93,30 @@ const HomePage: React.FC = () => {
           {/* Hero Section */}
           <section className="hero-section">
             <div className="hero-content">
-              <h1 id="homepage-title">Moving Made Simple</h1>
-              <p className="hero-description">
-                Connect with verified moving companies across Canada. Get instant quotes, compare prices, and book with confidence.
-              </p>
-              <button 
-                className="hero-cta-button" 
-                onClick={handleGetQuote}
-                aria-label="Get your free moving quote now"
-              >
-                Get Free Quote
-              </button>
-              <p className="hero-trust">Trusted by 10,000+ Canadians</p>
+              <div className="hero-text">
+                <h1 id="homepage-title">Moving Made Simple</h1>
+                <p className="hero-description">
+                  Connect with verified moving companies across Canada. Get instant quotes, compare prices, and book with confidence.
+                </p>
+                <button 
+                  className="hero-cta-button" 
+                  onClick={handleGetQuote}
+                  aria-label="Get your free moving quote now"
+                >
+                  Get Free Quote
+                </button>
+                <p className="hero-trust">
+                  <img src={starIcon} alt="Star" className="trust-star" />
+                  Trusted by 10,000+ Canadians
+                </p>
+              </div>
+              <div className="hero-visual">
+                <img 
+                  src={heroIllustration} 
+                  alt="Moving illustration" 
+                  className="hero-illustration"
+                />
+              </div>
             </div>
           </section>
 
@@ -106,16 +125,25 @@ const HomePage: React.FC = () => {
             <h2>How It Works</h2>
             <div className="process-steps">
               <div className="process-step">
+                <div className="step-icon">
+                  <img src={locationIcon} alt="Location" />
+                </div>
                 <div className="step-number">1</div>
                 <h3>Share Your Details</h3>
                 <p>Tell us about your move in 2 minutes</p>
               </div>
               <div className="process-step">
+                <div className="step-icon">
+                  <img src={truckIcon} alt="Truck" />
+                </div>
                 <div className="step-number">2</div>
                 <h3>Get Instant Quotes</h3>
                 <p>Receive quotes from verified movers</p>
               </div>
               <div className="process-step">
+                <div className="step-icon">
+                  <img src={checkIcon} alt="Check" />
+                </div>
                 <div className="step-number">3</div>
                 <h3>Compare & Book</h3>
                 <p>Choose the best option for you</p>

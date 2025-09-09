@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import './Header.css';
 
 // Import logo as module
-import movedinLogo from '../../assets/icons/movedin_logo.png';
+import movedinLogo from '../../assets/icons-svg/movedin-logo_svg.svg';
 
 const Header: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);

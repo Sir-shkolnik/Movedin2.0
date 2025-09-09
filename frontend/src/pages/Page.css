@@ -1878,13 +1878,39 @@
 /* Hero Section */
 .hero-section {
     padding: 8rem 2rem 6rem;
-    text-align: center;
     background: #ffffff;
 }
 
 .hero-content {
-    max-width: 600px;
+    max-width: 1200px;
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.hero-text {
+    text-align: left;
+}
+
+.hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-illustration {
+    max-width: 100%;
+    height: auto;
+    max-height: 400px;
+}
+
+.trust-star {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    vertical-align: middle;
 }
 
 .hero-content h1 {
@@ -1952,6 +1978,25 @@
 
 .process-step {
     text-align: center;
+    position: relative;
+}
+
+.step-icon {
+    width: 80px;
+    height: 80px;
+    background: #f8f9fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    border: 2px solid #e9ecef;
+}
+
+.step-icon img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
 }
 
 .step-number {
@@ -2059,6 +2104,16 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .hero-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+    
+    .hero-text {
+        text-align: center;
+    }
+    
     .hero-content h1 {
         font-size: 2.5rem;
     }
@@ -2079,6 +2134,16 @@
     
     .benefits-list {
         gap: 2rem;
+    }
+    
+    .step-icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .step-icon img {
+        width: 30px;
+        height: 30px;
     }
 }
 
