@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header/Header';
 import StaticFooter from '../components/Footer/StaticFooter';
-import './Page.css';
+import './TipsAndGuides.css';
 
 const TipsAndGuides: React.FC = () => {
   const navigate = useNavigate();

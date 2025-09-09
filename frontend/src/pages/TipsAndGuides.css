@@ -1,0 +1,334 @@
+/* Tips & Guides Page Styles - Scoped to avoid affecting other pages */
+@import '../styles/color-scheme.css';
+
+/* Tips and guides container - Only affects tips and guides page */
+.tips-guides-container {
+    background: var(--white) !important;
+    min-height: 100vh;
+    padding-top: 80px;
+}
+
+.tips-guides-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Hero Section */
+.tips-guides-container .hero-section {
+    text-align: center;
+    padding: 4rem 0 6rem;
+    background: var(--white);
+}
+
+.tips-guides-container .hero-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.tips-guides-container .hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tips-guides-container .hero-description {
+    font-size: 1.3rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Blog Grid Section */
+.tips-guides-container .blog-grid-section {
+    padding: 2rem 0 6rem;
+}
+
+.tips-guides-container .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Blog Cards */
+.tips-guides-container .blog-card {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tips-guides-container .blog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.tips-guides-container .blog-image {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.tips-guides-container .blog-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.tips-guides-container .blog-card:hover .blog-image img {
+    transform: scale(1.05);
+}
+
+.tips-guides-container .blog-arrow {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 32px;
+    height: 32px;
+    background: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.tips-guides-container .blog-arrow img {
+    width: 16px;
+    height: 16px;
+    transform: scale(1);
+}
+
+.tips-guides-container .blog-card:hover .blog-arrow {
+    background: var(--primary-color);
+    transform: scale(1.1);
+}
+
+.tips-guides-container .blog-card:hover .blog-arrow img {
+    filter: brightness(0) invert(1);
+}
+
+.tips-guides-container .blog-content {
+    padding: 1.5rem;
+}
+
+.tips-guides-container .blog-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+}
+
+.tips-guides-container .blog-content p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.tips-guides-container .blog-author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.tips-guides-container .author-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.tips-guides-container .author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.tips-guides-container .author-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.tips-guides-container .blog-date {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.2;
+}
+
+/* Newsletter Card */
+.tips-guides-container .newsletter-card {
+    background: var(--gray-50);
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+}
+
+.tips-guides-container .newsletter-content {
+    text-align: center;
+    max-width: 280px;
+}
+
+.tips-guides-container .newsletter-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tips-guides-container .newsletter-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--text-secondary);
+}
+
+.tips-guides-container .newsletter-header h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.tips-guides-container .newsletter-content p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.tips-guides-container .newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.tips-guides-container .newsletter-input {
+    padding: 0.75rem;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    background: var(--white);
+    transition: border-color 0.3s ease;
+}
+
+.tips-guides-container .newsletter-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.tips-guides-container .newsletter-button {
+    background: var(--primary-color);
+    color: var(--text-white);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tips-guides-container .newsletter-button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.tips-guides-container .privacy-link {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.tips-guides-container .privacy-link:hover {
+    color: var(--primary-color);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .tips-guides-content {
+        padding: 0 1rem;
+    }
+    
+    .tips-guides-container .hero-section {
+        padding: 3rem 0 4rem;
+    }
+    
+    .tips-guides-container .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .tips-guides-container .hero-description {
+        font-size: 1.1rem;
+    }
+    
+    .tips-guides-container .blog-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .tips-guides-container .blog-grid-section {
+        padding: 2rem 0 4rem;
+    }
+    
+    .tips-guides-container .newsletter-card {
+        min-height: 300px;
+        padding: 1.5rem;
+    }
+    
+    .tips-guides-container .newsletter-content {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .tips-guides-container .hero-title {
+        font-size: 2rem;
+    }
+    
+    .tips-guides-container .hero-description {
+        font-size: 1rem;
+    }
+    
+    .tips-guides-container .blog-content {
+        padding: 1rem;
+    }
+    
+    .tips-guides-container .blog-content h3 {
+        font-size: 1.1rem;
+    }
+    
+    .tips-guides-container .blog-content p {
+        font-size: 0.9rem;
+    }
+    
+    .tips-guides-container .newsletter-card {
+        padding: 1rem;
+    }
+}
