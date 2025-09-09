@@ -214,8 +214,10 @@
     align-items: center;
     gap: 12px;
     transition: all 0.2s ease;
-    white-space: nowrap; /* Prevent text wrapping */
-    text-decoration: none; /* Remove underline */
+    white-space: nowrap;
+    text-decoration: none;
+    opacity: 1;
+    visibility: visible;
 }
 
 .mobile-nav .nav-link::before {

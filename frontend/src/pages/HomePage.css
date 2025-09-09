@@ -253,7 +253,7 @@ body:has(.homepage-container) {
 
 /* How It Works Section */
 .homepage-container .how-it-works-section {
-    padding: 6rem 2rem;
+    padding: 4rem 1rem;
     background: var(--white) !important;
 }
 
@@ -262,8 +262,23 @@ body:has(.homepage-container) {
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+    gap: 2rem;
     align-items: flex-start;
+}
+
+/* Desktop responsiveness */
+@media (min-width: 1200px) {
+    .homepage-container .how-it-works-content {
+        gap: 3rem;
+    }
+    
+    .homepage-container .how-it-works-text h2 {
+        font-size: 3.5rem;
+    }
+    
+    .homepage-container .how-it-works-text p {
+        font-size: 1.4rem;
+    }
 }
 
 .homepage-container .how-it-works-text h2 {
@@ -291,7 +306,7 @@ body:has(.homepage-container) {
 .homepage-container .step-item {
     border: 1px solid var(--border-light);
     border-radius: 8px;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     overflow: hidden;
     transition: all 0.3s ease;
 }
@@ -304,7 +319,7 @@ body:has(.homepage-container) {
 .homepage-container .step-header {
     display: flex;
     align-items: center;
-    padding: 1.5rem;
+    padding: 1rem;
     cursor: pointer;
     background: var(--white) !important;
     transition: background 0.3s ease;
@@ -362,7 +377,7 @@ body:has(.homepage-container) {
 }
 
 .homepage-container .step-content {
-    padding: 0 1.5rem 1.5rem 1.5rem;
+    padding: 0 1rem 1rem 1rem;
     background: var(--white) !important;
     max-height: 0;
     overflow: hidden;
@@ -370,8 +385,8 @@ body:has(.homepage-container) {
 }
 
 .homepage-container .step-item.active .step-content {
-    max-height: 200px;
-    padding: 0 1.5rem 1.5rem 1.5rem;
+    max-height: 150px;
+    padding: 0 1rem 1rem 1rem;
 }
 
 .homepage-container .step-content p {
@@ -632,6 +647,48 @@ body:has(.homepage-container) {
     .homepage-container .hero-illustration,
     .homepage-container .feature-image {
         max-height: 300px;
+    }
+    
+    .homepage-container .how-it-works-section {
+        padding: 2rem 1rem;
+    }
+    
+    .homepage-container .how-it-works-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .homepage-container .how-it-works-text h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .homepage-container .how-it-works-text p {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .homepage-container .step-header {
+        padding: 0.75rem;
+    }
+    
+    .homepage-container .step-number {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+        margin-right: 0.75rem;
+    }
+    
+    .homepage-container .step-title {
+        font-size: 1rem;
+    }
+    
+    .homepage-container .step-content {
+        padding: 0 0.75rem 0.75rem 0.75rem;
+    }
+    
+    .homepage-container .step-item.active .step-content {
+        padding: 0 0.75rem 0.75rem 0.75rem;
     }
     
     .homepage-container .feature-content h2 {
