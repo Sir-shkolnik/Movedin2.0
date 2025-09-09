@@ -132,13 +132,7 @@ const HomePage: React.FC = () => {
                   Trusted by 10,000+ Canadians
                 </p>
               </div>
-              <div className="hero-visual">
-                <img 
-                  src={heroIllustration} 
-                  alt="Moving illustration" 
-                  className="hero-illustration"
-                />
-              </div>
+              {/* Hero visual removed - no picture needed in top section */}
             </div>
           </section>
 
@@ -165,7 +159,7 @@ const HomePage: React.FC = () => {
                 <button className="feature-button">Get a quote</button>
               </div>
               <div className="feature-visual">
-                <img src={truckImage} alt="One stop shop illustration" className="feature-image" />
+                <img src={heroIllustration} alt="One stop shop illustration" className="feature-image" />
               </div>
             </div>
 
