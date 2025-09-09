@@ -9,7 +9,13 @@ const Header: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const location = useLocation();
 
-    const handleMenuToggle = () => setMenuOpen((open) => !open);
+    const handleMenuToggle = () => {
+        setMenuOpen((open) => {
+            const newState = !open;
+            console.log('Menu toggle:', newState);
+            return newState;
+        });
+    };
     const handleNavClick = () => setMenuOpen(false);
 
     const isActive = (path: string) => {
@@ -84,13 +90,73 @@ const Header: React.FC = () => {
                 </button>
             </div>
             {menuOpen && (
-                <div className="mobile-menu-overlay" onClick={handleMenuToggle} />
+                <div 
+                    className="mobile-menu-overlay" 
+                    onClick={handleMenuToggle}
+                    style={{
+                        position: 'fixed',
+                        top: '0',
+                        left: '0',
+                        right: '0',
+                        bottom: '0',
+                        background: 'rgba(0, 0, 0, 0.5)',
+                        backdropFilter: 'blur(8px)',
+                        zIndex: 9998
+                    }}
+                />
             )}
             <nav
                 id="mobile-menu"
                 className={`mobile-nav${menuOpen ? ' open' : ''}`}
                 aria-hidden={!menuOpen}
+                style={{
+                    display: menuOpen ? 'flex' : 'none',
+                    position: 'fixed',
+                    top: '0',
+                    right: menuOpen ? '0' : '-100vw',
+                    width: '85vw',
+                    maxWidth: '360px',
+                    height: '100vh',
+                    background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+                    boxShadow: '-4px 0 24px rgba(0, 0, 0, 0.15)',
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    padding: '60px 24px 24px 24px',
+                    gap: '6px',
+                    transition: 'right 0.3s cubic-bezier(.4, 0, .2, 1)',
+                    zIndex: 9999,
+                    borderLeft: '1px solid #e5e7eb',
+                    borderRadius: '0 0 0 16px',
+                    overflowY: 'auto'
+                }}
             >
+                {/* Close button */}
+                <button
+                    onClick={handleMenuToggle}
+                    style={{
+                        position: 'absolute',
+                        top: '16px',
+                        right: '16px',
+                        fontSize: '24px',
+                        fontWeight: 'bold',
+                        color: '#6b7280',
+                        cursor: 'pointer',
+                        zIndex: 140,
+                        width: '32px',
+                        height: '32px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: '50%',
+                        background: 'rgba(255, 255, 255, 0.9)',
+                        border: 'none',
+                        transition: 'all 0.2s ease',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+                    }}
+                    aria-label="Close menu"
+                >
+                    ×
+                </button>
                 <Link
                     to="/quote"
                     className={`nav-link ${isActive('/quote') ? 'active' : ''}`}
