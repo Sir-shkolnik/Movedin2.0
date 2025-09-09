@@ -11,6 +11,7 @@ import checkIcon from '../assets/icons-svg/icon_check-purple.svg';
 import starIcon from '../assets/icons-svg/icon_star-yellow.svg';
 import locationIcon from '../assets/icons-svg/icon_location-white.svg';
 import heroIllustration from '../assets/imgs-png/img_one-stop-illustration.png';
+import truckImage from '../assets/imgs-png/img_truck.png';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -98,6 +99,20 @@ const HomePage: React.FC = () => {
                 <p className="hero-description">
                   Connect with verified moving companies across Canada. Get instant quotes, compare prices, and book with confidence.
                 </p>
+                <div className="hero-stats">
+                  <div className="stat-item">
+                    <span className="stat-number">4</span>
+                    <span className="stat-label">Verified Movers</span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-number">50+</span>
+                    <span className="stat-label">Cities Served</span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-number">28</span>
+                    <span className="stat-label">Successful Moves</span>
+                  </div>
+                </div>
                 <button 
                   className="hero-cta-button" 
                   onClick={handleGetQuote}
@@ -105,10 +120,6 @@ const HomePage: React.FC = () => {
                 >
                   Get Free Quote
                 </button>
-                <p className="hero-trust">
-                  <img src={starIcon} alt="Star" className="trust-star" />
-                  Trusted by 10,000+ Canadians
-                </p>
               </div>
               <div className="hero-visual">
                 <img 
@@ -151,21 +162,78 @@ const HomePage: React.FC = () => {
             </div>
           </section>
 
-          {/* Benefits */}
-          <section className="benefits-section">
-            <h2>Why Choose MovedIn</h2>
-            <div className="benefits-list">
-              <div className="benefit-item">
-                <h3>Verified Movers</h3>
-                <p>All companies are licensed and insured</p>
+          {/* About Us */}
+          <section className="about-section">
+            <h2>About MovedIn</h2>
+            <div className="about-content">
+              <div className="about-text">
+                <p className="about-lead">
+                  We simplify the moving experience for Canadians by connecting you with verified, professional moving companies.
+                </p>
+                <p>
+                  Our platform eliminates the hassle of calling multiple moving companies and dealing with inconsistent quotes. 
+                  We ensure you get the best service at fair, transparent prices.
+                </p>
+                <div className="about-features">
+                  <div className="feature-item">
+                    <img src={checkIcon} alt="Check" className="feature-icon" />
+                    <span>Licensed & Insured Movers</span>
+                  </div>
+                  <div className="feature-item">
+                    <img src={checkIcon} alt="Check" className="feature-icon" />
+                    <span>Transparent Pricing</span>
+                  </div>
+                  <div className="feature-item">
+                    <img src={checkIcon} alt="Check" className="feature-icon" />
+                    <span>Instant Quotes</span>
+                  </div>
+                </div>
               </div>
-              <div className="benefit-item">
-                <h3>Transparent Pricing</h3>
-                <p>No hidden fees or surprises</p>
+              <div className="about-visual">
+                <img 
+                  src={truckImage} 
+                  alt="Moving truck" 
+                  className="about-image"
+                />
               </div>
-              <div className="benefit-item">
-                <h3>Instant Quotes</h3>
-                <p>Get multiple quotes in minutes</p>
+            </div>
+          </section>
+
+          {/* Service Areas */}
+          <section className="service-areas-section">
+            <h2>We Serve Major Canadian Cities</h2>
+            <div className="cities-grid">
+              <div className="city-group">
+                <h3>Ontario</h3>
+                <ul>
+                  <li>Toronto</li>
+                  <li>Mississauga</li>
+                  <li>Brampton</li>
+                  <li>Hamilton</li>
+                  <li>Ottawa</li>
+                </ul>
+              </div>
+              <div className="city-group">
+                <h3>British Columbia</h3>
+                <ul>
+                  <li>Vancouver</li>
+                  <li>Victoria</li>
+                  <li>Burnaby</li>
+                  <li>Richmond</li>
+                </ul>
+              </div>
+              <div className="city-group">
+                <h3>Alberta</h3>
+                <ul>
+                  <li>Calgary</li>
+                  <li>Edmonton</li>
+                </ul>
+              </div>
+              <div className="city-group">
+                <h3>Quebec</h3>
+                <ul>
+                  <li>Montreal</li>
+                </ul>
               </div>
             </div>
           </section>
