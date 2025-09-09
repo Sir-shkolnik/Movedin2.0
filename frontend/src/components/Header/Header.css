@@ -195,9 +195,9 @@
 }
 
 .mobile-nav.open {
-    right: 0;
-    visibility: visible;
-    opacity: 1;
+    right: 0 !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 /* Close button for mobile menu - removed CSS pseudo-element, using JSX button instead */
@@ -214,10 +214,8 @@
     align-items: center;
     gap: 12px;
     transition: all 0.2s ease;
-    white-space: nowrap;
-    text-decoration: none;
-    opacity: 1;
-    visibility: visible;
+    white-space: nowrap; /* Prevent text wrapping */
+    text-decoration: none; /* Remove underline */
 }
 
 .mobile-nav .nav-link::before {

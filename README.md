@@ -178,3 +178,4 @@ GOOGLE_SHEETS_CREDENTIALS=...
 ---
 
 **Built with ❤️ by Sagi Ehud Shkolnik from AliceSolutions Venture for modern moving solutions**
+# Deployment trigger Tue Sep  9 19:49:01 EDT 2025

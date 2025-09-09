@@ -193,11 +193,10 @@ const HomePage: React.FC = () => {
                 <h2>How it works</h2>
                 <p>Set up your move in four simple steps. It's completely free.</p>
                 <div className="steps-accordion">
-                  <div className="step-item active">
+                  <div className="step-item">
                     <div className="step-header">
                       <div className="step-number">1</div>
                       <div className="step-title">Enter your address</div>
-                      <div className="step-toggle">−</div>
                     </div>
                     <div className="step-content">
                       <p>Start by telling us where you are moving from and to</p>
@@ -207,7 +206,6 @@ const HomePage: React.FC = () => {
                     <div className="step-header">
                       <div className="step-number">2</div>
                       <div className="step-title">Select your moving date & time</div>
-                      <div className="step-toggle">+</div>
                     </div>
                     <div className="step-content">
                       <p>Choose your preferred moving schedule</p>
@@ -217,7 +215,6 @@ const HomePage: React.FC = () => {
                     <div className="step-header">
                       <div className="step-number">3</div>
                       <div className="step-title">Tell us about your service needs</div>
-                      <div className="step-toggle">+</div>
                     </div>
                     <div className="step-content">
                       <p>Describe what services you require</p>
@@ -227,22 +224,10 @@ const HomePage: React.FC = () => {
                     <div className="step-header">
                       <div className="step-number">4</div>
                       <div className="step-title">Finalized by provide contact info</div>
-                      <div className="step-toggle">+</div>
                     </div>
                     <div className="step-content">
                       <p>Complete your booking with contact details</p>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div className="how-it-works-visual">
-                <div className="form-mockup-container">
-                  <div className="form-mockup">
-                    <img 
-                      src={formLocationStep} 
-                      alt="Moving quote form - Location step" 
-                      className="form-mockup-image"
-                    />
                   </div>
                 </div>
               </div>

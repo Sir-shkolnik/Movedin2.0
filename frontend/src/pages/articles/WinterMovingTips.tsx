@@ -118,7 +118,7 @@ const WinterMovingTips: React.FC = () => {
                         <li>Non-slip mats for entrances</li>
                         <li>Flashlights or headlamps</li>
                         <li>Warm blankets for protection</li>
-                      </ul>
+              </ul>
                     </div>
                     <div className="supply-category">
                       <h3>Protection Items</h3>
@@ -128,10 +128,10 @@ const WinterMovingTips: React.FC = () => {
                         <li>Weather-resistant boxes</li>
                         <li>Bubble wrap for fragile items</li>
                         <li>Tarps for outdoor storage</li>
-                      </ul>
+              </ul>
                     </div>
                   </div>
-                </section>
+            </section>
 
                 {/* Call to Action */}
                 <section className="article-cta">
@@ -147,11 +147,11 @@ const WinterMovingTips: React.FC = () => {
                     <Link to="/tips-guides" className="cta-button secondary">
                       More Moving Tips
                     </Link>
-                  </div>
-                </section>
-
               </div>
-
+                </section>
+              
+              </div>
+              
               {/* Sidebar */}
               <aside className="article-sidebar">
                 <div className="table-of-contents">
@@ -160,8 +160,8 @@ const WinterMovingTips: React.FC = () => {
                     <li><a href="#introduction" className="toc-link">Introduction</a></li>
                     <li><a href="#why-different" className="toc-link">Why Winter Moving is Different</a></li>
                     <li><a href="#supplies" className="toc-link">Essential Winter Moving Supplies</a></li>
-                  </ul>
-                </div>
+                </ul>
+              </div>
                 
                 <div className="social-share">
                   <h3 className="share-title">Share this article</h3>
