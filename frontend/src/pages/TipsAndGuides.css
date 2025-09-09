@@ -1,222 +1,223 @@
-/* Tips & Guides Page Styles - Scoped to avoid affecting other pages */
+/* TipsAndGuides Specific Styles - Scoped to avoid affecting other pages */
 @import '../styles/color-scheme.css';
 
-/* Tips and guides container - Only affects tips and guides page */
+/* TipsAndGuides Container - Only affects TipsAndGuides page */
 .tips-guides-container {
-    background: var(--white) !important;
+    background: var(--indigo-900) !important;
     min-height: 100vh;
-    padding-top: 80px;
+    display: flex;
+    flex-direction: column;
+    color: var(--white);
 }
 
-.tips-guides-content {
+/* Ensure entire page background is dark blue */
+.tips-guides-container,
+.tips-guides-container *,
+.tips-guides-container body,
+.tips-guides-container html {
+    background-color: var(--indigo-900) !important;
+    background: var(--indigo-900) !important;
+}
+
+.tips-guides-container .page-content {
+    flex: 1;
+    width: 100%;
+}
+
+/* Hero Section - Dark Blue Background */
+.tips-guides-container .hero-section {
+    padding: 4rem 2rem 3rem;
+    background: var(--indigo-900) !important;
+    text-align: center;
+}
+
+.tips-guides-container .hero-content {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
 }
 
-/* Hero Section */
-.tips-guides-container .hero-section {
-    text-align: center;
-    padding: 4rem 0 6rem;
-    background: var(--white);
-}
-
-.tips-guides-container .hero-subtitle {
-    font-size: 1rem;
-    color: var(--text-secondary);
+.tips-guides-container .hero-breadcrumb {
+    color: var(--gray-400);
+    font-size: 0.9rem;
     margin-bottom: 1rem;
-    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .tips-guides-container .hero-title {
     font-size: 3.5rem;
     font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 1.5rem;
     line-height: 1.1;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-bottom: 1.5rem;
 }
 
-.tips-guides-container .hero-description {
-    font-size: 1.3rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
+.tips-guides-container .hero-title .highlight {
+    color: var(--indigo-200);
+}
+
+.tips-guides-container .hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--gray-300);
     max-width: 600px;
     margin: 0 auto;
+    line-height: 1.6;
 }
 
 /* Blog Grid Section */
 .tips-guides-container .blog-grid-section {
-    padding: 2rem 0 6rem;
+    padding: 4rem 2rem;
+    background: var(--indigo-900) !important;
+}
+
+.tips-guides-container .blog-grid-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    align-items: start;
 }
 
 .tips-guides-container .blog-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+    margin-bottom: 2rem;
 }
 
-/* Blog Cards */
 .tips-guides-container .blog-card {
     background: var(--white);
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     overflow: hidden;
-    transition: all 0.3s ease;
-    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
 }
 
 .tips-guides-container .blog-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-.tips-guides-container .blog-image {
-    position: relative;
+.tips-guides-container .blog-card-image {
     width: 100%;
     height: 200px;
-    overflow: hidden;
-}
-
-.tips-guides-container .blog-image img {
-    width: 100%;
-    height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
 }
 
-.tips-guides-container .blog-card:hover .blog-image img {
-    transform: scale(1.05);
-}
-
-.tips-guides-container .blog-arrow {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    width: 32px;
-    height: 32px;
-    background: var(--white);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-}
-
-.tips-guides-container .blog-arrow img {
-    width: 16px;
-    height: 16px;
-    transform: scale(1);
-}
-
-.tips-guides-container .blog-card:hover .blog-arrow {
-    background: var(--primary-color);
-    transform: scale(1.1);
-}
-
-.tips-guides-container .blog-card:hover .blog-arrow img {
-    filter: brightness(0) invert(1);
-}
-
-.tips-guides-container .blog-content {
+.tips-guides-container .blog-card-content {
     padding: 1.5rem;
 }
 
-.tips-guides-container .blog-content h3 {
-    font-size: 1.25rem;
+.tips-guides-container .blog-card-title {
+    font-size: 1.1rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--gray-900);
     margin-bottom: 0.75rem;
-    line-height: 1.3;
+    line-height: 1.4;
 }
 
-.tips-guides-container .blog-content p {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
+.tips-guides-container .blog-card-excerpt {
+    font-size: 0.9rem;
+    color: var(--gray-600);
     line-height: 1.5;
-    margin-bottom: 1.5rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    margin-bottom: 1rem;
 }
 
-.tips-guides-container .blog-author {
+.tips-guides-container .blog-card-meta {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    margin-bottom: 1rem;
 }
 
-.tips-guides-container .author-avatar {
+.tips-guides-container .blog-card-author-image {
     width: 32px;
     height: 32px;
     border-radius: 50%;
     object-fit: cover;
 }
 
-.tips-guides-container .author-info {
+.tips-guides-container .blog-card-author-info {
     display: flex;
     flex-direction: column;
 }
 
-.tips-guides-container .author-name {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    line-height: 1.2;
+.tips-guides-container .blog-card-author-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--gray-900);
 }
 
-.tips-guides-container .blog-date {
+.tips-guides-container .blog-card-date {
     font-size: 0.8rem;
-    color: var(--text-secondary);
-    line-height: 1.2;
+    color: var(--gray-500);
 }
 
-/* Newsletter Card */
-.tips-guides-container .newsletter-card {
-    background: var(--gray-50);
-    border-radius: 12px;
+.tips-guides-container .blog-card-arrow {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 24px;
+    height: 24px;
+    color: var(--purple-600);
+}
+
+/* Featured Blog Card (Wider) */
+.tips-guides-container .blog-card.featured {
+    grid-column: span 3;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+}
+
+.tips-guides-container .blog-card.featured .blog-card-image {
+    height: 250px;
+}
+
+.tips-guides-container .blog-card.featured .blog-card-content {
     padding: 2rem;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
-    min-height: 400px;
 }
 
-.tips-guides-container .newsletter-content {
-    text-align: center;
-    max-width: 280px;
-}
-
-.tips-guides-container .newsletter-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+.tips-guides-container .blog-card.featured .blog-card-title {
+    font-size: 1.3rem;
     margin-bottom: 1rem;
 }
 
+.tips-guides-container .blog-card.featured .blog-card-excerpt {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Newsletter Section */
+.tips-guides-container .newsletter-section {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+}
+
 .tips-guides-container .newsletter-icon {
-    width: 20px;
-    height: 20px;
-    color: var(--text-secondary);
+    width: 32px;
+    height: 32px;
+    color: var(--gray-400);
+    margin-bottom: 1rem;
 }
 
-.tips-guides-container .newsletter-header h3 {
-    font-size: 1.1rem;
+.tips-guides-container .newsletter-title {
+    font-size: 1.2rem;
     font-weight: 600;
-    color: var(--text-primary);
-    margin: 0;
+    color: var(--gray-900);
+    margin-bottom: 0.75rem;
 }
 
-.tips-guides-container .newsletter-content p {
+.tips-guides-container .newsletter-description {
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: var(--gray-600);
     line-height: 1.5;
     margin-bottom: 1.5rem;
 }
@@ -224,68 +225,66 @@
 .tips-guides-container .newsletter-form {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
+    gap: 1rem;
 }
 
 .tips-guides-container .newsletter-input {
     padding: 0.75rem;
-    border: 1px solid var(--border-light);
-    border-radius: 8px;
+    border: 1px solid var(--gray-300);
+    border-radius: 6px;
     font-size: 0.9rem;
-    background: var(--white);
-    transition: border-color 0.3s ease;
+    color: var(--gray-900);
 }
 
 .tips-guides-container .newsletter-input:focus {
     outline: none;
-    border-color: var(--primary-color);
+    border-color: var(--purple-600);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.tips-guides-container .newsletter-privacy {
+    font-size: 0.8rem;
+    color: var(--gray-500);
+}
+
+.tips-guides-container .newsletter-privacy a {
+    color: var(--purple-600);
+    text-decoration: none;
+}
+
+.tips-guides-container .newsletter-privacy a:hover {
+    text-decoration: underline;
 }
 
 .tips-guides-container .newsletter-button {
-    background: var(--primary-color);
-    color: var(--text-white);
+    background: var(--purple-600);
+    color: var(--white);
     border: none;
     padding: 0.75rem 1.5rem;
-    border-radius: 8px;
+    border-radius: 6px;
     font-size: 0.9rem;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 .tips-guides-container .newsletter-button:hover {
-    background: var(--primary-hover);
-    transform: translateY(-1px);
+    background: var(--purple-700);
 }
 
-.tips-guides-container .privacy-link {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.tips-guides-container .privacy-link:hover {
-    color: var(--primary-color);
-}
-
-/* Mobile Responsive */
+/* Mobile Responsiveness */
 @media (max-width: 768px) {
-    .tips-guides-content {
-        padding: 0 1rem;
-    }
-    
-    .tips-guides-container .hero-section {
-        padding: 3rem 0 4rem;
-    }
-    
     .tips-guides-container .hero-title {
         font-size: 2.5rem;
     }
     
-    .tips-guides-container .hero-description {
+    .tips-guides-container .hero-subtitle {
         font-size: 1.1rem;
+    }
+    
+    .tips-guides-container .blog-grid-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
     }
     
     .tips-guides-container .blog-grid {
@@ -293,42 +292,38 @@
         gap: 1.5rem;
     }
     
-    .tips-guides-container .blog-grid-section {
-        padding: 2rem 0 4rem;
+    .tips-guides-container .blog-card.featured {
+        grid-column: span 1;
+        grid-template-columns: 1fr;
     }
     
-    .tips-guides-container .newsletter-card {
-        min-height: 300px;
-        padding: 1.5rem;
+    .tips-guides-container .blog-card.featured .blog-card-image {
+        height: 200px;
     }
     
-    .tips-guides-container .newsletter-content {
-        max-width: 100%;
+    .tips-guides-container .newsletter-section {
+        order: -1;
     }
 }
 
 @media (max-width: 480px) {
+    .tips-guides-container .hero-section {
+        padding: 3rem 1rem 2rem;
+    }
+    
+    .tips-guides-container .blog-grid-section {
+        padding: 3rem 1rem;
+    }
+    
     .tips-guides-container .hero-title {
         font-size: 2rem;
     }
     
-    .tips-guides-container .hero-description {
-        font-size: 1rem;
-    }
-    
-    .tips-guides-container .blog-content {
+    .tips-guides-container .blog-card-content {
         padding: 1rem;
     }
     
-    .tips-guides-container .blog-content h3 {
-        font-size: 1.1rem;
-    }
-    
-    .tips-guides-container .blog-content p {
-        font-size: 0.9rem;
-    }
-    
-    .tips-guides-container .newsletter-card {
-        padding: 1rem;
+    .tips-guides-container .newsletter-section {
+        padding: 1.5rem;
     }
 }
