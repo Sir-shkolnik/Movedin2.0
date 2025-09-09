@@ -250,7 +250,7 @@
 .homepage-container .how-it-works-text h2 {
     font-size: 3rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: var(--blue-600);
     margin-bottom: 1.5rem;
     line-height: 1.1;
 }
@@ -278,8 +278,8 @@
 }
 
 .homepage-container .step-item.active {
-    border-color: var(--primary-color);
-    box-shadow: 0 4px 12px rgba(83, 64, 255, 0.1);
+    border-color: var(--blue-600);
+    box-shadow: 0 4px 12px rgba(21, 112, 239, 0.1);
 }
 
 .homepage-container .step-header {
@@ -292,7 +292,7 @@
 }
 
 .homepage-container .step-item.active .step-header {
-    background: var(--violet-50) !important;
+    background: var(--blue-50) !important;
 }
 
 .homepage-container .step-header:hover {
@@ -300,13 +300,13 @@
 }
 
 .homepage-container .step-item.active .step-header:hover {
-    background: var(--violet-50) !important;
+    background: var(--blue-50) !important;
 }
 
 .homepage-container .step-number {
     width: 40px;
     height: 40px;
-    background: var(--primary-color);
+    background: var(--blue-600);
     color: var(--text-white);
     border-radius: 50%;
     display: flex;
@@ -322,7 +322,7 @@
     flex: 1;
     font-size: 1.2rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--blue-600);
 }
 
 .homepage-container .step-toggle {
@@ -338,8 +338,8 @@
 }
 
 .homepage-container .step-item.active .step-toggle {
-    transform: rotate(45deg);
-    color: var(--primary-color);
+    transform: none;
+    color: var(--blue-600);
 }
 
 .homepage-container .step-content {
