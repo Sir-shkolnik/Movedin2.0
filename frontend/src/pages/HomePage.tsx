@@ -9,7 +9,22 @@ import './HomePage.css';
 import truckIcon from '../assets/icons-svg/icon_truck-white.svg';
 import checkIcon from '../assets/icons-svg/icon_check-purple.svg';
 import starIcon from '../assets/icons-svg/icon_star-yellow.svg';
-import locationIcon from '../assets/icons-svg/icon_location-white.svg';
+
+// Import real company logos
+import logoCargoCabbie from '../assets/logos-png/logo_cargo-cabbie.png';
+import logoNewEra from '../assets/logos-png/logo_new-era.png';
+import logoLetsGetMoving from '../assets/logos-png/logo_letsgetmoving.jpg';
+import logoHighLevelMovers from '../assets/logos-png/logo_highlevelmovers.jpg';
+import logoBronzeStar from '../assets/logos-png/logo_bronzestar.png';
+
+// Import How it works icons
+import locationIcon from '../assets/icons-svg/icon_location-purple.svg';
+import calendarIcon from '../assets/icons-svg/icon_calendar-purple.svg';
+import homeServicesIcon from '../assets/icons-svg/icon_home-services-black.svg';
+import phoneIcon from '../assets/icons-svg/icon_phone-purple.svg';
+import plusIcon from '../assets/icons-svg/icon_plus-purple.svg';
+import minusIcon from '../assets/icons-svg/icon_minus-gray.svg';
+import formLocationStep from '../assets/imgs-png/img_form1.png';
 import heroIllustration from '../assets/imgs-png/img_one-stop-illustration.png';
 import truckImage from '../assets/imgs-png/img_truck.png';
 import manWithBoxes from '../assets/imgs-png/img_blog-dealing_content_2.svg';
@@ -133,11 +148,11 @@ const HomePage: React.FC = () => {
             <div className="trusted-content">
               <h3>Trusted by</h3>
               <div className="trusted-logos">
-                <div className="logo-item">CARGO CABBIE</div>
-                <div className="logo-item">T-Mobile</div>
-                <div className="logo-item">SUPER MOVING</div>
-                <div className="logo-item">MOVERS WAREHOUSE</div>
-                <div className="logo-item">🐤</div>
+                <img src={logoCargoCabbie} alt="Cargo Cabbie" className="trusted-logo" />
+                <img src={logoNewEra} alt="New Era" className="trusted-logo" />
+                <img src={logoLetsGetMoving} alt="Let's Get Moving" className="trusted-logo" />
+                <img src={logoHighLevelMovers} alt="High Level Movers" className="trusted-logo" />
+                <img src={logoBronzeStar} alt="Bronze Star" className="trusted-logo" />
               </div>
             </div>
           </section>
@@ -184,51 +199,57 @@ const HomePage: React.FC = () => {
               <div className="how-it-works-text">
                 <h2>How it works</h2>
                 <p>Set up your move in four simple steps. It's completely free.</p>
-                <div className="steps">
-                  <div className="step">
-                    <div className="step-number">1</div>
-                    <div className="step-content">
-                      <h3>Enter your address</h3>
-                      <p>Tell us where you're moving from and to</p>
+                <div className="steps-accordion">
+                  <div className="step-item active">
+                    <div className="step-header">
+                      <div className="step-number">1</div>
+                      <div className="step-title">Enter your address</div>
+                      <div className="step-toggle">−</div>
                     </div>
-                    <div className="step-arrow">→</div>
-                  </div>
-                  <div className="step">
-                    <div className="step-number">2</div>
                     <div className="step-content">
-                      <h3>Select your moving date & time</h3>
+                      <p>Start by telling us where you are moving from and to</p>
+                    </div>
+                  </div>
+                  <div className="step-item">
+                    <div className="step-header">
+                      <div className="step-number">2</div>
+                      <div className="step-title">Select your moving date & time</div>
+                      <div className="step-toggle">+</div>
+                    </div>
+                    <div className="step-content">
                       <p>Choose your preferred moving schedule</p>
                     </div>
-                    <div className="step-arrow">→</div>
                   </div>
-                  <div className="step">
-                    <div className="step-number">3</div>
+                  <div className="step-item">
+                    <div className="step-header">
+                      <div className="step-number">3</div>
+                      <div className="step-title">Tell us about your service needs</div>
+                      <div className="step-toggle">+</div>
+                    </div>
                     <div className="step-content">
-                      <h3>Tell us about your service needs</h3>
                       <p>Describe what services you require</p>
                     </div>
-                    <div className="step-arrow">→</div>
                   </div>
-                  <div className="step">
-                    <div className="step-number">4</div>
+                  <div className="step-item">
+                    <div className="step-header">
+                      <div className="step-number">4</div>
+                      <div className="step-title">Finalized by provide contact info</div>
+                      <div className="step-toggle">+</div>
+                    </div>
                     <div className="step-content">
-                      <h3>Finalized by provide contact info</h3>
                       <p>Complete your booking with contact details</p>
                     </div>
-                    <div className="step-arrow">→</div>
                   </div>
                 </div>
               </div>
               <div className="how-it-works-visual">
-                <div className="interface-mockup">
-                  <div className="mockup-content">
-                    <div className="mockup-header">Moving Quote Form</div>
-                    <div className="mockup-form">
-                      <div className="form-field">From Address</div>
-                      <div className="form-field">To Address</div>
-                      <div className="form-field">Move Date</div>
-                      <div className="form-field">Property Size</div>
-                    </div>
+                <div className="form-mockup-container">
+                  <div className="form-mockup">
+                    <img 
+                      src={formLocationStep} 
+                      alt="Moving quote form - Location step" 
+                      className="form-mockup-image"
+                    />
                   </div>
                 </div>
               </div>

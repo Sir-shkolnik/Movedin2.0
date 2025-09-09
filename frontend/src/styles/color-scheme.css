@@ -15,41 +15,78 @@
     --gray-700: #344054;
     --gray-800: #1D2939;
     --gray-900: #101828;
+    --gray-950: #0A0D12;
 
     /* Blue */
     --blue-50: #EFF8FF;
+    --blue-400: #53B1FD;
+    --blue-500: #2E90FA;
     --blue-600: #1570EF;
+    --blue-700: #175CD3;
+    --blue-800: #1849A9;
+
+    /* Blue Dark */
+    --blue-dark-300: #84ADFF;
+    --blue-dark-600: #155EEF;
+    --blue-dark-700: #004EEB;
 
     /* Indigo */
-    --indigo-600: #53389E;
+    --indigo-300: #A4BCFD;
+    --indigo-400: #8098F9;
+    --indigo-500: #6172F3;
+    --indigo-600: #444CE7;
+    --indigo-700: #3538CD;
 
     /* Violet */
     --violet-50: #F9F5FF;
-    --violet-600: #7F56D9;
+    --violet-500: #875BF7;
+    --violet-600: #7839EE;
+    --violet-700: #6927DA;
+    --violet-800: #5720B7;
 
     /* Purple */
     --purple-50: #F5F0FF;
     --purple-600: #6938EF;
+    --purple-700: #5925DC;
+    --purple-800: #4A1FB8;
 
     /* Pink */
     --pink-50: #FDF2FA;
-    --pink-600: #C11574;
+    --pink-400: #F670C7;
+    --pink-500: #EE46BC;
+    --pink-600: #DD2590;
 
-    /* Orange */
-    --orange-50: #FFF8ED;
-    --orange-600: #DC6803;
+    /* Orange Dark */
+    --orange-dark-400: #FF692E;
+    --orange-dark-500: #FF4405;
 
     /* Yellow */
     --yellow-50: #FFFCF5;
-    --yellow-600: #EAAA08;
+    --yellow-500: #EAAA08;
+
+    /* Green */
+    --green-500: #16B364;
+    --green-600: #099250;
+    --green-700: #087443;
+
+    /* Green Light */
+    --green-light-500: #66C61C;
+    --green-light-600: #4CA30D;
+    --green-light-700: #3B7C0F;
+
+    /* Success */
+    --success-600: #079455;
+
+    /* Error */
+    --error-600: #D92D20;
 
     /* Semantic Colors */
     --primary-color: var(--purple-600);
-    --primary-hover: #5340FF; /* Slightly darker purple for hover */
+    --primary-hover: var(--purple-700);
     --secondary-color: var(--blue-600);
-    --success-color: var(--green-600); /* Assuming green-600 exists in Figma, otherwise define */
-    --error-color: var(--red-600); /* Assuming red-600 exists in Figma, otherwise define */
-    --accent-color: var(--yellow-600);
+    --success-color: var(--success-600);
+    --error-color: var(--error-600);
+    --accent-color: var(--yellow-500);
 
     /* Backgrounds */
     --bg-primary: var(--white);
