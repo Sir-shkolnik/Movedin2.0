@@ -148,6 +148,7 @@ const HomePage: React.FC = () => {
               <div className="feature-content">
                 <h2>One stop shop for all your moving needs</h2>
                 <p>From packing to unpacking, we connect you with the right professionals for every aspect of your move.</p>
+                <button className="feature-button">Get a quote</button>
               </div>
               <div className="feature-visual">
                 <img src={heroIllustration} alt="One stop shop illustration" className="feature-image" />
@@ -158,6 +159,7 @@ const HomePage: React.FC = () => {
               <div className="feature-content">
                 <h2>Competitive price guarantee</h2>
                 <p>We ensure you get the best rates by comparing quotes from multiple verified movers in your area.</p>
+                <button className="feature-button">Get a quote</button>
               </div>
               <div className="feature-visual">
                 <img src={manWithBoxes} alt="Competitive pricing illustration" className="feature-image" />
@@ -168,6 +170,7 @@ const HomePage: React.FC = () => {
               <div className="feature-content">
                 <h2>Trusted movers you can rely on</h2>
                 <p>All our moving partners are licensed, insured, and thoroughly vetted for quality and reliability.</p>
+                <button className="feature-button">Find a mover</button>
               </div>
               <div className="feature-visual">
                 <img src={customerService} alt="Customer service illustration" className="feature-image" />
@@ -180,27 +183,39 @@ const HomePage: React.FC = () => {
             <div className="how-it-works-content">
               <div className="how-it-works-text">
                 <h2>How it works</h2>
+                <p>Set up your move in four simple steps. It's completely free.</p>
                 <div className="steps">
                   <div className="step">
                     <div className="step-number">1</div>
                     <div className="step-content">
-                      <h3>Share Your Details</h3>
-                      <p>Tell us about your move in 2 minutes</p>
+                      <h3>Enter your address</h3>
+                      <p>Tell us where you're moving from and to</p>
                     </div>
+                    <div className="step-arrow">→</div>
                   </div>
                   <div className="step">
                     <div className="step-number">2</div>
                     <div className="step-content">
-                      <h3>Get Instant Quotes</h3>
-                      <p>Receive quotes from verified movers</p>
+                      <h3>Select your moving date & time</h3>
+                      <p>Choose your preferred moving schedule</p>
                     </div>
+                    <div className="step-arrow">→</div>
                   </div>
                   <div className="step">
                     <div className="step-number">3</div>
                     <div className="step-content">
-                      <h3>Compare & Book</h3>
-                      <p>Choose the best option for you</p>
+                      <h3>Tell us about your service needs</h3>
+                      <p>Describe what services you require</p>
                     </div>
+                    <div className="step-arrow">→</div>
+                  </div>
+                  <div className="step">
+                    <div className="step-number">4</div>
+                    <div className="step-content">
+                      <h3>Finalized by provide contact info</h3>
+                      <p>Complete your booking with contact details</p>
+                    </div>
+                    <div className="step-arrow">→</div>
                   </div>
                 </div>
               </div>
@@ -224,9 +239,11 @@ const HomePage: React.FC = () => {
           <section className="explore-section">
             <div className="explore-content">
               <h2>Explore the best services available at your address!</h2>
+              <p>Explore Top-Tier Local Solutions & Great Deals At Premier Services Available In Your Area</p>
               <div className="explore-visual">
                 <img src={familyPlaying} alt="Family playing with dollhouse" className="explore-image" />
               </div>
+              <button className="explore-button">View Address Change Guide</button>
             </div>
           </section>
 
@@ -235,15 +252,15 @@ const HomePage: React.FC = () => {
             <div className="expert-content">
               <div className="expert-text">
                 <h2>An expert at your fingertips</h2>
-                <p>Get personalized moving advice from our team of experts who understand the Canadian moving landscape.</p>
+                <p>Once you've shared your relocation requirements with us, a booking agent will be assigned to you automatically, always free of charge!</p>
               </div>
               <div className="expert-profile">
                 <div className="profile-image">
-                  <img src={profileAmelie} alt="Amelia Laurent" className="profile-img" />
+                  <img src={profileAmelie} alt="Amelie Laurent" className="profile-img" />
                 </div>
                 <div className="profile-info">
-                  <h3>Amelia Laurent</h3>
-                  <p>Moving Specialist</p>
+                  <h3>Amelie Laurent</h3>
+                  <p>Booking Agent</p>
                 </div>
               </div>
             </div>
@@ -255,19 +272,34 @@ const HomePage: React.FC = () => {
             <div className="blogs-grid">
               <div className="blog-item">
                 <img src={blogMoving} alt="Moving blog" className="blog-image" />
-                <h3>Moving Tips</h3>
+                <h3>Dealing with Moving Stress: Top Relaxation Techniques</h3>
                 <p>Essential tips for a smooth move</p>
+                <div className="blog-meta">
+                  <span className="blog-author">By MovedIn Team</span>
+                  <span className="blog-date">Dec 15, 2023</span>
+                </div>
               </div>
               <div className="blog-item">
                 <img src={blogEssential} alt="Essential blog" className="blog-image" />
-                <h3>Moving Essentials</h3>
+                <h3>The Essential Moving Checklist for Tenants/renters</h3>
                 <p>What you need to know before moving</p>
+                <div className="blog-meta">
+                  <span className="blog-author">By MovedIn Team</span>
+                  <span className="blog-date">Dec 10, 2023</span>
+                </div>
               </div>
               <div className="blog-item">
                 <img src={blogToronto} alt="Toronto blog" className="blog-image" />
-                <h3>Toronto Moving</h3>
+                <h3>Moving in the Winter: Special Tips for Toronto Residents</h3>
                 <p>Moving in and around Toronto</p>
+                <div className="blog-meta">
+                  <span className="blog-author">By MovedIn Team</span>
+                  <span className="blog-date">Dec 5, 2023</span>
+                </div>
               </div>
+            </div>
+            <div className="blogs-cta">
+              <button className="blogs-button">Read all</button>
             </div>
           </section>
 
