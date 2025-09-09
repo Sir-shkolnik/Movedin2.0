@@ -29,7 +29,6 @@ import heroIllustration from '../assets/imgs-png/img_one-stop-illustration.png';
 import truckImage from '../assets/imgs-png/img_truck.png';
 import manWithBoxes from '../assets/imgs-png/img_blog-dealing_content_2.svg';
 import customerService from '../assets/imgs-png/img_blog-dealing_content_4.svg';
-import familyPlaying from '../assets/imgs-png/img_blog-dealing_content_3.jpg';
 import profileAmelie from '../assets/imgs-png/img_profile-Amélie.png';
 import blogMoving from '../assets/imgs-png/img_blog-moving.jpg';
 import blogEssential from '../assets/imgs-png/img_blog-essential.jpg';
@@ -256,17 +255,6 @@ const HomePage: React.FC = () => {
             </div>
           </section>
 
-          {/* Explore Services Section */}
-          <section className="explore-section">
-            <div className="explore-content">
-              <h2>Explore the best services available at your address!</h2>
-              <p>Explore Top-Tier Local Solutions & Great Deals At Premier Services Available In Your Area</p>
-              <div className="explore-visual">
-                <img src={familyPlaying} alt="Family playing with dollhouse" className="explore-image" />
-              </div>
-              <button className="explore-button">View Address Change Guide</button>
-            </div>
-          </section>
 
           {/* Expert Section */}
           <section className="expert-section">

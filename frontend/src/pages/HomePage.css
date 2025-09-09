@@ -10,8 +10,12 @@
 }
 
 /* Ensure entire page background is white */
-.homepage-container * {
+.homepage-container,
+.homepage-container *,
+.homepage-container body,
+.homepage-container html {
     background-color: var(--white) !important;
+    background: var(--white) !important;
 }
 
 .homepage-container .hero-section,
@@ -30,7 +34,7 @@
 
 /* Hero Section - Original Design */
 .homepage-container .hero-section {
-    padding: 6rem 2rem 4rem;
+    padding: 4rem 2rem 3rem;
     background: var(--white) !important;
     background-image: none !important;
     color: var(--text-primary);
@@ -41,7 +45,7 @@
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+    gap: 3rem;
     align-items: center;
 }
 
@@ -99,7 +103,7 @@
 
 /* Trusted By Section */
 .homepage-container .trusted-section {
-    padding: 3rem 2rem;
+    padding: 2rem 2rem;
     background: var(--white) !important;
     text-align: center;
 }
@@ -144,10 +148,10 @@
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 6rem;
+    gap: 4rem;
     align-items: center;
-    padding: 8rem 2rem;
-    min-height: 500px;
+    padding: 6rem 2rem;
+    min-height: 400px;
 }
 
 .homepage-container .feature-item:nth-child(1) {
@@ -230,7 +234,7 @@
 
 /* How It Works Section */
 .homepage-container .how-it-works-section {
-    padding: 8rem 2rem;
+    padding: 6rem 2rem;
     background: var(--white) !important;
 }
 
@@ -239,7 +243,7 @@
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 6rem;
+    gap: 4rem;
     align-items: flex-start;
 }
 
@@ -402,7 +406,7 @@
 
 /* Expert Section */
 .homepage-container .expert-section {
-    padding: 6rem 2rem;
+    padding: 4rem 2rem;
     background: var(--white) !important;
 }
 
@@ -411,7 +415,7 @@
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+    gap: 3rem;
     align-items: center;
 }
 
@@ -468,7 +472,7 @@
 
 /* Blogs Section */
 .homepage-container .blogs-section {
-    padding: 6rem 2rem;
+    padding: 4rem 2rem;
     background: var(--white) !important;
     text-align: center;
 }
@@ -560,7 +564,7 @@
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .homepage-container .hero-section {
-        padding: 4rem 1rem 3rem;
+        padding: 3rem 1rem 2rem;
     }
     
     .homepage-container .hero-content {
@@ -582,7 +586,7 @@
     }
     
     .homepage-container .trusted-section {
-        padding: 2rem 1rem;
+        padding: 1.5rem 1rem;
     }
     
     .homepage-container .trusted-logos {
@@ -595,8 +599,8 @@
     
     .homepage-container .feature-item {
         grid-template-columns: 1fr;
-        gap: 3rem;
-        padding: 4rem 1rem;
+        gap: 2rem;
+        padding: 3rem 1rem;
         min-height: auto;
     }
     
@@ -617,7 +621,7 @@
     }
     
     .homepage-container .how-it-works-section {
-        padding: 4rem 1rem;
+        padding: 3rem 1rem;
     }
     
     .homepage-container .how-it-works-content {
@@ -663,7 +667,7 @@
     }
     
     .homepage-container .expert-section {
-        padding: 4rem 1rem;
+        padding: 3rem 1rem;
     }
     
     .homepage-container .expert-content {
@@ -677,7 +681,7 @@
     }
     
     .homepage-container .blogs-section {
-        padding: 4rem 1rem;
+        padding: 3rem 1rem;
     }
     
     .homepage-container .blogs-section h2 {
