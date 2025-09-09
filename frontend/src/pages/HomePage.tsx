@@ -12,6 +12,13 @@ import starIcon from '../assets/icons-svg/icon_star-yellow.svg';
 import locationIcon from '../assets/icons-svg/icon_location-white.svg';
 import heroIllustration from '../assets/imgs-png/img_one-stop-illustration.png';
 import truckImage from '../assets/imgs-png/img_truck.png';
+import manWithBoxes from '../assets/imgs-png/img_blog-dealing_content_2.svg';
+import customerService from '../assets/imgs-png/img_blog-dealing_content_4.svg';
+import familyPlaying from '../assets/imgs-png/img_blog-dealing_content_3.jpg';
+import profileAmelie from '../assets/imgs-png/img_profile-Amélie.png';
+import blogMoving from '../assets/imgs-png/img_blog-moving.jpg';
+import blogEssential from '../assets/imgs-png/img_blog-essential.jpg';
+import blogToronto from '../assets/imgs-png/img_blog-toronto.jpg';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -99,20 +106,6 @@ const HomePage: React.FC = () => {
                 <p className="hero-description">
                   Connect with verified moving companies across Canada. Get instant quotes, compare prices, and book with confidence.
                 </p>
-                <div className="hero-stats">
-                  <div className="stat-item">
-                    <span className="stat-number">4</span>
-                    <span className="stat-label">Verified Movers</span>
-                  </div>
-                  <div className="stat-item">
-                    <span className="stat-number">50+</span>
-                    <span className="stat-label">Cities Served</span>
-                  </div>
-                  <div className="stat-item">
-                    <span className="stat-number">28</span>
-                    <span className="stat-label">Successful Moves</span>
-                  </div>
-                </div>
                 <button 
                   className="hero-cta-button" 
                   onClick={handleGetQuote}
@@ -120,6 +113,10 @@ const HomePage: React.FC = () => {
                 >
                   Get Free Quote
                 </button>
+                <p className="hero-trust">
+                  <img src={starIcon} alt="Star" className="trust-star" />
+                  Trusted by 10,000+ Canadians
+                </p>
               </div>
               <div className="hero-visual">
                 <img 
@@ -131,124 +128,147 @@ const HomePage: React.FC = () => {
             </div>
           </section>
 
-          {/* How It Works */}
-          <section className="process-section">
-            <h2>How It Works</h2>
-            <div className="process-steps">
-              <div className="process-step">
-                <div className="step-icon">
-                  <img src={locationIcon} alt="Location" />
-                </div>
-                <div className="step-number">1</div>
-                <h3>Share Your Details</h3>
-                <p>Tell us about your move in 2 minutes</p>
-              </div>
-              <div className="process-step">
-                <div className="step-icon">
-                  <img src={truckIcon} alt="Truck" />
-                </div>
-                <div className="step-number">2</div>
-                <h3>Get Instant Quotes</h3>
-                <p>Receive quotes from verified movers</p>
-              </div>
-              <div className="process-step">
-                <div className="step-icon">
-                  <img src={checkIcon} alt="Check" />
-                </div>
-                <div className="step-number">3</div>
-                <h3>Compare & Book</h3>
-                <p>Choose the best option for you</p>
+          {/* Trusted By Section */}
+          <section className="trusted-section">
+            <div className="trusted-content">
+              <h3>Trusted by</h3>
+              <div className="trusted-logos">
+                <div className="logo-item">CARGO CABBIE</div>
+                <div className="logo-item">T-Mobile</div>
+                <div className="logo-item">SUPER MOVING</div>
+                <div className="logo-item">MOVERS WAREHOUSE</div>
+                <div className="logo-item">🐤</div>
               </div>
             </div>
           </section>
 
-          {/* About Us */}
-          <section className="about-section">
-            <h2>About MovedIn</h2>
-            <div className="about-content">
-              <div className="about-text">
-                <p className="about-lead">
-                  We simplify the moving experience for Canadians by connecting you with verified, professional moving companies.
-                </p>
-                <p>
-                  Our platform eliminates the hassle of calling multiple moving companies and dealing with inconsistent quotes. 
-                  We ensure you get the best service at fair, transparent prices.
-                </p>
-                <div className="about-features">
-                  <div className="feature-item">
-                    <img src={checkIcon} alt="Check" className="feature-icon" />
-                    <span>Licensed & Insured Movers</span>
+          {/* Feature Sections */}
+          <section className="features-section">
+            <div className="feature-item">
+              <div className="feature-content">
+                <h2>One stop shop for all your moving needs</h2>
+                <p>From packing to unpacking, we connect you with the right professionals for every aspect of your move.</p>
+              </div>
+              <div className="feature-visual">
+                <img src={heroIllustration} alt="One stop shop illustration" className="feature-image" />
+              </div>
+            </div>
+
+            <div className="feature-item">
+              <div className="feature-content">
+                <h2>Competitive price guarantee</h2>
+                <p>We ensure you get the best rates by comparing quotes from multiple verified movers in your area.</p>
+              </div>
+              <div className="feature-visual">
+                <img src={manWithBoxes} alt="Competitive pricing illustration" className="feature-image" />
+              </div>
+            </div>
+
+            <div className="feature-item">
+              <div className="feature-content">
+                <h2>Trusted movers you can rely on</h2>
+                <p>All our moving partners are licensed, insured, and thoroughly vetted for quality and reliability.</p>
+              </div>
+              <div className="feature-visual">
+                <img src={customerService} alt="Customer service illustration" className="feature-image" />
+              </div>
+            </div>
+          </section>
+
+          {/* How It Works Section */}
+          <section className="how-it-works-section">
+            <div className="how-it-works-content">
+              <div className="how-it-works-text">
+                <h2>How it works</h2>
+                <div className="steps">
+                  <div className="step">
+                    <div className="step-number">1</div>
+                    <div className="step-content">
+                      <h3>Share Your Details</h3>
+                      <p>Tell us about your move in 2 minutes</p>
+                    </div>
                   </div>
-                  <div className="feature-item">
-                    <img src={checkIcon} alt="Check" className="feature-icon" />
-                    <span>Transparent Pricing</span>
+                  <div className="step">
+                    <div className="step-number">2</div>
+                    <div className="step-content">
+                      <h3>Get Instant Quotes</h3>
+                      <p>Receive quotes from verified movers</p>
+                    </div>
                   </div>
-                  <div className="feature-item">
-                    <img src={checkIcon} alt="Check" className="feature-icon" />
-                    <span>Instant Quotes</span>
+                  <div className="step">
+                    <div className="step-number">3</div>
+                    <div className="step-content">
+                      <h3>Compare & Book</h3>
+                      <p>Choose the best option for you</p>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="about-visual">
-                <img 
-                  src={truckImage} 
-                  alt="Moving truck" 
-                  className="about-image"
-                />
+              <div className="how-it-works-visual">
+                <div className="interface-mockup">
+                  <div className="mockup-content">
+                    <div className="mockup-header">Moving Quote Form</div>
+                    <div className="mockup-form">
+                      <div className="form-field">From Address</div>
+                      <div className="form-field">To Address</div>
+                      <div className="form-field">Move Date</div>
+                      <div className="form-field">Property Size</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
 
-          {/* Service Areas */}
-          <section className="service-areas-section">
-            <h2>We Serve Major Canadian Cities</h2>
-            <div className="cities-grid">
-              <div className="city-group">
-                <h3>Ontario</h3>
-                <ul>
-                  <li>Toronto</li>
-                  <li>Mississauga</li>
-                  <li>Brampton</li>
-                  <li>Hamilton</li>
-                  <li>Ottawa</li>
-                </ul>
-              </div>
-              <div className="city-group">
-                <h3>British Columbia</h3>
-                <ul>
-                  <li>Vancouver</li>
-                  <li>Victoria</li>
-                  <li>Burnaby</li>
-                  <li>Richmond</li>
-                </ul>
-              </div>
-              <div className="city-group">
-                <h3>Alberta</h3>
-                <ul>
-                  <li>Calgary</li>
-                  <li>Edmonton</li>
-                </ul>
-              </div>
-              <div className="city-group">
-                <h3>Quebec</h3>
-                <ul>
-                  <li>Montreal</li>
-                </ul>
+          {/* Explore Services Section */}
+          <section className="explore-section">
+            <div className="explore-content">
+              <h2>Explore the best services available at your address!</h2>
+              <div className="explore-visual">
+                <img src={familyPlaying} alt="Family playing with dollhouse" className="explore-image" />
               </div>
             </div>
           </section>
 
-          {/* CTA Section */}
-          <section className="cta-section">
-            <h2>Ready to Move?</h2>
-            <p>Join thousands of satisfied customers across Canada</p>
-            <button 
-              className="cta-button" 
-              onClick={handleGetQuote}
-              aria-label="Get your free moving quote now"
-            >
-              Start Your Quote
-            </button>
+          {/* Expert Section */}
+          <section className="expert-section">
+            <div className="expert-content">
+              <div className="expert-text">
+                <h2>An expert at your fingertips</h2>
+                <p>Get personalized moving advice from our team of experts who understand the Canadian moving landscape.</p>
+              </div>
+              <div className="expert-profile">
+                <div className="profile-image">
+                  <img src={profileAmelie} alt="Amelia Laurent" className="profile-img" />
+                </div>
+                <div className="profile-info">
+                  <h3>Amelia Laurent</h3>
+                  <p>Moving Specialist</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Recent Blogs Section */}
+          <section className="blogs-section">
+            <h2>Recent blogs</h2>
+            <div className="blogs-grid">
+              <div className="blog-item">
+                <img src={blogMoving} alt="Moving blog" className="blog-image" />
+                <h3>Moving Tips</h3>
+                <p>Essential tips for a smooth move</p>
+              </div>
+              <div className="blog-item">
+                <img src={blogEssential} alt="Essential blog" className="blog-image" />
+                <h3>Moving Essentials</h3>
+                <p>What you need to know before moving</p>
+              </div>
+              <div className="blog-item">
+                <img src={blogToronto} alt="Toronto blog" className="blog-image" />
+                <h3>Toronto Moving</h3>
+                <p>Moving in and around Toronto</p>
+              </div>
+            </div>
           </section>
 
         </div>
