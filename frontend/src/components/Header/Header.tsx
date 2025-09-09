@@ -110,27 +110,6 @@ const Header: React.FC = () => {
                 id="mobile-menu"
                 className={`mobile-nav${menuOpen ? ' open' : ''}`}
                 aria-hidden={!menuOpen}
-                style={{
-                    position: 'fixed',
-                    top: '0',
-                    right: menuOpen ? '0' : '-100vw',
-                    width: '85vw',
-                    maxWidth: '360px',
-                    height: '100vh',
-                    background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-                    boxShadow: '-4px 0 24px rgba(0, 0, 0, 0.15)',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start',
-                    padding: '60px 24px 24px 24px',
-                    gap: '6px',
-                    transition: 'right 0.3s cubic-bezier(.4, 0, .2, 1)',
-                    zIndex: 9999,
-                    borderLeft: '1px solid #e5e7eb',
-                    borderRadius: '0 0 0 16px',
-                    overflowY: 'auto',
-                    display: 'flex',
-                    visibility: menuOpen ? 'visible' : 'hidden'
-                }}
             >
                 {/* Close button */}
                 <button
