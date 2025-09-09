@@ -145,7 +145,7 @@
     bottom: 0;
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(8px);
-    z-index: 110;
+    z-index: 9998;
 }
 
 /* Missing keyframes for mobile menu animations */
@@ -177,8 +177,7 @@
     right: -100vw;
     width: 85vw;
     max-width: 360px;
-    height: auto; /* Auto height instead of 50vh */
-    max-height: 60vh; /* Maximum height */
+    height: 100vh;
     background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
     box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
     display: flex;
@@ -187,7 +186,7 @@
     padding: 60px 24px 24px 24px; /* Reduced top padding */
     gap: 6px;
     transition: right 0.3s cubic-bezier(.4, 0, .2, 1);
-    z-index: 130;
+    z-index: 9999;
     border-left: 1px solid #e5e7eb;
     border-radius: 0 0 0 16px;
     overflow-y: auto; /* Allow scrolling if needed */
@@ -197,32 +196,7 @@
     right: 0;
 }
 
-/* Close button for mobile menu */
-.mobile-nav::before {
-    content: "×";
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #6b7280;
-    cursor: pointer;
-    z-index: 140;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.9);
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.mobile-nav::before:hover {
-    background: rgba(255, 255, 255, 1);
-    color: #374151;
-}
+/* Close button for mobile menu - removed CSS pseudo-element, using JSX button instead */
 
 .mobile-nav .nav-link {
     font-size: 1rem;

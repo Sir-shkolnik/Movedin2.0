@@ -13,6 +13,7 @@ const Header: React.FC = () => {
         setMenuOpen((open) => {
             const newState = !open;
             console.log('Menu toggle:', newState);
+            console.log('Menu state changed to:', newState ? 'OPEN' : 'CLOSED');
             return newState;
         });
     };
@@ -110,7 +111,6 @@ const Header: React.FC = () => {
                 className={`mobile-nav${menuOpen ? ' open' : ''}`}
                 aria-hidden={!menuOpen}
                 style={{
-                    display: menuOpen ? 'flex' : 'none',
                     position: 'fixed',
                     top: '0',
                     right: menuOpen ? '0' : '-100vw',
@@ -127,7 +127,9 @@ const Header: React.FC = () => {
                     zIndex: 9999,
                     borderLeft: '1px solid #e5e7eb',
                     borderRadius: '0 0 0 16px',
-                    overflowY: 'auto'
+                    overflowY: 'auto',
+                    display: 'flex',
+                    visibility: menuOpen ? 'visible' : 'hidden'
                 }}
             >
                 {/* Close button */}
