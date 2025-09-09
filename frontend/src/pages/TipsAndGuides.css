@@ -22,6 +22,9 @@
 .tips-guides-container .page-content {
     flex: 1;
     width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 /* Hero Section - Dark Blue Background */
@@ -83,6 +86,20 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     margin-bottom: 2rem;
+}
+
+/* First row - 3 cards */
+.tips-guides-container .blog-grid .blog-card:not(.featured) {
+    grid-column: span 1;
+}
+
+/* Featured card - spans full width below the 3 cards */
+.tips-guides-container .blog-card.featured {
+    grid-column: span 3;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-top: 2rem;
 }
 
 .tips-guides-container .blog-card {
@@ -163,14 +180,7 @@
     color: var(--purple-600);
 }
 
-/* Featured Blog Card (Wider) */
-.tips-guides-container .blog-card.featured {
-    grid-column: span 3;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-}
-
+/* Featured Blog Card (Wider) - Additional styles */
 .tips-guides-container .blog-card.featured .blog-card-image {
     height: 250px;
 }
