@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header/Header';
 import StaticFooter from '../components/Footer/StaticFooter';
-import './Page.css';
+import './HomePage.css';
 
 // Import brand assets
 import truckIcon from '../assets/icons-svg/icon_truck-white.svg';
@@ -95,7 +95,7 @@ const HomePage: React.FC = () => {
       </Helmet>
 
       <Header />
-      <main className="page-container" aria-labelledby="homepage-title">
+      <main className="page-container homepage-container" aria-labelledby="homepage-title">
         <div className="page-content">
           
           {/* Hero Section */}
