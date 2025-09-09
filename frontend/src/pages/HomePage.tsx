@@ -165,7 +165,7 @@ const HomePage: React.FC = () => {
                 <button className="feature-button">Get a quote</button>
               </div>
               <div className="feature-visual">
-                <img src={heroIllustration} alt="One stop shop illustration" className="feature-image" />
+                <img src={truckImage} alt="One stop shop illustration" className="feature-image" />
               </div>
             </div>
 

@@ -18,6 +18,12 @@
     background: var(--white) !important;
 }
 
+/* Override body background specifically for homepage */
+body:has(.homepage-container) {
+    background: var(--white) !important;
+    background-color: var(--white) !important;
+}
+
 .homepage-container .hero-section,
 .homepage-container .trusted-section,
 .homepage-container .features-section,
@@ -94,7 +100,8 @@
     align-items: center;
 }
 
-.homepage-container .hero-image {
+.homepage-container .hero-image,
+.homepage-container .hero-illustration {
     max-width: 100%;
     height: auto;
     max-height: 400px;
