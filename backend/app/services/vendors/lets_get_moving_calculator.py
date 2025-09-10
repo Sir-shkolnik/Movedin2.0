@@ -253,6 +253,8 @@ class LetsGetMovingCalculator:
             1: 3.5, 2: 4.5, 3: 5.5, 4: 6.5, 5: 7.5, 6: 8.5, 7: 9.5
         }.get(room_count, 9.5)
         
+        print(f"LGM DEBUG: room_count={room_count}, base_hours={base_hours}")
+        
         # ENHANCED: Apply 1.3x multiplier for 4+ rooms due to increased complexity
         # Larger homes require more coordination, quality control, and careful handling
         if room_count >= 4:
@@ -260,7 +262,9 @@ class LetsGetMovingCalculator:
             print(f"LGM 4+ rooms complexity multiplier: {room_count} rooms × 1.3 = {base_hours:.2f} hours")
         
         # MINIMUM 2 HOURS LABOR COST - TRUE LGM REQUIREMENT
-        return max(base_hours, 2.0)
+        final_hours = max(base_hours, 2.0)
+        print(f"LGM DEBUG: final_hours={final_hours}")
+        return final_hours
     
     def _calculate_travel_time(self, origin: str, destination: str, dispatcher_address: str) -> float:
         """Calculate travel time using Mapbox API with 3-leg journey - ACCURATE MAPBOX CALCULATION"""
