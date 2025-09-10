@@ -593,10 +593,10 @@ class GeographicVendorDispatcher:
             if vendor_slug in dispatcher_info["serves_vendors"]:
                 # Calculate total distance: dispatcher -> origin -> destination -> dispatcher
                 try:
-                    # Use fallback distance calculation
-                    disp_to_origin = cls._fallback_distance_calculation(dispatcher_info["address"], origin)
-                    origin_to_dest = cls._fallback_distance_calculation(origin, destination)
-                    dest_to_disp = cls._fallback_distance_calculation(destination, dispatcher_info["address"])
+                    # Use Mapbox API for accurate distance calculation
+                    disp_to_origin = cls._calculate_distance_km(dispatcher_info["address"], origin)
+                    origin_to_dest = cls._calculate_distance_km(origin, destination)
+                    dest_to_disp = cls._calculate_distance_km(destination, dispatcher_info["address"])
                     
                     total_distance = disp_to_origin + origin_to_dest + dest_to_disp
                     
@@ -815,15 +815,22 @@ class GeographicVendorDispatcher:
                 logger.warning(f"No available rates found for {move_date}")
                 return None
             
-            # Calculate 3-leg distance for travel time
+            # Calculate 3-leg distance for travel time using Mapbox API
             try:
+                # Use Mapbox API for accurate distance calculation
+                disp_to_origin = cls._calculate_distance_km(address, origin)
+                origin_to_dest = cls._calculate_distance_km(origin, destination)
+                dest_to_disp = cls._calculate_distance_km(destination, address)
+                total_distance = disp_to_origin + origin_to_dest + dest_to_disp
+                logger.info(f"Mapbox distances: {address}→{origin}: {disp_to_origin:.1f}km, {origin}→{destination}: {origin_to_dest:.1f}km, {destination}→{address}: {dest_to_disp:.1f}km")
+            except Exception as e:
+                logger.warning(f"Error calculating dispatcher distance with Mapbox: {e}")
+                # Fallback to hardcoded distances only if Mapbox fails
                 disp_to_origin = cls._fallback_distance_calculation(address, origin)
                 origin_to_dest = cls._fallback_distance_calculation(origin, destination)
                 dest_to_disp = cls._fallback_distance_calculation(destination, address)
                 total_distance = disp_to_origin + origin_to_dest + dest_to_disp
-            except Exception as e:
-                logger.warning(f"Error calculating dispatcher distance: {e}")
-                total_distance = 0
+                logger.warning(f"Using fallback distances: {address}→{origin}: {disp_to_origin:.1f}km, {origin}→{destination}: {origin_to_dest:.1f}km, {destination}→{address}: {dest_to_disp:.1f}km")
             
             best_dispatcher = {
                 "gid": best_gid,

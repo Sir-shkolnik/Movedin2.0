@@ -380,13 +380,15 @@ class LetsGetMovingCalculator:
                         continue
                     
                     try:
-                        # Use proper distance calculation from GeographicVendorDispatcher
+                        # Use proper distance calculation with Mapbox API
                         from app.services.vendor_engine import GeographicVendorDispatcher
                         
-                        disp_to_origin = GeographicVendorDispatcher._fallback_distance_calculation(dispatcher_address, origin_address)
-                        origin_to_dest = GeographicVendorDispatcher._fallback_distance_calculation(origin_address, destination_address)
-                        dest_to_disp = GeographicVendorDispatcher._fallback_distance_calculation(destination_address, dispatcher_address)
+                        # Use Mapbox API for accurate distance calculation
+                        disp_to_origin = GeographicVendorDispatcher._calculate_distance_km(dispatcher_address, origin_address)
+                        origin_to_dest = GeographicVendorDispatcher._calculate_distance_km(origin_address, destination_address)
+                        dest_to_disp = GeographicVendorDispatcher._calculate_distance_km(destination_address, dispatcher_address)
                         total_distance = disp_to_origin + origin_to_dest + dest_to_disp
+                        print(f"LGM Mapbox distances: {dispatcher_address}→{origin_address}: {disp_to_origin:.1f}km, {origin_address}→{destination_address}: {origin_to_dest:.1f}km, {destination_address}→{dispatcher_address}: {dest_to_disp:.1f}km")
                         
                         if total_distance < min_total_distance:
                             min_total_distance = total_distance
