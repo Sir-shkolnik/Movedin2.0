@@ -125,8 +125,8 @@ class Easy2GoCalculator:
             additional_services_cost = self._calculate_additional_services_cost(quote_request.additional_services)
             
             total_cost = labor_cost + truck_fee + travel_cost + fuel_cost + heavy_items_cost + additional_services_cost
-        
-        return {
+            
+            return {
             "vendor_name": "Easy2Go",
             "total_cost": round(total_cost, 2),
             "breakdown": {
