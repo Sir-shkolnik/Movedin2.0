@@ -110,62 +110,69 @@ const Header: React.FC = () => {
                     </div>
                 </button>
             </div>
+            {/* Mobile Menu Overlay */}
             {menuOpen && (
                 <div 
                     className="mobile-menu-overlay" 
                     onClick={handleMenuToggle}
                 />
             )}
-            {menuOpen && (
+            
+            {/* Mobile Menu */}
+            <div className={`mobile-menu-container ${menuOpen ? 'open' : ''}`}>
                 <nav
                     id="mobile-menu"
-                    className="mobile-nav open"
+                    className="mobile-nav"
                 >
-                {/* Close button */}
-                <button
-                    className="mobile-menu-close"
-                    onClick={handleMenuToggle}
-                    aria-label="Close menu"
-                >
-                    ×
-                </button>
-                <Link
-                    to="/quote"
-                    className={`nav-link ${isActive('/quote') ? 'active' : ''}`}
-                    onClick={handleNavClick}
-                >
-                    Get a quote
-                </Link>
-                <Link
-                    to="/how-it-works"
-                    className={`nav-link ${isActive('/how-it-works') ? 'active' : ''}`}
-                    onClick={handleNavClick}
-                >
-                    How it works
-                </Link>
-                <Link
-                    to="/tips-guides"
-                    className={`nav-link ${isActive('/tips-guides') ? 'active' : ''}`}
-                    onClick={handleNavClick}
-                >
-                    Tips & Guides
-                </Link>
-                <Link
-                    to="/about-us"
-                    className={`nav-link ${isActive('/about-us') ? 'active' : ''}`}
-                    onClick={handleNavClick}
-                >
-                    About us
-                </Link>
-                <Link
-                    to="/admin"
-                    className={`nav-link ${isActive('/admin') ? 'active' : ''}`}
-                    onClick={handleNavClick}
-                >
-                    Admin
-                </Link>
+                    {/* Close button */}
+                    <button
+                        className="mobile-menu-close"
+                        onClick={handleMenuToggle}
+                        aria-label="Close menu"
+                    >
+                        ×
+                    </button>
+                    
+                    {/* Navigation Links */}
+                    <div className="mobile-nav-links">
+                        <Link
+                            to="/quote"
+                            className={`mobile-nav-link ${isActive('/quote') ? 'active' : ''}`}
+                            onClick={handleNavClick}
+                        >
+                            Get a quote
+                        </Link>
+                        <Link
+                            to="/how-it-works"
+                            className={`mobile-nav-link ${isActive('/how-it-works') ? 'active' : ''}`}
+                            onClick={handleNavClick}
+                        >
+                            How it works
+                        </Link>
+                        <Link
+                            to="/tips-guides"
+                            className={`mobile-nav-link ${isActive('/tips-guides') ? 'active' : ''}`}
+                            onClick={handleNavClick}
+                        >
+                            Tips & Guides
+                        </Link>
+                        <Link
+                            to="/about-us"
+                            className={`mobile-nav-link ${isActive('/about-us') ? 'active' : ''}`}
+                            onClick={handleNavClick}
+                        >
+                            About us
+                        </Link>
+                        <Link
+                            to="/admin"
+                            className={`mobile-nav-link ${isActive('/admin') ? 'active' : ''}`}
+                            onClick={handleNavClick}
+                        >
+                            Admin
+                        </Link>
+                    </div>
                 </nav>
-            )}
+            </div>
         </header>
     );
 };
