@@ -506,91 +506,58 @@ class GeographicVendorDispatcher:
     
     @classmethod
     def _fallback_distance_calculation(cls, origin: str, destination: str) -> float:
-        """Fallback distance calculation using city-based estimates"""
+        """Fallback distance calculation using comprehensive city-based estimates"""
         origin_city = cls._extract_city_from_address(origin)
         dest_city = cls._extract_city_from_address(destination)
         
-        # City-to-city distance estimates (in km)
+        # Comprehensive city-to-city distance estimates (in km) - NATIONAL COVERAGE
         city_distances = {
+            # ONTARIO CITIES
             "Toronto": {
-                "Toronto": 0,
-                "Mississauga": 25,
-                "Brampton": 35,
-                "Vaughan": 30,
-                "Markham": 25,
-                "Richmond Hill": 30,
-                "Oakville": 40,
-                "Burlington": 55,
-                "Hamilton": 70,
-                "Oshawa": 45,
-                "Whitby": 50,
-                "Ajax": 40,
-                "Pickering": 35,
-                "Scarborough": 15,
-                "North York": 10,
-                "Etobicoke": 20,
-                "York": 5,
-                "East York": 8
+                "Toronto": 0, "North York": 10, "Scarborough": 15, "Etobicoke": 20, "York": 5, "East York": 8,
+                "Mississauga": 25, "Brampton": 35, "Vaughan": 30, "Markham": 25, "Richmond Hill": 30,
+                "Oakville": 40, "Burlington": 55, "Hamilton": 70, "Oshawa": 45, "Whitby": 50, "Ajax": 40, "Pickering": 35,
+                "Barrie": 90, "Aurora": 35, "Brantford": 100, "Kitchener": 110, "Waterloo": 115, "Windsor": 380, "Peterborough": 140,
+                # CROSS-PROVINCE DISTANCES
+                "Vancouver": 3400, "Burnaby": 3390, "Richmond": 3395, "Victoria": 3450, "Calgary": 2100, "Edmonton": 2400,
+                "Winnipeg": 1500, "Regina": 1800, "Montreal": 540, "Halifax": 1200, "Fredericton": 1000
             },
-            "Mississauga": {
-                "Toronto": 25,
-                "Mississauga": 0,
-                "Brampton": 15,
-                "Vaughan": 20,
-                "Markham": 35,
-                "Richmond Hill": 40,
-                "Oakville": 15,
-                "Burlington": 30,
-                "Hamilton": 45,
-                "Oshawa": 60,
-                "Whitby": 65,
-                "Ajax": 55,
-                "Pickering": 50,
-                "Scarborough": 40,
-                "North York": 35,
-                "Etobicoke": 25,
-                "York": 30,
-                "East York": 33
+            # BRITISH COLUMBIA CITIES
+            "Vancouver": {
+                "Vancouver": 0, "Burnaby": 10, "Richmond": 15, "Victoria": 100, "Abbotsford": 70, "Port Moody": 25,
+                # CROSS-PROVINCE DISTANCES
+                "Toronto": 3400, "Calgary": 970, "Edmonton": 1200, "Winnipeg": 2200, "Regina": 1500, "Montreal": 3800, "Halifax": 4500, "Fredericton": 4300
             },
-            "Brampton": {
-                "Toronto": 35,
-                "Mississauga": 15,
-                "Brampton": 0,
-                "Vaughan": 10,
-                "Markham": 25,
-                "Richmond Hill": 30,
-                "Oakville": 30,
-                "Burlington": 45,
-                "Hamilton": 60,
-                "Oshawa": 75,
-                "Whitby": 80,
-                "Ajax": 70,
-                "Pickering": 65,
-                "Scarborough": 50,
-                "North York": 45,
-                "Etobicoke": 35,
-                "York": 40,
-                "East York": 43
+            "Burnaby": {
+                "Vancouver": 10, "Burnaby": 0, "Richmond": 20, "Victoria": 110, "Abbotsford": 80, "Port Moody": 15,
+                "Toronto": 3390, "Calgary": 960, "Edmonton": 1190, "Winnipeg": 2190, "Regina": 1490, "Montreal": 3790, "Halifax": 4490, "Fredericton": 4290
             },
-            "Markham": {
-                "Toronto": 25,
-                "Mississauga": 35,
-                "Brampton": 25,
-                "Vaughan": 5,
-                "Markham": 0,
-                "Richmond Hill": 5,
-                "Oakville": 50,
-                "Burlington": 65,
-                "Hamilton": 80,
-                "Oshawa": 20,
-                "Whitby": 25,
-                "Ajax": 15,
-                "Pickering": 10,
-                "Scarborough": 20,
-                "North York": 15,
-                "Etobicoke": 45,
-                "York": 20,
-                "East York": 17
+            # ALBERTA CITIES
+            "Calgary": {
+                "Calgary": 0, "Edmonton": 300, "Winnipeg": 1300, "Regina": 600, "Toronto": 2100, "Montreal": 2600, "Vancouver": 970, "Halifax": 3500, "Fredericton": 3300
+            },
+            "Edmonton": {
+                "Calgary": 300, "Edmonton": 0, "Winnipeg": 1000, "Regina": 500, "Toronto": 2400, "Montreal": 2900, "Vancouver": 1200, "Halifax": 3800, "Fredericton": 3600
+            },
+            # MANITOBA CITIES
+            "Winnipeg": {
+                "Winnipeg": 0, "Regina": 570, "Toronto": 1500, "Montreal": 2000, "Calgary": 1300, "Edmonton": 1000, "Vancouver": 2200, "Halifax": 2500, "Fredericton": 2300
+            },
+            # SASKATCHEWAN CITIES
+            "Regina": {
+                "Winnipeg": 570, "Regina": 0, "Toronto": 1800, "Montreal": 2300, "Calgary": 600, "Edmonton": 500, "Vancouver": 1500, "Halifax": 2800, "Fredericton": 2600
+            },
+            # QUEBEC CITIES
+            "Montreal": {
+                "Montreal": 0, "Toronto": 540, "Winnipeg": 2000, "Regina": 2300, "Calgary": 2600, "Edmonton": 2900, "Vancouver": 3800, "Halifax": 850, "Fredericton": 650
+            },
+            # NOVA SCOTIA CITIES
+            "Halifax": {
+                "Halifax": 0, "Montreal": 850, "Toronto": 1200, "Winnipeg": 2500, "Regina": 2800, "Calgary": 3500, "Edmonton": 3800, "Vancouver": 4500, "Fredericton": 200
+            },
+            # NEW BRUNSWICK CITIES
+            "Fredericton": {
+                "Fredericton": 0, "Montreal": 650, "Toronto": 1000, "Winnipeg": 2300, "Regina": 2600, "Calgary": 3300, "Edmonton": 3600, "Vancouver": 4300, "Halifax": 200
             }
         }
         
