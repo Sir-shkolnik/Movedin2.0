@@ -90,36 +90,41 @@ class Easy2GoCalculator:
     
     def calculate_quote(self, quote_request: QuoteRequest, dispatcher_info: Dict[str, Any] = None) -> Dict[str, Any]:
         """Calculate Easy2Go quote with simple weight-based pricing"""
-        # Estimate weight first
-        weight = self._estimate_weight(quote_request)
-        
-        crew_size = self.get_crew_size(quote_request)
-        truck_count = self.get_truck_count(quote_request, crew_size)
-        
-        # Get hourly rate from crew size - Based on old app data (NO ADJUSTMENTS)
-        hourly_rate = self._get_hourly_rate(crew_size)
-        
-        # No geographic pricing adjustments - use original rates
-        origin_city = self._extract_city_from_address(quote_request.origin_address)
-        fuel_surcharge = 0  # No fuel surcharge adjustments
-        
-        # Estimate labor hours from rooms - Based on old app data (room-based, not weight-based)
-        labor_hours = self._estimate_labor_hours_from_rooms(quote_request.total_rooms)
-        
-        # Calculate travel time
-        travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
-        
-        # Calculate truck fee based on weight
-        truck_fee = self._get_truck_fee_from_weight(weight)
-        
-        # Calculate costs
-        labor_cost = hourly_rate * labor_hours
-        travel_cost = hourly_rate * travel_hours
-        fuel_cost = self._calculate_fuel_charge(travel_hours) + fuel_surcharge
-        heavy_items_cost = self._calculate_heavy_items_cost(quote_request.heavy_items)
-        additional_services_cost = self._calculate_additional_services_cost(quote_request.additional_services)
-        
-        total_cost = labor_cost + truck_fee + travel_cost + fuel_cost + heavy_items_cost + additional_services_cost
+        try:
+            # Validate input parameters
+            if not quote_request:
+                raise ValueError("Invalid quote_request provided")
+            
+            # Estimate weight first
+            weight = self._estimate_weight(quote_request)
+            
+            crew_size = self.get_crew_size(quote_request)
+            truck_count = self.get_truck_count(quote_request, crew_size)
+            
+            # Get hourly rate from crew size - Based on old app data (NO ADJUSTMENTS)
+            hourly_rate = self._get_hourly_rate(crew_size)
+            
+            # No geographic pricing adjustments - use original rates
+            origin_city = self._extract_city_from_address(quote_request.origin_address)
+            fuel_surcharge = 0  # No fuel surcharge adjustments
+            
+            # Estimate labor hours from rooms - Based on old app data (room-based, not weight-based)
+            labor_hours = self._estimate_labor_hours_from_rooms(quote_request.total_rooms)
+            
+            # Calculate travel time
+            travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
+            
+            # Calculate truck fee based on weight
+            truck_fee = self._get_truck_fee_from_weight(weight)
+            
+            # Calculate costs
+            labor_cost = hourly_rate * labor_hours
+            travel_cost = hourly_rate * travel_hours
+            fuel_cost = self._calculate_fuel_charge(travel_hours) + fuel_surcharge
+            heavy_items_cost = self._calculate_heavy_items_cost(quote_request.heavy_items)
+            additional_services_cost = self._calculate_additional_services_cost(quote_request.additional_services)
+            
+            total_cost = labor_cost + truck_fee + travel_cost + fuel_cost + heavy_items_cost + additional_services_cost
         
         return {
             "vendor_name": "Easy2Go",
@@ -155,6 +160,44 @@ class Easy2GoCalculator:
             "reviews": 892,
             "special_notes": "Best value"
         }
+        
+        except Exception as e:
+            print(f"Error calculating Easy2Go quote: {e}")
+            # Return a fallback quote with error information
+            return {
+                "vendor_name": "Easy2Go",
+                "total_cost": 0.0,
+                "breakdown": {
+                    "labor": 0.0,
+                    "truck_fee": 0.0,
+                    "travel": 0.0,
+                    "fuel": 0.0,
+                    "heavy_items": 0.0,
+                    "additional_services": 0.0
+                },
+                "crew_size": 0,
+                "truck_count": 0,
+                "estimated_hours": 0.0,
+                "travel_time_hours": 0.0,
+                "hourly_rate": 0.0,
+                "dispatcher_info": dispatcher_info or {
+                    "name": "Easy2Go Depot",
+                    "address": "3397 American Drive, Mississauga, ON L4V 1T8",
+                    "total_distance_km": None,
+                    "location_name": "Easy2Go Depot",
+                    "gmb_url": "https://www.google.com/maps/search/Easy2Go+Depot+3397+American+Drive+Mississauga+ON"
+                },
+                "geographic_adjustments": {
+                    "origin_city": "Unknown",
+                    "base_multiplier": 1.0,
+                    "fuel_surcharge": 0,
+                    "adjusted_hourly_rate": 0.0
+                },
+                "available_slots": [],
+                "rating": 4.6,
+                "reviews": 892,
+                "special_notes": f"Error calculating quote: {str(e)}"
+            }
     
     def _get_hourly_rate(self, crew_size: int) -> float:
         """Get hourly rate based on crew size - Based on old app data"""

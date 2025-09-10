@@ -13,6 +13,7 @@ from app.models.quote import Quote, QuoteItem
 from app.services.dispatcher_cache_service import dispatcher_cache_service
 from app.services.google_sheets_service import google_sheets_service
 from app.core.config import settings
+from app.services.monitoring_service import monitor_request, monitoring_service
 import re
 
 router = APIRouter()
@@ -198,6 +199,7 @@ async def process_vendor_quote(vendor_info, quote_request, db):
         return None
 
 @router.post("/generate", response_model=QuoteListResponse)
+@monitor_request("/generate", "POST")
 async def generate_quotes(
     quote_request: QuoteRequest,
     db: Session = Depends(get_db)

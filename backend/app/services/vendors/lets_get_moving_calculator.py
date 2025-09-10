@@ -49,99 +49,104 @@ class LetsGetMovingCalculator:
     
     def calculate_quote(self, quote_request: QuoteRequest, dispatcher_info: Dict[str, Any], db=None) -> Dict[str, Any]:
         """Calculate LGM quote with TRUE dynamic calendar-based pricing"""
-        crew_size = self.get_crew_size(quote_request)
-        truck_count = self.get_truck_count(quote_request, crew_size)
-        move_date = quote_request.move_date
-        calendar_data = dispatcher_info.get('calendar_data', {})
-        daily_rates = calendar_data.get('daily_rates', {})
-        
-        # Find the next available rate from move_date forward
-        base_rate = None
-        for offset in range(0, 366):
-            check_date = move_date + timedelta(days=offset)
-            date_key = check_date.strftime("%Y-%m-%d")  # Use YYYY-MM-DD format to match smart parser data
-            if date_key in daily_rates:
-                base_rate = daily_rates[date_key]
-                break
-        
-        if base_rate is None:
-            # Return a valid quote response with zero cost to indicate no availability
-            return {
-                "vendor_name": "Let's Get Moving",
-                "vendor_slug": "lets-get-moving",
-                "total_cost": 0.0,
-                "breakdown": {
-                    "labor": 0.0,
-                    "fuel": 0.0,
-                    "heavy_items": 0.0,
-                    "additional_services": 0.0
-                },
-                "crew_size": 0,
-                "truck_count": 0,
-                "estimated_hours": 0.0,
-                "travel_time_hours": 0.0,
-                "hourly_rate": 0.0,
-                "available_slots": [],
-                "rating": 4.8,
-                "reviews": 1247,
-                "special_notes": f"No availability for {move_date} at {dispatcher_info.get('name')}",
-                "premium_available": None,
-                "premium_rate": None
-            }
-        
-        # Calculate hourly rate with crew multiplier - TRUE LGM LOGIC
-        hourly_rate = self._calculate_hourly_rate(base_rate, crew_size, truck_count)
-        
-        # Estimate labor hours - TRUE LGM LOGIC
-        labor_hours = self._estimate_labor_hours(quote_request.total_rooms, crew_size)
-        
-        # Calculate travel time (3-leg journey) using actual dispatcher
-        dispatcher_address = dispatcher_info.get('address', 'Toronto, ON, Canada')
-        travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address, dispatcher_address)
-        
-        # Check 10-hour travel time limit - Let's Get Moving doesn't do these moves
-        if travel_hours > 10:
-            # Return a valid quote response with zero cost to indicate no availability
-            return {
-                "vendor_name": "Let's Get Moving",
-                "vendor_slug": "lets-get-moving",
-                "total_cost": 0.0,
-                "breakdown": {
-                    "labor": 0.0,
-                    "fuel": 0.0,
-                    "heavy_items": 0.0,
-                    "additional_services": 0.0
-                },
-                "crew_size": 0,
-                "truck_count": 0,
-                "estimated_hours": 0.0,
-                "travel_time_hours": travel_hours,
-                "hourly_rate": 0.0,
-                "available_slots": [],
-                "rating": 4.8,
-                "reviews": 1247,
-                "special_notes": f"Travel time {travel_hours:.1f} hours exceeds 10-hour limit",
-                "premium_available": None,
-                "premium_rate": None
-            }
-        
-        # Calculate total billable hours (labor + travel) - TRUE LGM LOGIC
-        total_billable_hours = labor_hours + travel_hours
-        
-        # MINIMUM 2 HOURS LABOR COST - TRUE LGM REQUIREMENT
-        # Apply minimum to total billable hours, not just labor hours
-        original_billable_hours = total_billable_hours
-        total_billable_hours = max(total_billable_hours, 2.0)
-        print(f"Minimum 2-hour logic: {original_billable_hours:.2f} -> {total_billable_hours:.2f} hours")
-        
-        # Calculate costs
-        labor_cost = hourly_rate * total_billable_hours  # Include travel time in billable hours
-        print(f"Labor cost calculation: ${hourly_rate:.2f} × {total_billable_hours:.2f} hours = ${labor_cost:.2f}")
-        fuel_cost = self._calculate_fuel_charge(travel_hours)  # TRUE LGM fuel table
-        heavy_items_cost = self._calculate_heavy_items_cost(quote_request.heavy_items)
-        additional_services_cost = self._calculate_additional_services_cost(quote_request.additional_services)
-        
-        total_cost = labor_cost + fuel_cost + heavy_items_cost + additional_services_cost
+        try:
+            # Validate input parameters
+            if not quote_request or not dispatcher_info:
+                raise ValueError("Invalid quote_request or dispatcher_info provided")
+            
+            crew_size = self.get_crew_size(quote_request)
+            truck_count = self.get_truck_count(quote_request, crew_size)
+            move_date = quote_request.move_date
+            calendar_data = dispatcher_info.get('calendar_data', {})
+            daily_rates = calendar_data.get('daily_rates', {})
+            
+            # Find the next available rate from move_date forward
+            base_rate = None
+            for offset in range(0, 366):
+                check_date = move_date + timedelta(days=offset)
+                date_key = check_date.strftime("%Y-%m-%d")  # Use YYYY-MM-DD format to match smart parser data
+                if date_key in daily_rates:
+                    base_rate = daily_rates[date_key]
+                    break
+            
+            if base_rate is None:
+                # Return a valid quote response with zero cost to indicate no availability
+                return {
+                    "vendor_name": "Let's Get Moving",
+                    "vendor_slug": "lets-get-moving",
+                    "total_cost": 0.0,
+                    "breakdown": {
+                        "labor": 0.0,
+                        "fuel": 0.0,
+                        "heavy_items": 0.0,
+                        "additional_services": 0.0
+                    },
+                    "crew_size": 0,
+                    "truck_count": 0,
+                    "estimated_hours": 0.0,
+                    "travel_time_hours": 0.0,
+                    "hourly_rate": 0.0,
+                    "available_slots": [],
+                    "rating": 4.8,
+                    "reviews": 1247,
+                    "special_notes": f"No availability for {move_date} at {dispatcher_info.get('name')}",
+                    "premium_available": None,
+                    "premium_rate": None
+                }
+            
+            # Calculate hourly rate with crew multiplier - TRUE LGM LOGIC
+            hourly_rate = self._calculate_hourly_rate(base_rate, crew_size, truck_count)
+            
+            # Estimate labor hours - TRUE LGM LOGIC
+            labor_hours = self._estimate_labor_hours(quote_request.total_rooms, crew_size)
+            
+            # Calculate travel time (3-leg journey) using actual dispatcher
+            dispatcher_address = dispatcher_info.get('address', 'Toronto, ON, Canada')
+            travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address, dispatcher_address)
+            
+            # Check 10-hour travel time limit - Let's Get Moving doesn't do these moves
+            if travel_hours > 10:
+                # Return a valid quote response with zero cost to indicate no availability
+                return {
+                    "vendor_name": "Let's Get Moving",
+                    "vendor_slug": "lets-get-moving",
+                    "total_cost": 0.0,
+                    "breakdown": {
+                        "labor": 0.0,
+                        "fuel": 0.0,
+                        "heavy_items": 0.0,
+                        "additional_services": 0.0
+                    },
+                    "crew_size": 0,
+                    "truck_count": 0,
+                    "estimated_hours": 0.0,
+                    "travel_time_hours": travel_hours,
+                    "hourly_rate": 0.0,
+                    "available_slots": [],
+                    "rating": 4.8,
+                    "reviews": 1247,
+                    "special_notes": f"Travel time {travel_hours:.1f} hours exceeds 10-hour limit",
+                    "premium_available": None,
+                    "premium_rate": None
+                }
+            
+            # Calculate total billable hours (labor + travel) - TRUE LGM LOGIC
+            total_billable_hours = labor_hours + travel_hours
+            
+            # MINIMUM 2 HOURS LABOR COST - TRUE LGM REQUIREMENT
+            # Apply minimum to total billable hours, not just labor hours
+            original_billable_hours = total_billable_hours
+            total_billable_hours = max(total_billable_hours, 2.0)
+            print(f"Minimum 2-hour logic: {original_billable_hours:.2f} -> {total_billable_hours:.2f} hours")
+            
+            # Calculate costs
+            labor_cost = hourly_rate * total_billable_hours  # Include travel time in billable hours
+            print(f"Labor cost calculation: ${hourly_rate:.2f} × {total_billable_hours:.2f} hours = ${labor_cost:.2f}")
+            fuel_cost = self._calculate_fuel_charge(travel_hours)  # TRUE LGM fuel table
+            heavy_items_cost = self._calculate_heavy_items_cost(quote_request.heavy_items)
+            additional_services_cost = self._calculate_additional_services_cost(quote_request.additional_services)
+            
+            total_cost = labor_cost + fuel_cost + heavy_items_cost + additional_services_cost
         
         return {
             "vendor_name": "Let's Get Moving",
@@ -175,6 +180,32 @@ class LetsGetMovingCalculator:
             "premium_available": None,
             "premium_rate": None
         }
+        
+        except Exception as e:
+            print(f"Error calculating LGM quote: {e}")
+            # Return a fallback quote with error information
+            return {
+                "vendor_name": "Let's Get Moving",
+                "vendor_slug": "lets-get-moving",
+                "total_cost": 0.0,
+                "breakdown": {
+                    "labor": 0.0,
+                    "fuel": 0.0,
+                    "heavy_items": 0.0,
+                    "additional_services": 0.0
+                },
+                "crew_size": 0,
+                "truck_count": 0,
+                "estimated_hours": 0.0,
+                "travel_time_hours": 0.0,
+                "hourly_rate": 0.0,
+                "available_slots": [],
+                "rating": 4.8,
+                "reviews": 1247,
+                "special_notes": f"Error calculating quote: {str(e)}",
+                "premium_available": None,
+                "premium_rate": None
+            }
     
     def _calculate_hourly_rate(self, base_rate: float, crew_size: int, truck_count: int) -> float:
         """Calculate hourly rate with crew and truck multipliers - TRUE LGM LOGIC"""

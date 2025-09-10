@@ -1,0 +1,19 @@
+# Testing requirements
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.0.0
+pytest-mock>=3.10.0
+pytest-timeout>=2.1.0
+
+# Performance testing
+psutil>=5.9.0
+
+# HTTP testing
+requests>=2.28.0
+httpx>=0.24.0
+
+# Data validation
+pydantic>=1.10.0
+
+# Async testing
+asyncio-mock>=0.3.0

@@ -2,6 +2,7 @@ from typing import Dict, Any, List, Optional
 from app.schemas.quote import QuoteRequest
 from app.services.vendor_engine import GeographicVendorDispatcher, get_vendor_calculator
 from app.services.vendor_engine import LetsGetMovingCalculator
+from app.services.monitoring_service import monitor_quote_calculation, monitoring_service
 
 class VendorDispatcher:
     """Main vendor dispatcher - calls all vendors with their specific logic"""
@@ -72,6 +73,7 @@ class VendorDispatcher:
                 return dispatcher_info
             return None
     
+    @monitor_quote_calculation("vendor")
     def calculate_vendor_quote(self, vendor_slug: str, quote_request: QuoteRequest, db=None) -> Optional[Dict[str, Any]]:
         """Calculate quote for a specific vendor"""
         
