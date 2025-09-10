@@ -94,16 +94,6 @@ const Header: React.FC = () => {
                 <div 
                     className="mobile-menu-overlay" 
                     onClick={handleMenuToggle}
-                    style={{
-                        position: 'fixed',
-                        top: '0',
-                        left: '0',
-                        right: '0',
-                        bottom: '0',
-                        background: 'rgba(0, 0, 0, 0.5)',
-                        backdropFilter: 'blur(8px)',
-                        zIndex: 9998
-                    }}
                 />
             )}
             <nav
@@ -113,27 +103,8 @@ const Header: React.FC = () => {
             >
                 {/* Close button */}
                 <button
+                    className="mobile-menu-close"
                     onClick={handleMenuToggle}
-                    style={{
-                        position: 'absolute',
-                        top: '16px',
-                        right: '16px',
-                        fontSize: '24px',
-                        fontWeight: 'bold',
-                        color: '#6b7280',
-                        cursor: 'pointer',
-                        zIndex: 140,
-                        width: '32px',
-                        height: '32px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: '50%',
-                        background: 'rgba(255, 255, 255, 0.9)',
-                        border: 'none',
-                        transition: 'all 0.2s ease',
-                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
-                    }}
                     aria-label="Close menu"
                 >
                     ×
