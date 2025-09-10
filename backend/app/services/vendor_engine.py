@@ -45,18 +45,28 @@ class GeographicVendorDispatcher:
         },
         "easy2go": {
             "cities": [
-                # GTA CORE + ONTARIO EXPANSION
-                "Toronto", "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill",
+                # ONTARIO
+                "Toronto", "North York", "Scarborough", "Etobicoke", "York", "East York",
+                "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill", 
                 "Oakville", "Burlington", "Hamilton", "Oshawa", "Whitby", "Ajax", "Pickering",
-                "Barrie", "Aurora", "Newmarket", "Milton", "Caledon", "King City", "Stouffville",
-                "Uxbridge", "Port Perry", "Bowmanville", "Cobourg", "Belleville", "Kingston",
-                "Ottawa", "Kitchener", "Waterloo", "Cambridge", "Guelph", "St. Catharines",
-                "Niagara Falls", "Welland", "Brantford", "Woodstock", "London", "Windsor",
-                "Sarnia", "Chatham", "Sault Ste. Marie", "Sudbury", "North Bay", "Timmins",
-                "Thunder Bay", "Kenora"
+                "Barrie", "Aurora", "Brantford", "Kitchener", "Waterloo", "Windsor", "Peterborough",
+                # BRITISH COLUMBIA
+                "Vancouver", "Burnaby", "Richmond", "Victoria", "Abbotsford", "Port Moody",
+                # ALBERTA
+                "Calgary", "Edmonton",
+                # MANITOBA
+                "Winnipeg",
+                # SASKATCHEWAN
+                "Regina",
+                # QUEBEC
+                "Montreal",
+                # NOVA SCOTIA
+                "Halifax",
+                # NEW BRUNSWICK
+                "Fredericton"
             ],
-            "regions": ["GTA", "Greater Toronto Area", "Golden Horseshoe", "Ontario"],
-            "max_distance_km": 200,  # EXPANDED ONTARIO COVERAGE
+            "regions": ["GTA", "Greater Toronto Area", "Golden Horseshoe", "British Columbia", "Alberta", "Manitoba", "Saskatchewan", "Quebec", "Nova Scotia", "New Brunswick"],
+            "max_distance_km": 500,  # TRUE NATIONAL COVERAGE
             "location_based_rates": {
                 "Toronto": {"base_multiplier": 1.0, "fuel_surcharge": 0},
                 "Mississauga": {"base_multiplier": 0.98, "fuel_surcharge": 20},
@@ -76,20 +86,28 @@ class GeographicVendorDispatcher:
         },
         "velocity-movers": {
             "cities": [
-                # GTA WEST + ONTARIO EXPANSION
-                "Toronto", "Mississauga", "Oakville", "Burlington", "Hamilton",
-                "Brampton", "Vaughan", "Milton", "Georgetown", "Acton", "Guelph",
-                "Kitchener", "Waterloo", "Cambridge", "Brantford", "St. Catharines",
-                "Niagara Falls", "Welland", "Grimsby", "Stoney Creek", "Ancaster",
-                "Dundas", "Flamborough", "Milton", "Georgetown", "Acton", "Guelph",
-                "Kitchener", "Waterloo", "Cambridge", "Brantford", "Woodstock",
-                "London", "St. Thomas", "Ingersoll", "Tillsonburg", "Simcoe",
-                "Brantford", "Paris", "Caledonia", "Dunnville", "Port Colborne",
-                "Fort Erie", "Niagara-on-the-Lake", "St. Catharines", "Thorold",
-                "Pelham", "Lincoln", "West Lincoln", "Grimsby", "Lincoln"
+                # ONTARIO
+                "Toronto", "North York", "Scarborough", "Etobicoke", "York", "East York",
+                "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill", 
+                "Oakville", "Burlington", "Hamilton", "Oshawa", "Whitby", "Ajax", "Pickering",
+                "Barrie", "Aurora", "Brantford", "Kitchener", "Waterloo", "Windsor", "Peterborough",
+                # BRITISH COLUMBIA
+                "Vancouver", "Burnaby", "Richmond", "Victoria", "Abbotsford", "Port Moody",
+                # ALBERTA
+                "Calgary", "Edmonton",
+                # MANITOBA
+                "Winnipeg",
+                # SASKATCHEWAN
+                "Regina",
+                # QUEBEC
+                "Montreal",
+                # NOVA SCOTIA
+                "Halifax",
+                # NEW BRUNSWICK
+                "Fredericton"
             ],
-            "regions": ["GTA West", "Golden Horseshoe West", "Southwestern Ontario"],
-            "max_distance_km": 150,  # EXPANDED COVERAGE
+            "regions": ["GTA", "Greater Toronto Area", "Golden Horseshoe", "British Columbia", "Alberta", "Manitoba", "Saskatchewan", "Quebec", "Nova Scotia", "New Brunswick"],
+            "max_distance_km": 500,  # TRUE NATIONAL COVERAGE
             "location_based_rates": {
                 "Toronto": {"base_multiplier": 1.0, "fuel_surcharge": 0},
                 "Mississauga": {"base_multiplier": 0.97, "fuel_surcharge": 30},
@@ -111,19 +129,28 @@ class GeographicVendorDispatcher:
         },
         "pierre-sons": {
             "cities": [
-                # TORONTO CORE + GTA EXPANSION
-                "Toronto", "Scarborough", "North York", "Etobicoke", "York", "East York",
-                "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill",
-                "Oakville", "Burlington", "Ajax", "Pickering", "Whitby", "Oshawa",
-                "Aurora", "Newmarket", "King City", "Stouffville", "Uxbridge",
-                "Port Perry", "Bowmanville", "Cobourg", "Belleville", "Kingston",
-                "Ottawa", "Barrie", "Orillia", "Midland", "Penetanguishene",
-                "Collingwood", "Wasaga Beach", "Alliston", "Bradford", "Innisfil",
-                "Keswick", "Sutton", "Georgina", "Uxbridge", "Port Perry",
-                "Bowmanville", "Cobourg", "Belleville", "Kingston", "Ottawa"
+                # ONTARIO
+                "Toronto", "North York", "Scarborough", "Etobicoke", "York", "East York",
+                "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill", 
+                "Oakville", "Burlington", "Hamilton", "Oshawa", "Whitby", "Ajax", "Pickering",
+                "Barrie", "Aurora", "Brantford", "Kitchener", "Waterloo", "Windsor", "Peterborough",
+                # BRITISH COLUMBIA
+                "Vancouver", "Burnaby", "Richmond", "Victoria", "Abbotsford", "Port Moody",
+                # ALBERTA
+                "Calgary", "Edmonton",
+                # MANITOBA
+                "Winnipeg",
+                # SASKATCHEWAN
+                "Regina",
+                # QUEBEC
+                "Montreal",
+                # NOVA SCOTIA
+                "Halifax",
+                # NEW BRUNSWICK
+                "Fredericton"
             ],
-            "regions": ["Toronto Core", "GTA", "Greater Toronto Area", "Eastern Ontario"],
-            "max_distance_km": 100,  # EXPANDED COVERAGE
+            "regions": ["GTA", "Greater Toronto Area", "Golden Horseshoe", "British Columbia", "Alberta", "Manitoba", "Saskatchewan", "Quebec", "Nova Scotia", "New Brunswick"],
+            "max_distance_km": 500,  # TRUE NATIONAL COVERAGE
             "location_based_rates": {
                 "Toronto": {"base_multiplier": 1.0, "fuel_surcharge": 0},
                 "Scarborough": {"base_multiplier": 0.98, "fuel_surcharge": 15},
