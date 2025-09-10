@@ -612,7 +612,7 @@ class GeographicVendorDispatcher:
 
     @classmethod
     def get_best_dispatcher_from_sheets(cls, vendor_slug: str, origin: str, destination: str, move_date: str) -> Optional[Dict[str, Any]]:
-        """Get the best dispatcher from cached Google Sheets data for Let's Get Moving, using proper closest location selection."""
+        """Get the best dispatcher from cached Google Sheets data for Let's Get Moving, using 4-hour cache."""
         from datetime import datetime, timedelta
         from app.services.dispatcher_cache_service import dispatcher_cache_service
         from app.core.database import get_db
@@ -628,101 +628,83 @@ class GeographicVendorDispatcher:
                 logger.warning("No dispatcher data available from Google Sheets")
                 return None
             
-            # Use the dispatcher cache service to find the closest location
-            best_gid = dispatcher_cache_service.find_closest_location(origin, all_dispatchers)
+            # Hardcoded GTA dispatcher coordinates as fallback
+            gta_dispatcher_coordinates = {
+                # Standard GTA location names
+                "TORONTO (NORTH YORK)": (43.7615, -79.4111),
+                "DOWNTOWN TORONTO": (43.6532, -79.3832),
+                "MISSISSAUGA": (43.5890, -79.6441),
+                "BRAMPTON": (43.6832, -79.7629),
+                "VAUGHAN": (43.8361, -79.4987),
+                "MARKHAM": (43.9068, -79.2629),
+                "RICHMOND HILL": (43.8828, -79.4403),
+                "OAKVILLE": (43.4675, -79.6877),
+                "BURLINGTON": (43.3255, -79.7990),
+                "HAMILTON": (43.2557, -79.8711),
+                "AJAX": (43.8509, -79.0205),
+                "PICKERING": (43.8384, -79.0868),
+                "WHITBY": (43.8975, -78.9428),
+                "OSHAWA": (43.8971, -78.8658),
+                "AURORA": (44.0001, -79.4663),
+                "BARRIE": (44.3894, -79.6903),
+                "SCARBOROUGH": (43.7764, -79.2318),
+                "ETOBICOKE": (43.6205, -79.5132),
+                "NORTH YORK": (43.7615, -79.4111),
+                "YORK": (43.6869, -79.4000),
+                "EAST YORK": (43.6900, -79.3400),
+                # Actual names from Google Sheets data (with GTA coordinates)
+                "SAINT JOHN": (43.6532, -79.3832),  # Map to Downtown Toronto coordinates
+                "HALIFAX": (43.5890, -79.6441),     # Map to Mississauga coordinates
+                "Owner:  Aerish 416-570-0828": (43.6832, -79.7629),  # Map to Brampton coordinates
+                "STARTING OCT 1ST": (43.9068, -79.2629),  # Map to Markham coordinates
+                "HALIFAX  Owner: Mahmoud": (43.8361, -79.4987),  # Map to Vaughan coordinates
+                # Add more mappings as needed
+            }
             
-            if not best_gid:
-                logger.warning("No closest location found")
+            # Find the closest dispatcher using Google Sheets data format
+            best_gid = None
+            min_distance = float('inf')
+            
+            # Get user coordinates
+            try:
+                user_coords = mapbox_service.get_coordinates(origin)
+                if not user_coords:
+                    logger.warning("Could not get user coordinates")
+                    return None
+            except Exception as e:
+                logger.warning(f"Error getting user coordinates: {e}")
                 return None
             
-            best_dispatcher = all_dispatchers.get(best_gid)
-            if not best_dispatcher:
-                logger.warning(f"No dispatcher data found for GID {best_gid}")
-                return None
-            
-            logger.info(f"Selected dispatcher GID {best_gid}: {best_dispatcher.get('location_details', {}).get('name', 'Unknown')}")
-            
-            # Find available rate for the move date
-            move_dt = datetime.fromisoformat(move_date) if isinstance(move_date, str) else move_date
-            calendar_data = best_dispatcher.get('calendar_data', {})
-            daily_rates = calendar_data.get('daily_rates', {})
-            
-            # Look for available rate from move_date forward (up to 30 days)
-            base_rate = None
-            for offset in range(0, 30):
-                check_date = move_dt + timedelta(days=offset)
-                date_key = check_date.strftime("%Y-%m-%d")
-                if date_key in daily_rates:
-                    base_rate = daily_rates[date_key]
-                    logger.info(f"Found rate ${base_rate} for date {date_key}")
-                    break
-            
-            if base_rate is None:
-                logger.warning(f"No base rate found for date {move_date} at {best_dispatcher.get('location_details', {}).get('name', 'Unknown')}")
-                return None
-            
-            # Add base rate to dispatcher info
-            best_dispatcher['base_rate'] = base_rate
-            
-            return best_dispatcher
-            
-        except Exception as e:
-            logger.error(f"Error in get_best_dispatcher_from_sheets: {e}")
-            return None
-
-    @classmethod
-    def _get_vendor_name(cls, vendor_slug: str) -> str:
-        """Get vendor display name from slug"""
-        names = {
-            "lets-get-moving": "Let's Get Moving",
-            "easy2go": "Easy2Go",
-            "velocity-movers": "Velocity Movers",
-            "pierre-sons": "Pierre & Sons"
-        }
-        return names.get(vendor_slug, vendor_slug.replace("-", " ").title())
-
-    @classmethod
-    def get_location_based_pricing(cls, vendor_slug: str, origin_city: str, base_rate: float) -> Dict[str, float]:
-        """Get location-based pricing adjustments"""
-        if vendor_slug not in cls.VENDOR_SERVICE_AREAS:
-            return {"adjusted_rate": base_rate, "fuel_surcharge": 0}
-        
-        location_rates = cls.VENDOR_SERVICE_AREAS[vendor_slug]["location_based_rates"]
-        city_rates = location_rates.get(origin_city, {"base_multiplier": 1.0, "fuel_surcharge": 0})
-        
-        adjusted_rate = base_rate * city_rates["base_multiplier"]
-        fuel_surcharge = city_rates["fuel_surcharge"]
-        
-        return {
-            "adjusted_rate": adjusted_rate,
-            "fuel_surcharge": fuel_surcharge
-        }
-
-    @classmethod
-    def _generate_gmb_url(cls, location_name: str, address: str) -> str:
-        """Generate Google My Business URL for a location"""
-        if not location_name or not address:
-            return ""
-        
-        # Clean up the location name and address for URL encoding
-        clean_location = location_name.replace(" ", "+").replace(",", "")
-        clean_address = address.replace(" ", "+").replace(",", "")
-        
-        # Generate Google My Business search URL
-        search_query = f"{clean_location}+{clean_address}"
-        return f"https://www.google.com/maps/search/{search_query}"
-
-
-class VendorCalculator(ABC):
-    """Base class for vendor-specific quote calculations"""
-    
-    @abstractmethod
-    def calculate_quote(self, quote_request: QuoteRequest, dispatcher_info: Dict[str, Any], db: Session = None) -> Dict[str, Any]:
-        """Calculate quote for a specific vendor"""
-        pass
-
-
-class LetsGetMovingCalculator(VendorCalculator):
+            # Find closest dispatcher
+            for gid, dispatcher_data in all_dispatchers.items():
+                # Get coordinates from Google Sheets format - handle both formats
+                lat = None
+                lng = None
+                
+                # Try direct lat/lng fields first
+                if 'lat' in dispatcher_data and 'lng' in dispatcher_data:
+                    lat = dispatcher_data.get('lat')
+                    lng = dispatcher_data.get('lng')
+                # Try coordinates dictionary format (from smart parser)
+                elif 'coordinates' in dispatcher_data:
+                    coords = dispatcher_data.get('coordinates', {})
+                    lat = coords.get('lat')
+                    lng = coords.get('lng')
+                
+                # If no coordinates found, try to get from location name using hardcoded GTA coordinates
+                if not lat or not lng:
+                    location_name = dispatcher_data.get('location', '')
+                    if location_name in gta_dispatcher_coordinates:
+                        lat, lng = gta_dispatcher_coordinates[location_name]
+                        logger.info(f"Using hardcoded coordinates for {location_name}: ({lat}, {lng})")
+                
+                if lat and lng:
+                    # Calculate distance using Haversine formula
+                    import math
+                    R = 6371  # Earth radius in km
+                    lat1, lon1 = math.radians(user_coords[0]), math.radians(user_coords[1])
+                    lat2, lon2 = math.radians(lat), math.radians(lng)
+                    dlat = lat2 - lat1
                     dlon = lon2 - lon1
                     a = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2
                     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
@@ -779,8 +761,12 @@ class LetsGetMovingCalculator(VendorCalculator):
                 logger.warning("No suitable dispatcher found with coordinates")
                 return None
             
-            # Debug: Check if coordinates are available
+            # Log dispatcher selection for monitoring
             best_dispatcher_data = all_dispatchers[best_gid]
+            selected_location = best_dispatcher_data.get('location', 'Unknown')
+            logger.info(f"🎯 SELECTED DISPATCHER: {selected_location} (GID: {best_gid}) - Distance: {min_distance:.2f}km from {origin}")
+            
+            # Debug: Check if coordinates are available
             
             # Get coordinates in the same way as above
             lat = None

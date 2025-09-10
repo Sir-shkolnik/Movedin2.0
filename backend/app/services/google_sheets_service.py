@@ -1201,19 +1201,38 @@ class GoogleSheetsService:
         address = location_details.get('address', '')
         # Geocode address for coordinates
         coordinates = mapbox_service.get_coordinates(address) if address else None
-        # Try to extract base_rate for each vendor from pricing_tables or set to None
+        # Extract base_rate from calendar data (daily rates) for LGM
         base_rates = {}
         for vendor in ['lets-get-moving', 'easy2go', 'velocity-movers', 'pierre-sons']:
-            # Try to get a base rate from pricing_tables (e.g., 2_trucks, crew size 2 or 3)
+            base_rates[vendor] = None
+            
+        # For LGM, get base rate from calendar data
+        if calendar_data and 'daily_rates' in calendar_data and calendar_data['daily_rates']:
+            # Get today's rate or find a common rate
+            from datetime import datetime
+            today = datetime.now().strftime('%Y-%m-%d')
+            
+            if today in calendar_data['daily_rates']:
+                base_rates['lets-get-moving'] = calendar_data['daily_rates'][today]
+                print(f"LGM Base Rate: Using today's rate ${base_rates['lets-get-moving']}")
+            else:
+                # Find the most common rate
+                rates = list(calendar_data['daily_rates'].values())
+                if rates:
+                    from collections import Counter
+                    most_common_rate = Counter(rates).most_common(1)[0][0]
+                    base_rates['lets-get-moving'] = most_common_rate
+                    print(f"LGM Base Rate: Using most common rate ${most_common_rate}")
+        
+        # For other vendors, try to get from pricing_tables
+        for vendor in ['easy2go', 'velocity-movers', 'pierre-sons']:
             try:
                 if '2_trucks' in pricing_tables and 2 in pricing_tables['2_trucks']:
                     base_rates[vendor] = pricing_tables['2_trucks'][2]['base']
                 elif '1_truck' in pricing_tables and 2 in pricing_tables['1_truck']:
                     base_rates[vendor] = pricing_tables['1_truck'][2]['base']
-                else:
-                    base_rates[vendor] = None
             except Exception:
-                base_rates[vendor] = None
+                pass
         return {
             "location": name,
             "location_details": location_details,
@@ -1267,99 +1286,105 @@ class GoogleSheetsService:
         return pricing_data
 
     def _robust_extract_calendar_data(self, rows: list) -> dict:
-        """Extract calendar-based daily/monthly rates from real-world, side-by-side month grids (robust version)."""
+        """Extract calendar-based daily rates from LGM Google Sheets format (improved version)."""
         import logging
         from datetime import date, timedelta
+        import re
+        
         calendar_data = {
             "daily_rates": {},
             "monthly_rates": {},
             "restricted_dates": []
         }
+        
+        # Find the current year (2025)
+        current_year = 2025
+        
+        # Look for calendar data patterns
         month_names = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
-        years = set()
-        for row in rows:
-            for cell in row:
-                if cell and cell.isdigit() and len(cell) == 4:
-                    years.add(cell)
-        years = sorted(list(years))
-        month_blocks = []
+        month_numbers = {"JAN": 1, "FEB": 2, "MAR": 3, "APR": 4, "MAY": 5, "JUN": 6,
+                        "JUL": 7, "AUG": 8, "SEP": 9, "OCT": 10, "NOV": 11, "DEC": 12}
+        
+        # Find calendar sections
+        calendar_sections = []
         for row_idx, row in enumerate(rows):
             for col_idx, cell in enumerate(row):
-                for month in month_names:
-                    if cell and month in cell:
-                        block_year = None
-                        for left in range(col_idx-1, -1, -1):
-                            if row[left] and row[left].isdigit() and len(row[left]) == 4:
-                                block_year = row[left]
-                                break
-                        if not block_year:
-                            for up in range(row_idx-1, -1, -1):
-                                if len(rows[up]) > col_idx and rows[up][col_idx] and rows[up][col_idx].isdigit() and len(rows[up][col_idx]) == 4:
-                                    block_year = rows[up][col_idx]
-                                    break
-                        if not block_year and years:
-                            block_year = years[0]
-                        month_blocks.append({
-                            "year": block_year,
-                            "month": month,
-                            "col_idx": col_idx,
-                            "row_idx": row_idx
+                if cell and any(month in cell.upper() for month in month_names):
+                    # Found a month header, look for the calendar grid
+                    month_name = None
+                    for month in month_names:
+                        if month in cell.upper():
+                            month_name = month
+                            break
+                    
+                    if month_name:
+                        # Look for the calendar grid starting from this row
+                        calendar_sections.append({
+                            'month': month_name,
+                            'month_num': month_numbers[month_name],
+                            'start_row': row_idx,
+                            'year': current_year
                         })
-        for block in month_blocks:
-            year = block["year"]
-            month = block["month"]
-            col = block["col_idx"]
-            start_row = block["row_idx"]
-            dayname_row_idx = None
-            for i in range(start_row+1, min(start_row+5, len(rows))):
-                if len(rows[i]) > col and rows[i][col].strip().upper() in ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"]:
-                    dayname_row_idx = i
-                    break
-            if dayname_row_idx is None:
-                continue
-            j = dayname_row_idx + 1
-            parsed_any = False
-            while j < len(rows):
-                day_row = rows[j]
-                days = []
-                for k in range(col, col+7):
-                    if len(day_row) > k and day_row[k] and day_row[k].strip().isdigit():
-                        days.append(int(day_row[k].strip()))
-                    else:
-                        days.append(None)
-                rate_row = rows[j+1] if j+1 < len(rows) else None
-                rates = []
-                if rate_row:
-                    for k in range(col, col+7):
-                        cell = rate_row[k] if len(rate_row) > k else ""
-                        if cell:
-                            parts = [p for p in re.split(r"[^0-9.]", cell) if p.strip()]
-                            found = False
-                            for part in parts:
-                                try:
-                                    val = float(part)
-                                    rates.append(val)
-                                    found = True
+        
+        # Extract daily rates from calendar sections
+        for section in calendar_sections:
+            month_num = section['month_num']
+            year = section['year']
+            start_row = section['start_row']
+            
+            # Look for the calendar grid (usually starts 2-3 rows after month header)
+            for row_idx in range(start_row + 2, min(start_row + 20, len(rows))):
+                row = rows[row_idx]
+                
+                # Look for day numbers (1-31) and corresponding rates
+                for col_idx, cell in enumerate(row):
+                    if cell and cell.isdigit() and 1 <= int(cell) <= 31:
+                        day = int(cell)
+                        
+                        # Look for rate in the same row, usually 1-2 columns to the right
+                        rate = None
+                        for rate_col in range(col_idx + 1, min(col_idx + 4, len(row))):
+                            if row[rate_col] and row[rate_col].isdigit():
+                                rate = int(row[rate_col])
+                                break
+                        
+                        if rate and 100 <= rate <= 300:  # Valid rate range
+                            try:
+                                date_key = f"{year}-{month_num:02d}-{day:02d}"
+                                calendar_data["daily_rates"][date_key] = rate
+                                print(f"LGM Calendar: {date_key} = ${rate}")
+                            except:
+                                continue
+        
+        # If no daily rates found, try alternative parsing
+        if not calendar_data["daily_rates"]:
+            print("LGM Calendar: No daily rates found, trying alternative parsing...")
+            # Look for any numeric values that could be rates
+            for row_idx, row in enumerate(rows):
+                for col_idx, cell in enumerate(row):
+                    if cell and cell.isdigit() and 100 <= int(cell) <= 300:
+                        # This might be a rate, try to find context
+                        rate = int(cell)
+                        # Look for date context in nearby cells
+                        for check_row in range(max(0, row_idx-5), min(row_idx+5, len(rows))):
+                            for check_col in range(max(0, col_idx-5), min(col_idx+5, len(rows[check_row]))):
+                                check_cell = rows[check_row][check_col]
+                                if check_cell and check_cell.isdigit() and 1 <= int(check_cell) <= 31:
+                                    day = int(check_cell)
+                                    # Try to find month context
+                                    for month in month_names:
+                                        if any(month in str(rows[i][j]).upper() for i in range(max(0, check_row-3), min(check_row+3, len(rows))) for j in range(max(0, check_col-3), min(check_col+3, len(rows[i])))):
+                                            month_num = month_numbers[month]
+                                            try:
+                                                date_key = f"{current_year}-{month_num:02d}-{day:02d}"
+                                                calendar_data["daily_rates"][date_key] = rate
+                                                print(f"LGM Calendar (alt): {date_key} = ${rate}")
+                                            except:
+                                                continue
+                                            break
                                     break
-                                except ValueError:
-                                    continue
-                            if not found:
-                                rates.append(None)
-                        else:
-                            rates.append(None)
-                for d, r in zip(days, rates):
-                    if d and r is not None:
-                        mmdd = f"{str(month_names.index(month)+1).zfill(2)}-{str(d).zfill(2)}"
-                        calendar_data["daily_rates"][mmdd] = r
-                        parsed_any = True
-                if not rate_row or not any(x is not None for x in days):
-                    break
-                j += 2
-            if not parsed_any:
-                import logging
-                logging.warning(f"No days parsed for {month} {year} at block row {start_row}, col {col}. Raw rows:")
-                for debug_row in rows[max(0, start_row-2):min(len(rows), start_row+10)]:
-                    logging.warning(f"  {debug_row}")
+        
+        print(f"LGM Calendar: Extracted {len(calendar_data['daily_rates'])} daily rates")
         return calendar_data
 
     def list_public_tab_gids(self, spreadsheet_id: str) -> list:

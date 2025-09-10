@@ -44,6 +44,45 @@ async def lifespan(app: FastAPI):
     # Initialize sheets monitor service (background tasks will start automatically)
     sheets_monitor_service
     
+    # Start 24-hour data refresh system
+    import asyncio
+    import threading
+    import time
+    from datetime import datetime, timedelta
+    
+    def refresh_data_every_24_hours():
+        """Background task to refresh Google Sheets data every 24 hours"""
+        while True:
+            try:
+                # Wait 24 hours (86400 seconds)
+                time.sleep(86400)
+                
+                print(f"🔄 24-Hour Data Refresh: {datetime.now()}")
+                
+                # Refresh Google Sheets data
+                from app.services.google_sheets_service import google_sheets_service
+                from app.services.dispatcher_cache_service import dispatcher_cache_service
+                
+                # Clear all caches
+                dispatcher_cache_service.clear_all_cache()
+                google_sheets_service.refresh_all_data()
+                
+                # Force cache invalidation
+                dispatcher_cache_service.force_cache_invalidation()
+                google_sheets_service.force_cache_invalidation()
+                
+                print("✅ 24-Hour data refresh completed successfully")
+                
+            except Exception as e:
+                print(f"❌ 24-Hour data refresh failed: {e}")
+                import traceback
+                traceback.print_exc()
+    
+    # Start the background refresh thread
+    refresh_thread = threading.Thread(target=refresh_data_every_24_hours, daemon=True)
+    refresh_thread.start()
+    print("🔄 24-Hour data refresh system started")
+    
     yield
     
     # Shutdown
