@@ -27,25 +27,30 @@ class LetsGetMovingCalculator:
         return base_crew
     
     def _get_base_crew_size(self, room_count: int) -> int:
-        """Get base crew size based on room count - FIXED LGM LOGIC"""
-        # Expected behavior (used across codebase/tests):
-        # 1–2 rooms → 2 crew, 3 rooms → 3 crew, 4 rooms → 4 crew,
-        # 5+ rooms → 5 crew (cap at 5 by business rule)
-        if room_count <= 2:
-            return 2
-        elif room_count <= 3:
-            return 3
-        elif room_count <= 4:
-            return 4
+        """Get base crew size based on room count - TRUE LGM LOGIC from old app data"""
+        # Official LGM crew logic from old app data:
+        # 7+ rooms → 5 movers, 5-6 rooms → 4 movers, 4 rooms → 3 movers, <4 rooms → 2 movers
+        if room_count >= 7:
+            return 5  # 5+ movers for very large homes
+        elif room_count >= 5:
+            return 4  # 4 movers for 5-6 bedroom homes
+        elif room_count >= 4:
+            return 3  # 3 movers for 4 bedroom homes
         else:
-            return 5
+            return 2  # 2 movers for smaller homes
     
     def get_truck_count(self, quote_request: QuoteRequest, crew_size: int) -> int:
-        """Truck count based on crew size - FIXED: 4+ movers need 2 trucks (max 3 per truck)"""
-        if crew_size <= 3:
-            return 1
+        """Truck count based on crew size and room count - TRUE LGM LOGIC from old app data"""
+        # Official LGM truck logic from old app data:
+        # 5+ movers OR 6+ rooms → 2 trucks
+        # 4+ movers OR 5+ rooms → 2 trucks
+        # Otherwise → 1 truck
+        if crew_size >= 5 or quote_request.total_rooms >= 6:
+            return 2  # 2 trucks for 5+ movers or 6+ bedrooms
+        elif crew_size >= 4 or quote_request.total_rooms >= 5:
+            return 2  # 2 trucks for 4+ movers or 5+ bedrooms
         else:
-            return 2
+            return 1  # 1 truck for smaller moves
     
     def calculate_quote(self, quote_request: QuoteRequest, dispatcher_info: Dict[str, Any], db=None) -> Dict[str, Any]:
         """Calculate LGM quote with TRUE dynamic calendar-based pricing"""
@@ -242,17 +247,17 @@ class LetsGetMovingCalculator:
         return gmb_url
     
     def _estimate_labor_hours(self, room_count: int, crew_size: int) -> float:
-        """Estimate labor hours based on room count and crew efficiency - TRUE LGM LOGIC"""
-        # Base hours from old app data - CORRECTED for 1 room
+        """Estimate labor hours based on room count - TRUE LGM LOGIC from old app data"""
+        # Base hours from old app data (NO crew efficiency adjustments in original)
         base_hours = {
-            1: 2.5, 2: 4.5, 3: 5.5, 4: 6.5, 5: 7.5, 6: 8.5, 7: 9.5
+            1: 3.5, 2: 4.5, 3: 5.5, 4: 6.5, 5: 7.5, 6: 8.5, 7: 9.5
         }.get(room_count, 9.5)
         
-        # Crew efficiency adjustments from old app data
-        if crew_size >= 4:
-            base_hours = max(base_hours * 0.8, base_hours - 1)  # 20% faster or 1 hour less
-        elif crew_size >= 3:
-            base_hours = max(base_hours * 0.85, base_hours - 0.5)  # 15% faster or 0.5 hour less
+        # ENHANCED: Apply 1.3x multiplier for 4+ rooms due to increased complexity
+        # Larger homes require more coordination, quality control, and careful handling
+        if room_count >= 4:
+            base_hours = base_hours * 1.3
+            print(f"LGM 4+ rooms complexity multiplier: {room_count} rooms × 1.3 = {base_hours:.2f} hours")
         
         # MINIMUM 2 HOURS LABOR COST - TRUE LGM REQUIREMENT
         return max(base_hours, 2.0)
