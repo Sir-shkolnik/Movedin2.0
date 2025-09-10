@@ -982,7 +982,7 @@ class LetsGetMovingCalculator(VendorCalculator):
         hourly_rate = self._calculate_hourly_rate(base_rate, crew_size, truck_count)
         # Estimate labor hours
         labor_hours = self._estimate_labor_hours(quote_request.total_rooms, crew_size, quote_request)
-        # Enforce vendor minimum labor hours (LGM = 2h)
+        # Enforce vendor minimum labor hours (LGM = 2h per policy)
         if labor_hours < 2.0:
             labor_hours = 2.0
         # NEW PRICING MODEL (August 2025): Calculate job time (origin to destination only)
@@ -1822,7 +1822,7 @@ class PierreSonsCalculator(VendorCalculator):
         travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
         distance_km = self._calculate_distance(quote_request.origin_address, quote_request.destination_address)
         
-        # Calculate costs using official Pierre & Sons rules
+        # Calculate costs using official Pierre & Sons rules (no commission applied)
         labor_cost = hourly_rate * labor_hours
         travel_cost = hourly_rate * travel_hours
         truck_fee = self._get_truck_fee(quote_request.total_rooms)
