@@ -982,6 +982,9 @@ class LetsGetMovingCalculator(VendorCalculator):
         hourly_rate = self._calculate_hourly_rate(base_rate, crew_size, truck_count)
         # Estimate labor hours
         labor_hours = self._estimate_labor_hours(quote_request.total_rooms, crew_size, quote_request)
+        # Enforce vendor minimum labor hours (LGM = 3h)
+        if labor_hours < 3.0:
+            labor_hours = 3.0
         # NEW PRICING MODEL (August 2025): Calculate job time (origin to destination only)
         origin_to_dest_travel = self._calculate_origin_to_destination_travel(quote_request.origin_address, quote_request.destination_address)
         job_hours = labor_hours + origin_to_dest_travel
@@ -1425,10 +1428,9 @@ class Easy2GoCalculator(VendorCalculator):
         
         # Calculate labor and travel hours
         labor_hours = self._estimate_labor_hours(quote_request.total_rooms, quote_request)
-        # Enforce minimum labor hours (does not include travel time)
-        MIN_LABOR_HOURS = 2.0
-        if labor_hours < MIN_LABOR_HOURS:
-            labor_hours = MIN_LABOR_HOURS
+        # Enforce vendor minimum labor hours (Easy2Go = 2h)
+        if labor_hours < 2.0:
+            labor_hours = 2.0
         travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
         
         # Calculate costs using official Easy2Go rules
@@ -1628,22 +1630,20 @@ class VelocityMoversCalculator(VendorCalculator):
         
         # Calculate labor and travel hours
         labor_hours = self._estimate_labor_hours(quote_request.total_rooms, quote_request)
-        # Enforce minimum labor hours (does not include travel time)
-        MIN_LABOR_HOURS = 3.0
-        if labor_hours < MIN_LABOR_HOURS:
-            labor_hours = MIN_LABOR_HOURS
+        # Enforce vendor minimum labor hours (Velocity = 3h)
+        if labor_hours < 3.0:
+            labor_hours = 3.0
         travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
         
         # Calculate costs using official Velocity Movers rules
         labor_cost = labor_hours * adjusted_hourly_rate
         travel_cost = travel_hours * adjusted_hourly_rate
         fuel_cost = fuel_surcharge  # Only geographic fuel surcharge
-        # Add flat truck fee from vendor data
-        TRUCK_FEE_FLAT = 120.0
+        truck_fee = 120.0  # Flat truck fee from vendor CSV
         heavy_items_cost = self._calculate_heavy_items_cost(quote_request.heavy_items)
         additional_services_cost = self._calculate_additional_services_cost(quote_request.additional_services)
         
-        total_cost = labor_cost + travel_cost + fuel_cost + TRUCK_FEE_FLAT + heavy_items_cost + additional_services_cost
+        total_cost = labor_cost + travel_cost + fuel_cost + truck_fee + heavy_items_cost + additional_services_cost
         
         return {
             "vendor_name": "Velocity Movers",
@@ -1652,7 +1652,7 @@ class VelocityMoversCalculator(VendorCalculator):
                 "labor": round(labor_cost, 2),
                 "travel": round(travel_cost, 2),
                 "fuel": round(fuel_cost, 2),
-                "truck_fee": TRUCK_FEE_FLAT,
+                "truck_fee": round(truck_fee, 2),
                 "heavy_items": round(heavy_items_cost, 2),
                 "additional_services": round(additional_services_cost, 2)
             },
@@ -1814,10 +1814,9 @@ class PierreSonsCalculator(VendorCalculator):
         
         # Estimate labor hours
         labor_hours = self._estimate_labor_hours(quote_request.total_rooms, quote_request)
-        # Enforce minimum labor hours (does not include travel time)
-        MIN_LABOR_HOURS = 3.0
-        if labor_hours < MIN_LABOR_HOURS:
-            labor_hours = MIN_LABOR_HOURS
+        # Enforce vendor minimum labor hours (Pierre & Sons = 3h)
+        if labor_hours < 3.0:
+            labor_hours = 3.0
         
         # Calculate travel time and distance
         travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
