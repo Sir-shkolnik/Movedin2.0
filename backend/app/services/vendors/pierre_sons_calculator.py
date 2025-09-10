@@ -216,8 +216,9 @@ class PierreSonsCalculator:
             return 100  # Default to small truck
     
     def _calculate_heavy_items_cost(self, heavy_items: Dict[str, int]) -> float:
-        """Calculate heavy items cost"""
-        rates = {"piano": 250, "safe": 300, "treadmill": 100}
+        """Calculate heavy items cost - Pierre & Sons specific rates"""
+        # Pierre & Sons has mid-range rates for heavy items
+        rates = {"piano": 275, "safe": 325, "treadmill": 110}
         total = 0
         for item, count in heavy_items.items():
             if item in rates:

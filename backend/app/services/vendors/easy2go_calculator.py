@@ -304,8 +304,9 @@ class Easy2GoCalculator:
         return fuel_table[closest_time]
     
     def _calculate_heavy_items_cost(self, heavy_items: Dict[str, int]) -> float:
-        """Calculate heavy items cost"""
-        rates = {"piano": 250, "safe": 300, "treadmill": 100}
+        """Calculate heavy items cost - Easy2Go specific rates"""
+        # Easy2Go has competitive rates for heavy items
+        rates = {"piano": 200, "safe": 250, "treadmill": 80}
         total = 0
         for item, count in heavy_items.items():
             if item in rates:
