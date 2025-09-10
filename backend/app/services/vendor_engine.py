@@ -982,9 +982,9 @@ class LetsGetMovingCalculator(VendorCalculator):
         hourly_rate = self._calculate_hourly_rate(base_rate, crew_size, truck_count)
         # Estimate labor hours
         labor_hours = self._estimate_labor_hours(quote_request.total_rooms, crew_size, quote_request)
-        # Enforce vendor minimum labor hours (LGM = 3h)
-        if labor_hours < 3.0:
-            labor_hours = 3.0
+        # Enforce vendor minimum labor hours (LGM = 2h)
+        if labor_hours < 2.0:
+            labor_hours = 2.0
         # NEW PRICING MODEL (August 2025): Calculate job time (origin to destination only)
         origin_to_dest_travel = self._calculate_origin_to_destination_travel(quote_request.origin_address, quote_request.destination_address)
         job_hours = labor_hours + origin_to_dest_travel
