@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Header.css';
 
@@ -14,28 +14,13 @@ const Header: React.FC = () => {
             const newState = !open;
             console.log('Menu toggle:', newState);
             console.log('Menu state changed to:', newState ? 'OPEN' : 'CLOSED');
-            
-            // Prevent body scroll when menu is open
-            if (newState) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = 'unset';
-            }
-            
             return newState;
         });
     };
+    
     const handleNavClick = () => {
         setMenuOpen(false);
-        document.body.style.overflow = 'unset';
     };
-
-    // Cleanup effect to restore body scroll
-    useEffect(() => {
-        return () => {
-            document.body.style.overflow = 'unset';
-        };
-    }, []);
 
     const isActive = (path: string) => {
         if (path === '/') {
@@ -103,38 +88,15 @@ const Header: React.FC = () => {
                     aria-controls="mobile-menu"
                     onClick={handleMenuToggle}
                 >
-                    <div className="hamburger-icon">
-                        <span className={`line ${menuOpen ? 'open' : ''}`}></span>
-                        <span className={`line ${menuOpen ? 'open' : ''}`}></span>
-                        <span className={`line ${menuOpen ? 'open' : ''}`}></span>
-                    </div>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
                 </button>
             </div>
-            {/* Mobile Menu Overlay */}
+            {/* Mobile Dropdown Menu */}
             {menuOpen && (
-                <div 
-                    className="mobile-menu-overlay" 
-                    onClick={handleMenuToggle}
-                />
-            )}
-            
-            {/* Mobile Menu */}
-            <div className={`mobile-menu-container ${menuOpen ? 'open' : ''}`}>
-                <nav
-                    id="mobile-menu"
-                    className="mobile-nav"
-                >
-                    {/* Close button */}
-                    <button
-                        className="mobile-menu-close"
-                        onClick={handleMenuToggle}
-                        aria-label="Close menu"
-                    >
-                        ×
-                    </button>
-                    
-                    {/* Navigation Links */}
-                    <div className="mobile-nav-links">
+                <div className="mobile-dropdown-menu">
+                    <nav className="mobile-nav">
                         <Link
                             to="/quote"
                             className={`mobile-nav-link ${isActive('/quote') ? 'active' : ''}`}
@@ -170,9 +132,9 @@ const Header: React.FC = () => {
                         >
                             Admin
                         </Link>
-                    </div>
-                </nav>
-            </div>
+                    </nav>
+                </div>
+            )}
         </header>
     );
 };
