@@ -199,7 +199,7 @@ async def process_vendor_quote(vendor_info, quote_request, db):
         return None
 
 @router.post("/generate", response_model=QuoteListResponse)
-@monitor_request("/generate", "POST")
+# @monitor_request("/generate", "POST")  # Temporarily disabled for debugging
 async def generate_quotes(
     quote_request: QuoteRequest,
     db: Session = Depends(get_db)
