@@ -8,8 +8,6 @@ from datetime import datetime, timedelta
 import time
 
 from app.services.monitoring_service import monitoring_service
-from app.database import get_db
-from sqlalchemy.orm import Session
 
 router = APIRouter(prefix="/monitoring", tags=["monitoring"])
 
