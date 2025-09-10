@@ -23,7 +23,6 @@
     justify-content: space-between;
     height: 80px;
     padding: 0 40px;
-    position: relative;
 }
 
 .logo {
@@ -114,25 +113,23 @@
     height: 24px;
 }
 
-/* Mobile Dropdown Menu */
-.mobile-dropdown-menu {
-    position: absolute;
-    top: 100%;
+/* Mobile Menu Bar - Simple Approach */
+.mobile-menu-bar {
+    position: fixed;
+    top: 80px;
     left: 0;
     right: 0;
     background: var(--white);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    border: 2px solid var(--purple-600);
-    z-index: 1000;
-    animation: slideDown 0.3s ease;
-    margin-top: 0;
-    min-height: 200px;
+    border-bottom: 1px solid var(--border-light);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 99;
+    animation: slideDownSimple 0.3s ease;
 }
 
-@keyframes slideDown {
+@keyframes slideDownSimple {
     from {
         opacity: 0;
-        transform: translateY(-10px);
+        transform: translateY(-20px);
     }
     to {
         opacity: 1;
@@ -140,17 +137,19 @@
     }
 }
 
-/* Mobile Navigation */
-.mobile-nav {
+.mobile-menu-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
     display: flex;
     flex-direction: column;
-    padding: 1rem 0;
+    gap: 0;
 }
 
-.mobile-nav-link {
-    font-size: 1rem;
+.mobile-menu-link {
+    font-size: 1.1rem;
     color: var(--text-primary);
-    padding: 12px 20px;
+    padding: 16px 0;
     text-align: left;
     font-weight: 500;
     display: block;
@@ -159,19 +158,21 @@
     border-bottom: 1px solid var(--border-light);
 }
 
-.mobile-nav-link:last-child {
+.mobile-menu-link:last-child {
     border-bottom: none;
 }
 
-.mobile-nav-link:hover {
+.mobile-menu-link:hover {
     color: var(--purple-600);
     background: var(--gray-50);
+    padding-left: 10px;
 }
 
-.mobile-nav-link.active {
+.mobile-menu-link.active {
     color: var(--purple-600);
     background: var(--purple-50);
     font-weight: 600;
+    padding-left: 10px;
 }
 
 @media (max-width: 1200px) {
@@ -199,7 +200,6 @@
     }
     .header-content {
         padding: 0 20px;
-        position: relative;
     }
 }
 

@@ -93,50 +93,51 @@ const Header: React.FC = () => {
                     </svg>
                 </button>
                 
-                {/* Mobile Dropdown Menu */}
-                {menuOpen && (
-                    <div className="mobile-dropdown-menu">
-                        <nav className="mobile-nav">
-                            <Link
-                                to="/quote"
-                                className={`mobile-nav-link ${isActive('/quote') ? 'active' : ''}`}
-                                onClick={handleNavClick}
-                            >
-                                Get a quote
-                            </Link>
-                            <Link
-                                to="/how-it-works"
-                                className={`mobile-nav-link ${isActive('/how-it-works') ? 'active' : ''}`}
-                                onClick={handleNavClick}
-                            >
-                                How it works
-                            </Link>
-                            <Link
-                                to="/tips-guides"
-                                className={`mobile-nav-link ${isActive('/tips-guides') ? 'active' : ''}`}
-                                onClick={handleNavClick}
-                            >
-                                Tips & Guides
-                            </Link>
-                            <Link
-                                to="/about-us"
-                                className={`mobile-nav-link ${isActive('/about-us') ? 'active' : ''}`}
-                                onClick={handleNavClick}
-                            >
-                                About us
-                            </Link>
-                            <Link
-                                to="/admin"
-                                className={`mobile-nav-link ${isActive('/admin') ? 'active' : ''}`}
-                                onClick={handleNavClick}
-                            >
-                                Admin
-                            </Link>
-                        </nav>
-                    </div>
-                )}
             </div>
         </header>
+        
+        {/* Mobile Menu - Separate Element */}
+        {menuOpen && (
+            <div className="mobile-menu-bar">
+                <div className="mobile-menu-content">
+                    <Link
+                        to="/quote"
+                        className={`mobile-menu-link ${isActive('/quote') ? 'active' : ''}`}
+                        onClick={handleNavClick}
+                    >
+                        Get a quote
+                    </Link>
+                    <Link
+                        to="/how-it-works"
+                        className={`mobile-menu-link ${isActive('/how-it-works') ? 'active' : ''}`}
+                        onClick={handleNavClick}
+                    >
+                        How it works
+                    </Link>
+                    <Link
+                        to="/tips-guides"
+                        className={`mobile-menu-link ${isActive('/tips-guides') ? 'active' : ''}`}
+                        onClick={handleNavClick}
+                    >
+                        Tips & Guides
+                    </Link>
+                    <Link
+                        to="/about-us"
+                        className={`mobile-menu-link ${isActive('/about-us') ? 'active' : ''}`}
+                        onClick={handleNavClick}
+                    >
+                        About us
+                    </Link>
+                    <Link
+                        to="/admin"
+                        className={`mobile-menu-link ${isActive('/admin') ? 'active' : ''}`}
+                        onClick={handleNavClick}
+                    >
+                        Admin
+                    </Link>
+                </div>
+            </div>
+        )}
     );
 };
 
