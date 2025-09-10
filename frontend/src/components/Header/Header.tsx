@@ -30,114 +30,115 @@ const Header: React.FC = () => {
     };
 
     return (
-        <header className="main-header">
-            <div className="header-content">
-                <div className="logo">
-                    <Link to="/">
-                        <img
-                            src={movedinLogo}
-                            alt="MovedIn Logo"
-                            className="header-logo"
-                            style={{
-                                height: 'auto',
-                                maxHeight: '55px',
-                                width: 'auto',
-                                maxWidth: '180px',
-                                objectFit: 'contain',
-                                display: 'block'
-                            }}
-                        />
-                    </Link>
+        <>
+            <header className="main-header">
+                <div className="header-content">
+                    <div className="logo">
+                        <Link to="/">
+                            <img
+                                src={movedinLogo}
+                                alt="MovedIn Logo"
+                                className="header-logo"
+                                style={{
+                                    height: 'auto',
+                                    maxHeight: '55px',
+                                    width: 'auto',
+                                    maxWidth: '180px',
+                                    objectFit: 'contain',
+                                    display: 'block'
+                                }}
+                            />
+                        </Link>
+                    </div>
+                    <nav className="nav-links">
+                        <Link
+                            to="/quote"
+                            className={`nav-link ${isActive('/quote') ? 'active' : ''}`}
+                        >
+                            Get a quote
+                        </Link>
+                        <Link
+                            to="/how-it-works"
+                            className={`nav-link ${isActive('/how-it-works') ? 'active' : ''}`}
+                        >
+                            How it works
+                        </Link>
+                        <Link
+                            to="/tips-guides"
+                            className={`nav-link ${isActive('/tips-guides') ? 'active' : ''}`}
+                        >
+                            Tips & Guides
+                        </Link>
+                        <Link
+                            to="/about-us"
+                            className={`nav-link ${isActive('/about-us') ? 'active' : ''}`}
+                        >
+                            About us
+                        </Link>
+                        {/* <Link
+                            to="/admin"
+                            className={`nav-link ${isActive('/admin') ? 'active' : ''}`}
+                        >
+                            Admin
+                        </Link> */}
+                    </nav>
+                    <button
+                        className="mobile-menu-toggle"
+                        aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+                        aria-expanded={menuOpen}
+                        aria-controls="mobile-menu"
+                        onClick={handleMenuToggle}
+                    >
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                    </button>
                 </div>
-                <nav className="nav-links">
-                    <Link
-                        to="/quote"
-                        className={`nav-link ${isActive('/quote') ? 'active' : ''}`}
-                    >
-                        Get a quote
-                    </Link>
-                    <Link
-                        to="/how-it-works"
-                        className={`nav-link ${isActive('/how-it-works') ? 'active' : ''}`}
-                    >
-                        How it works
-                    </Link>
-                    <Link
-                        to="/tips-guides"
-                        className={`nav-link ${isActive('/tips-guides') ? 'active' : ''}`}
-                    >
-                        Tips & Guides
-                    </Link>
-                    <Link
-                        to="/about-us"
-                        className={`nav-link ${isActive('/about-us') ? 'active' : ''}`}
-                    >
-                        About us
-                    </Link>
-                    {/* <Link
-                        to="/admin"
-                        className={`nav-link ${isActive('/admin') ? 'active' : ''}`}
-                    >
-                        Admin
-                    </Link> */}
-                </nav>
-                <button
-                    className="mobile-menu-toggle"
-                    aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-                    aria-expanded={menuOpen}
-                    aria-controls="mobile-menu"
-                    onClick={handleMenuToggle}
-                >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                </button>
-                
-            </div>
-        </header>
-        
-        {/* Mobile Menu - Separate Element */}
-        {menuOpen && (
-            <div className="mobile-menu-bar">
-                <div className="mobile-menu-content">
-                    <Link
-                        to="/quote"
-                        className={`mobile-menu-link ${isActive('/quote') ? 'active' : ''}`}
-                        onClick={handleNavClick}
-                    >
-                        Get a quote
-                    </Link>
-                    <Link
-                        to="/how-it-works"
-                        className={`mobile-menu-link ${isActive('/how-it-works') ? 'active' : ''}`}
-                        onClick={handleNavClick}
-                    >
-                        How it works
-                    </Link>
-                    <Link
-                        to="/tips-guides"
-                        className={`mobile-menu-link ${isActive('/tips-guides') ? 'active' : ''}`}
-                        onClick={handleNavClick}
-                    >
-                        Tips & Guides
-                    </Link>
-                    <Link
-                        to="/about-us"
-                        className={`mobile-menu-link ${isActive('/about-us') ? 'active' : ''}`}
-                        onClick={handleNavClick}
-                    >
-                        About us
-                    </Link>
-                    <Link
-                        to="/admin"
-                        className={`mobile-menu-link ${isActive('/admin') ? 'active' : ''}`}
-                        onClick={handleNavClick}
-                    >
-                        Admin
-                    </Link>
+            </header>
+            
+            {/* Mobile Menu - Separate Element */}
+            {menuOpen && (
+                <div className="mobile-menu-bar">
+                    <div className="mobile-menu-content">
+                        <Link
+                            to="/quote"
+                            className={`mobile-menu-link ${isActive('/quote') ? 'active' : ''}`}
+                            onClick={handleNavClick}
+                        >
+                            Get a quote
+                        </Link>
+                        <Link
+                            to="/how-it-works"
+                            className={`mobile-menu-link ${isActive('/how-it-works') ? 'active' : ''}`}
+                            onClick={handleNavClick}
+                        >
+                            How it works
+                        </Link>
+                        <Link
+                            to="/tips-guides"
+                            className={`mobile-menu-link ${isActive('/tips-guides') ? 'active' : ''}`}
+                            onClick={handleNavClick}
+                        >
+                            Tips & Guides
+                        </Link>
+                        <Link
+                            to="/about-us"
+                            className={`mobile-menu-link ${isActive('/about-us') ? 'active' : ''}`}
+                            onClick={handleNavClick}
+                        >
+                            About us
+                        </Link>
+                        <Link
+                            to="/admin"
+                            className={`mobile-menu-link ${isActive('/admin') ? 'active' : ''}`}
+                            onClick={handleNavClick}
+                        >
+                            Admin
+                        </Link>
+                    </div>
                 </div>
-            </div>
-        )}
+            )}
+        </>
     );
 };
 
