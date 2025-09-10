@@ -143,7 +143,7 @@ class MonitoringService:
         def check_database():
             """Check database connectivity"""
             try:
-                from app.database import get_db
+                from app.core.database import get_db
                 db = next(get_db())
                 # Simple query to test connection
                 db.execute("SELECT 1")
