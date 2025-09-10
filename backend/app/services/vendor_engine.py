@@ -1211,8 +1211,9 @@ class LetsGetMovingCalculator(VendorCalculator):
         return 0
     
     def _calculate_heavy_items_cost(self, heavy_items: Dict[str, int]) -> float:
-        """Calculate heavy items cost"""
-        rates = {"piano": 250, "safe": 300, "treadmill": 100}
+        """Calculate heavy items cost - Easy2Go specific rates"""
+        # Easy2Go: competitive heavy item rates (from vendor alignment)
+        rates = {"piano": 200, "safe": 250, "treadmill": 80}
         total = 0
         for item, count in heavy_items.items():
             if item in rates:
@@ -1560,8 +1561,9 @@ class Easy2GoCalculator(VendorCalculator):
         return 0  # Easy2Go doesn't charge fuel per hour, only geographic surcharge
     
     def _calculate_heavy_items_cost(self, heavy_items: Dict[str, int]) -> float:
-        """Calculate heavy items cost"""
-        rates = {"piano": 250, "safe": 300, "treadmill": 100}
+        """Calculate heavy items cost - Velocity Movers specific rates"""
+        # Velocity Movers: premium heavy item rates (from vendor alignment)
+        rates = {"piano": 300, "safe": 350, "treadmill": 120}
         total = 0
         for item, count in heavy_items.items():
             if item in rates:
@@ -1747,8 +1749,9 @@ class VelocityMoversCalculator(VendorCalculator):
         return 0  # Velocity Movers doesn't charge fuel per hour, only geographic surcharge
     
     def _calculate_heavy_items_cost(self, heavy_items: Dict[str, int]) -> float:
-        """Calculate heavy items cost"""
-        rates = {"piano": 250, "safe": 300, "treadmill": 100}
+        """Calculate heavy items cost - Pierre & Sons specific rates"""
+        # Pierre & Sons: mid-range heavy item rates (from vendor alignment)
+        rates = {"piano": 275, "safe": 325, "treadmill": 110}
         total = 0
         for item, count in heavy_items.items():
             if item in rates:
