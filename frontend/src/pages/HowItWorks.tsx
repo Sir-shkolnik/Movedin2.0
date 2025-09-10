@@ -10,10 +10,7 @@ import locationIcon from '../assets/icons-svg/icon_location-purple.svg';
 import calendarIcon from '../assets/icons-svg/icon_calendar-purple.svg';
 import servicesIcon from '../assets/icons-svg/icon_home-services-black.svg';
 import phoneIcon from '../assets/icons-svg/icon_phone-purple.svg';
-import formStep1 from '../assets/imgs-png/img_form1.png';
-import formStep2 from '../assets/imgs-png/img_form2.png';
-import formStep3 from '../assets/imgs-png/img_form3.png';
-import formStep4 from '../assets/imgs-png/img_form4.png';
+import checkIcon from '../assets/icons-svg/icon_check-purple.svg';
 
 const HowItWorks: React.FC = () => {
   const navigate = useNavigate();
@@ -117,16 +114,13 @@ const HowItWorks: React.FC = () => {
           <article className="page-card">
             <header className="how-it-works-header">
               <h1 id="how-it-works-title">How it works</h1>
-              <p className="how-it-works-subtitle">Set up your move in four simple steps. It's completely free.</p>
+              <p className="how-it-works-subtitle">Set up your move in seven simple steps. It's completely free.</p>
             </header>
 
             {/* Compact Steps Section */}
             <section className="how-it-works-steps">
               <div className="steps-container">
                 <div className="step-item">
-                  <div className="step-visual">
-                    <img src={formStep1} alt="Step 1: Enter your address" className="step-image" />
-                  </div>
                   <div className="step-content">
                     <div className="step-header">
                       <div className="step-icon">
@@ -134,56 +128,86 @@ const HowItWorks: React.FC = () => {
                       </div>
                       <div className="step-number">1</div>
                     </div>
-                    <h3>Enter your address</h3>
-                    <p>Start by telling us where you are moving from and to</p>
+                    <h3>Move Details</h3>
+                    <p>Tell us where and when you're moving - origin, destination, date, and time</p>
                   </div>
                 </div>
 
                 <div className="step-item">
-                  <div className="step-visual">
-                    <img src={formStep2} alt="Step 2: Select your moving date" className="step-image" />
+                  <div className="step-content">
+                    <div className="step-header">
+                      <div className="step-icon">
+                        <img src={servicesIcon} alt="Home icon" />
+                      </div>
+                      <div className="step-number">2</div>
+                    </div>
+                    <h3>Origin Home</h3>
+                    <p>Describe your current home - type, rooms, square footage, and special features</p>
                   </div>
+                </div>
+
+                <div className="step-item">
+                  <div className="step-content">
+                    <div className="step-header">
+                      <div className="step-icon">
+                        <img src={locationIcon} alt="Destination icon" />
+                      </div>
+                      <div className="step-number">3</div>
+                    </div>
+                    <h3>Destination</h3>
+                    <p>Tell us about your new home - property details and move-in requirements</p>
+                  </div>
+                </div>
+
+                <div className="step-item">
                   <div className="step-content">
                     <div className="step-header">
                       <div className="step-icon">
                         <img src={calendarIcon} alt="Calendar icon" />
                       </div>
-                      <div className="step-number">2</div>
+                      <div className="step-number">4</div>
                     </div>
-                    <h3>Select your moving date & time</h3>
-                    <p>Choose your preferred moving schedule</p>
+                    <h3>Choose Mover</h3>
+                    <p>Compare real-time quotes from verified moving companies and select the best option</p>
                   </div>
                 </div>
 
                 <div className="step-item">
-                  <div className="step-visual">
-                    <img src={formStep3} alt="Step 3: Tell us about your service needs" className="step-image" />
-                  </div>
-                  <div className="step-content">
-                    <div className="step-header">
-                      <div className="step-icon">
-                        <img src={servicesIcon} alt="Services icon" />
-                      </div>
-                      <div className="step-number">3</div>
-                    </div>
-                    <h3>Tell us about your service needs</h3>
-                    <p>Describe what services you require</p>
-                  </div>
-                </div>
-
-                <div className="step-item">
-                  <div className="step-visual">
-                    <img src={formStep4} alt="Step 4: Provide contact info" className="step-image" />
-                  </div>
                   <div className="step-content">
                     <div className="step-header">
                       <div className="step-icon">
                         <img src={phoneIcon} alt="Phone icon" />
                       </div>
-                      <div className="step-number">4</div>
+                      <div className="step-number">5</div>
                     </div>
-                    <h3>Finalized by provide contact info</h3>
-                    <p>Complete your booking with contact details</p>
+                    <h3>Contact Info</h3>
+                    <p>Provide your contact information for booking confirmation and coordination</p>
+                  </div>
+                </div>
+
+                <div className="step-item">
+                  <div className="step-content">
+                    <div className="step-header">
+                      <div className="step-icon">
+                        <img src={calendarIcon} alt="Review icon" />
+                      </div>
+                      <div className="step-number">6</div>
+                    </div>
+                    <h3>Review & Pay</h3>
+                    <p>Review your quote details and complete booking with a $100 deposit</p>
+                  </div>
+                </div>
+
+                <div className="step-item">
+                  <div className="step-content">
+                    <div className="step-header">
+                      <div className="step-icon">
+                        <img src={checkIcon} alt="Check icon" />
+                      </div>
+                      <div className="step-number">7</div>
+                    </div>
+                    <h3>Confirmation</h3>
+                    <p>Your move is booked! Get confirmation and next steps from your chosen mover</p>
                   </div>
                 </div>
               </div>

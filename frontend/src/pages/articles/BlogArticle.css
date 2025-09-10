@@ -110,8 +110,8 @@
 /* Article Layout */
 .article-layout {
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 4rem;
+    grid-template-columns: 3fr 1fr;
+    gap: 3rem;
     padding: 2rem 0 4rem;
 }
 
@@ -365,14 +365,82 @@
 .toc-link {
     color: var(--text-secondary);
     text-decoration: none;
-    font-size: 0.95rem;
-    transition: color 0.3s ease;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
     display: block;
-    padding: 0.5rem 0;
+    padding: 0.4rem 0;
+    border-radius: 4px;
+    padding-left: 0.5rem;
+    margin-left: -0.5rem;
 }
 
 .toc-link:hover {
     color: var(--purple-600);
+    background: var(--gray-50);
+    padding-left: 0.75rem;
+}
+
+/* Smooth scrolling for anchor links */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Checklist Timeline Styles */
+.checklist-timeline {
+    margin: 2rem 0;
+}
+
+.timeline-item {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    align-items: flex-start;
+}
+
+.timeline-marker {
+    width: 50px;
+    height: 50px;
+    background: var(--purple-600);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.timeline-content {
+    flex: 1;
+}
+
+.timeline-content h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--blue-600);
+    margin-bottom: 1rem;
+}
+
+.checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.checklist li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.check-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
 }
 
 .social-share {

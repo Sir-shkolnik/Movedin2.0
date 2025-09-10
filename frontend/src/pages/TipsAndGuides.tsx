@@ -144,6 +144,35 @@ const TipsAndGuides: React.FC = () => {
                   </article>
                 </Link>
 
+                {/* Blog Card 4 */}
+                <Link to="/articles/moving-checklist" className="blog-card-link">
+                  <article className="blog-card">
+                    <img 
+                      src={blogEssentialChecklist} 
+                      alt="Ultimate Moving Checklist" 
+                      className="blog-card-image"
+                    />
+                    <div className="blog-card-content">
+                      <h3 className="blog-card-title">Ultimate Moving Checklist: 8 Weeks to Moving Day</h3>
+                      <p className="blog-card-excerpt">
+                        Complete moving checklist with timeline from 8 weeks before to moving day. Never forget anything important...
+                      </p>
+                      <div className="blog-card-meta">
+                        <img 
+                          src={profileNarender} 
+                          alt="MovedIn Team" 
+                          className="blog-card-author-image"
+                        />
+                        <div className="blog-card-author-info">
+                          <span className="blog-card-author-name">MovedIn Team</span>
+                          <span className="blog-card-date">Dec 20, 2023</span>
+                        </div>
+                      </div>
+                      <img src={arrowIcon} alt="Read more" className="blog-card-arrow" />
+                    </div>
+                  </article>
+                </Link>
+
                 {/* Featured Blog Card */}
                 <article className="blog-card featured">
                   <img 
