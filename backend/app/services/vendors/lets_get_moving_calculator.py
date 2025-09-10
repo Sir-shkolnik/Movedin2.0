@@ -339,7 +339,8 @@ class LetsGetMovingCalculator:
         return 0
     
     def _calculate_heavy_items_cost(self, heavy_items: Dict[str, int]) -> float:
-        """Calculate heavy items cost - TRUE LGM RATES"""
+        """Calculate heavy items cost - Let's Get Moving specific rates"""
+        # Let's Get Moving has standard rates for heavy items
         rates = {"piano": 250, "safe": 300, "treadmill": 100}
         total = 0
         for item, count in heavy_items.items():
