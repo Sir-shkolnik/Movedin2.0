@@ -117,94 +117,75 @@ const HowItWorks: React.FC = () => {
               <p className="how-it-works-subtitle">Set up your move in seven simple steps. It's completely free.</p>
             </header>
 
-            {/* Compact Steps Section */}
+            {/* Responsive Steps Section */}
             <section className="how-it-works-steps">
-              <div className="steps-container">
-                <div className="step-item">
-                  <div className="step-content">
-                    <div className="step-header">
-                      <div className="step-icon">
-                        <img src={locationIcon} alt="Location icon" />
-                      </div>
-                      <div className="step-number">1</div>
+              <div className="steps-grid">
+                {/* Row 1: Steps 1-2 */}
+                <div className="steps-row">
+                  <div className="step-card">
+                    <div className="step-number">1</div>
+                    <div className="step-icon">
+                      <img src={locationIcon} alt="Location" />
                     </div>
                     <h3>Move Details</h3>
                     <p>Tell us where and when you're moving - origin, destination, date, and time</p>
                   </div>
-                </div>
-
-                <div className="step-item">
-                  <div className="step-content">
-                    <div className="step-header">
-                      <div className="step-icon">
-                        <img src={servicesIcon} alt="Home icon" />
-                      </div>
-                      <div className="step-number">2</div>
+                  <div className="step-card">
+                    <div className="step-number">2</div>
+                    <div className="step-icon">
+                      <img src={servicesIcon} alt="Home" />
                     </div>
                     <h3>Origin Home</h3>
                     <p>Describe your current home - type, rooms, square footage, and special features</p>
                   </div>
                 </div>
 
-                <div className="step-item">
-                  <div className="step-content">
-                    <div className="step-header">
-                      <div className="step-icon">
-                        <img src={locationIcon} alt="Destination icon" />
-                      </div>
-                      <div className="step-number">3</div>
+                {/* Row 2: Steps 3-4 */}
+                <div className="steps-row">
+                  <div className="step-card">
+                    <div className="step-number">3</div>
+                    <div className="step-icon">
+                      <img src={locationIcon} alt="Destination" />
                     </div>
                     <h3>Destination</h3>
                     <p>Tell us about your new home - property details and move-in requirements</p>
                   </div>
-                </div>
-
-                <div className="step-item">
-                  <div className="step-content">
-                    <div className="step-header">
-                      <div className="step-icon">
-                        <img src={calendarIcon} alt="Calendar icon" />
-                      </div>
-                      <div className="step-number">4</div>
+                  <div className="step-card">
+                    <div className="step-number">4</div>
+                    <div className="step-icon">
+                      <img src={calendarIcon} alt="Calendar" />
                     </div>
                     <h3>Choose Mover</h3>
                     <p>Compare real-time quotes from verified moving companies and select the best option</p>
                   </div>
                 </div>
 
-                <div className="step-item">
-                  <div className="step-content">
-                    <div className="step-header">
-                      <div className="step-icon">
-                        <img src={phoneIcon} alt="Phone icon" />
-                      </div>
-                      <div className="step-number">5</div>
+                {/* Row 3: Steps 5-6 */}
+                <div className="steps-row">
+                  <div className="step-card">
+                    <div className="step-number">5</div>
+                    <div className="step-icon">
+                      <img src={phoneIcon} alt="Phone" />
                     </div>
                     <h3>Contact Info</h3>
                     <p>Provide your contact information for booking confirmation and coordination</p>
                   </div>
-                </div>
-
-                <div className="step-item">
-                  <div className="step-content">
-                    <div className="step-header">
-                      <div className="step-icon">
-                        <img src={calendarIcon} alt="Review icon" />
-                      </div>
-                      <div className="step-number">6</div>
+                  <div className="step-card">
+                    <div className="step-number">6</div>
+                    <div className="step-icon">
+                      <img src={calendarIcon} alt="Review" />
                     </div>
                     <h3>Review & Pay</h3>
                     <p>Review your quote details and complete booking with a $100 deposit</p>
                   </div>
                 </div>
 
-                <div className="step-item">
-                  <div className="step-content">
-                    <div className="step-header">
-                      <div className="step-icon">
-                        <img src={checkIcon} alt="Check icon" />
-                      </div>
-                      <div className="step-number">7</div>
+                {/* Row 4: Step 7 (centered) */}
+                <div className="steps-row single-step">
+                  <div className="step-card">
+                    <div className="step-number">7</div>
+                    <div className="step-icon">
+                      <img src={checkIcon} alt="Check" />
                     </div>
                     <h3>Confirmation</h3>
                     <p>Your move is booked! Get confirmation and next steps from your chosen mover</p>

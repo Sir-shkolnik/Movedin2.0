@@ -79,15 +79,17 @@ const Header: React.FC = () => {
                     </Link> */}
                 </nav>
                 <button
-                    className={`hamburger${menuOpen ? ' open' : ''}`}
+                    className="mobile-menu-toggle"
                     aria-label={menuOpen ? 'Close menu' : 'Open menu'}
                     aria-expanded={menuOpen}
                     aria-controls="mobile-menu"
                     onClick={handleMenuToggle}
                 >
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <div className="hamburger-icon">
+                        <span className={`line ${menuOpen ? 'open' : ''}`}></span>
+                        <span className={`line ${menuOpen ? 'open' : ''}`}></span>
+                        <span className={`line ${menuOpen ? 'open' : ''}`}></span>
+                    </div>
                 </button>
             </div>
             {menuOpen && (
