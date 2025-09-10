@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Header.css';
 
@@ -14,10 +14,28 @@ const Header: React.FC = () => {
             const newState = !open;
             console.log('Menu toggle:', newState);
             console.log('Menu state changed to:', newState ? 'OPEN' : 'CLOSED');
+            
+            // Prevent body scroll when menu is open
+            if (newState) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'unset';
+            }
+            
             return newState;
         });
     };
-    const handleNavClick = () => setMenuOpen(false);
+    const handleNavClick = () => {
+        setMenuOpen(false);
+        document.body.style.overflow = 'unset';
+    };
+
+    // Cleanup effect to restore body scroll
+    useEffect(() => {
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, []);
 
     const isActive = (path: string) => {
         if (path === '/') {
@@ -98,11 +116,11 @@ const Header: React.FC = () => {
                     onClick={handleMenuToggle}
                 />
             )}
-            <nav
-                id="mobile-menu"
-                className={`mobile-nav${menuOpen ? ' open' : ''}`}
-                aria-hidden={!menuOpen}
-            >
+            {menuOpen && (
+                <nav
+                    id="mobile-menu"
+                    className="mobile-nav open"
+                >
                 {/* Close button */}
                 <button
                     className="mobile-menu-close"
@@ -146,7 +164,8 @@ const Header: React.FC = () => {
                 >
                     Admin
                 </Link>
-            </nav>
+                </nav>
+            )}
         </header>
     );
 };
