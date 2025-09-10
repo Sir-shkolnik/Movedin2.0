@@ -14,6 +14,8 @@ import threading
 import os
 
 # Configure logging
+# Ensure logs directory exists before configuring FileHandler
+os.makedirs('logs', exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -365,4 +367,4 @@ def monitor_quote_calculation(vendor: str):
     return decorator
 
 # Create logs directory if it doesn't exist
-os.makedirs('logs', exist_ok=True)
+# (Already ensured above before configuring logging)
