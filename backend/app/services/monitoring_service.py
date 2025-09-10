@@ -9,6 +9,7 @@ import traceback
 from datetime import datetime, timedelta
 from typing import Dict, Any, Optional, List
 from functools import wraps
+import inspect
 from collections import defaultdict, deque
 import threading
 import os
@@ -288,36 +289,62 @@ class MonitoringService:
 monitoring_service = MonitoringService()
 
 def monitor_request(endpoint: str, method: str = 'GET'):
-    """Decorator to monitor API requests"""
+    """Decorator to monitor API requests (supports sync and async callables)."""
     def decorator(func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            start_time = time.time()
-            status_code = 200
-            error = None
-            
-            try:
-                result = func(*args, **kwargs)
-                return result
-            except Exception as e:
-                status_code = 500
-                error = str(e)
-                monitoring_service.log_error('request_error', str(e), e, {
-                    'endpoint': endpoint,
-                    'method': method
-                })
-                raise
-            finally:
-                duration = time.time() - start_time
-                monitoring_service.log_request(
-                    endpoint=endpoint,
-                    method=method,
-                    duration=duration,
-                    status_code=status_code,
-                    error=error
-                )
-        
-        return wrapper
+        if inspect.iscoroutinefunction(func):
+            @wraps(func)
+            async def async_wrapper(*args, **kwargs):
+                start_time = time.time()
+                status_code = 200
+                error = None
+                try:
+                    result = await func(*args, **kwargs)
+                    return result
+                except Exception as e:
+                    status_code = 500
+                    error = str(e)
+                    monitoring_service.log_error('request_error', str(e), e, {
+                        'endpoint': endpoint,
+                        'method': method
+                    })
+                    raise
+                finally:
+                    duration = time.time() - start_time
+                    monitoring_service.log_request(
+                        endpoint=endpoint,
+                        method=method,
+                        duration=duration,
+                        status_code=status_code,
+                        error=error
+                    )
+            return async_wrapper
+        else:
+            @wraps(func)
+            def wrapper(*args, **kwargs):
+                start_time = time.time()
+                status_code = 200
+                error = None
+                try:
+                    result = func(*args, **kwargs)
+                    return result
+                except Exception as e:
+                    status_code = 500
+                    error = str(e)
+                    monitoring_service.log_error('request_error', str(e), e, {
+                        'endpoint': endpoint,
+                        'method': method
+                    })
+                    raise
+                finally:
+                    duration = time.time() - start_time
+                    monitoring_service.log_request(
+                        endpoint=endpoint,
+                        method=method,
+                        duration=duration,
+                        status_code=status_code,
+                        error=error
+                    )
+            return wrapper
     return decorator
 
 def monitor_quote_calculation(vendor: str):

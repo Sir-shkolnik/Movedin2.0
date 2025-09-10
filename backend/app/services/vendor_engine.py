@@ -1099,28 +1099,42 @@ class LetsGetMovingCalculator(VendorCalculator):
         elif crew_size >= 3:
             base_hours = max(base_hours * 0.85, base_hours - 0.5)  # 15% faster or 0.5 hour less
         
-        # Add stair time if quote_request is provided
+        # Add stair time if quote_request is provided (elevators reduce stair impact)
         if quote_request:
             stair_time = self._calculate_stair_time(quote_request)
             base_hours += stair_time
+            # Optional square-footage adjustment (flagged)
+            import os
+            if os.getenv("ENABLE_SQFT_ADJUSTMENT", "false").lower() in ("1", "true", "yes"): 
+                try:
+                    sqft_raw = quote_request.square_footage
+                    if sqft_raw:
+                        sqft = float(str(sqft_raw).replace("sq ft", "").replace(",", "").strip())
+                        # Add 0.25h per 500 sq ft above 800 sq ft (bounded)
+                        additional = max(0.0, (sqft - 800.0) / 500.0 * 0.25)
+                        base_hours += min(additional, 2.0)
+                except Exception:
+                    pass
         
         return base_hours
     
     def _calculate_stair_time(self, quote_request: QuoteRequest) -> float:
         """Calculate additional time for stairs - GENERAL RULE FOR ALL VENDORS"""
-        # General rule: 15 minutes per flight of stairs (up or down)
-        # This accounts for the extra time to carry items up/down stairs
-        stair_time_per_flight = 0.25  # 15 minutes = 0.25 hours
+        # General rule: 15 minutes per flight of stairs; elevator reduces to ~6 minutes
+        stair_time_per_flight = 0.25
+        stair_time_per_flight_with_elevator = 0.1
         
         total_stair_time = 0
         
-        # Add time for pickup stairs
+        # Add time for pickup stairs (reduce if elevator present)
         if quote_request.stairs_at_pickup > 0:
-            total_stair_time += quote_request.stairs_at_pickup * stair_time_per_flight
+            per_flight = stair_time_per_flight_with_elevator if quote_request.elevator_at_pickup else stair_time_per_flight
+            total_stair_time += quote_request.stairs_at_pickup * per_flight
         
-        # Add time for dropoff stairs  
+        # Add time for dropoff stairs  (reduce if elevator present)
         if quote_request.stairs_at_dropoff > 0:
-            total_stair_time += quote_request.stairs_at_dropoff * stair_time_per_flight
+            per_flight = stair_time_per_flight_with_elevator if quote_request.elevator_at_dropoff else stair_time_per_flight
+            total_stair_time += quote_request.stairs_at_dropoff * per_flight
         
         return total_stair_time
     
@@ -1493,27 +1507,38 @@ class Easy2GoCalculator(VendorCalculator):
             1: 3.5, 2: 4.5, 3: 5.5, 4: 6.5, 5: 7.5, 6: 8.5, 7: 9.5
         }.get(room_count, 7.5)
         
-        # Add stair time if quote_request is provided
+        # Add stair time if quote_request is provided (elevators reduce stair impact)
         if quote_request:
             stair_time = self._calculate_stair_time(quote_request)
             base_hours += stair_time
+            import os
+            if os.getenv("ENABLE_SQFT_ADJUSTMENT", "false").lower() in ("1", "true", "yes"):
+                try:
+                    sqft_raw = quote_request.square_footage
+                    if sqft_raw:
+                        sqft = float(str(sqft_raw).replace("sq ft", "").replace(",", "").strip())
+                        additional = max(0.0, (sqft - 800.0) / 500.0 * 0.25)
+                        base_hours += min(additional, 2.0)
+                except Exception:
+                    pass
         
         return base_hours
     
     def _calculate_stair_time(self, quote_request: QuoteRequest) -> float:
         """Calculate additional time for stairs - GENERAL RULE FOR ALL VENDORS"""
-        # General rule: 15 minutes per flight of stairs (up or down)
-        stair_time_per_flight = 0.25  # 15 minutes = 0.25 hours
+        # General rule: 15 minutes per flight; elevator reduces to ~6 minutes
+        stair_time_per_flight = 0.25
+        stair_time_per_flight_with_elevator = 0.1
         
         total_stair_time = 0
         
-        # Add time for pickup stairs
         if quote_request.stairs_at_pickup > 0:
-            total_stair_time += quote_request.stairs_at_pickup * stair_time_per_flight
+            per_flight = stair_time_per_flight_with_elevator if quote_request.elevator_at_pickup else stair_time_per_flight
+            total_stair_time += quote_request.stairs_at_pickup * per_flight
         
-        # Add time for dropoff stairs  
         if quote_request.stairs_at_dropoff > 0:
-            total_stair_time += quote_request.stairs_at_dropoff * stair_time_per_flight
+            per_flight = stair_time_per_flight_with_elevator if quote_request.elevator_at_dropoff else stair_time_per_flight
+            total_stair_time += quote_request.stairs_at_dropoff * per_flight
         
         return total_stair_time
     
@@ -1694,27 +1719,38 @@ class VelocityMoversCalculator(VendorCalculator):
             1: 3.5, 2: 4.5, 3: 5.5, 4: 6.5, 5: 7.5, 6: 8.5, 7: 9.5
         }.get(room_count, 7.5)
         
-        # Add stair time if quote_request is provided
+        # Add stair time if quote_request is provided (elevators reduce stair impact)
         if quote_request:
             stair_time = self._calculate_stair_time(quote_request)
             base_hours += stair_time
+            import os
+            if os.getenv("ENABLE_SQFT_ADJUSTMENT", "false").lower() in ("1", "true", "yes"):
+                try:
+                    sqft_raw = quote_request.square_footage
+                    if sqft_raw:
+                        sqft = float(str(sqft_raw).replace("sq ft", "").replace(",", "").strip())
+                        additional = max(0.0, (sqft - 800.0) / 500.0 * 0.25)
+                        base_hours += min(additional, 2.0)
+                except Exception:
+                    pass
         
         return base_hours
     
     def _calculate_stair_time(self, quote_request: QuoteRequest) -> float:
         """Calculate additional time for stairs - GENERAL RULE FOR ALL VENDORS"""
-        # General rule: 15 minutes per flight of stairs (up or down)
-        stair_time_per_flight = 0.25  # 15 minutes = 0.25 hours
+        # General rule: 15 minutes per flight; elevator reduces to ~6 minutes
+        stair_time_per_flight = 0.25
+        stair_time_per_flight_with_elevator = 0.1
         
         total_stair_time = 0
         
-        # Add time for pickup stairs
         if quote_request.stairs_at_pickup > 0:
-            total_stair_time += quote_request.stairs_at_pickup * stair_time_per_flight
+            per_flight = stair_time_per_flight_with_elevator if quote_request.elevator_at_pickup else stair_time_per_flight
+            total_stair_time += quote_request.stairs_at_pickup * per_flight
         
-        # Add time for dropoff stairs  
         if quote_request.stairs_at_dropoff > 0:
-            total_stair_time += quote_request.stairs_at_dropoff * stair_time_per_flight
+            per_flight = stair_time_per_flight_with_elevator if quote_request.elevator_at_dropoff else stair_time_per_flight
+            total_stair_time += quote_request.stairs_at_dropoff * per_flight
         
         return total_stair_time
     
