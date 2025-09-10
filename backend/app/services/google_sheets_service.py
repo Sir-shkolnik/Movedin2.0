@@ -1196,8 +1196,8 @@ class GoogleSheetsService:
         pricing_tables = self._robust_extract_pricing_tables(rows)
         # Extract calendar data (daily/monthly rates)
         calendar_data = self._robust_extract_calendar_data(rows)
-        # Get dispatcher/location name and address
-        name = location_details.get('name', '') or location_details.get('address', '').split(',')[0]
+        # Get dispatcher/location name and address with improved extraction
+        name = self._extract_best_location_name(location_details, gid)
         address = location_details.get('address', '')
         # Geocode address for coordinates
         coordinates = mapbox_service.get_coordinates(address) if address else None
@@ -1386,6 +1386,42 @@ class GoogleSheetsService:
         
         print(f"LGM Calendar: Extracted {len(calendar_data['daily_rates'])} daily rates")
         return calendar_data
+
+    def _extract_best_location_name(self, location_details: dict, gid: str = None) -> str:
+        """Extract the best location name from various sources"""
+        import re
+        
+        # Priority 1: Use GID mapping if available
+        if gid and gid in self.gid_location_mapping:
+            return self.gid_location_mapping[gid]
+        
+        # Priority 2: Use location name from details
+        if 'name' in location_details and location_details['name']:
+            name = location_details['name'].strip()
+            # Clean up common prefixes
+            name = re.sub(r'^LOCATION DETAILS:\s*', '', name)
+            name = re.sub(r'^Owner:\s*', '', name)
+            if name and name != 'GID_' + str(gid):
+                return name
+        
+        # Priority 3: Extract from address
+        if 'address' in location_details and location_details['address']:
+            address = location_details['address']
+            # Try to extract city name from address
+            # Pattern: "City, Province" or "City, State"
+            city_match = re.search(r'^([^,]+),\s*[A-Z]{2}', address)
+            if city_match:
+                city = city_match.group(1).strip()
+                # Clean up common prefixes
+                city = re.sub(r'^ADDRESS:\s*', '', city)
+                if city:
+                    return city
+        
+        # Priority 4: Use GID as fallback
+        if gid:
+            return f"Location_{gid}"
+        
+        return "Unknown Location"
 
     def list_public_tab_gids(self, spreadsheet_id: str) -> list:
         """List all public tab GIDs and names from the spreadsheet by scraping the HTML."""

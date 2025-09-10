@@ -183,6 +183,41 @@ class MapboxService:
         
         return None
     
+    def get_province_from_coordinates(self, lat: float, lng: float) -> Optional[str]:
+        """Get province/state from coordinates using reverse geocoding"""
+        try:
+            url = f"{self.base_url}/geocoding/v5/mapbox.places/{lng},{lat}.json"
+            params = {
+                'access_token': self.access_token,
+                'types': 'region,place',
+                'limit': '1'
+            }
+            
+            response = requests.get(url, params=params, timeout=self.timeout)
+            response.raise_for_status()
+            data = response.json()
+            
+            if data.get('features'):
+                feature = data['features'][0]
+                context = feature.get('context', [])
+                
+                # Look for province/state in context
+                for item in context:
+                    if 'id' in item:
+                        item_id = item['id']
+                        if 'province' in item_id or 'state' in item_id:
+                            return item.get('text', '').upper()
+                
+                # Fallback: check the main feature
+                if 'place_type' in feature and 'region' in feature['place_type']:
+                    return feature.get('text', '').upper()
+            
+            return None
+            
+        except Exception as e:
+            print(f"Error getting province from coordinates: {e}")
+            return None
+
     def get_coordinates(self, address: str) -> Optional[Tuple[float, float]]:
         """Get coordinates for an address with smart GTA-aware geocoding logic"""
         features = self.geocode_address(address)

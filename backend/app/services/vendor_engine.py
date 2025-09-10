@@ -661,21 +661,29 @@ class GeographicVendorDispatcher:
                 # Add more mappings as needed
             }
             
-            # Find the closest dispatcher using Google Sheets data format
+            # Find the closest dispatcher using improved geographic logic
             best_gid = None
             min_distance = float('inf')
             
-            # Get user coordinates
+            # Get user coordinates and province
             try:
                 user_coords = mapbox_service.get_coordinates(origin)
                 if not user_coords:
                     logger.warning("Could not get user coordinates")
                     return None
+                
+                # Get user province for geographic filtering
+                user_province = mapbox_service.get_province_from_coordinates(user_coords[0], user_coords[1])
+                logger.info(f"User location: {origin} -> {user_coords} -> Province: {user_province}")
+                
             except Exception as e:
                 logger.warning(f"Error getting user coordinates: {e}")
                 return None
             
-            # Find closest dispatcher
+            # Find closest dispatcher with improved geographic logic
+            same_province_dispatchers = []
+            other_province_dispatchers = []
+            
             for gid, dispatcher_data in all_dispatchers.items():
                 # Get coordinates from Google Sheets format - handle both formats
                 lat = None
@@ -699,63 +707,75 @@ class GeographicVendorDispatcher:
                         logger.info(f"Using hardcoded coordinates for {location_name}: ({lat}, {lng})")
                 
                 if lat and lng:
-                    # Calculate distance using Haversine formula
-                    import math
-                    R = 6371  # Earth radius in km
-                    lat1, lon1 = math.radians(user_coords[0]), math.radians(user_coords[1])
-                    lat2, lon2 = math.radians(lat), math.radians(lng)
-                    dlat = lat2 - lat1
-                    dlon = lon2 - lon1
-                    a = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2
-                    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
-                    distance = R * c
-                    
-                    # Apply GTA priority scoring
+                    # Get dispatcher province for geographic filtering
+                    dispatcher_province = mapbox_service.get_province_from_coordinates(lat, lng)
                     location_name = dispatcher_data.get('location', '')
-                    gta_priority_score = 0
                     
-                    # Check if origin is in GTA
-                    origin_lower = origin.lower()
-                    is_gta_origin = any(city in origin_lower for city in [
-                        'toronto', 'mississauga', 'brampton', 'vaughan', 'markham', 
-                        'richmond hill', 'oakville', 'burlington', 'hamilton', 'ajax', 
-                        'pickering', 'whitby', 'oshawa', 'aurora', 'barrie', 'scarborough', 
+                    # Categorize dispatchers by province
+                    if user_province and dispatcher_province and user_province == dispatcher_province:
+                        same_province_dispatchers.append((gid, dispatcher_data, lat, lng, location_name))
+                    else:
+                        other_province_dispatchers.append((gid, dispatcher_data, lat, lng, location_name))
+            
+            # Use same-province dispatchers first, fallback to others if none found
+            dispatcher_candidates = same_province_dispatchers if same_province_dispatchers else other_province_dispatchers
+            logger.info(f"Found {len(same_province_dispatchers)} same-province and {len(other_province_dispatchers)} other-province dispatchers")
+            
+            for gid, dispatcher_data, lat, lng, location_name in dispatcher_candidates:
+                # Calculate distance using Haversine formula
+                import math
+                R = 6371  # Earth radius in km
+                lat1, lon1 = math.radians(user_coords[0]), math.radians(user_coords[1])
+                lat2, lon2 = math.radians(lat), math.radians(lng)
+                dlat = lat2 - lat1
+                dlon = lon2 - lon1
+                a = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2
+                c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+                distance = R * c
+                
+                # Apply GTA priority scoring
+                gta_priority_score = 0
+                
+                # Check if origin is in GTA
+                origin_lower = origin.lower()
+                is_gta_origin = any(city in origin_lower for city in [
+                    'toronto', 'mississauga', 'brampton', 'vaughan', 'markham', 
+                    'richmond hill', 'oakville', 'burlington', 'hamilton', 'ajax', 
+                    'pickering', 'whitby', 'oshawa', 'aurora', 'barrie', 'scarborough', 
+                    'etobicoke', 'north york', 'york', 'east york'
+                ])
+                
+                # If origin is in GTA, prioritize GTA dispatchers
+                if is_gta_origin:
+                    # Check if dispatcher location name contains GTA city names
+                    location_lower = location_name.lower()
+                    gta_cities_in_dispatcher = [
+                        'toronto', 'mississauga', 'brampton', 'vaughan', 'markham',
+                        'richmond hill', 'oakville', 'burlington', 'hamilton', 'ajax',
+                        'pickering', 'whitby', 'oshawa', 'aurora', 'barrie', 'scarborough',
                         'etobicoke', 'north york', 'york', 'east york'
-                    ])
+                    ]
                     
-                    # If origin is in GTA, prioritize GTA dispatchers
-                    if is_gta_origin:
-                        # Check if dispatcher location name contains GTA city names
-                        location_lower = location_name.lower()
-                        gta_cities_in_dispatcher = [
-                            'toronto', 'mississauga', 'brampton', 'vaughan', 'markham',
-                            'richmond hill', 'oakville', 'burlington', 'hamilton', 'ajax',
-                            'pickering', 'whitby', 'oshawa', 'aurora', 'barrie', 'scarborough',
-                            'etobicoke', 'north york', 'york', 'east york'
-                        ]
-                        
-                        for city in gta_cities_in_dispatcher:
-                            if city in location_lower:
-                                gta_priority_score = 1000  # High priority for GTA dispatchers
-                                break
-                        
-                        # Penalize non-GTA dispatchers
-                        non_gta_indicators = ['saint john', 'halifax', 'moncton', 'fredericton', 'new brunswick', 'nova scotia']
-                        for indicator in non_gta_indicators:
-                            if indicator in location_lower:
-                                gta_priority_score = -1000  # Low priority for non-GTA dispatchers
-                                break
+                    for city in gta_cities_in_dispatcher:
+                        if city in location_lower:
+                            gta_priority_score = 1000  # High priority for GTA dispatchers
+                            break
                     
-                    # Apply priority score to distance
-                    adjusted_distance = distance - gta_priority_score
-                    
-                    logger.info(f"Dispatcher {gid} ({location_name}) at ({lat}, {lng}) - distance: {distance:.2f}km, priority_score: {gta_priority_score}, adjusted_distance: {adjusted_distance:.2f}km")
-                    
-                    if adjusted_distance < min_distance:
-                        min_distance = adjusted_distance
-                        best_gid = gid
-                else:
-                    logger.warning(f"Dispatcher {gid} has no coordinates: lat={lat}, lng={lng}")
+                    # Penalize non-GTA dispatchers
+                    non_gta_indicators = ['saint john', 'halifax', 'moncton', 'fredericton', 'new brunswick', 'nova scotia']
+                    for indicator in non_gta_indicators:
+                        if indicator in location_lower:
+                            gta_priority_score = -1000  # Low priority for non-GTA dispatchers
+                            break
+                
+                # Apply priority score to distance
+                adjusted_distance = distance - gta_priority_score
+                
+                logger.info(f"Dispatcher {gid} ({location_name}) at ({lat}, {lng}) - distance: {distance:.2f}km, priority_score: {gta_priority_score}, adjusted_distance: {adjusted_distance:.2f}km")
+                
+                if adjusted_distance < min_distance:
+                    min_distance = adjusted_distance
+                    best_gid = gid
             
             if not best_gid:
                 logger.warning("No suitable dispatcher found with coordinates")
