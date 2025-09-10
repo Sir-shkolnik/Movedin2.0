@@ -92,49 +92,50 @@ const Header: React.FC = () => {
                         <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                 </button>
+                
+                {/* Mobile Dropdown Menu */}
+                {menuOpen && (
+                    <div className="mobile-dropdown-menu">
+                        <nav className="mobile-nav">
+                            <Link
+                                to="/quote"
+                                className={`mobile-nav-link ${isActive('/quote') ? 'active' : ''}`}
+                                onClick={handleNavClick}
+                            >
+                                Get a quote
+                            </Link>
+                            <Link
+                                to="/how-it-works"
+                                className={`mobile-nav-link ${isActive('/how-it-works') ? 'active' : ''}`}
+                                onClick={handleNavClick}
+                            >
+                                How it works
+                            </Link>
+                            <Link
+                                to="/tips-guides"
+                                className={`mobile-nav-link ${isActive('/tips-guides') ? 'active' : ''}`}
+                                onClick={handleNavClick}
+                            >
+                                Tips & Guides
+                            </Link>
+                            <Link
+                                to="/about-us"
+                                className={`mobile-nav-link ${isActive('/about-us') ? 'active' : ''}`}
+                                onClick={handleNavClick}
+                            >
+                                About us
+                            </Link>
+                            <Link
+                                to="/admin"
+                                className={`mobile-nav-link ${isActive('/admin') ? 'active' : ''}`}
+                                onClick={handleNavClick}
+                            >
+                                Admin
+                            </Link>
+                        </nav>
+                    </div>
+                )}
             </div>
-            {/* Mobile Dropdown Menu */}
-            {menuOpen && (
-                <div className="mobile-dropdown-menu">
-                    <nav className="mobile-nav">
-                        <Link
-                            to="/quote"
-                            className={`mobile-nav-link ${isActive('/quote') ? 'active' : ''}`}
-                            onClick={handleNavClick}
-                        >
-                            Get a quote
-                        </Link>
-                        <Link
-                            to="/how-it-works"
-                            className={`mobile-nav-link ${isActive('/how-it-works') ? 'active' : ''}`}
-                            onClick={handleNavClick}
-                        >
-                            How it works
-                        </Link>
-                        <Link
-                            to="/tips-guides"
-                            className={`mobile-nav-link ${isActive('/tips-guides') ? 'active' : ''}`}
-                            onClick={handleNavClick}
-                        >
-                            Tips & Guides
-                        </Link>
-                        <Link
-                            to="/about-us"
-                            className={`mobile-nav-link ${isActive('/about-us') ? 'active' : ''}`}
-                            onClick={handleNavClick}
-                        >
-                            About us
-                        </Link>
-                        <Link
-                            to="/admin"
-                            className={`mobile-nav-link ${isActive('/admin') ? 'active' : ''}`}
-                            onClick={handleNavClick}
-                        >
-                            Admin
-                        </Link>
-                    </nav>
-                </div>
-            )}
         </header>
     );
 };
