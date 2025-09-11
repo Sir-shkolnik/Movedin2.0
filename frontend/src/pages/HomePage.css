@@ -85,8 +85,8 @@ body:has(.homepage-container) {
 }
 
 .homepage-container .hero-cta-button {
-    background: #6938EF;
-    color: #FFFFFF;
+    background: var(--primary-color);
+    color: var(--text-white);
     border: none;
     padding: 1.2rem 2.5rem;
     font-size: 1.2rem;
@@ -95,13 +95,11 @@ body:has(.homepage-container) {
     cursor: pointer;
     transition: all 0.3s ease;
     display: inline-block;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .homepage-container .hero-cta-button:hover {
-    background: #5925DC;
+    background: var(--primary-hover);
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .homepage-container .hero-trust {
