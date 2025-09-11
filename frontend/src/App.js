@@ -110,7 +110,7 @@ function AppInner() {
         continueButtonText = "Pay $1.00 CAD Deposit";
         continueAction = () => {
             // Trigger payment action in Step5 component (now Step6)
-            const step5Element = document.querySelector('.step6-modern');
+            const step5Element = document.querySelector('.step-card');
             if (step5Element) {
                 const payButton = step5Element.querySelector('.pay-button-modern');
                 if (payButton && !payButton.disabled) {

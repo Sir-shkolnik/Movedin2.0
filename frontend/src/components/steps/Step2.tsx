@@ -4,6 +4,7 @@ import { useForm } from '../../contexts/FormContext';
 
 const homeTypes = [
     { value: 'house', label: 'House' },
+    { value: 'townhouse', label: 'TownHouse' },
     { value: 'condo', label: 'Condo' },
     { value: 'apartment', label: 'Apartment' },
     { value: 'commercial', label: 'Commercial' },
@@ -49,7 +50,7 @@ interface Step2Props {
 const Step2: React.FC<Step2Props> = ({ onNext, onBack }) => {
     const { data, setData } = useForm();
     
-    const [homeType, setHomeType] = useState(data.fromDetails?.homeType || 'house');
+    const [homeType, setHomeType] = useState<'house' | 'townhouse' | 'condo' | 'apartment' | 'commercial'>(data.fromDetails?.homeType || 'house');
     const [rooms, setRooms] = useState(() => {
         const initialRooms = data.fromDetails?.rooms;
         console.log('Step 2 - Initializing rooms state:', { 
@@ -90,9 +91,9 @@ const Step2: React.FC<Step2Props> = ({ onNext, onBack }) => {
                 treadmill: heavyItems.treadmill ? 1 : 0,
             },
             additionalServices: additional,
-            floors: homeType === 'house' ? floors : undefined,
-            garage: homeType === 'house' ? garage : undefined,
-            stairs: homeType === 'house' ? stairs : undefined,
+            floors: homeType === 'house' || homeType === 'townhouse' ? floors : undefined,
+            garage: homeType === 'house' || homeType === 'townhouse' ? garage : undefined,
+            stairs: homeType === 'house' || homeType === 'townhouse' ? stairs : undefined,
             floorNumber: homeType === 'condo' || homeType === 'apartment' ? floorNumber : undefined,
             elevator: homeType === 'condo' || homeType === 'apartment' ? elevator : undefined,
             loadingDock: homeType === 'condo' || homeType === 'apartment' ? loadingDock : undefined,
@@ -124,9 +125,9 @@ const Step2: React.FC<Step2Props> = ({ onNext, onBack }) => {
             },
             additionalServices: additional,
             // House
-            floors: homeType === 'house' ? floors : undefined,
-            garage: homeType === 'house' ? garage : undefined,
-            stairs: homeType === 'house' ? stairs : undefined,
+            floors: homeType === 'house' || homeType === 'townhouse' ? floors : undefined,
+            garage: homeType === 'house' || homeType === 'townhouse' ? garage : undefined,
+            stairs: homeType === 'house' || homeType === 'townhouse' ? stairs : undefined,
             // Condo/Apartment
             floorNumber: homeType === 'condo' || homeType === 'apartment' ? floorNumber : undefined,
             elevator: homeType === 'condo' || homeType === 'apartment' ? elevator : undefined,
@@ -160,7 +161,7 @@ const Step2: React.FC<Step2Props> = ({ onNext, onBack }) => {
                 </label>
                 <select 
                     value={homeType} 
-                    onChange={e => setHomeType(e.target.value as 'house' | 'condo' | 'apartment' | 'commercial')}
+                    onChange={e => setHomeType(e.target.value as 'house' | 'townhouse' | 'condo' | 'apartment' | 'commercial')}
                     className="autocomplete-input"
                 >
                     {homeTypes.map(ht => (
@@ -171,9 +172,11 @@ const Step2: React.FC<Step2Props> = ({ onNext, onBack }) => {
                 </select>
             </div>
 
-            {homeType === 'house' && (
+            {(homeType === 'house' || homeType === 'townhouse') && (
                 <>
-                    <div className="form-section-header">House Details</div>
+                    <div className="form-section-header">
+                        {homeType === 'house' ? 'House Details' : 'TownHouse Details'}
+                    </div>
                     <GroupedDropdowns>
                         <div className="form-group">
                             <label>Floors</label>
