@@ -102,6 +102,48 @@ npm run dev
 - **Manual**: Use Render dashboard for manual deployments
 - **Environment**: All secrets configured in Render environment variables
 
+## 📝 **Git Push Guidelines**
+
+### **✅ What TO Push**
+- **Code changes**: All `.tsx`, `.ts`, `.js`, `.py` files
+- **Configuration**: `package.json`, `requirements.txt`, `Dockerfile*`
+- **Documentation**: `.md` files in root and `/DOCUMENTATION`
+- **Assets**: Images, icons, CSS files in `/frontend/src` and `/frontend/public`
+- **Scripts**: Build and deployment scripts in `/scripts`
+
+### **❌ What NOT to Push**
+- **Environment files**: `.env`, `.env.local`, `.env.production`
+- **API keys**: Any files containing `STRIPE_SECRET_KEY`, `SMTP_PASSWORD`, etc.
+- **Database files**: `.db`, `.sqlite` files
+- **Logs**: `*.log` files, `debug_logs/` directory
+- **Node modules**: `node_modules/` directory
+- **Build artifacts**: `dist/`, `build/` directories
+- **IDE files**: `.vscode/`, `.idea/` directories
+- **OS files**: `.DS_Store`, `Thumbs.db`
+
+### **🔧 Push Commands**
+
+```bash
+# Check status
+git status
+
+# Add all changes (respects .gitignore)
+git add -A
+
+# Commit with descriptive message
+git commit -m "fix: Auto-detect Stripe redirect to Step7 and add favicon"
+
+# Push to GitHub (triggers Render deployment)
+git push origin main
+```
+
+### **⚠️ Important Notes**
+- **Always test locally** before pushing
+- **Use descriptive commit messages** following conventional commits
+- **Check .gitignore** ensures sensitive files are excluded
+- **Render auto-deploys** on push to `main` branch (~60 seconds)
+- **Collaborator access**: `udishkolnik` has write access to repository
+
 ## 📋 **API Endpoints**
 
 ### **Core APIs**

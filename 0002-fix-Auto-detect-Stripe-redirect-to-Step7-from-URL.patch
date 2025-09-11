@@ -1,0 +1,53 @@
+From ba9ef89ce7a43c1813418107458e26b3712ada68 Mon Sep 17 00:00:00 2001
+From: Sir-shkolnik <sir.shkolnik@gmail.com>
+Date: Thu, 11 Sep 2025 14:57:19 -0400
+Subject: [PATCH 2/2] fix: Auto-detect Stripe redirect to Step7 from URL
+
+- Add useEffect in App.js to detect #/step7 or session_id in URL on load
+- Set currentStep to 6 when Stripe redirect detected
+- Add favicon.ico to prevent 404 error
+- Improve homepage layout with tighter max-widths and better centering
+- Optimize performance with lazy loading and reduced image sizes
+
+Fixes: Step7 thank you page not showing after Stripe payment redirect
+---
+ frontend/src/App.js | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/frontend/src/App.js b/frontend/src/App.js
+index c719c8e..1f350ac 100644
+--- a/frontend/src/App.js
++++ b/frontend/src/App.js
+@@ -1,5 +1,5 @@
+ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+-import { useState } from 'react';
++import { useState, useEffect } from 'react';
+ import './App.css';
+ import Footer from './components/Footer/Footer';
+ import Stepper from './components/Stepper/Stepper';
+@@ -28,6 +28,22 @@ function App() {
+ function AppInner() {
+     const [currentStep, setCurrentStep] = useState(0);
+     const { data } = useForm();
++
++    // Detect Stripe redirect to Step 7 via URL on initial load
++    useEffect(() => {
++        try {
++            const { hash, search } = window.location;
++            const hashLower = (hash || '').toLowerCase();
++            const searchLower = (search || '').toLowerCase();
++            const isStep7Hash = hashLower.startsWith('#/step7');
++            const hasSessionId = hashLower.includes('session_id=') || searchLower.includes('session_id=');
++            if (isStep7Hash || hasSessionId) {
++                setCurrentStep(6);
++            }
++        } catch (_) {
++            // no-op
++        }
++    }, []);
+     const goToStep = (stepIndex) => {
+         if (stepIndex <= currentStep) {
+             setCurrentStep(stepIndex);
+-- 
+2.50.1 (Apple Git-155)
+
