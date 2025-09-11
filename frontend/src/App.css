@@ -102,6 +102,13 @@ body {
         gap: 0;
         overflow-x: hidden; /* Prevent horizontal scrolling */
     }
+    .stepper-sidebar {
+        position: fixed !important;
+        top: 48px !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 100 !important;
+    }
     .footer {
         position: fixed;
         left: 0;
@@ -126,7 +133,7 @@ body {
     .step-content {
         width: 100%;
         box-sizing: border-box;
-        padding: 16px 8px 80px 8px; /* Add bottom padding for fixed footer */
+        padding: 88px 8px 80px 8px; /* Add top padding for fixed stepper (72px + 16px) and bottom padding for fixed footer */
         margin-top: 0;
         align-items: center;
         min-width: 0; /* Remove fixed minimum width */
