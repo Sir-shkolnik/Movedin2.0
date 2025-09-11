@@ -557,39 +557,65 @@ class DispatcherCacheService:
             return R * c
         
         def has_complete_data(data: Dict[str, Any]) -> bool:
-            """Check if dispatcher has complete data - relaxed for Let's Get Moving"""
-            location_details = data.get('location_details', {})
-            calendar_data = data.get('calendar_data', {})
-            daily_rates = calendar_data.get('daily_rates', {})
+            """Check if dispatcher has complete data - handles both smart parser and regular structure"""
+            # Handle smart parser structure (calendar_hourly_price, metadata)
+            if 'calendar_hourly_price' in data and 'metadata' in data:
+                location_name = data.get('location', '')
+                calendar_data = data.get('calendar_hourly_price', {})
+                metadata = data.get('metadata', {})
+                
+                # Check if we have a location name
+                has_location = location_name and location_name != 'Unknown' and location_name != ''
+                
+                # Check if we have daily rates (at least some)
+                has_rates = len(calendar_data) > 0
+                
+                if has_location and has_rates:
+                    logger.info(f"✅ Smart parser dispatcher has complete data: {location_name} with {len(calendar_data)} rates")
+                    return True
+                
+                # Log what we're missing for debugging
+                if not has_location:
+                    logger.warning(f"❌ Smart parser missing location name for dispatcher")
+                if not has_rates:
+                    logger.warning(f"❌ Smart parser missing daily rates for dispatcher")
+                
+                return False
             
-            # Check if we have a location name
-            has_location = location_details.get('name') and location_details.get('name') != 'Unknown'
-            
-            # Check if we have daily rates (at least some)
-            has_rates = len(daily_rates) > 0
-            
-            # For Let's Get Moving, coordinates are optional (we can use address-based fallback)
-            has_coordinates = False
-            if data.get('coordinates'):
-                coords = data.get('coordinates', {})
-                if isinstance(coords, dict) and coords.get('lat') and coords.get('lng'):
-                    has_coordinates = True
-                elif isinstance(coords, (list, tuple)) and len(coords) == 2:
-                    has_coordinates = True
-            
-            # For Let's Get Moving, we only require location name and daily rates
-            # Coordinates are nice to have but not required
-            if has_location and has_rates:
-                logger.info(f"✅ Dispatcher has complete data: {location_details.get('name')} with {len(daily_rates)} rates")
-                return True
-            
-            # Log what we're missing for debugging
-            if not has_location:
-                logger.warning(f"❌ Missing location name for dispatcher")
-            if not has_rates:
-                logger.warning(f"❌ Missing daily rates for dispatcher")
-            
-            return False
+            # Handle regular structure (location_details, calendar_data)
+            else:
+                location_details = data.get('location_details', {})
+                calendar_data = data.get('calendar_data', {})
+                daily_rates = calendar_data.get('daily_rates', {})
+                
+                # Check if we have a location name
+                has_location = location_details.get('name') and location_details.get('name') != 'Unknown'
+                
+                # Check if we have daily rates (at least some)
+                has_rates = len(daily_rates) > 0
+                
+                # For Let's Get Moving, coordinates are optional (we can use address-based fallback)
+                has_coordinates = False
+                if data.get('coordinates'):
+                    coords = data.get('coordinates', {})
+                    if isinstance(coords, dict) and coords.get('lat') and coords.get('lng'):
+                        has_coordinates = True
+                    elif isinstance(coords, (list, tuple)) and len(coords) == 2:
+                        has_coordinates = True
+                
+                # For Let's Get Moving, we only require location name and daily rates
+                # Coordinates are nice to have but not required
+                if has_location and has_rates:
+                    logger.info(f"✅ Regular dispatcher has complete data: {location_details.get('name')} with {len(daily_rates)} rates")
+                    return True
+                
+                # Log what we're missing for debugging
+                if not has_location:
+                    logger.warning(f"❌ Regular missing location name for dispatcher")
+                if not has_rates:
+                    logger.warning(f"❌ Regular missing daily rates for dispatcher")
+                
+                return False
         
         def is_valid_service_area(dispatcher_name: str, user_address: str) -> bool:
             """Validate service area - TRUE geographic logic only"""
@@ -659,12 +685,22 @@ class DispatcherCacheService:
             # Debug: Log the data structure
             logger.info(f"🔍 Dispatcher {gid} data structure: {list(data.keys())}")
             
-            location_details = data.get('location_details', {})
-            name = location_details.get('name', 'Unknown')
-            coords = data.get('coordinates', {})
-            
-            # Debug: Log what we're checking
-            logger.info(f"🔍 Checking {name}: location_details={list(location_details.keys())}, calendar_data={list(data.get('calendar_data', {}).keys())}")
+            # Handle smart parser structure
+            if 'calendar_hourly_price' in data and 'metadata' in data:
+                name = data.get('location', 'Unknown')
+                coords = data.get('coordinates', {})
+                metadata = data.get('metadata', {})
+                
+                # Debug: Log what we're checking
+                logger.info(f"🔍 Smart parser checking {name}: metadata={list(metadata.keys())}, calendar_hourly_price={len(data.get('calendar_hourly_price', {}))}")
+            else:
+                # Handle regular structure
+                location_details = data.get('location_details', {})
+                name = location_details.get('name', 'Unknown')
+                coords = data.get('coordinates', {})
+                
+                # Debug: Log what we're checking
+                logger.info(f"🔍 Regular checking {name}: location_details={list(location_details.keys())}, calendar_data={list(data.get('calendar_data', {}).keys())}")
             
             # Only consider dispatchers with complete data
             if not has_complete_data(data):
