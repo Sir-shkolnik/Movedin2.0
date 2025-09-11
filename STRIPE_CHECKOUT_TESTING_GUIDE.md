@@ -1,5 +1,49 @@
 # 🧪 STRIPE CHECKOUT TESTING GUIDE
 
+## ✅ System Verified (September 11, 2025)
+
+End-to-end Stripe Checkout flow verified in production:
+
+- Create Checkout Session (Step 6): working
+- Redirect back to Step 7 with session_id in search or hash: working
+- Verify Checkout Session (Step 7): working; Lead updated to payment_completed
+- Email logging: working (file-based when SMTP disabled)
+- Debug logs: working (per-lead timeline available)
+
+Key curl commands:
+
+```bash
+# 1) Create Checkout Session (Step 6)
+curl -X POST "https://movedin-backend.onrender.com/api/create-checkout-session" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 100,
+    "currency": "cad",
+    "contact": {"firstName": "Test", "lastName": "User", "email": "test@example.com", "phone": "4161234567"},
+    "quote_data": {"originAddress": "Toronto, ON", "destinationAddress": "Mississauga, ON", "moveDate": "2025-09-25", "moveTime": "Morning", "totalRooms": 2, "squareFootage": "2 Bedrooms"},
+    "vendor": {"vendor_slug": "pierre-sons"}
+  }'
+
+# 2) Verify Checkout Session (Step 7) – replace with real session id
+curl -X POST "https://movedin-backend.onrender.com/api/verify-checkout-session" \
+  -H "Content-Type: application/json" \
+  -d '{"session_id": "cs_live_..."}'
+
+# 3) Admin checks
+curl -X GET "https://movedin-backend.onrender.com/admin/leads"
+curl -X GET "https://movedin-backend.onrender.com/admin/comprehensive-stats"
+curl -X GET "https://movedin-backend.onrender.com/admin/debug-logs?lead_id=LEAD_ID"
+
+# 4) Email logging (file-based)
+curl -X POST "https://movedin-backend.onrender.com/api/test-email" \
+  -H "Content-Type: application/json" \
+  -d '{"to":"test@example.com","subject":"System Test","body":"Verifying email logging.","lead_id":123}'
+```
+
+Notes:
+- Step 7 logic handles `session_id` in both `location.search` and `location.hash`.
+- Additional services are set to $0 intentionally; vendors quote them after confirmation.
+
 **Date:** January 15, 2025  
 **Status:** ✅ **READY FOR TESTING**  
 **Purpose:** Test the new Stripe Checkout Session implementation
