@@ -626,238 +626,63 @@ class GeographicVendorDispatcher:
         try:
             # Use Google Sheets service directly (same as admin panel) for fresh data
             from app.services.google_sheets_service import google_sheets_service
-            logger.info("🔍 Calling google_sheets_service.get_all_dispatchers_data()...")
             all_dispatchers = google_sheets_service.get_all_dispatchers_data()
             
-            logger.info(f"📊 Loaded {len(all_dispatchers)} dispatchers from Google Sheets")
+            logger.info(f"Loaded {len(all_dispatchers)} dispatchers from Google Sheets")
             
             if not all_dispatchers:
-                logger.warning("❌ No dispatcher data available from Google Sheets")
+                logger.warning("No dispatcher data available from Google Sheets")
                 return None
             
-            # Log the first few dispatchers for debugging
-            for i, (gid, data) in enumerate(list(all_dispatchers.items())[:3]):
-                location_name = data.get('location', 'Unknown')
-                logger.info(f"  📍 Dispatcher {i+1}: GID {gid} = {location_name}")
-            
-            # Hardcoded GTA dispatcher coordinates as fallback
-            gta_dispatcher_coordinates = {
-                # Standard GTA location names
-                "TORONTO (NORTH YORK)": (43.7615, -79.4111),
-                "DOWNTOWN TORONTO": (43.6532, -79.3832),
-                "MISSISSAUGA": (43.5890, -79.6441),
-                "BRAMPTON": (43.6832, -79.7629),
-                "VAUGHAN": (43.8361, -79.4987),
-                "MARKHAM": (43.9068, -79.2629),
-                "RICHMOND HILL": (43.8828, -79.4403),
-                "OAKVILLE": (43.4675, -79.6877),
-                "BURLINGTON": (43.3255, -79.7990),
-                "HAMILTON": (43.2557, -79.8711),
-                "AJAX": (43.8509, -79.0205),
-                "PICKERING": (43.8384, -79.0868),
-                "WHITBY": (43.8975, -78.9428),
-                "OSHAWA": (43.8971, -78.8658),
-                "AURORA": (44.0001, -79.4663),
-                "BARRIE": (44.3894, -79.6903),
-                "SCARBOROUGH": (43.7764, -79.2318),
-                "ETOBICOKE": (43.6205, -79.5132),
-                "NORTH YORK": (43.7615, -79.4111),
-                "YORK": (43.6869, -79.4000),
-                "EAST YORK": (43.6900, -79.3400),
-                # Actual names from Google Sheets data (with GTA coordinates)
-                "SAINT JOHN": (43.6532, -79.3832),  # Map to Downtown Toronto coordinates
-                "HALIFAX": (43.5890, -79.6441),     # Map to Mississauga coordinates
-                "Owner:  Aerish 416-570-0828": (43.6832, -79.7629),  # Map to Brampton coordinates
-                "STARTING OCT 1ST": (43.9068, -79.2629),  # Map to Markham coordinates
-                "HALIFAX  Owner: Mahmoud": (43.8361, -79.4987),  # Map to Vaughan coordinates
-                # Add more mappings as needed
-            }
-            
-            # Find the closest dispatcher using improved geographic logic
-            best_gid = None
-            min_distance = float('inf')
-            
-            # Get user coordinates and province
-            try:
-                user_coords = mapbox_service.get_coordinates(origin)
-                if not user_coords:
-                    logger.warning("Could not get user coordinates")
-                    return None
-                
-                # Get user province for geographic filtering
-                user_province = mapbox_service.get_province_from_coordinates(user_coords[0], user_coords[1])
-                logger.info(f"User location: {origin} -> {user_coords} -> Province: {user_province}")
-                
-            except Exception as e:
-                logger.warning(f"Error getting user coordinates: {e}")
-                return None
-            
-            # Find closest dispatcher with improved geographic logic
-            same_province_dispatchers = []
-            other_province_dispatchers = []
-            
-            for gid, dispatcher_data in all_dispatchers.items():
-                # Get coordinates from Google Sheets format - handle both formats
-                lat = None
-                lng = None
-                
-                # Try direct lat/lng fields first
-                if 'lat' in dispatcher_data and 'lng' in dispatcher_data:
-                    lat = dispatcher_data.get('lat')
-                    lng = dispatcher_data.get('lng')
-                # Try coordinates dictionary format (from smart parser)
-                elif 'coordinates' in dispatcher_data:
-                    coords = dispatcher_data.get('coordinates', {})
-                    lat = coords.get('lat')
-                    lng = coords.get('lng')
-                
-                # If no coordinates found, try to get from location name using hardcoded GTA coordinates
-                if not lat or not lng:
-                    location_name = dispatcher_data.get('location', '')
-                    if location_name in gta_dispatcher_coordinates:
-                        lat, lng = gta_dispatcher_coordinates[location_name]
-                        logger.info(f"Using hardcoded coordinates for {location_name}: ({lat}, {lng})")
-                
-                if lat and lng:
-                    # Get dispatcher province for geographic filtering
-                    dispatcher_province = mapbox_service.get_province_from_coordinates(lat, lng)
-                    
-                    # Get proper location name from GID mapping or fallback to data
-                    location_name = self._get_proper_location_name(gid, dispatcher_data)
-                    
-                    # Categorize dispatchers by province
-                    if user_province and dispatcher_province and user_province == dispatcher_province:
-                        same_province_dispatchers.append((gid, dispatcher_data, lat, lng, location_name))
-                    else:
-                        other_province_dispatchers.append((gid, dispatcher_data, lat, lng, location_name))
-            
-            # Use same-province dispatchers first, fallback to others if none found
-            dispatcher_candidates = same_province_dispatchers if same_province_dispatchers else other_province_dispatchers
-            logger.info(f"Found {len(same_province_dispatchers)} same-province and {len(other_province_dispatchers)} other-province dispatchers")
-            
-            for gid, dispatcher_data, lat, lng, location_name in dispatcher_candidates:
-                # Calculate distance using Haversine formula
-                import math
-                R = 6371  # Earth radius in km
-                lat1, lon1 = math.radians(user_coords[0]), math.radians(user_coords[1])
-                lat2, lon2 = math.radians(lat), math.radians(lng)
-                dlat = lat2 - lat1
-                dlon = lon2 - lon1
-                a = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2
-                c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
-                distance = R * c
-                
-                # Apply GTA priority scoring
-                gta_priority_score = 0
-                
-                # Check if origin is in GTA
-                origin_lower = origin.lower()
-                is_gta_origin = any(city in origin_lower for city in [
-                    'toronto', 'mississauga', 'brampton', 'vaughan', 'markham', 
-                    'richmond hill', 'oakville', 'burlington', 'hamilton', 'ajax', 
-                    'pickering', 'whitby', 'oshawa', 'aurora', 'barrie', 'scarborough', 
-                    'etobicoke', 'north york', 'york', 'east york'
-                ])
-                
-                # If origin is in GTA, prioritize GTA dispatchers
-                if is_gta_origin:
-                    # Check if dispatcher location name contains GTA city names
-                    location_lower = location_name.lower()
-                    gta_cities_in_dispatcher = [
-                        'toronto', 'mississauga', 'brampton', 'vaughan', 'markham',
-                        'richmond hill', 'oakville', 'burlington', 'hamilton', 'ajax',
-                        'pickering', 'whitby', 'oshawa', 'aurora', 'barrie', 'scarborough',
-                        'etobicoke', 'north york', 'york', 'east york'
-                    ]
-                    
-                    for city in gta_cities_in_dispatcher:
-                        if city in location_lower:
-                            gta_priority_score = 1000  # High priority for GTA dispatchers
-                            break
-                    
-                    # Penalize non-GTA dispatchers
-                    non_gta_indicators = ['saint john', 'halifax', 'moncton', 'fredericton', 'new brunswick', 'nova scotia']
-                    for indicator in non_gta_indicators:
-                        if indicator in location_lower:
-                            gta_priority_score = -1000  # Low priority for non-GTA dispatchers
-                            break
-                
-                # Apply priority score to distance
-                adjusted_distance = distance - gta_priority_score
-                
-                logger.info(f"Dispatcher {gid} ({location_name}) at ({lat}, {lng}) - distance: {distance:.2f}km, priority_score: {gta_priority_score}, adjusted_distance: {adjusted_distance:.2f}km")
-                
-                if adjusted_distance < min_distance:
-                    min_distance = adjusted_distance
-                    best_gid = gid
+            # Use the dispatcher cache service to find the closest location (WORKING METHOD)
+            best_gid = dispatcher_cache_service.find_closest_location(origin, all_dispatchers)
             
             if not best_gid:
-                logger.warning("No suitable dispatcher found with coordinates")
+                logger.warning("No suitable dispatcher found")
                 return None
             
-            # Log dispatcher selection for monitoring
+            # Get dispatcher data
             best_dispatcher_data = all_dispatchers[best_gid]
-            selected_location = best_dispatcher_data.get('location', 'Unknown')
-            logger.info(f"🎯 SELECTED DISPATCHER: {selected_location} (GID: {best_gid}) - Distance: {min_distance:.2f}km from {origin}")
             
-            # Debug: Check if coordinates are available
+            # Get proper location name from GID mapping or fallback to data
+            location_name = self._get_proper_location_name(best_gid, best_dispatcher_data)
             
-            # Get coordinates in the same way as above
-            lat = None
-            lng = None
-            if 'lat' in best_dispatcher_data and 'lng' in best_dispatcher_data:
-                lat = best_dispatcher_data.get('lat')
-                lng = best_dispatcher_data.get('lng')
-            elif 'coordinates' in best_dispatcher_data:
-                coords = best_dispatcher_data.get('coordinates', {})
-                lat = coords.get('lat')
-                lng = coords.get('lng')
+            # Get address from location details
+            address = best_dispatcher_data.get('location_details', {}).get('address', '')
             
-            # Fallback to hardcoded coordinates if still missing
-            if not lat or not lng:
-                location_name = best_dispatcher_data.get('location', '')
-                if location_name in gta_dispatcher_coordinates:
-                    lat, lng = gta_dispatcher_coordinates[location_name]
+            # Get metadata
+            metadata = best_dispatcher_data.get('location_details', {})
             
-            logger.info(f"Selected dispatcher {best_gid} with coordinates: ({lat}, {lng}) at {min_distance:.2f}km")
-            
-            # Get data in Google Sheets format
-            location_name = best_dispatcher_data.get('location', 'Unknown')
-            metadata = best_dispatcher_data.get('metadata', {})
-            calendar_data = best_dispatcher_data.get('calendar_hourly_price', {})
-            address = best_dispatcher_data.get('address', metadata.get('address', ''))
-            
-            # Parse move_date as YYYY-MM-DD (smart parser format)
-            try:
-                move_dt = datetime.fromisoformat(move_date)
-            except Exception:
-                move_dt = datetime.strptime(move_date, "%Y-%m-%d")
-            
-            # Find the next available date
+            # Get base rate from calendar data
+            calendar_data = best_dispatcher_data.get('calendar_data', {}).get('daily_rates', {})
             base_rate = None
-            for offset in range(0, 30):
-                check_date = move_dt + timedelta(days=offset)
-                date_key = check_date.strftime("%Y-%m-%d")  # Use YYYY-MM-DD format to match smart parser data
-                
-                if date_key in calendar_data:
-                    base_rate = calendar_data[date_key]
-                    break
+            
+            # Try to get today's rate first
+            from datetime import datetime
+            today = datetime.now().strftime('%Y-%m-%d')
+            if today in calendar_data:
+                base_rate = calendar_data[today]
+            else:
+                # Find the most common rate
+                if calendar_data:
+                    from collections import Counter
+                    most_common_rate = Counter(calendar_data.values()).most_common(1)[0][0]
+                    base_rate = most_common_rate
             
             if not base_rate:
-                logger.warning(f"No available rates found for {move_date}")
-                return None
+                logger.warning(f"No base rate found for dispatcher {best_gid}")
+                base_rate = 139.0  # Fallback rate
             
-            # Calculate 3-leg distance for travel time using Mapbox API
+            # Calculate total distance using Mapbox
             try:
-                # Use Mapbox API for accurate distance calculation
                 disp_to_origin = cls._calculate_distance_km(address, origin)
                 origin_to_dest = cls._calculate_distance_km(origin, destination)
                 dest_to_disp = cls._calculate_distance_km(destination, address)
                 total_distance = disp_to_origin + origin_to_dest + dest_to_disp
                 logger.info(f"Mapbox distances: {address}→{origin}: {disp_to_origin:.1f}km, {origin}→{destination}: {origin_to_dest:.1f}km, {destination}→{address}: {dest_to_disp:.1f}km")
             except Exception as e:
-                logger.warning(f"Error calculating dispatcher distance with Mapbox: {e}")
-                # Fallback to hardcoded distances only if Mapbox fails
+                logger.warning(f"Error calculating Mapbox distances: {e}")
+                # Use fallback distance calculation
                 disp_to_origin = cls._fallback_distance_calculation(address, origin)
                 origin_to_dest = cls._fallback_distance_calculation(origin, destination)
                 dest_to_disp = cls._fallback_distance_calculation(destination, address)
