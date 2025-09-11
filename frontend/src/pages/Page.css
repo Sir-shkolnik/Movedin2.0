@@ -895,31 +895,27 @@
 
 .steps-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .steps-row.single-step {
   grid-template-columns: 1fr;
   justify-items: center;
-  max-width: 300px;
+  max-width: 400px;
   margin: 0 auto;
 }
 
 .step-card {
   background: var(--white);
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  border: 1px solid #e5e7eb;
-  transition: all 0.2s ease;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border-light);
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  min-height: 120px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
 }
 
 .step-card::before {
@@ -928,35 +924,34 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
+  height: 4px;
   background: linear-gradient(90deg, var(--purple-600), var(--blue-600));
 }
 
 .step-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-color: var(--blue-600);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
 .step-number {
-  width: 28px;
-  height: 28px;
+  width: 40px;
+  height: 40px;
   background: linear-gradient(135deg, var(--purple-600), var(--blue-600));
   color: var(--white);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  font-size: 0.9rem;
-  margin-bottom: 0.75rem;
-  box-shadow: 0 2px 6px rgba(139, 92, 246, 0.2);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
 }
 
 .step-icon {
-  width: 24px;
-  height: 24px;
-  margin-bottom: 0.75rem;
+  width: 32px;
+  height: 32px;
+  margin-bottom: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -970,17 +965,17 @@
 }
 
 .step-card h3 {
-  font-size: 1rem;
+  font-size: 1.3rem;
   font-weight: 600;
   color: var(--blue-600);
-  margin: 0 0 0.5rem 0;
-  line-height: 1.2;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.3;
 }
 
 .step-card p {
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   color: var(--text-secondary);
-  line-height: 1.4;
+  line-height: 1.6;
   margin: 0;
 }
 
@@ -1038,33 +1033,31 @@
   }
   
   .steps-row {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
-    margin-bottom: 1rem;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
   }
   
   .step-card {
-    padding: 0.875rem;
-    min-height: 100px;
+    padding: 1.25rem;
   }
   
   .step-number {
-    width: 24px;
-    height: 24px;
-    font-size: 0.8rem;
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
   }
   
   .step-icon {
-    width: 20px;
-    height: 20px;
+    width: 28px;
+    height: 28px;
   }
   
   .step-card h3 {
-    font-size: 0.9rem;
+    font-size: 1.2rem;
   }
   
   .step-card p {
-    font-size: 0.75rem;
+    font-size: 0.9rem;
   }
   
   .how-it-works-cta {
@@ -1076,42 +1069,31 @@
 @media (max-width: 600px) {
   .steps-row {
     grid-template-columns: 1fr;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
+    gap: 1rem;
+    margin-bottom: 1rem;
   }
   
   .step-card {
-    padding: 0.75rem;
-    min-height: 80px;
-    flex-direction: row;
-    align-items: center;
-    text-align: left;
+    padding: 1rem;
   }
   
   .step-number {
-    width: 20px;
-    height: 20px;
-    font-size: 0.7rem;
-    margin-right: 0.75rem;
-    margin-bottom: 0;
-    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
   }
   
   .step-icon {
-    width: 16px;
-    height: 16px;
-    margin-right: 0.5rem;
-    margin-bottom: 0;
-    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
   }
   
   .step-card h3 {
-    font-size: 0.85rem;
-    margin-bottom: 0.25rem;
+    font-size: 1.1rem;
   }
   
   .step-card p {
-    font-size: 0.7rem;
+    font-size: 0.85rem;
   }
 }
 
@@ -1126,28 +1108,25 @@
   }
   
   .step-card {
-    padding: 0.6rem;
-    min-height: 70px;
+    padding: 0.875rem;
   }
   
   .step-number {
-    width: 18px;
-    height: 18px;
-    font-size: 0.65rem;
-    margin-right: 0.6rem;
-  }
-  
-  .step-icon {
-    width: 14px;
-    height: 14px;
-    margin-right: 0.4rem;
-  }
-  
-  .step-card h3 {
+    width: 28px;
+    height: 28px;
     font-size: 0.8rem;
   }
   
+  .step-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .step-card h3 {
+    font-size: 1rem;
+  }
+  
   .step-card p {
-    font-size: 0.65rem;
+    font-size: 0.8rem;
   }
 }
