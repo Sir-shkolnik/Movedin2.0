@@ -1248,6 +1248,10 @@ class GoogleSheetsService:
                     base_rates[vendor] = pricing_tables['1_truck'][2]['base']
             except Exception:
                 pass
+        # Ensure location_details has the name field
+        if 'name' not in location_details or not location_details['name']:
+            location_details['name'] = name
+        
         return {
             "location": name,
             "location_details": location_details,
