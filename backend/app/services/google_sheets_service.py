@@ -198,16 +198,77 @@ class GoogleSheetsService:
             if specialized_data:
                 result = self._enhance_with_specialized_data(result, gid, specialized_data)
             
+            # Convert smart parser output to expected format for dispatcher cache service
+            converted_result = self._convert_smart_parser_output(result, gid)
+            
             # Log success
             logger.info(f"✅ Smart parser extracted {len(result.get('calendar_hourly_price', {}))} calendar dates for GID {gid}")
+            logger.info(f"✅ Converted to expected format: location={converted_result.get('location_details', {}).get('name')}, rates={len(converted_result.get('calendar_data', {}).get('daily_rates', {}))}")
             
-            return result
+            return converted_result
             
         except Exception as e:
             logger.error(f"❌ Error in smart parser for GID {gid}: {e}")
             
             # Fallback to basic parsing if smart parser fails
             return self._fallback_parse_csv(csv_text, gid)
+    
+    def _convert_smart_parser_output(self, smart_result: Dict[str, Any], gid: str) -> Dict[str, Any]:
+        """Convert smart parser output to expected format for dispatcher cache service"""
+        try:
+            # Get location name from GID mapping or smart parser result
+            location_name = self.gid_location_mapping.get(gid, 'Unknown')
+            
+            # Extract metadata from smart parser result
+            metadata = smart_result.get('metadata', {})
+            
+            # Convert calendar_hourly_price to daily_rates format
+            calendar_hourly_price = smart_result.get('calendar_hourly_price', {})
+            daily_rates = {}
+            
+            # Convert hourly prices to daily rates (assuming 8-hour work day)
+            for date_str, hourly_rate in calendar_hourly_price.items():
+                if isinstance(hourly_rate, (int, float)) and hourly_rate > 0:
+                    daily_rates[date_str] = float(hourly_rate)
+            
+            # Create the expected data structure
+            converted_result = {
+                'location_details': {
+                    'name': location_name,
+                    'address': metadata.get('address', ''),
+                    'sales_phone': metadata.get('sales_phone', ''),
+                    'email': metadata.get('email', ''),
+                    'truck_count': metadata.get('truck_count', ''),
+                },
+                'calendar_data': {
+                    'daily_rates': daily_rates
+                },
+                'coordinates': metadata.get('coordinates'),
+                'operational_rules': metadata.get('operational_rules', {}),
+                'base_rates': daily_rates  # Also include as base_rates for compatibility
+            }
+            
+            logger.info(f"✅ Converted smart parser output for {location_name}: {len(daily_rates)} daily rates")
+            return converted_result
+            
+        except Exception as e:
+            logger.error(f"❌ Error converting smart parser output for GID {gid}: {e}")
+            # Return minimal structure to prevent complete failure
+            return {
+                'location_details': {
+                    'name': self.gid_location_mapping.get(gid, 'Unknown'),
+                    'address': '',
+                    'sales_phone': '',
+                    'email': '',
+                    'truck_count': '',
+                },
+                'calendar_data': {
+                    'daily_rates': {}
+                },
+                'coordinates': None,
+                'operational_rules': {},
+                'base_rates': {}
+            }
     
     def _parse_specialized_csv(self, csv_text: str, gid: str) -> Dict[str, Any]:
         """Parse specialized CSV data (TRUCKS/STORAGE/CX, TIME ZONES, DISCOUNTS)"""
