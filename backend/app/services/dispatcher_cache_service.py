@@ -656,9 +656,15 @@ class DispatcherCacheService:
         valid_dispatchers = []
         
         for gid, data in all_data.items():
+            # Debug: Log the data structure
+            logger.info(f"🔍 Dispatcher {gid} data structure: {list(data.keys())}")
+            
             location_details = data.get('location_details', {})
             name = location_details.get('name', 'Unknown')
             coords = data.get('coordinates', {})
+            
+            # Debug: Log what we're checking
+            logger.info(f"🔍 Checking {name}: location_details={list(location_details.keys())}, calendar_data={list(data.get('calendar_data', {}).keys())}")
             
             # Only consider dispatchers with complete data
             if not has_complete_data(data):
