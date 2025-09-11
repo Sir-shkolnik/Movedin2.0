@@ -47,32 +47,78 @@ function AppInner() {
         return <PaymentRedirect />;
     }
     
+    // Debug logging function
+    const logDebugStep = async (step: string, data: any) => {
+        try {
+            await fetch('https://movedin-backend.onrender.com/api/debug-log', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    step,
+                    data: {
+                        ...data,
+                        url: window.location.href,
+                        timestamp: new Date().toISOString(),
+                        userAgent: navigator.userAgent
+                    }
+                })
+            });
+        } catch (error) {
+            console.error('Failed to log debug step:', error);
+        }
+    };
+
     // Get current step from URL or default to 0
     const getCurrentStepFromURL = () => {
         const path = location.pathname;
         const hash = location.hash;
         const fullPath = path + hash;
+        const search = location.search;
         
-        console.log('🔍 getCurrentStepFromURL Debug:', {
+        const debugData = {
             path,
             hash,
             fullPath,
-            search: location.search,
+            search,
             includesStep7: fullPath.includes('step7'),
-            includesSessionId: location.search.includes('session_id')
-        });
+            includesSessionId: search.includes('session_id'),
+            sessionIdInHash: hash.includes('session_id'),
+            leadIdInHash: hash.includes('lead_id')
+        };
+        
+        console.log('🔍 getCurrentStepFromURL Debug:', debugData);
+        
+        // Log to backend
+        logDebugStep('URL_ANALYSIS', debugData);
         
         // Check both pathname and hash for step routing
-        if (path === '/step7' || hash === '#/step7' || fullPath.includes('step7') || location.search.includes('session_id')) {
+        if (path === '/step7' || hash === '#/step7' || fullPath.includes('step7') || search.includes('session_id')) {
             console.log('✅ Detected Step7 - returning 6');
+            logDebugStep('STEP7_DETECTED', { ...debugData, routing_detected: true });
             return 6;
         }
-        if (path === '/step6' || hash === '#/step6' || fullPath.includes('step6')) return 5;
-        if (path === '/step5' || hash === '#/step5' || fullPath.includes('step5')) return 4;
-        if (path === '/step4' || hash === '#/step4' || fullPath.includes('step4')) return 3;
-        if (path === '/step3' || hash === '#/step3' || fullPath.includes('step3')) return 2;
-        if (path === '/step2' || hash === '#/step2' || fullPath.includes('step2')) return 1;
+        if (path === '/step6' || hash === '#/step6' || fullPath.includes('step6')) {
+            logDebugStep('STEP6_DETECTED', debugData);
+            return 5;
+        }
+        if (path === '/step5' || hash === '#/step5' || fullPath.includes('step5')) {
+            logDebugStep('STEP5_DETECTED', debugData);
+            return 4;
+        }
+        if (path === '/step4' || hash === '#/step4' || fullPath.includes('step4')) {
+            logDebugStep('STEP4_DETECTED', debugData);
+            return 3;
+        }
+        if (path === '/step3' || hash === '#/step3' || fullPath.includes('step3')) {
+            logDebugStep('STEP3_DETECTED', debugData);
+            return 2;
+        }
+        if (path === '/step2' || hash === '#/step2' || fullPath.includes('step2')) {
+            logDebugStep('STEP2_DETECTED', debugData);
+            return 1;
+        }
         console.log('❌ No step detected - returning 0');
+        logDebugStep('NO_STEP_DETECTED', debugData);
         return 0; // Default to step 1
     };
 
@@ -177,25 +223,46 @@ function AppInner() {
                     {currentStep === 3 && <Step4 onNext={goNext} onBack={goBack} />}
                     {currentStep === 4 && <Step5 onNext={goNext} onBack={goBack} />}
                     {currentStep === 5 && <Step6 onNext={goNext} onBack={goBack} />}
-                    {currentStep === 6 && (
-                        (data.selectedQuote || sessionStorage.getItem('paymentSuccess') || location.hash.includes('#/step7') || location.search.includes('session_id')) ? 
-                        <Step7 /> : 
-                        <div className="step-card">
-                            <h2>Redirecting...</h2>
-                            <p>Please complete the booking process to access the confirmation page.</p>
-                            <div style={{marginTop: '20px', fontSize: '12px', color: '#666'}}>
-                                <p>Debug Info:</p>
-                                <p>currentStep: {currentStep}</p>
-                                <p>hasData: {data ? 'yes' : 'no'}</p>
-                                <p>hasSelectedQuote: {data?.selectedQuote ? 'yes' : 'no'}</p>
-                                <p>paymentSuccess: {sessionStorage.getItem('paymentSuccess')}</p>
-                                <p>hash: {location.hash}</p>
-                                <p>search: {location.search}</p>
-                                <p>hash includes step7: {location.hash.includes('#/step7') ? 'yes' : 'no'}</p>
-                                <p>search includes session_id: {location.search.includes('session_id') ? 'yes' : 'no'}</p>
-                            </div>
-                        </div>
-                    )}
+                    {currentStep === 6 && (() => {
+                        const shouldRenderStep7 = data.selectedQuote || sessionStorage.getItem('paymentSuccess') || location.hash.includes('#/step7') || location.search.includes('session_id');
+                        
+                        const debugInfo = {
+                            currentStep,
+                            hasData: !!data,
+                            hasSelectedQuote: !!data?.selectedQuote,
+                            paymentSuccess: sessionStorage.getItem('paymentSuccess'),
+                            hash: location.hash,
+                            search: location.search,
+                            hashIncludesStep7: location.hash.includes('#/step7'),
+                            searchIncludesSessionId: location.search.includes('session_id'),
+                            shouldRenderStep7
+                        };
+                        
+                        // Log Step7 rendering decision
+                        logDebugStep('STEP7_RENDERING_DECISION', {
+                            ...debugInfo,
+                            step7_rendered: shouldRenderStep7
+                        });
+                        
+                        return shouldRenderStep7 ? 
+                            <Step7 /> : 
+                            <div className="step-card">
+                                <h2>Redirecting...</h2>
+                                <p>Please complete the booking process to access the confirmation page.</p>
+                                <div style={{marginTop: '20px', fontSize: '12px', color: '#666'}}>
+                                    <p>Debug Info:</p>
+                                    <p>currentStep: {currentStep}</p>
+                                    <p>hasData: {data ? 'yes' : 'no'}</p>
+                                    <p>hasSelectedQuote: {data?.selectedQuote ? 'yes' : 'no'}</p>
+                                    <p>paymentSuccess: {sessionStorage.getItem('paymentSuccess')}</p>
+                                    <p>hash: {location.hash}</p>
+                                    <p>search: {location.search}</p>
+                                    <p>hash includes step7: {location.hash.includes('#/step7') ? 'yes' : 'no'}</p>
+                                    <p>search includes session_id: {location.search.includes('session_id') ? 'yes' : 'no'}</p>
+                                    <p>shouldRenderStep7: {shouldRenderStep7 ? 'yes' : 'no'}</p>
+                                </div>
+                            </div>;
+                    })()}
                 </div>
             </div>
             <Footer 

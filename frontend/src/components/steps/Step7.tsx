@@ -12,7 +12,7 @@ const Step7: React.FC = () => {
 
     console.log('🎉 Step7 Component RENDERED - URL:', window.location.href);
 
-    console.log('🔍 Step7 Component Rendered - Debug Info:', {
+    const debugInfo = {
         hasData: !!data,
         dataKeys: data ? Object.keys(data) : [],
         hasSelectedQuote: !!data?.selectedQuote,
@@ -20,8 +20,36 @@ const Step7: React.FC = () => {
         hasContact: !!data?.contact,
         sessionStorageFormData: sessionStorage.getItem('formData'),
         sessionStoragePaymentSuccess: sessionStorage.getItem('paymentSuccess'),
-        sessionStoragePaymentIntent: sessionStorage.getItem('paymentIntentData')
-    });
+        sessionStoragePaymentIntent: sessionStorage.getItem('paymentIntentData'),
+        url: window.location.href,
+        hash: window.location.hash,
+        search: window.location.search
+    };
+
+    console.log('🔍 Step7 Component Rendered - Debug Info:', debugInfo);
+
+    // Log Step7 component render
+    const logDebugStep = async (step: string, data: any) => {
+        try {
+            await fetch('https://movedin-backend.onrender.com/api/debug-log', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    step,
+                    data: {
+                        ...data,
+                        url: window.location.href,
+                        timestamp: new Date().toISOString(),
+                        userAgent: navigator.userAgent
+                    }
+                })
+            });
+        } catch (error) {
+            console.error('Failed to log debug step:', error);
+        }
+    };
+
+    logDebugStep('STEP7_COMPONENT_RENDERED', debugInfo);
 
     useEffect(() => {
         console.log('🔍 Step7 useEffect triggered');
@@ -60,6 +88,16 @@ const Step7: React.FC = () => {
             }
             
             console.log('Step7 - URL parameters:', { sessionId, leadId });
+            
+            // Log URL parameter extraction
+            logDebugStep('STEP7_URL_PARAMETER_EXTRACTION', {
+                sessionId,
+                leadId,
+                url: window.location.href,
+                hash: window.location.hash,
+                search: window.location.search,
+                parametersFound: !!(sessionId && leadId)
+            });
             
             if (sessionId && leadId) {
                 console.log('Step7 - Verifying payment with backend...');

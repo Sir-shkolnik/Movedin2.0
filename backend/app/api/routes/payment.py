@@ -11,6 +11,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from app.models.lead import Lead
 from app.models.vendor import Vendor
+from app.services.debug_logger import debug_logger
 
 # Configure Stripe
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
@@ -803,4 +804,47 @@ async def test_stripe_connection():
         
     except Exception as e:
         logger.error(f"Stripe connection test failed: {e}")
-        raise HTTPException(status_code=500, detail=f"Connection test failed: {str(e)}") 
+        raise HTTPException(status_code=500, detail=f"Connection test failed: {str(e)}")
+
+@router.post('/debug-log')
+async def debug_log(request: Request):
+    """Log debug information from frontend"""
+    try:
+        body = await request.json()
+        step = body.get('step', 'UNKNOWN')
+        data = body.get('data', {})
+        
+        # Extract lead_id from data if available
+        lead_id = data.get('lead_id') or data.get('sessionId') or None
+        
+        # Log the debug step
+        success = debug_logger.log_payment_flow_step(step, data, lead_id)
+        
+        if success:
+            return {"success": True, "message": "Debug log saved"}
+        else:
+            return {"success": False, "message": "Failed to save debug log"}
+            
+    except Exception as e:
+        logger.error(f"Debug log error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get('/debug-logs')
+async def get_debug_logs(lead_id: Optional[int] = None, limit: int = 50):
+    """Get debug logs for admin panel"""
+    try:
+        logs = debug_logger.get_debug_logs(lead_id, limit)
+        return {"success": True, "logs": logs}
+    except Exception as e:
+        logger.error(f"Get debug logs error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get('/debug-summary')
+async def get_debug_summary(lead_id: Optional[int] = None):
+    """Get debug summary for admin panel"""
+    try:
+        summary = debug_logger.get_debug_summary(lead_id)
+        return {"success": True, "summary": summary}
+    except Exception as e:
+        logger.error(f"Get debug summary error: {e}")
+        raise HTTPException(status_code=500, detail=str(e)) 
