@@ -219,10 +219,23 @@ class GoogleSheetsService:
             # Extract metadata from smart parser result
             metadata = smart_result.get('metadata', {})
             
-            # Get location name from metadata first, then fallback to GID mapping
+            # Get location name from metadata first, then extract from address, then fallback to GID mapping
             location_name = metadata.get('name', '') or metadata.get('location', '')
             if not location_name or location_name == 'Unknown':
-                location_name = self.gid_location_mapping.get(gid, 'Unknown')
+                # Try to extract location name from address
+                address = metadata.get('address', '')
+                if address:
+                    # Extract city from address (second to last part before postal code)
+                    address_parts = address.split(',')
+                    if len(address_parts) >= 2:
+                        city_part = address_parts[-2].strip()
+                        # Remove any extra text and get just the city name
+                        city_name = city_part.split()[0] if city_part.split() else city_part
+                        location_name = city_name.upper()
+                    else:
+                        location_name = self.gid_location_mapping.get(gid, 'Unknown')
+                else:
+                    location_name = self.gid_location_mapping.get(gid, 'Unknown')
             
             # Convert calendar_hourly_price to daily_rates format
             calendar_hourly_price = smart_result.get('calendar_hourly_price', {})
