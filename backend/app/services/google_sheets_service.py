@@ -121,10 +121,7 @@ class GoogleSheetsService:
             logger.info(f"✅ Successfully processed {len(dispatchers_data)} dispatchers and cached")
             for gid, data in dispatchers_data.items():
                 location_name = data.get('location', 'Unknown')
-                location_details = data.get('location_details', {})
-                calendar_data = data.get('calendar_data', {})
-                daily_rates = calendar_data.get('daily_rates', {})
-                logger.info(f"  - GID {gid}: {location_name} (location_details.name: {location_details.get('name', 'MISSING')}, daily_rates: {len(daily_rates)})")
+                logger.info(f"  - GID {gid}: {location_name}")
             return dispatchers_data
             
         except Exception as e:
@@ -415,7 +412,7 @@ class GoogleSheetsService:
             }
     
     def _extract_location_details_from_csv(self, rows: List[List[str]], gid: str = None) -> Dict[str, Any]:
-        """Extract location details from CSV rows, including owner and phone if present"""
+        """Extract location details from CSV rows, handling different CSV structures"""
         import re
         location_details = {}
         phone_pattern = re.compile(r'(\d{3}[-.\s]?\d{3}[-.\s]?\d{4})')
@@ -424,47 +421,108 @@ class GoogleSheetsService:
         if gid and gid in self.gid_location_mapping:
             location_details['name'] = self.gid_location_mapping[gid]
         
+        # Check if this is a calendar-only CSV (no location details)
+        has_location_details = False
+        for row in rows[:10]:  # Check first 10 rows
+            for cell in row:
+                if cell and any(keyword in cell.upper() for keyword in ['LOCATION DETAILS', 'ADDRESS:', 'OPS MANAGER', 'E-TRANSFER']):
+                    has_location_details = True
+                    break
+            if has_location_details:
+                break
+        
+        if not has_location_details:
+            # This is likely a calendar-only CSV, return minimal details
+            if gid and gid in self.gid_location_mapping:
+                return {
+                    'name': self.gid_location_mapping[gid],
+                    'address': '',
+                    'sales_phone': '',
+                    'email': '',
+                    'truck_count': ''
+                }
+            else:
+                return {
+                    'name': f"Location {gid}" if gid else "Unknown Location",
+                    'address': '',
+                    'sales_phone': '',
+                    'email': '',
+                    'truck_count': ''
+                }
+        
+        # Parse location details from CSV
         for i, row in enumerate(rows):
-            if i > 20:  # Only check first 20 rows for location details
+            if i > 30:  # Check more rows for location details
                 break
             for cell in row:
-                if cell and 'ADDRESS:' in cell:
+                if not cell:
+                    continue
+                    
+                cell_upper = cell.upper()
+                
+                # Extract address
+                if 'ADDRESS:' in cell_upper:
                     location_details['address'] = cell.replace('ADDRESS:', '').strip().strip('"')
-                elif cell and 'LOCATION DETAILS:' in cell:
-                    # Extract location name from LOCATION DETAILS cell
+                
+                # Extract location name from LOCATION DETAILS
+                elif 'LOCATION DETAILS:' in cell_upper:
                     location_text = cell.replace('LOCATION DETAILS:', '').strip()
-                    if location_text and location_text != 'GID_' + str(gid):
+                    if location_text and location_text.upper() not in ['LOCATION DETAILS', '']:
                         location_details['name'] = location_text
-                    # If no name in this cell, we'll extract from address later
-                elif cell and 'OPS MANAGER:' in cell:
-                    # Extract phone number from OPS MANAGER row
+                
+                # Extract phone from OPS MANAGER
+                elif 'OPS MANAGER:' in cell_upper:
                     phone_match = phone_pattern.search(cell)
                     if phone_match:
                         location_details['sales_phone'] = phone_match.group(1)
-                elif cell and 'SALES #:' in cell:
+                
+                # Extract sales phone
+                elif 'SALES #:' in cell_upper:
                     location_details['sales_phone'] = cell.replace('SALES #:', '').strip()
-                elif cell and 'E-TRANSFER:' in cell:
+                
+                # Extract email
+                elif 'E-TRANSFER:' in cell_upper:
                     location_details['email'] = cell.replace('E-TRANSFER:', '').strip()
-                elif cell and '# OF TRUCKS:' in cell:
+                
+                # Extract truck count
+                elif '# OF TRUCKS:' in cell_upper:
                     location_details['truck_count'] = cell.replace('# OF TRUCKS:', '').strip()
-                # New: extract owner and phone
-                if cell and 'Owner:' in cell:
-                    # Try to extract owner name and phone from the cell
-                    owner_match = re.search(r'Owner:\s*([^|\n]+)', cell)
+                
+                # Extract owner and phone
+                elif 'OWNER:' in cell_upper:
+                    owner_match = re.search(r'Owner:\s*([^|\n]+)', cell, re.IGNORECASE)
                     if owner_match:
                         location_details['owner'] = owner_match.group(1).strip()
                     phone_match = phone_pattern.search(cell)
                     if phone_match:
                         location_details['phone'] = phone_match.group(1)
-                # Fallback: if cell contains a phone number and not already set
+                
+                # Fallback: extract any phone number if not already found
                 if 'phone' not in location_details and 'sales_phone' not in location_details:
-                    phone_match = phone_pattern.search(cell or '')
+                    phone_match = phone_pattern.search(cell)
                     if phone_match:
                         location_details['phone'] = phone_match.group(1)
         
-        # Fallback: if no name found, use GID
-        if 'name' not in location_details and gid:
-            location_details['name'] = f"Location {gid}"
+        # Extract location name from address if not found elsewhere
+        if 'name' not in location_details and 'address' in location_details:
+            address = location_details['address']
+            # Try to extract city name from address
+            # Pattern: "Street Address, City, Province" or "City, Province"
+            parts = address.split(',')
+            if len(parts) >= 2:
+                # Get the city part (usually second to last)
+                city = parts[-2].strip() if len(parts) > 2 else parts[-1].strip()
+                # Clean up common prefixes
+                city = re.sub(r'^ADDRESS:\s*', '', city, flags=re.IGNORECASE)
+                if city and len(city) > 2 and not city.isdigit():
+                    location_details['name'] = city.upper()
+        
+        # Final fallback: use GID mapping or create generic name
+        if 'name' not in location_details:
+            if gid and gid in self.gid_location_mapping:
+                location_details['name'] = self.gid_location_mapping[gid]
+            else:
+                location_details['name'] = f"Location {gid}" if gid else "Unknown Location"
         
         return location_details
     
@@ -1251,10 +1309,6 @@ class GoogleSheetsService:
                     base_rates[vendor] = pricing_tables['1_truck'][2]['base']
             except Exception:
                 pass
-        # Ensure location_details has the name field
-        if 'name' not in location_details or not location_details['name']:
-            location_details['name'] = name
-        
         return {
             "location": name,
             "location_details": location_details,
@@ -1308,7 +1362,7 @@ class GoogleSheetsService:
         return pricing_data
 
     def _robust_extract_calendar_data(self, rows: list) -> dict:
-        """Extract calendar-based daily rates from LGM Google Sheets format (improved version)."""
+        """Extract calendar-based daily rates from LGM Google Sheets format (handles different CSV structures)."""
         import logging
         from datetime import date, timedelta
         import re
@@ -1322,42 +1376,36 @@ class GoogleSheetsService:
         # Find the current year (2025)
         current_year = 2025
         
-        # Look for calendar data patterns - be more flexible with month names
+        # Look for calendar data patterns
         month_names = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
         month_numbers = {"JAN": 1, "FEB": 2, "MAR": 3, "APR": 4, "MAY": 5, "JUN": 6,
                         "JUL": 7, "AUG": 8, "SEP": 9, "OCT": 10, "NOV": 11, "DEC": 12}
         
-        # Also look for other month indicators
-        month_indicators = ["DURHAM", "EDMONTON", "HALIFAX", "TORONTO", "VANCOUVER", "MISSISSAUGA"]
+        # Check if this CSV has calendar data
+        has_calendar_data = False
+        for row in rows[:50]:  # Check first 50 rows
+            for cell in row:
+                if cell and any(month in cell.upper() for month in month_names):
+                    has_calendar_data = True
+                    break
+            if has_calendar_data:
+                break
+        
+        if not has_calendar_data:
+            print("LGM Calendar: No calendar data found in this CSV")
+            return calendar_data
         
         # Find calendar sections
         calendar_sections = []
         for row_idx, row in enumerate(rows):
             for col_idx, cell in enumerate(row):
-                if cell:
-                    cell_upper = cell.upper()
-                    # Check for standard month names
+                if cell and any(month in cell.upper() for month in month_names):
+                    # Found a month header, look for the calendar grid
                     month_name = None
                     for month in month_names:
-                        if month in cell_upper:
+                        if month in cell.upper():
                             month_name = month
                             break
-                    
-                    # If no standard month found, check for month indicators
-                    if not month_name:
-                        for indicator in month_indicators:
-                            if indicator in cell_upper:
-                                # Try to find the actual month in nearby cells
-                                for check_col in range(max(0, col_idx-2), min(len(row), col_idx+3)):
-                                    if check_col < len(row) and row[check_col]:
-                                        check_cell = row[check_col].upper()
-                                        for month in month_names:
-                                            if month in check_cell:
-                                                month_name = month
-                                                break
-                                    if month_name:
-                                        break
-                                break
                     
                     if month_name:
                         # Look for the calendar grid starting from this row
@@ -1375,7 +1423,7 @@ class GoogleSheetsService:
             start_row = section['start_row']
             
             # Look for the calendar grid (usually starts 2-3 rows after month header)
-            for row_idx in range(start_row + 2, min(start_row + 20, len(rows))):
+            for row_idx in range(start_row + 2, min(start_row + 25, len(rows))):
                 row = rows[row_idx]
 
                 # Look for day numbers (1-31) and corresponding rates
@@ -1402,17 +1450,28 @@ class GoogleSheetsService:
             # Look for any numeric values that could be rates
             for row_idx, row in enumerate(rows):
                 for col_idx, cell in enumerate(row):
-                    if cell and cell.isdigit():
+                    if cell and cell.isdigit() and 100 <= int(cell) <= 300:
+                        # This might be a rate, try to find context
                         rate = int(cell)
-                        if 100 <= rate <= 300:  # Valid rate range
-                            # Create a generic date for this rate
-                            date_key = f"{current_year}-03-{len(calendar_data['daily_rates']) + 1:02d}"
-                            calendar_data["daily_rates"][date_key] = rate
-                            print(f"LGM Calendar (fallback): {date_key} = ${rate}")
-                            if len(calendar_data["daily_rates"]) >= 10:  # Limit fallback rates
-                                break
-                if len(calendar_data["daily_rates"]) >= 10:
-                    break
+                        # Look for date context in nearby cells
+                        for check_row in range(max(0, row_idx-5), min(row_idx+5, len(rows))):
+                            for check_col in range(max(0, col_idx-5), min(col_idx+5, len(rows[check_row]))):
+                                check_cell = rows[check_row][check_col]
+                                if check_cell and check_cell.isdigit() and 1 <= int(check_cell) <= 31:
+                                    day = int(check_cell)
+                                    # Try to find month context
+                                    for month in month_names:
+                                        if any(month in str(rows[i][j]).upper() for i in range(max(0, check_row-3), min(check_row+3, len(rows))) for j in range(max(0, check_col-3), min(check_col+3, len(rows[i])))):
+                                            month_num = month_numbers[month]
+                                            try:
+                                                date_key = f"{current_year}-{month_num:02d}-{day:02d}"
+                                                calendar_data["daily_rates"][date_key] = rate
+                                                print(f"LGM Calendar (alt): {date_key} = ${rate}")
+                                            except:
+                                                continue
+                                            break
+                                    break
+        
         # Final fallback: if still no rates, use a default rate
         if not calendar_data["daily_rates"]:
             print("LGM Calendar: Using fallback default rate $139")
@@ -1442,18 +1501,7 @@ class GoogleSheetsService:
         if 'address' in location_details and location_details['address']:
             address = location_details['address']
             # Try to extract city name from address
-            # Pattern: "Street Address, City" or "City, Province"
-            # First try: extract last part before comma (city)
-            parts = address.split(',')
-            if len(parts) >= 2:
-                # Get the last part (city)
-                city = parts[-1].strip()
-                # Clean up common prefixes
-                city = re.sub(r'^ADDRESS:\s*', '', city)
-                if city and len(city) > 2:
-                    return city.upper()
-            
-            # Fallback: try original regex pattern
+            # Pattern: "City, Province" or "City, State"
             city_match = re.search(r'^([^,]+),\s*[A-Z]{2}', address)
             if city_match:
                 city = city_match.group(1).strip()
