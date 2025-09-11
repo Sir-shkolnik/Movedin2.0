@@ -322,9 +322,10 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                     <div className="progress-steps" style={{
                         display: 'flex',
                         justifyContent: 'center',
-                        gap: '20px',
-                        marginBottom: '32px',
-                        flexWrap: 'wrap'
+                        gap: '12px',
+                        marginBottom: '40px',
+                        flexWrap: 'wrap',
+                        padding: '0 16px'
                     }}>
                         <div style={{
                             display: 'flex',
@@ -373,9 +374,11 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                     {/* Loading Message */}
                     <p style={{
                         fontSize: '18px',
-                        marginBottom: '12px',
+                        marginBottom: '16px',
                         fontWeight: '500',
-                        color: '#374151'
+                        color: '#374151',
+                        textAlign: 'center',
+                        padding: '0 16px'
                     }}>
                         We're connecting with top-rated moving companies in your area...
                     </p>
@@ -383,8 +386,10 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                     <p style={{
                         fontSize: '14px',
                         opacity: '0.7',
-                        marginBottom: '24px',
-                        color: '#6b7280'
+                        marginBottom: '32px',
+                        color: '#6b7280',
+                        textAlign: 'center',
+                        padding: '0 16px'
                     }}>
                         This ensures you get the best service and competitive pricing
                     </p>
@@ -443,8 +448,9 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                     backgroundColor: '#f8f9fa',
                     border: '1px solid #e9ecef',
                     borderRadius: '12px',
-                    padding: '20px',
-                    marginBottom: '20px'
+                    padding: '24px',
+                    marginBottom: '32px',
+                    marginTop: '16px'
                 }}>
                     <h4 style={{
                         color: '#495057',

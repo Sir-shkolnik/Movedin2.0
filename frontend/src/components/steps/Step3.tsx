@@ -4,6 +4,7 @@ import { useForm } from '../../contexts/FormContext';
 
 const homeTypes = [
     { value: 'house', label: 'House' },
+    { value: 'townhouse', label: 'Townhouse' },
     { value: 'condo', label: 'Condo' },
     { value: 'apartment', label: 'Apartment' },
     { value: 'commercial', label: 'Commercial' },
@@ -94,7 +95,7 @@ const Step3: React.FC<Step3Props> = ({ onNext, onBack }) => {
                 </label>
                 <select 
                     value={homeType} 
-                    onChange={e => setHomeType(e.target.value)}
+                    onChange={e => setHomeType(e.target.value as 'house' | 'townhouse' | 'condo' | 'apartment' | 'commercial')}
                     className="autocomplete-input"
                 >
                     {homeTypes.map(ht => (
