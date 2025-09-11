@@ -405,21 +405,35 @@ class SmartCalendarParser:
             # Look for day numbers (1-31) in the current line
             days = re.findall(r'\b([1-3]?[0-9])\b', line)
             
-            if days and i + 1 < len(lines):
-                # Next line should contain rates
-                next_line = lines[i + 1]
-                rates = re.findall(r'\$?(\d+)(?:/\d+)?', next_line)  # Handle rates like "199/159"
+            if days:
+                # First try to find rates in the same line
+                rates = re.findall(r'\b(139|149|169|179|199)\b', line)
                 
-                # Match days with rates
-                for day, rate in zip(days, rates):
-                    if day.isdigit() and rate.isdigit():
-                        # Validate day is reasonable (1-31)
-                        day_int = int(day)
-                        if 1 <= day_int <= 31:
-                            date_key = f"2025-{month_num}-{day.zfill(2)}"
-                            # Take the first rate if there are multiple (e.g., "199/159" -> 199)
-                            rate_value = float(rate.split('/')[0])
-                            daily_rates[date_key] = rate_value
+                if rates:
+                    # Match days with rates in the same line
+                    for day, rate in zip(days, rates):
+                        if day.isdigit() and rate.isdigit():
+                            # Validate day is reasonable (1-31)
+                            day_int = int(day)
+                            if 1 <= day_int <= 31:
+                                date_key = f"2025-{month_num}-{day.zfill(2)}"
+                                rate_value = float(rate)
+                                daily_rates[date_key] = rate_value
+                elif i + 1 < len(lines):
+                    # If no rates in same line, try next line
+                    next_line = lines[i + 1]
+                    rates = re.findall(r'\$?(\d+)(?:/\d+)?', next_line)  # Handle rates like "199/159"
+                    
+                    # Match days with rates
+                    for day, rate in zip(days, rates):
+                        if day.isdigit() and rate.isdigit():
+                            # Validate day is reasonable (1-31)
+                            day_int = int(day)
+                            if 1 <= day_int <= 31:
+                                date_key = f"2025-{month_num}-{day.zfill(2)}"
+                                # Take the first rate if there are multiple (e.g., "199/159" -> 199)
+                                rate_value = float(rate.split('/')[0])
+                                daily_rates[date_key] = rate_value
         
         # If no rates found with the standard method, try the Toronto-specific structure
         if not daily_rates:
