@@ -125,7 +125,9 @@ class GoogleSheetsService:
             return dispatchers_data
             
         except Exception as e:
-            logger.error(f"Error fetching dispatchers data: {e}")
+            logger.error(f"❌ Error fetching dispatchers data: {e}")
+            import traceback
+            logger.error(f"❌ Full traceback: {traceback.format_exc()}")
             return {}
     
     def _is_cache_valid(self, cache_key: str) -> bool:
