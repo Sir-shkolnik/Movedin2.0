@@ -1442,7 +1442,18 @@ class GoogleSheetsService:
         if 'address' in location_details and location_details['address']:
             address = location_details['address']
             # Try to extract city name from address
-            # Pattern: "City, Province" or "City, State"
+            # Pattern: "Street Address, City" or "City, Province"
+            # First try: extract last part before comma (city)
+            parts = address.split(',')
+            if len(parts) >= 2:
+                # Get the last part (city)
+                city = parts[-1].strip()
+                # Clean up common prefixes
+                city = re.sub(r'^ADDRESS:\s*', '', city)
+                if city and len(city) > 2:
+                    return city.upper()
+            
+            # Fallback: try original regex pattern
             city_match = re.search(r'^([^,]+),\s*[A-Z]{2}', address)
             if city_match:
                 city = city_match.group(1).strip()
