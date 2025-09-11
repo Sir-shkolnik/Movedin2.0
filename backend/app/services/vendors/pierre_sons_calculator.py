@@ -69,15 +69,15 @@ class PierreSonsCalculator:
         origin_city = self._extract_city_from_address(quote_request.origin_address)
         fuel_surcharge = 0  # No fuel surcharge adjustments
         
-        # Estimate labor hours
-        labor_hours = self._estimate_labor_hours(quote_request.total_rooms)
+        # Estimate labor hours with 3-hour minimum
+        labor_hours = max(self._estimate_labor_hours(quote_request.total_rooms), 3.0)
         
         # Calculate travel time and distance
         travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
         distance_km = self._calculate_distance(quote_request.origin_address, quote_request.destination_address)
         
-        # Calculate truck fee based on move size
-        truck_fee = self._get_truck_fee_from_rooms(quote_request.total_rooms)
+        # Calculate truck fee based on move size AND distance
+        truck_fee = self._get_truck_fee_with_distance(quote_request.total_rooms, distance_km)
         
         # Calculate additional fuel surcharge for distance over 50km
         distance_fuel_surcharge = self._calculate_fuel_surcharge(distance_km)
@@ -224,6 +224,19 @@ class PierreSonsCalculator:
             return 180  # Big truck (26ft) - $180
         else:
             return 100  # Default to small truck
+    
+    def _get_truck_fee_with_distance(self, room_count: int, distance_km: float) -> float:
+        """Get truck fee based on room count AND distance - OFFICIAL PIERRE & SONS RULES"""
+        # Base truck fee based on room count
+        base_fee = self._get_truck_fee_from_rooms(room_count)
+        
+        # Distance surcharge: $1 per extra km if distance exceeds 50 km
+        if distance_km > 50:
+            extra_km = distance_km - 50
+            distance_surcharge = extra_km * 1.0  # $1 per extra km
+            return base_fee + distance_surcharge
+        
+        return base_fee
     
     def _calculate_heavy_items_cost(self, heavy_items: Dict[str, int]) -> float:
         """Calculate heavy items cost - Pierre & Sons specific rates"""

@@ -92,7 +92,7 @@ function AppInner() {
         logDebugStep('URL_ANALYSIS', debugData);
         
         // Check both pathname and hash for step routing
-        if (path === '/step7' || hash === '#/step7' || fullPath.includes('step7') || search.includes('session_id')) {
+        if (path === '/step7' || hash === '#/step7' || fullPath.includes('step7') || search.includes('session_id') || hash.includes('session_id')) {
             console.log('✅ Detected Step7 - returning 6');
             logDebugStep('STEP7_DETECTED', { ...debugData, routing_detected: true });
             return 6;
@@ -224,7 +224,7 @@ function AppInner() {
                     {currentStep === 4 && <Step5 onNext={goNext} onBack={goBack} />}
                     {currentStep === 5 && <Step6 onNext={goNext} onBack={goBack} />}
                     {currentStep === 6 && (() => {
-                        const shouldRenderStep7 = data.selectedQuote || sessionStorage.getItem('paymentSuccess') || location.hash.includes('#/step7') || location.search.includes('session_id');
+                        const shouldRenderStep7 = data.selectedQuote || sessionStorage.getItem('paymentSuccess') || location.hash.includes('#/step7') || location.search.includes('session_id') || location.hash.includes('session_id');
                         
                         const debugInfo = {
                             currentStep,
@@ -235,6 +235,7 @@ function AppInner() {
                             search: location.search,
                             hashIncludesStep7: location.hash.includes('#/step7'),
                             searchIncludesSessionId: location.search.includes('session_id'),
+                            hashIncludesSessionId: location.hash.includes('session_id'),
                             shouldRenderStep7
                         };
                         
