@@ -663,7 +663,7 @@ class GeographicVendorDispatcher:
             best_dispatcher_data = all_dispatchers[best_gid]
             
             # Get proper location name from GID mapping or fallback to data
-            location_name = self._get_proper_location_name(best_gid, best_dispatcher_data)
+            location_name = cls._get_proper_location_name(best_gid, best_dispatcher_data)
             
             # Get address from location details
             address = best_dispatcher_data.get('location_details', {}).get('address', '')
@@ -1287,7 +1287,8 @@ class LetsGetMovingCalculator(VendorCalculator):
             print(f"[LGM NEW MODEL] Error validating travel fee calculation: {e}")
             return False
 
-    def _get_proper_location_name(self, gid: str, dispatcher_data: dict) -> str:
+    @classmethod
+    def _get_proper_location_name(cls, gid: str, dispatcher_data: dict) -> str:
         """Get proper location name from GID mapping or fallback to data"""
         # Import the GID mapping
         try:
