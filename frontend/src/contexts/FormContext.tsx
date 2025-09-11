@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from 'react';
 import type { ReactNode, Dispatch, SetStateAction } from 'react';
 
 export interface FromDetails {
-  homeType?: 'house' | 'condo' | 'apartment' | 'commercial';
+  homeType?: 'house' | 'condo' | 'apartment' | 'townhouse' | 'commercial';
   rooms: number;
   sqft?: string;
   heavyItems: { piano: number; safe: number; treadmill: number };
@@ -18,7 +18,7 @@ export interface FromDetails {
 }
 
 export interface ToDetails {
-  homeType?: 'house' | 'condo' | 'apartment' | 'commercial';
+  homeType?: 'house' | 'condo' | 'apartment' | 'townhouse' | 'commercial';
   rooms?: number;
   sqft?: string;
   stairs?: number;
