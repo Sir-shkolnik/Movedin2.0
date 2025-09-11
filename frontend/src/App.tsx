@@ -53,13 +53,26 @@ function AppInner() {
         const hash = location.hash;
         const fullPath = path + hash;
         
+        console.log('🔍 getCurrentStepFromURL Debug:', {
+            path,
+            hash,
+            fullPath,
+            search: location.search,
+            includesStep7: fullPath.includes('step7'),
+            includesSessionId: location.search.includes('session_id')
+        });
+        
         // Check both pathname and hash for step routing
-        if (path === '/step7' || hash === '#/step7' || fullPath.includes('step7') || location.search.includes('session_id')) return 6;
+        if (path === '/step7' || hash === '#/step7' || fullPath.includes('step7') || location.search.includes('session_id')) {
+            console.log('✅ Detected Step7 - returning 6');
+            return 6;
+        }
         if (path === '/step6' || hash === '#/step6' || fullPath.includes('step6')) return 5;
         if (path === '/step5' || hash === '#/step5' || fullPath.includes('step5')) return 4;
         if (path === '/step4' || hash === '#/step4' || fullPath.includes('step4')) return 3;
         if (path === '/step3' || hash === '#/step3' || fullPath.includes('step3')) return 2;
         if (path === '/step2' || hash === '#/step2' || fullPath.includes('step2')) return 1;
+        console.log('❌ No step detected - returning 0');
         return 0; // Default to step 1
     };
 
@@ -170,6 +183,17 @@ function AppInner() {
                         <div className="step-card">
                             <h2>Redirecting...</h2>
                             <p>Please complete the booking process to access the confirmation page.</p>
+                            <div style={{marginTop: '20px', fontSize: '12px', color: '#666'}}>
+                                <p>Debug Info:</p>
+                                <p>currentStep: {currentStep}</p>
+                                <p>hasData: {data ? 'yes' : 'no'}</p>
+                                <p>hasSelectedQuote: {data?.selectedQuote ? 'yes' : 'no'}</p>
+                                <p>paymentSuccess: {sessionStorage.getItem('paymentSuccess')}</p>
+                                <p>hash: {location.hash}</p>
+                                <p>search: {location.search}</p>
+                                <p>hash includes step7: {location.hash.includes('#/step7') ? 'yes' : 'no'}</p>
+                                <p>search includes session_id: {location.search.includes('session_id') ? 'yes' : 'no'}</p>
+                            </div>
                         </div>
                     )}
                 </div>
