@@ -1304,7 +1304,8 @@ class LetsGetMovingCalculator(VendorCalculator):
             logger.warning(f"Could not load GID mapping: {e}")
         
         # Fallback to dispatcher data
-        location_name = dispatcher_data.get('location', '')
+        location_details = dispatcher_data.get('location_details', {})
+        location_name = location_details.get('name', '')
         if location_name:
             # Clean up common prefixes and suffixes
             import re
@@ -1312,7 +1313,7 @@ class LetsGetMovingCalculator(VendorCalculator):
             location_name = re.sub(r'^Owner:\s*', '', location_name)
             location_name = re.sub(r'^STARTING OCT 1ST\s*', '', location_name)
             location_name = re.sub(r'\s+Owner:.*$', '', location_name)
-            if location_name and location_name != 'GID_' + str(gid):
+            if location_name and location_name != 'GID_' + str(gid) and location_name != 'Unknown':
                 return location_name
         
         # Final fallback
