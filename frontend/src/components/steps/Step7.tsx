@@ -39,11 +39,25 @@ const Step7: React.FC = () => {
     const loadDataFromURL = async () => {
         try {
             console.log('🔍 Step7 - Loading data from URL parameters...');
+            console.log('🔍 Step7 - Full URL:', window.location.href);
+            console.log('🔍 Step7 - Hash:', window.location.hash);
+            console.log('🔍 Step7 - Search:', window.location.search);
             
-            // Get URL parameters
-            const urlParams = new URLSearchParams(window.location.search);
-            const sessionId = urlParams.get('session_id');
-            const leadId = urlParams.get('lead_id');
+            // Get URL parameters from both search and hash
+            let sessionId = null;
+            let leadId = null;
+            
+            // Try search params first
+            const searchParams = new URLSearchParams(window.location.search);
+            sessionId = searchParams.get('session_id');
+            leadId = searchParams.get('lead_id');
+            
+            // If not found in search, try hash fragment
+            if (!sessionId || !leadId) {
+                const hashParams = new URLSearchParams(window.location.hash.split('?')[1] || '');
+                sessionId = sessionId || hashParams.get('session_id');
+                leadId = leadId || hashParams.get('lead_id');
+            }
             
             console.log('Step7 - URL parameters:', { sessionId, leadId });
             
