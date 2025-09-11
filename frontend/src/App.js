@@ -1,5 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import Footer from './components/Footer/Footer';
 import Stepper from './components/Stepper/Stepper';
@@ -28,6 +28,22 @@ function App() {
 function AppInner() {
     const [currentStep, setCurrentStep] = useState(0);
     const { data } = useForm();
+
+    // Detect Stripe redirect to Step 7 via URL on initial load
+    useEffect(() => {
+        try {
+            const { hash, search } = window.location;
+            const hashLower = (hash || '').toLowerCase();
+            const searchLower = (search || '').toLowerCase();
+            const isStep7Hash = hashLower.startsWith('#/step7');
+            const hasSessionId = hashLower.includes('session_id=') || searchLower.includes('session_id=');
+            if (isStep7Hash || hasSessionId) {
+                setCurrentStep(6);
+            }
+        } catch (_) {
+            // no-op
+        }
+    }, []);
     const goToStep = (stepIndex) => {
         if (stepIndex <= currentStep) {
             setCurrentStep(stepIndex);
