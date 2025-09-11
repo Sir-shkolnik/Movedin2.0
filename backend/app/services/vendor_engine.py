@@ -577,7 +577,13 @@ class GeographicVendorDispatcher:
             # Use a default date for availability check (will be overridden in actual quote calculation)
             from datetime import datetime
             default_date = datetime.now().strftime("%Y-%m-%d")
-            return cls.get_best_dispatcher_from_sheets(vendor_slug, origin, destination, default_date)
+            logger.info(f"🔍 LGM Dispatcher Selection: {origin} → {destination} on {default_date}")
+            dispatcher = cls.get_best_dispatcher_from_sheets(vendor_slug, origin, destination, default_date)
+            if dispatcher:
+                logger.info(f"✅ LGM Dispatcher Found: {dispatcher.get('name', 'Unknown')}")
+            else:
+                logger.warning(f"❌ LGM Dispatcher NOT Found for {origin} → {destination}")
+            return dispatcher
         
         # For other vendors, use hardcoded dispatcher locations
         best_dispatcher = None
