@@ -106,7 +106,7 @@ const SystemMonitoring: React.FC = () => {
     },
     {
       name: 'Leads API',
-              url: 'https://movedin-backend.onrender.com/api/leads',
+              url: 'https://movedin-backend.onrender.com/admin/leads',
       method: 'GET'
     },
     {

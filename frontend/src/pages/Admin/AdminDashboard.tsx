@@ -63,7 +63,7 @@ const AdminDashboard: React.FC = () => {
       setError(null);
 
       // Load leads count
-              const leadsResponse = await fetch('https://movedin-backend.onrender.com/api/leads');
+              const leadsResponse = await fetch('https://movedin-backend.onrender.com/admin/leads');
       const leads = await leadsResponse.json();
       
       // Load system health

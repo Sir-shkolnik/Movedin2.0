@@ -90,10 +90,10 @@ const ComprehensiveTracking: React.FC = () => {
 
       // Load all data in parallel
       const [leadsRes, paymentsRes, emailLogsRes, vendorsRes] = await Promise.all([
-        fetch('https://movedin-backend.onrender.com/api/leads'),
-        fetch('https://movedin-backend.onrender.com/api/payments'),
-        fetch('https://movedin-backend.onrender.com/api/email-logs'),
-        fetch('https://movedin-backend.onrender.com/api/vendors')
+        fetch('https://movedin-backend.onrender.com/admin/leads'),
+        fetch('https://movedin-backend.onrender.com/admin/payments'),
+        fetch('https://movedin-backend.onrender.com/admin/email-logs'),
+        fetch('https://movedin-backend.onrender.com/admin/vendors')
       ]);
 
       if (!leadsRes.ok) throw new Error('Failed to load leads');
