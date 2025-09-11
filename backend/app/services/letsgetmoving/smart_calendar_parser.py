@@ -674,7 +674,19 @@ class SmartCalendarParser:
     
     def determine_location_name(self, csv_content: str, gid: str) -> str:
         """Determine location name from CSV content or GID mapping"""
-        # Try to extract from CSV first
+        # Try to extract from address first
+        address_match = re.search(r'ADDRESS:\s*([^\n,]+)', csv_content)
+        if address_match:
+            address = address_match.group(1).strip()
+            # Extract city from address (second to last part before postal code)
+            address_parts = address.split(',')
+            if len(address_parts) >= 2:
+                city_part = address_parts[-2].strip()
+                # Remove any extra text and get just the city name
+                city_name = city_part.split()[0] if city_part.split() else city_part
+                return city_name.upper()
+        
+        # Try to extract from CSV location details
         location_match = re.search(r'LOCATION DETAILS:\s*([^\n,]+)', csv_content)
         if location_match:
             location_name = location_match.group(1).strip()
