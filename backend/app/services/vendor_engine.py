@@ -578,12 +578,30 @@ class GeographicVendorDispatcher:
             from datetime import datetime
             default_date = datetime.now().strftime("%Y-%m-%d")
             logger.info(f"🔍 LGM Dispatcher Selection: {origin} → {destination} on {default_date}")
-            dispatcher = cls.get_best_dispatcher_from_sheets(vendor_slug, origin, destination, default_date)
-            if dispatcher:
-                logger.info(f"✅ LGM Dispatcher Found: {dispatcher.get('name', 'Unknown')}")
-            else:
-                logger.warning(f"❌ LGM Dispatcher NOT Found for {origin} → {destination}")
-            return dispatcher
+            
+            try:
+                dispatcher = cls.get_best_dispatcher_from_sheets(vendor_slug, origin, destination, default_date)
+                if dispatcher:
+                    logger.info(f"✅ LGM Dispatcher Found: {dispatcher.get('name', 'Unknown')}")
+                else:
+                    logger.warning(f"❌ LGM Dispatcher NOT Found for {origin} → {destination}")
+                    # Debug: Check what's happening in the dispatcher selection
+                    logger.warning(f"🔍 Debug: Checking Google Sheets data...")
+                    from app.services.google_sheets_service import google_sheets_service
+                    all_dispatchers = google_sheets_service.get_all_dispatchers_data()
+                    logger.warning(f"🔍 Debug: Loaded {len(all_dispatchers)} dispatchers from Google Sheets")
+                    if all_dispatchers:
+                        first_gid = list(all_dispatchers.keys())[0]
+                        first_data = all_dispatchers[first_gid]
+                        logger.warning(f"🔍 Debug: First dispatcher data keys: {list(first_data.keys())}")
+                        logger.warning(f"🔍 Debug: Location details: {first_data.get('location_details', {})}")
+                        logger.warning(f"🔍 Debug: Calendar data: {first_data.get('calendar_data', {})}")
+                return dispatcher
+            except Exception as e:
+                logger.error(f"❌ Error in LGM dispatcher selection: {e}")
+                import traceback
+                logger.error(f"❌ Traceback: {traceback.format_exc()}")
+                return None
         
         # For other vendors, use hardcoded dispatcher locations
         best_dispatcher = None
