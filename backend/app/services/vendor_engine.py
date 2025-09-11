@@ -626,13 +626,19 @@ class GeographicVendorDispatcher:
         try:
             # Use Google Sheets service directly (same as admin panel) for fresh data
             from app.services.google_sheets_service import google_sheets_service
+            logger.info("🔍 Calling google_sheets_service.get_all_dispatchers_data()...")
             all_dispatchers = google_sheets_service.get_all_dispatchers_data()
             
-            logger.info(f"Loaded {len(all_dispatchers)} dispatchers from Google Sheets")
+            logger.info(f"📊 Loaded {len(all_dispatchers)} dispatchers from Google Sheets")
             
             if not all_dispatchers:
-                logger.warning("No dispatcher data available from Google Sheets")
+                logger.warning("❌ No dispatcher data available from Google Sheets")
                 return None
+            
+            # Log the first few dispatchers for debugging
+            for i, (gid, data) in enumerate(list(all_dispatchers.items())[:3]):
+                location_name = data.get('location', 'Unknown')
+                logger.info(f"  📍 Dispatcher {i+1}: GID {gid} = {location_name}")
             
             # Hardcoded GTA dispatcher coordinates as fallback
             gta_dispatcher_coordinates = {
