@@ -4,7 +4,7 @@ import './AdminSidebar.css';
 // Import logo as module
 import movedinLogo from '../../assets/icons/movedin-logo.png';
 
-type AdminSection = 'dashboard' | 'vendors' | 'leads' | 'system' | 'analytics' | 'vendor-locations' | 'database';
+type AdminSection = 'dashboard' | 'vendors' | 'leads' | 'system' | 'analytics' | 'vendor-locations' | 'database' | 'comprehensive-tracking';
 
 interface AdminSidebarProps {
   activeSection: AdminSection;
@@ -36,6 +36,12 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeSection, onSectionCha
       label: 'Lead Management',
       icon: '👥',
       description: 'View and manage leads'
+    },
+    {
+      id: 'comprehensive-tracking' as AdminSection,
+      label: 'Comprehensive Tracking',
+      icon: '📊',
+      description: 'Complete leads, payments, emails & vendors'
     },
     {
       id: 'system' as AdminSection,

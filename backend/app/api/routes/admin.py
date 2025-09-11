@@ -2194,12 +2194,13 @@ async def get_comprehensive_stats(db: Session = Depends(get_db)):
         total_leads = db.query(Lead).count()
         
         # Get leads by status
-        leads_by_status = db.query(Lead.status, db.func.count(Lead.id)).group_by(Lead.status).all()
+        from sqlalchemy import func
+        leads_by_status = db.query(Lead.status, func.count(Lead.id)).group_by(Lead.status).all()
         status_counts = {status: count for status, count in leads_by_status}
         
         # Get payment statistics
         total_payments = db.query(Lead).filter(Lead.payment_status == "succeeded").count()
-        total_revenue = db.query(db.func.sum(Lead.payment_amount)).filter(
+        total_revenue = db.query(func.sum(Lead.payment_amount)).filter(
             Lead.payment_status == "succeeded",
             Lead.payment_amount.isnot(None)
         ).scalar() or 0

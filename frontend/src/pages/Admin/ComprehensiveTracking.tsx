@@ -73,7 +73,7 @@ const ComprehensiveTracking: React.FC = () => {
   const [vendors, setVendors] = useState<Vendor[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'leads' | 'payments' | 'emails' | 'vendors'>('leads');
+  const [activeTab, setActiveTab] = useState<'overview' | 'leads' | 'payments' | 'emails' | 'vendors'>('overview');
   const [filter, setFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('created_at');
@@ -311,6 +311,12 @@ const ComprehensiveTracking: React.FC = () => {
       {/* Tabs */}
       <div className="tracking-tabs">
         <button 
+          className={`tab-btn ${activeTab === 'overview' ? 'active' : ''}`}
+          onClick={() => setActiveTab('overview')}
+        >
+          📊 Overview
+        </button>
+        <button 
           className={`tab-btn ${activeTab === 'leads' ? 'active' : ''}`}
           onClick={() => setActiveTab('leads')}
         >
@@ -432,12 +438,100 @@ const ComprehensiveTracking: React.FC = () => {
         </div>
       </div>
 
+      {/* Overview Tab */}
+      {activeTab === 'overview' && (
+        <div className="overview-dashboard">
+          <div className="overview-grid">
+            <div className="overview-card">
+              <h3>📈 Recent Activity</h3>
+              <div className="activity-list">
+                {leads.slice(0, 5).map((lead) => (
+                  <div key={lead.id} className="activity-item">
+                    <div className="activity-icon">👤</div>
+                    <div className="activity-content">
+                      <div className="activity-title">{lead.first_name} {lead.last_name}</div>
+                      <div className="activity-details">
+                        {lead.origin_address} → {lead.destination_address}
+                      </div>
+                      <div className="activity-time">{formatDate(lead.created_at)}</div>
+                    </div>
+                    <div className="activity-status">
+                      <span 
+                        className="status-badge"
+                        style={{ backgroundColor: getStatusColor(lead.status) }}
+                      >
+                        {lead.status}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div className="overview-card">
+              <h3>💰 Payment Summary</h3>
+              <div className="payment-summary">
+                <div className="summary-item">
+                  <span className="summary-label">Total Revenue:</span>
+                  <span className="summary-value">{formatCurrency(stats.totalRevenue)}</span>
+                </div>
+                <div className="summary-item">
+                  <span className="summary-label">Conversion Rate:</span>
+                  <span className="summary-value">{stats.conversionRate.toFixed(1)}%</span>
+                </div>
+                <div className="summary-item">
+                  <span className="summary-label">Avg Lead Value:</span>
+                  <span className="summary-value">{formatCurrency(stats.avgLeadValue)}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="overview-card">
+              <h3>📧 Email Status</h3>
+              <div className="email-summary">
+                <div className="summary-item">
+                  <span className="summary-label">Total Emails:</span>
+                  <span className="summary-value">{stats.totalEmails}</span>
+                </div>
+                <div className="summary-item">
+                  <span className="summary-label">Delivery Rate:</span>
+                  <span className="summary-value">{stats.emailDeliveryRate.toFixed(1)}%</span>
+                </div>
+                <div className="summary-item">
+                  <span className="summary-label">Pending:</span>
+                  <span className="summary-value">{emailLogs.filter(e => e.status === 'pending').length}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="overview-card">
+              <h3>🚚 Vendor Status</h3>
+              <div className="vendor-summary">
+                <div className="summary-item">
+                  <span className="summary-label">Active Vendors:</span>
+                  <span className="summary-value">{stats.activeVendors}</span>
+                </div>
+                <div className="summary-item">
+                  <span className="summary-label">Total Vendors:</span>
+                  <span className="summary-value">{stats.totalVendors}</span>
+                </div>
+                <div className="summary-item">
+                  <span className="summary-label">Coverage:</span>
+                  <span className="summary-value">100%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Data Table */}
-      <div className="tracking-table-container">
-        <table className="tracking-table">
-          <thead>
-            <tr>
-              {activeTab === 'leads' && (
+      {activeTab !== 'overview' && (
+        <div className="tracking-table-container">
+          <table className="tracking-table">
+            <thead>
+              <tr>
+                {activeTab === 'leads' && (
                 <>
                   <th>ID</th>
                   <th>Name</th>
@@ -567,12 +661,13 @@ const ComprehensiveTracking: React.FC = () => {
             ))}
           </tbody>
         </table>
-      </div>
+        </div>
 
-      {/* Summary */}
-      <div className="tracking-summary">
-        <p>Showing {filteredData.length} of {stats[`total${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}`]} {activeTab}</p>
-      </div>
+        {/* Summary */}
+        <div className="tracking-summary">
+          <p>Showing {filteredData.length} of {stats[`total${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}`]} {activeTab}</p>
+        </div>
+      )}
     </div>
   );
 };
