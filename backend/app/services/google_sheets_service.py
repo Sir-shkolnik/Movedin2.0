@@ -1179,7 +1179,7 @@ class GoogleSheetsService:
     def fetch_public_tab_csv(self, spreadsheet_id: str, gid: str) -> list:
         """Fetch a public Google Sheet tab as CSV and return as list of rows"""
         url = f"https://docs.google.com/spreadsheets/d/{spreadsheet_id}/export?format=csv&gid={gid}"
-        response = requests.get(url)
+        response = requests.get(url, allow_redirects=True, timeout=30)
         response.raise_for_status()
         csv_content = response.content.decode('utf-8')
         reader = csv.reader(StringIO(csv_content))
@@ -1426,7 +1426,7 @@ class GoogleSheetsService:
     def list_public_tab_gids(self, spreadsheet_id: str) -> list:
         """List all public tab GIDs and names from the spreadsheet by scraping the HTML."""
         url = f"https://docs.google.com/spreadsheets/d/{spreadsheet_id}"
-        response = requests.get(url)
+        response = requests.get(url, allow_redirects=True, timeout=30)
         response.raise_for_status()
         html = response.text
         # Find all gid and tab names in the HTML
