@@ -20,13 +20,13 @@
     background: var(--white) !important;
 }
 
-/* Fix white banner during redirects */
+/* Fix white banner during redirects - Only when homepage is active */
 body:has(.homepage-container) {
     background: var(--white) !important;
 }
 
-/* Ensure all pages have white background when navigating */
-.page-container {
+/* Ensure homepage has white background when navigating */
+.homepage-container .page-container {
     background: var(--white) !important;
 }
 
