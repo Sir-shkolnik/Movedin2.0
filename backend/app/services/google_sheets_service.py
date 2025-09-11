@@ -121,7 +121,10 @@ class GoogleSheetsService:
             logger.info(f"✅ Successfully processed {len(dispatchers_data)} dispatchers and cached")
             for gid, data in dispatchers_data.items():
                 location_name = data.get('location', 'Unknown')
-                logger.info(f"  - GID {gid}: {location_name}")
+                location_details = data.get('location_details', {})
+                calendar_data = data.get('calendar_data', {})
+                daily_rates = calendar_data.get('daily_rates', {})
+                logger.info(f"  - GID {gid}: {location_name} (location_details.name: {location_details.get('name', 'MISSING')}, daily_rates: {len(daily_rates)})")
             return dispatchers_data
             
         except Exception as e:
