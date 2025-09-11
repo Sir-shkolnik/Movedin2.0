@@ -19,8 +19,8 @@ const steps = [
     { label: 'Origin Home', subtitle: 'Tell us about your current home' },
     { label: 'Destination', subtitle: 'Tell us about your new home' },
     { label: 'Choose Mover', subtitle: 'Select your moving company' },
-    { label: 'Contact Info', subtitle: 'Your contact information' },
-    { label: 'Review & Pay', subtitle: 'Review quote and complete booking' },
+    { label: 'Review Quote', subtitle: 'Review your moving details and quote' },
+    { label: 'Contact & Pay', subtitle: 'Your contact information and payment' },
     { label: 'Confirmation', subtitle: 'Your move is booked!' }
 ];
 
@@ -209,8 +209,8 @@ function AppInner() {
     }
 
         return (
-        <div className="app">
-            <div className="app-content">
+        <div className="app-root">
+            <div className="step-content">
                 <Stepper 
                     steps={steps} 
                     currentStep={currentStep} 
