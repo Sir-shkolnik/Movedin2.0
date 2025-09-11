@@ -847,4 +847,51 @@ async def get_debug_summary(lead_id: Optional[int] = None):
         return {"success": True, "summary": summary}
     except Exception as e:
         logger.error(f"Get debug summary error: {e}")
-        raise HTTPException(status_code=500, detail=str(e)) 
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post('/test-mapbox')
+async def test_mapbox_calculation(request: Request):
+    """Test Mapbox calculation for specific addresses"""
+    try:
+        from app.services.mapbox_service import mapbox_service
+        
+        body = await request.json()
+        origin = body.get('origin', '')
+        destination = body.get('destination', '')
+        
+        if not origin or not destination:
+            return {"error": "Origin and destination required"}
+        
+        # Test direct calculation
+        directions = mapbox_service.get_directions(origin, destination)
+        
+        if not directions:
+            return {"error": "Mapbox API failed to get directions"}
+        
+        # Calculate travel time with truck factor
+        one_way_hours = directions['duration'] / 3600
+        TRUCK_FACTOR = 1.3
+        truck_one_way_hours = one_way_hours * TRUCK_FACTOR
+        
+        # Pierre & Sons logic
+        if truck_one_way_hours > 1:
+            final_travel_hours = truck_one_way_hours
+        else:
+            final_travel_hours = 1.0
+        
+        return {
+            "success": True,
+            "origin": origin,
+            "destination": destination,
+            "mapbox_directions": directions,
+            "one_way_hours": one_way_hours,
+            "truck_one_way_hours": truck_one_way_hours,
+            "final_travel_hours": final_travel_hours,
+            "distance_km": directions['distance'] / 1000,
+            "duration_seconds": directions['duration'],
+            "duration_minutes": directions['duration'] / 60
+        }
+        
+    except Exception as e:
+        logger.error(f"Mapbox test error: {e}")
+        return {"error": str(e)} 
