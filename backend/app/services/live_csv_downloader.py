@@ -36,17 +36,27 @@ class LiveCSVDownloader:
             return None
     
     def load_all_gids(self) -> List[str]:
-        """Load all GIDs from g.txt file"""
+        """Load all GIDs from g.txt file - ONLY Canadian URLs"""
         gids = []
         try:
             with open(self.gids_file, 'r') as f:
-                for line in f:
-                    line = line.strip()
-                    if line.startswith('http'):
-                        gid = self.extract_gid_from_url(line)
-                        if gid:
-                            gids.append(gid)
-            logger.info(f"Loaded {len(gids)} GIDs from {self.gids_file}")
+                lines = f.readlines()
+            
+            # Only process Canadian URLs (before USA section)
+            in_canada_section = True
+            
+            for line in lines:
+                line = line.strip()
+                if line == "USA":
+                    # Stop processing when we hit the USA section
+                    in_canada_section = False
+                    break
+                if in_canada_section and line.startswith('http'):
+                    gid = self.extract_gid_from_url(line)
+                    if gid:
+                        gids.append(gid)
+            
+            logger.info(f"Loaded {len(gids)} Canadian GIDs from {self.gids_file} (filtered out USA URLs)")
             return gids
         except Exception as e:
             logger.error(f"Error loading GIDs from {self.gids_file}: {e}")

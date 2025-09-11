@@ -47,12 +47,26 @@ class GoogleSheetsService:
             self.gids = []
     
     def _load_gids_from_file(self) -> List[str]:
-        """Load GIDs from g.txt file"""
+        """Load GIDs from g.txt file - ONLY Canadian URLs"""
         try:
             with open('app/services/g.txt', 'r') as f:
                 lines = f.readlines()
-            location_urls = [l.strip() for l in lines if 'gid=' in l]
-            gids = [re.search(r'gid=(\d+)', url).group(1) for url in location_urls if re.search(r'gid=(\d+)', url)]
+            
+            # Only process Canadian URLs (before USA section)
+            canadian_urls = []
+            in_canada_section = True
+            
+            for line in lines:
+                line = line.strip()
+                if line == "USA":
+                    # Stop processing when we hit the USA section
+                    in_canada_section = False
+                    break
+                if in_canada_section and 'gid=' in line:
+                    canadian_urls.append(line)
+            
+            gids = [re.search(r'gid=(\d+)', url).group(1) for url in canadian_urls if re.search(r'gid=(\d+)', url)]
+            logger.info(f"Loaded {len(gids)} Canadian GIDs (filtered out USA URLs)")
             return gids
         except Exception as e:
             logger.error(f"Error loading GIDs from g.txt: {e}")
