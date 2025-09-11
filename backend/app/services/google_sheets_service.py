@@ -216,11 +216,13 @@ class GoogleSheetsService:
     def _convert_smart_parser_output(self, smart_result: Dict[str, Any], gid: str) -> Dict[str, Any]:
         """Convert smart parser output to expected format for dispatcher cache service"""
         try:
-            # Get location name from GID mapping or smart parser result
-            location_name = self.gid_location_mapping.get(gid, 'Unknown')
-            
             # Extract metadata from smart parser result
             metadata = smart_result.get('metadata', {})
+            
+            # Get location name from metadata first, then fallback to GID mapping
+            location_name = metadata.get('name', '') or metadata.get('location', '')
+            if not location_name or location_name == 'Unknown':
+                location_name = self.gid_location_mapping.get(gid, 'Unknown')
             
             # Convert calendar_hourly_price to daily_rates format
             calendar_hourly_price = smart_result.get('calendar_hourly_price', {})
