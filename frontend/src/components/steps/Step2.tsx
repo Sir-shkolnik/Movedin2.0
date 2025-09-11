@@ -58,7 +58,8 @@ const Step2: React.FC<Step2Props> = ({ onNext, onBack }) => {
             initialRooms, 
             defaultRooms: 1 
         });
-        return initialRooms || 1;
+        // Ensure we always have a valid room count, default to 3 for better UX
+        return initialRooms && initialRooms > 0 ? initialRooms : 3;
     });
     const [sqft, setSqft] = useState(data.fromDetails?.sqft || '');
     
