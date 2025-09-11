@@ -849,49 +849,46 @@ async def get_debug_summary(lead_id: Optional[int] = None):
         logger.error(f"Get debug summary error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.post('/test-mapbox')
-async def test_mapbox_calculation(request: Request):
-    """Test Mapbox calculation for specific addresses"""
+@router.post('/test-travel-time')
+async def test_travel_time(request: Request):
+    """Test travel time calculation for debugging"""
     try:
-        from app.services.mapbox_service import mapbox_service
-        
         body = await request.json()
         origin = body.get('origin', '')
         destination = body.get('destination', '')
         
         if not origin or not destination:
-            return {"error": "Origin and destination required"}
+            raise HTTPException(status_code=400, detail="Origin and destination required")
         
-        # Test direct calculation
+        # Test Mapbox service directly
+        from app.services.mapbox_service import mapbox_service
+        
+        # Get direct directions
         directions = mapbox_service.get_directions(origin, destination)
         
-        if not directions:
-            return {"error": "Mapbox API failed to get directions"}
-        
-        # Calculate travel time with truck factor
-        one_way_hours = directions['duration'] / 3600
-        TRUCK_FACTOR = 1.3
-        truck_one_way_hours = one_way_hours * TRUCK_FACTOR
-        
-        # Pierre & Sons logic
-        if truck_one_way_hours > 1:
-            final_travel_hours = truck_one_way_hours
-        else:
-            final_travel_hours = 1.0
-        
-        return {
-            "success": True,
+        result = {
             "origin": origin,
             "destination": destination,
             "mapbox_directions": directions,
-            "one_way_hours": one_way_hours,
-            "truck_one_way_hours": truck_one_way_hours,
-            "final_travel_hours": final_travel_hours,
-            "distance_km": directions['distance'] / 1000,
-            "duration_seconds": directions['duration'],
-            "duration_minutes": directions['duration'] / 60
+            "direct_travel_time_hours": directions['duration'] / 3600 if directions else None,
+            "direct_distance_km": directions['distance'] / 1000 if directions else None
         }
         
+        # Test Pierre & Sons calculation
+        from app.services.vendors.pierre_sons_calculator import PierreSonsCalculator
+        pierre_calc = PierreSonsCalculator()
+        pierre_travel_time = pierre_calc._calculate_travel_time(origin, destination)
+        pierre_distance = pierre_calc._calculate_distance(origin, destination)
+        
+        result.update({
+            "pierre_travel_time_hours": pierre_travel_time,
+            "pierre_distance_km": pierre_distance,
+            "pierre_truck_factor": 1.3,
+            "pierre_calculated_hours": pierre_travel_time
+        })
+        
+        return {"success": True, "data": result}
+        
     except Exception as e:
-        logger.error(f"Mapbox test error: {e}")
-        return {"error": str(e)} 
+        logger.error(f"Travel time test error: {e}")
+        raise HTTPException(status_code=500, detail=str(e)) 
