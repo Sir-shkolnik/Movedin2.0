@@ -1288,6 +1288,7 @@ class LetsGetMovingCalculator(VendorCalculator):
             return False
 
     @classmethod
+    @classmethod
     def _get_proper_location_name(cls, gid: str, dispatcher_data: dict) -> str:
         """Get proper location name from GID mapping or fallback to data"""
         # Import the GID mapping
