@@ -125,7 +125,7 @@ const Step3: React.FC<Step3Props> = ({ onNext, onBack }) => {
             {(homeType === 'condo' || homeType === 'apartment') && (
                 <GroupedDropdowns>
                     <div className="form-group">
-                        <label>Floor Number</label>
+                        <label>Unit Number</label>
                         <select 
                             value={floorNumber} 
                             onChange={e => setFloorNumber(Number(e.target.value))}

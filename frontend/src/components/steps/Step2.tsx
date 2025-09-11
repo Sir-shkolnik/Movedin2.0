@@ -221,7 +221,7 @@ const Step2: React.FC<Step2Props> = ({ onNext, onBack }) => {
                     </div>
                     <GroupedDropdowns>
                         <div className="form-group">
-                            <label>Floor Number</label>
+                            <label>Unit Number</label>
                             <select 
                                 value={floorNumber} 
                                 onChange={e => setFloorNumber(Number(e.target.value))}

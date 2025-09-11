@@ -224,20 +224,6 @@ const Step6: React.FC = () => {
             </div>
           </div>
 
-          {/* Contact Information Card */}
-          <div className="step6-card-mobile" style={{
-            backgroundColor: '#f8f9fa',
-            border: '1px solid #e9ecef',
-            borderRadius: '12px',
-            padding: '20px'
-          }}>
-            <h3 className="step6-card-title" style={{ marginBottom: '16px', color: '#495057', fontSize: '16px' }}>👤 Contact Information</h3>
-            <div className="step6-card-content" style={{ display: 'grid', gap: '8px', fontSize: '14px' }}>
-              <div className="step6-detail-row"><strong>Name:</strong> {data.contact?.firstName} {data.contact?.lastName}</div>
-              <div className="step6-detail-row"><strong>Email:</strong> <span style={{ fontSize: '13px', wordBreak: 'break-word' }}>{data.contact?.email}</span></div>
-              <div className="step6-detail-row"><strong>Phone:</strong> {data.contact?.phone}</div>
-            </div>
-          </div>
         </div>
 
         {/* Right Column */}

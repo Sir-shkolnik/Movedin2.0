@@ -16,8 +16,8 @@ const steps = [
     { label: 'Origin Home', subtitle: 'Tell us about your current home' },
     { label: 'Destination', subtitle: 'Tell us about your new home' },
     { label: 'Choose Mover', subtitle: 'Select your moving company' },
-    { label: 'Contact Info', subtitle: 'Your contact information' },
-    { label: 'Review & Pay', subtitle: 'Review quote and complete booking' },
+    { label: 'Review Quote', subtitle: 'Review your moving details and quote' },
+    { label: 'Contact & Pay', subtitle: 'Your contact information and payment' },
     { label: 'Confirmation', subtitle: 'Your move is booked!' }
 ];
 
@@ -66,9 +66,9 @@ function AppInner() {
             case 3:
                 return _jsx(Step4, { onNext: goNext, onBack: goBack });
             case 4:
-                return _jsx(Step5, { onNext: goNext, onBack: goBack });
+                return _jsx(Step6, { onNext: goNext, onBack: goBack }); // Old Step6 (Review) -> New Step5
             case 5:
-                return _jsx(Step6, { onNext: goNext, onBack: goBack });
+                return _jsx(Step5, { onNext: goNext, onBack: goBack }); // Old Step5 (Contact) -> New Step6
             case 6:
                 return _jsx(Step7, {});
             default:
@@ -88,7 +88,10 @@ function AppInner() {
     } else if (currentStep === 3) {
         continueDisabled = !data.vendor;
     } else if (currentStep === 4) {
-        // Step 5 validation - contact information
+        // Step 5 validation - review quote (no validation needed, just review)
+        continueDisabled = false;
+    } else if (currentStep === 5) {
+        // Step 6 validation - contact information
         const { firstName, lastName, email, phone } = data.contact || {};
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         continueDisabled = !(firstName && firstName.trim()) || !(lastName && lastName.trim()) || !(email && email.trim()) || !(phone && phone.trim()) || !emailRegex.test(email || '') || (phone || '').length < 10;
@@ -106,10 +109,10 @@ function AppInner() {
         // Step 6 - Payment
         continueButtonText = "Pay $1.00 CAD Deposit";
         continueAction = () => {
-            // Trigger payment action in Step6 component
-            const step6Element = document.querySelector('.step6-modern');
-            if (step6Element) {
-                const payButton = step6Element.querySelector('.pay-button-modern');
+            // Trigger payment action in Step5 component (now Step6)
+            const step5Element = document.querySelector('.step6-modern');
+            if (step5Element) {
+                const payButton = step5Element.querySelector('.pay-button-modern');
                 if (payButton && !payButton.disabled) {
                     payButton.click();
                 }
