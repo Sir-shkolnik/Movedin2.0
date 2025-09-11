@@ -254,104 +254,6 @@ body:has(.homepage-container) {
     loading: lazy;
 }
 
-/* How It Works Section - Ultra Compact Design */
-.homepage-container .how-it-works-section {
-    padding: 2rem 1rem;
-    background: var(--white) !important;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.homepage-container .how-it-works-content {
-    max-width: 900px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.homepage-container .how-it-works-text h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--blue-600);
-    margin-bottom: 0.5rem;
-    line-height: 1.2;
-}
-
-.homepage-container .how-it-works-text p {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-    line-height: 1.4;
-}
-
-/* Steps - Ultra Compact Horizontal Flow */
-.homepage-container .steps-accordion {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 0.5rem;
-    margin-top: 1rem;
-}
-
-.homepage-container .step-item {
-    flex: 1;
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
-    border-radius: 8px;
-    padding: 1rem 0.75rem;
-    text-align: center;
-    transition: all 0.2s ease;
-    position: relative;
-    min-height: 80px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-
-.homepage-container .step-item:hover {
-    border-color: var(--blue-600);
-    background: #f0f4ff;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(21, 112, 239, 0.1);
-}
-
-.homepage-container .step-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.homepage-container .step-number {
-    width: 24px;
-    height: 24px;
-    background: var(--blue-600);
-    color: var(--text-white);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    font-size: 0.75rem;
-    flex-shrink: 0;
-}
-
-.homepage-container .step-title {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin: 0;
-    line-height: 1.2;
-    text-align: center;
-}
-
-.homepage-container .step-content {
-    color: var(--text-secondary);
-    font-size: 0.65rem;
-    line-height: 1.3;
-    margin: 0;
-    text-align: center;
-}
 
 .homepage-container .step-content p {
     font-size: 0.8rem;
@@ -572,8 +474,8 @@ body:has(.homepage-container) {
     transform: translateY(-2px);
 }
 
-/* Tablet and Mobile Responsive */
-@media (max-width: 900px) {
+/* Mobile Responsive */
+@media (max-width: 768px) {
     .homepage-container .hero-section {
         padding: 3rem 1rem 2rem;
     }
@@ -604,56 +506,6 @@ body:has(.homepage-container) {
         gap: 1rem;
     }
     
-    .homepage-container .how-it-works-section {
-        padding: 1.5rem 1rem;
-    }
-    
-    .homepage-container .steps-accordion {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.75rem;
-    }
-    
-    .homepage-container .how-it-works-text h2 {
-        font-size: 1.4rem;
-    }
-    
-    .homepage-container .how-it-works-text p {
-        font-size: 0.85rem;
-    }
-    
-    .homepage-container .step-item {
-        padding: 0.75rem;
-        min-height: 60px;
-        flex-direction: row;
-        align-items: center;
-        text-align: left;
-    }
-    
-    .homepage-container .step-header {
-        flex-direction: row;
-        gap: 0.75rem;
-        margin-bottom: 0;
-        align-items: center;
-    }
-    
-    .homepage-container .step-number {
-        width: 20px;
-        height: 20px;
-        font-size: 0.7rem;
-        flex-shrink: 0;
-    }
-    
-    .homepage-container .step-title {
-        font-size: 0.8rem;
-        text-align: left;
-    }
-    
-    .homepage-container .step-content {
-        font-size: 0.7rem;
-        text-align: left;
-        margin-left: 0.5rem;
-    }
     
     .homepage-container .trusted-logo {
         height: 30px;
@@ -687,50 +539,6 @@ body:has(.homepage-container) {
         max-width: 100%;
     }
     
-    .homepage-container .how-it-works-section {
-        padding: 1.5rem 0.75rem;
-    }
-    
-    .homepage-container .steps-accordion {
-        flex-direction: column;
-        gap: 0.4rem;
-    }
-    
-    .homepage-container .how-it-works-text h2 {
-        font-size: 1.3rem;
-    }
-    
-    .homepage-container .how-it-works-text p {
-        font-size: 0.8rem;
-    }
-    
-    .homepage-container .step-item {
-        padding: 0.6rem;
-        min-height: 55px;
-        flex-direction: row;
-        align-items: center;
-    }
-    
-    .homepage-container .step-header {
-        flex-direction: row;
-        gap: 0.6rem;
-        margin-bottom: 0;
-    }
-    
-    .homepage-container .step-number {
-        width: 18px;
-        height: 18px;
-        font-size: 0.65rem;
-    }
-    
-    .homepage-container .step-title {
-        font-size: 0.75rem;
-    }
-    
-    .homepage-container .step-content {
-        font-size: 0.65rem;
-        margin-left: 0.4rem;
-    }
     
     .homepage-container .step-toggle {
         width: 20px;
@@ -773,26 +581,6 @@ body:has(.homepage-container) {
     }
 }
 
-/* Small Mobile Responsive */
-@media (max-width: 768px) {
-    .homepage-container .steps-accordion {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    
-    .homepage-container .step-item {
-        flex-direction: row;
-        align-items: center;
-        text-align: left;
-    }
-    
-    .homepage-container .step-header {
-        flex-direction: row;
-        gap: 0.6rem;
-        margin-bottom: 0;
-    }
-}
-
 @media (max-width: 480px) {
     .homepage-container .hero-text h1 {
         font-size: 2rem;
@@ -812,37 +600,6 @@ body:has(.homepage-container) {
         max-width: 100%;
     }
     
-    .homepage-container .how-it-works-section {
-        padding: 1rem 0.5rem;
-    }
-    
-    .homepage-container .how-it-works-text h2 {
-        font-size: 1.3rem;
-    }
-    
-    .homepage-container .how-it-works-text p {
-        font-size: 0.8rem;
-    }
-    
-    .homepage-container .step-item {
-        padding: 0.5rem;
-        min-height: 50px;
-    }
-    
-    .homepage-container .step-number {
-        width: 16px;
-        height: 16px;
-        font-size: 0.6rem;
-    }
-    
-    .homepage-container .step-title {
-        font-size: 0.7rem;
-    }
-    
-    .homepage-container .step-content {
-        font-size: 0.6rem;
-        margin-left: 0.3rem;
-    }
     
     .homepage-container .step-toggle {
         width: 18px;
