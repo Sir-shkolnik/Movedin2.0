@@ -16,6 +16,7 @@ from app.services.vendor_engine import LetsGetMovingCalculator
 from app.services.vendors.easy2go_calculator import Easy2GoCalculator
 from app.services.vendors.velocity_movers_calculator import VelocityMoversCalculator
 from app.services.vendors.pierre_sons_calculator import PierreSonsCalculator
+from app.services.debug_logger import debug_logger
 import logging
 
 logger = logging.getLogger(__name__)
@@ -2242,3 +2243,23 @@ def get_configured_vendors():
         {"name": "Velocity Movers", "slug": "velocity-movers", "status": "active"},
         {"name": "Pierre & Sons", "slug": "pierre-sons", "status": "active"}
     ]
+
+@router.get('/debug-logs')
+async def get_debug_logs(lead_id: Optional[int] = None, limit: int = 50):
+    """Get debug logs for admin panel"""
+    try:
+        logs = debug_logger.get_debug_logs(lead_id, limit)
+        return {"success": True, "logs": logs}
+    except Exception as e:
+        logger.error(f"Get debug logs error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get('/debug-summary')
+async def get_debug_summary(lead_id: Optional[int] = None):
+    """Get debug summary for admin panel"""
+    try:
+        summary = debug_logger.get_debug_summary(lead_id)
+        return {"success": True, "summary": summary}
+    except Exception as e:
+        logger.error(f"Get debug summary error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
