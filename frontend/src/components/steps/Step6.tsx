@@ -83,10 +83,7 @@ const Step6: React.FC = () => {
     setPaymentError(null);
     
     try {
-      console.log('Step 6 - Starting real payment process...');
-      
-      // Create payment intent first to save lead data
-      console.log('Step 6 - Creating payment intent...');
+      console.log('Step 6 - Starting checkout session creation...');
       console.log('Step 6 - Data structure:', {
         selectedQuote: data.selectedQuote,
         vendor: data.vendor,
@@ -94,7 +91,8 @@ const Step6: React.FC = () => {
         contact: data.contact
       });
 
-      const intentResponse = await fetch('https://movedin-backend.onrender.com/api/create-intent', {
+      // Create checkout session with all form data
+      const response = await fetch('https://movedin-backend.onrender.com/api/create-checkout-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -105,37 +103,35 @@ const Step6: React.FC = () => {
           selectedQuote: data.selectedQuote,
           vendor: data.vendor,
           fromDetails: data.fromDetails,
-          contact: data.contact
+          contact: data.contact,
+          quote_data: {
+            originAddress: data.from,
+            destinationAddress: data.to,
+            moveDate: data.date,
+            moveTime: data.time,
+            totalRooms: data.fromDetails?.rooms || 3,
+            squareFootage: data.fromDetails?.sqft || 0,
+            estimatedWeight: 0,
+            stairsAtPickup: data.fromDetails?.stairs || 0,
+            stairsAtDropoff: data.toDetails?.stairs || 0,
+            elevatorAtPickup: data.fromDetails?.elevator || false,
+            elevatorAtDropoff: data.toDetails?.elevator || false,
+            heavyItems: data.fromDetails?.heavyItems || {},
+            additionalServices: data.fromDetails?.additionalServices || {}
+          }
         }),
       });
 
-      if (!intentResponse.ok) {
-        throw new Error(`Failed to create payment intent: ${await intentResponse.text()}`);
+      if (!response.ok) {
+        throw new Error(`Failed to create checkout session: ${await response.text()}`);
       }
 
-      const intentData = await intentResponse.json();
-      console.log('Step 6 - Payment intent created:', intentData);
+      const result = await response.json();
+      console.log('Step 6 - Checkout session created:', result);
 
-      // Store complete form data in sessionStorage for Step7
-      const completeFormData = {
-        selectedQuote: data.selectedQuote,
-        vendor: data.vendor,
-        fromDetails: data.fromDetails,
-        contact: data.contact,
-        date: data.date,
-        time: data.time,
-        from: data.from,
-        to: data.to,
-        paymentIntentData: intentData
-      };
-      
-      console.log('Step 6 - Storing complete form data for Step7:', completeFormData);
-      sessionStorage.setItem('formData', JSON.stringify(completeFormData));
-      sessionStorage.setItem('paymentSuccess', 'true');
-
-      // Redirect to dynamic Stripe Payment Link with proper redirect URL
-      console.log('Step 6 - Redirecting to dynamic Stripe Payment Link...');
-      window.location.href = intentData.payment_link_url;
+      // Redirect to Stripe Checkout
+      console.log('Step 6 - Redirecting to Stripe Checkout...');
+      window.location.href = result.checkout_url;
       
     } catch (error) {
       console.error('Step 6 - Payment error:', error);

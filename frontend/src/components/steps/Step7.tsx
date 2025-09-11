@@ -26,16 +26,69 @@ const Step7: React.FC = () => {
         // Show confetti animation after component mounts
         setShowConfetti(true);
         
-        // Load data from sessionStorage if coming from payment redirect
-        loadDataFromSessionStorage();
-        
-        // Process payment confirmation and save lead
-        handlePaymentConfirmation();
+        // Load data from URL parameters (new checkout session flow)
+        loadDataFromURL();
         
         // Hide confetti after 3 seconds
         const timer = setTimeout(() => setShowConfetti(false), 3000);
         return () => clearTimeout(timer);
     }, []);
+
+    const loadDataFromURL = async () => {
+        try {
+            console.log('🔍 Step7 - Loading data from URL parameters...');
+            
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session_id');
+            const leadId = urlParams.get('lead_id');
+            
+            console.log('Step7 - URL parameters:', { sessionId, leadId });
+            
+            if (sessionId && leadId) {
+                console.log('Step7 - Verifying payment with backend...');
+                
+                // Verify payment with backend
+                const response = await fetch('https://movedin-backend.onrender.com/api/verify-checkout-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        session_id: sessionId,
+                        lead_id: leadId
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Payment verification failed: ${await response.text()}`);
+                }
+
+                const result = await response.json();
+                console.log('Step7 - Payment verification result:', result);
+
+                if (result.success) {
+                    console.log('Step7 - Payment verified successfully, loading form data...');
+                    setDisplayData(result.form_data);
+                    setLeadId(result.lead_id);
+                    setIsProcessing(false);
+                } else {
+                    throw new Error('Payment verification failed');
+                }
+            } else {
+                console.log('Step7 - No URL parameters found, trying sessionStorage fallback...');
+                // Fallback to sessionStorage for backward compatibility
+                loadDataFromSessionStorage();
+            }
+        } catch (error) {
+            console.error('Step7 - Error loading data from URL:', error);
+            setError('Error loading payment data. Please try again.');
+            setIsProcessing(false);
+            
+            // Try sessionStorage as fallback
+            loadDataFromSessionStorage();
+        }
+    };
 
     const loadDataFromSessionStorage = () => {
         try {

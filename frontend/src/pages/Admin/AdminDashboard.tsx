@@ -7,10 +7,11 @@ import SystemMonitoring from './SystemMonitoring';
 import Analytics from './Analytics';
 import VendorLocations from './VendorLocations';
 import DatabaseManagement from './DatabaseManagement';
+import ComprehensiveTracking from './ComprehensiveTracking';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 
-type AdminSection = 'dashboard' | 'vendors' | 'leads' | 'system' | 'analytics' | 'vendor-locations' | 'database';
+type AdminSection = 'dashboard' | 'vendors' | 'leads' | 'system' | 'analytics' | 'vendor-locations' | 'database' | 'comprehensive-tracking';
 
 interface DashboardStats {
   totalLeads: number;
@@ -312,6 +313,9 @@ const AdminDashboard: React.FC = () => {
             <button onClick={() => setActiveSection('system')} className="action-btn">
               ⚙️ System Status
             </button>
+            <button onClick={() => setActiveSection('comprehensive-tracking')} className="action-btn">
+              📊 Comprehensive Tracking
+            </button>
           </div>
         </div>
       </div>
@@ -350,6 +354,8 @@ const AdminDashboard: React.FC = () => {
         return <VendorLocations />;
       case 'database':
         return <DatabaseManagement />;
+      case 'comprehensive-tracking':
+        return <ComprehensiveTracking />;
       default:
         return renderDashboard();
     }

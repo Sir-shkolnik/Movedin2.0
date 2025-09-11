@@ -8,6 +8,7 @@ import os
 import subprocess
 from app.core.database import get_db, engine
 from app.models.vendor import Vendor
+from app.models.lead import Lead
 from app.schemas.quote import QuoteRequest
 from app.services.google_sheets_service import google_sheets_service
 from app.services.vendor_engine import GeographicVendorDispatcher, get_vendor_calculator
@@ -2100,3 +2101,144 @@ async def get_vendors(db: Session = Depends(get_db)):
     except Exception as e:
         logger.error(f"Error fetching vendors: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to fetch vendors: {str(e)}")
+
+# =============================================================================
+# COMPREHENSIVE TRACKING API ROUTES
+# =============================================================================
+
+@router.get("/leads")
+async def get_all_leads(db: Session = Depends(get_db)):
+    """Get all leads for comprehensive tracking"""
+    try:
+        leads = db.query(Lead).order_by(Lead.created_at.desc()).all()
+        return leads
+    except Exception as e:
+        logger.error(f"Error fetching leads: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch leads: {str(e)}")
+
+@router.get("/payments")
+async def get_all_payments(db: Session = Depends(get_db)):
+    """Get all payments for comprehensive tracking"""
+    try:
+        # Get leads with payment information
+        leads_with_payments = db.query(Lead).filter(
+            Lead.payment_status.isnot(None),
+            Lead.payment_amount.isnot(None)
+        ).order_by(Lead.created_at.desc()).all()
+        
+        payments = []
+        for lead in leads_with_payments:
+            payments.append({
+                "id": lead.id,
+                "lead_id": lead.id,
+                "amount": int(lead.payment_amount * 100) if lead.payment_amount else 0,  # Convert to cents
+                "currency": lead.payment_currency or "CAD",
+                "status": lead.payment_status or "pending",
+                "payment_intent_id": lead.payment_intent_id or f"lead_{lead.id}",
+                "created_at": lead.created_at.isoformat(),
+                "vendor_name": "Selected Vendor"  # You can enhance this with actual vendor lookup
+            })
+        
+        return payments
+    except Exception as e:
+        logger.error(f"Error fetching payments: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch payments: {str(e)}")
+
+@router.get("/email-logs")
+async def get_email_logs(db: Session = Depends(get_db)):
+    """Get email logs for comprehensive tracking"""
+    try:
+        # For now, we'll create mock email logs based on leads
+        # In a real implementation, you'd have a separate EmailLog table
+        leads = db.query(Lead).filter(
+            Lead.email.isnot(None),
+            Lead.email != ""
+        ).order_by(Lead.created_at.desc()).all()
+        
+        email_logs = []
+        for lead in leads:
+            # Support notification email
+            email_logs.append({
+                "id": lead.id * 2,  # Generate unique ID
+                "lead_id": lead.id,
+                "email_type": "support_notification",
+                "recipient": "support@movedin.com",
+                "subject": f"New Lead Created - Lead #{lead.id} - MovedIn 2.0",
+                "status": "sent" if lead.status in ["payment_completed", "converted"] else "pending",
+                "sent_at": lead.created_at.isoformat(),
+                "error_message": None
+            })
+            
+            # Customer confirmation email
+            email_logs.append({
+                "id": lead.id * 2 + 1,  # Generate unique ID
+                "lead_id": lead.id,
+                "email_type": "customer_confirmation",
+                "recipient": lead.email,
+                "subject": f"Move Confirmation - Lead #{lead.id} - MovedIn 2.0",
+                "status": "sent" if lead.status in ["payment_completed", "converted"] else "pending",
+                "sent_at": lead.created_at.isoformat(),
+                "error_message": None
+            })
+        
+        return email_logs
+    except Exception as e:
+        logger.error(f"Error fetching email logs: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch email logs: {str(e)}")
+
+@router.get("/comprehensive-stats")
+async def get_comprehensive_stats(db: Session = Depends(get_db)):
+    """Get comprehensive statistics for the tracking dashboard"""
+    try:
+        # Get all leads
+        total_leads = db.query(Lead).count()
+        
+        # Get leads by status
+        leads_by_status = db.query(Lead.status, db.func.count(Lead.id)).group_by(Lead.status).all()
+        status_counts = {status: count for status, count in leads_by_status}
+        
+        # Get payment statistics
+        total_payments = db.query(Lead).filter(Lead.payment_status == "succeeded").count()
+        total_revenue = db.query(db.func.sum(Lead.payment_amount)).filter(
+            Lead.payment_status == "succeeded",
+            Lead.payment_amount.isnot(None)
+        ).scalar() or 0
+        
+        # Get vendor statistics
+        total_vendors = len(get_configured_vendors())
+        active_vendors = total_vendors  # All configured vendors are considered active
+        
+        # Get email statistics
+        total_emails = total_leads * 2  # 2 emails per lead (support + customer)
+        sent_emails = total_payments * 2  # Emails sent for completed payments
+        
+        # Calculate conversion rate
+        conversion_rate = (total_payments / total_leads * 100) if total_leads > 0 else 0
+        
+        # Calculate email delivery rate
+        email_delivery_rate = (sent_emails / total_emails * 100) if total_emails > 0 else 0
+        
+        return {
+            "total_leads": total_leads,
+            "total_payments": total_payments,
+            "total_emails": total_emails,
+            "total_vendors": total_vendors,
+            "active_vendors": active_vendors,
+            "total_revenue": total_revenue,
+            "conversion_rate": round(conversion_rate, 2),
+            "email_delivery_rate": round(email_delivery_rate, 2),
+            "status_breakdown": status_counts,
+            "avg_lead_value": round(total_revenue / total_leads, 2) if total_leads > 0 else 0
+        }
+    except Exception as e:
+        logger.error(f"Error fetching comprehensive stats: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch comprehensive stats: {str(e)}")
+
+def get_configured_vendors():
+    """Get list of configured vendors"""
+    return [
+        {"name": "Let's Get Moving", "slug": "lets-get-moving", "status": "active"},
+        {"name": "Easy2Go", "slug": "easy2go", "status": "active"},
+        {"name": "Velocity Movers", "slug": "velocity-movers", "status": "active"},
+        {"name": "Pierre & Sons", "slug": "pierre-sons", "status": "active"}
+    ]

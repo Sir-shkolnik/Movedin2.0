@@ -21,14 +21,12 @@ class EmailService:
         self.support_email = "support@movedin.com"
         
     def send_email(self, to_email: str, subject: str, body: str, is_html: bool = False) -> bool:
-        """Send email using SMTP"""
+        """Send email using SMTP or log to file if SMTP not configured"""
         try:
             if not self.smtp_password:
-                logger.warning("SMTP password not configured - logging email instead")
-                logger.info(f"📧 EMAIL NOTIFICATION")
-                logger.info(f"📧 To: {to_email}")
-                logger.info(f"📧 Subject: {subject}")
-                logger.info(f"📧 Body: {body}")
+                # Enhanced logging system for testing
+                self._log_email_to_file(to_email, subject, body)
+                logger.warning("SMTP password not configured - email logged to file")
                 return True
             
             # Create message
@@ -56,6 +54,36 @@ class EmailService:
         except Exception as e:
             logger.error(f"❌ Failed to send email to {to_email}: {e}")
             return False
+    
+    def _log_email_to_file(self, to_email: str, subject: str, body: str) -> None:
+        """Log email to file for testing purposes"""
+        try:
+            # Create logs directory if it doesn't exist
+            os.makedirs('logs', exist_ok=True)
+            
+            # Create email log file
+            log_file = f"logs/email_log_{datetime.now().strftime('%Y%m%d')}.txt"
+            
+            with open(log_file, 'a', encoding='utf-8') as f:
+                f.write(f"\n{'='*80}\n")
+                f.write(f"📧 EMAIL NOTIFICATION - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                f.write(f"{'='*80}\n")
+                f.write(f"To: {to_email}\n")
+                f.write(f"Subject: {subject}\n")
+                f.write(f"From: {self.smtp_username}\n")
+                f.write(f"{'='*80}\n")
+                f.write(f"Body:\n{body}\n")
+                f.write(f"{'='*80}\n")
+            
+            logger.info(f"📧 Email logged to {log_file}")
+            
+        except Exception as e:
+            logger.error(f"Failed to log email to file: {e}")
+            # Fallback to console logging
+            logger.info(f"📧 EMAIL NOTIFICATION")
+            logger.info(f"📧 To: {to_email}")
+            logger.info(f"📧 Subject: {subject}")
+            logger.info(f"📧 Body: {body}")
     
     def send_lead_notification_to_support(self, lead_data: Dict[str, Any], lead_id: int) -> bool:
         """Send notification to support@movedin.com when a new lead is created"""

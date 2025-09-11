@@ -44,6 +44,15 @@ class PaymentConfirmRequest(BaseModel):
     payment_intent_id: str
     lead_data: Dict[str, Any]
 
+class CheckoutSessionRequest(BaseModel):
+    amount: int
+    currency: str = "cad"
+    selectedQuote: Optional[Dict[str, Any]] = None
+    vendor: Optional[Dict[str, Any]] = None
+    fromDetails: Optional[Dict[str, Any]] = None
+    contact: Optional[Dict[str, Any]] = None
+    quote_data: Optional[Dict[str, Any]] = None
+
 from app.services.email_service import email_service
 
 async def send_vendor_email(lead_data: Dict[str, Any], vendor_email: str, lead_id: int, payment_intent_id: str = None):
@@ -106,6 +115,79 @@ def get_vendor_by_slug(vendor_slug: str, db: Session):
     except Exception as e:
         logger.error(f"Failed to get vendor by slug {vendor_slug}: {e}")
         return None
+
+@router.post('/create-checkout-session')
+async def create_checkout_session(req: CheckoutSessionRequest, db: Session = Depends(get_db)):
+    """Create a Stripe Checkout Session with form data in metadata"""
+    try:
+        if not stripe.api_key:
+            raise HTTPException(status_code=500, detail="Stripe not configured")
+        
+        # Create lead in database first
+        lead = Lead(
+            first_name=req.contact.get('firstName', '') if req.contact else '',
+            last_name=req.contact.get('lastName', '') if req.contact else '',
+            email=req.contact.get('email', '') if req.contact else '',
+            phone=req.contact.get('phone', '') if req.contact else '',
+            origin_address=req.quote_data.get('originAddress', '') if req.quote_data else '',
+            destination_address=req.quote_data.get('destinationAddress', '') if req.quote_data else '',
+            move_date=req.quote_data.get('moveDate', '') if req.quote_data else '',
+            move_time=req.quote_data.get('moveTime', '') if req.quote_data else '',
+            total_rooms=req.quote_data.get('totalRooms', 0) if req.quote_data else 0,
+            square_footage=req.quote_data.get('squareFootage', 0) if req.quote_data else 0,
+            estimated_weight=req.quote_data.get('estimatedWeight', 0) if req.quote_data else 0,
+            status='pending_payment'
+        )
+        
+        db.add(lead)
+        db.commit()
+        db.refresh(lead)
+        
+        lead_id = lead.id
+        logger.info(f"Created lead {lead_id} for checkout session")
+        
+        # Prepare metadata for checkout session
+        metadata = {
+            'lead_id': str(lead_id),
+            'vendor_slug': req.vendor.get('vendor_slug', '') if req.vendor else '',
+            'amount': str(req.amount),
+            'currency': req.currency
+        }
+        
+        # Create checkout session with form data in metadata
+        checkout_session = stripe.checkout.Session.create(
+            line_items=[{
+                'price_data': {
+                    'currency': req.currency,
+                    'product_data': {
+                        'name': 'MovedIn 2.0 - $1 CAD Deposit',
+                        'description': 'Deposit to reserve your move date and time'
+                    },
+                    'unit_amount': req.amount,
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url=f'https://movedin-frontend.onrender.com/#/step7?session_id={{CHECKOUT_SESSION_ID}}&lead_id={lead_id}',
+            cancel_url='https://movedin-frontend.onrender.com/#/step6',
+            metadata=metadata,
+            allow_promotion_codes=True
+        )
+        
+        logger.info(f"Created checkout session: {checkout_session.id} for lead {lead_id}")
+        
+        return {
+            'checkout_url': checkout_session.url,
+            'session_id': checkout_session.id,
+            'lead_id': lead_id
+        }
+        
+    except stripe.error.StripeError as e:
+        logger.error(f"Stripe error: {e}")
+        raise HTTPException(status_code=400, detail=f"Payment error: {str(e)}")
+    except Exception as e:
+        logger.error(f"Checkout session creation error: {e}")
+        raise HTTPException(status_code=500, detail="Failed to create checkout session")
 
 @router.post('/create-intent')
 async def create_payment_intent(req: PaymentIntentRequest, db: Session = Depends(get_db)):
@@ -302,6 +384,88 @@ async def process_manual_payment(request: Request, db: Session = Depends(get_db)
     except Exception as e:
         logger.error(f"Manual payment processing error: {str(e)}")
         return {"success": False, "error": str(e)}
+
+@router.post('/verify-checkout-session')
+async def verify_checkout_session(request: Request, db: Session = Depends(get_db)):
+    """Verify checkout session and return form data"""
+    try:
+        body = await request.json()
+        session_id = body.get('session_id')
+        lead_id = body.get('lead_id')
+        
+        if not session_id or not lead_id:
+            raise HTTPException(status_code=400, detail="session_id and lead_id are required")
+        
+        # Retrieve checkout session from Stripe
+        session = stripe.checkout.Session.retrieve(session_id)
+        
+        if session.payment_status != 'paid':
+            raise HTTPException(status_code=400, detail="Payment not completed")
+        
+        # Get lead from database
+        lead = db.query(Lead).filter(Lead.id == lead_id).first()
+        if not lead:
+            raise HTTPException(status_code=404, detail="Lead not found")
+        
+        # Update lead status
+        lead.status = 'payment_completed'
+        lead.payment_intent_id = session_id
+        lead.payment_amount = session.amount_total / 100  # Convert from cents
+        lead.payment_currency = session.currency.upper()
+        lead.payment_status = 'succeeded'
+        db.commit()
+        
+        # Prepare form data for frontend
+        form_data = {
+            'contact': {
+                'firstName': lead.first_name,
+                'lastName': lead.last_name,
+                'email': lead.email,
+                'phone': lead.phone
+            },
+            'quote_data': {
+                'originAddress': lead.origin_address,
+                'destinationAddress': lead.destination_address,
+                'moveDate': lead.move_date,
+                'moveTime': lead.move_time,
+                'totalRooms': lead.total_rooms,
+                'squareFootage': lead.square_footage,
+                'estimatedWeight': lead.estimated_weight
+            },
+            'selected_quote': {
+                'vendor_name': 'Selected Vendor',  # You can get this from the lead
+                'total_cost': lead.payment_amount,
+                'payment_status': 'completed'
+            },
+            'payment': {
+                'amount': lead.payment_amount,
+                'currency': lead.payment_currency,
+                'status': 'completed',
+                'session_id': session_id
+            }
+        }
+        
+        # Send email notifications (using our logging system)
+        try:
+            from app.services.email_service import email_service
+            email_service.send_payment_notification_to_support(form_data, lead_id, session_id)
+            logger.info(f"Payment notification sent for lead {lead_id}")
+        except Exception as email_error:
+            logger.error(f"Failed to send email notification: {email_error}")
+        
+        return {
+            'success': True,
+            'form_data': form_data,
+            'lead_id': lead_id,
+            'session_id': session_id
+        }
+        
+    except stripe.error.StripeError as e:
+        logger.error(f"Stripe error: {e}")
+        raise HTTPException(status_code=400, detail=f"Stripe error: {str(e)}")
+    except Exception as e:
+        logger.error(f"Verification error: {e}")
+        raise HTTPException(status_code=500, detail="Failed to verify payment")
 
 @router.post("/verify")
 async def verify_payment(request: Request):
@@ -568,6 +732,44 @@ async def confirm_payment(
     except Exception as e:
         logger.error(f"Payment confirmation error: {e}")
         raise HTTPException(status_code=500, detail="Failed to confirm payment")
+
+@router.post('/test-email')
+async def test_email():
+    """Test email system functionality"""
+    try:
+        from app.services.email_service import email_service
+        
+        # Test support notification
+        test_lead_data = {
+            'contact_data': {
+                'firstName': 'Test',
+                'lastName': 'User',
+                'email': 'test@example.com',
+                'phone': '555-1234'
+            },
+            'quote_data': {
+                'originAddress': '123 Test St, Toronto, ON',
+                'destinationAddress': '456 Test Ave, Mississauga, ON',
+                'moveDate': '2025-02-15',
+                'moveTime': 'Morning',
+                'totalRooms': 3
+            },
+            'selected_quote': {
+                'vendor_name': 'Test Vendor',
+                'total_cost': 100.00
+            }
+        }
+        
+        success = email_service.send_payment_notification_to_support(test_lead_data, 999, 'test_session_123')
+        
+        return {
+            "success": success,
+            "message": "Email test completed - check logs/email_log_*.txt for details",
+            "email_logged": True
+        }
+    except Exception as e:
+        logger.error(f"Email test error: {e}")
+        return {"success": False, "error": str(e)}
 
 @router.get('/test-connection')
 async def test_stripe_connection():
