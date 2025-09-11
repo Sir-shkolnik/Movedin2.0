@@ -156,10 +156,20 @@ class PierreSonsCalculator:
             directions = mapbox_service.get_directions(origin, destination)
             if directions:
                 one_way_hours = directions['duration'] / 3600
+                distance_km = directions['distance'] / 1000
                 
                 # Apply truck factor
                 TRUCK_FACTOR = 1.3
                 truck_one_way_hours = one_way_hours * TRUCK_FACTOR
+                
+                # CRITICAL FIX: Validate distance vs time ratio
+                # If distance > 100km but time < 1.5 hours, the geocoding is wrong
+                if distance_km > 100 and truck_one_way_hours < 1.5:
+                    print(f"WARNING: Distance {distance_km:.1f}km but only {truck_one_way_hours:.2f}h - geocoding error detected")
+                    # Estimate correct travel time based on distance
+                    estimated_hours = max(2.0, distance_km / 80)  # Assume 80km/h average
+                    print(f"Pierre & Sons travel time: {estimated_hours:.2f}h (estimated from distance)")
+                    return estimated_hours
                 
                 # Pierre & Sons rule: If move is more than 1 hour away, 
                 # travel time fee matches the time it takes to return to office

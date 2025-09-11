@@ -140,7 +140,11 @@ class MapboxService:
             'L6C 3L7, Markham, Ontario, Canada': 'Markham, Ontario, Canada',
             'L6C 3L7, Markham, ON, Canada': 'Markham, Ontario, Canada',
             'M9B 0A5, Etobicoke, Ontario, Canada': 'Etobicoke, Ontario, Canada',
-            'M9B 0A5, Etobicoke, ON, Canada': 'Etobicoke, Ontario, Canada'
+            'M9B 0A5, Etobicoke, ON, Canada': 'Etobicoke, Ontario, Canada',
+            # Fix Zurich, Ontario geocoding issue
+            'Zurich, Ontario, Canada': 'Zurich, Ontario N0M 2T0, Canada',
+            'Zurich, ON, Canada': 'Zurich, Ontario N0M 2T0, Canada',
+            'Zurich, Ontario N0M 2T0, Canada': 'Zurich, Ontario N0M 2T0, Canada'
         }
         
         # Check for exact matches first
@@ -220,6 +224,11 @@ class MapboxService:
 
     def get_coordinates(self, address: str) -> Optional[Tuple[float, float]]:
         """Get coordinates for an address with smart GTA-aware geocoding logic"""
+        # Special handling for Zurich, Ontario to prevent geocoding errors
+        if 'zurich' in address.lower() and 'ontario' in address.lower():
+            print(f"Special handling for Zurich, Ontario: {address}")
+            return (43.6, -81.2)  # Correct coordinates for Zurich, Ontario
+        
         features = self.geocode_address(address)
         if not features:
             print(f"No geocoding results for: {address}")
@@ -246,7 +255,9 @@ class MapboxService:
             'hamilton': {'lat': 43.2557, 'lng': -79.8711, 'priority': 9},
             'ajax': {'lat': 43.8509, 'lng': -79.0205, 'priority': 9},
             'pickering': {'lat': 43.8384, 'lng': -79.0868, 'priority': 9},
-            'richmond hill': {'lat': 43.8828, 'lng': -79.4403, 'priority': 9}
+            'richmond hill': {'lat': 43.8828, 'lng': -79.4403, 'priority': 9},
+            # Add Zurich, Ontario with correct coordinates (southwestern Ontario)
+            'zurich': {'lat': 43.6, 'lng': -81.2, 'priority': 10}
         }
         
         for feature in features:
