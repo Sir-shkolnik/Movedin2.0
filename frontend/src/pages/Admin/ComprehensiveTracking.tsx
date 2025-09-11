@@ -665,7 +665,7 @@ const ComprehensiveTracking: React.FC = () => {
 
         {/* Summary */}
         <div className="tracking-summary">
-          <p>Showing {filteredData.length} of {stats[`total${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}`]} {activeTab}</p>
+          <p>Showing {filteredData.length} {activeTab}</p>
         </div>
       )}
     </div>
