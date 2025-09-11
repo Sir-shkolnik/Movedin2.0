@@ -18,6 +18,8 @@ class SmartCalendarParser:
             ('MAR', r'MAR.*?APR'), ('APR', r'APR.*?MAY'), ('MAY', r'MAY.*?JUN'),
             ('JUN', r'JUN.*?JUL'), ('JUL', r'JUL.*?AUG'), ('AUG', r'AUG.*?SEP'),
             ('SEP', r'SEP.*?OCT'), ('OCT', r'OCT.*?NOV'), ('NOV', r'NOV.*?DEC'),
+            # Add patterns for the actual CSV structure with location names
+            ('MAR_LOC', r'[A-Z]+.*?MAR.*?[A-Z]+.*?APR'), ('APR_LOC', r'[A-Z]+.*?APR.*?[A-Z]+.*?MAY'),
             # Add patterns for the actual CSV structure
             ('TORONTO_APR', r'SUNDAY,MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY,SATURDAY.*?TORONTO - MAY'),
             ('TORONTO_MAY', r'TORONTO - MAY.*?TORONTO - JUNE'),
@@ -37,6 +39,7 @@ class SmartCalendarParser:
             'MAR': '03', 'APR': '04', 'MAY': '05', 'JUN': '06',
             'JUL': '07', 'AUG': '08', 'SEP': '09', 'OCT': '10', 'NOV': '11',
             'DEC': '12', 'JAN': '01', 'FEB': '02',
+            'MAR_LOC': '03', 'APR_LOC': '04',
             'TORONTO_APR': '04', 'TORONTO_MAY': '05', 'TORONTO_JUN': '06',
             'TORONTO_JUL': '07', 'TORONTO_AUG': '08', 'TORONTO_SEP': '09',
             'TORONTO_OCT': '10', 'TORONTO_NOV': '11', 'TORONTO_DEC': '12',
