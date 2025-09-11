@@ -110,20 +110,12 @@ function AppInner() {
         continueButtonText = "Pay $1.00 CAD Deposit";
         continueAction = () => {
             // Trigger payment action in Step5 component (now Step6)
-            console.log('App.js - Attempting to trigger payment button...');
-            const step5Element = document.querySelector('.step-card');
-            console.log('App.js - Found step5Element:', step5Element);
+            const step5Element = document.querySelector('.step6-modern');
             if (step5Element) {
                 const payButton = step5Element.querySelector('.pay-button-modern');
-                console.log('App.js - Found payButton:', payButton);
                 if (payButton && !payButton.disabled) {
-                    console.log('App.js - Clicking pay button...');
                     payButton.click();
-                } else {
-                    console.log('App.js - Pay button not found or disabled');
                 }
-            } else {
-                console.log('App.js - Step5 element not found');
             }
         };
     }

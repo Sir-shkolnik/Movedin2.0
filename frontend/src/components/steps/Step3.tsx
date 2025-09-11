@@ -4,7 +4,6 @@ import { useForm } from '../../contexts/FormContext';
 
 const homeTypes = [
     { value: 'house', label: 'House' },
-    { value: 'townhouse', label: 'TownHouse' },
     { value: 'condo', label: 'Condo' },
     { value: 'apartment', label: 'Apartment' },
     { value: 'commercial', label: 'Commercial' },
@@ -37,7 +36,7 @@ interface Step3Props {
 const Step3: React.FC<Step3Props> = ({ onNext, onBack }) => {
     const { data, setData } = useForm();
     
-    const [homeType, setHomeType] = useState<'house' | 'townhouse' | 'condo' | 'apartment' | 'commercial'>(
+    const [homeType, setHomeType] = useState(
         (data.toDetails && data.toDetails.homeType) || 
         (data.fromDetails && data.fromDetails.homeType) || 
         'house'
@@ -76,10 +75,10 @@ const Step3: React.FC<Step3Props> = ({ onNext, onBack }) => {
                 homeType,
                 rooms: homeType === 'commercial' ? undefined : rooms,
                 sqft: homeType === 'commercial' ? sqft : '',
-                stairs: homeType === 'house' || homeType === 'townhouse' ? stairs : undefined,
-                floorNumber: homeType !== 'house' && homeType !== 'townhouse' ? floorNumber : undefined,
-                elevator: homeType !== 'house' && homeType !== 'townhouse' ? elevator : undefined,
-                loadingDock: homeType !== 'house' && homeType !== 'townhouse' ? loadingDock : undefined,
+                stairs: homeType === 'house' ? stairs : undefined,
+                floorNumber: homeType !== 'house' ? floorNumber : undefined,
+                elevator: homeType !== 'house' ? elevator : undefined,
+                loadingDock: homeType !== 'house' ? loadingDock : undefined,
             },
         }));
         onNext();
@@ -95,7 +94,7 @@ const Step3: React.FC<Step3Props> = ({ onNext, onBack }) => {
                 </label>
                 <select 
                     value={homeType} 
-                    onChange={e => setHomeType(e.target.value as 'house' | 'townhouse' | 'condo' | 'apartment' | 'commercial')}
+                    onChange={e => setHomeType(e.target.value)}
                     className="autocomplete-input"
                 >
                     {homeTypes.map(ht => (
@@ -106,7 +105,7 @@ const Step3: React.FC<Step3Props> = ({ onNext, onBack }) => {
                 </select>
             </div>
 
-            {(homeType === 'house' || homeType === 'townhouse') && (
+            {homeType === 'house' && (
                 <GroupedDropdowns>
                     <div className="form-group">
                         <label>Stairs at Dropoff</label>
