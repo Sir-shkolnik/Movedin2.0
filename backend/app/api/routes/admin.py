@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
-from sqlalchemy import text, inspect
+from sqlalchemy import text, inspect, func
 from typing import List, Dict, Any, Optional
 from datetime import datetime, date, timedelta
 import time
@@ -2194,7 +2194,6 @@ async def get_comprehensive_stats(db: Session = Depends(get_db)):
         total_leads = db.query(Lead).count()
         
         # Get leads by status
-        from sqlalchemy import func
         leads_by_status = db.query(Lead.status, func.count(Lead.id)).group_by(Lead.status).all()
         status_counts = {status: count for status, count in leads_by_status}
         
