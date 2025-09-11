@@ -32,11 +32,6 @@ body {
     max-width: 800px;
 }
 
-.step-container {
-    flex: 1;
-    width: 100%;
-}
-
 @media (max-width: 1200px) {
     .app-root {
         padding: 80px 20px 0 20px;

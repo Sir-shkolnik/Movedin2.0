@@ -210,61 +210,59 @@ function AppInner() {
 
         return (
         <div className="app-root">
+            <Stepper 
+                steps={steps} 
+                currentStep={currentStep} 
+                goToStep={goToStep}
+            />
             <div className="step-content">
-                <Stepper 
-                    steps={steps} 
-                    currentStep={currentStep} 
-                    goToStep={goToStep}
-                />
-                <div className="step-container">
-                    {currentStep === 0 && <Step1 onNext={goNext} />}
-                    {currentStep === 1 && <Step2 onNext={goNext} onBack={goBack} />}
-                    {currentStep === 2 && <Step3 onNext={goNext} onBack={goBack} />}
-                    {currentStep === 3 && <Step4 onNext={goNext} onBack={goBack} />}
-                    {currentStep === 4 && <Step5 onNext={goNext} onBack={goBack} />}
-                    {currentStep === 5 && <Step6 onNext={goNext} onBack={goBack} />}
-                    {currentStep === 6 && (() => {
-                        const shouldRenderStep7 = data.selectedQuote || sessionStorage.getItem('paymentSuccess') || location.hash.includes('#/step7') || location.search.includes('session_id') || location.hash.includes('session_id');
-                        
-                        const debugInfo = {
-                            currentStep,
-                            hasData: !!data,
-                            hasSelectedQuote: !!data?.selectedQuote,
-                            paymentSuccess: sessionStorage.getItem('paymentSuccess'),
-                            hash: location.hash,
-                            search: location.search,
-                            hashIncludesStep7: location.hash.includes('#/step7'),
-                            searchIncludesSessionId: location.search.includes('session_id'),
-                            hashIncludesSessionId: location.hash.includes('session_id'),
-                            shouldRenderStep7
-                        };
-                        
-                        // Log Step7 rendering decision
-                        logDebugStep('STEP7_RENDERING_DECISION', {
-                            ...debugInfo,
-                            step7_rendered: shouldRenderStep7
-                        });
-                        
-                        return shouldRenderStep7 ? 
-                            <Step7 /> : 
-                            <div className="step-card">
-                                <h2>Redirecting...</h2>
-                                <p>Please complete the booking process to access the confirmation page.</p>
-                                <div style={{marginTop: '20px', fontSize: '12px', color: '#666'}}>
-                                    <p>Debug Info:</p>
-                                    <p>currentStep: {currentStep}</p>
-                                    <p>hasData: {data ? 'yes' : 'no'}</p>
-                                    <p>hasSelectedQuote: {data?.selectedQuote ? 'yes' : 'no'}</p>
-                                    <p>paymentSuccess: {sessionStorage.getItem('paymentSuccess')}</p>
-                                    <p>hash: {location.hash}</p>
-                                    <p>search: {location.search}</p>
-                                    <p>hash includes step7: {location.hash.includes('#/step7') ? 'yes' : 'no'}</p>
-                                    <p>search includes session_id: {location.search.includes('session_id') ? 'yes' : 'no'}</p>
-                                    <p>shouldRenderStep7: {shouldRenderStep7 ? 'yes' : 'no'}</p>
-                                </div>
-                            </div>;
-                    })()}
-                </div>
+                {currentStep === 0 && <Step1 onNext={goNext} />}
+                {currentStep === 1 && <Step2 onNext={goNext} onBack={goBack} />}
+                {currentStep === 2 && <Step3 onNext={goNext} onBack={goBack} />}
+                {currentStep === 3 && <Step4 onNext={goNext} onBack={goBack} />}
+                {currentStep === 4 && <Step5 onNext={goNext} onBack={goBack} />}
+                {currentStep === 5 && <Step6 onNext={goNext} onBack={goBack} />}
+                {currentStep === 6 && (() => {
+                    const shouldRenderStep7 = data.selectedQuote || sessionStorage.getItem('paymentSuccess') || location.hash.includes('#/step7') || location.search.includes('session_id') || location.hash.includes('session_id');
+                    
+                    const debugInfo = {
+                        currentStep,
+                        hasData: !!data,
+                        hasSelectedQuote: !!data?.selectedQuote,
+                        paymentSuccess: sessionStorage.getItem('paymentSuccess'),
+                        hash: location.hash,
+                        search: location.search,
+                        hashIncludesStep7: location.hash.includes('#/step7'),
+                        searchIncludesSessionId: location.search.includes('session_id'),
+                        hashIncludesSessionId: location.hash.includes('session_id'),
+                        shouldRenderStep7
+                    };
+                    
+                    // Log Step7 rendering decision
+                    logDebugStep('STEP7_RENDERING_DECISION', {
+                        ...debugInfo,
+                        step7_rendered: shouldRenderStep7
+                    });
+                    
+                    return shouldRenderStep7 ? 
+                        <Step7 /> : 
+                        <div className="step-card">
+                            <h2>Redirecting...</h2>
+                            <p>Please complete the booking process to access the confirmation page.</p>
+                            <div style={{marginTop: '20px', fontSize: '12px', color: '#666'}}>
+                                <p>Debug Info:</p>
+                                <p>currentStep: {currentStep}</p>
+                                <p>hasData: {data ? 'yes' : 'no'}</p>
+                                <p>hasSelectedQuote: {data?.selectedQuote ? 'yes' : 'no'}</p>
+                                <p>paymentSuccess: {sessionStorage.getItem('paymentSuccess')}</p>
+                                <p>hash: {location.hash}</p>
+                                <p>search: {location.search}</p>
+                                <p>hash includes step7: {location.hash.includes('#/step7') ? 'yes' : 'no'}</p>
+                                <p>search includes session_id: {location.search.includes('session_id') ? 'yes' : 'no'}</p>
+                                <p>shouldRenderStep7: {shouldRenderStep7 ? 'yes' : 'no'}</p>
+                            </div>
+                        </div>;
+                })()}
             </div>
             <Footer 
                 onContinue={continueAction}
