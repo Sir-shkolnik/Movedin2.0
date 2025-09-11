@@ -709,7 +709,9 @@ class GeographicVendorDispatcher:
                 if lat and lng:
                     # Get dispatcher province for geographic filtering
                     dispatcher_province = mapbox_service.get_province_from_coordinates(lat, lng)
-                    location_name = dispatcher_data.get('location', '')
+                    
+                    # Get proper location name from GID mapping or fallback to data
+                    location_name = self._get_proper_location_name(gid, dispatcher_data)
                     
                     # Categorize dispatchers by province
                     if user_province and dispatcher_province and user_province == dispatcher_province:
@@ -1429,6 +1431,36 @@ class LetsGetMovingCalculator(VendorCalculator):
         except Exception as e:
             print(f"[LGM NEW MODEL] Error validating travel fee calculation: {e}")
             return False
+
+    def _get_proper_location_name(self, gid: str, dispatcher_data: dict) -> str:
+        """Get proper location name from GID mapping or fallback to data"""
+        # Import the GID mapping
+        try:
+            import json
+            import os
+            mapping_file = os.path.join(os.path.dirname(__file__), 'gid_location_mapping.json')
+            if os.path.exists(mapping_file):
+                with open(mapping_file, 'r') as f:
+                    gid_mapping = json.load(f)
+                    if gid in gid_mapping:
+                        return gid_mapping[gid]
+        except Exception as e:
+            logger.warning(f"Could not load GID mapping: {e}")
+        
+        # Fallback to dispatcher data
+        location_name = dispatcher_data.get('location', '')
+        if location_name:
+            # Clean up common prefixes and suffixes
+            import re
+            location_name = re.sub(r'^LOCATION DETAILS:\s*', '', location_name)
+            location_name = re.sub(r'^Owner:\s*', '', location_name)
+            location_name = re.sub(r'^STARTING OCT 1ST\s*', '', location_name)
+            location_name = re.sub(r'\s+Owner:.*$', '', location_name)
+            if location_name and location_name != 'GID_' + str(gid):
+                return location_name
+        
+        # Final fallback
+        return f"Location_{gid}"
 
 class Easy2GoCalculator(VendorCalculator):
     """Easy2Go - Crew Size Based Pricing (Official Rules)"""
