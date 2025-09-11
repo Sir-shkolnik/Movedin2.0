@@ -6,7 +6,6 @@ const homeTypes = [
     { value: 'house', label: 'House' },
     { value: 'condo', label: 'Condo' },
     { value: 'apartment', label: 'Apartment' },
-    { value: 'townhouse', label: 'TownHouse' },
     { value: 'commercial', label: 'Commercial' },
 ];
 
@@ -58,7 +57,7 @@ const Step2: React.FC<Step2Props> = ({ onNext, onBack }) => {
             initialRooms, 
             defaultRooms: 1 
         });
-        return initialRooms !== undefined ? initialRooms : 1;
+        return initialRooms || 1;
     });
     const [sqft, setSqft] = useState(data.fromDetails?.sqft || '');
     
@@ -124,10 +123,10 @@ const Step2: React.FC<Step2Props> = ({ onNext, onBack }) => {
                 treadmill: heavyItems.treadmill ? 1 : 0,
             },
             additionalServices: additional,
-            // House/TownHouse
-            floors: homeType === 'house' || homeType === 'townhouse' ? floors : undefined,
-            garage: homeType === 'house' || homeType === 'townhouse' ? garage : undefined,
-            stairs: homeType === 'house' || homeType === 'townhouse' ? stairs : undefined,
+            // House
+            floors: homeType === 'house' ? floors : undefined,
+            garage: homeType === 'house' ? garage : undefined,
+            stairs: homeType === 'house' ? stairs : undefined,
             // Condo/Apartment
             floorNumber: homeType === 'condo' || homeType === 'apartment' ? floorNumber : undefined,
             elevator: homeType === 'condo' || homeType === 'apartment' ? elevator : undefined,
@@ -172,11 +171,9 @@ const Step2: React.FC<Step2Props> = ({ onNext, onBack }) => {
                 </select>
             </div>
 
-            {(homeType === 'house' || homeType === 'townhouse') && (
+            {homeType === 'house' && (
                 <>
-                    <div className="form-section-header">
-                        {homeType === 'house' ? 'House Details' : 'TownHouse Details'}
-                    </div>
+                    <div className="form-section-header">House Details</div>
                     <GroupedDropdowns>
                         <div className="form-group">
                             <label>Floors</label>

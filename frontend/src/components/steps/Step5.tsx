@@ -161,7 +161,7 @@ const Step5: React.FC<Step5Props> = ({ onNext, onBack }) => {
     };
 
     return (
-        <div className="step-card step6-modern">
+        <div className="step-card">
             <h2 style={{ marginBottom: 24 }}>Contact Information</h2>
             
             <div className="form-group">

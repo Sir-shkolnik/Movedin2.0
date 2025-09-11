@@ -6,7 +6,6 @@ const homeTypes = [
     { value: 'house', label: 'House' },
     { value: 'condo', label: 'Condo' },
     { value: 'apartment', label: 'Apartment' },
-    { value: 'townhouse', label: 'TownHouse' },
     { value: 'commercial', label: 'Commercial' },
 ];
 
@@ -76,9 +75,9 @@ const Step3: React.FC<Step3Props> = ({ onNext, onBack }) => {
                 homeType,
                 rooms: homeType === 'commercial' ? undefined : rooms,
                 sqft: homeType === 'commercial' ? sqft : '',
-                stairs: homeType === 'house' || homeType === 'townhouse' ? stairs : undefined,
-                floorNumber: homeType !== 'house' && homeType !== 'townhouse' ? floorNumber : undefined,
-                elevator: homeType !== 'house' && homeType !== 'townhouse' ? elevator : undefined,
+                stairs: homeType === 'house' ? stairs : undefined,
+                floorNumber: homeType !== 'house' ? floorNumber : undefined,
+                elevator: homeType !== 'house' ? elevator : undefined,
                 loadingDock: homeType !== 'house' ? loadingDock : undefined,
             },
         }));
@@ -106,7 +105,7 @@ const Step3: React.FC<Step3Props> = ({ onNext, onBack }) => {
                 </select>
             </div>
 
-            {(homeType === 'house' || homeType === 'townhouse') && (
+            {homeType === 'house' && (
                 <GroupedDropdowns>
                     <div className="form-group">
                         <label>Stairs at Dropoff</label>
