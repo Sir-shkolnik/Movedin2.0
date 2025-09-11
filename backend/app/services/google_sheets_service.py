@@ -79,8 +79,11 @@ class GoogleSheetsService:
         # Check if cache is valid
         cache_key = "all_dispatchers"
         if self._is_cache_valid(cache_key):
-            logger.info("Returning cached dispatchers data")
-            return self._cache_data.get(cache_key, {})
+            cached_data = self._cache_data.get(cache_key, {})
+            logger.info(f"Returning cached dispatchers data: {len(cached_data)} dispatchers")
+            return cached_data
+        
+        logger.info(f"🔍 Fetching fresh dispatchers data from {len(self.gids)} Google Sheets...")
         
         try:
             dispatchers_data = {}
@@ -115,7 +118,10 @@ class GoogleSheetsService:
             self._cache_data[cache_key] = dispatchers_data
             self._cache_timestamps[cache_key] = datetime.now()
             
-            logger.info(f"Successfully processed {len(dispatchers_data)} dispatchers and cached")
+            logger.info(f"✅ Successfully processed {len(dispatchers_data)} dispatchers and cached")
+            for gid, data in dispatchers_data.items():
+                location_name = data.get('location', 'Unknown')
+                logger.info(f"  - GID {gid}: {location_name}")
             return dispatchers_data
             
         except Exception as e:
