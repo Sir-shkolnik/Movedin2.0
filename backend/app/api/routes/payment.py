@@ -891,4 +891,91 @@ async def test_travel_time(request: Request):
         
     except Exception as e:
         logger.error(f"Travel time test error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post('/test-mapbox-v6')
+async def test_mapbox_v6(request: Request):
+    """Test new Mapbox v6 geocoding and validation features"""
+    try:
+        body = await request.json()
+        origin = body.get('origin', '')
+        destination = body.get('destination', '')
+        
+        if not origin or not destination:
+            raise HTTPException(status_code=400, detail="Origin and destination required")
+        
+        from app.services.mapbox_service import mapbox_service
+        
+        # Test v6 geocoding
+        origin_coords = mapbox_service.get_coordinates_with_fallback(origin)
+        dest_coords = mapbox_service.get_coordinates_with_fallback(destination)
+        
+        # Test directions
+        directions = mapbox_service.get_directions(origin, destination)
+        
+        # Test validation
+        distance_km = directions['distance'] / 1000 if directions else 0
+        time_hours = directions['duration'] / 3600 if directions else 0
+        is_valid = mapbox_service.validate_travel_calculation(origin, destination, distance_km, time_hours)
+        
+        result = {
+            "origin": origin,
+            "destination": destination,
+            "origin_coords": origin_coords,
+            "dest_coords": dest_coords,
+            "directions": directions,
+            "distance_km": distance_km,
+            "time_hours": time_hours,
+            "validation_passed": is_valid,
+            "api_version": "v6"
+        }
+        
+        return {"success": True, "data": result}
+        
+    except Exception as e:
+        logger.error(f"Mapbox v6 test error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post('/test-matrix-api')
+async def test_matrix_api(request: Request):
+    """Test Mapbox Matrix API for multiple point calculations"""
+    try:
+        body = await request.json()
+        origins = body.get('origins', [])
+        destinations = body.get('destinations', [])
+        
+        if not origins or not destinations:
+            raise HTTPException(status_code=400, detail="Origins and destinations required")
+        
+        from app.services.mapbox_service import mapbox_service
+        
+        # Convert addresses to coordinates
+        origin_coords = []
+        for addr in origins:
+            coords = mapbox_service.get_coordinates_with_fallback(addr)
+            if coords:
+                origin_coords.append(coords)
+        
+        dest_coords = []
+        for addr in destinations:
+            coords = mapbox_service.get_coordinates_with_fallback(addr)
+            if coords:
+                dest_coords.append(coords)
+        
+        # Test Matrix API
+        matrix_result = mapbox_service.get_matrix(origin_coords, dest_coords)
+        
+        result = {
+            "origins": origins,
+            "destinations": destinations,
+            "origin_coords": origin_coords,
+            "dest_coords": dest_coords,
+            "matrix_result": matrix_result,
+            "api_version": "Matrix API v1"
+        }
+        
+        return {"success": True, "data": result}
+        
+    except Exception as e:
+        logger.error(f"Matrix API test error: {e}")
         raise HTTPException(status_code=500, detail=str(e)) 

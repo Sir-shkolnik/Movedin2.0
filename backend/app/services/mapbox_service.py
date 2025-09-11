@@ -13,23 +13,39 @@ class MapboxService:
         self.timeout = 10  # 10 second timeout to prevent hanging
     
     def geocode_address(self, query: str, country: Optional[str] = None) -> list:
-        """Geocode an address to get coordinates with enhanced logic for GTA area"""
-        # Enhanced parameters for better GTA area results
+        """Geocode an address using Mapbox Geocoding API v6 (latest)"""
+        # Use the latest v6 API for better accuracy
+        params = {
+            'access_token': self.access_token,
+            'q': query,
+            'country': country or 'CA',
+            'limit': 10,
+            'language': 'en',
+            'types': 'address,poi,place'
+        }
+        
+        url = f"{self.base_url}/search/geocode/v6/forward"
+        
+        try:
+            response = requests.get(url, params=params, timeout=self.timeout)
+            response.raise_for_status()
+            data = response.json()
+            return data.get('features', [])
+        except (requests.RequestException, requests.Timeout) as e:
+            print(f"Mapbox geocoding v6 error: {e}")
+            # Fallback to v5 API if v6 fails
+            return self._geocode_address_v5_fallback(query, country)
+    
+    def _geocode_address_v5_fallback(self, query: str, country: Optional[str] = None) -> list:
+        """Fallback to v5 API if v6 fails"""
         params = {
             'access_token': self.access_token,
             'types': 'address,poi,place',
-            'limit': '10',  # Get more results to find the best match
+            'limit': '10',
             'language': 'en',
-            'country': 'CA',  # Prioritize Canada
-            'bbox': '-79.8,43.5,-79.0,44.0'  # GTA bounding box (Toronto area)
+            'country': country or 'CA',
+            'bbox': '-79.8,43.5,-79.0,44.0'  # GTA bounding box
         }
-        
-        # Override bbox for specific areas if needed
-        if country:
-            params['country'] = country
-            if country == 'CA':
-                # Use GTA bounding box for Canadian addresses
-                params['bbox'] = '-79.8,43.5,-79.0,44.0'
         
         url = f"{self.base_url}/geocoding/v5/mapbox.places/{query}.json"
         
@@ -39,7 +55,7 @@ class MapboxService:
             data = response.json()
             return data.get('features', [])
         except (requests.RequestException, requests.Timeout) as e:
-            print(f"Mapbox geocoding error: {e}")
+            print(f"Mapbox geocoding v5 fallback error: {e}")
             return []
     
     def get_directions(
@@ -227,7 +243,7 @@ class MapboxService:
         # Special handling for Zurich, Ontario to prevent geocoding errors
         if 'zurich' in address.lower() and 'ontario' in address.lower():
             print(f"Special handling for Zurich, Ontario: {address}")
-            return (43.6, -81.2)  # Correct coordinates for Zurich, Ontario
+            return (-81.2, 43.6)  # Correct coordinates for Zurich, Ontario (lon, lat)
         
         features = self.geocode_address(address)
         if not features:
@@ -382,6 +398,94 @@ class MapboxService:
         
         return (gta_bounds['min_lat'] <= lat <= gta_bounds['max_lat'] and 
                 gta_bounds['min_lng'] <= lng <= gta_bounds['max_lng'])
+    
+    def validate_travel_calculation(self, origin: str, destination: str, 
+                                  calculated_distance: float, calculated_time: float) -> bool:
+        """Validate if travel calculation makes sense"""
+        try:
+            # Get actual coordinates for validation
+            origin_coords = self.get_coordinates_with_fallback(origin)
+            dest_coords = self.get_coordinates_with_fallback(destination)
+            
+            if not origin_coords or not dest_coords:
+                return False
+            
+            # Calculate straight-line distance using Haversine formula
+            import math
+            lat1, lon1 = origin_coords[1], origin_coords[0]  # Note: coords are (lon, lat)
+            lat2, lon2 = dest_coords[1], dest_coords[0]
+            
+            R = 6371  # Earth's radius in km
+            dlat = math.radians(lat2 - lat1)
+            dlon = math.radians(lon2 - lon1)
+            a = (math.sin(dlat/2)**2 + math.cos(math.radians(lat1)) * 
+                 math.cos(math.radians(lat2)) * math.sin(dlon/2)**2)
+            c = 2 * math.asin(math.sqrt(a))
+            straight_line_distance = R * c
+            
+            # Road distance should be 1.1-2.0x straight line distance
+            if calculated_distance < straight_line_distance * 1.05:
+                print(f"WARNING: Calculated distance {calculated_distance:.1f}km seems too short for straight-line {straight_line_distance:.1f}km")
+                return False
+            
+            # Travel time should be reasonable (20-120 km/h average)
+            if calculated_time > 0:
+                avg_speed = calculated_distance / calculated_time
+                if avg_speed < 20 or avg_speed > 120:
+                    print(f"WARNING: Average speed {avg_speed:.1f} km/h seems unrealistic")
+                    return False
+            
+            return True
+            
+        except Exception as e:
+            print(f"Error validating travel calculation: {e}")
+            return True  # Don't block on validation errors
+    
+    def get_matrix(self, origins: list, destinations: list) -> Optional[dict]:
+        """Calculate travel time matrix for multiple points using Matrix API"""
+        try:
+            # Format coordinates as "lon,lat;lon,lat;lon,lat"
+            origins_str = ";".join([f"{coord[0]},{coord[1]}" for coord in origins])
+            dests_str = ";".join([f"{coord[0]},{coord[1]}" for coord in destinations])
+            
+            url = f"{self.base_url}/directions-matrix/v1/mapbox/driving-traffic/{origins_str};{dests_str}"
+            params = {
+                'access_token': self.access_token,
+                'annotations': 'duration,distance',
+                'sources': 'all',
+                'destinations': 'all'
+            }
+            
+            response = requests.get(url, params=params, timeout=60)
+            response.raise_for_status()
+            return response.json()
+            
+        except Exception as e:
+            print(f"Matrix API error: {e}")
+            return None
+    
+    def get_isochrone(self, center: tuple, minutes: list) -> Optional[dict]:
+        """Get service area polygons for given travel times using Isochrone API"""
+        try:
+            lon, lat = center
+            contours = ",".join(map(str, minutes))
+            
+            url = f"{self.base_url}/isochrone/v1/mapbox/driving/{lon},{lat}"
+            params = {
+                'access_token': self.access_token,
+                'contours_minutes': contours,
+                'polygons': 'true',
+                'denoise': 0.2,
+                'generalize': 10
+            }
+            
+            response = requests.get(url, params=params, timeout=30)
+            response.raise_for_status()
+            return response.json()
+            
+        except Exception as e:
+            print(f"Isochrone API error: {e}")
+            return None
 
 # Global instance
 mapbox_service = MapboxService() 

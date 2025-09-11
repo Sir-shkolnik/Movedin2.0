@@ -162,10 +162,10 @@ class PierreSonsCalculator:
                 TRUCK_FACTOR = 1.3
                 truck_one_way_hours = one_way_hours * TRUCK_FACTOR
                 
-                # CRITICAL FIX: Validate distance vs time ratio
-                # If distance > 100km but time < 1.5 hours, the geocoding is wrong
-                if distance_km > 100 and truck_one_way_hours < 1.5:
-                    print(f"WARNING: Distance {distance_km:.1f}km but only {truck_one_way_hours:.2f}h - geocoding error detected")
+                # CRITICAL FIX: Use Mapbox validation for distance vs time ratio
+                is_valid = mapbox_service.validate_travel_calculation(origin, destination, distance_km, truck_one_way_hours)
+                if not is_valid:
+                    print(f"WARNING: Mapbox validation failed for {origin} to {destination}")
                     # Estimate correct travel time based on distance
                     estimated_hours = max(2.0, distance_km / 80)  # Assume 80km/h average
                     print(f"Pierre & Sons travel time: {estimated_hours:.2f}h (estimated from distance)")
