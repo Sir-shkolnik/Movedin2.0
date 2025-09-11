@@ -54,7 +54,7 @@ function AppInner() {
         const fullPath = path + hash;
         
         // Check both pathname and hash for step routing
-        if (path === '/step7' || hash === '#/step7' || fullPath.includes('step7')) return 6;
+        if (path === '/step7' || hash === '#/step7' || fullPath.includes('step7') || location.search.includes('session_id')) return 6;
         if (path === '/step6' || hash === '#/step6' || fullPath.includes('step6')) return 5;
         if (path === '/step5' || hash === '#/step5' || fullPath.includes('step5')) return 4;
         if (path === '/step4' || hash === '#/step4' || fullPath.includes('step4')) return 3;
@@ -165,7 +165,7 @@ function AppInner() {
                     {currentStep === 4 && <Step5 onNext={goNext} onBack={goBack} />}
                     {currentStep === 5 && <Step6 onNext={goNext} onBack={goBack} />}
                     {currentStep === 6 && (
-                        (data.selectedQuote || sessionStorage.getItem('paymentSuccess') || location.hash === '#/step7') ? 
+                        (data.selectedQuote || sessionStorage.getItem('paymentSuccess') || location.hash.includes('#/step7') || location.search.includes('session_id')) ? 
                         <Step7 /> : 
                         <div className="step-card">
                             <h2>Redirecting...</h2>

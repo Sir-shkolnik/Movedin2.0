@@ -10,6 +10,8 @@ const Step7: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [displayData, setDisplayData] = useState<any>(null);
 
+    console.log('🎉 Step7 Component RENDERED - URL:', window.location.href);
+
     console.log('🔍 Step7 Component Rendered - Debug Info:', {
         hasData: !!data,
         dataKeys: data ? Object.keys(data) : [],
