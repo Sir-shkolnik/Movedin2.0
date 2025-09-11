@@ -223,9 +223,8 @@ const ComprehensiveTracking: React.FC = () => {
       case 'pending_payment': return '#f59e0b';
       case 'payment_completed': return '#10b981';
       case 'succeeded': return '#10b981';
-      case 'failed': return '#ef4444';
-      case 'sent': return '#10b981';
-      case 'failed': return '#ef4444';
+        case 'failed': return '#ef4444';
+        case 'sent': return '#10b981';
       case 'active': return '#10b981';
       case 'inactive': return '#6b7280';
       default: return '#6b7280';
@@ -527,146 +526,148 @@ const ComprehensiveTracking: React.FC = () => {
 
       {/* Data Table */}
       {activeTab !== 'overview' && (
-        <div className="tracking-table-container">
-          <table className="tracking-table">
-            <thead>
-              <tr>
-                {activeTab === 'leads' && (
-                <>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Phone</th>
-                  <th>Move Date</th>
-                  <th>Status</th>
-                  <th>Payment Status</th>
-                  <th>Created</th>
-                </>
-              )}
-              {activeTab === 'payments' && (
-                <>
-                  <th>ID</th>
-                  <th>Lead ID</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                  <th>Payment ID</th>
-                  <th>Created</th>
-                </>
-              )}
-              {activeTab === 'emails' && (
-                <>
-                  <th>ID</th>
-                  <th>Lead ID</th>
-                  <th>Type</th>
-                  <th>Recipient</th>
-                  <th>Subject</th>
-                  <th>Status</th>
-                  <th>Sent At</th>
-                </>
-              )}
-              {activeTab === 'vendors' && (
-                <>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Phone</th>
-                  <th>Status</th>
-                  <th>Coverage Areas</th>
-                </>
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {filteredData.map((item, index) => (
-              <tr key={item.id || index}>
-                {activeTab === 'leads' && (
-                  <>
-                    <td>{item.id}</td>
-                    <td>{item.first_name} {item.last_name}</td>
-                    <td>{item.email}</td>
-                    <td>{item.phone}</td>
-                    <td>{item.move_date}</td>
-                    <td>
-                      <span 
-                        className="status-badge"
-                        style={{ backgroundColor: getStatusColor(item.status) }}
-                      >
-                        {item.status}
-                      </span>
-                    </td>
-                    <td>
-                      <span 
-                        className="status-badge"
-                        style={{ backgroundColor: getStatusColor(item.payment_status || 'pending') }}
-                      >
-                        {item.payment_status || 'pending'}
-                      </span>
-                    </td>
-                    <td>{formatDate(item.created_at)}</td>
-                  </>
-                )}
-                {activeTab === 'payments' && (
-                  <>
-                    <td>{item.id}</td>
-                    <td>{item.lead_id}</td>
-                    <td>{formatCurrency(item.amount)}</td>
-                    <td>
-                      <span 
-                        className="status-badge"
-                        style={{ backgroundColor: getStatusColor(item.status) }}
-                      >
-                        {item.status}
-                      </span>
-                    </td>
-                    <td>{item.payment_intent_id}</td>
-                    <td>{formatDate(item.created_at)}</td>
-                  </>
-                )}
-                {activeTab === 'emails' && (
-                  <>
-                    <td>{item.id}</td>
-                    <td>{item.lead_id}</td>
-                    <td>{item.email_type}</td>
-                    <td>{item.recipient}</td>
-                    <td>{item.subject}</td>
-                    <td>
-                      <span 
-                        className="status-badge"
-                        style={{ backgroundColor: getStatusColor(item.status) }}
-                      >
-                        {item.status}
-                      </span>
-                    </td>
-                    <td>{formatDate(item.sent_at)}</td>
-                  </>
-                )}
-                {activeTab === 'vendors' && (
-                  <>
-                    <td>{item.id}</td>
-                    <td>{item.name}</td>
-                    <td>{item.email}</td>
-                    <td>{item.phone}</td>
-                    <td>
-                      <span 
-                        className="status-badge"
-                        style={{ backgroundColor: getStatusColor(item.status) }}
-                      >
-                        {item.status}
-                      </span>
-                    </td>
-                    <td>{item.coverage_areas?.join(', ') || 'N/A'}</td>
-                  </>
-                )}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        </div>
+        <>
+          <div className="tracking-table-container">
+            <table className="tracking-table">
+              <thead>
+                <tr>
+                  {activeTab === 'leads' && (
+                    <>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>Move Date</th>
+                      <th>Status</th>
+                      <th>Payment Status</th>
+                      <th>Created</th>
+                    </>
+                  )}
+                  {activeTab === 'payments' && (
+                    <>
+                      <th>ID</th>
+                      <th>Lead ID</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th>Payment ID</th>
+                      <th>Created</th>
+                    </>
+                  )}
+                  {activeTab === 'emails' && (
+                    <>
+                      <th>ID</th>
+                      <th>Lead ID</th>
+                      <th>Type</th>
+                      <th>Recipient</th>
+                      <th>Subject</th>
+                      <th>Status</th>
+                      <th>Sent At</th>
+                    </>
+                  )}
+                  {activeTab === 'vendors' && (
+                    <>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>Status</th>
+                      <th>Coverage Areas</th>
+                    </>
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {filteredData.map((item, index) => (
+                  <tr key={item.id || index}>
+                    {activeTab === 'leads' && (
+                      <>
+                        <td>{item.id}</td>
+                        <td>{item.first_name} {item.last_name}</td>
+                        <td>{item.email}</td>
+                        <td>{item.phone}</td>
+                        <td>{item.move_date}</td>
+                        <td>
+                          <span 
+                            className="status-badge"
+                            style={{ backgroundColor: getStatusColor(item.status) }}
+                          >
+                            {item.status}
+                          </span>
+                        </td>
+                        <td>
+                          <span 
+                            className="status-badge"
+                            style={{ backgroundColor: getStatusColor(item.payment_status || 'pending') }}
+                          >
+                            {item.payment_status || 'pending'}
+                          </span>
+                        </td>
+                        <td>{formatDate(item.created_at)}</td>
+                      </>
+                    )}
+                    {activeTab === 'payments' && (
+                      <>
+                        <td>{item.id}</td>
+                        <td>{item.lead_id}</td>
+                        <td>{formatCurrency(item.amount)}</td>
+                        <td>
+                          <span 
+                            className="status-badge"
+                            style={{ backgroundColor: getStatusColor(item.status) }}
+                          >
+                            {item.status}
+                          </span>
+                        </td>
+                        <td>{item.payment_intent_id}</td>
+                        <td>{formatDate(item.created_at)}</td>
+                      </>
+                    )}
+                    {activeTab === 'emails' && (
+                      <>
+                        <td>{item.id}</td>
+                        <td>{item.lead_id}</td>
+                        <td>{item.email_type}</td>
+                        <td>{item.recipient}</td>
+                        <td>{item.subject}</td>
+                        <td>
+                          <span 
+                            className="status-badge"
+                            style={{ backgroundColor: getStatusColor(item.status) }}
+                          >
+                            {item.status}
+                          </span>
+                        </td>
+                        <td>{formatDate(item.sent_at)}</td>
+                      </>
+                    )}
+                    {activeTab === 'vendors' && (
+                      <>
+                        <td>{item.id}</td>
+                        <td>{item.name}</td>
+                        <td>{item.email}</td>
+                        <td>{item.phone}</td>
+                        <td>
+                          <span 
+                            className="status-badge"
+                            style={{ backgroundColor: getStatusColor(item.status) }}
+                          >
+                            {item.status}
+                          </span>
+                        </td>
+                        <td>{item.coverage_areas?.join(', ') || 'N/A'}</td>
+                      </>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-        {/* Summary */}
-        <div className="tracking-summary">
-          <p>Showing {filteredData.length} {activeTab}</p>
-        </div>
+          {/* Summary */}
+          <div className="tracking-summary">
+            <p>Showing {filteredData.length} {activeTab}</p>
+          </div>
+        </>
       )}
     </div>
   );
