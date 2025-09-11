@@ -155,6 +155,13 @@ async def create_checkout_session(req: CheckoutSessionRequest, db: Session = Dep
         }
         
         # Create checkout session with form data in metadata
+        success_url = f'https://movedin-frontend.onrender.com/#/step7?session_id={{CHECKOUT_SESSION_ID}}&lead_id={lead_id}'
+        cancel_url = 'https://movedin-frontend.onrender.com/#/step6'
+        
+        logger.info(f"Creating checkout session with success_url: {success_url}")
+        logger.info(f"Creating checkout session with cancel_url: {cancel_url}")
+        logger.info(f"Lead ID: {lead_id}, Metadata: {metadata}")
+        
         checkout_session = stripe.checkout.Session.create(
             line_items=[{
                 'price_data': {
@@ -168,8 +175,8 @@ async def create_checkout_session(req: CheckoutSessionRequest, db: Session = Dep
                 'quantity': 1,
             }],
             mode='payment',
-            success_url=f'https://movedin-frontend.onrender.com/#/step7?session_id={{CHECKOUT_SESSION_ID}}&lead_id={lead_id}',
-            cancel_url='https://movedin-frontend.onrender.com/#/step6',
+            success_url=success_url,
+            cancel_url=cancel_url,
             metadata=metadata,
             allow_promotion_codes=True
         )
