@@ -1047,6 +1047,35 @@ class LetsGetMovingCalculator(VendorCalculator):
                 if one_way_hours > 10:
                     print(f"Let's Get Moving: One-way travel time {one_way_hours:.1f}h exceeds 10h limit for long distance moves")
                     raise ValueError(f"One-way travel time {one_way_hours:.1f}h exceeds 10h limit")
+            else:
+                # If Mapbox fails to return directions, check if this looks like a long distance move
+                # by checking if the cities are in different provinces/countries
+                origin_lower = origin.lower()
+                destination_lower = destination.lower()
+                
+                # Check for cross-country or international moves
+                canadian_provinces = ['on', 'qc', 'bc', 'ab', 'mb', 'sk', 'ns', 'nb', 'nl', 'pe', 'yt', 'nt', 'nu']
+                international_indicators = ['uk', 'usa', 'us', 'united states', 'united kingdom', 'london', 'new york', 'california']
+                
+                origin_province = None
+                dest_province = None
+                is_international = False
+                
+                for province in canadian_provinces:
+                    if province in origin_lower:
+                        origin_province = province
+                    if province in destination_lower:
+                        dest_province = province
+                
+                for indicator in international_indicators:
+                    if indicator in destination_lower:
+                        is_international = True
+                        break
+                
+                # If different provinces or international, consider it long distance
+                if (origin_province and dest_province and origin_province != dest_province) or is_international:
+                    print(f"Let's Get Moving: Cross-province/international move detected: {origin} -> {destination}")
+                    raise ValueError(f"Cross-province/international move not supported")
             
             # Leg 1: Dispatcher to Origin
             leg1 = mapbox_service.get_directions(dispatcher_address, origin)
@@ -1524,6 +1553,32 @@ class Easy2GoCalculator(VendorCalculator):
                 if one_way_hours > 10:
                     print(f"Easy2Go: One-way travel time {one_way_hours:.1f}h exceeds 10h limit for long distance moves")
                     raise ValueError(f"One-way travel time {one_way_hours:.1f}h exceeds 10h limit")
+            else:
+                # If Mapbox fails to return directions, check if this looks like a long distance move
+                origin_lower = origin.lower()
+                destination_lower = destination.lower()
+                
+                canadian_provinces = ['on', 'qc', 'bc', 'ab', 'mb', 'sk', 'ns', 'nb', 'nl', 'pe', 'yt', 'nt', 'nu']
+                international_indicators = ['uk', 'usa', 'us', 'united states', 'united kingdom', 'london', 'new york', 'california']
+                
+                origin_province = None
+                dest_province = None
+                is_international = False
+                
+                for province in canadian_provinces:
+                    if province in origin_lower:
+                        origin_province = province
+                    if province in destination_lower:
+                        dest_province = province
+                
+                for indicator in international_indicators:
+                    if indicator in destination_lower:
+                        is_international = True
+                        break
+                
+                if (origin_province and dest_province and origin_province != dest_province) or is_international:
+                    print(f"Easy2Go: Cross-province/international move detected: {origin} -> {destination}")
+                    raise ValueError(f"Cross-province/international move not supported")
             
             dispatcher_address = "3397 American Drive, Mississauga, ON L4V 1T8"
             
@@ -1777,6 +1832,32 @@ class VelocityMoversCalculator(VendorCalculator):
                 if one_way_hours > 10:
                     print(f"Velocity Movers: One-way travel time {one_way_hours:.1f}h exceeds 10h limit for long distance moves")
                     raise ValueError(f"One-way travel time {one_way_hours:.1f}h exceeds 10h limit")
+            else:
+                # If Mapbox fails to return directions, check if this looks like a long distance move
+                origin_lower = origin.lower()
+                destination_lower = destination.lower()
+                
+                canadian_provinces = ['on', 'qc', 'bc', 'ab', 'mb', 'sk', 'ns', 'nb', 'nl', 'pe', 'yt', 'nt', 'nu']
+                international_indicators = ['uk', 'usa', 'us', 'united states', 'united kingdom', 'london', 'new york', 'california']
+                
+                origin_province = None
+                dest_province = None
+                is_international = False
+                
+                for province in canadian_provinces:
+                    if province in origin_lower:
+                        origin_province = province
+                    if province in destination_lower:
+                        dest_province = province
+                
+                for indicator in international_indicators:
+                    if indicator in destination_lower:
+                        is_international = True
+                        break
+                
+                if (origin_province and dest_province and origin_province != dest_province) or is_international:
+                    print(f"Velocity Movers: Cross-province/international move detected: {origin} -> {destination}")
+                    raise ValueError(f"Cross-province/international move not supported")
             
             dispatcher_address = "100 Howden Road, Unit 2, M1R 3E4, Toronto, ON"
             
@@ -2034,13 +2115,35 @@ class PierreSonsCalculator(VendorCalculator):
                 if one_way_hours > 10:
                     print(f"Pierre & Sons: One-way travel time {one_way_hours:.1f}h exceeds 10h limit for long distance moves")
                     raise ValueError(f"One-way travel time {one_way_hours:.1f}h exceeds 10h limit")
+            else:
+                # If Mapbox fails to return directions, check if this looks like a long distance move
+                origin_lower = origin.lower()
+                destination_lower = destination.lower()
                 
-                # Apply truck factor
-                TRUCK_FACTOR = 1.3
-                truck_one_way_hours = one_way_hours * TRUCK_FACTOR
+                canadian_provinces = ['on', 'qc', 'bc', 'ab', 'mb', 'sk', 'ns', 'nb', 'nl', 'pe', 'yt', 'nt', 'nu']
+                international_indicators = ['uk', 'usa', 'us', 'united states', 'united kingdom', 'london', 'new york', 'california']
                 
-                # Return time is included in the 1-hour travel time fee
-                return max(1.0, truck_one_way_hours)
+                origin_province = None
+                dest_province = None
+                is_international = False
+                
+                for province in canadian_provinces:
+                    if province in origin_lower:
+                        origin_province = province
+                    if province in destination_lower:
+                        dest_province = province
+                
+                for indicator in international_indicators:
+                    if indicator in destination_lower:
+                        is_international = True
+                        break
+                
+                if (origin_province and dest_province and origin_province != dest_province) or is_international:
+                    print(f"Pierre & Sons: Cross-province/international move detected: {origin} -> {destination}")
+                    raise ValueError(f"Cross-province/international move not supported")
+                
+                # If we get here, it's a local move but Mapbox failed - use default
+                return 1.0  # Default 1 hour travel time fee
             
             return 1.0  # Default 1 hour travel time fee
         except ValueError:
