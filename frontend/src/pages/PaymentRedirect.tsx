@@ -8,52 +8,79 @@ const PaymentRedirect: React.FC = () => {
     useEffect(() => {
         const processPaymentRedirect = async () => {
             try {
+                console.log('🔄 PaymentRedirect - Starting payment redirect processing...');
+                console.log('🔍 PaymentRedirect - Full URL:', window.location.href);
+                console.log('🔍 PaymentRedirect - Timestamp:', new Date().toISOString());
+                
                 // Check URL parameters for payment status
                 const urlParams = new URLSearchParams(window.location.search);
                 const sessionId = urlParams.get('session_id');
                 const paymentStatus = urlParams.get('payment_status');
+                const leadId = urlParams.get('lead_id');
+                const vendor = urlParams.get('vendor');
+                const amount = urlParams.get('amount');
+                const currency = urlParams.get('currency');
+                const email = urlParams.get('email');
                 
-                console.log('PaymentRedirect - URL params:', { sessionId, paymentStatus });
+                console.log('🔍 PaymentRedirect - URL parameters:', { 
+                    sessionId, 
+                    paymentStatus, 
+                    leadId, 
+                    vendor, 
+                    amount, 
+                    currency, 
+                    email 
+                });
                 
                 // Get existing payment data from sessionStorage
                 const paymentIntentData = sessionStorage.getItem('paymentIntentData');
                 const formData = sessionStorage.getItem('formData');
+                const paymentSuccess = sessionStorage.getItem('paymentSuccess');
                 
-                console.log('PaymentRedirect - Session data:', { 
+                console.log('🔍 PaymentRedirect - SessionStorage data:', { 
                     hasPaymentIntent: !!paymentIntentData, 
-                    hasFormData: !!formData 
+                    hasFormData: !!formData,
+                    hasPaymentSuccess: !!paymentSuccess,
+                    paymentIntentLength: paymentIntentData ? paymentIntentData.length : 0,
+                    formDataLength: formData ? formData.length : 0
                 });
                 
                 if (sessionId || paymentStatus === 'success' || paymentIntentData) {
+                    console.log('✅ PaymentRedirect - Payment successful, processing...');
                     setStatus('Payment successful! Processing your booking...');
                     
                     // Store payment success in sessionStorage for Step7
+                    console.log('🔄 PaymentRedirect - Storing payment success in sessionStorage...');
                     sessionStorage.setItem('paymentSuccess', 'true');
                     sessionStorage.setItem('sessionId', sessionId || 'completed');
                     
                     // If we have payment intent data, use it
                     if (paymentIntentData) {
+                        console.log('✅ PaymentRedirect - Using existing payment intent data...');
                         const intentData = JSON.parse(paymentIntentData);
-                        console.log('PaymentRedirect - Using existing payment data:', intentData);
+                        console.log('📊 PaymentRedirect - Existing payment data:', intentData);
                         
                         // Store the payment data for Step7
-                        sessionStorage.setItem('paymentIntentData', JSON.stringify({
+                        const updatedPaymentData = {
                             ...intentData,
                             session_id: sessionId,
                             payment_status: 'success'
-                        }));
+                        };
+                        console.log('📊 PaymentRedirect - Updated payment data:', updatedPaymentData);
+                        sessionStorage.setItem('paymentIntentData', JSON.stringify(updatedPaymentData));
                     } else {
+                        console.log('🔄 PaymentRedirect - Creating new payment data...');
                         // Create payment data for Step7
                         const paymentData = {
                             payment_intent_id: sessionId || `pi_${Date.now()}`,
-                            lead_id: '25', // Use the actual lead ID from the payment
-                            amount: 100,
-                            currency: 'cad',
+                            lead_id: leadId || '25', // Use the actual lead ID from the payment
+                            amount: amount || 100,
+                            currency: currency || 'cad',
                             session_id: sessionId,
                             payment_status: 'success'
                         };
                         
-                        console.log('PaymentRedirect - Created payment data:', paymentData);
+                        console.log('📊 PaymentRedirect - Created payment data:', paymentData);
                         sessionStorage.setItem('paymentIntentData', JSON.stringify(paymentData));
                     }
                     
@@ -102,9 +129,12 @@ const PaymentRedirect: React.FC = () => {
                     sessionStorage.setItem('formData', JSON.stringify(completeFormData));
                     
                     // Small delay to show success message, then redirect to hash-based URL with parameters
+                    console.log('⏰ PaymentRedirect - Setting 2-second delay before redirect...');
                     setTimeout(() => {
                         const redirectUrl = `https://movedin-frontend.onrender.com/#/step7?session_id=${sessionId}&lead_id=${leadId || 'test456'}`;
-                        console.log('PaymentRedirect - Redirecting to:', redirectUrl);
+                        console.log('🚀 PaymentRedirect - Redirecting to Step 7...');
+                        console.log('🔗 PaymentRedirect - Redirect URL:', redirectUrl);
+                        console.log('⏰ PaymentRedirect - Redirect timestamp:', new Date().toISOString());
                         window.location.href = redirectUrl;
                     }, 2000);
                     

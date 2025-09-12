@@ -11,6 +11,7 @@ const Step7: React.FC = () => {
     const [displayData, setDisplayData] = useState<any>(null);
 
     console.log('🎉 Step7 Component RENDERED - URL:', window.location.href);
+    console.log('🎉 Step7 Component RENDERED - Timestamp:', new Date().toISOString());
 
     const debugInfo = {
         hasData: !!data,
@@ -23,10 +24,20 @@ const Step7: React.FC = () => {
         sessionStoragePaymentIntent: sessionStorage.getItem('paymentIntentData'),
         url: window.location.href,
         hash: window.location.hash,
-        search: window.location.search
+        search: window.location.search,
+        userAgent: navigator.userAgent,
+        timestamp: new Date().toISOString()
     };
 
     console.log('🔍 Step7 Component Rendered - Debug Info:', debugInfo);
+    console.log('🔍 Step7 - Data object details:', {
+        data: data,
+        selectedQuote: data?.selectedQuote,
+        vendor: data?.vendor,
+        contact: data?.contact,
+        fromDetails: data?.fromDetails,
+        toDetails: data?.toDetails
+    });
 
     // Log Step7 component render
     const logDebugStep = async (step: string, data: any) => {
@@ -66,30 +77,51 @@ const Step7: React.FC = () => {
 
     const loadDataFromURL = async () => {
         try {
-            console.log('🔍 Step7 - Loading data from URL parameters...');
+            console.log('🔄 Step7 - Starting data loading from URL...');
             console.log('🔍 Step7 - Full URL:', window.location.href);
             console.log('🔍 Step7 - Hash:', window.location.hash);
             console.log('🔍 Step7 - Search:', window.location.search);
+            console.log('🔍 Step7 - Pathname:', window.location.pathname);
+            console.log('🔍 Step7 - Origin:', window.location.origin);
+            console.log('🔍 Step7 - Timestamp:', new Date().toISOString());
             
             // Get URL parameters from both search and hash
             let sessionId = null;
             let leadId = null;
+            let vendor = null;
+            let amount = null;
+            let currency = null;
+            let email = null;
+            
+            console.log('🔍 Step7 - Parsing URL parameters...');
             
             // Try hash fragment first (for HashRouter)
             if (window.location.hash.includes('?')) {
+                console.log('🔍 Step7 - Found hash parameters, parsing...');
                 const hashParams = new URLSearchParams(window.location.hash.split('?')[1] || '');
                 sessionId = hashParams.get('session_id');
                 leadId = hashParams.get('lead_id');
+                vendor = hashParams.get('vendor');
+                amount = hashParams.get('amount');
+                currency = hashParams.get('currency');
+                email = hashParams.get('email');
+                console.log('🔍 Step7 - Hash parameters:', { sessionId, leadId, vendor, amount, currency, email });
             }
             
             // If not found in hash, try search params
             if (!sessionId || !leadId) {
+                console.log('🔍 Step7 - Checking search parameters...');
                 const searchParams = new URLSearchParams(window.location.search);
                 sessionId = sessionId || searchParams.get('session_id');
                 leadId = leadId || searchParams.get('lead_id');
+                vendor = vendor || searchParams.get('vendor');
+                amount = amount || searchParams.get('amount');
+                currency = currency || searchParams.get('currency');
+                email = email || searchParams.get('email');
+                console.log('🔍 Step7 - Search parameters:', { sessionId, leadId, vendor, amount, currency, email });
             }
             
-            console.log('Step7 - URL parameters:', { sessionId, leadId });
+            console.log('📊 Step7 - Final URL parameters:', { sessionId, leadId, vendor, amount, currency, email });
             
             // Log URL parameter extraction
             logDebugStep('STEP7_URL_PARAMETER_EXTRACTION', {
@@ -102,94 +134,148 @@ const Step7: React.FC = () => {
             });
             
             if (sessionId && leadId) {
-                console.log('Step7 - Verifying payment with backend...');
+                console.log('✅ Step7 - Found both sessionId and leadId, proceeding with payment verification...');
+                console.log('🔍 Step7 - Session ID:', sessionId);
+                console.log('🔍 Step7 - Lead ID:', leadId);
+                console.log('🔍 Step7 - Vendor:', vendor);
+                console.log('🔍 Step7 - Amount:', amount);
+                console.log('🔍 Step7 - Currency:', currency);
+                console.log('🔍 Step7 - Email:', email);
                 
                 // Verify payment with backend
+                console.log('🌐 Step7 - Making API call to verify payment...');
+                const verificationPayload = {
+                    session_id: sessionId,
+                    lead_id: leadId
+                };
+                console.log('📤 Step7 - Verification payload:', verificationPayload);
+                
                 const response = await fetch('https://movedin-backend.onrender.com/api/verify-checkout-session', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
-                        session_id: sessionId,
-                        lead_id: leadId
-                    }),
+                    body: JSON.stringify(verificationPayload),
                 });
 
+                console.log('📡 Step7 - Verification response status:', response.status);
+                console.log('📡 Step7 - Verification response headers:', Object.fromEntries(response.headers.entries()));
+
                 if (!response.ok) {
-                    throw new Error(`Payment verification failed: ${await response.text()}`);
+                    const errorText = await response.text();
+                    console.error('❌ Step7 - Payment verification failed:', errorText);
+                    console.error('❌ Step7 - Response status:', response.status);
+                    throw new Error(`Payment verification failed: ${errorText}`);
                 }
 
                 const result = await response.json();
-                console.log('Step7 - Payment verification result:', result);
+                console.log('✅ Step7 - Payment verification successful!');
+                console.log('📊 Step7 - Verification result:', result);
+                console.log('🔍 Step7 - Success status:', result.success);
+                console.log('🔍 Step7 - Form data received:', result.form_data);
+                console.log('🔍 Step7 - Lead ID from result:', result.lead_id);
 
                 if (result.success) {
-                    console.log('Step7 - Payment verified successfully, loading form data...');
+                    console.log('✅ Step7 - Payment verified successfully, loading form data...');
+                    console.log('📊 Step7 - Setting display data:', result.form_data);
                     setDisplayData(result.form_data);
                     setLeadId(result.lead_id);
                     setIsProcessing(false);
+                    console.log('✅ Step7 - Data loading complete!');
                 } else {
+                    console.error('❌ Step7 - Payment verification failed - success=false');
                     throw new Error('Payment verification failed');
                 }
             } else {
-                console.log('Step7 - No URL parameters found, trying sessionStorage fallback...');
+                console.log('⚠️ Step7 - Missing URL parameters, trying sessionStorage fallback...');
+                console.log('🔍 Step7 - SessionId present:', !!sessionId);
+                console.log('🔍 Step7 - LeadId present:', !!leadId);
                 // Fallback to sessionStorage for backward compatibility
                 loadDataFromSessionStorage();
             }
         } catch (error) {
-            console.error('Step7 - Error loading data from URL:', error);
+            console.error('❌ Step7 - Error loading data from URL!');
+            console.error('❌ Step7 - Error type:', typeof error);
+            console.error('❌ Step7 - Error message:', error instanceof Error ? error.message : 'Unknown error');
+            console.error('❌ Step7 - Error stack:', error instanceof Error ? error.stack : 'No stack trace');
+            console.error('❌ Step7 - Full error object:', error);
+            console.error('❌ Step7 - Error timestamp:', new Date().toISOString());
             setError('Error loading payment data. Please try again.');
             setIsProcessing(false);
             
             // Try sessionStorage as fallback
+            console.log('🔄 Step7 - Trying sessionStorage fallback...');
             loadDataFromSessionStorage();
         }
     };
 
     const loadDataFromSessionStorage = () => {
         try {
+            console.log('🔄 Step7 - Loading data from sessionStorage fallback...');
+            console.log('🔍 Step7 - SessionStorage keys:', Object.keys(sessionStorage));
+            
             // Check if we have form data in sessionStorage (from payment redirect)
             const formData = sessionStorage.getItem('formData');
             const paymentSuccess = sessionStorage.getItem('paymentSuccess');
+            const paymentIntentData = sessionStorage.getItem('paymentIntentData');
             
-            console.log('Step7 - Loading data from sessionStorage:', { 
+            console.log('🔍 Step7 - SessionStorage data check:', { 
                 hasFormData: !!formData, 
-                hasPaymentSuccess: !!paymentSuccess 
+                hasPaymentSuccess: !!paymentSuccess,
+                hasPaymentIntentData: !!paymentIntentData,
+                formDataLength: formData ? formData.length : 0,
+                paymentSuccessValue: paymentSuccess,
+                paymentIntentDataLength: paymentIntentData ? paymentIntentData.length : 0
             });
             
             if (formData && paymentSuccess) {
+                console.log('✅ Step7 - Found sessionStorage data, parsing...');
                 const parsedFormData = JSON.parse(formData);
-                console.log('Step7 - Loaded form data from sessionStorage:', parsedFormData);
+                console.log('📊 Step7 - Parsed form data from sessionStorage:', parsedFormData);
+                console.log('🔍 Step7 - Form data keys:', Object.keys(parsedFormData));
                 
                 // Update the form context with the data from sessionStorage
+                console.log('🔄 Step7 - Updating form context with sessionStorage data...');
                 setData(prev => ({
                     ...prev,
                     ...parsedFormData
                 }));
                 
                 // Set display data for rendering
+                console.log('🔄 Step7 - Setting display data...');
                 setDisplayData(parsedFormData);
                 
                 // Store payment intent data separately for handlePaymentConfirmation
                 if (parsedFormData.paymentIntentData) {
+                    console.log('🔄 Step7 - Storing payment intent data...');
                     sessionStorage.setItem('paymentIntentData', JSON.stringify(parsedFormData.paymentIntentData));
                 }
                 
                 // Clear the sessionStorage data after loading
+                console.log('🧹 Step7 - Clearing sessionStorage data...');
                 sessionStorage.removeItem('formData');
                 sessionStorage.removeItem('paymentSuccess');
+                console.log('✅ Step7 - SessionStorage data loaded and cleared!');
             } else if (data && Object.keys(data).length > 0) {
                 // Use data from form context (normal flow)
-                console.log('Step7 - Using data from form context:', data);
+                console.log('✅ Step7 - Using data from form context (normal flow)');
+                console.log('📊 Step7 - Form context data:', data);
                 setDisplayData(data);
             } else {
                 // No data available - show error state
-                console.error('Step7 - No data available from sessionStorage or form context');
+                console.error('❌ Step7 - No data available from sessionStorage or form context');
+                console.error('❌ Step7 - Form data available:', !!formData);
+                console.error('❌ Step7 - Payment success available:', !!paymentSuccess);
+                console.error('❌ Step7 - Context data available:', !!(data && Object.keys(data).length > 0));
                 setError('No booking data available. Please complete the booking process.');
                 setDisplayData({});
             }
         } catch (error) {
-            console.error('Step7 - Error loading data from sessionStorage:', error);
+            console.error('❌ Step7 - Error loading data from sessionStorage!');
+            console.error('❌ Step7 - Error type:', typeof error);
+            console.error('❌ Step7 - Error message:', error instanceof Error ? error.message : 'Unknown error');
+            console.error('❌ Step7 - Error stack:', error instanceof Error ? error.stack : 'No stack trace');
+            console.error('❌ Step7 - Full error object:', error);
             setError('Error loading booking data. Please try again.');
             setDisplayData({});
         }
