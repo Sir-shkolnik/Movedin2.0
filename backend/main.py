@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 import uvicorn
-from app.api.routes import admin, leads, monitoring, payment, quotes, vendors, zoho, vendor_auth, email_test, email_test_direct, email_demo, email_complete_flow
+from app.api.routes import admin, leads, monitoring, payment, quotes, vendors, zoho, vendor_auth, email_test, email_test_direct, email_demo, email_complete_flow, clean_email_test
 from app.api.routes import payment_simple
 from app.core.config import settings
 from app.core.database import engine, Base
@@ -149,6 +149,7 @@ app.include_router(email_test.router, prefix="/api")
 app.include_router(email_test_direct.router, prefix="/api")
 app.include_router(email_demo.router, prefix="/api")
 app.include_router(email_complete_flow.router, prefix="/api")
+app.include_router(clean_email_test.router, prefix="/api")
 
 # Health check endpoint
 @app.get("/health")
