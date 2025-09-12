@@ -191,8 +191,10 @@ class ProfessionalEmailTemplates:
             vendor_name = selected_quote.get('vendor_name', 'N/A')
             total_cost = selected_quote.get('total_cost', 0)
             
-            payment_status = "Completed" if payment_intent_id else "Pending"
+            # Payment status - CLEARLY show deposit only
+            payment_status = "Deposit Paid" if payment_intent_id else "Pending"
             status_class = "status-completed" if payment_intent_id else "status-pending"
+            deposit_amount = 100.00  # $100 deposit
             
             html_content = f"""
             <!DOCTYPE html>
@@ -289,6 +291,10 @@ class ProfessionalEmailTemplates:
                                 <span class="info-value">${total_cost:,.2f}</span>
                             </div>
                             <div class="info-row">
+                                <span class="info-label">Deposit Paid:</span>
+                                <span class="info-value">${deposit_amount:,.2f}</span>
+                            </div>
+                            <div class="info-row">
                                 <span class="info-label">Payment Status:</span>
                                 <span class="info-value">
                                     <span class="status-badge {status_class}">{payment_status}</span>
@@ -347,7 +353,9 @@ class ProfessionalEmailTemplates:
             crew_size = selected_quote.get('crew_size', 'N/A')
             estimated_hours = selected_quote.get('estimated_hours', 'N/A')
             
-            payment_status = "COMPLETED" if payment_intent_id else "PENDING"
+            # Payment status - CLEARLY show deposit only
+            payment_status = "DEPOSIT PAID" if payment_intent_id else "PENDING"
+            deposit_amount = 100.00  # $100 deposit
             status_class = "status-completed" if payment_intent_id else "status-pending"
             
             html_content = f"""
@@ -444,6 +452,10 @@ class ProfessionalEmailTemplates:
                                 <span class="info-value">${total_cost:,.2f}</span>
                             </div>
                             <div class="info-row">
+                                <span class="info-label">Deposit Paid:</span>
+                                <span class="info-value">${deposit_amount:,.2f}</span>
+                            </div>
+                            <div class="info-row">
                                 <span class="info-label">Crew Size:</span>
                                 <span class="info-value">{crew_size} people</span>
                             </div>
@@ -532,7 +544,9 @@ class ProfessionalEmailTemplates:
             vendor_name = selected_quote.get('vendor_name', 'N/A')
             total_cost = selected_quote.get('total_cost', 0)
             
-            payment_status = "COMPLETED" if payment_intent_id else "PENDING"
+            # Payment status - CLEARLY show deposit only
+            payment_status = "DEPOSIT PAID" if payment_intent_id else "PENDING"
+            deposit_amount = 100.00  # $100 deposit
             status_class = "status-completed" if payment_intent_id else "status-pending"
             
             html_content = f"""
@@ -631,6 +645,10 @@ class ProfessionalEmailTemplates:
                             <div class="info-row">
                                 <span class="info-label">Lead Value:</span>
                                 <span class="info-value">${total_cost:,.2f}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Deposit Paid:</span>
+                                <span class="info-value">${deposit_amount:,.2f}</span>
                             </div>
                             <div class="info-row">
                                 <span class="info-label">Payment Status:</span>

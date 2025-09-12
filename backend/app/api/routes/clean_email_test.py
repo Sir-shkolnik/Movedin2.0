@@ -7,7 +7,7 @@ from fastapi import APIRouter, Body, HTTPException
 from datetime import datetime
 from typing import Dict, Any
 import logging
-from app.services.clean_email_service import clean_email_service
+from app.services.final_email_service import final_email_service
 from app.services.professional_email_templates import professional_email_templates
 
 logger = logging.getLogger(__name__)
@@ -68,10 +68,10 @@ async def test_clean_email_system(
             }
         }
         
-        payment_id = "pi_demo_777888999"
+        payment_id = "pi_demo_777888999"  # $100 deposit paid
         
-        # Send exactly 3 emails
-        results = clean_email_service.send_complete_booking_emails(
+        # Send exactly 3 emails - NO DUPLICATES
+        results = final_email_service.send_final_booking_emails(
             mock_lead_data, 
             lead_id, 
             payment_id
@@ -170,7 +170,7 @@ async def test_customer_only_clean(
             mock_lead_data, lead_id, payment_id
         )
         
-        success = clean_email_service.send_email(
+        success = final_email_service.send_email(
             customer_email, customer_subject, customer_body, is_html=True
         )
         
