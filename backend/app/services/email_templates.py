@@ -488,6 +488,184 @@ class EmailTemplates:
             logger.error(f"Error creating support notification template: {e}")
             return self.get_fallback_template(lead_data, lead_id, payment_intent_id)
     
+    def customer_confirmation_template(self, lead_data: Dict[str, Any], lead_id: int, payment_intent_id: str = None) -> str:
+        """Beautiful customer confirmation email template with estimate details"""
+        try:
+            # Extract data
+            contact = lead_data.get('contact_data', {})
+            quote_data = lead_data.get('quote_data', {})
+            selected_quote = lead_data.get('selected_quote', {})
+            
+            # Generate route map
+            origin = quote_data.get('originAddress', 'Unknown')
+            destination = quote_data.get('destinationAddress', 'Unknown')
+            route_image = self.get_mapbox_route_image(origin, destination)
+            
+            # Calculate move details
+            move_date = quote_data.get('moveDate', 'TBD')
+            move_time = quote_data.get('moveTime', 'TBD')
+            total_rooms = quote_data.get('totalRooms', 0)
+            square_footage = quote_data.get('squareFootage', 'Unknown')
+            
+            # Payment status
+            payment_status = "Completed" if payment_intent_id else "Pending"
+            status_class = "status-success" if payment_intent_id else "status-pending"
+            
+            content = f"""
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">🎉</span>
+                    Booking Confirmation #{lead_id}
+                </div>
+                <div class="highlight">
+                    <strong>✅ Thank you for choosing MovedIn!</strong><br>
+                    Your moving quote has been confirmed and we're excited to help you move.
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">👤</span>
+                    Your Information
+                </div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Name:</span>
+                        <span class="info-value">{contact.get('firstName', 'N/A')} {contact.get('lastName', 'N/A')}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value">{contact.get('email', 'N/A')}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phone:</span>
+                        <span class="info-value">{contact.get('phone', 'N/A')}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Booking ID:</span>
+                        <span class="info-value">#{lead_id}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">📍</span>
+                    Your Move Details
+                </div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">From:</span>
+                        <span class="info-value">{origin}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">To:</span>
+                        <span class="info-value">{destination}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Date:</span>
+                        <span class="info-value">{move_date}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Time:</span>
+                        <span class="info-value">{move_time}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Rooms:</span>
+                        <span class="info-value">{total_rooms}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Size:</span>
+                        <span class="info-value">{square_footage} sq ft</span>
+                    </div>
+                </div>
+                
+                <img src="{route_image}" alt="Your Move Route" class="route-map">
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">💰</span>
+                    Your Quote Summary
+                </div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Moving Company:</span>
+                        <span class="info-value">{selected_quote.get('vendor_name', 'N/A')}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Estimated Total:</span>
+                        <span class="info-value">${selected_quote.get('total_cost', 0):,.2f}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Crew Size:</span>
+                        <span class="info-value">{selected_quote.get('crew_size', 'N/A')} people</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Trucks:</span>
+                        <span class="info-value">{selected_quote.get('truck_count', 'N/A')}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Est. Hours:</span>
+                        <span class="info-value">{selected_quote.get('estimated_hours', 'N/A')} hours</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Travel Time:</span>
+                        <span class="info-value">{selected_quote.get('travel_time_hours', 'N/A')} hours</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">⚠️</span>
+                    Important Information
+                </div>
+                <div class="highlight">
+                    <strong>📋 This is an ESTIMATE based on the information provided:</strong><br>
+                    • Final pricing may vary based on actual items moved<br>
+                    • Additional services may incur extra charges<br>
+                    • The moving company will contact you within 24 hours to confirm details<br>
+                    • Please have all items ready for packing on move day<br>
+                    • Keep this email as your booking confirmation
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">📞</span>
+                    What Happens Next?
+                </div>
+                <div class="highlight">
+                    <strong>Your moving company will contact you within 24 hours to:</strong><br>
+                    • Confirm the exact move date and time<br>
+                    • Discuss any special requirements<br>
+                    • Provide move day instructions<br>
+                    • Answer any questions you may have
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="mailto:support@movedin.com" class="button">📧 Contact Support</a>
+                    <a href="https://movedin.com" class="button">🌐 Visit MovedIn</a>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">ℹ️</span>
+                    Booking Details
+                </div>
+                <p><strong>Booking confirmed:</strong> {datetime.now().strftime('%B %d, %Y at %I:%M %p')}</p>
+                <p><strong>Payment status:</strong> <span class="status-badge {status_class}">{payment_status}</span></p>
+                <p><strong>Platform:</strong> MovedIn 2.0 - Canada's Premier Moving Platform</p>
+            </div>
+            """
+            
+            return self.get_base_template(f"Booking Confirmation #{lead_id} - MovedIn", content)
+            
+        except Exception as e:
+            logger.error(f"Error creating customer confirmation template: {e}")
+            return self.get_fallback_template(lead_data, lead_id, payment_intent_id)
+    
     def get_fallback_template(self, lead_data: Dict[str, Any], lead_id: int, payment_intent_id: str = None) -> str:
         """Fallback template if main templates fail"""
         return f"""

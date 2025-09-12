@@ -144,6 +144,20 @@ class EmailService:
             logger.error(f"Failed to send payment notification: {e}")
             return False
     
+    def send_customer_confirmation(self, lead_data: Dict[str, Any], customer_email: str, lead_id: int, payment_intent_id: str = None) -> bool:
+        """Send beautiful customer confirmation email with estimate details"""
+        try:
+            subject = f"🎉 Booking Confirmation #{lead_id} - MovedIn"
+            
+            logger.info(f"📧 Sending customer confirmation for lead #{lead_id} to {customer_email}")
+            body = email_templates.customer_confirmation_template(lead_data, lead_id, payment_intent_id)
+            
+            return self.send_email(customer_email, subject, body, is_html=True)
+            
+        except Exception as e:
+            logger.error(f"Failed to send customer confirmation: {e}")
+            return False
+
     def send_vendor_notification(self, lead_data: Dict[str, Any], vendor_email: str, lead_id: int, payment_intent_id: str = None) -> bool:
         """Send beautiful vendor notification email with stunning template"""
         try:

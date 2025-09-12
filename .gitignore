@@ -13,6 +13,12 @@ env.local
 env.production
 env.development
 
+# Credentials and sensitive files
+50234923.txt
+*credentials*.txt
+*password*.txt
+*secret*.txt
+
 # =============================================================================
 # 📁 ARCHIVE & OLD DATA
 # =============================================================================
