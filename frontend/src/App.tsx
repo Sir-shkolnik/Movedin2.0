@@ -75,56 +75,79 @@ function AppInner() {
         const fullPath = path + hash;
         const search = location.search;
         
-        const debugData = {
-            path,
-            hash,
-            fullPath,
-            search,
-            includesStep7: fullPath.includes('step7'),
-            includesSessionId: search.includes('session_id'),
-            sessionIdInHash: hash.includes('session_id'),
-            leadIdInHash: hash.includes('lead_id')
-        };
-        
-        console.log('🔍 getCurrentStepFromURL Debug:', debugData);
-        
-        // Log to backend
-        logDebugStep('URL_ANALYSIS', debugData);
+        // Only log debug info in development and when URL changes
+        if (process.env.NODE_ENV === 'development') {
+            const debugData = {
+                path,
+                hash,
+                fullPath,
+                search,
+                includesStep7: fullPath.includes('step7'),
+                includesSessionId: search.includes('session_id'),
+                sessionIdInHash: hash.includes('session_id'),
+                leadIdInHash: hash.includes('lead_id')
+            };
+            
+            // Only log if URL has changed (use a simple cache)
+            if (!getCurrentStepFromURL.lastUrl || getCurrentStepFromURL.lastUrl !== fullPath) {
+                console.log('🔍 getCurrentStepFromURL Debug:', debugData);
+                getCurrentStepFromURL.lastUrl = fullPath;
+                
+                // Log to backend only on URL change
+                logDebugStep('URL_ANALYSIS', debugData);
+            }
+        }
         
         // Check both pathname and hash for step routing
         if (path === '/step7' || hash === '#/step7' || fullPath.includes('step7') || search.includes('session_id') || hash.includes('session_id')) {
-            console.log('✅ Detected Step7 - returning 6');
-            logDebugStep('STEP7_DETECTED', { ...debugData, routing_detected: true });
+            if (process.env.NODE_ENV === 'development') {
+                console.log('✅ Detected Step7 - returning 6');
+                logDebugStep('STEP7_DETECTED', { path, hash, fullPath, search, routing_detected: true });
+            }
             return 6;
         }
         // Handle /quote route - start at Step 1
         if (path === '/quote' && !hash) {
-            console.log('✅ Detected /quote route - returning 0 (Step 1)');
-            logDebugStep('QUOTE_ROUTE_DETECTED', { ...debugData, routing_detected: true });
+            if (process.env.NODE_ENV === 'development') {
+                console.log('✅ Detected /quote route - returning 0 (Step 1)');
+                logDebugStep('QUOTE_ROUTE_DETECTED', { path, hash, fullPath, search, routing_detected: true });
+            }
             return 0;
         }
         if (path === '/step6' || hash === '#/step6' || fullPath.includes('step6')) {
-            logDebugStep('STEP6_DETECTED', debugData);
+            if (process.env.NODE_ENV === 'development') {
+                logDebugStep('STEP6_DETECTED', { path, hash, fullPath, search });
+            }
             return 5;
         }
         if (path === '/step5' || hash === '#/step5' || fullPath.includes('step5')) {
-            logDebugStep('STEP5_DETECTED', debugData);
+            if (process.env.NODE_ENV === 'development') {
+                logDebugStep('STEP5_DETECTED', { path, hash, fullPath, search });
+            }
             return 4;
         }
         if (path === '/step4' || hash === '#/step4' || fullPath.includes('step4')) {
-            logDebugStep('STEP4_DETECTED', debugData);
+            if (process.env.NODE_ENV === 'development') {
+                logDebugStep('STEP4_DETECTED', { path, hash, fullPath, search });
+            }
             return 3;
         }
         if (path === '/step3' || hash === '#/step3' || fullPath.includes('step3')) {
-            logDebugStep('STEP3_DETECTED', debugData);
+            if (process.env.NODE_ENV === 'development') {
+                logDebugStep('STEP3_DETECTED', { path, hash, fullPath, search });
+            }
             return 2;
         }
         if (path === '/step2' || hash === '#/step2' || fullPath.includes('step2')) {
-            logDebugStep('STEP2_DETECTED', debugData);
+            if (process.env.NODE_ENV === 'development') {
+                logDebugStep('STEP2_DETECTED', { path, hash, fullPath, search });
+            }
             return 1;
         }
-        console.log('❌ No step detected - returning 0');
-        logDebugStep('NO_STEP_DETECTED', debugData);
+        if (process.env.NODE_ENV === 'development') {
+            console.log('❌ No step detected - returning 0');
+            logDebugStep('NO_STEP_DETECTED', { path, hash, fullPath, search });
+        }
         return 0; // Default to step 1
     };
 
@@ -203,48 +226,66 @@ function AppInner() {
                 // Step 6 - Payment
                 continueButtonText = "Pay $1.00 CAD Deposit";
                 continueAction = () => {
-                    console.log('🚀 Step 6 - Footer button clicked!');
-                    console.log('🔍 Step 6 - Current step:', currentStep);
+                    if (process.env.NODE_ENV === 'development') {
+                        console.log('🚀 Step 6 - Footer button clicked!');
+                        console.log('🔍 Step 6 - Current step:', currentStep);
+                    }
                     
                     // Add a small delay to ensure the component is fully rendered
                     setTimeout(() => {
-                        console.log('🔍 Step 6 - Looking for .step6-modern element...');
+                        if (process.env.NODE_ENV === 'development') {
+                            console.log('🔍 Step 6 - Looking for .step6-modern element...');
+                        }
                         
                         // Try multiple selectors
                         const step6Element = document.querySelector('.step6-modern') || 
                                             document.querySelector('[class*="step6"]') ||
                                             document.querySelector('.step-card');
                         
-                        console.log('🔍 Step 6 - Found step6 element:', step6Element);
-                        console.log('🔍 Step 6 - Element classes:', step6Element?.className);
+                        if (process.env.NODE_ENV === 'development') {
+                            console.log('🔍 Step 6 - Found step6 element:', step6Element);
+                            console.log('🔍 Step 6 - Element classes:', step6Element?.className);
+                        }
                         
                         if (step6Element) {
-                            console.log('🔍 Step 6 - Looking for .pay-button-modern...');
+                            if (process.env.NODE_ENV === 'development') {
+                                console.log('🔍 Step 6 - Looking for .pay-button-modern...');
+                            }
                             const payButton = step6Element.querySelector('.pay-button-modern') as HTMLButtonElement;
-                            console.log('🔍 Step 6 - Found pay button:', payButton);
-                            console.log('🔍 Step 6 - Button disabled:', payButton?.disabled);
-                            console.log('🔍 Step 6 - Button style:', payButton?.style?.display);
+                            if (process.env.NODE_ENV === 'development') {
+                                console.log('🔍 Step 6 - Found pay button:', payButton);
+                                console.log('🔍 Step 6 - Button disabled:', payButton?.disabled);
+                                console.log('🔍 Step 6 - Button style:', payButton?.style?.display);
+                            }
                             
                             if (payButton && !payButton.disabled) {
-                                console.log('🚀 Step 6 - Clicking payment button...');
+                                if (process.env.NODE_ENV === 'development') {
+                                    console.log('🚀 Step 6 - Clicking payment button...');
+                                }
                                 payButton.click();
                             } else {
-                                console.log('❌ Step 6 - Payment button not found or disabled');
-                                console.log('🔍 Step 6 - All buttons in step6:', step6Element.querySelectorAll('button'));
+                                if (process.env.NODE_ENV === 'development') {
+                                    console.log('❌ Step 6 - Payment button not found or disabled');
+                                    console.log('🔍 Step 6 - All buttons in step6:', step6Element.querySelectorAll('button'));
+                                }
                             }
                         } else {
-                            console.log('❌ Step 6 - Step6 element not found');
-                            console.log('🔍 Step 6 - All elements with step6:', document.querySelectorAll('[class*="step6"]'));
+                            if (process.env.NODE_ENV === 'development') {
+                                console.log('❌ Step 6 - Step6 element not found');
+                                console.log('🔍 Step 6 - All elements with step6:', document.querySelectorAll('[class*="step6"]'));
+                            }
                         }
                     }, 100); // 100ms delay
                 };
             }
 
-    // Debug continueAction
-    console.log('🔍 App - continueAction:', continueAction);
-    console.log('🔍 App - continueButtonText:', continueButtonText);
-    console.log('🔍 App - continueDisabled:', continueDisabled);
-    console.log('🔍 App - currentStep:', currentStep);
+    // Debug continueAction (only in development)
+    if (process.env.NODE_ENV === 'development') {
+        console.log('🔍 App - continueAction:', continueAction);
+        console.log('🔍 App - continueButtonText:', continueButtonText);
+        console.log('🔍 App - continueDisabled:', continueDisabled);
+        console.log('🔍 App - currentStep:', currentStep);
+    }
 
         return (
         <div className="app-root">
