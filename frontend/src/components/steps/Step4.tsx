@@ -323,25 +323,25 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
 
                     {/* Loading Message */}
                     <p style={{
-                        fontSize: '18px',
-                        marginBottom: '16px',
+                        fontSize: '16px',
+                        marginBottom: '12px',
                         fontWeight: '500',
                         color: '#374151',
                         textAlign: 'center',
                         padding: '0 16px'
                     }}>
-                        We're connecting with top-rated moving companies in your area...
+                        Finding the best movers for you...
                     </p>
                     
                     <p style={{
-                        fontSize: '14px',
+                        fontSize: '13px',
                         opacity: '0.7',
-                        marginBottom: '32px',
+                        marginBottom: '24px',
                         color: '#6b7280',
                         textAlign: 'center',
                         padding: '0 16px'
                     }}>
-                        This ensures you get the best service and competitive pricing
+                        Best service & competitive pricing
                     </p>
 
                     {/* Simple Progress Indicator */}
@@ -490,7 +490,21 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                         }
                         .progress-steps {
                             flex-direction: column !important;
-                            gap: 20px !important;
+                            gap: 16px !important;
+                            align-items: center !important;
+                        }
+                        .progress-steps > div {
+                            width: 100% !important;
+                            max-width: 280px !important;
+                            justify-content: center !important;
+                        }
+                        .loading-container p {
+                            font-size: 14px !important;
+                            margin-bottom: 10px !important;
+                        }
+                        .loading-container p:last-of-type {
+                            font-size: 12px !important;
+                            margin-bottom: 20px !important;
                         }
                     }
                 `}</style>
