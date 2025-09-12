@@ -239,7 +239,7 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                     {/* Loading Subtitle */}
                     <h3 style={{
                         fontSize: '18px',
-                        marginBottom: '32px',
+                        marginBottom: '24px',
                         fontWeight: '500',
                         color: '#64748b',
                         textAlign: 'center',
@@ -261,7 +261,7 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                         {/* Moving Truck Icon */}
                         <div style={{
                             fontSize: '60px',
-                            animation: 'truckMove 2s ease-in-out infinite',
+                            animation: 'truckMove 3s ease-in-out infinite',
                             filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))'
                         }}>
                             🚚
