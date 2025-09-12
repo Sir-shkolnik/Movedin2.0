@@ -579,6 +579,11 @@ async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
             await handle_payment_intent_success(event['data']['object'], db)
         elif event['type'] == 'payment_intent.payment_failed':
             await handle_payment_intent_failure(event['data']['object'], db)
+        elif event['type'] == 'checkout.session.completed':
+            await handle_checkout_session_completed(event['data']['object'], db)
+        elif event['type'] == 'payment_intent.created':
+            # Payment intent created - just log, don't process yet
+            logger.info(f"Payment Intent created: {event['data']['object']['id']} - waiting for completion")
         else:
             logger.info(f"Unhandled event type: {event['type']}")
         
@@ -694,6 +699,91 @@ async def handle_payment_intent_failure(payment_intent: Dict[str, Any], db: Sess
         
     except Exception as e:
         logger.error(f"Failed to handle Payment Intent failure: {e}")
+
+async def handle_checkout_session_completed(checkout_session: Dict[str, Any], db: Session):
+    """Handle successful checkout session completion"""
+    try:
+        session_id = checkout_session['id']
+        metadata = checkout_session.get('metadata', {})
+        
+        logger.info(f"🛒 CHECKOUT SESSION COMPLETED: {session_id}")
+        
+        # Extract lead_id from metadata
+        lead_id = metadata.get('lead_id')
+        if not lead_id:
+            logger.error(f"❌ No lead_id found in checkout session: {session_id}")
+            return
+        
+        # Retrieve lead from database
+        lead = db.query(Lead).filter(Lead.id == int(lead_id)).first()
+        if not lead:
+            logger.error(f"❌ Lead with ID {lead_id} not found in database.")
+            return
+        
+        # Update lead status to payment_completed with payment details
+        lead.status = 'payment_completed'
+        lead.payment_intent_id = session_id
+        lead.payment_amount = checkout_session.get('amount_total', 0) / 100.0
+        lead.payment_currency = checkout_session.get('currency', 'cad').upper()
+        lead.payment_status = checkout_session.get('payment_status', 'paid')
+        db.commit()
+        db.refresh(lead)
+        
+        logger.info(f"✅ CHECKOUT SUCCESS: Lead {lead_id} status updated to 'payment_completed'")
+        logger.info(f"💰 PAYMENT DETAILS: Amount: ${lead.payment_amount} {lead.payment_currency}")
+        
+        # Send email notification to vendor
+        try:
+            if lead.selected_vendor_id:
+                vendor = db.query(Vendor).filter(Vendor.id == lead.selected_vendor_id).first()
+                if vendor and vendor.email:
+                    # Import email service here to avoid circular imports
+                    from app.services.email_service import email_service
+                    
+                    # Prepare lead data for email
+                    lead_data = {
+                        'quote_data': {
+                            'originAddress': lead.origin_address,
+                            'destinationAddress': lead.destination_address,
+                            'moveDate': lead.move_date.isoformat() if lead.move_date else '',
+                            'moveTime': lead.move_time,
+                            'totalRooms': lead.total_rooms,
+                            'squareFootage': lead.square_footage,
+                            'estimatedWeight': lead.estimated_weight
+                        },
+                        'selected_quote': {
+                            'vendor_name': vendor.name,
+                            'total_cost': checkout_session.get('amount_total', 0) / 100.0
+                        },
+                        'contact_data': {
+                            'firstName': lead.first_name,
+                            'lastName': lead.last_name,
+                            'email': lead.email,
+                            'phone': lead.phone
+                        }
+                    }
+                    
+                    # Send professional email notifications using final_email_service
+                    from app.services.final_email_service import final_email_service
+                    
+                    # Send all 3 professional emails
+                    email_results = final_email_service.send_final_booking_emails(lead_data, lead.id, session_id)
+                    logger.info(f"📧 EMAIL SUCCESS: Professional emails sent: {email_results}")
+                    
+                    # Also send individual emails for backward compatibility
+                    vendor_success = email_service.send_vendor_notification(lead_data, vendor.email, lead.id, session_id)
+                    logger.info(f"📧 VENDOR EMAIL: {vendor_success}")
+                    
+                    # Send support notification
+                    support_success = email_service.send_payment_notification_to_support(lead_data, lead.id, session_id)
+                    logger.info(f"📧 SUPPORT EMAIL: {support_success}")
+                    
+        except Exception as email_error:
+            logger.error(f"❌ EMAIL ERROR: Failed to send email notifications: {email_error}")
+        
+    except Exception as e:
+        logger.error(f"❌ CHECKOUT ERROR: Payment processing error: {e}")
+        db.rollback()
 
 @router.post('/confirm-payment')
 async def confirm_payment(
