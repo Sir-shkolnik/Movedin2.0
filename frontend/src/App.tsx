@@ -97,6 +97,12 @@ function AppInner() {
             logDebugStep('STEP7_DETECTED', { ...debugData, routing_detected: true });
             return 6;
         }
+        // Handle /quote route - start at Step 1
+        if (path === '/quote' && !hash) {
+            console.log('✅ Detected /quote route - returning 0 (Step 1)');
+            logDebugStep('QUOTE_ROUTE_DETECTED', { ...debugData, routing_detected: true });
+            return 0;
+        }
         if (path === '/step6' || hash === '#/step6' || fullPath.includes('step6')) {
             logDebugStep('STEP6_DETECTED', debugData);
             return 5;
