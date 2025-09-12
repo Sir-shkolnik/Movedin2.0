@@ -7,12 +7,7 @@ interface RouteMapProps {
     to: string;
 }
 
-interface Step6Props {
-  onNext: () => void;
-  onBack?: () => void;
-}
-
-const Step6: React.FC<Step6Props> = ({ onNext, onBack }) => {
+const Step6: React.FC = () => {
   const { data, setData } = useForm();
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentError, setPaymentError] = useState<string | null>(null);
@@ -48,52 +43,6 @@ const Step6: React.FC<Step6Props> = ({ onNext, onBack }) => {
 
   // Dynamic Stripe Payment Links are now created by the backend
   // with proper redirect URLs configured automatically
-
-  const handlePayment = async () => {
-    if (isProcessing) return;
-    
-    setIsProcessing(true);
-    setPaymentError(null);
-    
-    try {
-      // Create payment session
-      const response = await fetch('https://movedin-backend.onrender.com/api/payment/create-checkout-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amount: 100, // $1.00 in cents
-          currency: 'cad',
-          success_url: `${window.location.origin}/#/step7`,
-          cancel_url: `${window.location.origin}/#/step6`,
-          metadata: {
-            lead_id: 'temp_lead_id', // This will be replaced with actual lead ID
-            vendor_slug: data.selectedQuote?.vendor_slug || 'unknown',
-            origin_address: data.fromDetails?.from || 'Unknown',
-            destination_address: data.fromDetails?.to || 'Unknown'
-          }
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create payment session');
-      }
-
-      const { url } = await response.json();
-      
-      if (url) {
-        // Redirect to Stripe Checkout
-        window.location.href = url;
-      } else {
-        throw new Error('No payment URL received');
-      }
-    } catch (error) {
-      console.error('Payment error:', error);
-      setPaymentError('Payment failed. Please try again.');
-      setIsProcessing(false);
-    }
-  };
 
   useEffect(() => {
     console.log('Step 6 - Data structure:', {
@@ -521,26 +470,42 @@ const Step6: React.FC<Step6Props> = ({ onNext, onBack }) => {
         )}
 
         {/* Payment Button */}
-        <button
-          className="pay-button-modern"
-          onClick={handlePayment}
-          disabled={isProcessing}
-          style={{
-            width: '100%',
-            backgroundColor: isProcessing ? '#6c757d' : '#007bff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            padding: '16px 24px',
-            fontSize: '16px',
-            fontWeight: 'bold',
-            cursor: isProcessing ? 'not-allowed' : 'pointer',
-            transition: 'background-color 0.2s ease',
-            marginBottom: '16px'
-          }}
-        >
-          {isProcessing ? 'Processing...' : 'Pay $1.00 CAD Deposit'}
-        </button>
+        <div style={{ textAlign: 'center', marginTop: '20px' }}>
+          <button
+            className="pay-button-modern"
+            onClick={handlePayment}
+            disabled={isProcessing}
+            style={{
+              backgroundColor: isProcessing ? '#6c757d' : '#28a745',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              padding: '16px 32px',
+              fontSize: '18px',
+              fontWeight: 'bold',
+              cursor: isProcessing ? 'not-allowed' : 'pointer',
+              boxShadow: '0 4px 12px rgba(40, 167, 69, 0.3)',
+              transition: 'all 0.3s ease',
+              minWidth: '200px'
+            }}
+            onMouseEnter={(e) => {
+              if (!isProcessing) {
+                e.currentTarget.style.backgroundColor = '#218838';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 6px 16px rgba(40, 167, 69, 0.4)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!isProcessing) {
+                e.currentTarget.style.backgroundColor = '#28a745';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(40, 167, 69, 0.3)';
+              }
+            }}
+          >
+            {isProcessing ? 'Processing...' : 'Pay $1.00 CAD Deposit'}
+          </button>
+        </div>
 
       </div>
 

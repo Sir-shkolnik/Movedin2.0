@@ -59,6 +59,7 @@ export function initializePerformanceMonitoring() {
 
     // Monitor Cumulative Layout Shift (CLS)
     let clsValue = 0;
+    let lastLoggedCLS = 0;
     const clsObserver = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
         if (!entry.hadRecentInput) {
@@ -66,7 +67,12 @@ export function initializePerformanceMonitoring() {
         }
       }
       performanceMetrics.CLS = clsValue;
-      console.log('CLS:', performanceMetrics.CLS);
+      
+      // Only log CLS if it changes significantly (more than 0.01)
+      if (Math.abs(clsValue - lastLoggedCLS) > 0.01) {
+        console.log('CLS:', performanceMetrics.CLS);
+        lastLoggedCLS = clsValue;
+      }
       
       if (performanceMetrics.CLS > CORE_WEB_VITALS.CLS) {
         console.warn('CLS is above threshold:', performanceMetrics.CLS);
@@ -348,9 +354,9 @@ export function initializePerformanceOptimizations() {
   // Initialize performance monitoring
   initializePerformanceMonitoring();
   
-  // Monitor memory and network
-  setInterval(monitorMemoryUsage, 30000); // Every 30 seconds
-  setInterval(monitorNetworkInfo, 60000); // Every minute
+  // Monitor memory and network (reduced frequency to avoid console spam)
+  setInterval(monitorMemoryUsage, 120000); // Every 2 minutes
+  setInterval(monitorNetworkInfo, 300000); // Every 5 minutes
   
   console.log('Performance optimizations initialized');
 }
