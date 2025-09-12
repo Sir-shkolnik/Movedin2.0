@@ -91,6 +91,11 @@ const Step6: React.FC = () => {
         contact: data.contact
       });
 
+      // Validate required contact information
+      if (!data.contact?.firstName || !data.contact?.lastName || !data.contact?.email || !data.contact?.phone) {
+        throw new Error('Please complete all contact information in the previous step');
+      }
+
       // Create checkout session with all form data
       const response = await fetch('https://movedin-backend.onrender.com/api/create-checkout-session', {
         method: 'POST',
@@ -123,11 +128,17 @@ const Step6: React.FC = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`Failed to create checkout session: ${await response.text()}`);
+        const errorText = await response.text();
+        console.error('Step 6 - Payment API error:', errorText);
+        throw new Error(`Failed to create checkout session: ${errorText}`);
       }
 
       const result = await response.json();
       console.log('Step 6 - Checkout session created:', result);
+
+      if (!result.checkout_url) {
+        throw new Error('No checkout URL received from server');
+      }
 
       // Redirect to Stripe Checkout
       console.log('Step 6 - Redirecting to Stripe Checkout...');
