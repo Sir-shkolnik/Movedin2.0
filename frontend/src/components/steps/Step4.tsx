@@ -215,7 +215,7 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                 {/* Professional Loading Experience */}
                 <div className="loading-container" style={{ 
                     textAlign: 'center', 
-                    padding: '40px 20px',
+                    padding: '50px 20px 40px 20px',
                     background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
                     borderRadius: '16px',
                     marginBottom: '24px',
@@ -460,7 +460,7 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                     }
                     @media (max-width: 768px) {
                         .loading-container {
-                            padding: 24px 16px !important;
+                            padding: 32px 16px 24px 16px !important;
                             text-align: center !important;
                         }
                         .loading-container h2 {
@@ -490,7 +490,7 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                         }
                         .progress-steps {
                             flex-direction: column !important;
-                            gap: 12px !important;
+                            gap: 20px !important;
                         }
                     }
                 `}</style>
