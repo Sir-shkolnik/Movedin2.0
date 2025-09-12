@@ -1970,17 +1970,17 @@ class PierreSonsCalculator(VendorCalculator):
         # based on size, time, weight, and other factors - not included in base quote
         return 0.0
 
-# Vendor calculator factory - Only Let's Get Moving uses this file
+# Vendor calculator factory
 VENDOR_CALCULATORS = {
     "lets-get-moving": LetsGetMovingCalculator(),
-    # Other vendors now use dedicated calculator files
+    "easy2go": Easy2GoCalculator(),
+    "velocity-movers": VelocityMoversCalculator(),
+    "pierre-sons": PierreSonsCalculator(),
 }
 
 def get_vendor_calculator(vendor_slug: str) -> VendorCalculator:
-    """Get vendor calculator by slug - Only Let's Get Moving uses this file"""
-    if vendor_slug == "lets-get-moving":
-        return VENDOR_CALCULATORS.get(vendor_slug)
-    return None  # Other vendors use dedicated calculator files
+    """Get vendor calculator by slug"""
+    return VENDOR_CALCULATORS.get(vendor_slug)
 
 def get_available_vendors_for_quote(quote_request: QuoteRequest) -> List[Dict[str, Any]]:
     """Get available vendors for a specific quote request"""
