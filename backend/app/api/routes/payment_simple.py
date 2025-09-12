@@ -317,6 +317,49 @@ async def test_payment_redirect():
         logger.error(f"Test redirect error: {e}")
         raise HTTPException(status_code=500, detail="Failed to create test redirect data")
 
+@router.post('/manual-payment-update')
+async def manual_payment_update(request: Request, db: Session = Depends(get_db)):
+    """Manually update payment details for a lead"""
+    try:
+        body = await request.json()
+        lead_id = body.get('lead_id')
+        payment_intent_id = body.get('payment_intent_id', 'manual_update')
+        amount = body.get('amount', 100)
+        currency = body.get('currency', 'CAD')
+        
+        if not lead_id:
+            raise HTTPException(status_code=400, detail="lead_id is required")
+        
+        # Retrieve lead from database
+        lead = db.query(Lead).filter(Lead.id == int(lead_id)).first()
+        if not lead:
+            raise HTTPException(status_code=404, detail=f"Lead with ID {lead_id} not found")
+        
+        # Update payment details
+        lead.payment_intent_id = payment_intent_id
+        lead.payment_amount = amount / 100.0
+        lead.payment_currency = currency.upper()
+        lead.payment_status = 'succeeded'
+        lead.status = 'payment_completed'
+        
+        db.commit()
+        db.refresh(lead)
+        
+        logger.info(f"Manual payment update for lead {lead_id}: {payment_intent_id}, ${amount/100.0} {currency.upper()}")
+        
+        return {
+            'status': 'success',
+            'message': f'Payment details updated for lead {lead_id}',
+            'lead_id': lead_id,
+            'payment_intent_id': payment_intent_id,
+            'amount': amount / 100.0,
+            'currency': currency.upper()
+        }
+        
+    except Exception as e:
+        logger.error(f"Manual payment update error: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to update payment: {str(e)}")
+
 @router.get('/test-step7')
 async def test_step7_direct():
     """Test endpoint to directly access Step7 data without payment redirect"""
