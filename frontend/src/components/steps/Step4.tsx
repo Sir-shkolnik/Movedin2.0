@@ -321,27 +321,16 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                         </div>
                     </div>
 
-                    {/* Loading Message */}
+                    {/* Simple Loading Message */}
                     <p style={{
                         fontSize: '16px',
-                        marginBottom: '12px',
+                        marginBottom: '24px',
                         fontWeight: '500',
                         color: '#374151',
                         textAlign: 'center',
                         padding: '0 16px'
                     }}>
                         Finding the best movers for you...
-                    </p>
-                    
-                    <p style={{
-                        fontSize: '13px',
-                        opacity: '0.7',
-                        marginBottom: '24px',
-                        color: '#6b7280',
-                        textAlign: 'center',
-                        padding: '0 16px'
-                    }}>
-                        Best service & competitive pricing
                     </p>
 
                     {/* Simple Progress Indicator */}
@@ -374,45 +363,25 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                     </p>
                 </div>
 
-                {/* Loading Tips */}
+                {/* Simple Loading Status */}
                 <div style={{
                     backgroundColor: '#f8f9fa',
                     border: '1px solid #e9ecef',
                     borderRadius: '12px',
-                    padding: '24px',
-                    marginBottom: '32px',
-                    marginTop: '16px'
+                    padding: '16px',
+                    marginBottom: '24px',
+                    marginTop: '8px'
                 }}>
-                    <h4 style={{
-                        color: '#495057',
-                        marginBottom: '12px',
-                        fontSize: '16px',
-                        fontWeight: '600'
-                    }}>
-                        💡 While we're working...
-                    </h4>
                     <div style={{
-                        display: 'grid',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                         gap: '8px',
                         fontSize: '14px',
                         color: '#6c757d'
                     }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <span>✅</span>
-                            <span>We're checking availability for your move date</span>
-                        </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <span>✅</span>
-                            <span>Calculating accurate pricing based on your details</span>
-                        </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <span>✅</span>
-                            <span>Finding the best crew size for your move</span>
-                        </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <span>✅</span>
-                            <span>Verifying current rates and availability</span>
-                        </div>
+                        <span>✅</span>
+                        <span>Finding the best movers for you</span>
                     </div>
                 </div>
 
@@ -491,20 +460,16 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                         .progress-steps {
                             flex-direction: column !important;
                             gap: 16px !important;
-                            align-items: center !important;
+                            margin-bottom: 24px !important;
                         }
                         .progress-steps > div {
                             width: 100% !important;
                             max-width: 280px !important;
-                            justify-content: center !important;
+                            margin: 0 auto !important;
                         }
                         .loading-container p {
                             font-size: 14px !important;
-                            margin-bottom: 10px !important;
-                        }
-                        .loading-container p:last-of-type {
-                            font-size: 12px !important;
-                            margin-bottom: 20px !important;
+                            margin-bottom: 16px !important;
                         }
                     }
                 `}</style>
