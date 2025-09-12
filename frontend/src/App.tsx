@@ -218,6 +218,8 @@ function AppInner() {
                             console.log('🔍 Step 6 - Found pay button:', payButton);
                             console.log('🔍 Step 6 - Button disabled:', payButton?.disabled);
                             console.log('🔍 Step 6 - Button style:', payButton?.style?.display);
+                            console.log('🔍 Step 6 - Button visible:', payButton?.offsetParent !== null);
+                            console.log('🔍 Step 6 - Button text:', payButton?.textContent);
                             
                             if (payButton && !payButton.disabled) {
                                 console.log('🚀 Step 6 - Clicking payment button...');
@@ -225,12 +227,13 @@ function AppInner() {
                             } else {
                                 console.log('❌ Step 6 - Payment button not found or disabled');
                                 console.log('🔍 Step 6 - All buttons in step6:', step6Element.querySelectorAll('button'));
+                                console.log('🔍 Step 6 - All buttons with pay-button class:', document.querySelectorAll('.pay-button-modern'));
                             }
                         } else {
                             console.log('❌ Step 6 - Step6 element not found');
                             console.log('🔍 Step 6 - All elements with step6:', document.querySelectorAll('[class*="step6"]'));
                         }
-                    }, 100); // 100ms delay
+                    }, 200); // Increased delay to 200ms
                 };
             }
 
