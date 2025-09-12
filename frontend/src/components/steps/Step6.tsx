@@ -551,8 +551,6 @@ const Step6: React.FC = () => {
             if (el) {
               el.className = 'pay-button-modern';
               console.log('🔍 Step 6 - Button ref set, className:', el.className);
-              console.log('🔍 Step 6 - Button element:', el);
-              console.log('🔍 Step 6 - Button visible:', el.offsetParent !== null);
             }
           }}
           onClick={(e) => {
@@ -572,8 +570,7 @@ const Step6: React.FC = () => {
             fontWeight: 'bold',
             cursor: isProcessing ? 'not-allowed' : 'pointer',
             opacity: isProcessing ? 0.6 : 1,
-            marginTop: '20px',
-            visibility: 'visible'
+            marginTop: '20px'
           }}
         >
           {isProcessing ? 'Processing...' : 'Pay $1.00 CAD Deposit'}
