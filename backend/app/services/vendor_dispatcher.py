@@ -54,12 +54,21 @@ class VendorDispatcher:
         """Get vendor information for availability check"""
         origin_city = self._extract_city_from_address(origin_address)
         
+        print(f"🔍 GET_VENDOR_INFO DEBUG:")
+        print(f"  Vendor: {vendor_slug}")
+        print(f"  Vendor name: {vendor_name}")
+        print(f"  Origin address: {origin_address}")
+        print(f"  Extracted city: {origin_city}")
+        
         if vendor_slug == "lets-get-moving":
             # Let's Get Moving uses GeographicVendorDispatcher
+            print(f"  Calling _get_best_dispatcher_for_vendor for LGM...")
             dispatcher_info = GeographicVendorDispatcher._get_best_dispatcher_for_vendor(
                 vendor_slug, origin_address, origin_address
             )
+            print(f"  Dispatcher info result: {dispatcher_info is not None}")
             if dispatcher_info:
+                print(f"  Dispatcher name: {dispatcher_info.get('name', 'Unknown')}")
                 # Add vendor_slug to the dispatcher info
                 dispatcher_info["vendor_slug"] = vendor_slug
                 dispatcher_info["vendor_name"] = vendor_name
@@ -69,7 +78,9 @@ class VendorDispatcher:
                     "regions": ["GTA", "Greater Toronto Area", "Golden Horseshoe"],
                     "max_distance_km": 150
                 }
+                print(f"  Returning dispatcher info for LGM")
                 return dispatcher_info
+            print(f"  No dispatcher info found for LGM")
             return None
         
         else:
