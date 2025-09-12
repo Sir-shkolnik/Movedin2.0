@@ -395,47 +395,43 @@ async def handle_payment_success_simple(checkout_session: dict, db: Session):
         
         logger.info(f"Payment confirmed and lead {lead_id} status updated to 'payment_completed'")
         
-        # Send email notification to vendor
+        # Send professional email notifications using our new system
         try:
-            if lead.selected_vendor_id:
-                vendor = db.query(Vendor).filter(Vendor.id == lead.selected_vendor_id).first()
-                if vendor and vendor.email:
-                    # Import email service here to avoid circular imports
-                    from app.services.email_service import email_service
-                    
-                    # Prepare lead data for email
-                    lead_data = {
-                        'quote_data': {
-                            'originAddress': lead.origin_address,
-                            'destinationAddress': lead.destination_address,
-                            'moveDate': lead.move_date.isoformat() if lead.move_date else '',
-                            'moveTime': lead.move_time,
-                            'totalRooms': lead.total_rooms,
-                            'squareFootage': lead.square_footage,
-                            'estimatedWeight': lead.estimated_weight
-                        },
-                        'selected_quote': {
-                            'vendor_name': vendor.name,
-                            'total_cost': checkout_session.get('amount_total', 0) / 100.0
-                        },
-                        'contact_data': {
-                            'firstName': lead.first_name,
-                            'lastName': lead.last_name,
-                            'email': lead.email,
-                            'phone': lead.phone
-                        }
-                    }
-                    
-                    # Send vendor notification
-                    vendor_success = email_service.send_vendor_notification(lead_data, vendor.email, lead.id, session_id)
-                    logger.info(f"Vendor email sent: {vendor_success}")
-                    
-                    # Send support notification
-                    support_success = email_service.send_payment_notification_to_support(lead_data, lead.id, session_id)
-                    logger.info(f"Support email sent: {support_success}")
+            # Import our new professional email service
+            from app.services.final_email_service import final_email_service
+            
+            # Prepare lead data for email
+            lead_data = {
+                'quote_data': {
+                    'originAddress': lead.origin_address,
+                    'destinationAddress': lead.destination_address,
+                    'moveDate': lead.move_date.isoformat() if lead.move_date else '',
+                    'moveTime': lead.move_time,
+                    'totalRooms': lead.total_rooms,
+                    'squareFootage': lead.square_footage,
+                    'estimatedWeight': lead.estimated_weight
+                },
+                'selected_quote': {
+                    'vendor_name': lead.selected_vendor_name or 'Selected Vendor',
+                    'total_cost': checkout_session.get('amount_total', 0) / 100.0
+                },
+                'contact_data': {
+                    'firstName': lead.first_name,
+                    'lastName': lead.last_name,
+                    'email': lead.email,
+                    'phone': lead.phone
+                }
+            }
+            
+            # Send all 3 professional emails
+            logger.info(f"📧 Sending professional emails for lead #{lead_id}...")
+            results = final_email_service.send_final_booking_emails(lead_data, lead.id, session_id)
+            
+            logger.info(f"📧 Email results: {results}")
+            logger.info(f"✅ Professional emails sent successfully for lead #{lead_id}")
                     
         except Exception as email_error:
-            logger.error(f"Failed to send email notifications: {email_error}")
+            logger.error(f"❌ Failed to send professional email notifications: {email_error}")
         
     except Exception as e:
         logger.error(f"Payment processing error: {e}")
