@@ -212,12 +212,10 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
     if (loading) {
         return (
             <div className="step-card">
-                <h2>Choose Your Moving Company</h2>
-                
                 {/* Professional Loading Experience */}
                 <div className="loading-container" style={{ 
                     textAlign: 'center', 
-                    padding: '30px 20px',
+                    padding: '40px 20px',
                     background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
                     borderRadius: '16px',
                     marginBottom: '24px',
@@ -225,13 +223,24 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                     border: '2px solid #e2e8f0',
                     boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)'
                 }}>
-                    {/* Loading Title */}
-                    <h3 style={{
-                        fontSize: '22px',
-                        marginBottom: '20px',
+                    {/* Main Title */}
+                    <h2 style={{
+                        fontSize: '28px',
+                        marginBottom: '8px',
                         fontWeight: 'bold',
                         color: '#1e293b',
-                        textShadow: 'none'
+                        textAlign: 'center'
+                    }}>
+                        Choose Your Moving Company
+                    </h2>
+                    
+                    {/* Loading Subtitle */}
+                    <h3 style={{
+                        fontSize: '18px',
+                        marginBottom: '24px',
+                        fontWeight: '500',
+                        color: '#64748b',
+                        textAlign: 'center'
                     }}>
                         Finding Your Perfect Moving Company
                     </h3>
@@ -447,7 +456,15 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                     }
                     @media (max-width: 768px) {
                         .loading-container {
-                            padding: 20px 16px !important;
+                            padding: 24px 16px !important;
+                        }
+                        .loading-container h2 {
+                            font-size: 24px !important;
+                            margin-bottom: 6px !important;
+                        }
+                        .loading-container h3 {
+                            font-size: 16px !important;
+                            margin-bottom: 20px !important;
                         }
                         .truck-animation {
                             width: 60px !important;
