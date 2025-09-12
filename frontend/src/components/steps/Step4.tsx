@@ -217,7 +217,7 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                 {/* Professional Loading Experience */}
                 <div className="loading-container" style={{ 
                     textAlign: 'center', 
-                    padding: '60px 20px',
+                    padding: '30px 20px',
                     background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
                     borderRadius: '16px',
                     marginBottom: '24px',
@@ -227,8 +227,8 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                 }}>
                     {/* Loading Title */}
                     <h3 style={{
-                        fontSize: '24px',
-                        marginBottom: '16px',
+                        fontSize: '22px',
+                        marginBottom: '20px',
                         fontWeight: 'bold',
                         color: '#1e293b',
                         textShadow: 'none'
@@ -238,18 +238,18 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
 
                     {/* Moving Truck Animation */}
                     <div className="truck-animation" style={{
-                        width: '100px',
-                        height: '80px',
-                        margin: '0 auto 32px',
+                        width: '80px',
+                        height: '60px',
+                        margin: '0 auto 24px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}>
                         {/* Moving Truck Icon */}
                         <div style={{
-                            fontSize: '48px',
-                            animation: 'truckMove 3s ease-in-out infinite',
-                            filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))'
+                            fontSize: '40px',
+                            animation: 'truckMove 2s ease-in-out infinite',
+                            filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
                         }}>
                             🚚
                         </div>
@@ -409,8 +409,14 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                         0%, 100% { 
                             transform: translateX(0px) scale(1); 
                         }
+                        25% { 
+                            transform: translateX(8px) scale(1.1); 
+                        }
                         50% { 
-                            transform: translateX(10px) scale(1.05); 
+                            transform: translateX(15px) scale(1.15); 
+                        }
+                        75% { 
+                            transform: translateX(8px) scale(1.1); 
                         }
                     }
                     @keyframes stepPulse {
@@ -441,23 +447,18 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                     }
                     @media (max-width: 768px) {
                         .loading-container {
-                            padding: 40px 16px !important;
+                            padding: 20px 16px !important;
                         }
                         .truck-animation {
-                            width: 80px !important;
-                            height: 80px !important;
-                            margin: 20px auto 40px auto !important;
+                            width: 60px !important;
+                            height: 50px !important;
+                            margin: 15px auto 20px auto !important;
                             display: flex !important;
                             align-items: center !important;
                             justify-content: center !important;
-                            position: relative !important;
                         }
                         .truck-animation > div {
-                            font-size: 36px !important;
-                            position: absolute !important;
-                            top: 50% !important;
-                            left: 50% !important;
-                            transform: translate(-50%, -50%) !important;
+                            font-size: 32px !important;
                         }
                         .progress-steps {
                             flex-direction: column !important;
