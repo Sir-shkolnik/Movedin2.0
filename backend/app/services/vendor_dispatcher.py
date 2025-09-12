@@ -37,8 +37,18 @@ class VendorDispatcher:
         origin_city = self._extract_city_from_address(origin_address)
         dest_city = self._extract_city_from_address(destination_address)
         
+        print(f"🔍 VENDOR_SERVES_LOCATION DEBUG:")
+        print(f"  Vendor: {vendor_slug}")
+        print(f"  Origin: {origin_address}")
+        print(f"  Destination: {destination_address}")
+        print(f"  Extracted origin city: {origin_city}")
+        print(f"  Extracted dest city: {dest_city}")
+        
         # All vendors now use GeographicVendorDispatcher for service area validation
-        return GeographicVendorDispatcher._vendor_serves_location(vendor_slug, origin_city)
+        serves = GeographicVendorDispatcher._vendor_serves_location(vendor_slug, origin_city)
+        print(f"  Serves location: {serves}")
+        
+        return serves
     
     def _get_vendor_info(self, vendor_slug: str, vendor_name: str, origin_address: str) -> Optional[Dict[str, Any]]:
         """Get vendor information for availability check"""
@@ -60,26 +70,7 @@ class VendorDispatcher:
                     "max_distance_km": 150
                 }
                 return dispatcher_info
-            else:
-                # Fallback: Create a basic dispatcher info if Google Sheets is not available
-                print(f"⚠️ Let's Get Moving: Google Sheets dispatcher not found, using fallback for {origin_city}")
-                return {
-                    "vendor_slug": vendor_slug,
-                    "vendor_name": vendor_name,
-                    "name": f"Let's Get Moving {origin_city}",
-                    "address": f"{origin_city}, ON",
-                    "total_distance_km": 0,
-                    "sales_phone": "1-800-LETS-MOVE",
-                    "email": "info@letsgetmoving.ca",
-                    "truck_count": "1",
-                    "location_name": f"Let's Get Moving {origin_city}",
-                    "gmb_url": f"https://www.google.com/maps/search/Let's+Get+Moving+{origin_city}",
-                    "service_area": {
-                        "cities": ["Toronto", "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill", "Oakville", "Burlington", "Hamilton", "Oshawa", "Whitby", "Ajax", "Pickering"],
-                        "regions": ["GTA", "Greater Toronto Area", "Golden Horseshoe"],
-                        "max_distance_km": 150
-                    }
-                }
+            return None
         
         else:
             # For Easy2Go, Velocity Movers, and Pierre & Sons, use GeographicVendorDispatcher
@@ -174,37 +165,27 @@ class VendorDispatcher:
                 return None
     
     def _extract_city_from_address(self, address: str) -> str:
-        """Extract city from address - comprehensive list from all vendors"""
+        """Extract city from address"""
         address_lower = address.lower()
         
-        # Comprehensive list of all cities served by any vendor
+        print(f"🔍 EXTRACT_CITY_DEBUG:")
+        print(f"  Address: {address}")
+        print(f"  Address lower: {address_lower}")
+        
+        # Check for all possible cities from all vendors
         all_cities = [
-            # ONTARIO
-            "Toronto", "North York", "Scarborough", "Etobicoke", "York", "East York",
-            "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill", 
+            "Toronto", "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill",
             "Oakville", "Burlington", "Hamilton", "Oshawa", "Whitby", "Ajax", "Pickering",
-            "Barrie", "Aurora", "Brantford", "Kitchener", "Waterloo", "Windsor", "Peterborough",
-            # BRITISH COLUMBIA
-            "Vancouver", "Burnaby", "Richmond", "Victoria", "Abbotsford", "Port Moody",
-            # ALBERTA
-            "Calgary", "Edmonton",
-            # MANITOBA
-            "Winnipeg",
-            # SASKATCHEWAN
-            "Regina",
-            # QUEBEC
-            "Montreal",
-            # NOVA SCOTIA
-            "Halifax",
-            # NEW BRUNSWICK
-            "Fredericton"
+            "Scarborough", "North York", "Etobicoke", "York", "East York"
         ]
         
         for city in all_cities:
             if city.lower() in address_lower:
+                print(f"  Found city: {city}")
                 return city
         
         # Default to Toronto if no match
+        print(f"  No city found, defaulting to Toronto")
         return "Toronto"
 
 # Global instance
