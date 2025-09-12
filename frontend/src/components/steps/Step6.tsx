@@ -7,7 +7,12 @@ interface RouteMapProps {
     to: string;
 }
 
-const Step6: React.FC = () => {
+interface Step6Props {
+  onNext: () => void;
+  onBack?: () => void;
+}
+
+const Step6: React.FC<Step6Props> = ({ onNext, onBack }) => {
   const { data, setData } = useForm();
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentError, setPaymentError] = useState<string | null>(null);
@@ -43,6 +48,52 @@ const Step6: React.FC = () => {
 
   // Dynamic Stripe Payment Links are now created by the backend
   // with proper redirect URLs configured automatically
+
+  const handlePayment = async () => {
+    if (isProcessing) return;
+    
+    setIsProcessing(true);
+    setPaymentError(null);
+    
+    try {
+      // Create payment session
+      const response = await fetch('https://movedin-backend.onrender.com/api/payment/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: 100, // $1.00 in cents
+          currency: 'cad',
+          success_url: `${window.location.origin}/#/step7`,
+          cancel_url: `${window.location.origin}/#/step6`,
+          metadata: {
+            lead_id: 'temp_lead_id', // This will be replaced with actual lead ID
+            vendor_slug: data.selectedQuote?.vendor_slug || 'unknown',
+            origin_address: data.fromDetails?.from || 'Unknown',
+            destination_address: data.fromDetails?.to || 'Unknown'
+          }
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create payment session');
+      }
+
+      const { url } = await response.json();
+      
+      if (url) {
+        // Redirect to Stripe Checkout
+        window.location.href = url;
+      } else {
+        throw new Error('No payment URL received');
+      }
+    } catch (error) {
+      console.error('Payment error:', error);
+      setPaymentError('Payment failed. Please try again.');
+      setIsProcessing(false);
+    }
+  };
 
   useEffect(() => {
     console.log('Step 6 - Data structure:', {
@@ -468,6 +519,28 @@ const Step6: React.FC = () => {
             Processing payment... Please wait.
           </div>
         )}
+
+        {/* Payment Button */}
+        <button
+          className="pay-button-modern"
+          onClick={handlePayment}
+          disabled={isProcessing}
+          style={{
+            width: '100%',
+            backgroundColor: isProcessing ? '#6c757d' : '#007bff',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            padding: '16px 24px',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            cursor: isProcessing ? 'not-allowed' : 'pointer',
+            transition: 'background-color 0.2s ease',
+            marginBottom: '16px'
+          }}
+        >
+          {isProcessing ? 'Processing...' : 'Pay $1.00 CAD Deposit'}
+        </button>
 
       </div>
 
