@@ -23,7 +23,7 @@ async def create_payment_link(request: Request, db: Session = Depends(get_db)):
     """Create a Stripe Payment Link with proper metadata"""
     try:
         body = await request.json()
-        amount = body.get('amount', 10000)  # Default $100 CAD
+        amount = body.get('amount', 100)  # Default $1 CAD (testing)
         currency = body.get('currency', 'cad')
         lead_id = body.get('lead_id')
         customer_email = body.get('customer_email', '')
@@ -49,7 +49,7 @@ async def create_payment_link(request: Request, db: Session = Depends(get_db)):
                 'price_data': {
                     'currency': currency,
                     'product_data': {
-                        'name': 'MovedIn 2.0 - $100 CAD Deposit',
+                        'name': 'MovedIn 2.0 - $1 CAD Deposit',
                         'description': 'Deposit to reserve your move date and time'
                     },
                     'unit_amount': amount,
@@ -161,7 +161,7 @@ async def update_payment_amounts(request: Request, db: Session = Depends(get_db)
     try:
         body = await request.json()
         lead_id = body.get('lead_id')
-        amount = body.get('amount', 10000)  # Default $100 CAD
+        amount = body.get('amount', 100)  # Default $1 CAD (testing)
         currency = body.get('currency', 'cad')
         
         if not lead_id:

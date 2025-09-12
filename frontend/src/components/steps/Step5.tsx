@@ -231,7 +231,7 @@ const Step5: React.FC<Step5Props> = ({ onNext, onBack }) => {
                     )}
                 </div>
 
-                {/* Payment Information Notice */}
+                {/* Next Steps Information */}
                 <div style={{
                     backgroundColor: '#e7f3ff',
                     border: '1px solid #b3d9ff',
@@ -239,25 +239,23 @@ const Step5: React.FC<Step5Props> = ({ onNext, onBack }) => {
                     padding: '20px',
                     marginTop: '24px'
                 }}>
-                    <h3 style={{ marginBottom: '16px', color: '#0056b3', fontSize: '16px' }}>💳 Payment Information</h3>
+                    <h3 style={{ marginBottom: '16px', color: '#0056b3', fontSize: '16px' }}>🎯 Next Steps</h3>
                     <div style={{ marginBottom: '16px' }}>
-                        <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#0056b3' }}>
-                            $100.00 CAD Deposit Required
+                        <p style={{ color: '#0c5460', fontSize: '14px', marginBottom: '12px' }}>
+                            You're almost done! Click "Continue" to proceed to the payment page where you can securely complete your booking.
+                        </p>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#0c5460', fontSize: '14px' }}>
+                            <span>✅</span>
+                            <span>Review your move details</span>
                         </div>
-                        <p style={{ color: '#0c5460', fontSize: '14px', marginTop: '8px' }}>
-                            A $100 deposit will be required to reserve your move date and time. The remaining balance will be due on the day of your move.
-                        </p>
-                    </div>
-                    <div style={{
-                        backgroundColor: '#d1ecf1',
-                        border: '1px solid #bee5eb',
-                        borderRadius: '6px',
-                        padding: '12px',
-                        marginTop: '12px'
-                    }}>
-                        <p style={{ color: '#0c5460', fontSize: '12px', margin: 0, lineHeight: '1.4' }}>
-                            <strong>Next Step:</strong> Click "Continue" to proceed to the payment page where you can securely complete your deposit payment.
-                        </p>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#0c5460', fontSize: '14px', marginTop: '8px' }}>
+                            <span>✅</span>
+                            <span>Provide contact information</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#0c5460', fontSize: '14px', marginTop: '8px' }}>
+                            <span>⏭️</span>
+                            <span>Complete payment and booking</span>
+                        </div>
                     </div>
                 </div>
             </div>

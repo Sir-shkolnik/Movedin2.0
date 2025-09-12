@@ -438,7 +438,7 @@ const Step7: React.FC = () => {
                         marginBottom: '30px'
                     }}>
                         <span style={{ color: '#155724', fontWeight: 'bold' }}>
-                            ✅ Your $100.00 CAD deposit has been processed successfully
+                            ✅ Your $1.00 CAD deposit has been processed successfully
                         </span>
                     </div>
                 </div>
