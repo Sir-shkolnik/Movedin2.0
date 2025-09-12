@@ -208,6 +208,20 @@ function AppInner() {
                         console.log(`🔍 Step 6 - Element ${index}:`, el.className, el.tagName);
                     });
                     
+                    // Debug: Check for the specific step6-modern class
+                    const step6ModernElements = document.querySelectorAll('.step6-modern');
+                    console.log('🔍 Step 6 - step6-modern elements found:', step6ModernElements.length);
+                    step6ModernElements.forEach((el, index) => {
+                        console.log(`🔍 Step 6 - step6-modern ${index}:`, el.className, el.tagName);
+                    });
+                    
+                    // Debug: Check for any button elements
+                    const allButtons = document.querySelectorAll('button');
+                    console.log('🔍 Step 6 - All buttons found:', allButtons.length);
+                    allButtons.forEach((el, index) => {
+                        console.log(`🔍 Step 6 - Button ${index}:`, el.className, el.tagName, el.style.display);
+                    });
+                    
                     // Try multiple selectors
                     const step6Element = document.querySelector('.step6-modern') || 
                                         document.querySelector('[class*="step6"]') ||
