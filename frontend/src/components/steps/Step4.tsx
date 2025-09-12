@@ -230,7 +230,6 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                         width: '100px',
                         height: '80px',
                         margin: '0 auto 32px',
-                        position: 'relative',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center'
@@ -242,29 +241,6 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                             filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))'
                         }}>
                             🚚
-                        </div>
-                        
-                        {/* Moving Dots Trail */}
-                        <div style={{
-                            position: 'absolute',
-                            left: '-20px',
-                            top: '50%',
-                            transform: 'translateY(-50%)',
-                            display: 'flex',
-                            gap: '8px'
-                        }}>
-                            {[0, 1, 2].map((i) => (
-                                <div
-                                    key={i}
-                                    style={{
-                                        width: '6px',
-                                        height: '6px',
-                                        backgroundColor: '#3b82f6',
-                                        borderRadius: '50%',
-                                        animation: `dotTrail 3s ease-in-out infinite ${i * 0.3}s`
-                                    }}
-                                />
-                            ))}
                         </div>
                     </div>
 
@@ -437,24 +413,6 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                             transform: translateX(10px) scale(1.05); 
                         }
                     }
-                    @keyframes dotTrail {
-                        0% { 
-                            opacity: 0; 
-                            transform: translateX(0px) scale(0.5); 
-                        }
-                        20% { 
-                            opacity: 1; 
-                            transform: translateX(20px) scale(1); 
-                        }
-                        80% { 
-                            opacity: 1; 
-                            transform: translateX(60px) scale(1); 
-                        }
-                        100% { 
-                            opacity: 0; 
-                            transform: translateX(80px) scale(0.5); 
-                        }
-                    }
                     @keyframes stepPulse {
                         0%, 100% { 
                             opacity: 1; 
@@ -488,6 +446,10 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                         .truck-animation {
                             width: 80px !important;
                             height: 60px !important;
+                            margin: 0 auto 32px !important;
+                            display: flex !important;
+                            align-items: center !important;
+                            justify-content: center !important;
                         }
                         .truck-animation > div {
                             font-size: 36px !important;
