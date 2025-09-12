@@ -1039,10 +1039,18 @@ class LetsGetMovingCalculator(VendorCalculator):
             dispatcher_address = "Toronto, ON"
             
             # Calculate 3-leg journey: Dispatcher -> Origin -> Destination -> Dispatcher
+            # First check one-way travel time for long distance validation
+            leg2 = mapbox_service.get_directions(origin, destination)
+            if leg2 and 'duration' in leg2:
+                one_way_hours = leg2['duration'] / 3600
+                # Check 10-hour travel time limit - Let's Get Moving doesn't do these moves
+                if one_way_hours > 10:
+                    print(f"Let's Get Moving: One-way travel time {one_way_hours:.1f}h exceeds 10h limit for long distance moves")
+                    raise ValueError(f"One-way travel time {one_way_hours:.1f}h exceeds 10h limit")
+            
             # Leg 1: Dispatcher to Origin
             leg1 = mapbox_service.get_directions(dispatcher_address, origin)
-            # Leg 2: Origin to Destination  
-            leg2 = mapbox_service.get_directions(origin, destination)
+            # Leg 2: Origin to Destination (already calculated above)
             # Leg 3: Destination to Dispatcher
             leg3 = mapbox_service.get_directions(destination, dispatcher_address)
             
@@ -1071,6 +1079,12 @@ class LetsGetMovingCalculator(VendorCalculator):
             origin_to_dest = mapbox_service.get_directions(origin, destination)
             if origin_to_dest and 'duration' in origin_to_dest:
                 one_way_hours = origin_to_dest['duration'] / 3600
+                
+                # Check 10-hour travel time limit - Let's Get Moving doesn't do these moves
+                if one_way_hours > 10:
+                    print(f"Let's Get Moving: One-way travel time {one_way_hours:.1f}h exceeds 10h limit for long distance moves")
+                    raise ValueError(f"One-way travel time {one_way_hours:.1f}h exceeds 10h limit")
+                
                 # Estimate 3-leg as 2.5x one-way (Dispatcher->Origin->Destination->Dispatcher)
                 car_three_leg_hours = one_way_hours * 2.5
                 # Apply truck factor
@@ -1370,7 +1384,32 @@ class Easy2GoCalculator(VendorCalculator):
         # Enforce vendor minimum labor hours (Global policy = 2h)
         if labor_hours < 2.0:
             labor_hours = 2.0
-        travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
+        
+        try:
+            travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
+        except ValueError as e:
+            # This is a long distance move - return special response
+            return {
+                "vendor_name": "Easy2Go",
+                "vendor_slug": "easy2go",
+                "total_cost": 0.0,
+                "breakdown": {
+                    "labor": 0.0,
+                    "fuel": 0.0,
+                    "heavy_items": 0.0,
+                    "additional_services": 0.0
+                },
+                "crew_size": 0,
+                "truck_count": 0,
+                "estimated_hours": 0.0,
+                "travel_time_hours": 0.0,
+                "hourly_rate": 0.0,
+                "available_slots": [],
+                "rating": 4.6,
+                "reviews": 892,
+                "special_notes": "This is a long-distance move. We'd love to help! Please call us at +1-XXX-XXX-XXX for a custom quote, or we can schedule a meeting with our agent at your convenience.",
+                "hourly_rate": 0.0
+            }
         
         # Calculate costs using official Easy2Go rules
         labor_cost = labor_hours * adjusted_hourly_rate
@@ -1477,11 +1516,20 @@ class Easy2GoCalculator(VendorCalculator):
     def _calculate_travel_time(self, origin: str, destination: str) -> float:
         """Calculate travel time using 3-leg journey to depot"""
         try:
+            # First check one-way travel time for long distance validation
+            leg2 = mapbox_service.get_directions(origin, destination)
+            if leg2 and 'duration' in leg2:
+                one_way_hours = leg2['duration'] / 3600
+                # Check 10-hour travel time limit - Easy2Go doesn't do these moves
+                if one_way_hours > 10:
+                    print(f"Easy2Go: One-way travel time {one_way_hours:.1f}h exceeds 10h limit for long distance moves")
+                    raise ValueError(f"One-way travel time {one_way_hours:.1f}h exceeds 10h limit")
+            
             dispatcher_address = "3397 American Drive, Mississauga, ON L4V 1T8"
             
             # Calculate 3-leg journey: Dispatcher -> Origin -> Destination -> Dispatcher
             leg1 = mapbox_service.get_directions(dispatcher_address, origin)
-            leg2 = mapbox_service.get_directions(origin, destination)
+            # leg2 already calculated above
             leg3 = mapbox_service.get_directions(destination, dispatcher_address)
             
             total_duration = 0
@@ -1590,7 +1638,32 @@ class VelocityMoversCalculator(VendorCalculator):
         # Enforce vendor minimum labor hours (Global policy = 2h)
         if labor_hours < 2.0:
             labor_hours = 2.0
-        travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
+        
+        try:
+            travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
+        except ValueError as e:
+            # This is a long distance move - return special response
+            return {
+                "vendor_name": "Velocity Movers",
+                "vendor_slug": "velocity-movers",
+                "total_cost": 0.0,
+                "breakdown": {
+                    "labor": 0.0,
+                    "fuel": 0.0,
+                    "heavy_items": 0.0,
+                    "additional_services": 0.0
+                },
+                "crew_size": 0,
+                "truck_count": 0,
+                "estimated_hours": 0.0,
+                "travel_time_hours": 0.0,
+                "hourly_rate": 0.0,
+                "available_slots": [],
+                "rating": 4.7,
+                "reviews": 634,
+                "special_notes": "This is a long-distance move. We'd love to help! Please call us at +1-XXX-XXX-XXX for a custom quote, or we can schedule a meeting with our agent at your convenience.",
+                "hourly_rate": 0.0
+            }
         
         # Calculate costs using official Velocity Movers rules
         labor_cost = labor_hours * adjusted_hourly_rate
@@ -1696,11 +1769,20 @@ class VelocityMoversCalculator(VendorCalculator):
     def _calculate_travel_time(self, origin: str, destination: str) -> float:
         """Calculate travel time using 3-leg journey to depot"""
         try:
+            # First check one-way travel time for long distance validation
+            leg2 = mapbox_service.get_directions(origin, destination)
+            if leg2 and 'duration' in leg2:
+                one_way_hours = leg2['duration'] / 3600
+                # Check 10-hour travel time limit - Velocity Movers doesn't do these moves
+                if one_way_hours > 10:
+                    print(f"Velocity Movers: One-way travel time {one_way_hours:.1f}h exceeds 10h limit for long distance moves")
+                    raise ValueError(f"One-way travel time {one_way_hours:.1f}h exceeds 10h limit")
+            
             dispatcher_address = "100 Howden Road, Unit 2, M1R 3E4, Toronto, ON"
             
             # Calculate 3-leg journey: Dispatcher -> Origin -> Destination -> Dispatcher
             leg1 = mapbox_service.get_directions(dispatcher_address, origin)
-            leg2 = mapbox_service.get_directions(origin, destination)
+            # leg2 already calculated above
             leg3 = mapbox_service.get_directions(destination, dispatcher_address)
             
             total_duration = 0
@@ -1794,8 +1876,32 @@ class PierreSonsCalculator(VendorCalculator):
             labor_hours = 2.0
         
         # Calculate travel time and distance
-        travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
-        distance_km = self._calculate_distance(quote_request.origin_address, quote_request.destination_address)
+        try:
+            travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
+            distance_km = self._calculate_distance(quote_request.origin_address, quote_request.destination_address)
+        except ValueError as e:
+            # This is a long distance move - return special response
+            return {
+                "vendor_name": "Pierre & Sons",
+                "vendor_slug": "pierre-sons",
+                "total_cost": 0.0,
+                "breakdown": {
+                    "labor": 0.0,
+                    "fuel": 0.0,
+                    "heavy_items": 0.0,
+                    "additional_services": 0.0
+                },
+                "crew_size": 0,
+                "truck_count": 0,
+                "estimated_hours": 0.0,
+                "travel_time_hours": 0.0,
+                "hourly_rate": 0.0,
+                "available_slots": [],
+                "rating": 4.8,
+                "reviews": 1247,
+                "special_notes": "This is a long-distance move. We'd love to help! Please call us at +1-XXX-XXX-XXX for a custom quote, or we can schedule a meeting with our agent at your convenience.",
+                "hourly_rate": 0.0
+            }
         
         # Calculate costs using official Pierre & Sons rules
         labor_cost = hourly_rate * labor_hours
@@ -1924,6 +2030,11 @@ class PierreSonsCalculator(VendorCalculator):
             if directions:
                 one_way_hours = directions['duration'] / 3600
                 
+                # Check 10-hour travel time limit - Pierre & Sons doesn't do these moves
+                if one_way_hours > 10:
+                    print(f"Pierre & Sons: One-way travel time {one_way_hours:.1f}h exceeds 10h limit for long distance moves")
+                    raise ValueError(f"One-way travel time {one_way_hours:.1f}h exceeds 10h limit")
+                
                 # Apply truck factor
                 TRUCK_FACTOR = 1.3
                 truck_one_way_hours = one_way_hours * TRUCK_FACTOR
@@ -1932,6 +2043,9 @@ class PierreSonsCalculator(VendorCalculator):
                 return max(1.0, truck_one_way_hours)
             
             return 1.0  # Default 1 hour travel time fee
+        except ValueError:
+            # Re-raise validation errors
+            raise
         except Exception as e:
             return 1.0  # Default 1 hour travel time fee
     

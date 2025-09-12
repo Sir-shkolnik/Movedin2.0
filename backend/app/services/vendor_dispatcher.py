@@ -189,6 +189,11 @@ class VendorDispatcher:
                     print(f"Quote rejected for {vendor_slug}: {result.get('rejection_reason', 'Unknown reason')}")
                     return None  # Don't include rejected quotes
                 
+                # Check if this is a long distance move (zero cost with special message)
+                if result and result.get('total_cost') == 0.0 and result.get('special_notes'):
+                    print(f"Long distance move for {vendor_slug}: {result.get('special_notes', '')}")
+                    return None  # Don't include long distance moves
+                
                 return result
                 
             except ValueError as e:
