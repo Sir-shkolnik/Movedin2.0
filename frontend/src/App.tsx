@@ -197,22 +197,35 @@ function AppInner() {
         // Step 6 - Payment
         continueButtonText = "Pay $1.00 CAD Deposit";
         continueAction = () => {
-            // Trigger payment action in Step6 component
-            console.log('Step 6 - Footer button clicked, looking for payment button...');
-            const step6Element = document.querySelector('.step6-modern');
-            console.log('Step 6 - Found step6 element:', step6Element);
+            console.log('🚀 Step 6 - Footer button clicked!');
+            console.log('🔍 Step 6 - Current step:', currentStep);
+            console.log('🔍 Step 6 - Looking for .step6-modern element...');
+            
+            // Try multiple selectors
+            const step6Element = document.querySelector('.step6-modern') || 
+                                document.querySelector('[class*="step6"]') ||
+                                document.querySelector('.step-card');
+            
+            console.log('🔍 Step 6 - Found step6 element:', step6Element);
+            console.log('🔍 Step 6 - Element classes:', step6Element?.className);
+            
             if (step6Element) {
+                console.log('🔍 Step 6 - Looking for .pay-button-modern...');
                 const payButton = step6Element.querySelector('.pay-button-modern') as HTMLButtonElement;
-                console.log('Step 6 - Found pay button:', payButton);
-                console.log('Step 6 - Button disabled:', payButton?.disabled);
+                console.log('🔍 Step 6 - Found pay button:', payButton);
+                console.log('🔍 Step 6 - Button disabled:', payButton?.disabled);
+                console.log('🔍 Step 6 - Button style:', payButton?.style?.display);
+                
                 if (payButton && !payButton.disabled) {
-                    console.log('Step 6 - Clicking payment button...');
+                    console.log('🚀 Step 6 - Clicking payment button...');
                     payButton.click();
                 } else {
-                    console.log('Step 6 - Payment button not found or disabled');
+                    console.log('❌ Step 6 - Payment button not found or disabled');
+                    console.log('🔍 Step 6 - All buttons in step6:', step6Element.querySelectorAll('button'));
                 }
             } else {
-                console.log('Step 6 - Step6 element not found');
+                console.log('❌ Step 6 - Step6 element not found');
+                console.log('🔍 Step 6 - All elements with step6:', document.querySelectorAll('[class*="step6"]'));
             }
         };
     }

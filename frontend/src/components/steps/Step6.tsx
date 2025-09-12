@@ -79,7 +79,9 @@ const Step6: React.FC = () => {
   }, []);
 
   const handlePayment = async () => {
-    console.log('Step 6 - handlePayment function called');
+    console.log('🚀 Step 6 - handlePayment function called!');
+    console.log('🔍 Step 6 - Current data:', data);
+    console.log('🔍 Step 6 - Contact data:', data.contact);
     setIsProcessing(true);
     setPaymentError(null);
     
@@ -451,9 +453,13 @@ const Step6: React.FC = () => {
           ref={(el) => {
             if (el) {
               el.className = 'pay-button-modern';
+              console.log('🔍 Step 6 - Button ref set, className:', el.className);
             }
           }}
-          onClick={handlePayment}
+          onClick={(e) => {
+            console.log('🚀 Step 6 - Direct button click!', e);
+            handlePayment();
+          }}
           disabled={isProcessing}
           style={{ display: 'none' }}
         >
