@@ -87,20 +87,30 @@ class VendorDispatcher:
     def calculate_vendor_quote(self, vendor_slug: str, quote_request: QuoteRequest, db=None) -> Optional[Dict[str, Any]]:
         """Calculate quote for a specific vendor"""
         
+        print(f"🔍 CALCULATE_VENDOR_QUOTE DEBUG:")
+        print(f"  Vendor: {vendor_slug}")
+        print(f"  Origin: {quote_request.origin_address}")
+        print(f"  Destination: {quote_request.destination_address}")
+        
         if vendor_slug == "lets-get-moving":
             try:
                 # Let's Get Moving uses Google Sheets - get dispatcher info
                 move_date = quote_request.move_date.isoformat() if hasattr(quote_request.move_date, 'isoformat') else str(quote_request.move_date)
+                print(f"  Move date: {move_date}")
                 
                 # Try to get dispatcher info from Google Sheets using GeographicVendorDispatcher
                 dispatcher_info = None
                 try:
+                    print(f"  Calling get_best_dispatcher_from_sheets...")
                     dispatcher_info = GeographicVendorDispatcher.get_best_dispatcher_from_sheets(
                         vendor_slug,
                         quote_request.origin_address, 
                         quote_request.destination_address,
                         move_date
                     )
+                    print(f"  Dispatcher info result: {dispatcher_info is not None}")
+                    if dispatcher_info:
+                        print(f"  Dispatcher name: {dispatcher_info.get('name', 'Unknown')}")
                 except Exception as e:
                     print(f"Error getting dispatcher info: {e}")
                 
@@ -113,7 +123,10 @@ class VendorDispatcher:
                     }
                 
                 # Calculate quote with Google Sheets data
-                return self.lets_get_moving_calculator.calculate_quote(quote_request, dispatcher_info, db)
+                print(f"  Calling lets_get_moving_calculator.calculate_quote...")
+                result = self.lets_get_moving_calculator.calculate_quote(quote_request, dispatcher_info, db)
+                print(f"  Calculator result: {result is not None}")
+                return result
             except Exception as e:
                 print(f"Error calculating quote for {vendor_slug}: {e}")
                 return None
