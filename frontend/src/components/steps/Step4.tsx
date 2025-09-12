@@ -445,14 +445,19 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                         }
                         .truck-animation {
                             width: 80px !important;
-                            height: 60px !important;
-                            margin: 0 auto 32px !important;
+                            height: 80px !important;
+                            margin: 20px auto 40px auto !important;
                             display: flex !important;
                             align-items: center !important;
                             justify-content: center !important;
+                            position: relative !important;
                         }
                         .truck-animation > div {
                             font-size: 36px !important;
+                            position: absolute !important;
+                            top: 50% !important;
+                            left: 50% !important;
+                            transform: translate(-50%, -50%) !important;
                         }
                         .progress-steps {
                             flex-direction: column !important;
