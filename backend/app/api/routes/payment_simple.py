@@ -23,7 +23,7 @@ async def create_payment_link(request: Request, db: Session = Depends(get_db)):
     """Create a Stripe Payment Link with proper metadata"""
     try:
         body = await request.json()
-        amount = body.get('amount', 100)  # Default $1 CAD
+        amount = body.get('amount', 10000)  # Default $100 CAD
         currency = body.get('currency', 'cad')
         lead_id = body.get('lead_id')
         customer_email = body.get('customer_email', '')
@@ -49,7 +49,7 @@ async def create_payment_link(request: Request, db: Session = Depends(get_db)):
                 'price_data': {
                     'currency': currency,
                     'product_data': {
-                        'name': 'MovedIn 2.0 - $1 CAD Deposit',
+                        'name': 'MovedIn 2.0 - $100 CAD Deposit',
                         'description': 'Deposit to reserve your move date and time'
                     },
                     'unit_amount': amount,
@@ -161,7 +161,7 @@ async def update_payment_amounts(request: Request, db: Session = Depends(get_db)
     try:
         body = await request.json()
         lead_id = body.get('lead_id')
-        amount = body.get('amount', 100)  # Default $1 CAD
+        amount = body.get('amount', 10000)  # Default $100 CAD
         currency = body.get('currency', 'cad')
         
         if not lead_id:
@@ -395,43 +395,54 @@ async def handle_payment_success_simple(checkout_session: dict, db: Session):
         
         logger.info(f"Payment confirmed and lead {lead_id} status updated to 'payment_completed'")
         
-        # Send professional email notifications using our new system
+        # Send email notification to vendor
         try:
-            # Import our new professional email service
-            from app.services.final_email_service import final_email_service
-            
-            # Prepare lead data for email
-            lead_data = {
-                'quote_data': {
-                    'originAddress': lead.origin_address,
-                    'destinationAddress': lead.destination_address,
-                    'moveDate': lead.move_date.isoformat() if lead.move_date else '',
-                    'moveTime': lead.move_time,
-                    'totalRooms': lead.total_rooms,
-                    'squareFootage': lead.square_footage,
-                    'estimatedWeight': lead.estimated_weight
-                },
-                'selected_quote': {
-                    'vendor_name': lead.selected_vendor_name or 'Selected Vendor',
-                    'total_cost': checkout_session.get('amount_total', 0) / 100.0
-                },
-                'contact_data': {
-                    'firstName': lead.first_name,
-                    'lastName': lead.last_name,
-                    'email': lead.email,
-                    'phone': lead.phone
-                }
-            }
-            
-            # Send all 3 professional emails
-            logger.info(f"📧 Sending professional emails for lead #{lead_id}...")
-            results = final_email_service.send_final_booking_emails(lead_data, lead.id, session_id)
-            
-            logger.info(f"📧 Email results: {results}")
-            logger.info(f"✅ Professional emails sent successfully for lead #{lead_id}")
+            if lead.selected_vendor_id:
+                vendor = db.query(Vendor).filter(Vendor.id == lead.selected_vendor_id).first()
+                if vendor and vendor.email:
+                    # Import email service here to avoid circular imports
+                    from app.services.email_service import email_service
+                    
+                    # Prepare lead data for email
+                    lead_data = {
+                        'quote_data': {
+                            'originAddress': lead.origin_address,
+                            'destinationAddress': lead.destination_address,
+                            'moveDate': lead.move_date.isoformat() if lead.move_date else '',
+                            'moveTime': lead.move_time,
+                            'totalRooms': lead.total_rooms,
+                            'squareFootage': lead.square_footage,
+                            'estimatedWeight': lead.estimated_weight
+                        },
+                        'selected_quote': {
+                            'vendor_name': vendor.name,
+                            'total_cost': checkout_session.get('amount_total', 0) / 100.0
+                        },
+                        'contact_data': {
+                            'firstName': lead.first_name,
+                            'lastName': lead.last_name,
+                            'email': lead.email,
+                            'phone': lead.phone
+                        }
+                    }
+                    
+                    # Send professional email notifications using final_email_service
+                    from app.services.final_email_service import final_email_service
+                    
+                    # Send all 3 professional emails
+                    email_results = final_email_service.send_final_booking_emails(lead_data, lead.id, session_id)
+                    logger.info(f"Professional emails sent: {email_results}")
+                    
+                    # Also send individual emails for backward compatibility
+                    vendor_success = email_service.send_vendor_notification(lead_data, vendor.email, lead.id, session_id)
+                    logger.info(f"Vendor email sent: {vendor_success}")
+                    
+                    # Send support notification
+                    support_success = email_service.send_payment_notification_to_support(lead_data, lead.id, session_id)
+                    logger.info(f"Support email sent: {support_success}")
                     
         except Exception as email_error:
-            logger.error(f"❌ Failed to send professional email notifications: {email_error}")
+            logger.error(f"Failed to send email notifications: {email_error}")
         
     except Exception as e:
         logger.error(f"Payment processing error: {e}")

@@ -192,7 +192,7 @@ const Step6: React.FC = () => {
       // Now create payment link with the lead_id
       console.log('💳 Step 6 - Creating payment link...');
       const paymentPayload = {
-        amount: 100, // $1.00 CAD in cents
+        amount: 10000, // $100.00 CAD in cents
         currency: 'cad',
         lead_id: leadId,
         customer_email: data.contact?.email || '',
@@ -480,7 +480,7 @@ const Step6: React.FC = () => {
         <h3 className="step6-card-title" style={{ marginBottom: '16px', color: '#495057', fontSize: '16px' }}>💳 Payment</h3>
         <div style={{ marginBottom: '20px' }}>
           <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#28a745' }}>
-            $1.00 CAD Deposit Amount
+            $100.00 CAD Deposit Amount
           </div>
           <p style={{ color: '#6c757d', fontSize: '14px', marginTop: '8px' }}>
             This deposit reserves your move date and time. The remaining balance will be due on the day of your move.
@@ -573,7 +573,7 @@ const Step6: React.FC = () => {
             marginTop: '20px'
           }}
         >
-          {isProcessing ? 'Processing...' : 'Pay $1.00 CAD Deposit'}
+          {isProcessing ? 'Processing...' : 'Pay $100.00 CAD Deposit'}
         </button>
       </div>
 

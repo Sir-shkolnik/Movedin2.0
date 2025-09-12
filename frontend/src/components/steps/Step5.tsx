@@ -80,7 +80,6 @@ const Step5: React.FC<Step5Props> = ({ onNext, onBack }) => {
         return Object.keys(newErrors).length === 0;
     };
 
-    // Payment functionality moved to Step 6
 
     const handleContinue = () => {
         if (validateForm()) {
@@ -232,7 +231,35 @@ const Step5: React.FC<Step5Props> = ({ onNext, onBack }) => {
                     )}
                 </div>
 
-                {/* Payment section removed - now handled in Step 6 */}
+                {/* Payment Information Notice */}
+                <div style={{
+                    backgroundColor: '#e7f3ff',
+                    border: '1px solid #b3d9ff',
+                    borderRadius: '12px',
+                    padding: '20px',
+                    marginTop: '24px'
+                }}>
+                    <h3 style={{ marginBottom: '16px', color: '#0056b3', fontSize: '16px' }}>💳 Payment Information</h3>
+                    <div style={{ marginBottom: '16px' }}>
+                        <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#0056b3' }}>
+                            $100.00 CAD Deposit Required
+                        </div>
+                        <p style={{ color: '#0c5460', fontSize: '14px', marginTop: '8px' }}>
+                            A $100 deposit will be required to reserve your move date and time. The remaining balance will be due on the day of your move.
+                        </p>
+                    </div>
+                    <div style={{
+                        backgroundColor: '#d1ecf1',
+                        border: '1px solid #bee5eb',
+                        borderRadius: '6px',
+                        padding: '12px',
+                        marginTop: '12px'
+                    }}>
+                        <p style={{ color: '#0c5460', fontSize: '12px', margin: 0, lineHeight: '1.4' }}>
+                            <strong>Next Step:</strong> Click "Continue" to proceed to the payment page where you can securely complete your deposit payment.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     );
