@@ -155,14 +155,30 @@ class VendorDispatcher:
                 return None
     
     def _extract_city_from_address(self, address: str) -> str:
-        """Extract city from address"""
+        """Extract city from address - comprehensive list from all vendors"""
         address_lower = address.lower()
         
-        # Check for all possible cities from all vendors
+        # Comprehensive list of all cities served by any vendor
         all_cities = [
-            "Toronto", "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill",
+            # ONTARIO
+            "Toronto", "North York", "Scarborough", "Etobicoke", "York", "East York",
+            "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill", 
             "Oakville", "Burlington", "Hamilton", "Oshawa", "Whitby", "Ajax", "Pickering",
-            "Scarborough", "North York", "Etobicoke", "York", "East York"
+            "Barrie", "Aurora", "Brantford", "Kitchener", "Waterloo", "Windsor", "Peterborough",
+            # BRITISH COLUMBIA
+            "Vancouver", "Burnaby", "Richmond", "Victoria", "Abbotsford", "Port Moody",
+            # ALBERTA
+            "Calgary", "Edmonton",
+            # MANITOBA
+            "Winnipeg",
+            # SASKATCHEWAN
+            "Regina",
+            # QUEBEC
+            "Montreal",
+            # NOVA SCOTIA
+            "Halifax",
+            # NEW BRUNSWICK
+            "Fredericton"
         ]
         
         for city in all_cities:
