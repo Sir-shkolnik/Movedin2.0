@@ -368,9 +368,10 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                     backgroundColor: '#f8f9fa',
                     border: '1px solid #e9ecef',
                     borderRadius: '12px',
-                    padding: '16px',
+                    padding: '20px',
                     marginBottom: '24px',
-                    marginTop: '8px'
+                    marginTop: '8px',
+                    textAlign: 'center'
                 }}>
                     <div style={{
                         display: 'flex',
@@ -378,10 +379,18 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                         justifyContent: 'center',
                         gap: '8px',
                         fontSize: '14px',
-                        color: '#6c757d'
+                        color: '#6c757d',
+                        marginBottom: '8px'
                     }}>
                         <span>✅</span>
                         <span>Finding the best movers for you</span>
+                    </div>
+                    <div style={{
+                        fontSize: '12px',
+                        color: '#9ca3af',
+                        fontWeight: '500'
+                    }}>
+                        Estimated time: 10-15 seconds
                     </div>
                 </div>
 
