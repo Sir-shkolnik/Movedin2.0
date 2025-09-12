@@ -229,7 +229,9 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                         marginBottom: '8px',
                         fontWeight: 'bold',
                         color: '#1e293b',
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        width: '100%',
+                        display: 'block'
                     }}>
                         Choose Your Moving Company
                     </h2>
@@ -240,7 +242,9 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                         marginBottom: '24px',
                         fontWeight: '500',
                         color: '#64748b',
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        width: '100%',
+                        display: 'block'
                     }}>
                         Finding Your Perfect Moving Company
                     </h3>
@@ -457,14 +461,21 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                     @media (max-width: 768px) {
                         .loading-container {
                             padding: 24px 16px !important;
+                            text-align: center !important;
                         }
                         .loading-container h2 {
                             font-size: 24px !important;
-                            margin-bottom: 6px !important;
+                            margin-bottom: 8px !important;
+                            text-align: center !important;
+                            width: 100% !important;
+                            display: block !important;
                         }
                         .loading-container h3 {
                             font-size: 16px !important;
                             margin-bottom: 20px !important;
+                            text-align: center !important;
+                            width: 100% !important;
+                            display: block !important;
                         }
                         .truck-animation {
                             width: 60px !important;
