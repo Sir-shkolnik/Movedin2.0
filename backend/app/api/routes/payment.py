@@ -996,4 +996,111 @@ async def test_matrix_api(request: Request):
         
     except Exception as e:
         logger.error(f"Matrix API test error: {e}")
-        raise HTTPException(status_code=500, detail=str(e)) 
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/test-emails")
+async def test_emails(request: Request, db: Session = Depends(get_db)):
+    """Test endpoint to trigger all 3 email notifications"""
+    try:
+        body = await request.json()
+        lead_id = body.get('lead_id')
+        customer_email = body.get('customer_email')
+        session_id = body.get('session_id')
+        
+        if not lead_id:
+            raise HTTPException(status_code=400, detail="lead_id is required")
+        
+        # Get lead from database
+        lead = db.query(Lead).filter(Lead.id == lead_id).first()
+        if not lead:
+            raise HTTPException(status_code=404, detail="Lead not found")
+        
+        # Update lead status to confirmed
+        lead.status = "confirmed"
+        lead.payment_intent_id = session_id
+        lead.payment_status = "completed"
+        lead.payment_amount = 100
+        lead.payment_currency = "CAD"
+        db.commit()
+        
+        # Prepare form data for emails
+        form_data = {
+            "contact": {
+                "firstName": lead.first_name,
+                "lastName": lead.last_name,
+                "email": lead.email,
+                "phone": lead.phone
+            },
+            "quote_data": {
+                "originAddress": lead.origin_address,
+                "destinationAddress": lead.destination_address,
+                "moveDate": lead.move_date.isoformat() if lead.move_date else None,
+                "moveTime": lead.move_time,
+                "totalRooms": lead.total_rooms,
+                "squareFootage": str(lead.square_footage) if lead.square_footage else "0",
+                "estimatedWeight": lead.estimated_weight
+            },
+            "selected_quote": {
+                "vendor_name": "Pierre & Sons",
+                "total_cost": 1823.54,
+                "payment_status": "completed"
+            },
+            "payment": {
+                "amount": 100,
+                "currency": "CAD",
+                "status": "completed",
+                "session_id": session_id
+            }
+        }
+        
+        # Send email notifications
+        from app.services.email_service import email_service
+        
+        results = {}
+        
+        # 1. Customer confirmation email
+        try:
+            customer_success = email_service.send_customer_confirmation(form_data, customer_email, lead_id, session_id)
+            results["customer_email"] = customer_success
+            logger.info(f"Customer confirmation sent to {customer_email}: {customer_success}")
+        except Exception as e:
+            results["customer_email"] = f"Error: {str(e)}"
+            logger.error(f"Customer email error: {e}")
+        
+        # 2. Support notification
+        try:
+            support_success = email_service.send_payment_notification_to_support(form_data, lead_id, session_id)
+            results["support_email"] = support_success
+            logger.info(f"Support notification sent: {support_success}")
+        except Exception as e:
+            results["support_email"] = f"Error: {str(e)}"
+            logger.error(f"Support email error: {e}")
+        
+        # 3. Vendor notification
+        try:
+            if lead.selected_vendor_id:
+                from app.models.vendor import Vendor
+                vendor = db.query(Vendor).filter(Vendor.id == lead.selected_vendor_id).first()
+                if vendor and vendor.email:
+                    vendor_success = email_service.send_vendor_notification(form_data, vendor.email, lead_id, session_id)
+                    results["vendor_email"] = vendor_success
+                    logger.info(f"Vendor notification sent to {vendor.email}: {vendor_success}")
+                else:
+                    results["vendor_email"] = "No vendor email found"
+            else:
+                results["vendor_email"] = "No vendor selected"
+        except Exception as e:
+            results["vendor_email"] = f"Error: {str(e)}"
+            logger.error(f"Vendor email error: {e}")
+        
+        return {
+            "success": True,
+            "message": "Test emails triggered",
+            "lead_id": lead_id,
+            "customer_email": customer_email,
+            "results": results
+        }
+        
+    except Exception as e:
+        logger.error(f"Test emails error: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to send test emails: {str(e)}") 
