@@ -302,19 +302,25 @@ function AppInner() {
                 {currentStep === 4 && <Step5 onNext={goNext} onBack={goBack} />}
                 {currentStep === 5 && <Step6 onNext={goNext} onBack={goBack} />}
                 {currentStep === 6 && (() => {
-                    const shouldRenderStep7 = data.selectedQuote || sessionStorage.getItem('paymentSuccess') || location.hash.includes('#/step7') || location.search.includes('session_id') || location.hash.includes('session_id') || (location.hash.includes('step7') && location.hash.includes('session_id'));
+                    // Check for Step7 indicators - hash includes step7 OR has session_id in hash OR search
+                    const hasStep7InHash = location.hash.includes('#/step7');
+                    const hasSessionIdInHash = location.hash.includes('session_id');
+                    const hasSessionIdInSearch = location.search.includes('session_id');
+                    const hasSelectedQuote = data.selectedQuote;
+                    const hasPaymentSuccess = sessionStorage.getItem('paymentSuccess');
+                    
+                    const shouldRenderStep7 = hasSelectedQuote || hasPaymentSuccess || hasStep7InHash || hasSessionIdInHash || hasSessionIdInSearch;
                     
                     const debugInfo = {
                         currentStep,
                         hasData: !!data,
-                        hasSelectedQuote: !!data?.selectedQuote,
-                        paymentSuccess: sessionStorage.getItem('paymentSuccess'),
+                        hasSelectedQuote: hasSelectedQuote,
+                        hasPaymentSuccess: hasPaymentSuccess,
+                        hasStep7InHash: hasStep7InHash,
+                        hasSessionIdInHash: hasSessionIdInHash,
+                        hasSessionIdInSearch: hasSessionIdInSearch,
                         hash: location.hash,
                         search: location.search,
-                        hashIncludesStep7: location.hash.includes('#/step7'),
-                        searchIncludesSessionId: location.search.includes('session_id'),
-                        hashIncludesSessionId: location.hash.includes('session_id'),
-                        hashIncludesStep7AndSessionId: location.hash.includes('step7') && location.hash.includes('session_id'),
                         shouldRenderStep7
                     };
                     
