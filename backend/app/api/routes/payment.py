@@ -456,10 +456,24 @@ async def verify_checkout_session(request: Request, db: Session = Depends(get_db
         # Send email notifications (using our logging system)
         try:
             from app.services.email_service import email_service
-            email_service.send_payment_notification_to_support(form_data, lead_id, session_id)
-            logger.info(f"Payment notification sent for lead {lead_id}")
+            
+            # Send support notification
+            support_success = email_service.send_payment_notification_to_support(form_data, lead_id, session_id)
+            logger.info(f"Support payment notification sent for lead {lead_id}: {support_success}")
+            
+            # Send vendor notification if vendor is selected
+            if lead.selected_vendor_id:
+                vendor = db.query(Vendor).filter(Vendor.id == lead.selected_vendor_id).first()
+                if vendor and vendor.email:
+                    vendor_success = email_service.send_vendor_notification(form_data, vendor.email, lead_id, session_id)
+                    logger.info(f"Vendor notification sent to {vendor.email} for lead {lead_id}: {vendor_success}")
+                else:
+                    logger.warning(f"No vendor email found for vendor {lead.selected_vendor_id}")
+            else:
+                logger.warning(f"No vendor selected for lead {lead_id}")
+                
         except Exception as email_error:
-            logger.error(f"Failed to send email notification: {email_error}")
+            logger.error(f"Failed to send email notifications: {email_error}")
         
         return {
             'success': True,

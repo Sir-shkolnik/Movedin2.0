@@ -75,16 +75,18 @@ const Step7: React.FC = () => {
             let sessionId = null;
             let leadId = null;
             
-            // Try search params first
-            const searchParams = new URLSearchParams(window.location.search);
-            sessionId = searchParams.get('session_id');
-            leadId = searchParams.get('lead_id');
-            
-            // If not found in search, try hash fragment
-            if (!sessionId || !leadId) {
+            // Try hash fragment first (for HashRouter)
+            if (window.location.hash.includes('?')) {
                 const hashParams = new URLSearchParams(window.location.hash.split('?')[1] || '');
-                sessionId = sessionId || hashParams.get('session_id');
-                leadId = leadId || hashParams.get('lead_id');
+                sessionId = hashParams.get('session_id');
+                leadId = hashParams.get('lead_id');
+            }
+            
+            // If not found in hash, try search params
+            if (!sessionId || !leadId) {
+                const searchParams = new URLSearchParams(window.location.search);
+                sessionId = sessionId || searchParams.get('session_id');
+                leadId = leadId || searchParams.get('lead_id');
             }
             
             console.log('Step7 - URL parameters:', { sessionId, leadId });
