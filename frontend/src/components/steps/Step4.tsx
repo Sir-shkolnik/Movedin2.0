@@ -225,85 +225,46 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                     border: '2px solid #e2e8f0',
                     boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)'
                 }}>
-                    {/* Professional Loading Animation */}
-                    <div className="loading-animation" style={{
-                        width: '120px',
-                        height: '120px',
+                    {/* Moving Truck Animation */}
+                    <div className="truck-animation" style={{
+                        width: '100px',
+                        height: '80px',
                         margin: '0 auto 32px',
                         position: 'relative',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}>
-                        {/* Outer Ring */}
+                        {/* Moving Truck Icon */}
                         <div style={{
-                            position: 'absolute',
-                            width: '100%',
-                            height: '100%',
-                            border: '3px solid #e2e8f0',
-                            borderRadius: '50%',
-                            borderTop: '3px solid #3b82f6',
-                            animation: 'smoothSpin 2s linear infinite'
-                        }}></div>
-                        
-                        {/* Middle Ring */}
-                        <div style={{
-                            position: 'absolute',
-                            width: '80%',
-                            height: '80%',
-                            border: '2px solid #f1f5f9',
-                            borderRadius: '50%',
-                            borderRight: '2px solid #10b981',
-                            animation: 'smoothSpin 1.5s linear infinite reverse'
-                        }}></div>
-                        
-                        {/* Inner Ring */}
-                        <div style={{
-                            position: 'absolute',
-                            width: '60%',
-                            height: '60%',
-                            border: '2px solid #f8fafc',
-                            borderRadius: '50%',
-                            borderBottom: '2px solid #f59e0b',
-                            animation: 'smoothSpin 1s linear infinite'
-                        }}></div>
-                        
-                        {/* Professional Search Icon */}
-                        <div style={{
-                            position: 'relative',
-                            animation: 'gentlePulse 2s ease-in-out infinite',
-                            filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
+                            fontSize: '48px',
+                            animation: 'truckMove 3s ease-in-out infinite',
+                            filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))'
                         }}>
-                            <div style={{
-                                width: '48px',
-                                height: '48px',
-                                backgroundColor: 'white',
-                                borderRadius: '12px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                border: '2px solid #e2e8f0',
-                                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
-                            }}>
-                                <svg 
-                                    width="24" 
-                                    height="24" 
-                                    viewBox="0 0 24 24" 
-                                    fill="none" 
-                                    stroke="#3b82f6" 
-                                    strokeWidth="2.5" 
-                                    strokeLinecap="round" 
-                                    strokeLinejoin="round"
+                            🚚
+                        </div>
+                        
+                        {/* Moving Dots Trail */}
+                        <div style={{
+                            position: 'absolute',
+                            left: '-20px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            display: 'flex',
+                            gap: '8px'
+                        }}>
+                            {[0, 1, 2].map((i) => (
+                                <div
+                                    key={i}
                                     style={{
-                                        animation: 'gentlePulse 2s ease-in-out infinite'
+                                        width: '6px',
+                                        height: '6px',
+                                        backgroundColor: '#3b82f6',
+                                        borderRadius: '50%',
+                                        animation: `dotTrail 3s ease-in-out infinite ${i * 0.3}s`
                                     }}
-                                >
-                                    {/* Search icon - Fixed SVG path syntax - Updated 2025-01-15 */}
-                                    <circle cx="11" cy="11" r="8"/>
-                                    <path d="M21 21l-4.35-4.35"/>
-                                    <circle cx="11" cy="11" r="3" fill="#3b82f6" fillOpacity="0.2"/>
-                                </svg>
-                            </div>
+                                />
+                            ))}
                         </div>
                     </div>
 
@@ -331,43 +292,43 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                             display: 'flex',
                             alignItems: 'center',
                             gap: '8px',
-                            padding: '8px 16px',
-                            backgroundColor: 'white',
-                            borderRadius: '20px',
-                            border: '1px solid #e2e8f0',
-                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
-                            animation: 'pulse 2s ease-in-out infinite'
+                            padding: '12px 20px',
+                            backgroundColor: '#f0f9ff',
+                            borderRadius: '25px',
+                            border: '2px solid #0ea5e9',
+                            boxShadow: '0 2px 8px rgba(14, 165, 233, 0.2)',
+                            animation: 'stepPulse 2s ease-in-out infinite'
                         }}>
-                            <span style={{ fontSize: '16px' }}>🔍</span>
-                            <span style={{ fontSize: '14px', color: '#374151' }}>Searching</span>
+                            <span style={{ fontSize: '18px' }}>🔍</span>
+                            <span style={{ fontSize: '14px', color: '#0369a1', fontWeight: '600' }}>Searching</span>
                         </div>
                         <div style={{
                             display: 'flex',
                             alignItems: 'center',
                             gap: '8px',
-                            padding: '8px 16px',
-                            backgroundColor: 'white',
-                            borderRadius: '20px',
-                            border: '1px solid #e2e8f0',
-                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
-                            animation: 'pulse 2s ease-in-out infinite 0.5s'
+                            padding: '12px 20px',
+                            backgroundColor: '#f0fdf4',
+                            borderRadius: '25px',
+                            border: '2px solid #22c55e',
+                            boxShadow: '0 2px 8px rgba(34, 197, 94, 0.2)',
+                            animation: 'stepPulse 2s ease-in-out infinite 0.7s'
                         }}>
-                            <span style={{ fontSize: '16px' }}>📊</span>
-                            <span style={{ fontSize: '14px', color: '#374151' }}>Calculating</span>
+                            <span style={{ fontSize: '18px' }}>📊</span>
+                            <span style={{ fontSize: '14px', color: '#15803d', fontWeight: '600' }}>Calculating</span>
                         </div>
                         <div style={{
                             display: 'flex',
                             alignItems: 'center',
                             gap: '8px',
-                            padding: '8px 16px',
-                            backgroundColor: 'white',
-                            borderRadius: '20px',
-                            border: '1px solid #e2e8f0',
-                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
-                            animation: 'pulse 2s ease-in-out infinite 1s'
+                            padding: '12px 20px',
+                            backgroundColor: '#fef3c7',
+                            borderRadius: '25px',
+                            border: '2px solid #f59e0b',
+                            boxShadow: '0 2px 8px rgba(245, 158, 11, 0.2)',
+                            animation: 'stepPulse 2s ease-in-out infinite 1.4s'
                         }}>
-                            <span style={{ fontSize: '16px' }}>💰</span>
-                            <span style={{ fontSize: '14px', color: '#374151' }}>Pricing</span>
+                            <span style={{ fontSize: '18px' }}>💰</span>
+                            <span style={{ fontSize: '14px', color: '#d97706', fontWeight: '600' }}>Pricing</span>
                         </div>
                     </div>
 
@@ -394,42 +355,23 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                         This ensures you get the best service and competitive pricing
                     </p>
 
-                    {/* Animated Dots */}
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        gap: '8px'
-                    }}>
-                        {[0, 1, 2].map((i) => (
-                            <div
-                                key={i}
-                                style={{
-                                    width: '8px',
-                                    height: '8px',
-                                    backgroundColor: '#3b82f6',
-                                    borderRadius: '50%',
-                                    animation: `bounce 1.4s ease-in-out infinite ${i * 0.16}s`
-                                }}
-                            />
-                        ))}
-                    </div>
-
-                    {/* Progress Bar */}
+                    {/* Simple Progress Indicator */}
                     <div style={{
                         width: '100%',
-                        maxWidth: '300px',
+                        maxWidth: '200px',
                         margin: '24px auto 0',
                         backgroundColor: 'rgba(255,255,255,0.3)',
-                        borderRadius: '10px',
-                        height: '6px',
-                        overflow: 'hidden'
+                        borderRadius: '15px',
+                        height: '8px',
+                        overflow: 'hidden',
+                        border: '1px solid rgba(255,255,255,0.2)'
                     }}>
                         <div style={{
-                            width: '60%',
+                            width: '70%',
                             height: '100%',
-                            backgroundColor: 'white',
-                            borderRadius: '10px',
-                            animation: 'progress 3s ease-in-out infinite'
+                            background: 'linear-gradient(90deg, #3b82f6, #10b981)',
+                            borderRadius: '15px',
+                            animation: 'smoothProgress 4s ease-in-out infinite'
                         }}></div>
                     </div>
 
@@ -487,48 +429,68 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
 
                 {/* CSS Animations */}
                 <style>{`
-                    @keyframes smoothSpin {
-                        0% { transform: rotate(0deg); }
-                        100% { transform: rotate(360deg); }
+                    @keyframes truckMove {
+                        0%, 100% { 
+                            transform: translateX(0px) scale(1); 
+                        }
+                        50% { 
+                            transform: translateX(10px) scale(1.05); 
+                        }
                     }
-                    @keyframes gentlePulse {
+                    @keyframes dotTrail {
+                        0% { 
+                            opacity: 0; 
+                            transform: translateX(0px) scale(0.5); 
+                        }
+                        20% { 
+                            opacity: 1; 
+                            transform: translateX(20px) scale(1); 
+                        }
+                        80% { 
+                            opacity: 1; 
+                            transform: translateX(60px) scale(1); 
+                        }
+                        100% { 
+                            opacity: 0; 
+                            transform: translateX(80px) scale(0.5); 
+                        }
+                    }
+                    @keyframes stepPulse {
                         0%, 100% { 
                             opacity: 1; 
                             transform: scale(1); 
+                            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
                         }
                         50% { 
-                            opacity: 0.8; 
-                            transform: scale(1.1); 
+                            opacity: 0.9; 
+                            transform: scale(1.02); 
+                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
                         }
                     }
-                    @keyframes pulse {
-                        0%, 100% { opacity: 1; transform: scale(1); }
-                        50% { opacity: 0.7; transform: scale(1.05); }
-                    }
-                    @keyframes bounce {
-                        0%, 80%, 100% { transform: scale(0); }
-                        40% { transform: scale(1); }
-                    }
-                    @keyframes progress {
-                        0% { width: 0%; }
-                        50% { width: 60%; }
-                        100% { width: 100%; }
+                    @keyframes smoothProgress {
+                        0% { 
+                            width: 0%; 
+                            opacity: 0.8; 
+                        }
+                        50% { 
+                            width: 70%; 
+                            opacity: 1; 
+                        }
+                        100% { 
+                            width: 100%; 
+                            opacity: 0.8; 
+                        }
                     }
                     @media (max-width: 768px) {
                         .loading-container {
                             padding: 40px 16px !important;
                         }
-                        .loading-animation {
+                        .truck-animation {
                             width: 80px !important;
-                            height: 80px !important;
+                            height: 60px !important;
                         }
-                        .loading-animation > div > div {
-                            width: 36px !important;
-                            height: 36px !important;
-                        }
-                        .loading-animation svg {
-                            width: 18px !important;
-                            height: 18px !important;
+                        .truck-animation > div {
+                            font-size: 36px !important;
                         }
                         .progress-steps {
                             flex-direction: column !important;
