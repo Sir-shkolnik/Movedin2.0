@@ -182,8 +182,19 @@ class VendorDispatcher:
                     })
                 
                 # Calculate quote using the integrated calculator
-                return calculator.calculate_quote(quote_request, dispatcher_info, db)
+                result = calculator.calculate_quote(quote_request, dispatcher_info, db)
                 
+                # Check if the quote was rejected due to validation (long distance, etc.)
+                if result and result.get('rejected'):
+                    print(f"Quote rejected for {vendor_slug}: {result.get('rejection_reason', 'Unknown reason')}")
+                    return None  # Don't include rejected quotes
+                
+                return result
+                
+            except ValueError as e:
+                # This is a validation error (long distance, outside service area, etc.)
+                print(f"Quote validation failed for {vendor_slug}: {e}")
+                return None
             except Exception as e:
                 print(f"Error calculating quote for {vendor_slug}: {e}")
                 return None
