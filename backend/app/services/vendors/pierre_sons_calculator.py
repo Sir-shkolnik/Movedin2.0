@@ -72,9 +72,25 @@ class PierreSonsCalculator:
         # Estimate labor hours with 3-hour minimum
         labor_hours = max(self._estimate_labor_hours(quote_request.total_rooms), 3.0)
         
-        # Calculate travel time and distance
-        travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
-        distance_km = self._calculate_distance(quote_request.origin_address, quote_request.destination_address)
+        # Calculate travel time and distance with validation
+        try:
+            travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
+            distance_km = self._calculate_distance(quote_request.origin_address, quote_request.destination_address)
+        except ValueError as e:
+            # This is a long distance move or outside service area - reject the quote
+            print(f"Pierre & Sons: Rejecting quote - {str(e)}")
+            return {
+                "vendor_name": "Pierre & Sons",
+                "total_cost": 0,
+                "breakdown": {},
+                "crew_size": 0,
+                "truck_count": 0,
+                "estimated_hours": 0,
+                "travel_time_hours": 0,
+                "hourly_rate": 0,
+                "rejected": True,
+                "rejection_reason": str(e)
+            }
         
         # Calculate truck fee based on move size AND distance
         truck_fee = self._get_truck_fee_with_distance(quote_request.total_rooms, distance_km)
@@ -147,10 +163,7 @@ class PierreSonsCalculator:
         return labor_hours_map.get(room_count, 7.5)  # Default to 7.5 for larger moves
     
     def _calculate_travel_time(self, origin: str, destination: str) -> float:
-        """Calculate travel time - OFFICIAL PIERRE & SONS RULES"""
-        # Pierre & Sons official rule: 1 hour travel time fee included
-        # This covers the time it takes for the team to return to the office
-        
+        """Calculate travel time with proper distance validation"""
         try:
             # Get one-way travel time
             directions = mapbox_service.get_directions(origin, destination)
@@ -158,18 +171,19 @@ class PierreSonsCalculator:
                 one_way_hours = directions['duration'] / 3600
                 distance_km = directions['distance'] / 1000
                 
+                # Check if this exceeds Pierre & Sons service area (200km max)
+                if distance_km > self.SERVICE_AREAS["max_distance_km"]:
+                    print(f"Pierre & Sons: Distance {distance_km:.1f}km exceeds max service area of {self.SERVICE_AREAS['max_distance_km']}km")
+                    raise ValueError(f"Distance {distance_km:.1f}km exceeds Pierre & Sons service area")
+                
+                # Check if this is a long distance move (>10 hours one-way)
+                if one_way_hours > 10:
+                    print(f"Pierre & Sons: One-way travel time {one_way_hours:.1f}h exceeds 10h limit for long distance moves")
+                    raise ValueError(f"One-way travel time {one_way_hours:.1f}h exceeds 10h limit")
+                
                 # Apply truck factor
                 TRUCK_FACTOR = 1.3
                 truck_one_way_hours = one_way_hours * TRUCK_FACTOR
-                
-                # CRITICAL FIX: Use Mapbox validation for distance vs time ratio
-                is_valid = mapbox_service.validate_travel_calculation(origin, destination, distance_km, truck_one_way_hours)
-                if not is_valid:
-                    print(f"WARNING: Mapbox validation failed for {origin} to {destination}")
-                    # Estimate correct travel time based on distance
-                    estimated_hours = max(2.0, distance_km / 80)  # Assume 80km/h average
-                    print(f"Pierre & Sons travel time: {estimated_hours:.2f}h (estimated from distance)")
-                    return estimated_hours
                 
                 # Pierre & Sons rule: If move is more than 1 hour away, 
                 # travel time fee matches the time it takes to return to office
@@ -180,11 +194,13 @@ class PierreSonsCalculator:
                     print(f"Pierre & Sons travel time: 1.0h (minimum 1 hour travel time fee)")
                     return 1.0  # Minimum 1 hour travel time fee
             
-            print("Pierre & Sons travel time: 1.0h (default minimum 1 hour travel time fee)")
-            return 1.0  # Default 1 hour travel time fee
+            # If we can't get directions at all, this is likely outside service area
+            print("Pierre & Sons: Could not calculate directions - likely outside service area")
+            raise ValueError("Could not calculate directions - likely outside service area")
+            
         except Exception as e:
-            print(f"Pierre & Sons travel time error: {e}, using default 1.0h")
-            return 1.0  # Default 1 hour travel time fee
+            print(f"Pierre & Sons travel calculation error: {e}")
+            raise ValueError(f"Travel calculation failed: {str(e)}")
     
     def _calculate_distance(self, origin: str, destination: str) -> float:
         """Calculate distance using Mapbox API"""

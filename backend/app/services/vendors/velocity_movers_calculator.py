@@ -105,8 +105,24 @@ class VelocityMoversCalculator:
         # Estimate labor hours from rooms - Based on old app data (room-based, not weight-based)
         labor_hours = self._estimate_labor_hours_from_rooms(quote_request.total_rooms)
         
-        # Calculate travel time
-        travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
+        # Calculate travel time with validation
+        try:
+            travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
+        except ValueError as e:
+            # This is a long distance move - reject the quote
+            print(f"Velocity Movers: Rejecting quote - {str(e)}")
+            return {
+                "vendor_name": "Velocity Movers",
+                "total_cost": 0,
+                "breakdown": {},
+                "crew_size": 0,
+                "truck_count": 0,
+                "estimated_hours": 0,
+                "travel_time_hours": 0,
+                "hourly_rate": 0,
+                "rejected": True,
+                "rejection_reason": str(e)
+            }
         
         # Calculate truck fee based on weight
         truck_fee = self._get_truck_fee_from_weight(weight)
@@ -188,59 +204,64 @@ class VelocityMoversCalculator:
             return 250  # Higher truck fee for heavier moves (2 trucks)
     
     def _calculate_travel_time(self, origin: str, destination: str) -> float:
-        """Calculate travel time using Mapbox API with actual dispatcher location and truck factor"""
+        """Calculate travel time using Mapbox API with proper distance validation"""
         try:
-            # Velocity Movers dispatcher address
-            dispatcher_address = "100 Howden Road, Unit 2, Toronto, ON M1R 3E4"
-            
-            # Calculate 3-leg journey: Dispatcher -> Origin -> Destination -> Dispatcher
-            # Leg 1: Dispatcher to Origin
-            leg1 = mapbox_service.get_directions(dispatcher_address, origin)
-            # Leg 2: Origin to Destination  
-            leg2 = mapbox_service.get_directions(origin, destination)
-            # Leg 3: Destination to Dispatcher
-            leg3 = mapbox_service.get_directions(destination, dispatcher_address)
-            
-            total_duration = 0
-            legs_with_data = 0
-            
-            # Sum up all legs that have data
-            for leg in [leg1, leg2, leg3]:
-                if leg and 'duration' in leg:
-                    total_duration += leg['duration']
-                    legs_with_data += 1
-            
-            if legs_with_data > 0:
-                # Convert seconds to hours
-                car_travel_hours = total_duration / 3600
-                
-                # Apply truck factor (1.3x for commercial trucks)
-                TRUCK_FACTOR = 1.3
-                truck_travel_hours = car_travel_hours * TRUCK_FACTOR
-                
-                print(f"Velocity Movers Mapbox travel calculation: {legs_with_data}/3 legs, car: {car_travel_hours:.2f}h, truck: {truck_travel_hours:.2f}h")
-                return truck_travel_hours
-            
-            # If Mapbox fails for all legs, try a simpler approach
-            # Just calculate Origin to Destination and estimate 3-leg with truck factor
+            # First, check if this is a long distance move (>10 hours one-way)
             origin_to_dest = mapbox_service.get_directions(origin, destination)
             if origin_to_dest and 'duration' in origin_to_dest:
                 one_way_hours = origin_to_dest['duration'] / 3600
-                # Estimate 3-leg as 2.5x one-way (Dispatcher->Origin->Destination->Dispatcher)
-                car_three_leg_hours = one_way_hours * 2.5
-                # Apply truck factor
+                distance_km = origin_to_dest['distance'] / 1000
+                
+                # Check if this is a long distance move (>10 hours one-way)
+                if one_way_hours > 10:
+                    print(f"Velocity Movers: One-way travel time {one_way_hours:.1f}h exceeds 10h limit for long distance moves")
+                    raise ValueError(f"One-way travel time {one_way_hours:.1f}h exceeds 10h limit")
+                
+                # Calculate 3-leg journey: Dispatcher -> Origin -> Destination -> Dispatcher
+                dispatcher_address = "100 Howden Road, Unit 2, Toronto, ON M1R 3E4"
+                
+                # Leg 1: Dispatcher to Origin
+                leg1 = mapbox_service.get_directions(dispatcher_address, origin)
+                # Leg 2: Origin to Destination (already calculated)
+                leg2 = origin_to_dest
+                # Leg 3: Destination to Dispatcher
+                leg3 = mapbox_service.get_directions(destination, dispatcher_address)
+                
+                total_duration = 0
+                legs_with_data = 0
+                
+                # Sum up all legs that have data
+                for leg in [leg1, leg2, leg3]:
+                    if leg and 'duration' in leg:
+                        total_duration += leg['duration']
+                        legs_with_data += 1
+                
+                if legs_with_data >= 2:  # Need at least 2 legs (origin->dest is required)
+                    # Convert seconds to hours
+                    car_travel_hours = total_duration / 3600
+                    
+                    # Apply truck factor (1.3x for commercial trucks)
+                    TRUCK_FACTOR = 1.3
+                    truck_travel_hours = car_travel_hours * TRUCK_FACTOR
+                    
+                    print(f"Velocity Movers Mapbox travel calculation: {legs_with_data}/3 legs, car: {car_travel_hours:.2f}h, truck: {truck_travel_hours:.2f}h")
+                    return truck_travel_hours
+                
+                # If we can't get all legs, use the one-way calculation with proper 3-leg estimation
+                car_three_leg_hours = one_way_hours * 2.2  # More accurate than 2.5x
                 TRUCK_FACTOR = 1.3
                 truck_three_leg_hours = car_three_leg_hours * TRUCK_FACTOR
                 
-                print(f"Velocity Movers Mapbox fallback calculation: car: {car_three_leg_hours:.2f}h, truck: {truck_three_leg_hours:.2f}h")
+                print(f"Velocity Movers Mapbox 3-leg estimation: car: {car_three_leg_hours:.2f}h, truck: {truck_three_leg_hours:.2f}h")
                 return truck_three_leg_hours
             
-            # Final fallback - should rarely happen
-            print("Velocity Movers Mapbox calculation failed, using conservative estimate with truck factor")
-            return 2.0 * 1.3  # Conservative 2 hours for 3-leg journey with truck factor
+            # If we can't get directions at all, this is likely outside service area
+            print("Velocity Movers: Could not calculate directions - likely outside service area")
+            raise ValueError("Could not calculate directions - likely outside service area")
+            
         except Exception as e:
-            print(f"Velocity Movers Mapbox directions error: {e}")
-            return 2.0 * 1.3  # Default 2 hours for 3-leg journey with truck factor
+            print(f"Velocity Movers travel calculation error: {e}")
+            raise ValueError(f"Travel calculation failed: {str(e)}")
     
     def _calculate_fuel_charge(self, travel_hours: float) -> float:
         """Calculate fuel charge based on travel time"""
