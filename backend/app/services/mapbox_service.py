@@ -1,19 +1,49 @@
 import requests
 import urllib.parse
 import re
+import time
+import logging
 from typing import Optional, Tuple, Dict, Any
 from app.core.config import settings
 
+# Set up logging
+logger = logging.getLogger(__name__)
+
 class MapboxService:
-    """Mapbox API service for geocoding and directions"""
+    """Mapbox API service for geocoding and directions with caching"""
     
     def __init__(self):
         self.access_token = "pk.eyJ1Ijoic3VwcG9ydG1vdmVkaW4iLCJhIjoiY21kZmdxdHh6MGQ2aDJqcHE2YTIwbTFrMiJ9.I1xkq82JXLMlgB02xT8LMw"
         self.base_url = "https://api.mapbox.com"
         self.timeout = 10  # 10 second timeout to prevent hanging
+        
+        # Add caching to prevent repeated API calls
+        self._geocoding_cache = {}
+        self._coordinates_cache = {}
+        self._cache_ttl = 3600  # 1 hour cache TTL
+        self._max_retries = 3
+        self._retry_delay = 1  # seconds
+        
+        logger.info("🗺️ MapboxService initialized with caching enabled")
     
     def geocode_address(self, query: str, country: Optional[str] = None) -> list:
-        """Geocode an address using Mapbox Geocoding API v6 (latest) - CANADA ONLY"""
+        """Geocode an address using Mapbox Geocoding API v6 (latest) - CANADA ONLY with caching"""
+        # Check cache first
+        cache_key = f"geocode_v6:{query.lower().strip()}"
+        current_time = time.time()
+        
+        if cache_key in self._geocoding_cache:
+            cached_data, timestamp = self._geocoding_cache[cache_key]
+            if current_time - timestamp < self._cache_ttl:
+                logger.info(f"🗺️ CACHE HIT: Using cached geocoding for '{query}'")
+                return cached_data
+            else:
+                # Remove expired cache entry
+                del self._geocoding_cache[cache_key]
+                logger.info(f"🗺️ CACHE EXPIRED: Removed expired cache for '{query}'")
+        
+        logger.info(f"🗺️ CACHE MISS: Geocoding '{query}' via API")
+        
         # Use the latest v6 API for better accuracy - CANADA ONLY
         params = {
             'access_token': self.access_token,
@@ -26,18 +56,61 @@ class MapboxService:
         
         url = f"{self.base_url}/search/geocode/v6/forward"
         
-        try:
-            response = requests.get(url, params=params, timeout=self.timeout)
-            response.raise_for_status()
-            data = response.json()
-            return data.get('features', [])
-        except (requests.RequestException, requests.Timeout) as e:
-            print(f"Mapbox geocoding v6 error: {e}")
-            # Fallback to v5 API if v6 fails
-            return self._geocode_address_v5_fallback(query, country)
+        # Retry logic with exponential backoff
+        for attempt in range(self._max_retries):
+            try:
+                logger.info(f"🗺️ API CALL: Attempt {attempt + 1}/{self._max_retries} for '{query}'")
+                response = requests.get(url, params=params, timeout=self.timeout)
+                response.raise_for_status()
+                data = response.json()
+                features = data.get('features', [])
+                
+                # Cache the successful result
+                self._geocoding_cache[cache_key] = (features, current_time)
+                logger.info(f"🗺️ SUCCESS: Cached geocoding result for '{query}' ({len(features)} features)")
+                return features
+                
+            except requests.exceptions.HTTPError as e:
+                if e.response.status_code == 422:
+                    logger.error(f"🗺️ ERROR 422: Invalid request for '{query}' - {e}")
+                    # Don't retry 422 errors, they're client errors
+                    return self._geocode_address_v5_fallback(query, country)
+                elif e.response.status_code == 429:
+                    logger.warning(f"🗺️ ERROR 429: Rate limited for '{query}' - waiting {self._retry_delay * (2 ** attempt)}s")
+                    time.sleep(self._retry_delay * (2 ** attempt))
+                    continue
+                else:
+                    logger.error(f"🗺️ ERROR {e.response.status_code}: {e} for '{query}'")
+                    if attempt == self._max_retries - 1:
+                        return self._geocode_address_v5_fallback(query, country)
+                    time.sleep(self._retry_delay * (2 ** attempt))
+                    
+            except (requests.RequestException, requests.Timeout) as e:
+                logger.error(f"🗺️ ERROR: {e} for '{query}' (attempt {attempt + 1})")
+                if attempt == self._max_retries - 1:
+                    return self._geocode_address_v5_fallback(query, country)
+                time.sleep(self._retry_delay * (2 ** attempt))
+        
+        # If all retries failed, try fallback
+        logger.warning(f"🗺️ FALLBACK: All retries failed for '{query}', trying v5 API")
+        return self._geocode_address_v5_fallback(query, country)
     
     def _geocode_address_v5_fallback(self, query: str, country: Optional[str] = None) -> list:
-        """Fallback to v5 API if v6 fails - CANADA ONLY"""
+        """Fallback to v5 API if v6 fails - CANADA ONLY with caching"""
+        # Check v5 cache
+        cache_key = f"geocode_v5:{query.lower().strip()}"
+        current_time = time.time()
+        
+        if cache_key in self._geocoding_cache:
+            cached_data, timestamp = self._geocoding_cache[cache_key]
+            if current_time - timestamp < self._cache_ttl:
+                logger.info(f"🗺️ V5 CACHE HIT: Using cached v5 geocoding for '{query}'")
+                return cached_data
+            else:
+                del self._geocoding_cache[cache_key]
+        
+        logger.info(f"🗺️ V5 FALLBACK: Trying v5 API for '{query}'")
+        
         params = {
             'access_token': self.access_token,
             'types': 'address,poi,place',
@@ -53,10 +126,40 @@ class MapboxService:
             response = requests.get(url, params=params, timeout=self.timeout)
             response.raise_for_status()
             data = response.json()
-            return data.get('features', [])
+            features = data.get('features', [])
+            
+            # Cache the v5 result
+            self._geocoding_cache[cache_key] = (features, current_time)
+            logger.info(f"🗺️ V5 SUCCESS: Cached v5 geocoding result for '{query}' ({len(features)} features)")
+            return features
+            
         except (requests.RequestException, requests.Timeout) as e:
-            print(f"Mapbox geocoding v5 fallback error: {e}")
+            logger.error(f"🗺️ V5 ERROR: {e} for '{query}'")
             return []
+    
+    def clear_cache(self):
+        """Clear all caches"""
+        self._geocoding_cache.clear()
+        self._coordinates_cache.clear()
+        logger.info("🗺️ CACHE CLEARED: All Mapbox caches cleared")
+    
+    def get_cache_stats(self) -> Dict[str, Any]:
+        """Get cache statistics"""
+        current_time = time.time()
+        
+        # Count valid entries
+        valid_geocoding = sum(1 for _, (_, timestamp) in self._geocoding_cache.items() 
+                            if current_time - timestamp < self._cache_ttl)
+        valid_coordinates = sum(1 for _, (_, timestamp) in self._coordinates_cache.items() 
+                              if current_time - timestamp < self._cache_ttl)
+        
+        return {
+            'geocoding_cache_size': len(self._geocoding_cache),
+            'geocoding_cache_valid': valid_geocoding,
+            'coordinates_cache_size': len(self._coordinates_cache),
+            'coordinates_cache_valid': valid_coordinates,
+            'cache_ttl_seconds': self._cache_ttl
+        }
     
     def get_directions(
         self, 
@@ -239,15 +342,32 @@ class MapboxService:
             return None
 
     def get_coordinates(self, address: str) -> Optional[Tuple[float, float]]:
-        """Get coordinates for an address with smart GTA-aware geocoding logic"""
+        """Get coordinates for an address with smart GTA-aware geocoding logic and caching"""
+        # Check coordinates cache first
+        cache_key = f"coordinates:{address.lower().strip()}"
+        current_time = time.time()
+        
+        if cache_key in self._coordinates_cache:
+            cached_data, timestamp = self._coordinates_cache[cache_key]
+            if current_time - timestamp < self._cache_ttl:
+                logger.info(f"🗺️ COORDINATES CACHE HIT: Using cached coordinates for '{address}'")
+                return cached_data
+            else:
+                # Remove expired cache entry
+                del self._coordinates_cache[cache_key]
+                logger.info(f"🗺️ COORDINATES CACHE EXPIRED: Removed expired cache for '{address}'")
+        
         # Special handling for Zurich, Ontario to prevent geocoding errors
         if 'zurich' in address.lower() and 'ontario' in address.lower():
-            print(f"Special handling for Zurich, Ontario: {address}")
-            return (-81.2, 43.6)  # Correct coordinates for Zurich, Ontario (lon, lat)
+            logger.info(f"🗺️ SPECIAL: Using hardcoded coordinates for Zurich, Ontario: {address}")
+            coords = (-81.2, 43.6)  # Correct coordinates for Zurich, Ontario (lon, lat)
+            self._coordinates_cache[cache_key] = (coords, current_time)
+            return coords
         
+        logger.info(f"🗺️ COORDINATES CACHE MISS: Getting coordinates for '{address}'")
         features = self.geocode_address(address)
         if not features:
-            print(f"No geocoding results for: {address}")
+            logger.warning(f"🗺️ NO RESULTS: No geocoding results for: {address}")
             return None
         
         # Smart scoring system for GTA area
@@ -328,12 +448,18 @@ class MapboxService:
                 best_feature = feature
         
         if best_feature:
-            print(f"Smart geocoding for '{address}' -> '{best_feature['place_name']}' (score: {best_score})")
-            return tuple(best_feature['center'])
+            coords = tuple(best_feature['center'])
+            logger.info(f"🗺️ SMART MATCH: '{address}' -> '{best_feature['place_name']}' (score: {best_score})")
+            # Cache the result
+            self._coordinates_cache[cache_key] = (coords, current_time)
+            return coords
         
         # Fallback to first result if no good match found
-        print(f"Fallback geocoding for '{address}' -> '{features[0]['place_name']}'")
-        return tuple(features[0]['center'])
+        coords = tuple(features[0]['center'])
+        logger.info(f"🗺️ FALLBACK MATCH: '{address}' -> '{features[0]['place_name']}'")
+        # Cache the result
+        self._coordinates_cache[cache_key] = (coords, current_time)
+        return coords
 
     def calculate_3leg_journey_time(
         self, 
