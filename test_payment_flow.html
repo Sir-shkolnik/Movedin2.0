@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Payment Flow</title>
+</head>
+<body>
+    <h1>Test Payment Flow</h1>
+    <p>This page tests the payment flow from Step 6 to Step 7.</p>
+    
+    <div class="step-card step6-modern">
+        <h2>Review & Complete Booking</h2>
+        <p>Test payment button below:</p>
+        
+        <button
+            class="pay-button-modern"
+            onclick="testPayment()"
+            style="
+                display: block;
+                width: 100%;
+                padding: 14px 28px;
+                backgroundColor: #28a745;
+                color: white;
+                border: none;
+                borderRadius: 8px;
+                fontSize: 16px;
+                fontWeight: bold;
+                cursor: pointer;
+                marginTop: 20px;
+            "
+        >
+            Pay $1.00 CAD Deposit
+        </button>
+    </div>
+
+    <script>
+        function testPayment() {
+            console.log('🚀 Test payment button clicked!');
+            
+            // Test the payment flow
+            fetch('https://movedin-backend.onrender.com/api/leads', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    quote_data: {
+                        originAddress: "Toronto, ON",
+                        destinationAddress: "Vancouver, BC",
+                        moveDate: "2025-02-01",
+                        moveTime: "Morning",
+                        totalRooms: 3,
+                        squareFootage: 1500,
+                        estimatedWeight: 2000,
+                        stairsAtPickup: 0,
+                        stairsAtDropoff: 0,
+                        elevatorAtPickup: false,
+                        elevatorAtDropoff: false,
+                        heavyItems: {},
+                        additionalServices: {}
+                    },
+                    selected_quote: {
+                        vendor_slug: "pierre-sons",
+                        vendor_name: "Pierre & Sons",
+                        total_cost: 849,
+                        crew_size: 2,
+                        truck_count: 1,
+                        estimated_hours: 3.5,
+                        travel_time_hours: 1.0,
+                        breakdown: {}
+                    },
+                    contact_data: {
+                        firstName: "Test",
+                        lastName: "User",
+                        email: "test@example.com",
+                        phone: "4165550123"
+                    }
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Lead created:', data);
+                const leadId = data.id;
+                
+                // Create payment link
+                return fetch('https://movedin-backend.onrender.com/api/payment-simple/create-payment-link', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        amount: 100,
+                        currency: 'cad',
+                        lead_id: leadId,
+                        customer_email: 'test@example.com',
+                        vendor_slug: 'pierre-sons'
+                    })
+                });
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Payment link created:', data);
+                alert('Payment link created! Check console for details. The link should redirect to #/step7');
+                
+                // Open the payment link
+                window.open(data.payment_link_url, '_blank');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error: ' + error.message);
+            });
+        }
+    </script>
+</body>
+</html>

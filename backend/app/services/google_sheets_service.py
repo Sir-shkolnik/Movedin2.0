@@ -37,21 +37,11 @@ class GoogleSheetsService:
         self.gid_location_mapping = self._load_gid_location_mapping()
     
     def _initialize_public_client(self):
-        """Initialize using local CSV files (fallback when Google Sheets not accessible)"""
+        """Initialize using public CSV export URLs (no authentication required)"""
         try:
             # Load GIDs from g.txt file
             self.gids = self._load_gids_from_file()
-            logger.info(f"Loaded {len(self.gids)} GIDs for local CSV files")
-            
-            # Check if we have local CSV files available
-            import os
-            csv_dir = "csv_exports"
-            if os.path.exists(csv_dir):
-                local_files = [f for f in os.listdir(csv_dir) if f.endswith('.csv')]
-                logger.info(f"Found {len(local_files)} local CSV files in {csv_dir}")
-            else:
-                logger.warning(f"Local CSV directory {csv_dir} not found")
-                
+            logger.info(f"Loaded {len(self.gids)} GIDs for public CSV export")
         except Exception as e:
             logger.error(f"Failed to load GIDs: {e}")
             self.gids = []
@@ -95,7 +85,7 @@ class GoogleSheetsService:
             return {}
     
     def get_all_dispatchers_data(self) -> Dict[str, Any]:
-        """Fetch and parse all dispatcher data from local CSV files with 4-hour cache"""
+        """Fetch and parse all dispatcher data from all tabs using public CSV export with 4-hour cache"""
         if not self.gids:
             logger.error("No GIDs available for CSV export")
             return {}
@@ -107,7 +97,7 @@ class GoogleSheetsService:
             logger.info(f"Returning cached dispatchers data: {len(cached_data)} dispatchers")
             return cached_data
         
-        logger.info(f"🔍 Fetching fresh dispatchers data from {len(self.gids)} local CSV files...")
+        logger.info(f"🔍 Fetching fresh dispatchers data from {len(self.gids)} Google Sheets...")
         
         try:
             dispatchers_data = {}
@@ -130,18 +120,13 @@ class GoogleSheetsService:
                     
                 logger.info(f"Processing location GID: {gid}")
                 
-                # Fetch CSV data from local files
+                # Fetch CSV data using public export URL
                 csv_data = self._fetch_csv_by_gid(gid)
                 if csv_data:
                     # Parse the CSV data with specialized data context
                     dispatcher_data = self._parse_csv_data(csv_data, gid, specialized_data)
                     if dispatcher_data:
                         dispatchers_data[gid] = dispatcher_data
-                        logger.info(f"✅ Successfully parsed dispatcher {gid}: {dispatcher_data.get('location_details', {}).get('name', 'Unknown')}")
-                    else:
-                        logger.warning(f"❌ Failed to parse dispatcher data for GID {gid}")
-                else:
-                    logger.warning(f"❌ No CSV data found for GID {gid}")
             
             # Cache the data
             self._cache_data[cache_key] = dispatchers_data

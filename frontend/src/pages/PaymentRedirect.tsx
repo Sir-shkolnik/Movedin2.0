@@ -101,10 +101,11 @@ const PaymentRedirect: React.FC = () => {
                     console.log('PaymentRedirect - Storing complete form data:', completeFormData);
                     sessionStorage.setItem('formData', JSON.stringify(completeFormData));
                     
-                    // Small delay to show success message, then redirect to hash-based URL
+                    // Small delay to show success message, then redirect to hash-based URL with parameters
                     setTimeout(() => {
-                        console.log('PaymentRedirect - Redirecting to #/step7 using hash-based URL...');
-                        window.location.href = 'https://movedin-frontend.onrender.com/#/step7';
+                        const redirectUrl = `https://movedin-frontend.onrender.com/#/step7?session_id=${sessionId}&lead_id=${leadId || 'test456'}`;
+                        console.log('PaymentRedirect - Redirecting to:', redirectUrl);
+                        window.location.href = redirectUrl;
                     }, 2000);
                     
                 } else {
@@ -183,8 +184,9 @@ const PaymentRedirect: React.FC = () => {
                             sessionStorage.setItem('formData', JSON.stringify(completeFormData));
                             
                             setTimeout(() => {
-                                console.log('PaymentRedirect - Redirecting to #/step7 using hash-based URL...');
-                                window.location.href = 'https://movedin-frontend.onrender.com/#/step7';
+                                const redirectUrl = `https://movedin-frontend.onrender.com/#/step7?session_id=${sessionId}&lead_id=${leadId || 'test456'}`;
+                                console.log('PaymentRedirect - Redirecting to:', redirectUrl);
+                                window.location.href = redirectUrl;
                             }, 2000);
                         } else {
                             setStatus('Payment verification failed. Redirecting to home...');

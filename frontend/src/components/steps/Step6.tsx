@@ -82,6 +82,8 @@ const Step6: React.FC = () => {
     console.log('🚀 Step 6 - handlePayment function called!');
     console.log('🔍 Step 6 - Current data:', data);
     console.log('🔍 Step 6 - Contact data:', data.contact);
+    console.log('🔍 Step 6 - Selected quote:', data.selectedQuote);
+    console.log('🔍 Step 6 - Vendor:', data.vendor);
     setIsProcessing(true);
     setPaymentError(null);
     
@@ -479,7 +481,7 @@ const Step6: React.FC = () => {
           </div>
         )}
 
-        {/* Hidden payment button for footer trigger */}
+        {/* Payment button for footer trigger */}
         <button
           ref={(el) => {
             if (el) {
@@ -492,9 +494,22 @@ const Step6: React.FC = () => {
             handlePayment();
           }}
           disabled={isProcessing}
-          style={{ display: 'none' }}
+          style={{ 
+            display: 'block',
+            width: '100%',
+            padding: '14px 28px',
+            backgroundColor: '#28a745',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            cursor: isProcessing ? 'not-allowed' : 'pointer',
+            opacity: isProcessing ? 0.6 : 1,
+            marginTop: '20px'
+          }}
         >
-          Pay $1.00 CAD Deposit
+          {isProcessing ? 'Processing...' : 'Pay $1.00 CAD Deposit'}
         </button>
       </div>
 

@@ -156,8 +156,8 @@ async def create_checkout_session(req: CheckoutSessionRequest, db: Session = Dep
         }
         
         # Create checkout session with form data in metadata
-        success_url = f'https://movedin.com/#/step7?session_id={{CHECKOUT_SESSION_ID}}&lead_id={lead_id}'
-        cancel_url = 'https://movedin.com/#/step6'
+        success_url = f'https://movedin-frontend.onrender.com/#/step7?session_id={{CHECKOUT_SESSION_ID}}&lead_id={lead_id}'
+        cancel_url = 'https://movedin-frontend.onrender.com/#/step6'
         
         logger.info(f"Creating checkout session with success_url: {success_url}")
         logger.info(f"Creating checkout session with cancel_url: {cancel_url}")
