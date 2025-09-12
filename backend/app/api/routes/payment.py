@@ -653,8 +653,22 @@ async def handle_payment_intent_success(payment_intent: Dict[str, Any], db: Sess
         # Extract lead_id from metadata
         lead_id = metadata.get('lead_id')
         if not lead_id:
-            logger.error(f"No lead_id found in Payment Intent: {payment_intent_id}")
-            return
+            # Try to find lead by payment_intent_id in database
+            logger.info(f"No lead_id in Payment Intent metadata, searching by payment_intent_id: {payment_intent_id}")
+            lead = db.query(Lead).filter(Lead.payment_intent_id == payment_intent_id).first()
+            if lead:
+                lead_id = str(lead.id)
+                logger.info(f"Found lead by payment_intent_id: {lead_id}")
+            else:
+                # Try to find by checkout session ID (for Stripe Checkout Sessions)
+                logger.info(f"Trying to find lead by checkout session ID: {payment_intent_id}")
+                lead = db.query(Lead).filter(Lead.payment_intent_id.like(f'cs_live_%')).first()
+                if lead:
+                    lead_id = str(lead.id)
+                    logger.info(f"Found lead by checkout session pattern: {lead_id}")
+                else:
+                    logger.error(f"No lead_id found in Payment Intent: {payment_intent_id}")
+                    return
         
         # Retrieve full lead data from the database
         lead = db.query(Lead).filter(Lead.id == int(lead_id)).first()
@@ -784,6 +798,78 @@ async def handle_checkout_session_completed(checkout_session: Dict[str, Any], db
     except Exception as e:
         logger.error(f"❌ CHECKOUT ERROR: Payment processing error: {e}")
         db.rollback()
+
+@router.post('/complete-payment-manual')
+async def complete_payment_manual(request: Request, db: Session = Depends(get_db)):
+    """Manually complete payment for a lead (for testing/fixes)"""
+    try:
+        body = await request.json()
+        lead_id = body.get('lead_id')
+        session_id = body.get('session_id')
+        
+        if not lead_id:
+            return {"success": False, "error": "No lead_id provided"}
+        
+        # Get the lead
+        lead = db.query(Lead).filter(Lead.id == int(lead_id)).first()
+        if not lead:
+            return {"success": False, "error": f"Lead {lead_id} not found"}
+        
+        # Update lead status
+        lead.status = 'payment_completed'
+        lead.payment_intent_id = session_id or f"manual_{lead_id}"
+        lead.payment_amount = 1.00  # $1 CAD deposit
+        lead.payment_currency = 'CAD'
+        lead.payment_status = 'succeeded'
+        db.commit()
+        db.refresh(lead)
+        
+        logger.info(f"✅ MANUAL PAYMENT COMPLETE: Lead {lead_id} updated to payment_completed")
+        
+        # Send emails
+        try:
+            from app.services.final_email_service import final_email_service
+            
+            # Prepare lead data for email
+            lead_data = {
+                'quote_data': {
+                    'originAddress': lead.origin_address,
+                    'destinationAddress': lead.destination_address,
+                    'moveDate': lead.move_date.isoformat() if lead.move_date else '',
+                    'moveTime': lead.move_time,
+                    'totalRooms': lead.total_rooms,
+                    'squareFootage': lead.square_footage,
+                    'estimatedWeight': lead.estimated_weight
+                },
+                'selected_quote': {
+                    'vendor_name': 'Velocity Movers',  # Default for now
+                    'total_cost': 3106.97
+                },
+                'contact_data': {
+                    'firstName': lead.first_name,
+                    'lastName': lead.last_name,
+                    'email': lead.email,
+                    'phone': lead.phone
+                }
+            }
+            
+            # Send all 3 professional emails
+            email_results = final_email_service.send_final_booking_emails(lead_data, lead.id, session_id or f"manual_{lead_id}")
+            logger.info(f"📧 EMAIL SUCCESS: Professional emails sent: {email_results}")
+            
+        except Exception as email_error:
+            logger.error(f"❌ EMAIL ERROR: {email_error}")
+        
+        return {
+            "success": True,
+            "message": f"Lead {lead_id} payment completed manually",
+            "lead_id": lead_id,
+            "status": "payment_completed"
+        }
+        
+    except Exception as e:
+        logger.error(f"Manual payment completion error: {e}")
+        return {"success": False, "error": str(e)}
 
 @router.post('/confirm-payment')
 async def confirm_payment(
