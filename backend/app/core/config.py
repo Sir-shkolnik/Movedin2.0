@@ -22,8 +22,8 @@ class Settings(BaseSettings):
     ZOHO_TOKEN_URL: str = "https://accounts.zoho.com/oauth/v2/token"
     ZOHO_CRM_API_URL: str = "https://www.zohoapis.com/crm/v3"
     
-    # Email Configuration
-    SMTP_SERVER: str = "smtp.gmail.com"
+    # Email Configuration - GoDaddy 365 Email
+    SMTP_SERVER: str = "smtp.office365.com"
     SMTP_PORT: int = 587
     SMTP_USERNAME: str = "support@movedin.com"
     SMTP_PASSWORD: Optional[str] = None

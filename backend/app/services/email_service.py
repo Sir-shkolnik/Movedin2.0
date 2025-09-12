@@ -13,20 +13,31 @@ class EmailService:
     """Service for sending email notifications to vendors and support"""
     
     def __init__(self):
-        # Email configuration - these should be set as environment variables
-        self.smtp_server = os.getenv("SMTP_SERVER", "smtp.gmail.com")
+        # Email configuration - GoDaddy 365 Email settings
+        self.smtp_server = os.getenv("SMTP_SERVER", "smtp.office365.com")
         self.smtp_port = int(os.getenv("SMTP_PORT", "587"))
         self.smtp_username = os.getenv("SMTP_USERNAME", "support@movedin.com")
         self.smtp_password = os.getenv("SMTP_PASSWORD", "")
         self.support_email = "support@movedin.com"
         
+        logger.info(f"📧 Email Service initialized with:")
+        logger.info(f"   Server: {self.smtp_server}")
+        logger.info(f"   Port: {self.smtp_port}")
+        logger.info(f"   Username: {self.smtp_username}")
+        logger.info(f"   Password configured: {'Yes' if self.smtp_password else 'No'}")
+        
     def send_email(self, to_email: str, subject: str, body: str, is_html: bool = False) -> bool:
-        """Send email using SMTP or log to file if SMTP not configured"""
+        """Send email using Office 365 SMTP or log to file if SMTP not configured"""
         try:
+            logger.info(f"📧 Attempting to send email to {to_email}")
+            logger.info(f"📧 Subject: {subject}")
+            logger.info(f"📧 Body length: {len(body)} characters")
+            logger.info(f"📧 HTML format: {is_html}")
+            
             if not self.smtp_password:
                 # Enhanced logging system for testing
                 self._log_email_to_file(to_email, subject, body)
-                logger.warning("SMTP password not configured - email logged to file")
+                logger.warning("⚠️ SMTP password not configured - email logged to file")
                 return True
             
             # Create message
@@ -34,6 +45,7 @@ class EmailService:
             msg['From'] = self.smtp_username
             msg['To'] = to_email
             msg['Subject'] = subject
+            msg['Reply-To'] = self.support_email
             
             # Add body
             if is_html:
@@ -41,18 +53,36 @@ class EmailService:
             else:
                 msg.attach(MIMEText(body, 'plain'))
             
-            # Send email
+            # Send email using Office 365 SMTP
+            logger.info(f"🌐 Connecting to {self.smtp_server}:{self.smtp_port}")
             context = ssl.create_default_context()
+            
             with smtplib.SMTP(self.smtp_server, self.smtp_port) as server:
+                logger.info("🔐 Starting TLS connection...")
                 server.starttls(context=context)
+                
+                logger.info(f"🔑 Logging in as {self.smtp_username}")
                 server.login(self.smtp_username, self.smtp_password)
+                
+                logger.info(f"📤 Sending message to {to_email}")
                 server.send_message(msg)
             
             logger.info(f"✅ Email sent successfully to {to_email}")
             return True
             
+        except smtplib.SMTPAuthenticationError as e:
+            logger.error(f"❌ SMTP Authentication failed: {e}")
+            logger.error("💡 Check your email credentials and ensure 'Less secure app access' is enabled")
+            return False
+        except smtplib.SMTPRecipientsRefused as e:
+            logger.error(f"❌ Recipient refused: {e}")
+            return False
+        except smtplib.SMTPServerDisconnected as e:
+            logger.error(f"❌ Server disconnected: {e}")
+            return False
         except Exception as e:
             logger.error(f"❌ Failed to send email to {to_email}: {e}")
+            logger.error(f"❌ Error type: {type(e).__name__}")
             return False
     
     def _log_email_to_file(self, to_email: str, subject: str, body: str) -> None:
