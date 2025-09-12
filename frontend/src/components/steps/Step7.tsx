@@ -10,34 +10,37 @@ const Step7: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [displayData, setDisplayData] = useState<any>(null);
 
-    console.log('🎉 Step7 Component RENDERED - URL:', window.location.href);
-    console.log('🎉 Step7 Component RENDERED - Timestamp:', new Date().toISOString());
+    // Only log debug info in development
+    if (process.env.NODE_ENV === 'development') {
+        console.log('🎉 Step7 Component RENDERED - URL:', window.location.href);
+        console.log('🎉 Step7 Component RENDERED - Timestamp:', new Date().toISOString());
 
-    const debugInfo = {
-        hasData: !!data,
-        dataKeys: data ? Object.keys(data) : [],
-        hasSelectedQuote: !!data?.selectedQuote,
-        hasVendor: !!data?.vendor,
-        hasContact: !!data?.contact,
-        sessionStorageFormData: sessionStorage.getItem('formData'),
-        sessionStoragePaymentSuccess: sessionStorage.getItem('paymentSuccess'),
-        sessionStoragePaymentIntent: sessionStorage.getItem('paymentIntentData'),
-        url: window.location.href,
-        hash: window.location.hash,
-        search: window.location.search,
-        userAgent: navigator.userAgent,
-        timestamp: new Date().toISOString()
-    };
+        const debugInfo = {
+            hasData: !!data,
+            dataKeys: data ? Object.keys(data) : [],
+            hasSelectedQuote: !!data?.selectedQuote,
+            hasVendor: !!data?.vendor,
+            hasContact: !!data?.contact,
+            sessionStorageFormData: sessionStorage.getItem('formData'),
+            sessionStoragePaymentSuccess: sessionStorage.getItem('paymentSuccess'),
+            sessionStoragePaymentIntent: sessionStorage.getItem('paymentIntentData'),
+            url: window.location.href,
+            hash: window.location.hash,
+            search: window.location.search,
+            userAgent: navigator.userAgent,
+            timestamp: new Date().toISOString()
+        };
 
-    console.log('🔍 Step7 Component Rendered - Debug Info:', debugInfo);
-    console.log('🔍 Step7 - Data object details:', {
-        data: data,
-        selectedQuote: data?.selectedQuote,
-        vendor: data?.vendor,
-        contact: data?.contact,
-        fromDetails: data?.fromDetails,
-        toDetails: data?.toDetails
-    });
+        console.log('🔍 Step7 Component Rendered - Debug Info:', debugInfo);
+        console.log('🔍 Step7 - Data object details:', {
+            data: data,
+            selectedQuote: data?.selectedQuote,
+            vendor: data?.vendor,
+            contact: data?.contact,
+            fromDetails: data?.fromDetails,
+            toDetails: data?.toDetails
+        });
+    }
 
     // Log Step7 component render
     const logDebugStep = async (step: string, data: any) => {
@@ -77,24 +80,36 @@ const Step7: React.FC = () => {
 
     const loadDataFromURL = async () => {
         try {
-            console.log('🔄 Step7 - Loading data from URL...');
-            
-            // Get URL parameters - try search params first, then hash
-            const urlParams = new URLSearchParams(window.location.search);
-            let sessionId = urlParams.get('session_id');
-            let leadId = urlParams.get('lead_id');
-            
-            // If not in search params, try hash
-            if (!sessionId || !leadId) {
-                const hashParams = new URLSearchParams(window.location.hash.split('?')[1] || '');
-                sessionId = sessionId || hashParams.get('session_id');
-                leadId = leadId || hashParams.get('lead_id');
+            if (process.env.NODE_ENV === 'development') {
+                console.log('🔄 Step7 - Loading data from URL...');
             }
             
-            console.log('📊 Step7 - URL parameters:', { sessionId, leadId });
+            // Get URL parameters - try hash first (for Stripe redirects), then search params
+            let sessionId = null;
+            let leadId = null;
+            
+            // Try hash params first (Stripe redirects use this format)
+            if (window.location.hash.includes('?')) {
+                const hashParams = new URLSearchParams(window.location.hash.split('?')[1] || '');
+                sessionId = hashParams.get('session_id');
+                leadId = hashParams.get('lead_id');
+            }
+            
+            // If not in hash, try search params
+            if (!sessionId || !leadId) {
+                const urlParams = new URLSearchParams(window.location.search);
+                sessionId = sessionId || urlParams.get('session_id');
+                leadId = leadId || urlParams.get('lead_id');
+            }
+            
+            if (process.env.NODE_ENV === 'development') {
+                console.log('📊 Step7 - URL parameters:', { sessionId, leadId });
+            }
             
             if (sessionId && leadId) {
-                console.log('✅ Step7 - Verifying payment...');
+                if (process.env.NODE_ENV === 'development') {
+                    console.log('✅ Step7 - Verifying payment...');
+                }
                 
                 // Verify payment with backend
                 const response = await fetch('https://movedin-backend.onrender.com/api/verify-checkout-session', {
@@ -109,7 +124,9 @@ const Step7: React.FC = () => {
                 }
 
                 const result = await response.json();
-                console.log('✅ Step7 - Payment verified successfully');
+                if (process.env.NODE_ENV === 'development') {
+                    console.log('✅ Step7 - Payment verified successfully');
+                }
 
                 if (result.success && result.form_data) {
                     setDisplayData(result.form_data);
