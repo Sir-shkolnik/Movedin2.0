@@ -79,16 +79,24 @@ export function initializePerformanceMonitoring() {
       console.warn('CLS observer failed:', e);
     }
 
-    // Monitor First Contentful Paint (FCP)
+    // Monitor First Contentful Paint (FCP) - with proper error handling
     const fcpObserver = new PerformanceObserver((list) => {
       const entries = list.getEntries();
       const firstEntry = entries[0];
-      performanceMetrics.FCP = firstEntry.startTime;
-      console.log('FCP:', performanceMetrics.FCP);
+      if (firstEntry) {
+        performanceMetrics.FCP = firstEntry.startTime;
+        console.log('FCP:', performanceMetrics.FCP);
+      }
     });
     
     try {
-      fcpObserver.observe({ entryTypes: ['first-contentful-paint'] });
+      // Check if the entry type is supported before observing
+      if (PerformanceObserver.supportedEntryTypes && 
+          PerformanceObserver.supportedEntryTypes.includes('first-contentful-paint')) {
+        fcpObserver.observe({ entryTypes: ['first-contentful-paint'] });
+      } else {
+        console.log('FCP monitoring not supported in this browser');
+      }
     } catch (e) {
       console.warn('FCP observer failed (not supported in this browser):', e);
     }
