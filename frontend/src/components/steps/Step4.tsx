@@ -225,6 +225,17 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                     border: '2px solid #e2e8f0',
                     boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)'
                 }}>
+                    {/* Loading Title */}
+                    <h3 style={{
+                        fontSize: '24px',
+                        marginBottom: '16px',
+                        fontWeight: 'bold',
+                        color: '#1e293b',
+                        textShadow: 'none'
+                    }}>
+                        Finding Your Perfect Moving Company
+                    </h3>
+
                     {/* Moving Truck Animation */}
                     <div className="truck-animation" style={{
                         width: '100px',
@@ -243,17 +254,6 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                             🚚
                         </div>
                     </div>
-
-                    {/* Loading Title */}
-                    <h3 style={{
-                        fontSize: '24px',
-                        marginBottom: '16px',
-                        fontWeight: 'bold',
-                        color: '#1e293b',
-                        textShadow: 'none'
-                    }}>
-                        Finding Your Perfect Moving Company
-                    </h3>
 
                     {/* Progress Steps */}
                     <div className="progress-steps" style={{
