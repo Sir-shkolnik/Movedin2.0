@@ -239,7 +239,7 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                     {/* Loading Subtitle */}
                     <h3 style={{
                         fontSize: '18px',
-                        marginBottom: '24px',
+                        marginBottom: '32px',
                         fontWeight: '500',
                         color: '#64748b',
                         textAlign: 'center',
@@ -251,18 +251,18 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
 
                     {/* Moving Truck Animation */}
                     <div className="truck-animation" style={{
-                        width: '80px',
-                        height: '60px',
-                        margin: '0 auto 24px',
+                        width: '120px',
+                        height: '80px',
+                        margin: '0 auto 32px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}>
                         {/* Moving Truck Icon */}
                         <div style={{
-                            fontSize: '40px',
+                            fontSize: '60px',
                             animation: 'truckMove 2s ease-in-out infinite',
-                            filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
+                            filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))'
                         }}>
                             🚚
                         </div>
@@ -389,16 +389,16 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                 <style>{`
                     @keyframes truckMove {
                         0%, 100% { 
-                            transform: translateX(0px) scale(1); 
+                            transform: translateX(0px) scale(1) rotate(0deg); 
                         }
                         25% { 
-                            transform: translateX(8px) scale(1.1); 
+                            transform: translateX(12px) scale(1.05) rotate(1deg); 
                         }
                         50% { 
-                            transform: translateX(15px) scale(1.15); 
+                            transform: translateX(20px) scale(1.1) rotate(0deg); 
                         }
                         75% { 
-                            transform: translateX(8px) scale(1.1); 
+                            transform: translateX(12px) scale(1.05) rotate(-1deg); 
                         }
                     }
                     @keyframes stepPulse {
@@ -447,15 +447,15 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                             display: block !important;
                         }
                         .truck-animation {
-                            width: 60px !important;
-                            height: 50px !important;
-                            margin: 15px auto 20px auto !important;
+                            width: 80px !important;
+                            height: 60px !important;
+                            margin: 20px auto 24px auto !important;
                             display: flex !important;
                             align-items: center !important;
                             justify-content: center !important;
                         }
                         .truck-animation > div {
-                            font-size: 32px !important;
+                            font-size: 48px !important;
                         }
                         .progress-steps {
                             flex-direction: column !important;
