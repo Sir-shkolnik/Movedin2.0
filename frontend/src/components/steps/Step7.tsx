@@ -106,16 +106,21 @@ const Step7: React.FC = () => {
                 console.log('📊 Step7 - URL parameters:', { sessionId, leadId });
             }
             
-            if (sessionId && leadId) {
+            if (sessionId) {
                 if (process.env.NODE_ENV === 'development') {
                     console.log('✅ Step7 - Verifying payment...');
                 }
+                
+                // Get leadId from URL parameters if available
+                const urlParams = new URLSearchParams(window.location.search);
+                const hashParams = new URLSearchParams(window.location.hash.split('?')[1] || '');
+                const currentLeadId = urlParams.get('lead_id') || hashParams.get('lead_id') || leadId;
                 
                 // Verify payment with backend
                 const response = await fetch('https://movedin-backend.onrender.com/api/verify-checkout-session', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ session_id: sessionId, lead_id: leadId }),
+                    body: JSON.stringify({ session_id: sessionId, lead_id: currentLeadId }),
                 });
 
                 if (!response.ok) {

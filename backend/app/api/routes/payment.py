@@ -401,8 +401,8 @@ async def verify_checkout_session(request: Request, db: Session = Depends(get_db
         session_id = body.get('session_id')
         lead_id = body.get('lead_id')
         
-        if not session_id or not lead_id:
-            raise HTTPException(status_code=400, detail="session_id and lead_id are required")
+        if not session_id:
+            raise HTTPException(status_code=400, detail="session_id is required")
         
         # Retrieve checkout session from Stripe
         session = stripe.checkout.Session.retrieve(session_id)
@@ -410,10 +410,23 @@ async def verify_checkout_session(request: Request, db: Session = Depends(get_db
         if session.payment_status != 'paid':
             raise HTTPException(status_code=400, detail="Payment not completed")
         
-        # Get lead from database
-        lead = db.query(Lead).filter(Lead.id == lead_id).first()
+        # Get lead from database - try lead_id first, then search by session_id
+        lead = None
+        if lead_id:
+            lead = db.query(Lead).filter(Lead.id == lead_id).first()
+        
+        # If not found by lead_id, try to find by session_id
         if not lead:
-            raise HTTPException(status_code=404, detail="Lead not found")
+            lead = db.query(Lead).filter(Lead.payment_intent_id == session_id).first()
+        
+        # If still not found, try to find by session metadata
+        if not lead and session.metadata:
+            lead_id_from_metadata = session.metadata.get('lead_id')
+            if lead_id_from_metadata:
+                lead = db.query(Lead).filter(Lead.id == lead_id_from_metadata).first()
+        
+        if not lead:
+            raise HTTPException(status_code=404, detail="Lead not found for this session")
         
         # Update lead status
         lead.status = 'payment_completed'
