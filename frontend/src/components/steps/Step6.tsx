@@ -79,61 +79,22 @@ const Step6: React.FC = () => {
   }, []);
 
   const handlePayment = async () => {
-    console.log('🚀 Step 6 - handlePayment function called!');
-    console.log('🔍 Step 6 - Current data:', data);
-    console.log('🔍 Step 6 - Contact data:', data.contact);
-    console.log('🔍 Step 6 - Selected quote:', data.selectedQuote);
-    console.log('🔍 Step 6 - Vendor:', data.vendor);
-    console.log('🔍 Step 6 - From details:', data.fromDetails);
-    console.log('🔍 Step 6 - To details:', data.toDetails);
-    console.log('🔍 Step 6 - Move details:', {
-      from: data.from,
-      to: data.to,
-      date: data.date,
-      time: data.time
-    });
-    console.log('🔍 Step 6 - Processing state:', isProcessing);
-    console.log('🔍 Step 6 - Payment error:', paymentError);
+    console.log('🚀 Step 6 - Starting payment process...');
     setIsProcessing(true);
     setPaymentError(null);
     
     try {
-      console.log('🔄 Step 6 - Starting payment process...');
-      console.log('📊 Step 6 - Complete data structure:', {
-        selectedQuote: data.selectedQuote,
-        vendor: data.vendor,
-        fromDetails: data.fromDetails,
-        toDetails: data.toDetails,
-        contact: data.contact,
-        moveInfo: {
-          from: data.from,
-          to: data.to,
-          date: data.date,
-          time: data.time
-        }
-      });
-
-      // Validate required contact information
-      console.log('🔍 Step 6 - Validating contact information...');
-      const contactValidation = {
-        firstName: !!data.contact?.firstName,
-        lastName: !!data.contact?.lastName,
-        email: !!data.contact?.email,
-        phone: !!data.contact?.phone,
-        emailValid: data.contact?.email ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.contact.email) : false,
-        phoneLength: data.contact?.phone ? data.contact.phone.length : 0
-      };
-      console.log('🔍 Step 6 - Contact validation results:', contactValidation);
-
+      // Validate required data
       if (!data.contact?.firstName || !data.contact?.lastName || !data.contact?.email || !data.contact?.phone) {
-        console.error('❌ Step 6 - Contact validation failed:', contactValidation);
         throw new Error('Please complete all contact information in the previous step');
       }
 
-      console.log('✅ Step 6 - Contact validation passed, proceeding with payment...');
+      if (!data.selectedQuote && !data.vendor) {
+        throw new Error('Please select a moving company first');
+      }
 
-      // First, create a lead
-      console.log('🏗️ Step 6 - Creating lead in database...');
+      // Create lead first
+      console.log('🏗️ Step 6 - Creating lead...');
       const leadPayload = {
         quote_data: {
           originAddress: data.from,
@@ -151,103 +112,66 @@ const Step6: React.FC = () => {
           additionalServices: data.fromDetails?.additionalServices || {}
         },
         selected_quote: {
-          vendor_slug: data.selectedQuote?.vendor_id || data.vendor?.vendor_slug || '',
+          vendor_slug: data.selectedQuote?.vendor_slug || data.vendor?.vendor_slug || '',
           vendor_name: data.selectedQuote?.vendor_name || data.vendor?.vendor_name || '',
-          total_cost: data.selectedQuote?.total_cost || 0,
-          crew_size: data.selectedQuote?.crew_size || 2,
-          truck_count: data.selectedQuote?.truck_count || 1,
-          estimated_hours: data.selectedQuote?.estimated_hours || 4.0,
-          travel_time_hours: data.selectedQuote?.travel_time_hours || 1.0,
-          breakdown: data.selectedQuote?.breakdown || {}
+          total_cost: data.selectedQuote?.total_cost || data.vendor?.total_cost || 0,
+          crew_size: data.selectedQuote?.crew_size || data.vendor?.crew_size || 2,
+          truck_count: data.selectedQuote?.truck_count || data.vendor?.truck_count || 1,
+          estimated_hours: data.selectedQuote?.estimated_hours || data.vendor?.estimated_hours || 4.0,
+          travel_time_hours: data.selectedQuote?.travel_time_hours || data.vendor?.travel_time_hours || 1.0,
+          breakdown: data.selectedQuote?.breakdown || data.vendor?.breakdown || {}
         },
         contact_data: data.contact
       };
       
-      console.log('📤 Step 6 - Lead payload:', leadPayload);
-      console.log('🌐 Step 6 - Making API call to /api/leads...');
-      
       const leadResponse = await fetch('https://movedin-backend.onrender.com/api/leads', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(leadPayload)
       });
 
-      console.log('📡 Step 6 - Lead API response status:', leadResponse.status);
-      console.log('📡 Step 6 - Lead API response headers:', Object.fromEntries(leadResponse.headers.entries()));
-      
       if (!leadResponse.ok) {
         const errorData = await leadResponse.json();
-        console.error('❌ Step 6 - Lead creation failed:', errorData);
         throw new Error(`Failed to create lead: ${errorData.detail || 'Unknown error'}`);
       }
 
       const leadData = await leadResponse.json();
       const leadId = leadData.id;
-      console.log('✅ Step 6 - Lead created successfully!');
-      console.log('🆔 Step 6 - Lead ID:', leadId);
-      console.log('📊 Step 6 - Lead data:', leadData);
+      console.log('✅ Step 6 - Lead created with ID:', leadId);
 
-      // Now create payment link with the lead_id
+      // Create payment link
       console.log('💳 Step 6 - Creating payment link...');
       const paymentPayload = {
-        amount: 100, // $1.00 CAD in cents (testing)
+        amount: 100, // $1.00 CAD in cents
         currency: 'cad',
         lead_id: leadId,
-        customer_email: data.contact?.email || '',
-        vendor_slug: data.selectedQuote?.vendor_id || data.vendor?.vendor_slug || ''
+        customer_email: data.contact.email,
+        vendor_slug: data.selectedQuote?.vendor_slug || data.vendor?.vendor_slug || ''
       };
-      
-      console.log('📤 Step 6 - Payment payload:', paymentPayload);
-      console.log('🌐 Step 6 - Making API call to /api/payment-simple/create-payment-link...');
       
       const response = await fetch('https://movedin-backend.onrender.com/api/payment-simple/create-payment-link', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(paymentPayload)
       });
 
-      console.log('📡 Step 6 - Payment API response status:', response.status);
-      console.log('📡 Step 6 - Payment API response headers:', Object.fromEntries(response.headers.entries()));
-      
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('❌ Step 6 - Payment API error:', errorText);
-        console.error('❌ Step 6 - Response status:', response.status);
-        console.error('❌ Step 6 - Response headers:', Object.fromEntries(response.headers.entries()));
-        throw new Error(`Failed to create checkout session: ${errorText}`);
+        throw new Error(`Failed to create payment link: ${errorText}`);
       }
 
       const result = await response.json();
-      console.log('✅ Step 6 - Payment link created successfully!');
-      console.log('🔗 Step 6 - Payment link URL:', result.payment_link_url);
-      console.log('🆔 Step 6 - Session ID:', result.session_id);
-      console.log('💰 Step 6 - Amount:', result.amount);
-      console.log('💱 Step 6 - Currency:', result.currency);
-      console.log('📊 Step 6 - Full payment result:', result);
+      console.log('✅ Step 6 - Payment link created, redirecting...');
 
       if (!result.payment_link_url) {
-        console.error('❌ Step 6 - No payment link URL received from server');
-        console.error('❌ Step 6 - Full result object:', result);
         throw new Error('No payment link URL received from server');
       }
 
       // Redirect to Stripe Checkout
-      console.log('🚀 Step 6 - Redirecting to Stripe Checkout...');
-      console.log('🔗 Step 6 - Redirect URL:', result.payment_link_url);
-      console.log('⏰ Step 6 - Redirect timestamp:', new Date().toISOString());
       window.location.href = result.payment_link_url;
       
     } catch (error) {
-      console.error('❌ Step 6 - Payment error occurred!');
-      console.error('❌ Step 6 - Error type:', typeof error);
-      console.error('❌ Step 6 - Error message:', error instanceof Error ? error.message : 'Unknown error');
-      console.error('❌ Step 6 - Error stack:', error instanceof Error ? error.stack : 'No stack trace');
-      console.error('❌ Step 6 - Full error object:', error);
-      console.error('❌ Step 6 - Error timestamp:', new Date().toISOString());
+      console.error('❌ Step 6 - Payment error:', error);
       setPaymentError(error instanceof Error ? error.message : 'Payment failed');
       setIsProcessing(false);
     }

@@ -457,6 +457,10 @@ async def verify_checkout_session(request: Request, db: Session = Depends(get_db
         try:
             from app.services.email_service import email_service
             
+            # Send customer confirmation email
+            customer_success = email_service.send_customer_confirmation(form_data, lead.email, lead_id, session_id)
+            logger.info(f"Customer confirmation sent to {lead.email} for lead {lead_id}: {customer_success}")
+            
             # Send support notification
             support_success = email_service.send_payment_notification_to_support(form_data, lead_id, session_id)
             logger.info(f"Support payment notification sent for lead {lead_id}: {support_success}")
