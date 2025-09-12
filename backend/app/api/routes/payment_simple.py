@@ -186,6 +186,7 @@ async def update_payment_amounts(request: Request, db: Session = Depends(get_db)
         lead.payment_currency = currency.upper()
         lead.payment_status = 'succeeded'
         lead.status = 'payment_completed'
+        lead.payment_intent_id = body.get('payment_intent_id', 'manual_update')
         
         db.commit()
         db.refresh(lead)

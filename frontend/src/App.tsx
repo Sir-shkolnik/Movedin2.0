@@ -302,7 +302,7 @@ function AppInner() {
                 {currentStep === 4 && <Step5 onNext={goNext} onBack={goBack} />}
                 {currentStep === 5 && <Step6 onNext={goNext} onBack={goBack} />}
                 {currentStep === 6 && (() => {
-                    const shouldRenderStep7 = data.selectedQuote || sessionStorage.getItem('paymentSuccess') || location.hash.includes('#/step7') || location.search.includes('session_id') || location.hash.includes('session_id');
+                    const shouldRenderStep7 = data.selectedQuote || sessionStorage.getItem('paymentSuccess') || location.hash.includes('#/step7') || location.search.includes('session_id') || location.hash.includes('session_id') || (location.hash.includes('step7') && location.hash.includes('session_id'));
                     
                     const debugInfo = {
                         currentStep,
@@ -314,6 +314,7 @@ function AppInner() {
                         hashIncludesStep7: location.hash.includes('#/step7'),
                         searchIncludesSessionId: location.search.includes('session_id'),
                         hashIncludesSessionId: location.hash.includes('session_id'),
+                        hashIncludesStep7AndSessionId: location.hash.includes('step7') && location.hash.includes('session_id'),
                         shouldRenderStep7
                     };
                     
