@@ -9,7 +9,7 @@ class VelocityMoversCalculator:
     SERVICE_AREAS = {
         "cities": ["Toronto", "Mississauga", "Oakville", "Burlington", "Hamilton", "Brampton", "Vaughan", "Markham", "Richmond Hill", "Oshawa", "Whitby", "Ajax", "Pickering"],
         "regions": ["GTA", "Ontario"],
-        "max_distance_km": 200
+        "max_distance_km": 50  # CANADA ONLY - 50KM MAX PER LOCATION
     }
     
     # Location-Based Pricing

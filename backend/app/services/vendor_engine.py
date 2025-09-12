@@ -40,7 +40,7 @@ class GeographicVendorDispatcher:
                 "Fredericton"
             ],
             "regions": ["GTA", "Greater Toronto Area", "Golden Horseshoe", "British Columbia", "Alberta", "Manitoba", "Saskatchewan", "Quebec", "Nova Scotia", "New Brunswick"],
-            "max_distance_km": 500,  # TRUE NATIONAL COVERAGE
+            "max_distance_km": 50,  # CANADA ONLY - 50KM MAX PER LOCATION
             "location_based_rates": {}  # Uses Google Sheets data with 23+ locations
         },
         "easy2go": {
@@ -66,7 +66,7 @@ class GeographicVendorDispatcher:
                 "Fredericton"
             ],
             "regions": ["GTA", "Greater Toronto Area", "Golden Horseshoe", "British Columbia", "Alberta", "Manitoba", "Saskatchewan", "Quebec", "Nova Scotia", "New Brunswick"],
-            "max_distance_km": 500,  # TRUE NATIONAL COVERAGE
+            "max_distance_km": 50,  # CANADA ONLY - 50KM MAX PER LOCATION
             "location_based_rates": {
                 "Toronto": {"base_multiplier": 1.0, "fuel_surcharge": 0},
                 "Mississauga": {"base_multiplier": 0.98, "fuel_surcharge": 20},
@@ -107,7 +107,7 @@ class GeographicVendorDispatcher:
                 "Fredericton"
             ],
             "regions": ["GTA", "Greater Toronto Area", "Golden Horseshoe", "British Columbia", "Alberta", "Manitoba", "Saskatchewan", "Quebec", "Nova Scotia", "New Brunswick"],
-            "max_distance_km": 500,  # TRUE NATIONAL COVERAGE
+            "max_distance_km": 50,  # CANADA ONLY - 50KM MAX PER LOCATION
             "location_based_rates": {
                 "Toronto": {"base_multiplier": 1.0, "fuel_surcharge": 0},
                 "Mississauga": {"base_multiplier": 0.97, "fuel_surcharge": 30},
@@ -150,7 +150,7 @@ class GeographicVendorDispatcher:
                 "Fredericton"
             ],
             "regions": ["GTA", "Greater Toronto Area", "Golden Horseshoe", "British Columbia", "Alberta", "Manitoba", "Saskatchewan", "Quebec", "Nova Scotia", "New Brunswick"],
-            "max_distance_km": 500,  # TRUE NATIONAL COVERAGE
+            "max_distance_km": 50,  # CANADA ONLY - 50KM MAX PER LOCATION
             "location_based_rates": {
                 "Toronto": {"base_multiplier": 1.0, "fuel_surcharge": 0},
                 "Scarborough": {"base_multiplier": 0.98, "fuel_surcharge": 15},
@@ -1970,17 +1970,17 @@ class PierreSonsCalculator(VendorCalculator):
         # based on size, time, weight, and other factors - not included in base quote
         return 0.0
 
-# Vendor calculator factory
+# Vendor calculator factory - Only Let's Get Moving uses this file
 VENDOR_CALCULATORS = {
     "lets-get-moving": LetsGetMovingCalculator(),
-    "easy2go": Easy2GoCalculator(),
-    "velocity-movers": VelocityMoversCalculator(),
-    "pierre-sons": PierreSonsCalculator(),
+    # Other vendors now use dedicated calculator files
 }
 
 def get_vendor_calculator(vendor_slug: str) -> VendorCalculator:
-    """Get vendor calculator by slug"""
-    return VENDOR_CALCULATORS.get(vendor_slug)
+    """Get vendor calculator by slug - Only Let's Get Moving uses this file"""
+    if vendor_slug == "lets-get-moving":
+        return VENDOR_CALCULATORS.get(vendor_slug)
+    return None  # Other vendors use dedicated calculator files
 
 def get_available_vendors_for_quote(quote_request: QuoteRequest) -> List[Dict[str, Any]]:
     """Get available vendors for a specific quote request"""

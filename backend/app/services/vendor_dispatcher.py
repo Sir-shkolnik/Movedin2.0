@@ -1,16 +1,20 @@
 from typing import Dict, Any, List, Optional
 from app.schemas.quote import QuoteRequest
-from app.services.vendor_engine import GeographicVendorDispatcher, get_vendor_calculator
-from app.services.vendor_engine import LetsGetMovingCalculator
+from app.services.vendor_engine import GeographicVendorDispatcher, LetsGetMovingCalculator
+from app.services.vendors.easy2go_calculator import Easy2GoCalculator
+from app.services.vendors.velocity_movers_calculator import VelocityMoversCalculator
+from app.services.vendors.pierre_sons_calculator import PierreSonsCalculator
 from app.services.monitoring_service import monitor_quote_calculation, monitoring_service
 
 class VendorDispatcher:
     """Main vendor dispatcher - calls all vendors with their specific logic"""
     
     def __init__(self):
-        # Initialize vendor calculators - use integrated calculators from vendor_engine.py
+        # Initialize vendor calculators - use new dedicated calculator files
         self.lets_get_moving_calculator = LetsGetMovingCalculator()  # Keep this for Google Sheets integration
-        # Easy2Go, Velocity Movers, and Pierre & Sons use integrated calculators from vendor_engine.py
+        self.easy2go_calculator = Easy2GoCalculator()
+        self.velocity_movers_calculator = VelocityMoversCalculator()
+        self.pierre_sons_calculator = PierreSonsCalculator()
     
     def get_available_vendors_for_location(self, origin_address: str, destination_address: str) -> List[Dict[str, Any]]:
         """Get all available vendors for a location"""
@@ -143,10 +147,17 @@ class VendorDispatcher:
                 return None
         
         else:
-            # For Easy2Go, Velocity Movers, and Pierre & Sons, use integrated calculators from vendor_engine.py
+            # For Easy2Go, Velocity Movers, and Pierre & Sons, use new dedicated calculators
             try:
-                # Get the integrated calculator
-                calculator = get_vendor_calculator(vendor_slug)
+                # Get the appropriate calculator
+                calculator = None
+                if vendor_slug == "easy2go":
+                    calculator = self.easy2go_calculator
+                elif vendor_slug == "velocity-movers":
+                    calculator = self.velocity_movers_calculator
+                elif vendor_slug == "pierre-sons":
+                    calculator = self.pierre_sons_calculator
+                
                 if not calculator:
                     print(f"No calculator found for vendor: {vendor_slug}")
                     return None
@@ -181,7 +192,7 @@ class VendorDispatcher:
                         "total_distance_km": 0
                     })
                 
-                # Calculate quote using the integrated calculator
+                # Calculate quote using the new calculator
                 result = calculator.calculate_quote(quote_request, dispatcher_info, db)
                 
                 # Check if the quote was rejected due to validation (long distance, etc.)

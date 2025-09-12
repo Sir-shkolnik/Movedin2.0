@@ -9,7 +9,7 @@ class Easy2GoCalculator:
     SERVICE_AREAS = {
         "cities": ["Toronto", "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill", "Oakville", "Burlington", "Hamilton", "Oshawa", "Whitby", "Ajax", "Pickering"],
         "regions": ["GTA", "Ontario"],
-        "max_distance_km": 200
+        "max_distance_km": 50  # CANADA ONLY - 50KM MAX PER LOCATION
     }
     
     # Location-Based Pricing
@@ -273,16 +273,9 @@ class Easy2GoCalculator:
                     print(f"Easy2Go: One-way travel time {one_way_hours:.1f}h exceeds 10h limit for long distance moves")
                     raise ValueError(f"One-way travel time {one_way_hours:.1f}h exceeds 10h limit")
             else:
-                # If Mapbox fails to get directions, this might be a very long distance
-                # Use a simple distance estimation based on city names
-                estimated_distance = self._estimate_distance_by_cities(origin, destination)
-                if estimated_distance > self.SERVICE_AREAS["max_distance_km"]:
-                    print(f"Easy2Go: Estimated distance {estimated_distance:.1f}km exceeds max service area of {self.SERVICE_AREAS['max_distance_km']}km")
-                    raise ValueError(f"Estimated distance {estimated_distance:.1f}km exceeds Easy2Go service area")
-                
-                # If we can't get directions and it's a long distance, reject
-                print(f"Easy2Go: Could not get directions for {origin} to {destination} - likely outside service area")
-                raise ValueError("Could not calculate directions - likely outside service area")
+                # If Mapbox fails to get directions, this is outside service area
+                print(f"Easy2Go: Could not get directions for {origin} to {destination} - outside service area")
+                raise ValueError("Could not calculate directions - outside service area")
                 
                 # Calculate 3-leg journey: Dispatcher -> Origin -> Destination -> Dispatcher
                 dispatcher_address = "3397 American Drive, Mississauga, ON L4V 1T8"
@@ -333,45 +326,6 @@ class Easy2GoCalculator:
             print(f"Easy2Go travel calculation error: {e}")
             raise ValueError(f"Travel calculation failed: {str(e)}")
     
-    def _estimate_distance_by_cities(self, origin: str, destination: str) -> float:
-        """Estimate distance between cities for validation when Mapbox fails"""
-        # Simple distance estimation based on major Canadian cities
-        city_distances = {
-            # From Toronto
-            "toronto": {
-                "calgary": 3400, "vancouver": 4400, "montreal": 540, "ottawa": 450,
-                "winnipeg": 2100, "halifax": 1800, "edmonton": 3200, "quebec": 800
-            },
-            # From Calgary
-            "calgary": {
-                "toronto": 3400, "vancouver": 1000, "montreal": 3800, "ottawa": 3700,
-                "winnipeg": 1300, "halifax": 4200, "edmonton": 300, "quebec": 3900
-            },
-            # From Vancouver
-            "vancouver": {
-                "toronto": 4400, "calgary": 1000, "montreal": 4800, "ottawa": 4700,
-                "winnipeg": 2300, "halifax": 5200, "edmonton": 1200, "quebec": 4900
-            }
-        }
-        
-        # Extract city names (simple approach)
-        origin_city = origin.lower().split(',')[0].strip()
-        dest_city = destination.lower().split(',')[0].strip()
-        
-        # Check if we have distance data
-        for city, distances in city_distances.items():
-            if city in origin_city:
-                for dest, distance in distances.items():
-                    if dest in dest_city:
-                        return distance
-        
-        # If no specific data, estimate based on province
-        if any(prov in origin.lower() for prov in ['ontario', 'on']) and any(prov in destination.lower() for prov in ['bc', 'british columbia', 'alberta', 'ab', 'saskatchewan', 'sk', 'manitoba', 'mb']):
-            return 3000  # Cross-country estimate
-        elif any(prov in origin.lower() for prov in ['bc', 'british columbia', 'alberta', 'ab']) and any(prov in destination.lower() for prov in ['ontario', 'on', 'quebec', 'qc']):
-            return 4000  # Cross-country estimate
-        
-        return 100  # Default reasonable distance
     
     def _calculate_fuel_charge(self, travel_hours: float) -> float:
         """Calculate fuel charge based on travel time"""

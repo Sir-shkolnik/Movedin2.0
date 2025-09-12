@@ -13,12 +13,12 @@ class MapboxService:
         self.timeout = 10  # 10 second timeout to prevent hanging
     
     def geocode_address(self, query: str, country: Optional[str] = None) -> list:
-        """Geocode an address using Mapbox Geocoding API v6 (latest)"""
-        # Use the latest v6 API for better accuracy
+        """Geocode an address using Mapbox Geocoding API v6 (latest) - CANADA ONLY"""
+        # Use the latest v6 API for better accuracy - CANADA ONLY
         params = {
             'access_token': self.access_token,
             'q': query,
-            'country': country or 'CA',
+            'country': 'CA',  # FORCE CANADA ONLY
             'limit': 10,
             'language': 'en',
             'types': 'address,poi,place'
@@ -37,13 +37,13 @@ class MapboxService:
             return self._geocode_address_v5_fallback(query, country)
     
     def _geocode_address_v5_fallback(self, query: str, country: Optional[str] = None) -> list:
-        """Fallback to v5 API if v6 fails"""
+        """Fallback to v5 API if v6 fails - CANADA ONLY"""
         params = {
             'access_token': self.access_token,
             'types': 'address,poi,place',
             'limit': '10',
             'language': 'en',
-            'country': country or 'CA',
+            'country': 'CA',  # FORCE CANADA ONLY
             'bbox': '-79.8,43.5,-79.0,44.0'  # GTA bounding box
         }
         

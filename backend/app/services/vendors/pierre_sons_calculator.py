@@ -9,7 +9,7 @@ class PierreSonsCalculator:
     SERVICE_AREAS = {
         "cities": ["Toronto", "Scarborough", "North York", "Etobicoke", "York", "East York", "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill"],
         "regions": ["Toronto", "GTA"],
-        "max_distance_km": 200
+        "max_distance_km": 50  # CANADA ONLY - 50KM MAX PER LOCATION
     }
     
     # Location-Based Pricing
