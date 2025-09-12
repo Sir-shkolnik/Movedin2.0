@@ -302,25 +302,27 @@ function AppInner() {
                 {currentStep === 4 && <Step5 onNext={goNext} onBack={goBack} />}
                 {currentStep === 5 && <Step6 onNext={goNext} onBack={goBack} />}
                 {currentStep === 6 && (() => {
-                    // Check for Step7 indicators - hash includes step7 OR has session_id in hash OR search
-                    const hasStep7InHash = location.hash.includes('#/step7');
-                    const hasSessionIdInHash = location.hash.includes('session_id');
-                    const hasSessionIdInSearch = location.search.includes('session_id');
-                    const hasSelectedQuote = data.selectedQuote;
-                    const hasPaymentSuccess = sessionStorage.getItem('paymentSuccess');
+                    // Check for payment redirect URL parameters first (most reliable after Stripe redirect)
+                    const hasPaymentRedirect = location.hash.includes('#/step7') && 
+                                             (location.hash.includes('session_id') || location.search.includes('session_id'));
                     
-                    const shouldRenderStep7 = hasSelectedQuote || hasPaymentSuccess || hasStep7InHash || hasSessionIdInHash || hasSessionIdInSearch;
+                    const shouldRenderStep7 = hasPaymentRedirect || 
+                                             data.selectedQuote || 
+                                             sessionStorage.getItem('paymentSuccess') || 
+                                             location.search.includes('session_id') || 
+                                             location.hash.includes('session_id');
                     
                     const debugInfo = {
                         currentStep,
                         hasData: !!data,
-                        hasSelectedQuote: hasSelectedQuote,
-                        hasPaymentSuccess: hasPaymentSuccess,
-                        hasStep7InHash: hasStep7InHash,
-                        hasSessionIdInHash: hasSessionIdInHash,
-                        hasSessionIdInSearch: hasSessionIdInSearch,
+                        hasSelectedQuote: !!data?.selectedQuote,
+                        paymentSuccess: sessionStorage.getItem('paymentSuccess'),
                         hash: location.hash,
                         search: location.search,
+                        hashIncludesStep7: location.hash.includes('#/step7'),
+                        searchIncludesSessionId: location.search.includes('session_id'),
+                        hashIncludesSessionId: location.hash.includes('session_id'),
+                        hasPaymentRedirect,
                         shouldRenderStep7
                     };
                     
