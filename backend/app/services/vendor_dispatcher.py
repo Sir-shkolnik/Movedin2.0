@@ -60,7 +60,26 @@ class VendorDispatcher:
                     "max_distance_km": 150
                 }
                 return dispatcher_info
-            return None
+            else:
+                # Fallback: Create a basic dispatcher info if Google Sheets is not available
+                print(f"⚠️ Let's Get Moving: Google Sheets dispatcher not found, using fallback for {origin_city}")
+                return {
+                    "vendor_slug": vendor_slug,
+                    "vendor_name": vendor_name,
+                    "name": f"Let's Get Moving {origin_city}",
+                    "address": f"{origin_city}, ON",
+                    "total_distance_km": 0,
+                    "sales_phone": "1-800-LETS-MOVE",
+                    "email": "info@letsgetmoving.ca",
+                    "truck_count": "1",
+                    "location_name": f"Let's Get Moving {origin_city}",
+                    "gmb_url": f"https://www.google.com/maps/search/Let's+Get+Moving+{origin_city}",
+                    "service_area": {
+                        "cities": ["Toronto", "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill", "Oakville", "Burlington", "Hamilton", "Oshawa", "Whitby", "Ajax", "Pickering"],
+                        "regions": ["GTA", "Greater Toronto Area", "Golden Horseshoe"],
+                        "max_distance_km": 150
+                    }
+                }
         
         else:
             # For Easy2Go, Velocity Movers, and Pierre & Sons, use GeographicVendorDispatcher
