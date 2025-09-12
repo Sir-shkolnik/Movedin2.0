@@ -8,6 +8,7 @@ from datetime import datetime
 from typing import Dict, Any
 import logging
 from app.services.clean_email_service import clean_email_service
+from app.services.professional_email_templates import professional_email_templates
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -165,7 +166,7 @@ async def test_customer_only_clean(
         
         # Send only customer email
         customer_subject = f"🎉 Booking Confirmation #{lead_id} - MovedIn"
-        customer_body = clean_email_service.professional_email_templates.customer_confirmation_email(
+        customer_body = professional_email_templates.customer_confirmation_email(
             mock_lead_data, lead_id, payment_id
         )
         
