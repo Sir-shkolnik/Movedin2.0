@@ -353,14 +353,6 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                         }}></div>
                     </div>
 
-                    {/* Estimated Time */}
-                    <p style={{
-                        fontSize: '12px',
-                        opacity: '0.7',
-                        marginTop: '12px'
-                    }}>
-                        Estimated time: 10-15 seconds
-                    </p>
                 </div>
 
                 {/* Simple Loading Status */}

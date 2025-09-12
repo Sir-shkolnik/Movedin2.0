@@ -198,12 +198,21 @@ function AppInner() {
         continueButtonText = "Pay $1.00 CAD Deposit";
         continueAction = () => {
             // Trigger payment action in Step6 component
+            console.log('Step 6 - Footer button clicked, looking for payment button...');
             const step6Element = document.querySelector('.step6-modern');
+            console.log('Step 6 - Found step6 element:', step6Element);
             if (step6Element) {
                 const payButton = step6Element.querySelector('.pay-button-modern') as HTMLButtonElement;
+                console.log('Step 6 - Found pay button:', payButton);
+                console.log('Step 6 - Button disabled:', payButton?.disabled);
                 if (payButton && !payButton.disabled) {
+                    console.log('Step 6 - Clicking payment button...');
                     payButton.click();
+                } else {
+                    console.log('Step 6 - Payment button not found or disabled');
                 }
+            } else {
+                console.log('Step 6 - Step6 element not found');
             }
         };
     }

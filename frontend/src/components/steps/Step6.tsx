@@ -79,6 +79,7 @@ const Step6: React.FC = () => {
   }, []);
 
   const handlePayment = async () => {
+    console.log('Step 6 - handlePayment function called');
     setIsProcessing(true);
     setPaymentError(null);
     
@@ -95,6 +96,8 @@ const Step6: React.FC = () => {
       if (!data.contact?.firstName || !data.contact?.lastName || !data.contact?.email || !data.contact?.phone) {
         throw new Error('Please complete all contact information in the previous step');
       }
+
+      console.log('Step 6 - Contact validation passed, proceeding with payment...');
 
       // Create checkout session with all form data
       const response = await fetch('https://movedin-backend.onrender.com/api/create-checkout-session', {
