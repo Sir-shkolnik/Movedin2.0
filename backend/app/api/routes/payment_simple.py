@@ -111,6 +111,126 @@ async def verify_payment(request: Request):
         logger.error(f"Payment verification error: {str(e)}")
         return {"success": False, "error": str(e)}
 
+@router.post('/verify-checkout-session')
+async def verify_checkout_session(request: Request, db: Session = Depends(get_db)):
+    """Verify checkout session and send email notifications"""
+    try:
+        body = await request.json()
+        session_id = body.get('session_id')
+        lead_id = body.get('lead_id')
+        
+        if not session_id or not lead_id:
+            raise HTTPException(status_code=400, detail="session_id and lead_id are required")
+        
+        # Retrieve checkout session from Stripe
+        session = stripe.checkout.Session.retrieve(session_id)
+        
+        if session.payment_status != 'paid':
+            raise HTTPException(status_code=400, detail="Payment not completed")
+        
+        # Get lead from database
+        lead = db.query(Lead).filter(Lead.id == lead_id).first()
+        if not lead:
+            raise HTTPException(status_code=404, detail="Lead not found")
+        
+        # Update lead status
+        lead.status = 'payment_completed'
+        lead.payment_intent_id = session_id
+        lead.payment_amount = session.amount_total / 100  # Convert from cents
+        lead.payment_currency = session.currency.upper()
+        lead.payment_status = 'succeeded'
+        db.commit()
+        
+        # Send email notifications
+        try:
+            from app.services.email_service import email_service
+            
+            # Prepare lead data for email
+            lead_data = {
+                'quote_data': {
+                    'originAddress': lead.origin_address,
+                    'destinationAddress': lead.destination_address,
+                    'moveDate': lead.move_date.isoformat() if lead.move_date else '',
+                    'moveTime': lead.move_time,
+                    'totalRooms': lead.total_rooms,
+                    'squareFootage': lead.square_footage,
+                    'estimatedWeight': lead.estimated_weight
+                },
+                'selected_quote': {
+                    'vendor_name': 'Selected Vendor',  # You can get this from the lead
+                    'total_cost': lead.payment_amount,
+                    'payment_status': 'completed'
+                },
+                'contact_data': {
+                    'firstName': lead.first_name,
+                    'lastName': lead.last_name,
+                    'email': lead.email,
+                    'phone': lead.phone
+                }
+            }
+            
+            # Send support notification
+            support_success = email_service.send_payment_notification_to_support(lead_data, lead_id, session_id)
+            logger.info(f"Support payment notification sent for lead {lead_id}: {support_success}")
+            
+            # Send vendor notification if vendor is selected
+            if lead.selected_vendor_id:
+                vendor = db.query(Vendor).filter(Vendor.id == lead.selected_vendor_id).first()
+                if vendor and vendor.email:
+                    vendor_success = email_service.send_vendor_notification(lead_data, vendor.email, lead_id, session_id)
+                    logger.info(f"Vendor notification sent to {vendor.email} for lead {lead_id}: {vendor_success}")
+                else:
+                    logger.warning(f"No vendor email found for vendor {lead.selected_vendor_id}")
+            else:
+                logger.warning(f"No vendor selected for lead {lead_id}")
+                
+        except Exception as email_error:
+            logger.error(f"Failed to send email notifications: {email_error}")
+        
+        # Prepare form data for frontend
+        form_data = {
+            'contact': {
+                'firstName': lead.first_name,
+                'lastName': lead.last_name,
+                'email': lead.email,
+                'phone': lead.phone
+            },
+            'quote_data': {
+                'originAddress': lead.origin_address,
+                'destinationAddress': lead.destination_address,
+                'moveDate': lead.move_date,
+                'moveTime': lead.move_time,
+                'totalRooms': lead.total_rooms,
+                'squareFootage': lead.square_footage,
+                'estimatedWeight': lead.estimated_weight
+            },
+            'selected_quote': {
+                'vendor_name': 'Selected Vendor',  # You can get this from the lead
+                'total_cost': lead.payment_amount,
+                'payment_status': 'completed'
+            },
+            'payment': {
+                'amount': lead.payment_amount,
+                'currency': lead.payment_currency,
+                'status': 'completed',
+                'session_id': session_id
+            }
+        }
+        
+        return {
+            'success': True,
+            'form_data': form_data,
+            'lead_id': lead_id,
+            'session_id': session_id
+        }
+        
+    except stripe.error.StripeError as e:
+        logger.error(f"Stripe error: {e}")
+        raise HTTPException(status_code=400, detail=f"Stripe error: {str(e)}")
+    except Exception as e:
+        logger.error(f"Verification error: {e}")
+        raise HTTPException(status_code=500, detail="Failed to verify payment")
+
 @router.post('/process-manual')
 async def process_manual_payment(request: Request, db: Session = Depends(get_db)):
     """Manually process a payment that wasn't handled by webhook"""

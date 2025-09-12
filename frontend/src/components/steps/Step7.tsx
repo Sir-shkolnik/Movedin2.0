@@ -105,7 +105,7 @@ const Step7: React.FC = () => {
                 console.log('Step7 - Verifying payment with backend...');
                 
                 // Verify payment with backend
-                const response = await fetch('https://movedin-backend.onrender.com/api/verify-checkout-session', {
+                const response = await fetch('https://movedin-backend.onrender.com/api/payment-simple/verify-checkout-session', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
