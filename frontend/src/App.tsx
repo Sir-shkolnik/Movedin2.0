@@ -230,6 +230,12 @@ function AppInner() {
         };
     }
 
+    // Debug continueAction
+    console.log('🔍 App - continueAction:', continueAction);
+    console.log('🔍 App - continueButtonText:', continueButtonText);
+    console.log('🔍 App - continueDisabled:', continueDisabled);
+    console.log('🔍 App - currentStep:', currentStep);
+
         return (
         <div className="app-root">
             <Stepper 
