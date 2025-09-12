@@ -101,19 +101,14 @@ const Step6: React.FC = () => {
 
       console.log('Step 6 - Contact validation passed, proceeding with payment...');
 
-      // Create checkout session with all form data
-      const response = await fetch('https://movedin-backend.onrender.com/api/create-checkout-session', {
+      // First, create a lead
+      console.log('Step 6 - Creating lead...');
+      const leadResponse = await fetch('https://movedin-backend.onrender.com/api/leads', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          amount: 100, // $1.00 CAD in cents
-          currency: 'cad',
-          selectedQuote: data.selectedQuote,
-          vendor: data.vendor,
-          fromDetails: data.fromDetails,
-          contact: data.contact,
           quote_data: {
             originAddress: data.from,
             destinationAddress: data.to,
@@ -128,8 +123,44 @@ const Step6: React.FC = () => {
             elevatorAtDropoff: data.toDetails?.elevator || false,
             heavyItems: data.fromDetails?.heavyItems || {},
             additionalServices: data.fromDetails?.additionalServices || {}
-          }
-        }),
+          },
+          selected_quote: {
+            vendor_slug: data.selectedQuote?.vendor_id || data.vendor?.vendor_slug || '',
+            vendor_name: data.selectedQuote?.vendor_name || data.vendor?.vendor_name || '',
+            total_cost: data.selectedQuote?.total_cost || 0,
+            crew_size: data.selectedQuote?.crew_size || 2,
+            truck_count: data.selectedQuote?.truck_count || 1,
+            estimated_hours: data.selectedQuote?.estimated_hours || 4.0,
+            travel_time_hours: data.selectedQuote?.travel_time_hours || 1.0,
+            breakdown: data.selectedQuote?.breakdown || {}
+          },
+          contact_data: data.contact
+        })
+      });
+
+      if (!leadResponse.ok) {
+        const errorData = await leadResponse.json();
+        throw new Error(`Failed to create lead: ${errorData.detail || 'Unknown error'}`);
+      }
+
+      const leadData = await leadResponse.json();
+      const leadId = leadData.id;
+      console.log('Step 6 - Lead created with ID:', leadId);
+
+      // Now create payment link with the lead_id
+      console.log('Step 6 - Creating payment link...');
+      const response = await fetch('https://movedin-backend.onrender.com/api/payment-simple/create-payment-link', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: 100, // $1.00 CAD in cents
+          currency: 'cad',
+          lead_id: leadId,
+          customer_email: data.contact?.email || '',
+          vendor_slug: data.selectedQuote?.vendor_id || data.vendor?.vendor_slug || ''
+        })
       });
 
       if (!response.ok) {
@@ -139,15 +170,15 @@ const Step6: React.FC = () => {
       }
 
       const result = await response.json();
-      console.log('Step 6 - Checkout session created:', result);
+      console.log('Step 6 - Payment link created:', result);
 
-      if (!result.checkout_url) {
-        throw new Error('No checkout URL received from server');
+      if (!result.payment_link_url) {
+        throw new Error('No payment link URL received from server');
       }
 
       // Redirect to Stripe Checkout
       console.log('Step 6 - Redirecting to Stripe Checkout...');
-      window.location.href = result.checkout_url;
+      window.location.href = result.payment_link_url;
       
     } catch (error) {
       console.error('Step 6 - Payment error:', error);

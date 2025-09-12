@@ -102,7 +102,7 @@ const Step5: React.FC<Step5Props> = ({ onNext, onBack }) => {
             });
 
             // Create checkout session with all form data
-            const response = await fetch('https://movedin-backend.onrender.com/api/create-checkout-session', {
+            const response = await fetch('https://movedin-backend.onrender.com/api/payment-simple/create-payment-link', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
