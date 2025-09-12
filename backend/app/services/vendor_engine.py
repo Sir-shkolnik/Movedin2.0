@@ -1496,19 +1496,31 @@ class Easy2GoCalculator(VendorCalculator):
                 car_travel_hours = total_duration / 3600
                 TRUCK_FACTOR = 1.3
                 truck_travel_hours = car_travel_hours * TRUCK_FACTOR
+                print(f"Easy2Go 3-leg calculation: {legs_with_data}/3 legs, car: {car_travel_hours:.2f}h, truck: {truck_travel_hours:.2f}h")
                 return truck_travel_hours
             
-            # Fallback calculation
+            # Fallback calculation - FIXED for long distances
             origin_to_dest = mapbox_service.get_directions(origin, destination)
             if origin_to_dest and 'duration' in origin_to_dest:
                 one_way_hours = origin_to_dest['duration'] / 3600
-                car_three_leg_hours = one_way_hours * 2.5
+                
+                # For long distances (>500km), use a more realistic 3-leg calculation
+                if one_way_hours > 5:  # More than 5 hours one-way
+                    # Long distance: Dispatcher->Origin + Origin->Destination + Destination->Dispatcher
+                    # But for very long distances, we don't actually do the return trip
+                    car_three_leg_hours = one_way_hours * 1.5  # More realistic for long moves
+                else:
+                    # Short distance: Full 3-leg journey
+                    car_three_leg_hours = one_way_hours * 2.5
+                
                 TRUCK_FACTOR = 1.3
                 truck_three_leg_hours = car_three_leg_hours * TRUCK_FACTOR
+                print(f"Easy2Go fallback calculation: one_way={one_way_hours:.2f}h, three_leg={car_three_leg_hours:.2f}h, truck={truck_three_leg_hours:.2f}h")
                 return truck_three_leg_hours
             
             return 2.0 * 1.3
         except Exception as e:
+            print(f"Easy2Go travel time calculation error: {e}")
             return 2.0 * 1.3
     
     def _get_truck_fee(self, crew_size: int) -> float:
@@ -1717,13 +1729,23 @@ class VelocityMoversCalculator(VendorCalculator):
                 truck_travel_hours = car_travel_hours * TRUCK_FACTOR
                 return truck_travel_hours
             
-            # Fallback calculation
+            # Fallback calculation - FIXED for long distances
             origin_to_dest = mapbox_service.get_directions(origin, destination)
             if origin_to_dest and 'duration' in origin_to_dest:
                 one_way_hours = origin_to_dest['duration'] / 3600
-                car_three_leg_hours = one_way_hours * 2.5
+                
+                # For long distances (>500km), use a more realistic 3-leg calculation
+                if one_way_hours > 5:  # More than 5 hours one-way
+                    # Long distance: Dispatcher->Origin + Origin->Destination + Destination->Dispatcher
+                    # But for very long distances, we don't actually do the return trip
+                    car_three_leg_hours = one_way_hours * 1.5  # More realistic for long moves
+                else:
+                    # Short distance: Full 3-leg journey
+                    car_three_leg_hours = one_way_hours * 2.5
+                
                 TRUCK_FACTOR = 1.3
                 truck_three_leg_hours = car_three_leg_hours * TRUCK_FACTOR
+                print(f"Velocity Movers fallback calculation: one_way={one_way_hours:.2f}h, three_leg={car_three_leg_hours:.2f}h, truck={truck_three_leg_hours:.2f}h")
                 return truck_three_leg_hours
             
             return 2.0 * 1.3
