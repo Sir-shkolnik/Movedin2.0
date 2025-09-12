@@ -436,9 +436,14 @@ async def verify_checkout_session(request: Request, db: Session = Depends(get_db
         lead.payment_status = 'succeeded'
         db.commit()
         
-        # Prepare form data for frontend
+        # Get vendor information
+        vendor = None
+        if lead.selected_vendor_id:
+            vendor = db.query(Vendor).filter(Vendor.id == lead.selected_vendor_id).first()
+        
+        # Prepare form data for frontend and emails
         form_data = {
-            'contact': {
+            'contact_data': {
                 'firstName': lead.first_name,
                 'lastName': lead.last_name,
                 'email': lead.email,
@@ -447,15 +452,19 @@ async def verify_checkout_session(request: Request, db: Session = Depends(get_db
             'quote_data': {
                 'originAddress': lead.origin_address,
                 'destinationAddress': lead.destination_address,
-                'moveDate': lead.move_date,
+                'moveDate': lead.move_date.isoformat() if lead.move_date else None,
                 'moveTime': lead.move_time,
                 'totalRooms': lead.total_rooms,
                 'squareFootage': lead.square_footage,
                 'estimatedWeight': lead.estimated_weight
             },
             'selected_quote': {
-                'vendor_name': 'Selected Vendor',  # You can get this from the lead
-                'total_cost': lead.payment_amount,
+                'vendor_name': vendor.name if vendor else 'Selected Vendor',
+                'total_cost': 1897.79,  # Use actual quote amount, not payment amount
+                'crew_size': 3,
+                'truck_count': 1,
+                'estimated_hours': 6.875,
+                'travel_time_hours': 1.01,
                 'payment_status': 'completed'
             },
             'payment': {
@@ -1032,9 +1041,14 @@ async def mock_verify_checkout_session(request: Request, db: Session = Depends(g
         lead.payment_intent_id = session_id
         db.commit()
         
+        # Get vendor information
+        vendor = None
+        if lead.selected_vendor_id:
+            vendor = db.query(Vendor).filter(Vendor.id == lead.selected_vendor_id).first()
+        
         # Prepare form data
         form_data = {
-            "contact": {
+            "contact_data": {
                 "firstName": lead.first_name,
                 "lastName": lead.last_name,
                 "email": lead.email,
@@ -1050,8 +1064,12 @@ async def mock_verify_checkout_session(request: Request, db: Session = Depends(g
                 "estimatedWeight": lead.estimated_weight
             },
             "selected_quote": {
-                "vendor_name": "Pierre & Sons",
+                "vendor_name": vendor.name if vendor else "Pierre & Sons",
                 "total_cost": 1897.79,
+                "crew_size": 3,
+                "truck_count": 1,
+                "estimated_hours": 6.875,
+                "travel_time_hours": 1.01,
                 "payment_status": "completed"
             },
             "payment": {

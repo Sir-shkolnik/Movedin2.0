@@ -98,6 +98,20 @@
 
 ---
 
+## 🚨 **CURRENT ISSUES IDENTIFIED**
+
+### **📧 Email Content Issues**
+- **Missing Customer Details**: Name, Email, Phone showing as "N/A"
+- **Missing Quote Details**: Vendor name, total cost, crew size, trucks, hours showing as "Selected Vendor", "$1.00", "N/A"
+- **Missing Map**: Move route section is empty
+- **Status**: ⚠️ **NEEDS FIXING**
+
+### **🎨 Frontend UI Issues**
+- **Redundant Payment Button**: Step6 has 2 payment buttons (page + footer)
+- **Status**: ⚠️ **NEEDS FIXING**
+
+---
+
 ## 🔧 **FILES MODIFIED/CREATED**
 
 ### **Backend Files:**

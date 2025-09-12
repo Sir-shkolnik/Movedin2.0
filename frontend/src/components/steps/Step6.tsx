@@ -469,36 +469,6 @@ const Step6: React.FC = () => {
           </div>
         )}
 
-        {/* Payment button for footer trigger */}
-        <button
-          ref={(el) => {
-            if (el) {
-              el.className = 'pay-button-modern';
-              console.log('🔍 Step 6 - Button ref set, className:', el.className);
-            }
-          }}
-          onClick={(e) => {
-            console.log('🚀 Step 6 - Direct button click!', e);
-            handlePayment();
-          }}
-          disabled={isProcessing}
-          style={{ 
-            display: 'block',
-            width: '100%',
-            padding: '14px 28px',
-            backgroundColor: '#28a745',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            fontSize: '16px',
-            fontWeight: 'bold',
-            cursor: isProcessing ? 'not-allowed' : 'pointer',
-            opacity: isProcessing ? 0.6 : 1,
-            marginTop: '20px'
-          }}
-        >
-          {isProcessing ? 'Processing...' : 'Pay $1.00 CAD Deposit'}
-        </button>
       </div>
 
       {/* What Happens Next */}
