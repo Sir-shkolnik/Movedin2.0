@@ -1628,10 +1628,20 @@ class Easy2GoCalculator(VendorCalculator):
                     raise ValueError(f"Cross-province/international move not supported")
                 
                 # Additional check for very long distances based on address patterns
-                if any(province in destination_lower for province in ['nova scotia', 'ns', 'newfoundland', 'nl', 'british columbia', 'bc', 'alberta', 'ab']):
-                    if 'ontario' in origin_lower or 'on' in origin_lower:
-                        print(f"Easy2Go: Cross-country move detected: {origin} -> {destination}")
-                        raise ValueError(f"Cross-country move not supported")
+                print(f"DEBUG Easy2Go: Checking long distance patterns...")
+                print(f"DEBUG Easy2Go: origin_lower = {origin_lower}")
+                print(f"DEBUG Easy2Go: destination_lower = {destination_lower}")
+                
+                long_distance_provinces = ['nova scotia', 'ns', 'newfoundland', 'nl', 'british columbia', 'bc', 'alberta', 'ab']
+                has_long_distance_dest = any(province in destination_lower for province in long_distance_provinces)
+                has_ontario_origin = 'ontario' in origin_lower or 'on' in origin_lower
+                
+                print(f"DEBUG Easy2Go: has_long_distance_dest = {has_long_distance_dest}")
+                print(f"DEBUG Easy2Go: has_ontario_origin = {has_ontario_origin}")
+                
+                if has_long_distance_dest and has_ontario_origin:
+                    print(f"Easy2Go: Cross-country move detected: {origin} -> {destination}")
+                    raise ValueError(f"Cross-country move not supported")
             
             # Use the provided dispatcher address instead of hardcoded one
             
