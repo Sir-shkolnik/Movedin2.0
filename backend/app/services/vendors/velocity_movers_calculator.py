@@ -172,10 +172,10 @@ class VelocityMoversCalculator:
         }
     
     def _get_hourly_rate(self, crew_size: int) -> float:
-        """Get hourly rate based on crew size - REDUCED BY 20% FOR COMPETITIVENESS"""
-        # Reduced rates: "Two Movers $120.00 | Additional Movers $32.00" (20% reduction)
-        base_rate = 120  # Two Movers base rate (was $150)
-        additional_mover_rate = 32  # Additional movers rate (was $40)
+        """Get hourly rate based on crew size - REDUCED BY 10% FOR COMPETITIVENESS"""
+        # Reduced rates: "Two Movers $135.00 | Additional Movers $36.00" (10% reduction)
+        base_rate = 135  # Two Movers base rate (was 150)
+        additional_mover_rate = 36  # Additional movers rate (was 40)
         
         if crew_size == 2:
             return base_rate

@@ -216,14 +216,14 @@ class Easy2GoCalculator:
             }
     
     def _get_hourly_rate(self, crew_size: int) -> float:
-        """Get hourly rate based on crew size - REDUCED BY 20% FOR COMPETITIVENESS"""
+        """Get hourly rate based on crew size - REDUCED BY 10% FOR COMPETITIVENESS"""
         rates = {
-            2: 120,  # 2 movers = $120/hr (was $150)
-            3: 160,  # 3 movers = $160/hr (was $200)
-            4: 200,  # 4 movers = $200/hr (was $250)
-            5: 240   # 5 movers = $240/hr (was $300)
+            2: 135,  # 2 movers = $135/hr (was 150)
+            3: 180,  # 3 movers = $180/hr (was 200)
+            4: 225,  # 4 movers = $225/hr (was 250)
+            5: 270   # 5 movers = $270/hr (was 300)
         }
-        return rates.get(crew_size, 120)
+        return rates.get(crew_size, 135)
     
     def _estimate_labor_hours_from_rooms(self, rooms: int) -> float:
         """Estimate labor hours from rooms - Based on old app data"""
