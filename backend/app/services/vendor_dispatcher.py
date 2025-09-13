@@ -228,12 +228,12 @@ class VendorDispatcher:
                             "address": "1155 Kipling Ave, Etobicoke, ON M9B 3M4",
                             "total_distance_km": 0
                         }
-                    }
-                    dispatcher_info = fallback_dispatchers.get(vendor_slug, {
-                        "name": f"{vendor_slug.title()}",
-                        "address": "Toronto, ON",
-                        "total_distance_km": 0
-                    })
+                }
+                dispatcher_info = fallback_dispatchers.get(vendor_slug, {
+                    "name": f"{vendor_slug.title()}",
+                    "address": "Toronto, ON",
+                    "total_distance_km": 0
+                })
                 
                 # Calculate quote using the integrated calculator
                 result = calculator.calculate_quote(quote_request, dispatcher_info, db)
