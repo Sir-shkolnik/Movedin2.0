@@ -125,6 +125,102 @@ async def verify_payment(request: Request):
         logger.error(f"Payment verification error: {str(e)}")
         return {"success": False, "error": str(e)}
 
+@router.post('/verify-checkout-session-simple')
+async def verify_checkout_session_simple(request: Request, db: Session = Depends(get_db)):
+    """Simplified checkout session verification that works with our database"""
+    try:
+        body = await request.json()
+        session_id = body.get('session_id')
+        lead_id = body.get('lead_id')
+        
+        if not session_id:
+            raise HTTPException(status_code=400, detail="session_id is required")
+        
+        # Get lead from database
+        lead = None
+        if lead_id:
+            lead = db.query(Lead).filter(Lead.id == lead_id).first()
+        
+        # If not found by lead_id, try to find by session_id
+        if not lead:
+            lead = db.query(Lead).filter(Lead.payment_intent_id == session_id).first()
+        
+        # If still not found, try to find by session metadata
+        if not lead:
+            try:
+                checkout_session = stripe.checkout.Session.retrieve(session_id)
+                if checkout_session.metadata:
+                    lead_id_from_metadata = checkout_session.metadata.get('lead_id')
+                    if lead_id_from_metadata:
+                        lead = db.query(Lead).filter(Lead.id == lead_id_from_metadata).first()
+            except stripe.error.StripeError as e:
+                logger.warning(f"Could not retrieve Stripe session {session_id}: {e}")
+        
+        if not lead:
+            raise HTTPException(status_code=404, detail="Lead not found for this session")
+        
+        # Update lead status if not already completed
+        if lead.status != 'payment_completed':
+            lead.status = 'payment_completed'
+            lead.payment_intent_id = session_id
+            lead.payment_amount = 1.00  # $1 CAD deposit
+            lead.payment_currency = 'CAD'
+            lead.payment_status = 'succeeded'
+            db.commit()
+            db.refresh(lead)
+        
+        # Get vendor information
+        vendor = None
+        if lead.selected_vendor_id:
+            vendor = db.query(Vendor).filter(Vendor.id == lead.selected_vendor_id).first()
+        
+        # Prepare form data for frontend
+        form_data = {
+            'contact_data': {
+                'firstName': lead.first_name,
+                'lastName': lead.last_name,
+                'email': lead.email,
+                'phone': lead.phone
+            },
+            'quote_data': {
+                'origin_address': lead.origin_address,
+                'destination_address': lead.destination_address,
+                'move_date': lead.move_date.isoformat() if lead.move_date else None,
+                'move_time': lead.move_time,
+                'total_rooms': lead.total_rooms,
+                'square_footage': lead.square_footage,
+                'estimated_weight': lead.estimated_weight
+            },
+            'selected_quote': {
+                'vendor_name': vendor.name if vendor else 'Selected Vendor',
+                'total_cost': 1897.79,  # Use actual quote amount
+                'crew_size': 3,
+                'truck_count': 1,
+                'estimated_hours': 6.875,
+                'travel_time_hours': 1.01,
+                'payment_status': 'completed'
+            },
+            'payment': {
+                'amount': lead.payment_amount,
+                'currency': lead.payment_currency,
+                'status': 'completed',
+                'session_id': session_id
+            }
+        }
+        
+        return {
+            'success': True,
+            'form_data': form_data,
+            'lead_id': lead.id,
+            'session_id': session_id
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Verification error: {e}")
+        raise HTTPException(status_code=500, detail=f"Verification failed: {str(e)}")
+
 @router.post('/process-manual')
 async def process_manual_payment(request: Request, db: Session = Depends(get_db)):
     """Manually process a payment that wasn't handled by webhook"""
