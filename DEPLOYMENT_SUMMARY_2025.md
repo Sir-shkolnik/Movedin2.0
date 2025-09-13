@@ -48,6 +48,32 @@
 - **FIXED**: Added customer confirmation email
 - Status: **ALIGNED**
 
+## 🔧 **STRIPE WEBHOOK CONFIGURATION ISSUE IDENTIFIED**
+
+### **❌ CRITICAL ISSUE FOUND:**
+- **Webhook Endpoint:** `https://movedin-backend.onrender.com/api/payment-simple/webhook/stripe`
+- **Status:** Active (29 events delivered, 0 failed)
+- **Response Time:** 113-192ms (excellent)
+- **MISSING EVENT:** `checkout.session.completed` not in webhook events list
+
+### **✅ CURRENT WEBHOOK EVENTS:**
+- `payment_intent.succeeded` ✅
+- `payment_intent.created` ✅
+- `payment_link.created` ✅
+- `payment_link.updated` ✅
+- **`checkout.session.completed` ❌ MISSING!**
+
+### **🔧 REQUIRED FIX:**
+1. **Edit Stripe webhook destination**
+2. **Add `checkout.session.completed` event**
+3. **Save configuration**
+
+### **📊 IMPACT:**
+- **Lead Status Updates:** ❌ Not working (missing webhook event)
+- **Email Notifications:** ❌ Not sending (lead stays "new")
+- **Step7 Rendering:** ❌ No data (lead not updated)
+- **Payment Processing:** ✅ Working (Stripe processes payments)
+
 ---
 
 ## 🔧 **CRITICAL FIXES IMPLEMENTED**

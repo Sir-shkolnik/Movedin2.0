@@ -138,7 +138,7 @@ async def process_manual_payment(request: Request, db: Session = Depends(get_db)
         
         # Create a mock checkout session object for processing
         checkout_session = {
-            'id': payment_intent_id,
+            'id': f'cs_manual_{payment_intent_id}',  # Use a different ID for checkout session
             'amount_total': payment_intent.amount,
             'currency': payment_intent.currency,
             'payment_status': 'paid',
@@ -186,7 +186,6 @@ async def update_payment_amounts(request: Request, db: Session = Depends(get_db)
         lead.payment_currency = currency.upper()
         lead.payment_status = 'succeeded'
         lead.status = 'payment_completed'
-        lead.payment_intent_id = body.get('payment_intent_id', 'manual_update')
         
         db.commit()
         db.refresh(lead)
@@ -317,49 +316,6 @@ async def test_payment_redirect():
         logger.error(f"Test redirect error: {e}")
         raise HTTPException(status_code=500, detail="Failed to create test redirect data")
 
-@router.post('/manual-payment-update')
-async def manual_payment_update(request: Request, db: Session = Depends(get_db)):
-    """Manually update payment details for a lead"""
-    try:
-        body = await request.json()
-        lead_id = body.get('lead_id')
-        payment_intent_id = body.get('payment_intent_id', 'manual_update')
-        amount = body.get('amount', 100)
-        currency = body.get('currency', 'CAD')
-        
-        if not lead_id:
-            raise HTTPException(status_code=400, detail="lead_id is required")
-        
-        # Retrieve lead from database
-        lead = db.query(Lead).filter(Lead.id == int(lead_id)).first()
-        if not lead:
-            raise HTTPException(status_code=404, detail=f"Lead with ID {lead_id} not found")
-        
-        # Update payment details
-        lead.payment_intent_id = payment_intent_id
-        lead.payment_amount = amount / 100.0
-        lead.payment_currency = currency.upper()
-        lead.payment_status = 'succeeded'
-        lead.status = 'payment_completed'
-        
-        db.commit()
-        db.refresh(lead)
-        
-        logger.info(f"Manual payment update for lead {lead_id}: {payment_intent_id}, ${amount/100.0} {currency.upper()}")
-        
-        return {
-            'status': 'success',
-            'message': f'Payment details updated for lead {lead_id}',
-            'lead_id': lead_id,
-            'payment_intent_id': payment_intent_id,
-            'amount': amount / 100.0,
-            'currency': currency.upper()
-        }
-        
-    except Exception as e:
-        logger.error(f"Manual payment update error: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to update payment: {str(e)}")
-
 @router.get('/test-step7')
 async def test_step7_direct():
     """Test endpoint to directly access Step7 data without payment redirect"""
@@ -424,6 +380,8 @@ async def handle_payment_success_simple(checkout_session: dict, db: Session):
         metadata = checkout_session.get('metadata', {})
         
         logger.info(f"Processing successful payment: {session_id}")
+        logger.info(f"Checkout session data: {checkout_session}")
+        logger.info(f"Metadata: {metadata}")
         
         # Extract lead_id from metadata
         lead_id = metadata.get('lead_id')
@@ -439,12 +397,26 @@ async def handle_payment_success_simple(checkout_session: dict, db: Session):
         
         # Update lead status to payment_completed with payment details
         lead.status = 'payment_completed'
-        lead.payment_intent_id = session_id
-        lead.payment_amount = checkout_session.get('amount_total', 0) / 100.0
+        lead.payment_intent_id = session_id  # This will be the checkout session ID
+        
+        # Handle different possible field names for amount
+        amount_total = checkout_session.get('amount_total') or checkout_session.get('amount') or 0
+        logger.info(f"Amount extraction: amount_total={amount_total}, currency={checkout_session.get('currency')}, payment_status={checkout_session.get('payment_status')}")
+        
+        # Set payment details with fallback values
+        lead.payment_amount = amount_total / 100.0 if amount_total > 0 else 1.0  # Default to $1.00
         lead.payment_currency = checkout_session.get('currency', 'cad').upper()
         lead.payment_status = checkout_session.get('payment_status', 'paid')
+        
+        # Force commit the payment details
         db.commit()
         db.refresh(lead)
+        
+        logger.info(f"Payment details set: amount={lead.payment_amount}, currency={lead.payment_currency}, status={lead.payment_status}")
+        
+        # Verify the payment details were actually saved
+        db.refresh(lead)
+        logger.info(f"Verification - Lead {lead_id} payment details: amount={lead.payment_amount}, currency={lead.payment_currency}, status={lead.payment_status}")
         
         logger.info(f"Payment confirmed and lead {lead_id} status updated to 'payment_completed'")
         
@@ -469,7 +441,7 @@ async def handle_payment_success_simple(checkout_session: dict, db: Session):
                         },
                         'selected_quote': {
                             'vendor_name': vendor.name,
-                            'total_cost': checkout_session.get('amount_total', 0) / 100.0
+                            'total_cost': lead.payment_amount or 1.0
                         },
                         'contact_data': {
                             'firstName': lead.first_name,
@@ -500,6 +472,39 @@ async def handle_payment_success_simple(checkout_session: dict, db: Session):
     except Exception as e:
         logger.error(f"Payment processing error: {e}")
         db.rollback()
+
+@router.post('/retrieve-checkout-session')
+async def retrieve_checkout_session(request: Request):
+    """Retrieve checkout session data directly from Stripe"""
+    try:
+        body = await request.json()
+        session_id = body.get('session_id')
+        
+        if not session_id:
+            raise HTTPException(status_code=400, detail="session_id is required")
+        
+        # Retrieve checkout session from Stripe
+        checkout_session = stripe.checkout.Session.retrieve(session_id)
+        
+        logger.info(f"Retrieved checkout session: {session_id}")
+        logger.info(f"Checkout session data: {checkout_session}")
+        
+        return {
+            'success': True,
+            'session_id': session_id,
+            'checkout_session': checkout_session,
+            'metadata': checkout_session.get('metadata', {}),
+            'amount_total': checkout_session.get('amount_total'),
+            'currency': checkout_session.get('currency'),
+            'payment_status': checkout_session.get('payment_status')
+        }
+        
+    except stripe.error.StripeError as e:
+        logger.error(f"Stripe error: {e}")
+        raise HTTPException(status_code=400, detail=f"Stripe error: {str(e)}")
+    except Exception as e:
+        logger.error(f"Error retrieving checkout session: {e}")
+        raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
 
 @router.get('/test-thank-you')
 async def test_thank_you():

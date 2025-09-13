@@ -88,9 +88,11 @@ function AppInner() {
                 leadIdInHash: hash.includes('lead_id')
             };
             
-            // Only log if URL has changed (use a simple cache)
+            // Always log in development for debugging
+            console.log('🔍 getCurrentStepFromURL Debug:', debugData);
+            
+            // Only log to backend if URL has changed (use a simple cache)
             if (!getCurrentStepFromURL.lastUrl || getCurrentStepFromURL.lastUrl !== fullPath) {
-                console.log('🔍 getCurrentStepFromURL Debug:', debugData);
                 getCurrentStepFromURL.lastUrl = fullPath;
                 
                 // Log to backend only on URL change
@@ -99,7 +101,7 @@ function AppInner() {
         }
         
         // Check both pathname and hash for step routing
-        if (path === '/step7' || hash === '#/step7' || fullPath.includes('step7') || search.includes('session_id') || hash.includes('session_id')) {
+        if (path === '/step7' || hash.startsWith('#/step7') || fullPath.includes('step7') || search.includes('session_id') || hash.includes('session_id')) {
             if (process.env.NODE_ENV === 'development') {
                 console.log('✅ Detected Step7 - returning 6');
                 logDebugStep('STEP7_DETECTED', { path, hash, fullPath, search, routing_detected: true });
@@ -310,7 +312,8 @@ function AppInner() {
                                              data.selectedQuote || 
                                              sessionStorage.getItem('paymentSuccess') || 
                                              location.search.includes('session_id') || 
-                                             location.hash.includes('session_id');
+                                             location.hash.includes('session_id') ||
+                                             location.hash.includes('#/step7');
                     
                     const debugInfo = {
                         currentStep,
@@ -320,11 +323,15 @@ function AppInner() {
                         hash: location.hash,
                         search: location.search,
                         hashIncludesStep7: location.hash.includes('#/step7'),
+                        hashStartsWithStep7: location.hash.startsWith('#/step7'),
                         searchIncludesSessionId: location.search.includes('session_id'),
                         hashIncludesSessionId: location.hash.includes('session_id'),
                         hasPaymentRedirect,
                         shouldRenderStep7
                     };
+                    
+                    // Add console logging for debugging
+                    console.log('🔍 Step7 Debug Info:', debugInfo);
                     
                     // Log Step7 rendering decision
                     logDebugStep('STEP7_RENDERING_DECISION', {
