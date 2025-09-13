@@ -225,34 +225,46 @@ class StandaloneLGMService:
                                                     
                                                     if date_str.isdigit() and price_str.replace('.', '').isdigit():
                                                         try:
-                                                            date_key = f"2025-{month_num}-{int(date_str):02d}"
-                                                            price_value = float(price_str)
-                                                            calendar_data[date_key] = price_value
-                                                            logger.info(f"📅 Added {date_key}: ${price_value}")
+                                                            day_num = int(date_str)
+                                                            # Validate day number (1-31)
+                                                            if 1 <= day_num <= 31:
+                                                                date_key = f"2025-{month_num}-{day_num:02d}"
+                                                                price_value = float(price_str)
+                                                                calendar_data[date_key] = price_value
+                                                                logger.info(f"📅 Added {date_key}: ${price_value}")
                                                         except (ValueError, IndexError):
                                                             continue
                             break
             
-            # If no calendar data found, create default rates
+            # If no calendar data found, create Q4 2025 default rates
             if not calendar_data:
-                logger.warning("⚠️ No calendar data found, using default rates")
-                today = datetime.now()
-                for i in range(30):
-                    date = today + timedelta(days=i)
-                    date_str = date.strftime('%Y-%m-%d')
-                    calendar_data[date_str] = 139.0
+                logger.warning("⚠️ No calendar data found, using Q4 2025 default rates")
+                # Generate Q4 2025 dates (October, November, December)
+                for month in ['10', '11', '12']:
+                    for day in range(1, 32):
+                        try:
+                            date_str = f"2025-{month}-{day:02d}"
+                            # Validate the date
+                            datetime.strptime(date_str, '%Y-%m-%d')
+                            calendar_data[date_str] = 139.0
+                        except ValueError:
+                            # Invalid date (e.g., Feb 30), skip
+                            continue
             
             logger.info(f"📅 Calendar data extraction complete: {len(calendar_data)} entries")
             return calendar_data
             
         except Exception as e:
             logger.error(f"Error extracting calendar data: {e}")
-            # Return default rates on error
-            today = datetime.now()
-            for i in range(30):
-                date = today + timedelta(days=i)
-                date_str = date.strftime('%Y-%m-%d')
-                calendar_data[date_str] = 139.0
+            # Return Q4 2025 default rates on error
+            for month in ['10', '11', '12']:
+                for day in range(1, 32):
+                    try:
+                        date_str = f"2025-{month}-{day:02d}"
+                        datetime.strptime(date_str, '%Y-%m-%d')
+                        calendar_data[date_str] = 139.0
+                    except ValueError:
+                        continue
             return calendar_data
     
     # Removed old location details extraction method - now using SmartCalendarParser
@@ -499,6 +511,17 @@ class StandaloneLGMService:
             logger.info(f"  Calendar Data Keys: {list(calendar_data.keys())[:10]}...")  # Show first 10 keys
             logger.info(f"  Base Rate for {move_date}: {base_rate}")
             logger.info(f"  Total Calendar Entries: {len(calendar_data)}")
+            
+            # Check if the move date exists in calendar data
+            if move_date in calendar_data:
+                logger.info(f"✅ Found exact date match: {move_date} = ${calendar_data[move_date]}")
+            else:
+                logger.warning(f"⚠️ No exact date match for {move_date}, using fallback rate")
+                # Try to find closest date
+                for date_key in sorted(calendar_data.keys()):
+                    if date_key.startswith(move_date[:7]):  # Same month
+                        logger.info(f"  Found same month date: {date_key} = ${calendar_data[date_key]}")
+                        break
             
             # Calculate crew size and truck count
             total_rooms = quote_request.get("total_rooms", 3)
