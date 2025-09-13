@@ -242,51 +242,27 @@ function AppInner() {
                         console.log('🔍 Step 6 - Current step:', currentStep);
                     }
                     
-                    // Add a small delay to ensure the component is fully rendered
-                    setTimeout(() => {
+                    // Call handlePayment directly from Step6 component
+                    // We need to trigger the payment process from the Step6 component
+                    const step6Element = document.querySelector('.step6-modern') || 
+                                        document.querySelector('[class*="step6"]') ||
+                                        document.querySelector('.step-card');
+                    
+                    if (step6Element) {
+                        // Dispatch a custom event that Step6 can listen to
+                        const paymentEvent = new CustomEvent('triggerPayment', {
+                            detail: { source: 'footer' }
+                        });
+                        step6Element.dispatchEvent(paymentEvent);
+                        
                         if (process.env.NODE_ENV === 'development') {
-                            console.log('🔍 Step 6 - Looking for .step6-modern element...');
+                            console.log('🚀 Step 6 - Payment event dispatched');
                         }
-                        
-                        // Try multiple selectors
-                        const step6Element = document.querySelector('.step6-modern') || 
-                                            document.querySelector('[class*="step6"]') ||
-                                            document.querySelector('.step-card');
-                        
+                    } else {
                         if (process.env.NODE_ENV === 'development') {
-                            console.log('🔍 Step 6 - Found step6 element:', step6Element);
-                            console.log('🔍 Step 6 - Element classes:', step6Element?.className);
+                            console.log('❌ Step 6 - Step6 element not found');
                         }
-                        
-                        if (step6Element) {
-                            if (process.env.NODE_ENV === 'development') {
-                                console.log('🔍 Step 6 - Looking for .pay-button-modern...');
-                            }
-                            const payButton = step6Element.querySelector('.pay-button-modern') as HTMLButtonElement;
-                            if (process.env.NODE_ENV === 'development') {
-                                console.log('🔍 Step 6 - Found pay button:', payButton);
-                                console.log('🔍 Step 6 - Button disabled:', payButton?.disabled);
-                                console.log('🔍 Step 6 - Button style:', payButton?.style?.display);
-                            }
-                            
-                            if (payButton && !payButton.disabled) {
-                                if (process.env.NODE_ENV === 'development') {
-                                    console.log('🚀 Step 6 - Clicking payment button...');
-                                }
-                                payButton.click();
-                            } else {
-                                if (process.env.NODE_ENV === 'development') {
-                                    console.log('❌ Step 6 - Payment button not found or disabled');
-                                    console.log('🔍 Step 6 - All buttons in step6:', step6Element.querySelectorAll('button'));
-                                }
-                            }
-                        } else {
-                            if (process.env.NODE_ENV === 'development') {
-                                console.log('❌ Step 6 - Step6 element not found');
-                                console.log('🔍 Step 6 - All elements with step6:', document.querySelectorAll('[class*="step6"]'));
-                            }
-                        }
-                    }, 100); // 100ms delay
+                    }
                 };
             }
 

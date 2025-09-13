@@ -53,6 +53,26 @@ const Step6: React.FC = () => {
     });
   }, [data]);
 
+  // Listen for payment trigger from footer button
+  useEffect(() => {
+    const handlePaymentTrigger = (event: CustomEvent) => {
+      console.log('🚀 Step 6 - Payment triggered from footer:', event.detail);
+      handlePayment();
+    };
+
+    const step6Element = document.querySelector('.step6-modern') || 
+                        document.querySelector('[class*="step6"]') ||
+                        document.querySelector('.step-card');
+    
+    if (step6Element) {
+      step6Element.addEventListener('triggerPayment', handlePaymentTrigger as EventListener);
+      
+      return () => {
+        step6Element.removeEventListener('triggerPayment', handlePaymentTrigger as EventListener);
+      };
+    }
+  }, []);
+
   // Memoize the map component to prevent re-rendering
   const RouteMap = useMemo(() => {
     const MapComponent: React.FC<RouteMapProps> = ({ from, to }) => {
