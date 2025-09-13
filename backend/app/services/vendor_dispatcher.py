@@ -13,35 +13,41 @@ class VendorDispatcher:
     
     def get_available_vendors_for_location(self, origin_address: str, destination_address: str) -> List[Dict[str, Any]]:
         """Get all available vendors for a location"""
-        print(f"🔍 GET_AVAILABLE_VENDORS_DEBUG:")
-        print(f"  Origin: {origin_address}")
-        print(f"  Destination: {destination_address}")
-        
-        available_vendors = []
-        
-        # Check each vendor's service area
-        vendors_to_check = [
-            ("lets-get-moving", "Let's Get Moving"),
-            ("easy2go", "Easy2Go"),
-            ("velocity-movers", "Velocity Movers"),
-            ("pierre-sons", "Pierre & Sons")
-        ]
-        
-        for vendor_slug, vendor_name in vendors_to_check:
-            print(f"  Checking vendor: {vendor_slug}")
-            if self._vendor_serves_location(vendor_slug, origin_address, destination_address):
-                print(f"    ✅ {vendor_slug} serves location")
-                vendor_info = self._get_vendor_info(vendor_slug, vendor_name, origin_address)
-                if vendor_info:
-                    available_vendors.append(vendor_info)
-                    print(f"    ✅ {vendor_slug} added to available vendors")
+        try:
+            print(f"🔍 GET_AVAILABLE_VENDORS_DEBUG:")
+            print(f"  Origin: {origin_address}")
+            print(f"  Destination: {destination_address}")
+            
+            available_vendors = []
+            
+            # Check each vendor's service area
+            vendors_to_check = [
+                ("lets-get-moving", "Let's Get Moving"),
+                ("easy2go", "Easy2Go"),
+                ("velocity-movers", "Velocity Movers"),
+                ("pierre-sons", "Pierre & Sons")
+            ]
+            
+            for vendor_slug, vendor_name in vendors_to_check:
+                print(f"  Checking vendor: {vendor_slug}")
+                if self._vendor_serves_location(vendor_slug, origin_address, destination_address):
+                    print(f"    ✅ {vendor_slug} serves location")
+                    vendor_info = self._get_vendor_info(vendor_slug, vendor_name, origin_address)
+                    if vendor_info:
+                        available_vendors.append(vendor_info)
+                        print(f"    ✅ {vendor_slug} added to available vendors")
+                    else:
+                        print(f"    ❌ {vendor_slug} vendor info not found")
                 else:
-                    print(f"    ❌ {vendor_slug} vendor info not found")
-            else:
-                print(f"    ❌ {vendor_slug} does not serve location")
-        
-        print(f"  Total available vendors: {len(available_vendors)}")
-        return available_vendors
+                    print(f"    ❌ {vendor_slug} does not serve location")
+            
+            print(f"  Total available vendors: {len(available_vendors)}")
+            return available_vendors
+        except Exception as e:
+            print(f"❌ CRITICAL ERROR in get_available_vendors_for_location: {e}")
+            import traceback
+            print(f"Traceback: {traceback.format_exc()}")
+            return []
     
     def _vendor_serves_location(self, vendor_slug: str, origin_address: str, destination_address: str) -> bool:
         """Check if vendor serves the location"""
