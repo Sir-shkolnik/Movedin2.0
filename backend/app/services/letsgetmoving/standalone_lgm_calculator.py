@@ -7,7 +7,7 @@ Completely independent calculator that works with its own logic
 from typing import Dict, Any, Optional
 from datetime import datetime
 import logging
-from .standalone_lgm_service import standalone_lgm_service
+from .standalone_lgm_service import StandaloneLGMService
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +17,7 @@ class StandaloneLGMCalculator:
     def __init__(self):
         self.vendor_slug = "lets-get-moving"
         self.vendor_name = "Let's Get Moving"
-        self.service = standalone_lgm_service
+        self.service = StandaloneLGMService()
     
     def calculate_quote(self, quote_request: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """Calculate quote for Let's Get Moving using standalone service"""
