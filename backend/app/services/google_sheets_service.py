@@ -200,10 +200,10 @@ class GoogleSheetsService:
         """
         try:
             # Import fixed smart parser
-            from .letsgetmoving.smart_calendar_parser_fixed import create_fixed_smart_parser
+            from .letsgetmoving.smart_calendar_parser import create_smart_parser
             
             # Create fixed smart parser instance
-            smart_parser = create_fixed_smart_parser()
+            smart_parser = create_smart_parser()
             
             # Use fixed smart parser for all GIDs
             result = smart_parser.parse_gid_complete(gid, csv_text)
