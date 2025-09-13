@@ -1448,7 +1448,7 @@ class Easy2GoCalculator(VendorCalculator):
             labor_hours = 2.0
         
         try:
-            travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
+            travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address, dispatcher_info['address'])
         except ValueError as e:
             # This is a long distance move - return special response
             return {
@@ -1575,7 +1575,7 @@ class Easy2GoCalculator(VendorCalculator):
         
         return total_stair_time
     
-    def _calculate_travel_time(self, origin: str, destination: str) -> float:
+    def _calculate_travel_time(self, origin: str, destination: str, dispatcher_address: str) -> float:
         """Calculate travel time using 3-leg journey to depot"""
         try:
             # First check one-way travel time for long distance validation
@@ -1613,7 +1613,7 @@ class Easy2GoCalculator(VendorCalculator):
                     print(f"Easy2Go: Cross-province/international move detected: {origin} -> {destination}")
                     raise ValueError(f"Cross-province/international move not supported")
             
-            dispatcher_address = "3397 American Drive, Mississauga, ON L4V 1T8"
+            # Use the provided dispatcher address instead of hardcoded one
             
             # Calculate 3-leg journey: Dispatcher -> Origin -> Destination -> Dispatcher
             leg1 = mapbox_service.get_directions(dispatcher_address, origin)
@@ -1728,7 +1728,7 @@ class VelocityMoversCalculator(VendorCalculator):
             labor_hours = 2.0
         
         try:
-            travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
+            travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address, dispatcher_info['address'])
         except ValueError as e:
             # This is a long distance move - return special response
             return {
@@ -1854,7 +1854,7 @@ class VelocityMoversCalculator(VendorCalculator):
         
         return total_stair_time
     
-    def _calculate_travel_time(self, origin: str, destination: str) -> float:
+    def _calculate_travel_time(self, origin: str, destination: str, dispatcher_address: str) -> float:
         """Calculate travel time using 3-leg journey to depot"""
         try:
             # First check one-way travel time for long distance validation
@@ -1892,7 +1892,7 @@ class VelocityMoversCalculator(VendorCalculator):
                     print(f"Velocity Movers: Cross-province/international move detected: {origin} -> {destination}")
                     raise ValueError(f"Cross-province/international move not supported")
             
-            dispatcher_address = "100 Howden Road, Unit 2, M1R 3E4, Toronto, ON"
+            # Use the provided dispatcher address instead of hardcoded one
             
             # Calculate 3-leg journey: Dispatcher -> Origin -> Destination -> Dispatcher
             leg1 = mapbox_service.get_directions(dispatcher_address, origin)
@@ -1991,7 +1991,7 @@ class PierreSonsCalculator(VendorCalculator):
         
         # Calculate travel time and distance
         try:
-            travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address)
+            travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address, dispatcher_info['address'])
             distance_km = self._calculate_distance(quote_request.origin_address, quote_request.destination_address)
         except ValueError as e:
             # This is a long distance move - return special response
@@ -2133,7 +2133,7 @@ class PierreSonsCalculator(VendorCalculator):
         else:
             return 100  # Default to small truck
     
-    def _calculate_travel_time(self, origin: str, destination: str) -> float:
+    def _calculate_travel_time(self, origin: str, destination: str, dispatcher_address: str) -> float:
         """Calculate travel time - OFFICIAL PIERRE & SONS RULES"""
         # Pierre & Sons official rule: 1 hour travel time fee included
         # This covers the time it takes for the team to return to the office
