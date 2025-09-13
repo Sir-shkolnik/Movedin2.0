@@ -38,6 +38,9 @@ class QuoteResponse(BaseModel):
     estimated_hours: float
     travel_time_hours: float
     hourly_rate: float
+    base_rate: Optional[float] = None
+    heavy_items_cost: Optional[float] = None
+    additional_services_cost: Optional[float] = None
     available_slots: List[str]
     rating: Optional[float] = None
     reviews: Optional[int] = None
