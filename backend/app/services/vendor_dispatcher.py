@@ -209,14 +209,10 @@ class VendorDispatcher:
                     print(f"No calculator found for vendor: {vendor_slug}")
                     return None
                 
-                # Get dispatcher info using GeographicVendorDispatcher
-                dispatcher_info = GeographicVendorDispatcher._get_best_dispatcher_for_vendor(
-                    vendor_slug, quote_request.origin_address, quote_request.destination_address
-                )
-                
-                if not dispatcher_info:
-                    # Fallback dispatcher info
-                    fallback_dispatchers = {
+                # ALWAYS use fallback dispatcher info for cross-province moves
+                # Let the individual vendor calculators handle cross-province detection
+                # Fallback dispatcher info
+                fallback_dispatchers = {
                         "easy2go": {
                             "name": "Easy2Go Depot",
                             "address": "3397 American Drive, Mississauga, ON L4V 1T8",
@@ -250,7 +246,7 @@ class VendorDispatcher:
                 # Check if this is a long distance move (zero cost with special message)
                 if result and result.get('total_cost') == 0.0 and result.get('special_notes'):
                     print(f"Long distance move for {vendor_slug}: {result.get('special_notes', '')}")
-                    return None  # Don't include long distance moves
+                    # DO include long distance moves - they are Contact Sales cards
                 
                 return result
                 
