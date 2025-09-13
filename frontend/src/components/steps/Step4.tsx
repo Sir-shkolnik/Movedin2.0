@@ -472,6 +472,19 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                             font-size: 14px !important;
                             margin-bottom: 16px !important;
                         }
+                        /* Mobile Contact Sales Card Spacing */
+                        .vendor-card-modern {
+                            margin-bottom: 16px !important;
+                        }
+                        .vendor-pricing-modern {
+                            margin-bottom: 20px !important;
+                        }
+                        .move-size-details-modern {
+                            margin-bottom: 20px !important;
+                        }
+                        .dispatcher-info-modern {
+                            margin-top: 20px !important;
+                        }
                     }
                 `}</style>
             </div>
@@ -676,21 +689,21 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                                     /* Contact Sales Card */
                                     <div className="vendor-pricing-modern" style={{
                                         backgroundColor: '#f0f9ff',
-                                        padding: '16px',
+                                        padding: '20px 16px',
                                         borderRadius: '8px',
                                         textAlign: 'center',
-                                        marginBottom: '12px',
+                                        marginBottom: '16px',
                                         border: '2px solid #0ea5e9',
                                         boxShadow: '0 2px 8px rgba(14, 165, 233, 0.1)'
                                     }}>
                                         <div style={{
-                                            fontSize: '18px',
-                                            marginBottom: '8px'
+                                            fontSize: '20px',
+                                            marginBottom: '12px'
                                         }}>
                                             📞
                                         </div>
                                         <div style={{
-                                            fontSize: '14px',
+                                            fontSize: '16px',
                                             fontWeight: 'bold',
                                             color: '#0369a1',
                                             marginBottom: '8px'
@@ -698,7 +711,7 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                                             Contact Sales Team
                                         </div>
                                         <div style={{
-                                            fontSize: '12px',
+                                            fontSize: '13px',
                                             color: '#0369a1',
                                             lineHeight: '1.4',
                                             fontWeight: '500'
@@ -739,21 +752,21 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                                     <div className="move-size-details-modern" style={{
                                         display: 'flex',
                                         flexDirection: 'column',
-                                        gap: '8px',
-                                        marginBottom: '12px'
+                                        gap: '12px',
+                                        marginBottom: '16px'
                                     }}>
                                         <div className="move-size-item-modern" style={{
                                             backgroundColor: '#f0f9ff',
-                                            padding: '12px',
-                                            borderRadius: '6px',
+                                            padding: '16px 12px',
+                                            borderRadius: '8px',
                                             border: '1px solid #0ea5e9',
-                                            fontSize: '13px',
+                                            fontSize: '14px',
                                             textAlign: 'center'
                                         }}>
-                                            <div style={{ fontWeight: '600', color: '#0369a1', marginBottom: '4px' }}>
+                                            <div style={{ fontWeight: '600', color: '#0369a1', marginBottom: '8px', fontSize: '15px' }}>
                                                 📋 Long-Distance Move
                                             </div>
-                                            <div style={{ color: '#0369a1', fontSize: '12px', lineHeight: '1.4' }}>
+                                            <div style={{ color: '#0369a1', fontSize: '13px', lineHeight: '1.5', fontWeight: '500' }}>
                                                 {vendor.special_notes}
                                             </div>
                                         </div>
@@ -799,10 +812,10 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                                 {/* Dispatcher Information */}
                                 {vendor.dispatcher_info && (
                                     <div className="dispatcher-info-modern" style={{
-                                        marginTop: '12px',
-                                        padding: '8px 12px',
+                                        marginTop: '16px',
+                                        padding: vendor.total_cost === 0.0 && vendor.special_notes ? '12px 16px' : '8px 12px',
                                         backgroundColor: vendor.total_cost === 0.0 && vendor.special_notes ? '#f0f9ff' : '#f8f9fa',
-                                        borderRadius: '6px',
+                                        borderRadius: vendor.total_cost === 0.0 && vendor.special_notes ? '8px' : '6px',
                                         border: vendor.total_cost === 0.0 && vendor.special_notes ? '1px solid #0ea5e9' : '1px solid #e9ecef'
                                     }}>
                                         {vendor.total_cost === 0.0 && vendor.special_notes ? (
@@ -811,22 +824,24 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'space-between',
-                                                fontSize: '12px'
+                                                fontSize: '13px',
+                                                gap: '8px'
                                             }}>
-                                                <div>
+                                                <div style={{ flex: 1 }}>
                                                     <span style={{ fontWeight: '600', color: '#0369a1' }}>📞 Sales Team: </span>
-                                                    <span style={{ color: '#0369a1' }}>
+                                                    <span style={{ color: '#0369a1', fontWeight: '500' }}>
                                                         {vendor.dispatcher_info.name || 'Sales Team'}
                                                     </span>
                                                 </div>
                                                 <div style={{
                                                     color: '#0369a1',
-                                                    fontSize: '11px',
-                                                    fontWeight: '500',
-                                                    padding: '2px 6px',
+                                                    fontSize: '12px',
+                                                    fontWeight: '600',
+                                                    padding: '4px 8px',
                                                     backgroundColor: '#e0f2fe',
-                                                    borderRadius: '4px',
-                                                    border: '1px solid #0ea5e9'
+                                                    borderRadius: '6px',
+                                                    border: '1px solid #0ea5e9',
+                                                    whiteSpace: 'nowrap'
                                                 }}>
                                                     📋 Custom Quote
                                                 </div>
