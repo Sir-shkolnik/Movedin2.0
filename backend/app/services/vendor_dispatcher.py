@@ -1,7 +1,6 @@
 from typing import Dict, Any, List, Optional
 from app.schemas.quote import QuoteRequest
 from app.services.vendor_engine import GeographicVendorDispatcher, get_vendor_calculator
-from app.services.vendor_engine import LetsGetMovingCalculator
 from app.services.monitoring_service import monitor_quote_calculation, monitoring_service
 
 class VendorDispatcher:
@@ -9,7 +8,7 @@ class VendorDispatcher:
     
     def __init__(self):
         # Initialize vendor calculators - use integrated calculators from vendor_engine.py
-        self.lets_get_moving_calculator = LetsGetMovingCalculator()  # Keep this for Google Sheets integration
+        # Note: LetsGetMovingCalculator removed - using standalone system instead
         # Easy2Go, Velocity Movers, and Pierre & Sons use integrated calculators from vendor_engine.py
     
     def get_available_vendors_for_location(self, origin_address: str, destination_address: str) -> List[Dict[str, Any]]:
