@@ -241,6 +241,11 @@ class MapboxService:
             response.raise_for_status()
             data = response.json()
             
+            # Check if the response indicates an error
+            if data.get('code') and data['code'] != 'Ok':
+                logger.error(f"Matrix API error: {data.get('message', 'Unknown error')}")
+                return None
+            
             # Matrix API returns durations and distances arrays
             durations = data.get('durations')
             distances = data.get('distances')

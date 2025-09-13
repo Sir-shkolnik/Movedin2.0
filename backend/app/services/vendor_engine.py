@@ -1597,7 +1597,11 @@ class Easy2GoCalculator(VendorCalculator):
             # If Directions API fails, try Matrix API fallback
             if not leg2 or 'duration' not in leg2:
                 print(f"Easy2Go: Directions API failed, trying Matrix API fallback for {origin} -> {destination}")
-                leg2 = mapbox_service.get_matrix_directions(origin, destination)
+                try:
+                    leg2 = mapbox_service.get_matrix_directions(origin, destination)
+                except Exception as e:
+                    print(f"Easy2Go: Matrix API also failed: {e}")
+                    leg2 = None
             
             if leg2 and 'duration' in leg2:
                 one_way_hours = leg2['duration'] / 3600
@@ -1906,7 +1910,11 @@ class VelocityMoversCalculator(VendorCalculator):
             # If Directions API fails, try Matrix API fallback
             if not leg2 or 'duration' not in leg2:
                 print(f"Velocity Movers: Directions API failed, trying Matrix API fallback for {origin} -> {destination}")
-                leg2 = mapbox_service.get_matrix_directions(origin, destination)
+                try:
+                    leg2 = mapbox_service.get_matrix_directions(origin, destination)
+                except Exception as e:
+                    print(f"Velocity Movers: Matrix API also failed: {e}")
+                    leg2 = None
             
             if leg2 and 'duration' in leg2:
                 one_way_hours = leg2['duration'] / 3600
@@ -2214,7 +2222,11 @@ class PierreSonsCalculator(VendorCalculator):
             # If Directions API fails, try Matrix API fallback
             if not directions or 'duration' not in directions:
                 print(f"Pierre & Sons: Directions API failed, trying Matrix API fallback for {origin} -> {destination}")
-                directions = mapbox_service.get_matrix_directions(origin, destination)
+                try:
+                    directions = mapbox_service.get_matrix_directions(origin, destination)
+                except Exception as e:
+                    print(f"Pierre & Sons: Matrix API also failed: {e}")
+                    directions = None
             
             if directions and 'duration' in directions:
                 one_way_hours = directions['duration'] / 3600
