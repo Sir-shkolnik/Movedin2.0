@@ -853,9 +853,10 @@ class StandaloneLGMService:
         return 0.0
     
     def _calculate_stair_time(self, quote_request: Dict[str, Any]) -> float:
-        """Calculate additional time for stairs - MINIMAL IMPACT"""
-        # Minimal stair time impact - 5 minutes per flight
-        stair_time_per_flight = 0.083  # 5 minutes = 0.083 hours
+        """Calculate additional time for stairs - STANDARD RULE FOR ALL VENDORS"""
+        # Standard rule: 15 minutes per flight of stairs (up or down)
+        # This accounts for the extra time to carry items up/down stairs
+        stair_time_per_flight = 0.25  # 15 minutes = 0.25 hours
         
         total_stair_time = 0
         
