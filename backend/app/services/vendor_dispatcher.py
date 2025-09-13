@@ -31,25 +31,16 @@ class VendorDispatcher:
             
             for vendor_slug, vendor_name in vendors_to_check:
                 print(f"  Checking vendor: {vendor_slug}")
-                try:
-                    serves_location = self._vendor_serves_location(vendor_slug, origin_address, destination_address)
-                    print(f"  ✅ _vendor_serves_location completed for {vendor_slug}: {serves_location}")
-                except Exception as e:
-                    print(f"  ❌ ERROR in _vendor_serves_location for {vendor_slug}: {e}")
-                    import traceback
-                    print(f"  Traceback: {traceback.format_exc()}")
-                    serves_location = False
                 
-                if serves_location:
-                    print(f"    ✅ {vendor_slug} serves location")
-                    vendor_info = self._get_vendor_info(vendor_slug, vendor_name, origin_address)
-                    if vendor_info:
-                        available_vendors.append(vendor_info)
-                        print(f"    ✅ {vendor_slug} added to available vendors")
-                    else:
-                        print(f"    ❌ {vendor_slug} vendor info not found")
+                # ALWAYS include all vendors - let calculate_quote handle cross-province detection
+                # This allows vendors to return "Contact Sales" cards for long-distance moves
+                print(f"    ✅ {vendor_slug} always included (cross-province detection in calculate_quote)")
+                vendor_info = self._get_vendor_info(vendor_slug, vendor_name, origin_address)
+                if vendor_info:
+                    available_vendors.append(vendor_info)
+                    print(f"    ✅ {vendor_slug} added to available vendors")
                 else:
-                    print(f"    ❌ {vendor_slug} does not serve location")
+                    print(f"    ❌ {vendor_slug} vendor info not found")
             
             print(f"  Total available vendors: {len(available_vendors)}")
             return available_vendors
