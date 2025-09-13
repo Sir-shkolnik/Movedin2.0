@@ -58,8 +58,8 @@ class StandaloneLGMService:
             '1904136712': 'Winnipeg'
         }
         
-        # Google Sheets URLs
-        self.base_url = "https://docs.google.com/spreadsheets/d/1v6IguN9coUGXo62JZgkZcHZTJZL4-F-PUcq9izMWSME/export?format=csv&gid="
+        # Google Sheets URLs - CORRECTED
+        self.base_url = "https://docs.google.com/spreadsheets/d/1JmIRpRlH3J1XmCrWlHfVnOCP5kk_yMZAXwsBUhPwnzk/export?format=csv&gid="
         
         # Service areas for Let's Get Moving
         self.service_areas = {
