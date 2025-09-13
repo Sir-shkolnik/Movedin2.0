@@ -32,6 +32,11 @@ async def create_payment_link(request: Request, db: Session = Depends(get_db)):
         if not lead_id:
             raise HTTPException(status_code=400, detail="lead_id is required")
         
+        # Validate that the lead exists
+        lead = db.query(Lead).filter(Lead.id == lead_id).first()
+        if not lead:
+            raise HTTPException(status_code=404, detail=f"Lead with ID {lead_id} not found")
+        
         # Prepare metadata for the payment link
         metadata = {
             'lead_id': str(lead_id),
@@ -130,6 +135,12 @@ async def process_manual_payment(request: Request, db: Session = Depends(get_db)
         
         if not payment_intent_id:
             raise HTTPException(status_code=400, detail="payment_intent_id is required")
+        
+        # Validate lead_id if provided
+        if lead_id:
+            lead = db.query(Lead).filter(Lead.id == lead_id).first()
+            if not lead:
+                raise HTTPException(status_code=404, detail=f"Lead with ID {lead_id} not found")
         
         # Retrieve the payment intent from Stripe
         payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)

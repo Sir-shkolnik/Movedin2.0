@@ -41,16 +41,16 @@ class LeadRequest(BaseModel):
     
     @validator('quote_data')
     def validate_quote_data(cls, v):
-        if not v.get('originAddress') or not v['originAddress'].strip():
-            raise ValueError('originAddress is required and cannot be empty')
-        if not v.get('destinationAddress') or not v['destinationAddress'].strip():
-            raise ValueError('destinationAddress is required and cannot be empty')
-        if not v.get('moveDate'):
-            raise ValueError('moveDate is required')
-        if not v.get('moveTime'):
-            raise ValueError('moveTime is required')
-        if not v.get('totalRooms') or v['totalRooms'] <= 0:
-            raise ValueError('totalRooms must be greater than 0')
+        if not v.get('origin_address') or not v['origin_address'].strip():
+            raise ValueError('origin_address is required and cannot be empty')
+        if not v.get('destination_address') or not v['destination_address'].strip():
+            raise ValueError('destination_address is required and cannot be empty')
+        if not v.get('move_date'):
+            raise ValueError('move_date is required')
+        if not v.get('move_time'):
+            raise ValueError('move_time is required')
+        if not v.get('total_rooms') or v['total_rooms'] <= 0:
+            raise ValueError('total_rooms must be greater than 0')
         
         return v
 
@@ -114,19 +114,19 @@ async def create_lead_internal(lead_data: Dict[str, Any], db: Session, status: s
             last_name=contact_data.get('lastName', ''),
             email=contact_data.get('email', ''),
             phone=contact_data.get('phone', ''),
-            origin_address=quote_data.get('originAddress', ''),
-            destination_address=quote_data.get('destinationAddress', ''),
-            move_date=datetime.fromisoformat(quote_data.get('moveDate', '').replace('Z', '+00:00')),
-            move_time=quote_data.get('moveTime', ''),
-            total_rooms=quote_data.get('totalRooms', 0),
-            square_footage=quote_data.get('squareFootage', 0),
-            estimated_weight=quote_data.get('estimatedWeight', 0),
-            heavy_items=quote_data.get('heavyItems', {}),
-            stairs_at_pickup=quote_data.get('stairsAtPickup', 0),
-            stairs_at_dropoff=quote_data.get('stairsAtDropoff', 0),
-            elevator_at_pickup=quote_data.get('elevatorAtPickup', False),
-            elevator_at_dropoff=quote_data.get('elevatorAtDropoff', False),
-            additional_services=quote_data.get('additionalServices', {}),
+            origin_address=quote_data.get('origin_address', ''),
+            destination_address=quote_data.get('destination_address', ''),
+            move_date=datetime.fromisoformat(quote_data.get('move_date', '').replace('Z', '+00:00')),
+            move_time=quote_data.get('move_time', ''),
+            total_rooms=quote_data.get('total_rooms', 0),
+            square_footage=quote_data.get('square_footage', 0),
+            estimated_weight=quote_data.get('estimated_weight', 0),
+            heavy_items=quote_data.get('heavy_items', {}),
+            stairs_at_pickup=quote_data.get('stairs_at_pickup', 0),
+            stairs_at_dropoff=quote_data.get('stairs_at_dropoff', 0),
+            elevator_at_pickup=quote_data.get('elevator_at_pickup', False),
+            elevator_at_dropoff=quote_data.get('elevator_at_dropoff', False),
+            additional_services=quote_data.get('additional_services', {}),
             selected_vendor_id=vendor.id,
             payment_intent_id=selected_quote.get('payment_intent_id'),
             status=status,  # Use the passed status parameter
@@ -141,19 +141,19 @@ async def create_lead_internal(lead_data: Dict[str, Any], db: Session, status: s
         quote = Quote(
             lead_id=lead.id,
             vendor_id=vendor.id,
-            origin_address=quote_data.get('originAddress', ''),
-            destination_address=quote_data.get('destinationAddress', ''),
-            move_date=datetime.fromisoformat(quote_data.get('moveDate', '').replace('Z', '+00:00')),
-            move_time=quote_data.get('moveTime', ''),
-            total_rooms=quote_data.get('totalRooms', 0),
-            square_footage=quote_data.get('squareFootage', ''),
-            estimated_weight=quote_data.get('estimatedWeight', 0),
-            heavy_items=quote_data.get('heavyItems', {}),
-            stairs_at_pickup=quote_data.get('stairsAtPickup', 0),
-            stairs_at_dropoff=quote_data.get('stairsAtDropoff', 0),
-            elevator_at_pickup=quote_data.get('elevatorAtPickup', False),
-            elevator_at_dropoff=quote_data.get('elevatorAtDropoff', False),
-            additional_services=quote_data.get('additionalServices', {}),
+            origin_address=quote_data.get('origin_address', ''),
+            destination_address=quote_data.get('destination_address', ''),
+            move_date=datetime.fromisoformat(quote_data.get('move_date', '').replace('Z', '+00:00')),
+            move_time=quote_data.get('move_time', ''),
+            total_rooms=quote_data.get('total_rooms', 0),
+            square_footage=quote_data.get('square_footage', ''),
+            estimated_weight=quote_data.get('estimated_weight', 0),
+            heavy_items=quote_data.get('heavy_items', {}),
+            stairs_at_pickup=quote_data.get('stairs_at_pickup', 0),
+            stairs_at_dropoff=quote_data.get('stairs_at_dropoff', 0),
+            elevator_at_pickup=quote_data.get('elevator_at_pickup', False),
+            elevator_at_dropoff=quote_data.get('elevator_at_dropoff', False),
+            additional_services=quote_data.get('additional_services', {}),
             total_cost=selected_quote.get('total_cost', 0),
             breakdown=selected_quote.get('breakdown', {}),
             crew_size=selected_quote.get('crew_size', 2),
@@ -210,19 +210,19 @@ async def create_lead(
             last_name=contact_data["lastName"],
             email=contact_data["email"],
             phone=contact_data["phone"],
-            origin_address=quote_data["originAddress"],
-            destination_address=quote_data["destinationAddress"],
-            move_date=datetime.strptime(quote_data["moveDate"], "%Y-%m-%d"),
-            move_time=quote_data["moveTime"],
-            total_rooms=quote_data["totalRooms"],
-            square_footage=quote_data.get("squareFootage"),
-            estimated_weight=quote_data.get("estimatedWeight", 0),
-            heavy_items=quote_data.get("heavyItems", {}),
-            stairs_at_pickup=quote_data.get("stairsAtPickup", 0),
-            stairs_at_dropoff=quote_data.get("stairsAtDropoff", 0),
-            elevator_at_pickup=quote_data.get("elevatorAtPickup", False),
-            elevator_at_dropoff=quote_data.get("elevatorAtDropoff", False),
-            additional_services=quote_data.get("additionalServices", {}),
+            origin_address=quote_data["origin_address"],
+            destination_address=quote_data["destination_address"],
+            move_date=datetime.strptime(quote_data["move_date"], "%Y-%m-%d"),
+            move_time=quote_data["move_time"],
+            total_rooms=quote_data["total_rooms"],
+            square_footage=quote_data.get("square_footage"),
+            estimated_weight=quote_data.get("estimated_weight", 0),
+            heavy_items=quote_data.get("heavy_items", {}),
+            stairs_at_pickup=quote_data.get("stairs_at_pickup", 0),
+            stairs_at_dropoff=quote_data.get("stairs_at_dropoff", 0),
+            elevator_at_pickup=quote_data.get("elevator_at_pickup", False),
+            elevator_at_dropoff=quote_data.get("elevator_at_dropoff", False),
+            additional_services=quote_data.get("additional_services", {}),
             selected_vendor_id=vendor.id if vendor else None,
             payment_intent_id=selected_quote.get("payment_intent_id"),
             status="new",
