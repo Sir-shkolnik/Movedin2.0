@@ -1611,41 +1611,25 @@ class Easy2GoCalculator(VendorCalculator):
                     print(f"Easy2Go: One-way travel time {one_way_hours:.1f}h exceeds 10h limit for long distance moves")
                     raise ValueError(f"One-way travel time {one_way_hours:.1f}h exceeds 10h limit")
             else:
-                # If Mapbox fails to return directions, check if this looks like a long distance move
+                # Simple province detection for long-distance move rejection
                 origin_lower = origin.lower()
                 destination_lower = destination.lower()
                 
-                canadian_provinces = ['on', 'qc', 'bc', 'ab', 'mb', 'sk', 'ns', 'nb', 'nl', 'pe', 'yt', 'nt', 'nu']
-                international_indicators = ['uk', 'usa', 'us', 'united states', 'united kingdom', 'london', 'new york', 'california']
+                # Simple cross-province detection
+                ontario_indicators = ['ontario', 'on', 'toronto', 'mississauga', 'hamilton', 'ottawa']
+                quebec_indicators = ['quebec', 'qc', 'montreal']
+                bc_indicators = ['british columbia', 'bc', 'vancouver']
+                ns_indicators = ['nova scotia', 'ns', 'halifax']
                 
-                origin_province = None
-                dest_province = None
-                is_international = False
+                has_ontario_origin = any(indicator in origin_lower for indicator in ontario_indicators)
+                has_quebec_dest = any(indicator in destination_lower for indicator in quebec_indicators)
+                has_bc_dest = any(indicator in destination_lower for indicator in bc_indicators)
+                has_ns_dest = any(indicator in destination_lower for indicator in ns_indicators)
                 
-                for province in canadian_provinces:
-                    if province in origin_lower:
-                        origin_province = province
-                    if province in destination_lower:
-                        dest_province = province
-                
-                for indicator in international_indicators:
-                    if indicator in destination_lower:
-                        is_international = True
-                        break
-                
-                # Check for long-distance moves (cross-province or international)
-                if (origin_province and dest_province and origin_province != dest_province) or is_international:
-                    print(f"Easy2Go: Cross-province/international move detected: {origin} -> {destination}")
-                    raise ValueError(f"Cross-province/international move not supported")
-                
-                # Additional check for very long distances based on address patterns
-                long_distance_provinces = ['nova scotia', 'ns', 'newfoundland', 'nl', 'british columbia', 'bc', 'alberta', 'ab']
-                has_long_distance_dest = any(province in destination_lower for province in long_distance_provinces)
-                has_ontario_origin = 'ontario' in origin_lower or 'on' in origin_lower
-                
-                if has_long_distance_dest and has_ontario_origin:
-                    print(f"Easy2Go: Cross-country move detected: {origin} -> {destination}")
-                    raise ValueError(f"Cross-country move not supported")
+                # Reject cross-province moves
+                if has_ontario_origin and (has_quebec_dest or has_bc_dest or has_ns_dest):
+                    print(f"Easy2Go: Cross-province move detected: {origin} -> {destination}")
+                    raise ValueError(f"Cross-province move not supported")
             
             # Use the provided dispatcher address instead of hardcoded one
             
@@ -1924,37 +1908,25 @@ class VelocityMoversCalculator(VendorCalculator):
                     print(f"Velocity Movers: One-way travel time {one_way_hours:.1f}h exceeds 10h limit for long distance moves")
                     raise ValueError(f"One-way travel time {one_way_hours:.1f}h exceeds 10h limit")
             else:
-                # If Mapbox fails to return directions, check if this looks like a long distance move
+                # Simple province detection for long-distance move rejection
                 origin_lower = origin.lower()
                 destination_lower = destination.lower()
                 
-                canadian_provinces = ['on', 'qc', 'bc', 'ab', 'mb', 'sk', 'ns', 'nb', 'nl', 'pe', 'yt', 'nt', 'nu']
-                international_indicators = ['uk', 'usa', 'us', 'united states', 'united kingdom', 'london', 'new york', 'california']
+                # Simple cross-province detection
+                ontario_indicators = ['ontario', 'on', 'toronto', 'mississauga', 'hamilton', 'ottawa']
+                quebec_indicators = ['quebec', 'qc', 'montreal']
+                bc_indicators = ['british columbia', 'bc', 'vancouver']
+                ns_indicators = ['nova scotia', 'ns', 'halifax']
                 
-                origin_province = None
-                dest_province = None
-                is_international = False
+                has_ontario_origin = any(indicator in origin_lower for indicator in ontario_indicators)
+                has_quebec_dest = any(indicator in destination_lower for indicator in quebec_indicators)
+                has_bc_dest = any(indicator in destination_lower for indicator in bc_indicators)
+                has_ns_dest = any(indicator in destination_lower for indicator in ns_indicators)
                 
-                for province in canadian_provinces:
-                    if province in origin_lower:
-                        origin_province = province
-                    if province in destination_lower:
-                        dest_province = province
-                
-                for indicator in international_indicators:
-                    if indicator in destination_lower:
-                        is_international = True
-                        break
-                
-                if (origin_province and dest_province and origin_province != dest_province) or is_international:
-                    print(f"Velocity Movers: Cross-province/international move detected: {origin} -> {destination}")
-                    raise ValueError(f"Cross-province/international move not supported")
-                
-                # Additional check for very long distances based on address patterns
-                if any(province in destination_lower for province in ['nova scotia', 'ns', 'newfoundland', 'nl', 'british columbia', 'bc', 'alberta', 'ab']):
-                    if 'ontario' in origin_lower or 'on' in origin_lower:
-                        print(f"Velocity Movers: Cross-country move detected: {origin} -> {destination}")
-                        raise ValueError(f"Cross-country move not supported")
+                # Reject cross-province moves
+                if has_ontario_origin and (has_quebec_dest or has_bc_dest or has_ns_dest):
+                    print(f"Velocity Movers: Cross-province move detected: {origin} -> {destination}")
+                    raise ValueError(f"Cross-province move not supported")
             
             # Use the provided dispatcher address instead of hardcoded one
             
@@ -2237,37 +2209,25 @@ class PierreSonsCalculator(VendorCalculator):
                     print(f"Pierre & Sons: One-way travel time {one_way_hours:.1f}h exceeds 10h limit for long distance moves")
                     raise ValueError(f"One-way travel time {one_way_hours:.1f}h exceeds 10h limit")
             else:
-                # If Mapbox fails to return directions, check if this looks like a long distance move
+                # Simple province detection for long-distance move rejection
                 origin_lower = origin.lower()
                 destination_lower = destination.lower()
                 
-                canadian_provinces = ['on', 'qc', 'bc', 'ab', 'mb', 'sk', 'ns', 'nb', 'nl', 'pe', 'yt', 'nt', 'nu']
-                international_indicators = ['uk', 'usa', 'us', 'united states', 'united kingdom', 'london', 'new york', 'california']
+                # Simple cross-province detection
+                ontario_indicators = ['ontario', 'on', 'toronto', 'mississauga', 'hamilton', 'ottawa']
+                quebec_indicators = ['quebec', 'qc', 'montreal']
+                bc_indicators = ['british columbia', 'bc', 'vancouver']
+                ns_indicators = ['nova scotia', 'ns', 'halifax']
                 
-                origin_province = None
-                dest_province = None
-                is_international = False
+                has_ontario_origin = any(indicator in origin_lower for indicator in ontario_indicators)
+                has_quebec_dest = any(indicator in destination_lower for indicator in quebec_indicators)
+                has_bc_dest = any(indicator in destination_lower for indicator in bc_indicators)
+                has_ns_dest = any(indicator in destination_lower for indicator in ns_indicators)
                 
-                for province in canadian_provinces:
-                    if province in origin_lower:
-                        origin_province = province
-                    if province in destination_lower:
-                        dest_province = province
-                
-                for indicator in international_indicators:
-                    if indicator in destination_lower:
-                        is_international = True
-                        break
-                
-                if (origin_province and dest_province and origin_province != dest_province) or is_international:
-                    print(f"Pierre & Sons: Cross-province/international move detected: {origin} -> {destination}")
-                    raise ValueError(f"Cross-province/international move not supported")
-                
-                # Additional check for very long distances based on address patterns
-                if any(province in destination_lower for province in ['nova scotia', 'ns', 'newfoundland', 'nl', 'british columbia', 'bc', 'alberta', 'ab']):
-                    if 'ontario' in origin_lower or 'on' in origin_lower:
-                        print(f"Pierre & Sons: Cross-country move detected: {origin} -> {destination}")
-                        raise ValueError(f"Cross-country move not supported")
+                # Reject cross-province moves
+                if has_ontario_origin and (has_quebec_dest or has_bc_dest or has_ns_dest):
+                    print(f"Pierre & Sons: Cross-province move detected: {origin} -> {destination}")
+                    raise ValueError(f"Cross-province move not supported")
                 
                 # If we get here, it's a local move but Mapbox failed - use default
                 return 1.0  # Default 1 hour travel time fee
