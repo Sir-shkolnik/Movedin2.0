@@ -222,7 +222,16 @@ class SmartCalendarParser:
         return monthly_data
         
     def determine_location_name_fixed(self, content: str, gid: str) -> str:
-        """Determine location name with fixed approach"""
+        """Determine location name with fixed approach - based on actual CSV patterns"""
+        # Try to extract from calendar headers (most reliable)
+        # Look for patterns like "TORONTO (NORTH YORK),,,,MAR,,TORONTO (NORTH YORK),,,,APR,"
+        calendar_header_pattern = r'([A-Z][A-Z\s\(\)]+),+[A-Z]{3},+[A-Z][A-Z\s\(\)]+'
+        match = re.search(calendar_header_pattern, content)
+        if match:
+            location_name = match.group(1).strip()
+            if location_name and location_name != 'Unknown':
+                return location_name
+        
         # Try to extract from address
         address_match = re.search(r'ADDRESS:\s*([^,]+)', content)
         if address_match:
