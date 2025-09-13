@@ -20,8 +20,8 @@ class DispatcherCacheService:
         self.last_update = {}
         self._all_dispatchers_cache = None
         self._all_dispatchers_last_update = None
-        self._cache_version = "2025-01-20-v2"  # Version-based cache invalidation
-        self._force_refresh_on_startup = True  # Force refresh on application startup
+        self._cache_version = "2025-01-20-v3"  # Version-based cache invalidation - updated for location name fix
+        self._force_refresh_on_startup = True  # Force refresh on application startup - location name fix
     
     def get_dispatcher_data(self, location: str, db: Session) -> Optional[Dict[str, Any]]:
         """Get dispatcher data from cache or Google Sheets"""
