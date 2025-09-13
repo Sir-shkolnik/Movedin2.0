@@ -1450,27 +1450,40 @@ class Easy2GoCalculator(VendorCalculator):
         try:
             travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address, dispatcher_info['address'])
         except ValueError as e:
-            # This is a long distance move - return special response
+            # This is a long distance move - return special vendor card
             return {
                 "vendor_name": "Easy2Go",
                 "vendor_slug": "easy2go",
                 "total_cost": 0.0,
+                "original_cost": 0.0,
+                "markup_amount": 0.0,
+                "markup_percentage": 0.0,
                 "breakdown": {
                     "labor": 0.0,
+                    "travel": 0.0,
                     "fuel": 0.0,
                     "heavy_items": 0.0,
-                    "additional_services": 0.0
+                    "additional_services": 0.0,
+                    "original_total": 0.0
                 },
                 "crew_size": 0,
                 "truck_count": 0,
                 "estimated_hours": 0.0,
                 "travel_time_hours": 0.0,
                 "hourly_rate": 0.0,
+                "dispatcher_info": {
+                    "name": "Easy2Go Sales Team",
+                    "address": "Contact for custom quote",
+                    "total_distance_km": 0.0,
+                    "location_name": "Sales Team",
+                    "gmb_url": "https://www.easy2go.com"
+                },
                 "available_slots": [],
                 "rating": 4.6,
                 "reviews": 892,
-                "special_notes": "This is a long-distance move. We'd love to help! Please call us at +1-XXX-XXX-XXX for a custom quote, or we can schedule a meeting with our agent at your convenience.",
-                "hourly_rate": 0.0
+                "special_notes": "This is a long-distance move. Our sales team will contact you within 24 hours with a custom quote tailored to your specific needs.",
+                "is_long_distance": True,
+                "contact_sales": True
             }
         
         # Calculate costs using official Easy2Go rules
@@ -1580,10 +1593,8 @@ class Easy2GoCalculator(VendorCalculator):
         try:
             # First check one-way travel time for long distance validation
             leg2 = mapbox_service.get_directions(origin, destination)
-            print(f"DEBUG Easy2Go: Mapbox response for {origin} -> {destination}: {leg2}")
             if leg2 and 'duration' in leg2:
                 one_way_hours = leg2['duration'] / 3600
-                print(f"DEBUG Easy2Go: One-way travel time calculated: {one_way_hours:.1f}h")
                 # Check 10-hour travel time limit - Easy2Go doesn't do these moves
                 if one_way_hours > 10:
                     print(f"Easy2Go: One-way travel time {one_way_hours:.1f}h exceeds 10h limit for long distance moves")
@@ -1732,27 +1743,40 @@ class VelocityMoversCalculator(VendorCalculator):
         try:
             travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address, dispatcher_info['address'])
         except ValueError as e:
-            # This is a long distance move - return special response
+            # This is a long distance move - return special vendor card
             return {
                 "vendor_name": "Velocity Movers",
                 "vendor_slug": "velocity-movers",
                 "total_cost": 0.0,
+                "original_cost": 0.0,
+                "markup_amount": 0.0,
+                "markup_percentage": 0.0,
                 "breakdown": {
                     "labor": 0.0,
+                    "travel": 0.0,
                     "fuel": 0.0,
                     "heavy_items": 0.0,
-                    "additional_services": 0.0
+                    "additional_services": 0.0,
+                    "original_total": 0.0
                 },
                 "crew_size": 0,
                 "truck_count": 0,
                 "estimated_hours": 0.0,
                 "travel_time_hours": 0.0,
                 "hourly_rate": 0.0,
+                "dispatcher_info": {
+                    "name": "Velocity Movers Sales Team",
+                    "address": "Contact for custom quote",
+                    "total_distance_km": 0.0,
+                    "location_name": "Sales Team",
+                    "gmb_url": "https://www.velocitymovers.com"
+                },
                 "available_slots": [],
                 "rating": 4.7,
                 "reviews": 634,
-                "special_notes": "This is a long-distance move. We'd love to help! Please call us at +1-XXX-XXX-XXX for a custom quote, or we can schedule a meeting with our agent at your convenience.",
-                "hourly_rate": 0.0
+                "special_notes": "This is a long-distance move. Our sales team will contact you within 24 hours with a custom quote tailored to your specific needs.",
+                "is_long_distance": True,
+                "contact_sales": True
             }
         
         # Calculate costs using official Velocity Movers rules
@@ -1996,27 +2020,40 @@ class PierreSonsCalculator(VendorCalculator):
             travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address, dispatcher_info['address'])
             distance_km = self._calculate_distance(quote_request.origin_address, quote_request.destination_address)
         except ValueError as e:
-            # This is a long distance move - return special response
+            # This is a long distance move - return special vendor card
             return {
                 "vendor_name": "Pierre & Sons",
                 "vendor_slug": "pierre-sons",
                 "total_cost": 0.0,
+                "original_cost": 0.0,
+                "markup_amount": 0.0,
+                "markup_percentage": 0.0,
                 "breakdown": {
                     "labor": 0.0,
+                    "travel": 0.0,
                     "fuel": 0.0,
                     "heavy_items": 0.0,
-                    "additional_services": 0.0
+                    "additional_services": 0.0,
+                    "original_total": 0.0
                 },
                 "crew_size": 0,
                 "truck_count": 0,
                 "estimated_hours": 0.0,
                 "travel_time_hours": 0.0,
                 "hourly_rate": 0.0,
+                "dispatcher_info": {
+                    "name": "Pierre & Sons Sales Team",
+                    "address": "Contact for custom quote",
+                    "total_distance_km": 0.0,
+                    "location_name": "Sales Team",
+                    "gmb_url": "https://www.pierreandsons.com"
+                },
                 "available_slots": [],
                 "rating": 4.8,
                 "reviews": 1247,
-                "special_notes": "This is a long-distance move. We'd love to help! Please call us at +1-XXX-XXX-XXX for a custom quote, or we can schedule a meeting with our agent at your convenience.",
-                "hourly_rate": 0.0
+                "special_notes": "This is a long-distance move. Our sales team will contact you within 24 hours with a custom quote tailored to your specific needs.",
+                "is_long_distance": True,
+                "contact_sales": True
             }
         
         # Calculate costs using official Pierre & Sons rules
