@@ -31,7 +31,16 @@ class VendorDispatcher:
             
             for vendor_slug, vendor_name in vendors_to_check:
                 print(f"  Checking vendor: {vendor_slug}")
-                if self._vendor_serves_location(vendor_slug, origin_address, destination_address):
+                try:
+                    serves_location = self._vendor_serves_location(vendor_slug, origin_address, destination_address)
+                    print(f"  ✅ _vendor_serves_location completed for {vendor_slug}: {serves_location}")
+                except Exception as e:
+                    print(f"  ❌ ERROR in _vendor_serves_location for {vendor_slug}: {e}")
+                    import traceback
+                    print(f"  Traceback: {traceback.format_exc()}")
+                    serves_location = False
+                
+                if serves_location:
                     print(f"    ✅ {vendor_slug} serves location")
                     vendor_info = self._get_vendor_info(vendor_slug, vendor_name, origin_address)
                     if vendor_info:
