@@ -14,6 +14,8 @@
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 20px;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 /* Hero Section */
@@ -576,8 +578,17 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .page-content {
+        padding: 0 16px;
+        max-width: 100vw;
+        overflow-x: hidden;
+    }
+    
     .hero-section {
         padding: 4rem 1rem 3rem;
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .hero-content {
@@ -599,7 +610,10 @@
     }
     
     .trusted-section {
-        padding: 2rem 1rem;
+        padding: 2rem 0;
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .trusted-logos {
@@ -615,8 +629,11 @@
     
     .feature-item {
         grid-template-columns: 1fr;
-    gap: 2rem;
-        padding: 4rem 1rem;
+        gap: 2rem;
+        padding: 4rem 0;
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .feature-item:nth-child(1),
