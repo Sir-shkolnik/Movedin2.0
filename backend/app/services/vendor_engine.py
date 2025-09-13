@@ -1580,8 +1580,10 @@ class Easy2GoCalculator(VendorCalculator):
         try:
             # First check one-way travel time for long distance validation
             leg2 = mapbox_service.get_directions(origin, destination)
+            print(f"DEBUG Easy2Go: Mapbox response for {origin} -> {destination}: {leg2}")
             if leg2 and 'duration' in leg2:
                 one_way_hours = leg2['duration'] / 3600
+                print(f"DEBUG Easy2Go: One-way travel time calculated: {one_way_hours:.1f}h")
                 # Check 10-hour travel time limit - Easy2Go doesn't do these moves
                 if one_way_hours > 10:
                     print(f"Easy2Go: One-way travel time {one_way_hours:.1f}h exceeds 10h limit for long distance moves")
