@@ -53,7 +53,7 @@ class MapboxService:
             'types': 'address,place,locality'  # Avoid noisy POIs
         }
         
-        url = f"{self.base_url}/geocoding/v6/forward"
+        url = f"{self.base_url}/search/geocode/v6/forward"
         
         # Retry logic with exponential backoff
         for attempt in range(self._max_retries):
