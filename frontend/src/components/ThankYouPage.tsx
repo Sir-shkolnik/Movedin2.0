@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Step.css';
+import './steps/Step.css';
 
 const ThankYouPage: React.FC = () => {
     const [leadId, setLeadId] = useState<string | null>(null);
