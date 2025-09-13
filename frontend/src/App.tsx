@@ -11,6 +11,7 @@ import Step4 from './components/steps/Step4';
 import Step5 from './components/steps/Step5';
 import Step6 from './components/steps/Step6';
 import Step7 from './components/steps/Step7';
+import ThankYouPage from './components/ThankYouPage';
 import PaymentRedirect from './pages/PaymentRedirect';
 import { FormProvider, useForm } from './contexts/FormContext';
 
@@ -42,9 +43,17 @@ function AppInner() {
     // Check if we're on the payment redirect path
     const isPaymentRedirect = location.pathname === '/payment-redirect';
     
+    // Check if we're on the thank you page
+    const isThankYouPage = location.pathname === '/thank-you' || location.hash.includes('#/thank-you');
+    
     // If we're on payment redirect, render the PaymentRedirect component
     if (isPaymentRedirect) {
         return <PaymentRedirect />;
+    }
+    
+    // If we're on thank you page, render the ThankYouPage component
+    if (isThankYouPage) {
+        return <ThankYouPage />;
     }
     
     // Debug logging function

@@ -57,7 +57,7 @@ async def create_payment_link(request: Request, db: Session = Depends(get_db)):
                 'quantity': 1,
             }],
             mode='payment',
-            success_url=f'https://movedin-frontend.onrender.com/#/step7?lead_id={lead_id}&vendor={vendor_slug}&amount={amount}&currency={currency}&email={customer_email}&session_id={{CHECKOUT_SESSION_ID}}',
+            success_url=f'https://movedin-frontend.onrender.com/#/thank-you?lead_id={lead_id}&vendor={vendor_slug}&amount={amount}&currency={currency}&email={customer_email}&session_id={{CHECKOUT_SESSION_ID}}',
             cancel_url='https://movedin-frontend.onrender.com/#/',
             metadata=metadata,
             allow_promotion_codes=True,
