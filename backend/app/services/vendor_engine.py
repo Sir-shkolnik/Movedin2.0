@@ -435,6 +435,25 @@ class GeographicVendorDispatcher:
         distance_km = cls._calculate_distance_km(origin_address, destination_address)
         
         for vendor_slug, service_area in cls.VENDOR_SERVICE_AREAS.items():
+            # Special handling for Let's Get Moving using standalone system
+            if vendor_slug == "lets-get-moving":
+                from .letsgetmoving.standalone_lgm_calculator import standalone_lgm_calculator
+                if standalone_lgm_calculator.serves_location(origin_address, destination_address):
+                    # Create a simple dispatcher info for LGM
+                    best_dispatcher = {
+                        "id": "lgm-standalone",
+                        "name": "Let's Get Moving",
+                        "address": "Multiple Locations",
+                        "coordinates": {"lat": 43.6532, "lng": -79.3832},
+                        "base_rate": 139.0,
+                        "total_distance_km": distance_km
+                    }
+                    available_vendors.append({
+                        "vendor_slug": vendor_slug,
+                        "dispatcher_info": best_dispatcher
+                    })
+                continue
+            
             # Check if vendor serves both origin and destination cities
             serves_origin = cls._vendor_serves_location(vendor_slug, origin_city)
             serves_destination = cls._vendor_serves_location(vendor_slug, dest_city)
@@ -2187,9 +2206,12 @@ class PierreSonsCalculator(VendorCalculator):
         # based on size, time, weight, and other factors - not included in base quote
         return 0.0
 
+# Import standalone LGM calculator
+from .letsgetmoving.standalone_lgm_calculator import standalone_lgm_calculator
+
 # Vendor calculator factory
 VENDOR_CALCULATORS = {
-    "lets-get-moving": LetsGetMovingCalculator(),
+    "lets-get-moving": standalone_lgm_calculator,
     "easy2go": Easy2GoCalculator(),
     "velocity-movers": VelocityMoversCalculator(),
     "pierre-sons": PierreSonsCalculator(),

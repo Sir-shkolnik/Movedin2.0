@@ -105,41 +105,42 @@ class VendorDispatcher:
         
         if vendor_slug == "lets-get-moving":
             try:
-                # Let's Get Moving uses Google Sheets - get dispatcher info
-                move_date = quote_request.move_date.isoformat() if hasattr(quote_request.move_date, 'isoformat') else str(quote_request.move_date)
-                print(f"  Move date: {move_date}")
+                # Use standalone Let's Get Moving system
+                from .letsgetmoving.standalone_lgm_calculator import standalone_lgm_calculator
                 
-                # Try to get dispatcher info from Google Sheets using GeographicVendorDispatcher
-                dispatcher_info = None
-                try:
-                    print(f"  Calling get_best_dispatcher_from_sheets...")
-                    dispatcher_info = GeographicVendorDispatcher.get_best_dispatcher_from_sheets(
-                        vendor_slug,
-                        quote_request.origin_address, 
-                        quote_request.destination_address,
-                        move_date
-                    )
-                    print(f"  Dispatcher info result: {dispatcher_info is not None}")
-                    if dispatcher_info:
-                        print(f"  Dispatcher name: {dispatcher_info.get('name', 'Unknown')}")
-                except Exception as e:
-                    print(f"Error getting dispatcher info: {e}")
+                print(f"  Using standalone LGM calculator...")
                 
-                if not dispatcher_info:
-                    print(f"No dispatcher info found for {vendor_slug} - no Google Sheets data available")
-                    return {
-                        "vendor_name": "Let's Get Moving",
-                        "error": "No dispatcher data available from Google Sheets. Please try again later or contact support.",
-                        "vendor_slug": vendor_slug
-                    }
+                # Convert QuoteRequest to dict for standalone calculator
+                quote_request_dict = {
+                    "origin_address": quote_request.origin_address,
+                    "destination_address": quote_request.destination_address,
+                    "move_date": quote_request.move_date.isoformat() if hasattr(quote_request.move_date, 'isoformat') else str(quote_request.move_date),
+                    "move_time": quote_request.move_time,
+                    "total_rooms": quote_request.total_rooms,
+                    "square_footage": quote_request.square_footage,
+                    "estimated_weight": quote_request.estimated_weight,
+                    "heavy_items": quote_request.heavy_items,
+                    "stairs_at_pickup": quote_request.stairs_at_pickup,
+                    "stairs_at_dropoff": quote_request.stairs_at_dropoff,
+                    "elevator_at_pickup": quote_request.elevator_at_pickup,
+                    "elevator_at_dropoff": quote_request.elevator_at_dropoff,
+                    "additional_services": quote_request.additional_services
+                }
                 
-                # Calculate quote with Google Sheets data
-                print(f"  Calling lets_get_moving_calculator.calculate_quote...")
-                result = self.lets_get_moving_calculator.calculate_quote(quote_request, dispatcher_info, db)
-                print(f"  Calculator result: {result is not None}")
-                return result
+                # Calculate quote using standalone system
+                quote_result = standalone_lgm_calculator.calculate_quote(quote_request_dict)
+                
+                if quote_result:
+                    print(f"  ✅ Standalone LGM quote calculated: ${quote_result.get('total_cost', 0)}")
+                    return quote_result
+                else:
+                    print(f"  ❌ Standalone LGM calculator returned None")
+                    return None
+                
             except Exception as e:
                 print(f"Error calculating quote for {vendor_slug}: {e}")
+                import traceback
+                print(f"Traceback: {traceback.format_exc()}")
                 return None
         
         else:
