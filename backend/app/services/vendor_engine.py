@@ -437,21 +437,35 @@ class GeographicVendorDispatcher:
         for vendor_slug, service_area in cls.VENDOR_SERVICE_AREAS.items():
             # Special handling for Let's Get Moving using standalone system
             if vendor_slug == "lets-get-moving":
-                from .letsgetmoving.standalone_lgm_calculator import standalone_lgm_calculator
-                if standalone_lgm_calculator.serves_location(origin_address, destination_address):
-                    # Create a simple dispatcher info for LGM
-                    best_dispatcher = {
-                        "id": "lgm-standalone",
-                        "name": "Let's Get Moving",
-                        "address": "Multiple Locations",
-                        "coordinates": {"lat": 43.6532, "lng": -79.3832},
-                        "base_rate": 139.0,
-                        "total_distance_km": distance_km
-                    }
-                    available_vendors.append({
-                        "vendor_slug": vendor_slug,
-                        "dispatcher_info": best_dispatcher
-                    })
+                print(f"🔍 LGM VENDOR SELECTION DEBUG:")
+                print(f"  Checking Let's Get Moving for: {origin_address} -> {destination_address}")
+                try:
+                    from .letsgetmoving.standalone_lgm_calculator import standalone_lgm_calculator
+                    print(f"  ✅ LGM calculator imported successfully")
+                    serves = standalone_lgm_calculator.serves_location(origin_address, destination_address)
+                    print(f"  LGM serves location: {serves}")
+                    
+                    if serves:
+                        # Create a simple dispatcher info for LGM
+                        best_dispatcher = {
+                            "id": "lgm-standalone",
+                            "name": "Let's Get Moving",
+                            "address": "Multiple Locations",
+                            "coordinates": {"lat": 43.6532, "lng": -79.3832},
+                            "base_rate": 139.0,
+                            "total_distance_km": distance_km
+                        }
+                        available_vendors.append({
+                            "vendor_slug": vendor_slug,
+                            "dispatcher_info": best_dispatcher
+                        })
+                        print(f"  ✅ LGM added to available vendors")
+                    else:
+                        print(f"  ❌ LGM does not serve this location")
+                except Exception as e:
+                    print(f"  ❌ Error with LGM calculator: {e}")
+                    import traceback
+                    print(f"  Traceback: {traceback.format_exc()}")
                 continue
             
             # Check if vendor serves both origin and destination cities
