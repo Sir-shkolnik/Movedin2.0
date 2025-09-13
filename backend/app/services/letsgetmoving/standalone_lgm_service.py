@@ -61,16 +61,55 @@ class StandaloneLGMService:
         # Google Sheets URLs - CORRECTED
         self.base_url = "https://docs.google.com/spreadsheets/d/1JmIRpRlH3J1XmCrWlHfVnOCP5kk_yMZAXwsBUhPwnzk/export?format=csv&gid="
         
-        # Service areas for Let's Get Moving
-        self.service_areas = {
-            "Toronto": ["Toronto", "North York", "Scarborough", "Etobicoke", "York", "East York", "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill", "Oakville", "Burlington", "Hamilton", "Oshawa", "Whitby", "Ajax", "Pickering", "Barrie", "Aurora", "Brantford", "Kitchener", "Waterloo", "Windsor", "Peterborough"],
-            "Vancouver": ["Vancouver", "Burnaby", "Richmond", "Victoria", "Abbotsford", "Port Moody", "Surrey", "Coquitlam", "Maple Ridge", "Langley", "Delta", "Port Coquitlam"],
-            "Calgary": ["Calgary", "Edmonton"],
-            "Montreal": ["Montreal"],
-            "Winnipeg": ["Winnipeg"],
-            "Halifax": ["Halifax"],
-            "Fredericton": ["Fredericton"]
+        # Service areas for Let's Get Moving - 50km radius from each dispatcher
+        self.dispatcher_coordinates = {
+            "Toronto": {"lat": 43.6532, "lng": -79.3832},
+            "North York": {"lat": 43.7615, "lng": -79.4111},
+            "Scarborough": {"lat": 43.7767, "lng": -79.2313},
+            "Etobicoke": {"lat": 43.6532, "lng": -79.5673},
+            "York": {"lat": 43.6896, "lng": -79.4941},
+            "East York": {"lat": 43.6900, "lng": -79.3274},
+            "Mississauga": {"lat": 43.5890, "lng": -79.6441},
+            "Brampton": {"lat": 43.6834, "lng": -79.7663},
+            "Vaughan": {"lat": 43.8361, "lng": -79.4983},
+            "Markham": {"lat": 43.8561, "lng": -79.3370},
+            "Richmond Hill": {"lat": 43.8828, "lng": -79.4403},
+            "Oakville": {"lat": 43.4675, "lng": -79.6877},
+            "Burlington": {"lat": 43.3255, "lng": -79.7990},
+            "Hamilton": {"lat": 43.2557, "lng": -79.8711},
+            "Oshawa": {"lat": 43.8971, "lng": -78.8658},
+            "Whitby": {"lat": 43.8975, "lng": -78.9428},
+            "Ajax": {"lat": 43.8501, "lng": -79.0329},
+            "Pickering": {"lat": 43.8114, "lng": -79.0235},
+            "Barrie": {"lat": 44.3894, "lng": -79.6903},
+            "Aurora": {"lat": 44.0054, "lng": -79.4663},
+            "Brantford": {"lat": 43.1394, "lng": -80.2644},
+            "Kitchener": {"lat": 43.4501, "lng": -80.4829},
+            "Waterloo": {"lat": 43.4643, "lng": -80.5204},
+            "Windsor": {"lat": 42.3149, "lng": -83.0364},
+            "Peterborough": {"lat": 44.3091, "lng": -78.3197},
+            "Vancouver": {"lat": 49.2827, "lng": -123.1207},
+            "Burnaby": {"lat": 49.2488, "lng": -122.9805},
+            "Richmond": {"lat": 49.1666, "lng": -123.1336},
+            "Victoria": {"lat": 48.4284, "lng": -123.3656},
+            "Abbotsford": {"lat": 49.0504, "lng": -122.3045},
+            "Port Moody": {"lat": 49.2831, "lng": -122.8326},
+            "Surrey": {"lat": 49.1913, "lng": -122.8490},
+            "Coquitlam": {"lat": 49.2838, "lng": -122.7932},
+            "Maple Ridge": {"lat": 49.2194, "lng": -122.6019},
+            "Langley": {"lat": 49.1041, "lng": -122.6601},
+            "Delta": {"lat": 49.0847, "lng": -122.9000},
+            "Port Coquitlam": {"lat": 49.2625, "lng": -122.7811},
+            "Calgary": {"lat": 51.0447, "lng": -114.0719},
+            "Edmonton": {"lat": 53.5461, "lng": -113.4938},
+            "Montreal": {"lat": 45.5017, "lng": -73.5673},
+            "Winnipeg": {"lat": 49.8951, "lng": -97.1384},
+            "Halifax": {"lat": 44.6488, "lng": -63.5752},
+            "Fredericton": {"lat": 45.9636, "lng": -66.6431}
         }
+        
+        # Maximum service radius in kilometers
+        self.max_service_radius_km = 50
         
         # Cache for dispatcher data
         self.dispatcher_cache = {}
@@ -215,10 +254,43 @@ class StandaloneLGMService:
         return round(base_hours * crew_factor, 1)
     
     def _estimate_travel_time(self, quote_request: Dict[str, Any]) -> float:
-        """Estimate travel time between locations"""
-        # Simplified travel time calculation
-        # In a real implementation, this would use Mapbox or similar
-        return 1.0  # Default 1 hour travel time
+        """Estimate travel time between locations based on distance"""
+        try:
+            origin = quote_request.get("origin_address", "")
+            destination = quote_request.get("destination_address", "")
+            
+            if not origin or not destination:
+                return 1.0
+            
+            # Extract cities
+            origin_city = self._extract_city(origin)
+            dest_city = self._extract_city(destination)
+            
+            if not origin_city or not dest_city:
+                return 1.0
+            
+            # Get coordinates
+            origin_coords = self._get_coordinates_for_city(origin_city)
+            dest_coords = self._get_coordinates_for_city(dest_city)
+            
+            if not origin_coords or not dest_coords:
+                return 1.0
+            
+            # Calculate distance
+            distance_km = self._calculate_distance_km(origin_coords, dest_coords)
+            
+            # Estimate travel time (assuming average speed of 60 km/h for trucks)
+            # Add 30% for traffic and truck factor
+            base_travel_time = distance_km / 60.0  # hours
+            truck_factor = 1.3
+            estimated_travel_time = base_travel_time * truck_factor
+            
+            # Minimum 0.5 hours, maximum 10 hours
+            return max(0.5, min(10.0, estimated_travel_time))
+            
+        except Exception as e:
+            logger.error(f"Error calculating travel time: {e}")
+            return 1.0
     
     def _get_available_slots(self, dispatcher_data: Dict[str, Any], move_date: str) -> List[str]:
         """Get available time slots for the move date"""
@@ -314,30 +386,95 @@ class StandaloneLGMService:
         return None
     
     def _serves_location(self, dispatcher_location: str, user_city: str) -> bool:
-        """Check if dispatcher serves the user's location"""
+        """Check if dispatcher serves the user's location within 50km radius"""
         if not user_city or not dispatcher_location:
             logger.warning(f"❌ Missing city or dispatcher location: user_city='{user_city}', dispatcher_location='{dispatcher_location}'")
             return False
         
-        user_city_lower = user_city.lower()
-        dispatcher_location_lower = dispatcher_location.lower()
-        
         logger.info(f"🔍 LGM _serves_location: user_city='{user_city}', dispatcher_location='{dispatcher_location}'")
         
-        # Direct match
-        if user_city_lower in dispatcher_location_lower or dispatcher_location_lower in user_city_lower:
-            logger.info(f"✅ Direct match found")
+        # Get coordinates for both locations
+        user_coords = self._get_coordinates_for_city(user_city)
+        dispatcher_coords = self._get_coordinates_for_city(dispatcher_location)
+        
+        if not user_coords or not dispatcher_coords:
+            logger.warning(f"❌ Missing coordinates: user_coords={user_coords}, dispatcher_coords={dispatcher_coords}")
+            return False
+        
+        # Calculate distance using Haversine formula
+        distance_km = self._calculate_distance_km(user_coords, dispatcher_coords)
+        
+        logger.info(f"🔍 Distance: {distance_km:.2f}km (max: {self.max_service_radius_km}km)")
+        
+        if distance_km <= self.max_service_radius_km:
+            logger.info(f"✅ Within service radius: {distance_km:.2f}km <= {self.max_service_radius_km}km")
             return True
+        else:
+            logger.warning(f"❌ Outside service radius: {distance_km:.2f}km > {self.max_service_radius_km}km")
+            return False
+    
+    def _get_coordinates_for_city(self, city_name: str) -> Optional[Dict[str, float]]:
+        """Get coordinates for a city name"""
+        city_lower = city_name.lower()
         
-        # Check service areas
-        for region, cities in self.service_areas.items():
-            if user_city_lower in [city.lower() for city in cities]:
-                if region.lower() in dispatcher_location_lower:
-                    logger.info(f"✅ Service area match: {region}")
-                    return True
+        # Try exact match first
+        for city, coords in self.dispatcher_coordinates.items():
+            if city.lower() == city_lower:
+                return coords
         
-        logger.warning(f"❌ No service area match found")
-        return False
+        # Try partial match
+        for city, coords in self.dispatcher_coordinates.items():
+            if city_lower in city.lower() or city.lower() in city_lower:
+                return coords
+        
+        # Default coordinates for unknown cities (will be rejected by distance check)
+        return {"lat": 0.0, "lng": 0.0}
+    
+    def _calculate_distance_km(self, coords1: Dict[str, float], coords2: Dict[str, float]) -> float:
+        """Calculate distance between two coordinates using Haversine formula"""
+        import math
+        
+        lat1, lng1 = coords1["lat"], coords1["lng"]
+        lat2, lng2 = coords2["lat"], coords2["lng"]
+        
+        # Convert to radians
+        lat1_rad = math.radians(lat1)
+        lng1_rad = math.radians(lng1)
+        lat2_rad = math.radians(lat2)
+        lng2_rad = math.radians(lng2)
+        
+        # Haversine formula
+        dlat = lat2_rad - lat1_rad
+        dlng = lng2_rad - lng1_rad
+        
+        a = math.sin(dlat/2)**2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlng/2)**2
+        c = 2 * math.asin(math.sqrt(a))
+        
+        # Earth's radius in kilometers
+        earth_radius_km = 6371
+        
+        return earth_radius_km * c
+    
+    def _calculate_move_distance(self, origin: str, destination: str) -> float:
+        """Calculate distance between origin and destination"""
+        try:
+            origin_city = self._extract_city(origin)
+            dest_city = self._extract_city(destination)
+            
+            if not origin_city or not dest_city:
+                return 0.0
+            
+            origin_coords = self._get_coordinates_for_city(origin_city)
+            dest_coords = self._get_coordinates_for_city(dest_city)
+            
+            if not origin_coords or not dest_coords:
+                return 0.0
+            
+            return self._calculate_distance_km(origin_coords, dest_coords)
+            
+        except Exception as e:
+            logger.error(f"Error calculating move distance: {e}")
+            return 0.0
     
     def calculate_quote(self, quote_request: Dict[str, Any], dispatcher_data: Dict[str, Any]) -> Dict[str, Any]:
         """Calculate quote for Let's Get Moving"""
@@ -352,11 +489,20 @@ class StandaloneLGMService:
             crew_size = self._calculate_crew_size(total_rooms)
             truck_count = self._calculate_truck_count(total_rooms)
             
-            # Calculate base cost
-            base_cost = base_rate * crew_size * truck_count
+            # Calculate distance-based pricing
+            origin = quote_request.get("origin_address", "")
+            destination = quote_request.get("destination_address", "")
+            distance_km = self._calculate_move_distance(origin, destination)
             
-            # Calculate travel fees (simplified)
-            travel_fees = self._calculate_travel_fees(quote_request, base_rate, truck_count)
+            # Apply distance multiplier (1.0 for local, up to 1.5 for longer distances)
+            distance_multiplier = min(1.5, 1.0 + (distance_km / 100.0) * 0.5)
+            adjusted_base_rate = base_rate * distance_multiplier
+            
+            # Calculate base cost
+            base_cost = adjusted_base_rate * crew_size * truck_count
+            
+            # Calculate travel fees based on distance
+            travel_fees = self._calculate_travel_fees(quote_request, adjusted_base_rate, truck_count, distance_km)
             
             # Calculate total cost
             total_cost = base_cost + travel_fees
@@ -415,11 +561,22 @@ class StandaloneLGMService:
         else:
             return 3
     
-    def _calculate_travel_fees(self, quote_request: Dict[str, Any], hourly_rate: float, truck_count: int) -> float:
-        """Calculate travel fees (simplified)"""
-        # Simplified travel fee calculation
-        # In a real implementation, this would use Mapbox API for distance calculation
-        return 50.0 * truck_count  # $50 per truck for travel
+    def _calculate_travel_fees(self, quote_request: Dict[str, Any], hourly_rate: float, truck_count: int, distance_km: float = 0.0) -> float:
+        """Calculate travel fees based on distance"""
+        try:
+            # Base travel fee
+            base_fee = 50.0 * truck_count
+            
+            # Distance-based fee (additional $2 per km beyond 25km)
+            if distance_km > 25.0:
+                distance_fee = (distance_km - 25.0) * 2.0
+                return base_fee + distance_fee
+            
+            return base_fee
+            
+        except Exception as e:
+            logger.error(f"Error calculating travel fees: {e}")
+            return 50.0 * truck_count
 
 # Global instance
 standalone_lgm_service = StandaloneLGMService()
