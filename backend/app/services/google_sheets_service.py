@@ -199,13 +199,13 @@ class GoogleSheetsService:
         Returns complete data structure with all calendar data
         """
         try:
-            # Import smart parser
-            from .letsgetmoving.smart_calendar_parser import create_smart_parser
+            # Import fixed smart parser
+            from .letsgetmoving.smart_calendar_parser_fixed import create_fixed_smart_parser
             
-            # Create smart parser instance
-            smart_parser = create_smart_parser()
+            # Create fixed smart parser instance
+            smart_parser = create_fixed_smart_parser()
             
-            # Use smart parser for all GIDs
+            # Use fixed smart parser for all GIDs
             result = smart_parser.parse_gid_complete(gid, csv_text)
             
             # Enhance with specialized data if available
