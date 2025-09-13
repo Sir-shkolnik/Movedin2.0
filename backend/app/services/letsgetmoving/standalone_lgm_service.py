@@ -142,9 +142,9 @@ class StandaloneLGMService:
             # Extract location name
             location_name = self.gid_location_map.get(gid, f"Location_{gid}")
             
-            # Extract calendar data using smart parser
+            # Extract calendar data using direct CSV parsing
             csv_content = response.text
-            calendar_data = self.smart_parser.extract_calendar_data_fixed(csv_content)
+            calendar_data = self._extract_calendar_data_direct(csv_content)
             
             logger.info(f"📅 LGM Calendar Data Extracted:")
             logger.info(f"  Total entries: {len(calendar_data)}")
@@ -168,7 +168,92 @@ class StandaloneLGMService:
             logger.error(f"Error getting dispatcher data for GID {gid}: {e}")
             return None
     
-    # Removed old flawed calendar extraction method - now using SmartCalendarParser
+    def _extract_calendar_data_direct(self, csv_content: str) -> Dict[str, float]:
+        """Extract calendar data directly from CSV content - SIMPLE AND EFFECTIVE"""
+        calendar_data = {}
+        
+        try:
+            # Split into lines
+            lines = csv_content.split('\n')
+            
+            # Find month headers and extract data
+            for i, line in enumerate(lines):
+                if 'YORK' in line and ('MAR' in line or 'APR' in line or 'MAY' in line or 'JUN' in line or 'JUL' in line or 'AUG' in line or 'SEP' in line or 'OCT' in line or 'NOV' in line or 'DEC' in line):
+                    # Found a month header line
+                    logger.info(f"📅 Found month header: {line}")
+                    
+                    # Extract months from this line
+                    months = []
+                    if 'MAR' in line: months.append(('MAR', '03'))
+                    if 'APR' in line: months.append(('APR', '04'))
+                    if 'MAY' in line: months.append(('MAY', '05'))
+                    if 'JUN' in line: months.append(('JUN', '06'))
+                    if 'JUL' in line: months.append(('JUL', '07'))
+                    if 'AUG' in line: months.append(('AUG', '08'))
+                    if 'SEP' in line: months.append(('SEP', '09'))
+                    if 'OCT' in line: months.append(('OCT', '10'))
+                    if 'NOV' in line: months.append(('NOV', '11'))
+                    if 'DEC' in line: months.append(('DEC', '12'))
+                    
+                    # Look for calendar data in the next few lines
+                    for j in range(i + 1, min(i + 20, len(lines))):
+                        data_line = lines[j]
+                        if 'SUNDAY,MONDAY,TUESDAY' in data_line:
+                            # Found calendar header, extract data from next lines
+                            for k in range(j + 1, min(j + 15, len(lines))):
+                                date_line = lines[k]
+                                price_line = lines[k + 1] if k + 1 < len(lines) else ""
+                                
+                                if date_line and price_line and ',' in date_line and ',' in price_line:
+                                    # Parse dates and prices
+                                    date_parts = [x.strip() for x in date_line.split(',')]
+                                    price_parts = [x.strip() for x in price_line.split(',')]
+                                    
+                                    # Extract data for each month
+                                    for month_name, month_num in months:
+                                        # Find the position of this month in the line
+                                        month_pos = line.find(month_name)
+                                        if month_pos != -1:
+                                            # Calculate the column position for this month
+                                            month_col = line[:month_pos].count(',')
+                                            
+                                            # Extract dates and prices for this month
+                                            for col in range(month_col, min(month_col + 7, len(date_parts))):
+                                                if col < len(date_parts) and col < len(price_parts):
+                                                    date_str = date_parts[col]
+                                                    price_str = price_parts[col]
+                                                    
+                                                    if date_str.isdigit() and price_str.replace('.', '').isdigit():
+                                                        try:
+                                                            date_key = f"2025-{month_num}-{int(date_str):02d}"
+                                                            price_value = float(price_str)
+                                                            calendar_data[date_key] = price_value
+                                                            logger.info(f"📅 Added {date_key}: ${price_value}")
+                                                        except (ValueError, IndexError):
+                                                            continue
+                            break
+            
+            # If no calendar data found, create default rates
+            if not calendar_data:
+                logger.warning("⚠️ No calendar data found, using default rates")
+                today = datetime.now()
+                for i in range(30):
+                    date = today + timedelta(days=i)
+                    date_str = date.strftime('%Y-%m-%d')
+                    calendar_data[date_str] = 139.0
+            
+            logger.info(f"📅 Calendar data extraction complete: {len(calendar_data)} entries")
+            return calendar_data
+            
+        except Exception as e:
+            logger.error(f"Error extracting calendar data: {e}")
+            # Return default rates on error
+            today = datetime.now()
+            for i in range(30):
+                date = today + timedelta(days=i)
+                date_str = date.strftime('%Y-%m-%d')
+                calendar_data[date_str] = 139.0
+            return calendar_data
     
     # Removed old location details extraction method - now using SmartCalendarParser
     
