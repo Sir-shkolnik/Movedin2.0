@@ -46,15 +46,22 @@ class VendorDispatcher:
         
         # Special handling for Let's Get Moving using standalone system
         if vendor_slug == "lets-get-moving":
+            print(f"  🔍 LGM VENDOR_SERVES_LOCATION DEBUG:")
+            print(f"    Origin: {origin_address}")
+            print(f"    Destination: {destination_address}")
+            print(f"    Origin city: {origin_city}")
+            print(f"    Dest city: {dest_city}")
             try:
+                print(f"    Attempting to import LGM calculator...")
                 from .letsgetmoving.standalone_lgm_calculator import standalone_lgm_calculator
-                print(f"  ✅ LGM calculator imported successfully")
+                print(f"    ✅ LGM calculator imported successfully")
+                print(f"    Calling serves_location...")
                 serves = standalone_lgm_calculator.serves_location(origin_address, destination_address)
-                print(f"  LGM serves location: {serves}")
+                print(f"    LGM serves location result: {serves}")
             except Exception as e:
-                print(f"  ❌ Error with LGM calculator: {e}")
+                print(f"    ❌ Error with LGM calculator: {e}")
                 import traceback
-                print(f"  Traceback: {traceback.format_exc()}")
+                print(f"    Traceback: {traceback.format_exc()}")
                 serves = False
         else:
             # All other vendors use GeographicVendorDispatcher for service area validation
