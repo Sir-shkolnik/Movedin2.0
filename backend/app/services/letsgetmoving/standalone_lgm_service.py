@@ -617,24 +617,26 @@ class StandaloneLGMService:
             return None
     
     def _calculate_crew_size(self, total_rooms: int) -> int:
-        """Calculate crew size based on rooms"""
-        if total_rooms <= 1:
-            return 2
-        elif total_rooms <= 3:
-            return 3
-        elif total_rooms <= 5:
-            return 4
+        """Calculate crew size based on rooms - CORRECTED LGM LOGIC"""
+        if total_rooms <= 2:
+            return 2  # 1 truck, 2 crew
+        elif total_rooms <= 4:
+            return 3  # 1 truck, 3 crew
+        elif total_rooms <= 6:
+            return 4  # 2 trucks, 4 crew
+        elif total_rooms <= 8:
+            return 5  # 2 trucks, 5 crew
         else:
-            return 5
+            return 6  # 2 trucks, 6 crew
     
     def _calculate_truck_count(self, total_rooms: int) -> int:
-        """Calculate truck count based on rooms"""
-        if total_rooms <= 2:
-            return 1
-        elif total_rooms <= 4:
-            return 2
+        """Calculate truck count based on rooms - CORRECTED LGM LOGIC"""
+        if total_rooms <= 4:
+            return 1  # 1 truck for up to 4 rooms
+        elif total_rooms <= 8:
+            return 2  # 2 trucks for 5-8 rooms
         else:
-            return 3
+            return 3  # 3 trucks for 9+ rooms
     
     def _calculate_travel_fees(self, quote_request: Dict[str, Any], hourly_rate: float, truck_count: int, distance_km: float = 0.0) -> float:
         """Calculate travel fees based on distance"""
