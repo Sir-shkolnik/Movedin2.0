@@ -44,9 +44,15 @@ class VendorDispatcher:
         print(f"  Extracted origin city: {origin_city}")
         print(f"  Extracted dest city: {dest_city}")
         
-        # All vendors now use GeographicVendorDispatcher for service area validation
-        serves = GeographicVendorDispatcher._vendor_serves_location(vendor_slug, origin_city)
-        print(f"  Serves location: {serves}")
+        # Special handling for Let's Get Moving using standalone system
+        if vendor_slug == "lets-get-moving":
+            from .letsgetmoving.standalone_lgm_calculator import standalone_lgm_calculator
+            serves = standalone_lgm_calculator.serves_location(origin_address, destination_address)
+            print(f"  LGM serves location: {serves}")
+        else:
+            # All other vendors use GeographicVendorDispatcher for service area validation
+            serves = GeographicVendorDispatcher._vendor_serves_location(vendor_slug, origin_city)
+            print(f"  Serves location: {serves}")
         
         return serves
     
