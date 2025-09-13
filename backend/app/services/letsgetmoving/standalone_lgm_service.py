@@ -484,6 +484,12 @@ class StandaloneLGMService:
             calendar_data = dispatcher_data.get("calendar_data", {})
             base_rate = calendar_data.get(move_date, 139.0)
             
+            logger.info(f"🔍 LGM Calendar Data Debug:")
+            logger.info(f"  Move Date: {move_date}")
+            logger.info(f"  Calendar Data Keys: {list(calendar_data.keys())[:10]}...")  # Show first 10 keys
+            logger.info(f"  Base Rate for {move_date}: {base_rate}")
+            logger.info(f"  Total Calendar Entries: {len(calendar_data)}")
+            
             # Calculate crew size and truck count
             total_rooms = quote_request.get("total_rooms", 3)
             crew_size = self._calculate_crew_size(total_rooms)
@@ -504,8 +510,18 @@ class StandaloneLGMService:
             # Calculate travel fees based on distance
             travel_fees = self._calculate_travel_fees(quote_request, adjusted_base_rate, truck_count, distance_km)
             
+            # Calculate heavy items cost
+            heavy_items_cost = self._calculate_heavy_items_cost(quote_request.get("heavy_items", {}))
+            
+            # Calculate additional services cost (vendor will quote separately)
+            additional_services_cost = self._calculate_additional_services_cost(quote_request.get("additional_services", {}))
+            
+            # Calculate stair time impact (minimal)
+            stair_time = self._calculate_stair_time(quote_request)
+            adjusted_estimated_hours = self._estimate_hours(total_rooms, crew_size) + stair_time
+            
             # Calculate total cost
-            total_cost = base_cost + travel_fees
+            total_cost = base_cost + travel_fees + heavy_items_cost + additional_services_cost
             
             return {
                 "vendor_slug": "lets-get-moving",
@@ -518,14 +534,19 @@ class StandaloneLGMService:
                 "breakdown": {
                     "base_cost": round(base_cost, 2),
                     "travel_fees": round(travel_fees, 2),
+                    "heavy_items": round(heavy_items_cost, 2),
+                    "additional_services": round(additional_services_cost, 2),
                     "crew_size": crew_size,
                     "truck_count": truck_count
                 },
-                "estimated_hours": self._estimate_hours(total_rooms, crew_size),
+                "estimated_hours": round(adjusted_estimated_hours, 1),
                 "travel_time_hours": self._estimate_travel_time(quote_request),
-                "hourly_rate": round(base_rate, 2),
+                "hourly_rate": round(adjusted_base_rate, 2),
                 "available_slots": self._get_available_slots(dispatcher_data, move_date),
                 "base_rate": base_rate,
+                "heavy_items_cost": round(heavy_items_cost, 2),
+                "additional_services_cost": round(additional_services_cost, 2),
+                "special_notes": "Additional services (packing, insurance, etc.) will be quoted separately by our team when we call to confirm your move details.",
                 "dispatcher_info": {
                     "name": dispatcher_data.get("location_name", "Unknown"),
                     "address": dispatcher_data.get("location_details", {}).get("address", ""),
@@ -577,6 +598,54 @@ class StandaloneLGMService:
         except Exception as e:
             logger.error(f"Error calculating travel fees: {e}")
             return 50.0 * truck_count
+    
+    def _calculate_heavy_items_cost(self, heavy_items: Dict[str, int]) -> float:
+        """Calculate heavy items cost - OFFICIAL LET'S GET MOVING RULES"""
+        if not heavy_items:
+            return 0.0
+        
+        # Official Let's Get Moving heavy item fees from PHP rules
+        heavy_item_fees = {
+            "piano": 250.0,      # Piano $250
+            "safe": 300.0,       # Safe $300  
+            "treadmill": 100.0,  # Treadmill $100
+            "pool_table": 200.0, # Pool table $200
+            "grand_piano": 400.0, # Grand piano $400
+            "gun_safe": 350.0,   # Gun safe $350
+            "antique_furniture": 150.0, # Antique furniture $150
+            "artwork": 100.0     # Artwork $100
+        }
+        
+        total_cost = 0.0
+        for item, quantity in heavy_items.items():
+            if item in heavy_item_fees and quantity > 0:
+                total_cost += heavy_item_fees[item] * quantity
+                logger.info(f"Added {item}: ${heavy_item_fees[item]} x {quantity} = ${heavy_item_fees[item] * quantity}")
+        
+        return total_cost
+    
+    def _calculate_additional_services_cost(self, additional_services: Dict[str, bool]) -> float:
+        """Calculate additional services cost - VENDOR WILL QUOTE SEPARATELY"""
+        # Additional services require vendor assessment
+        # This will be handled by vendor when they call client to confirm
+        return 0.0
+    
+    def _calculate_stair_time(self, quote_request: Dict[str, Any]) -> float:
+        """Calculate additional time for stairs - MINIMAL IMPACT"""
+        # Minimal stair time impact - 5 minutes per flight
+        stair_time_per_flight = 0.083  # 5 minutes = 0.083 hours
+        
+        total_stair_time = 0
+        
+        # Add time for pickup stairs
+        if quote_request.get("stairs_at_pickup", 0) > 0:
+            total_stair_time += quote_request["stairs_at_pickup"] * stair_time_per_flight
+        
+        # Add time for dropoff stairs  
+        if quote_request.get("stairs_at_dropoff", 0) > 0:
+            total_stair_time += quote_request["stairs_at_dropoff"] * stair_time_per_flight
+        
+        return total_stair_time
 
 # Global instance
 standalone_lgm_service = StandaloneLGMService()
