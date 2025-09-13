@@ -270,10 +270,33 @@ class StandaloneLGMService:
     # Removed old location details extraction method - now using SmartCalendarParser
     
     def _estimate_hours(self, total_rooms: int, crew_size: int) -> float:
-        """Estimate total hours for the move"""
-        base_hours = total_rooms * 1.5  # 1.5 hours per room
-        crew_factor = 1.0 / max(crew_size, 1)  # More crew = less time
-        return round(base_hours * crew_factor, 1)
+        """Estimate total hours for the move - REALISTIC LGM LOGIC"""
+        # Base hours per room (similar to other vendors)
+        if total_rooms <= 1:
+            base_hours = 3.0  # 1 room = 3 hours
+        elif total_rooms <= 2:
+            base_hours = 4.0  # 2 rooms = 4 hours
+        elif total_rooms <= 3:
+            base_hours = 5.5  # 3 rooms = 5.5 hours (like other vendors)
+        elif total_rooms <= 4:
+            base_hours = 6.5  # 4 rooms = 6.5 hours
+        elif total_rooms <= 5:
+            base_hours = 7.5  # 5 rooms = 7.5 hours (like other vendors)
+        elif total_rooms <= 6:
+            base_hours = 8.5  # 6 rooms = 8.5 hours
+        else:
+            base_hours = 9.0 + (total_rooms - 6) * 0.5  # 9+ hours for larger moves
+        
+        # Crew efficiency factor (more crew = slightly less time, but not dramatic)
+        if crew_size >= 4:
+            crew_factor = 0.9  # 4+ crew = 10% time reduction
+        elif crew_size == 3:
+            crew_factor = 1.0  # 3 crew = standard time
+        else:
+            crew_factor = 1.1  # 2 crew = 10% time increase
+        
+        estimated_hours = base_hours * crew_factor
+        return round(max(2.0, estimated_hours), 1)  # Minimum 2 hours
     
     def _estimate_travel_time(self, quote_request: Dict[str, Any]) -> float:
         """Estimate travel time between locations based on distance"""
