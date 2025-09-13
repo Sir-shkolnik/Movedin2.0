@@ -1622,9 +1622,16 @@ class Easy2GoCalculator(VendorCalculator):
                         is_international = True
                         break
                 
+                # Check for long-distance moves (cross-province or international)
                 if (origin_province and dest_province and origin_province != dest_province) or is_international:
                     print(f"Easy2Go: Cross-province/international move detected: {origin} -> {destination}")
                     raise ValueError(f"Cross-province/international move not supported")
+                
+                # Additional check for very long distances based on address patterns
+                if any(province in destination_lower for province in ['nova scotia', 'ns', 'newfoundland', 'nl', 'british columbia', 'bc', 'alberta', 'ab']):
+                    if 'ontario' in origin_lower or 'on' in origin_lower:
+                        print(f"Easy2Go: Cross-country move detected: {origin} -> {destination}")
+                        raise ValueError(f"Cross-country move not supported")
             
             # Use the provided dispatcher address instead of hardcoded one
             
@@ -1917,6 +1924,12 @@ class VelocityMoversCalculator(VendorCalculator):
                 if (origin_province and dest_province and origin_province != dest_province) or is_international:
                     print(f"Velocity Movers: Cross-province/international move detected: {origin} -> {destination}")
                     raise ValueError(f"Cross-province/international move not supported")
+                
+                # Additional check for very long distances based on address patterns
+                if any(province in destination_lower for province in ['nova scotia', 'ns', 'newfoundland', 'nl', 'british columbia', 'bc', 'alberta', 'ab']):
+                    if 'ontario' in origin_lower or 'on' in origin_lower:
+                        print(f"Velocity Movers: Cross-country move detected: {origin} -> {destination}")
+                        raise ValueError(f"Cross-country move not supported")
             
             # Use the provided dispatcher address instead of hardcoded one
             
@@ -2213,6 +2226,12 @@ class PierreSonsCalculator(VendorCalculator):
                 if (origin_province and dest_province and origin_province != dest_province) or is_international:
                     print(f"Pierre & Sons: Cross-province/international move detected: {origin} -> {destination}")
                     raise ValueError(f"Cross-province/international move not supported")
+                
+                # Additional check for very long distances based on address patterns
+                if any(province in destination_lower for province in ['nova scotia', 'ns', 'newfoundland', 'nl', 'british columbia', 'bc', 'alberta', 'ab']):
+                    if 'ontario' in origin_lower or 'on' in origin_lower:
+                        print(f"Pierre & Sons: Cross-country move detected: {origin} -> {destination}")
+                        raise ValueError(f"Cross-country move not supported")
                 
                 # If we get here, it's a local move but Mapbox failed - use default
                 return 1.0  # Default 1 hour travel time fee
