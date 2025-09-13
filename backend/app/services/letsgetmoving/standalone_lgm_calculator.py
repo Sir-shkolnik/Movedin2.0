@@ -54,25 +54,39 @@ class StandaloneLGMCalculator:
             return None
     
     def serves_location(self, origin: str, destination: str) -> bool:
-        """Check if Let's Get Moving serves the given locations"""
+        """Check if Let's Get Moving serves the given locations within 50km radius"""
         try:
             origin_city = self.service._extract_city(origin)
             dest_city = self.service._extract_city(destination)
             
             logger.info(f"🔍 LGM serves_location: origin='{origin}' -> '{origin_city}', dest='{destination}' -> '{dest_city}'")
             
-            if not origin_city:
-                logger.warning("❌ No origin city extracted")
+            if not origin_city or not dest_city:
+                logger.warning("❌ Missing origin or destination city")
                 return False
             
-            # Check if we have any dispatchers that serve this area
+            # Check if we have any dispatchers that can serve BOTH origin AND destination within 50km
             for gid, location_name in self.service.gid_location_map.items():
                 logger.info(f"🔍 Checking dispatcher {gid} ({location_name})")
-                if self.service._serves_location(location_name, origin_city):
-                    logger.info(f"✅ Found serving dispatcher: {location_name}")
-                    return True
+                
+                # Check if dispatcher can serve origin within 50km
+                serves_origin = self.service._serves_location(location_name, origin_city)
+                logger.info(f"  Dispatcher {location_name} serves origin {origin_city}: {serves_origin}")
+                
+                if serves_origin:
+                    # Check if dispatcher can also serve destination within 50km
+                    serves_destination = self.service._serves_location(location_name, dest_city)
+                    logger.info(f"  Dispatcher {location_name} serves destination {dest_city}: {serves_destination}")
+                    
+                    if serves_destination:
+                        logger.info(f"✅ Found dispatcher that serves both: {location_name}")
+                        return True
+                    else:
+                        logger.info(f"❌ Dispatcher {location_name} serves origin but not destination")
+                else:
+                    logger.info(f"❌ Dispatcher {location_name} does not serve origin")
             
-            logger.warning("❌ No serving dispatcher found")
+            logger.warning("❌ No dispatcher found that serves both origin and destination within 50km")
             return False
             
         except Exception as e:
