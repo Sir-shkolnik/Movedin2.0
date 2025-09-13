@@ -11,6 +11,7 @@ import re
 from typing import Dict, List, Any, Optional, Tuple
 from datetime import datetime, timedelta
 import logging
+from .smart_calendar_parser import SmartCalendarParser
 
 logger = logging.getLogger(__name__)
 
@@ -18,6 +19,9 @@ class StandaloneLGMService:
     """Standalone Let's Get Moving service that works independently"""
     
     def __init__(self):
+        # Initialize smart calendar parser
+        self.smart_parser = SmartCalendarParser()
+        
         # GID to location mapping based on actual analysis
         self.gid_location_map = {
             '586231927': 'Abbotsford',
@@ -138,11 +142,17 @@ class StandaloneLGMService:
             # Extract location name
             location_name = self.gid_location_map.get(gid, f"Location_{gid}")
             
-            # Extract calendar data
-            calendar_data = self._extract_calendar_data(rows)
+            # Extract calendar data using smart parser
+            csv_content = response.text
+            calendar_data = self.smart_parser.extract_calendar_data_fixed(csv_content)
             
-            # Extract location details
-            location_details = self._extract_location_details(rows)
+            logger.info(f"📅 LGM Calendar Data Extracted:")
+            logger.info(f"  Total entries: {len(calendar_data)}")
+            logger.info(f"  Sample dates: {list(calendar_data.keys())[:5]}")
+            logger.info(f"  Sample prices: {list(calendar_data.values())[:5]}")
+            
+            # Extract location details using smart parser
+            location_details = self.smart_parser.extract_location_details_fixed(csv_content)
             
             return {
                 "gid": gid,
@@ -158,94 +168,9 @@ class StandaloneLGMService:
             logger.error(f"Error getting dispatcher data for GID {gid}: {e}")
             return None
     
-    def _extract_calendar_data(self, rows: List[List[str]]) -> Dict[str, float]:
-        """Extract calendar data from CSV rows"""
-        calendar_data = {}
-        
-        # Look for month patterns
-        month_patterns = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
-        
-        for row_idx, row in enumerate(rows):
-            if not row:
-                continue
-                
-            # Check if this row contains month headers
-            row_text = ','.join(row)
-            if any(month in row_text for month in month_patterns):
-                # This is a month header row, next row should be dates
-                if row_idx + 1 < len(rows):
-                    date_row = rows[row_idx + 1]
-                    price_row = rows[row_idx + 2] if row_idx + 2 < len(rows) else None
-                    
-                    if price_row:
-                        # Extract dates and prices
-                        for i, (date_str, price_str) in enumerate(zip(date_row, price_row)):
-                            if date_str and price_str and date_str.isdigit():
-                                try:
-                                    # Find which month this date belongs to
-                                    month_name = None
-                                    for j in range(i, -1, -1):
-                                        if j < len(row) and row[j] in month_patterns:
-                                            month_name = row[j]
-                                            break
-                                    
-                                    if month_name:
-                                        month_num = self._get_month_number(month_name)
-                                        if month_num:
-                                            date_key = f"2025-{month_num:02d}-{int(date_str):02d}"
-                                            price_value = float(price_str) if price_str.replace('.', '').isdigit() else 139.0
-                                            calendar_data[date_key] = price_value
-                                except (ValueError, IndexError):
-                                    continue
-        
-        # If no calendar data found, create default rates
-        if not calendar_data:
-            today = datetime.now()
-            for i in range(30):
-                date = today + timedelta(days=i)
-                date_str = date.strftime('%Y-%m-%d')
-                calendar_data[date_str] = 139.0
-        
-        return calendar_data
+    # Removed old flawed calendar extraction method - now using SmartCalendarParser
     
-    def _extract_location_details(self, rows: List[List[str]]) -> Dict[str, str]:
-        """Extract location details from CSV rows"""
-        details = {
-            "name": "Unknown",
-            "address": "",
-            "sales_phone": "",
-            "email": "",
-            "truck_count": ""
-        }
-        
-        # Look for location details in the CSV
-        for row in rows:
-            if not row:
-                continue
-            row_text = ' '.join(row).upper()
-            
-            if 'ADDRESS:' in row_text:
-                # Extract address
-                for cell in row:
-                    if 'ADDRESS:' in cell.upper():
-                        details["address"] = cell.replace('ADDRESS:', '').strip()
-                        break
-            
-            if 'PHONE:' in row_text or 'TEL:' in row_text:
-                # Extract phone
-                for cell in row:
-                    if 'PHONE:' in cell.upper() or 'TEL:' in cell.upper():
-                        details["sales_phone"] = cell.replace('PHONE:', '').replace('TEL:', '').strip()
-                        break
-            
-            if 'EMAIL:' in row_text:
-                # Extract email
-                for cell in row:
-                    if 'EMAIL:' in cell.upper():
-                        details["email"] = cell.replace('EMAIL:', '').strip()
-                        break
-        
-        return details
+    # Removed old location details extraction method - now using SmartCalendarParser
     
     def _estimate_hours(self, total_rooms: int, crew_size: int) -> float:
         """Estimate total hours for the move"""
