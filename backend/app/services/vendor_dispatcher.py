@@ -114,27 +114,31 @@ class VendorDispatcher:
         print(f"  Extracted city: {origin_city}")
         
         if vendor_slug == "lets-get-moving":
-            # Let's Get Moving uses GeographicVendorDispatcher
-            print(f"  Calling _get_best_dispatcher_for_vendor for LGM...")
-            dispatcher_info = GeographicVendorDispatcher._get_best_dispatcher_for_vendor(
-                vendor_slug, origin_address, origin_address
-            )
-            print(f"  Dispatcher info result: {dispatcher_info is not None}")
-            if dispatcher_info:
-                print(f"  Dispatcher name: {dispatcher_info.get('name', 'Unknown')}")
-                # Add vendor_slug to the dispatcher info
-                dispatcher_info["vendor_slug"] = vendor_slug
-                dispatcher_info["vendor_name"] = vendor_name
-                # Add service area data for Let's Get Moving
-                dispatcher_info["service_area"] = {
-                    "cities": ["Toronto", "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill", "Oakville", "Burlington", "Hamilton", "Oshawa", "Whitby", "Ajax", "Pickering"],
-                    "regions": ["GTA", "Greater Toronto Area", "Golden Horseshoe"],
-                    "max_distance_km": 150
+            # Let's Get Moving uses standalone system - create simple vendor info
+            print(f"  Creating standalone LGM vendor info...")
+            try:
+                from .letsgetmoving.standalone_lgm_calculator import standalone_lgm_calculator
+                
+                # Create a simple vendor info for LGM
+                vendor_info = {
+                    "vendor_slug": vendor_slug,
+                    "vendor_name": vendor_name,
+                    "id": "lgm-standalone",
+                    "name": "Let's Get Moving",
+                    "address": "Multiple Locations",
+                    "coordinates": {"lat": 43.6532, "lng": -79.3832},
+                    "base_rate": 139.0,
+                    "service_area": {
+                        "cities": ["Toronto", "Mississauga", "Brampton", "Vaughan", "Markham", "Richmond Hill", "Oakville", "Burlington", "Hamilton", "Oshawa", "Whitby", "Ajax", "Pickering"],
+                        "regions": ["GTA", "Greater Toronto Area", "Golden Horseshoe"],
+                        "max_distance_km": 150
+                    }
                 }
-                print(f"  Returning dispatcher info for LGM")
-                return dispatcher_info
-            print(f"  No dispatcher info found for LGM")
-            return None
+                print(f"  ✅ Created LGM vendor info: {vendor_info['name']}")
+                return vendor_info
+            except Exception as e:
+                print(f"  ❌ Error creating LGM vendor info: {e}")
+                return None
         
         else:
             # For Easy2Go, Velocity Movers, and Pierre & Sons, use GeographicVendorDispatcher
