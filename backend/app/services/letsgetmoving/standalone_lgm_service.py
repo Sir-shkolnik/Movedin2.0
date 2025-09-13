@@ -208,6 +208,23 @@ class StandaloneLGMService:
         
         return details
     
+    def _estimate_hours(self, total_rooms: int, crew_size: int) -> float:
+        """Estimate total hours for the move"""
+        base_hours = total_rooms * 1.5  # 1.5 hours per room
+        crew_factor = 1.0 / max(crew_size, 1)  # More crew = less time
+        return round(base_hours * crew_factor, 1)
+    
+    def _estimate_travel_time(self, quote_request: Dict[str, Any]) -> float:
+        """Estimate travel time between locations"""
+        # Simplified travel time calculation
+        # In a real implementation, this would use Mapbox or similar
+        return 1.0  # Default 1 hour travel time
+    
+    def _get_available_slots(self, dispatcher_data: Dict[str, Any], move_date: str) -> List[str]:
+        """Get available time slots for the move date"""
+        # Return some default time slots
+        return ["9:00 AM", "10:00 AM", "11:00 AM", "1:00 PM", "2:00 PM", "3:00 PM"]
+    
     def _get_month_number(self, month_name: str) -> Optional[int]:
         """Get month number from month name"""
         month_map = {
@@ -352,6 +369,16 @@ class StandaloneLGMService:
                 "travel_fees": round(travel_fees, 2),
                 "crew_size": crew_size,
                 "truck_count": truck_count,
+                "breakdown": {
+                    "base_cost": round(base_cost, 2),
+                    "travel_fees": round(travel_fees, 2),
+                    "crew_size": crew_size,
+                    "truck_count": truck_count
+                },
+                "estimated_hours": self._estimate_hours(total_rooms, crew_size),
+                "travel_time_hours": self._estimate_travel_time(quote_request),
+                "hourly_rate": round(base_rate, 2),
+                "available_slots": self._get_available_slots(dispatcher_data, move_date),
                 "base_rate": base_rate,
                 "dispatcher_info": {
                     "name": dispatcher_data.get("location_name", "Unknown"),
