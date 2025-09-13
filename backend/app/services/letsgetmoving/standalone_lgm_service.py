@@ -264,44 +264,55 @@ class StandaloneLGMService:
             return None
         
         address_lower = address.lower()
+        logger.info(f"🔍 LGM _extract_city: '{address}' -> '{address_lower}'")
         
         # Check for major cities
         for city in ["toronto", "vancouver", "calgary", "montreal", "winnipeg", "halifax", "fredericton"]:
             if city in address_lower:
+                logger.info(f"✅ Found major city: {city}")
                 return city.title()
         
         # Check for GTA cities
         gta_cities = ["mississauga", "brampton", "vaughan", "markham", "richmond hill", "oakville", "burlington", "hamilton", "oshawa", "whitby", "ajax", "pickering", "barrie", "aurora", "brantford", "kitchener", "waterloo", "windsor", "peterborough"]
         for city in gta_cities:
             if city in address_lower:
+                logger.info(f"✅ Found GTA city: {city}")
                 return city.title()
         
         # Check for BC cities
         bc_cities = ["burnaby", "richmond", "victoria", "abbotsford", "port moody", "surrey", "coquitlam", "maple ridge", "langley", "delta", "port coquitlam"]
         for city in bc_cities:
             if city in address_lower:
+                logger.info(f"✅ Found BC city: {city}")
                 return city.title()
         
+        logger.warning(f"❌ No city found in address: {address}")
         return None
     
     def _serves_location(self, dispatcher_location: str, user_city: str) -> bool:
         """Check if dispatcher serves the user's location"""
         if not user_city or not dispatcher_location:
+            logger.warning(f"❌ Missing city or dispatcher location: user_city='{user_city}', dispatcher_location='{dispatcher_location}'")
             return False
         
         user_city_lower = user_city.lower()
         dispatcher_location_lower = dispatcher_location.lower()
         
+        logger.info(f"🔍 LGM _serves_location: user_city='{user_city}', dispatcher_location='{dispatcher_location}'")
+        
         # Direct match
         if user_city_lower in dispatcher_location_lower or dispatcher_location_lower in user_city_lower:
+            logger.info(f"✅ Direct match found")
             return True
         
         # Check service areas
         for region, cities in self.service_areas.items():
             if user_city_lower in [city.lower() for city in cities]:
                 if region.lower() in dispatcher_location_lower:
+                    logger.info(f"✅ Service area match: {region}")
                     return True
         
+        logger.warning(f"❌ No service area match found")
         return False
     
     def calculate_quote(self, quote_request: Dict[str, Any], dispatcher_data: Dict[str, Any]) -> Dict[str, Any]:
