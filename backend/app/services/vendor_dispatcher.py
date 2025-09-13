@@ -10,6 +10,7 @@ class VendorDispatcher:
         # Initialize vendor calculators - use integrated calculators from vendor_engine.py
         # Note: LetsGetMovingCalculator removed - using standalone system instead
         # Easy2Go, Velocity Movers, and Pierre & Sons use integrated calculators from vendor_engine.py
+        pass
     
     def get_available_vendors_for_location(self, origin_address: str, destination_address: str) -> List[Dict[str, Any]]:
         """Get all available vendors for a location"""
