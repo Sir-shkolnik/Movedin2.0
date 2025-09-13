@@ -577,9 +577,13 @@ async def get_all_vendors_locations(db: Session = Depends(get_db)):
                 for dispatcher_name, dispatcher_data in all_dispatchers.items():
                     # Get location name from new smart parser format
                     location_name = dispatcher_data.get("location", "N/A")
-                    
-                    # Get metadata from new smart parser format
-                    metadata = dispatcher_data.get("metadata", {})
+                    if location_name == "N/A":
+                        # Try to get from metadata (fixed parser format)
+                        metadata = dispatcher_data.get("metadata", {})
+                        location_name = metadata.get("name", "N/A")
+                    else:
+                        # Get metadata from new smart parser format
+                        metadata = dispatcher_data.get("metadata", {})
                     
                     # Get calendar data to show availability
                     calendar_data = dispatcher_data.get("calendar_hourly_price", {})
