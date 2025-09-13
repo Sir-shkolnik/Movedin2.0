@@ -585,9 +585,9 @@ class DispatcherCacheService:
             
             # Log what we're missing for debugging
             if not has_location:
-                logger.warning(f"❌ Missing location name for dispatcher")
+                logger.warning(f"❌ Missing location name for dispatcher - location_details: {location_details}")
             if not has_rates:
-                logger.warning(f"❌ Missing daily rates for dispatcher")
+                logger.warning(f"❌ Missing daily rates for dispatcher - calendar_data: {calendar_data}")
             
             return False
         
