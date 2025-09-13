@@ -528,58 +528,80 @@ class StandaloneLGMService:
             crew_size = self._calculate_crew_size(total_rooms)
             truck_count = self._calculate_truck_count(total_rooms)
             
-            # Calculate distance-based pricing
+            # Calculate distance and travel time
             origin = quote_request.get("origin_address", "")
             destination = quote_request.get("destination_address", "")
             distance_km = self._calculate_move_distance(origin, destination)
+            travel_time_hours = self._estimate_travel_time(quote_request)
             
-            # Apply distance multiplier (1.0 for local, up to 1.5 for longer distances)
-            distance_multiplier = min(1.5, 1.0 + (distance_km / 100.0) * 0.5)
-            adjusted_base_rate = base_rate * distance_multiplier
+            # NEW LOGIC: Hourly-based pricing with travel time charges
+            # 1. Calculate labor hours (time to load/unload)
+            labor_hours = self._estimate_hours(total_rooms, crew_size)
+            stair_time = self._calculate_stair_time(quote_request)
+            total_labor_hours = labor_hours + stair_time
             
-            # Calculate base cost
-            base_cost = adjusted_base_rate * crew_size * truck_count
+            # 2. Calculate travel time charges (house to house)
+            travel_hours = max(0.5, travel_time_hours)  # Minimum 30 minutes travel time
             
-            # Calculate travel fees based on distance
-            travel_fees = self._calculate_travel_fees(quote_request, adjusted_base_rate, truck_count, distance_km)
+            # 3. Check if long distance move (travel time > 1h45m = 1.75 hours)
+            is_long_distance = travel_time_hours > 1.75
             
-            # Calculate heavy items cost
-            heavy_items_cost = self._calculate_heavy_items_cost(quote_request.get("heavy_items", {}))
+            # 4. Calculate hourly rates
+            base_hourly_rate = base_rate  # Base rate per hour per person
+            travel_hourly_rate = base_hourly_rate * 0.6  # Travel time is 60% of labor rate
             
-            # Calculate additional services cost (vendor will quote separately)
+            # 5. Calculate costs
+            labor_cost = total_labor_hours * base_hourly_rate * crew_size
+            travel_cost = travel_hours * travel_hourly_rate * crew_size
+            
+            # 6. Long distance gas fees (when travel time > 1h45m)
+            gas_fees = 0.0
+            if is_long_distance:
+                gas_fees = self._calculate_long_distance_gas_fees(distance_km, truck_count)
+            
+            # 7. Calculate heavy items cost (hourly-based)
+            heavy_items_cost = self._calculate_heavy_items_cost_hourly(quote_request.get("heavy_items", {}), total_labor_hours)
+            
+            # 8. Calculate additional services cost (vendor will quote separately)
             additional_services_cost = self._calculate_additional_services_cost(quote_request.get("additional_services", {}))
             
-            # Calculate stair time impact (minimal)
-            stair_time = self._calculate_stair_time(quote_request)
-            adjusted_estimated_hours = self._estimate_hours(total_rooms, crew_size) + stair_time
+            # 9. Calculate total cost
+            total_cost = labor_cost + travel_cost + gas_fees + heavy_items_cost + additional_services_cost
             
-            # Calculate total cost
-            total_cost = base_cost + travel_fees + heavy_items_cost + additional_services_cost
+            # 10. Calculate effective hourly rate for display
+            total_hours = total_labor_hours + travel_hours
+            effective_hourly_rate = total_cost / total_hours if total_hours > 0 else base_hourly_rate
             
             return {
                 "vendor_slug": "lets-get-moving",
                 "vendor_name": "Let's Get Moving",
                 "total_cost": round(total_cost, 2),
-                "base_cost": round(base_cost, 2),
-                "travel_fees": round(travel_fees, 2),
+                "base_cost": round(labor_cost, 2),
+                "travel_fees": round(travel_cost, 2),
+                "gas_fees": round(gas_fees, 2),
                 "crew_size": crew_size,
                 "truck_count": truck_count,
                 "breakdown": {
-                    "base_cost": round(base_cost, 2),
-                    "travel_fees": round(travel_fees, 2),
+                    "labor_cost": round(labor_cost, 2),
+                    "travel_cost": round(travel_cost, 2),
+                    "gas_fees": round(gas_fees, 2),
                     "heavy_items": round(heavy_items_cost, 2),
                     "additional_services": round(additional_services_cost, 2),
                     "crew_size": crew_size,
-                    "truck_count": truck_count
+                    "truck_count": truck_count,
+                    "is_long_distance": is_long_distance
                 },
-                "estimated_hours": round(adjusted_estimated_hours, 1),
-                "travel_time_hours": self._estimate_travel_time(quote_request),
-                "hourly_rate": round(adjusted_base_rate, 2),
+                "estimated_hours": round(total_labor_hours, 1),
+                "travel_time_hours": round(travel_hours, 1),
+                "total_hours": round(total_hours, 1),
+                "hourly_rate": round(effective_hourly_rate, 2),
+                "base_hourly_rate": round(base_hourly_rate, 2),
+                "travel_hourly_rate": round(travel_hourly_rate, 2),
                 "available_slots": self._get_available_slots(dispatcher_data, move_date),
                 "base_rate": base_rate,
                 "heavy_items_cost": round(heavy_items_cost, 2),
                 "additional_services_cost": round(additional_services_cost, 2),
-                "special_notes": "Additional services (packing, insurance, etc.) will be quoted separately by our team when we call to confirm your move details.",
+                "special_notes": f"Hourly-based pricing: Labor + Travel time + {'Long distance gas fees' if is_long_distance else 'Local move'}. Additional services quoted separately.",
                 "dispatcher_info": {
                     "name": dispatcher_data.get("location_name", "Unknown"),
                     "address": dispatcher_data.get("location_details", {}).get("address", ""),
@@ -656,6 +678,61 @@ class StandaloneLGMService:
                 logger.info(f"Added {item}: ${heavy_item_fees[item]} x {quantity} = ${heavy_item_fees[item] * quantity}")
         
         return total_cost
+    
+    def _calculate_heavy_items_cost_hourly(self, heavy_items: Dict[str, int], labor_hours: float) -> float:
+        """Calculate cost for heavy items based on hourly rates"""
+        if not heavy_items:
+            return 0.0
+        
+        total_cost = 0.0
+        # Heavy items add extra time per item (in hours)
+        heavy_item_time_multipliers = {
+            "piano": 0.5,  # 30 minutes extra per piano
+            "safe": 0.75,  # 45 minutes extra per safe
+            "pool_table": 0.25,  # 15 minutes extra per pool table
+            "grand_piano": 1.0,  # 1 hour extra per grand piano
+            "gun_safe": 0.75,  # 45 minutes extra per gun safe
+            "treadmill": 0.2,  # 12 minutes extra per treadmill
+            "antique_furniture": 0.2,  # 12 minutes extra per antique
+            "artwork": 0.1  # 6 minutes extra per artwork
+        }
+        
+        # Base hourly rate for heavy items (higher than regular labor)
+        heavy_item_hourly_rate = 200.0  # $200/hour for heavy items
+        
+        for item, count in heavy_items.items():
+            if item in heavy_item_time_multipliers and count > 0:
+                extra_hours = heavy_item_time_multipliers[item] * count
+                item_cost = extra_hours * heavy_item_hourly_rate
+                total_cost += item_cost
+                logger.info(f"Added {item}: {extra_hours:.2f}h x ${heavy_item_hourly_rate} = ${item_cost:.2f}")
+                
+        return total_cost
+    
+    def _calculate_long_distance_gas_fees(self, distance_km: float, truck_count: int) -> float:
+        """Calculate gas fees for long distance moves (travel time > 1h45m)"""
+        # Gas fee table based on distance
+        if distance_km <= 50:
+            return 0.0  # Local move, no gas fees
+        elif distance_km <= 100:
+            base_fee = 50.0
+            per_km = 0.8
+        elif distance_km <= 200:
+            base_fee = 100.0
+            per_km = 0.7
+        elif distance_km <= 300:
+            base_fee = 150.0
+            per_km = 0.6
+        else:
+            base_fee = 200.0
+            per_km = 0.5
+        
+        # Calculate gas fee per truck
+        gas_fee_per_truck = base_fee + (distance_km - 50) * per_km
+        total_gas_fees = gas_fee_per_truck * truck_count
+        
+        logger.info(f"Long distance gas fees: {distance_km:.1f}km, {truck_count} trucks = ${total_gas_fees:.2f}")
+        return max(0.0, total_gas_fees)
     
     def _calculate_additional_services_cost(self, additional_services: Dict[str, bool]) -> float:
         """Calculate additional services cost - VENDOR WILL QUOTE SEPARATELY"""

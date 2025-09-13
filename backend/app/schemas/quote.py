@@ -41,6 +41,10 @@ class QuoteResponse(BaseModel):
     base_rate: Optional[float] = None
     heavy_items_cost: Optional[float] = None
     additional_services_cost: Optional[float] = None
+    gas_fees: Optional[float] = None
+    total_hours: Optional[float] = None
+    base_hourly_rate: Optional[float] = None
+    travel_hourly_rate: Optional[float] = None
     available_slots: List[str]
     rating: Optional[float] = None
     reviews: Optional[int] = None
