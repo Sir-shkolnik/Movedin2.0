@@ -328,10 +328,16 @@
         grid-template-columns: 1fr;
         gap: 2rem;
         text-align: center;
+        padding: 0 16px;
+        max-width: 100vw;
+        box-sizing: border-box;
     }
     
     .static-footer {
         padding: 2rem 0 1rem 0;
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .footer-cta {
@@ -344,5 +350,7 @@
     
     .footer-bottom {
         text-align: center;
+        padding: 0 16px;
+        box-sizing: border-box;
     }
 }

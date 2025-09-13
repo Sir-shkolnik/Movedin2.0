@@ -209,39 +209,45 @@ const HomePage: React.FC = () => {
           </section>
 
           {/* Recent Blogs Section */}
-          <section className="blogs-section">
-            <h2>Recent blogs</h2>
-            <div className="blogs-grid">
-              <div className="blog-item">
-                <img src={blogMoving} alt="Moving blog" className="blog-image" />
-                <h3>Dealing with Moving Stress: Top Relaxation Techniques</h3>
-                <p>Essential tips for a smooth move</p>
-                <div className="blog-meta">
-                  <span className="blog-author">By MovedIn Team</span>
-                  <span className="blog-date">Dec 15, 2023</span>
-                </div>
-              </div>
-              <div className="blog-item">
-                <img src={blogEssential} alt="Essential blog" className="blog-image" />
-                <h3>The Essential Moving Checklist for Tenants/renters</h3>
-                <p>What you need to know before moving</p>
-                <div className="blog-meta">
-                  <span className="blog-author">By MovedIn Team</span>
-                  <span className="blog-date">Dec 10, 2023</span>
-                </div>
-              </div>
-              <div className="blog-item">
-                <img src={blogToronto} alt="Toronto blog" className="blog-image" />
-                <h3>Moving in the Winter: Special Tips for Toronto Residents</h3>
-                <p>Moving in and around Toronto</p>
-                <div className="blog-meta">
-                  <span className="blog-author">By MovedIn Team</span>
-                  <span className="blog-date">Dec 5, 2023</span>
-                </div>
-              </div>
+          <section className="blogs-section" aria-labelledby="blogs-heading">
+            <h2 id="blogs-heading">Recent blogs</h2>
+            <div className="blogs-grid" role="list" aria-label="Latest moving tips and guides">
+              <article className="blog-item" role="listitem">
+                <a href="/blog/moving-stress-relaxation-techniques" className="blog-link" aria-label="Read: Dealing with Moving Stress - Top Relaxation Techniques">
+                  <img src={blogMoving} alt="Person relaxing with moving boxes - stress reduction techniques" className="blog-image" loading="lazy" />
+                  <h3>Dealing with Moving Stress: Top Relaxation Techniques</h3>
+                  <p>Essential tips for a smooth move from professional movers</p>
+                  <div className="blog-meta">
+                    <span className="blog-author">By MovedIn Team</span>
+                    <span className="blog-date">Dec 15, 2023</span>
+                  </div>
+                </a>
+              </article>
+              <article className="blog-item" role="listitem">
+                <a href="/blog/essential-moving-checklist-tenants" className="blog-link" aria-label="Read: The Essential Moving Checklist for Tenants and Renters">
+                  <img src={blogEssential} alt="Moving checklist items on a table - tenant moving guide" className="blog-image" loading="lazy" />
+                  <h3>The Essential Moving Checklist for Tenants/renters</h3>
+                  <p>What you need to know before moving to your new home</p>
+                  <div className="blog-meta">
+                    <span className="blog-author">By MovedIn Team</span>
+                    <span className="blog-date">Dec 10, 2023</span>
+                  </div>
+                </a>
+              </article>
+              <article className="blog-item" role="listitem">
+                <a href="/blog/toronto-winter-moving-tips" className="blog-link" aria-label="Read: Moving in the Winter - Special Tips for Toronto Residents">
+                  <img src={blogToronto} alt="Snowy Toronto street with moving truck - winter moving tips" className="blog-image" loading="lazy" />
+                  <h3>Moving in the Winter: Special Tips for Toronto Residents</h3>
+                  <p>Expert advice for winter moves in and around Toronto</p>
+                  <div className="blog-meta">
+                    <span className="blog-author">By MovedIn Team</span>
+                    <span className="blog-date">Dec 5, 2023</span>
+                  </div>
+                </a>
+              </article>
             </div>
             <div className="blogs-cta">
-              <button className="blogs-button">Read all</button>
+              <Link to="/tips-guides" className="blogs-button" aria-label="Read all moving tips and guides">Read all</Link>
             </div>
           </section>
 
