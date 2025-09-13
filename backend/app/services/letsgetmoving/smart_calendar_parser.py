@@ -88,6 +88,8 @@ class SmartCalendarParser:
             "location": location_name,
             "calendar_hourly_price": calendar_data,  # ALL calendar data
             "metadata": {
+                "name": location_name,
+                "location": location_name,
                 "ops_manager": location_details.get("ops_manager", ""),
                 "address": location_details.get("address", ""),
                 "email": location_details.get("email", ""),
