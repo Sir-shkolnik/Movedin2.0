@@ -59,18 +59,26 @@ class StandaloneLGMCalculator:
             origin_city = self.service._extract_city(origin)
             dest_city = self.service._extract_city(destination)
             
+            logger.info(f"🔍 LGM serves_location: origin='{origin}' -> '{origin_city}', dest='{destination}' -> '{dest_city}'")
+            
             if not origin_city:
+                logger.warning("❌ No origin city extracted")
                 return False
             
             # Check if we have any dispatchers that serve this area
             for gid, location_name in self.service.gid_location_map.items():
+                logger.info(f"🔍 Checking dispatcher {gid} ({location_name})")
                 if self.service._serves_location(location_name, origin_city):
+                    logger.info(f"✅ Found serving dispatcher: {location_name}")
                     return True
             
+            logger.warning("❌ No serving dispatcher found")
             return False
             
         except Exception as e:
             logger.error(f"Error checking service area: {e}")
+            import traceback
+            logger.error(f"Traceback: {traceback.format_exc()}")
             return False
 
 # Global instance
