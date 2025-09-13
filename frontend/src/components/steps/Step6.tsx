@@ -469,43 +469,7 @@ const Step6: React.FC = () => {
           </div>
         )}
 
-        {/* Payment Button */}
-        <div style={{ textAlign: 'center', marginTop: '20px' }}>
-          <button
-            className="pay-button-modern"
-            onClick={handlePayment}
-            disabled={isProcessing}
-            style={{
-              backgroundColor: isProcessing ? '#6c757d' : '#28a745',
-              color: 'white',
-              border: 'none',
-              borderRadius: '8px',
-              padding: '16px 32px',
-              fontSize: '18px',
-              fontWeight: 'bold',
-              cursor: isProcessing ? 'not-allowed' : 'pointer',
-              boxShadow: '0 4px 12px rgba(40, 167, 69, 0.3)',
-              transition: 'all 0.3s ease',
-              minWidth: '200px'
-            }}
-            onMouseEnter={(e) => {
-              if (!isProcessing) {
-                e.currentTarget.style.backgroundColor = '#218838';
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 6px 16px rgba(40, 167, 69, 0.4)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (!isProcessing) {
-                e.currentTarget.style.backgroundColor = '#28a745';
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(40, 167, 69, 0.3)';
-              }
-            }}
-          >
-            {isProcessing ? 'Processing...' : 'Pay $1.00 CAD Deposit'}
-          </button>
-        </div>
+        {/* Payment Button Removed - Using Footer Button Only */}
 
       </div>
 
