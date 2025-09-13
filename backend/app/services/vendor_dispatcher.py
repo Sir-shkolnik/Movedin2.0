@@ -45,41 +45,47 @@ class VendorDispatcher:
     
     def _vendor_serves_location(self, vendor_slug: str, origin_address: str, destination_address: str) -> bool:
         """Check if vendor serves the location"""
-        origin_city = self._extract_city_from_address(origin_address)
-        dest_city = self._extract_city_from_address(destination_address)
-        
-        print(f"🔍 VENDOR_SERVES_LOCATION DEBUG:")
-        print(f"  Vendor: {vendor_slug}")
-        print(f"  Origin: {origin_address}")
-        print(f"  Destination: {destination_address}")
-        print(f"  Extracted origin city: {origin_city}")
-        print(f"  Extracted dest city: {dest_city}")
-        
-        # Special handling for Let's Get Moving using standalone system
-        if vendor_slug == "lets-get-moving":
-            print(f"  🔍 LGM VENDOR_SERVES_LOCATION DEBUG:")
-            print(f"    Origin: {origin_address}")
-            print(f"    Destination: {destination_address}")
-            print(f"    Origin city: {origin_city}")
-            print(f"    Dest city: {dest_city}")
-            try:
-                print(f"    Attempting to import LGM calculator...")
-                from .letsgetmoving.standalone_lgm_calculator import standalone_lgm_calculator
-                print(f"    ✅ LGM calculator imported successfully")
-                print(f"    Calling serves_location...")
-                serves = standalone_lgm_calculator.serves_location(origin_address, destination_address)
-                print(f"    LGM serves location result: {serves}")
-            except Exception as e:
-                print(f"    ❌ Error with LGM calculator: {e}")
-                import traceback
-                print(f"    Traceback: {traceback.format_exc()}")
-                serves = False
-        else:
-            # All other vendors use GeographicVendorDispatcher for service area validation
-            serves = GeographicVendorDispatcher._vendor_serves_location(vendor_slug, origin_city)
-            print(f"  Serves location: {serves}")
-        
-        return serves
+        try:
+            origin_city = self._extract_city_from_address(origin_address)
+            dest_city = self._extract_city_from_address(destination_address)
+            
+            print(f"🔍 VENDOR_SERVES_LOCATION DEBUG:")
+            print(f"  Vendor: {vendor_slug}")
+            print(f"  Origin: {origin_address}")
+            print(f"  Destination: {destination_address}")
+            print(f"  Extracted origin city: {origin_city}")
+            print(f"  Extracted dest city: {dest_city}")
+            
+            # Special handling for Let's Get Moving using standalone system
+            if vendor_slug == "lets-get-moving":
+                print(f"  🔍 LGM VENDOR_SERVES_LOCATION DEBUG:")
+                print(f"    Origin: {origin_address}")
+                print(f"    Destination: {destination_address}")
+                print(f"    Origin city: {origin_city}")
+                print(f"    Dest city: {dest_city}")
+                try:
+                    print(f"    Attempting to import LGM calculator...")
+                    from .letsgetmoving.standalone_lgm_calculator import standalone_lgm_calculator
+                    print(f"    ✅ LGM calculator imported successfully")
+                    print(f"    Calling serves_location...")
+                    serves = standalone_lgm_calculator.serves_location(origin_address, destination_address)
+                    print(f"    LGM serves location result: {serves}")
+                except Exception as e:
+                    print(f"    ❌ Error with LGM calculator: {e}")
+                    import traceback
+                    print(f"    Traceback: {traceback.format_exc()}")
+                    serves = False
+            else:
+                # All other vendors use GeographicVendorDispatcher for service area validation
+                serves = GeographicVendorDispatcher._vendor_serves_location(vendor_slug, origin_city)
+                print(f"  Serves location: {serves}")
+            
+            return serves
+        except Exception as e:
+            print(f"❌ CRITICAL ERROR in _vendor_serves_location: {e}")
+            import traceback
+            print(f"Traceback: {traceback.format_exc()}")
+            return False
     
     def _get_vendor_info(self, vendor_slug: str, vendor_name: str, origin_address: str) -> Optional[Dict[str, Any]]:
         """Get vendor information for availability check"""

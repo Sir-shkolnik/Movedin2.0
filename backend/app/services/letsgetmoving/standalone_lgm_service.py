@@ -81,13 +81,20 @@ class StandaloneLGMService:
         """Get dispatcher data for a specific GID"""
         try:
             url = f"{self.base_url}{gid}"
-            response = requests.get(url, timeout=30)
+            logger.info(f"🔍 LGM Fetching data for GID {gid}: {url}")
+            
+            # Follow redirects to get the actual CSV data
+            response = requests.get(url, timeout=30, allow_redirects=True)
             response.raise_for_status()
+            
+            logger.info(f"✅ LGM Data fetched successfully: {len(response.text)} characters")
             
             # Parse CSV
             csv_content = response.text
             csv_reader = csv.reader(io.StringIO(csv_content))
             rows = list(csv_reader)
+            
+            logger.info(f"✅ LGM CSV parsed: {len(rows)} rows")
             
             # Extract location name
             location_name = self.gid_location_map.get(gid, f"Location_{gid}")
