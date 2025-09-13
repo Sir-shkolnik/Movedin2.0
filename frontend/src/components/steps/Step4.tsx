@@ -672,121 +672,216 @@ const Step4: React.FC<Step4Props> = ({ onNext, onBack }) => {
                                 </h3>
 
                                 {/* Mobile-Style Pricing Section */}
-                                <div className="vendor-pricing-modern" style={{
-                                    backgroundColor: theme.secondary,
-                                    padding: '12px',
-                                    borderRadius: '8px',
-                                    textAlign: 'center',
-                                    marginBottom: '12px',
-                                    border: `1px solid ${theme.primary}20`
-                                }}>
-                                    <div className="hourly-rate-modern" style={{
-                                        fontSize: '20px',
-                                        fontWeight: 'bold',
-                                        color: theme.primary,
-                                        marginBottom: '4px'
+                                {vendor.total_cost === 0.0 && vendor.special_notes ? (
+                                    /* Contact Sales Card */
+                                    <div className="vendor-pricing-modern" style={{
+                                        backgroundColor: '#f0f9ff',
+                                        padding: '16px',
+                                        borderRadius: '8px',
+                                        textAlign: 'center',
+                                        marginBottom: '12px',
+                                        border: '2px solid #0ea5e9',
+                                        boxShadow: '0 2px 8px rgba(14, 165, 233, 0.1)'
                                     }}>
-                                        {formatCurrency(vendor.hourly_rate)}
+                                        <div style={{
+                                            fontSize: '18px',
+                                            marginBottom: '8px'
+                                        }}>
+                                            📞
+                                        </div>
+                                        <div style={{
+                                            fontSize: '14px',
+                                            fontWeight: 'bold',
+                                            color: '#0369a1',
+                                            marginBottom: '8px'
+                                        }}>
+                                            Contact Sales Team
+                                        </div>
+                                        <div style={{
+                                            fontSize: '12px',
+                                            color: '#0369a1',
+                                            lineHeight: '1.4',
+                                            fontWeight: '500'
+                                        }}>
+                                            Custom Quote Available
+                                        </div>
                                     </div>
-                                    <div style={{
-                                        fontSize: '12px',
-                                        color: '#6c757d'
+                                ) : (
+                                    /* Regular Pricing Card */
+                                    <div className="vendor-pricing-modern" style={{
+                                        backgroundColor: theme.secondary,
+                                        padding: '12px',
+                                        borderRadius: '8px',
+                                        textAlign: 'center',
+                                        marginBottom: '12px',
+                                        border: `1px solid ${theme.primary}20`
                                     }}>
-                                        Est. Time: {totalTime.toFixed(1)} hours
+                                        <div className="hourly-rate-modern" style={{
+                                            fontSize: '20px',
+                                            fontWeight: 'bold',
+                                            color: theme.primary,
+                                            marginBottom: '4px'
+                                        }}>
+                                            {formatCurrency(vendor.hourly_rate)}
+                                        </div>
+                                        <div style={{
+                                            fontSize: '12px',
+                                            color: '#6c757d'
+                                        }}>
+                                            Est. Time: {totalTime.toFixed(1)} hours
+                                        </div>
                                     </div>
-                                </div>
+                                )}
 
                                 {/* Mobile-Style Move Details */}
-                                <div className="move-size-details-modern" style={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: '8px',
-                                    marginBottom: '12px'
-                                }}>
-                                    <div className="move-size-item-modern" style={{
-                                        backgroundColor: '#f8f9fa',
-                                        padding: '8px 12px',
-                                        borderRadius: '6px',
-                                        border: '1px solid #e9ecef',
-                                        fontSize: '13px',
-                                        textAlign: 'center'
+                                {vendor.total_cost === 0.0 && vendor.special_notes ? (
+                                    /* Contact Sales Details */
+                                    <div className="move-size-details-modern" style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: '8px',
+                                        marginBottom: '12px'
                                     }}>
-                                        <span style={{ fontWeight: '600', color: '#495057' }}>Move Size: </span>
-                                        <span style={{ color: '#007bff' }}>
-                                            {vendor.move_size.rooms > 0 ? `${vendor.move_size.rooms} rooms` : 
-                                             vendor.move_size.square_footage > 0 ? `${vendor.move_size.square_footage} sq ft` : 
-                                             'Standard'}
-                                        </span>
+                                        <div className="move-size-item-modern" style={{
+                                            backgroundColor: '#f0f9ff',
+                                            padding: '12px',
+                                            borderRadius: '6px',
+                                            border: '1px solid #0ea5e9',
+                                            fontSize: '13px',
+                                            textAlign: 'center'
+                                        }}>
+                                            <div style={{ fontWeight: '600', color: '#0369a1', marginBottom: '4px' }}>
+                                                📋 Long-Distance Move
+                                            </div>
+                                            <div style={{ color: '#0369a1', fontSize: '12px', lineHeight: '1.4' }}>
+                                                {vendor.special_notes}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="move-size-item-modern" style={{
-                                        backgroundColor: '#f8f9fa',
-                                        padding: '8px 12px',
-                                        borderRadius: '6px',
-                                        border: '1px solid #e9ecef',
-                                        fontSize: '13px',
-                                        textAlign: 'center'
+                                ) : (
+                                    /* Regular Move Details */
+                                    <div className="move-size-details-modern" style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: '8px',
+                                        marginBottom: '12px'
                                     }}>
-                                        <span style={{ fontWeight: '600', color: '#495057' }}>
-                                            {vendor.crew_size} movers, {vendor.truck_count} truck{vendor.truck_count !== 1 ? 's' : ''}
-                                        </span>
+                                        <div className="move-size-item-modern" style={{
+                                            backgroundColor: '#f8f9fa',
+                                            padding: '8px 12px',
+                                            borderRadius: '6px',
+                                            border: '1px solid #e9ecef',
+                                            fontSize: '13px',
+                                            textAlign: 'center'
+                                        }}>
+                                            <span style={{ fontWeight: '600', color: '#495057' }}>Move Size: </span>
+                                            <span style={{ color: '#007bff' }}>
+                                                {vendor.move_size.rooms > 0 ? `${vendor.move_size.rooms} rooms` : 
+                                                 vendor.move_size.square_footage > 0 ? `${vendor.move_size.square_footage} sq ft` : 
+                                                 'Standard'}
+                                            </span>
+                                        </div>
+                                        <div className="move-size-item-modern" style={{
+                                            backgroundColor: '#f8f9fa',
+                                            padding: '8px 12px',
+                                            borderRadius: '6px',
+                                            border: '1px solid #e9ecef',
+                                            fontSize: '13px',
+                                            textAlign: 'center'
+                                        }}>
+                                            <span style={{ fontWeight: '600', color: '#495057' }}>
+                                                {vendor.crew_size} movers, {vendor.truck_count} truck{vendor.truck_count !== 1 ? 's' : ''}
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
+                                )}
 
                                 {/* Dispatcher Information */}
                                 {vendor.dispatcher_info && (
                                     <div className="dispatcher-info-modern" style={{
                                         marginTop: '12px',
                                         padding: '8px 12px',
-                                        backgroundColor: '#f8f9fa',
+                                        backgroundColor: vendor.total_cost === 0.0 && vendor.special_notes ? '#f0f9ff' : '#f8f9fa',
                                         borderRadius: '6px',
-                                        border: '1px solid #e9ecef'
+                                        border: vendor.total_cost === 0.0 && vendor.special_notes ? '1px solid #0ea5e9' : '1px solid #e9ecef'
                                     }}>
-                                        <div style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'space-between',
-                                            fontSize: '12px'
-                                        }}>
-                                            <div>
-                                                <span style={{ fontWeight: '600', color: '#495057' }}>📍 Location: </span>
-                                                <span style={{ color: '#6c757d' }}>
-                                                    {vendor.dispatcher_info.location_name || vendor.dispatcher_info.city || 'Local Branch'}
-                                                </span>
+                                        {vendor.total_cost === 0.0 && vendor.special_notes ? (
+                                            /* Contact Sales Info */
+                                            <div style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'space-between',
+                                                fontSize: '12px'
+                                            }}>
+                                                <div>
+                                                    <span style={{ fontWeight: '600', color: '#0369a1' }}>📞 Sales Team: </span>
+                                                    <span style={{ color: '#0369a1' }}>
+                                                        {vendor.dispatcher_info.name || 'Sales Team'}
+                                                    </span>
+                                                </div>
+                                                <div style={{
+                                                    color: '#0369a1',
+                                                    fontSize: '11px',
+                                                    fontWeight: '500',
+                                                    padding: '2px 6px',
+                                                    backgroundColor: '#e0f2fe',
+                                                    borderRadius: '4px',
+                                                    border: '1px solid #0ea5e9'
+                                                }}>
+                                                    📋 Custom Quote
+                                                </div>
                                             </div>
-                                            {vendor.dispatcher_info.gmb_url && (
-                                                <a 
-                                                    href={vendor.dispatcher_info.gmb_url}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    onClick={(e) => e.stopPropagation()}
-                                                    style={{
-                                                        color: '#007bff',
-                                                        textDecoration: 'none',
-                                                        fontSize: '11px',
-                                                        fontWeight: '500',
-                                                        padding: '2px 6px',
-                                                        backgroundColor: '#e7f3ff',
-                                                        borderRadius: '4px',
-                                                        border: '1px solid #b3d9ff'
-                                                    }}
-                                                    onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#d1ecf1'}
-                                                    onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#e7f3ff'}
-                                                >
-                                                    📍 View on Google
-                                                </a>
-                                            )}
-                                        </div>
-                                        {vendor.dispatcher_info.owner && (
-                                            <div style={{ marginTop: '4px', fontSize: '11px', color: '#6c757d' }}>
-                                                <span style={{ fontWeight: '500' }}>👤 Dispatcher: </span>
-                                                <span>{vendor.dispatcher_info.owner}</span>
-                                            </div>
-                                        )}
-                                        {vendor.dispatcher_info.phone && (
-                                            <div style={{ marginTop: '2px', fontSize: '11px', color: '#6c757d' }}>
-                                                <span style={{ fontWeight: '500' }}>📞 Phone: </span>
-                                                <span>{vendor.dispatcher_info.phone}</span>
-                                            </div>
+                                        ) : (
+                                            /* Regular Dispatcher Info */
+                                            <>
+                                                <div style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'space-between',
+                                                    fontSize: '12px'
+                                                }}>
+                                                    <div>
+                                                        <span style={{ fontWeight: '600', color: '#495057' }}>📍 Location: </span>
+                                                        <span style={{ color: '#6c757d' }}>
+                                                            {vendor.dispatcher_info.location_name || vendor.dispatcher_info.city || 'Local Branch'}
+                                                        </span>
+                                                    </div>
+                                                    {vendor.dispatcher_info.gmb_url && (
+                                                        <a 
+                                                            href={vendor.dispatcher_info.gmb_url}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            onClick={(e) => e.stopPropagation()}
+                                                            style={{
+                                                                color: '#007bff',
+                                                                textDecoration: 'none',
+                                                                fontSize: '11px',
+                                                                fontWeight: '500',
+                                                                padding: '2px 6px',
+                                                                backgroundColor: '#e7f3ff',
+                                                                borderRadius: '4px',
+                                                                border: '1px solid #b3d9ff'
+                                                            }}
+                                                            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#d1ecf1'}
+                                                            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#e7f3ff'}
+                                                        >
+                                                            📍 View on Google
+                                                        </a>
+                                                    )}
+                                                </div>
+                                                {vendor.dispatcher_info.owner && (
+                                                    <div style={{ marginTop: '4px', fontSize: '11px', color: '#6c757d' }}>
+                                                        <span style={{ fontWeight: '500' }}>👤 Dispatcher: </span>
+                                                        <span>{vendor.dispatcher_info.owner}</span>
+                                                    </div>
+                                                )}
+                                                {vendor.dispatcher_info.phone && (
+                                                    <div style={{ marginTop: '2px', fontSize: '11px', color: '#6c757d' }}>
+                                                        <span style={{ fontWeight: '500' }}>📞 Phone: </span>
+                                                        <span>{vendor.dispatcher_info.phone}</span>
+                                                    </div>
+                                                )}
+                                            </>
                                         )}
                                     </div>
                                 )}
