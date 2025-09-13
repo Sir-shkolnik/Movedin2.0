@@ -235,6 +235,9 @@ class GoogleSheetsService:
             
             # Get location name from smart parser result first, then metadata, then extract from address, then fallback to GID mapping
             location_name = smart_result.get('location', '') or metadata.get('name', '') or metadata.get('location', '')
+            logger.info(f"🔍 DEBUG: Smart parser location: {smart_result.get('location', 'None')}")
+            logger.info(f"🔍 DEBUG: Metadata name: {metadata.get('name', 'None')}")
+            logger.info(f"🔍 DEBUG: Final location_name: {location_name}")
             if not location_name or location_name == 'Unknown':
                 # Try to extract location name from address
                 address = metadata.get('address', '')
