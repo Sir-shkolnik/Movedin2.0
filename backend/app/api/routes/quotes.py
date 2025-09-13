@@ -208,10 +208,16 @@ async def generate_quotes(
     Generate quotes from vendors that serve the specific origin and destination locations
     """
     try:
+        print(f"🚀 API ENDPOINT DEBUG: Starting quote generation")
+        print(f"  Origin: {quote_request.origin_address}")
+        print(f"  Destination: {quote_request.destination_address}")
+        
         # Get available vendors for this location using new vendor dispatcher
+        print(f"  Calling vendor_dispatcher.get_available_vendors_for_location...")
         available_vendors = vendor_dispatcher.get_available_vendors_for_location(
             quote_request.origin_address, quote_request.destination_address
         )
+        print(f"  ✅ get_available_vendors_for_location returned: {len(available_vendors)} vendors")
         
         if not available_vendors:
             return QuoteListResponse(quotes=[], total_count=0)
