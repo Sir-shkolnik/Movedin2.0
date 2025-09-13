@@ -49,12 +49,11 @@ class MapboxService:
             'access_token': self.access_token,
             'q': query,
             'country': 'CA',  # FORCE CANADA ONLY
-            'limit': 10,
-            'language': 'en',
-            'types': 'address,poi,place'
+            'limit': 1,  # Get best match only
+            'types': 'address,place,locality'  # Avoid noisy POIs
         }
         
-        url = f"{self.base_url}/search/geocode/v6/forward"
+        url = f"{self.base_url}/geocoding/v6/forward"
         
         # Retry logic with exponential backoff
         for attempt in range(self._max_retries):
@@ -165,7 +164,7 @@ class MapboxService:
         self, 
         origin: str, 
         destination: str, 
-        profile: str = 'driving'
+        profile: str = 'driving-traffic'
     ) -> Optional[Dict[str, Any]]:
         """Get directions between two addresses with improved geocoding"""
         try:
@@ -185,7 +184,9 @@ class MapboxService:
                 'access_token': self.access_token,
                 'geometries': 'geojson',
                 'overview': 'full',
-                'steps': 'true',
+                'annotations': 'duration,distance',  # Get raw numbers
+                'alternatives': 'true',  # Try multiple routes if one fails
+                'steps': 'false',  # We don't need step-by-step for travel time
             }
             
             url = f"{self.base_url}/directions/v5/mapbox/{profile}/{origin_str};{dest_str}"
@@ -209,7 +210,59 @@ class MapboxService:
             print(f"Mapbox directions error: {e}")
             return None
     
-
+    def get_matrix_directions(
+        self, 
+        origin: str, 
+        destination: str, 
+        profile: str = 'driving-traffic'
+    ) -> Optional[Dict[str, Any]]:
+        """Get duration and distance using Matrix API (fallback when Directions fails)"""
+        try:
+            # Use improved geocoding with fallback
+            origin_coords = self.get_coordinates_with_fallback(origin)
+            dest_coords = self.get_coordinates_with_fallback(destination)
+            
+            if not origin_coords or not dest_coords:
+                logger.error(f"Could not geocode addresses for matrix: origin={origin}, destination={destination}")
+                return None
+            
+            # Use coordinates for matrix API
+            origin_str = f"{origin_coords[0]},{origin_coords[1]}"
+            dest_str = f"{dest_coords[0]},{dest_coords[1]}"
+            
+            params = {
+                'access_token': self.access_token,
+                'annotations': 'duration,distance'
+            }
+            
+            url = f"{self.base_url}/directions-matrix/v1/mapbox/{profile}/{origin_str};{dest_str}"
+            
+            response = requests.get(url, params=params, timeout=self.timeout)
+            response.raise_for_status()
+            data = response.json()
+            
+            # Matrix API returns durations and distances arrays
+            durations = data.get('durations')
+            distances = data.get('distances')
+            
+            if durations and distances and len(durations) > 0 and len(durations[0]) > 1:
+                # A (index 0) -> B (index 1)
+                duration_sec = durations[0][1]
+                distance_m = distances[0][1]
+                
+                if duration_sec is not None and distance_m is not None:
+                    # Return in same format as Directions API
+                    return {
+                        'duration': duration_sec,
+                        'distance': distance_m,
+                        'method': 'matrix'
+                    }
+            
+            return None
+            
+        except Exception as e:
+            logger.error(f"🗺️ ERROR in get_matrix_directions: {e}")
+            return None
     
     def get_distance_from_coordinates(
         self, 

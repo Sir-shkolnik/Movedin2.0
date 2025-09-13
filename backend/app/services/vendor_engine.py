@@ -1593,8 +1593,15 @@ class Easy2GoCalculator(VendorCalculator):
         try:
             # First check one-way travel time for long distance validation
             leg2 = mapbox_service.get_directions(origin, destination)
+            
+            # If Directions API fails, try Matrix API fallback
+            if not leg2 or 'duration' not in leg2:
+                print(f"Easy2Go: Directions API failed, trying Matrix API fallback for {origin} -> {destination}")
+                leg2 = mapbox_service.get_matrix_directions(origin, destination)
+            
             if leg2 and 'duration' in leg2:
                 one_way_hours = leg2['duration'] / 3600
+                print(f"Easy2Go: One-way travel time calculated: {one_way_hours:.1f}h (method: {leg2.get('method', 'directions')})")
                 # Check 10-hour travel time limit - Easy2Go doesn't do these moves
                 if one_way_hours > 10:
                     print(f"Easy2Go: One-way travel time {one_way_hours:.1f}h exceeds 10h limit for long distance moves")
@@ -1628,16 +1635,9 @@ class Easy2GoCalculator(VendorCalculator):
                     raise ValueError(f"Cross-province/international move not supported")
                 
                 # Additional check for very long distances based on address patterns
-                print(f"DEBUG Easy2Go: Checking long distance patterns...")
-                print(f"DEBUG Easy2Go: origin_lower = {origin_lower}")
-                print(f"DEBUG Easy2Go: destination_lower = {destination_lower}")
-                
                 long_distance_provinces = ['nova scotia', 'ns', 'newfoundland', 'nl', 'british columbia', 'bc', 'alberta', 'ab']
                 has_long_distance_dest = any(province in destination_lower for province in long_distance_provinces)
                 has_ontario_origin = 'ontario' in origin_lower or 'on' in origin_lower
-                
-                print(f"DEBUG Easy2Go: has_long_distance_dest = {has_long_distance_dest}")
-                print(f"DEBUG Easy2Go: has_ontario_origin = {has_ontario_origin}")
                 
                 if has_long_distance_dest and has_ontario_origin:
                     print(f"Easy2Go: Cross-country move detected: {origin} -> {destination}")
@@ -1902,8 +1902,15 @@ class VelocityMoversCalculator(VendorCalculator):
         try:
             # First check one-way travel time for long distance validation
             leg2 = mapbox_service.get_directions(origin, destination)
+            
+            # If Directions API fails, try Matrix API fallback
+            if not leg2 or 'duration' not in leg2:
+                print(f"Velocity Movers: Directions API failed, trying Matrix API fallback for {origin} -> {destination}")
+                leg2 = mapbox_service.get_matrix_directions(origin, destination)
+            
             if leg2 and 'duration' in leg2:
                 one_way_hours = leg2['duration'] / 3600
+                print(f"Velocity Movers: One-way travel time calculated: {one_way_hours:.1f}h (method: {leg2.get('method', 'directions')})")
                 # Check 10-hour travel time limit - Velocity Movers doesn't do these moves
                 if one_way_hours > 10:
                     print(f"Velocity Movers: One-way travel time {one_way_hours:.1f}h exceeds 10h limit for long distance moves")
@@ -2203,8 +2210,15 @@ class PierreSonsCalculator(VendorCalculator):
         try:
             # Get one-way travel time
             directions = mapbox_service.get_directions(origin, destination)
-            if directions:
+            
+            # If Directions API fails, try Matrix API fallback
+            if not directions or 'duration' not in directions:
+                print(f"Pierre & Sons: Directions API failed, trying Matrix API fallback for {origin} -> {destination}")
+                directions = mapbox_service.get_matrix_directions(origin, destination)
+            
+            if directions and 'duration' in directions:
                 one_way_hours = directions['duration'] / 3600
+                print(f"Pierre & Sons: One-way travel time calculated: {one_way_hours:.1f}h (method: {directions.get('method', 'directions')})")
                 
                 # Check 10-hour travel time limit - Pierre & Sons doesn't do these moves
                 if one_way_hours > 10:
