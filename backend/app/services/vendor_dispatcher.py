@@ -132,15 +132,24 @@ class VendorDispatcher:
                 return None
         
         else:
-            # For Easy2Go, Velocity Movers, and Pierre & Sons, use GeographicVendorDispatcher
-            dispatcher_info = GeographicVendorDispatcher._get_best_dispatcher_for_vendor(
-                vendor_slug, origin_address, origin_address
-            )
-            if dispatcher_info:
-                dispatcher_info["vendor_slug"] = vendor_slug
-                dispatcher_info["vendor_name"] = vendor_name
-                return dispatcher_info
-            return None
+            # For Easy2Go, Velocity Movers, and Pierre & Sons, create basic vendor info
+            # Let calculate_quote handle service area validation and cross-province detection
+            vendor_info = {
+                "vendor_slug": vendor_slug,
+                "vendor_name": vendor_name,
+                "id": f"{vendor_slug}-basic",
+                "name": vendor_name,
+                "address": "Multiple Locations",
+                "coordinates": {"lat": 43.6532, "lng": -79.3832},
+                "base_rate": 120.0,
+                "service_area": {
+                    "cities": ["Toronto", "Mississauga", "Brampton", "Vaughan", "Markham"],
+                    "regions": ["GTA", "Greater Toronto Area"],
+                    "max_distance_km": 100
+                }
+            }
+            print(f"  ✅ Created basic vendor info for {vendor_slug}: {vendor_name}")
+            return vendor_info
     
     @monitor_quote_calculation("vendor")
     def calculate_vendor_quote(self, vendor_slug: str, quote_request: QuoteRequest, db=None) -> Optional[Dict[str, Any]]:
