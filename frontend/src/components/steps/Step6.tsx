@@ -97,19 +97,19 @@ const Step6: React.FC = () => {
       console.log('🏗️ Step 6 - Creating lead...');
       const leadPayload = {
         quote_data: {
-          originAddress: data.from,
-          destinationAddress: data.to,
-          moveDate: data.date,
-          moveTime: data.time,
-          totalRooms: data.fromDetails?.rooms || 3,
-          squareFootage: data.fromDetails?.sqft || 0,
-          estimatedWeight: 0,
-          stairsAtPickup: data.fromDetails?.stairs || 0,
-          stairsAtDropoff: data.toDetails?.stairs || 0,
-          elevatorAtPickup: data.fromDetails?.elevator || false,
-          elevatorAtDropoff: data.toDetails?.elevator || false,
-          heavyItems: data.fromDetails?.heavyItems || {},
-          additionalServices: data.fromDetails?.additionalServices || {}
+          origin_address: data.from,
+          destination_address: data.to,
+          move_date: data.date,
+          move_time: data.time,
+          total_rooms: data.fromDetails?.rooms || 3,
+          square_footage: data.fromDetails?.sqft || 0,
+          estimated_weight: 0,
+          stairs_at_pickup: data.fromDetails?.stairs || 0,
+          stairs_at_dropoff: data.toDetails?.stairs || 0,
+          elevator_at_pickup: data.fromDetails?.elevator || false,
+          elevator_at_dropoff: data.toDetails?.elevator || false,
+          heavy_items: data.fromDetails?.heavyItems || {},
+          additional_services: data.fromDetails?.additionalServices || {}
         },
         selected_quote: {
           vendor_slug: data.selectedQuote?.vendor_slug || data.vendor?.vendor_slug || '',
