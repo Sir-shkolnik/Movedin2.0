@@ -2039,6 +2039,7 @@ class PierreSonsCalculator(VendorCalculator):
             travel_hours = self._calculate_travel_time(quote_request.origin_address, quote_request.destination_address, dispatcher_info['address'])
             distance_km = self._calculate_distance(quote_request.origin_address, quote_request.destination_address)
         except ValueError as e:
+            print(f"Pierre & Sons: Long distance move detected: {e}")
             # This is a long distance move - return special vendor card
             return {
                 "vendor_name": "Pierre & Sons",
@@ -2218,28 +2219,9 @@ class PierreSonsCalculator(VendorCalculator):
                     print(f"Pierre & Sons: One-way travel time {one_way_hours:.1f}h exceeds 10h limit for long distance moves")
                     raise ValueError(f"One-way travel time {one_way_hours:.1f}h exceeds 10h limit")
             else:
-                # Simple province detection for long-distance move rejection
-                origin_lower = origin.lower()
-                destination_lower = destination.lower()
-                
-                # Simple cross-province detection
-                ontario_indicators = ['ontario', 'on', 'toronto', 'mississauga', 'hamilton', 'ottawa']
-                quebec_indicators = ['quebec', 'qc', 'montreal']
-                bc_indicators = ['british columbia', 'bc', 'vancouver']
-                ns_indicators = ['nova scotia', 'ns', 'halifax']
-                
-                has_ontario_origin = any(indicator in origin_lower for indicator in ontario_indicators)
-                has_quebec_dest = any(indicator in destination_lower for indicator in quebec_indicators)
-                has_bc_dest = any(indicator in destination_lower for indicator in bc_indicators)
-                has_ns_dest = any(indicator in destination_lower for indicator in ns_indicators)
-                
-                # Reject cross-province moves
-                if has_ontario_origin and (has_quebec_dest or has_bc_dest or has_ns_dest):
-                    print(f"Pierre & Sons: Cross-province move detected: {origin} -> {destination}")
-                    raise ValueError(f"Cross-province move not supported")
-                
-                # If we get here, it's a local move but Mapbox failed - use default
-                return 1.0  # Default 1 hour travel time fee
+                # API failed - this should not happen for local moves
+                print(f"Pierre & Sons: Mapbox API failed for {origin} -> {destination}")
+                raise Exception(f"Mapbox API failed - cannot calculate travel time")
             
             return 1.0  # Default 1 hour travel time fee
         except ValueError:
