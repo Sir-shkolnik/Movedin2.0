@@ -1427,58 +1427,7 @@ class Easy2GoCalculator(VendorCalculator):
     def calculate_quote(self, quote_request: QuoteRequest, dispatcher_info: Dict[str, Any], db: Session = None) -> Dict[str, Any]:
         """Calculate Easy2Go quote with official crew-based pricing"""
         
-        # FIRST: Check for cross-province moves BEFORE any calculations
-        origin_lower = quote_request.origin_address.lower()
-        destination_lower = quote_request.destination_address.lower()
-        
-        # Simple cross-province detection
-        ontario_indicators = ['ontario', 'on', 'toronto', 'mississauga', 'hamilton', 'ottawa']
-        quebec_indicators = ['quebec', 'qc', 'montreal']
-        bc_indicators = ['british columbia', 'bc', 'vancouver']
-        ns_indicators = ['nova scotia', 'ns', 'halifax']
-        
-        has_ontario_origin = any(indicator in origin_lower for indicator in ontario_indicators)
-        has_quebec_dest = any(indicator in destination_lower for indicator in quebec_indicators)
-        has_bc_dest = any(indicator in destination_lower for indicator in bc_indicators)
-        has_ns_dest = any(indicator in destination_lower for indicator in ns_indicators)
-        
-        # Reject cross-province moves BEFORE any calculations
-        if has_ontario_origin and (has_quebec_dest or has_bc_dest or has_ns_dest):
-            print(f"Easy2Go: Cross-province move detected BEFORE calculations: {quote_request.origin_address} -> {quote_request.destination_address}")
-            return {
-                "vendor_name": "Easy2Go",
-                "vendor_slug": "easy2go",
-                "total_cost": 0.0,
-                "original_cost": 0.0,
-                "markup_amount": 0.0,
-                "markup_percentage": 0.0,
-                "breakdown": {
-                    "labor": 0.0,
-                    "travel": 0.0,
-                    "fuel": 0.0,
-                    "heavy_items": 0.0,
-                    "additional_services": 0.0,
-                    "original_total": 0.0
-                },
-                "crew_size": 0,
-                "truck_count": 0,
-                "estimated_hours": 0.0,
-                "travel_time_hours": 0.0,
-                "hourly_rate": 0.0,
-                "dispatcher_info": {
-                    "name": "Easy2Go Sales Team",
-                    "address": "Contact for custom quote",
-                    "total_distance_km": 0.0,
-                    "location_name": "Sales Team",
-                    "gmb_url": "https://www.easy2go.com"
-                },
-                "available_slots": [],
-                "rating": 4.6,
-                "reviews": 892,
-                "special_notes": "This is a long-distance move. Our sales team will contact you within 24 hours with a custom quote tailored to your specific needs.",
-                "is_long_distance": True,
-                "contact_sales": True
-            }
+        # Let the regular calculation logic handle distance validation
         
         crew_size = self.get_crew_size(quote_request)
         truck_count = self.get_truck_count(quote_request, crew_size)
@@ -1779,58 +1728,7 @@ class VelocityMoversCalculator(VendorCalculator):
     def calculate_quote(self, quote_request: QuoteRequest, dispatcher_info: Dict[str, Any], db: Session = None) -> Dict[str, Any]:
         """Calculate Velocity Movers quote with official pricing"""
         
-        # FIRST: Check for cross-province moves BEFORE any calculations
-        origin_lower = quote_request.origin_address.lower()
-        destination_lower = quote_request.destination_address.lower()
-        
-        # Simple cross-province detection
-        ontario_indicators = ['ontario', 'on', 'toronto', 'mississauga', 'hamilton', 'ottawa']
-        quebec_indicators = ['quebec', 'qc', 'montreal']
-        bc_indicators = ['british columbia', 'bc', 'vancouver']
-        ns_indicators = ['nova scotia', 'ns', 'halifax']
-        
-        has_ontario_origin = any(indicator in origin_lower for indicator in ontario_indicators)
-        has_quebec_dest = any(indicator in destination_lower for indicator in quebec_indicators)
-        has_bc_dest = any(indicator in destination_lower for indicator in bc_indicators)
-        has_ns_dest = any(indicator in destination_lower for indicator in ns_indicators)
-        
-        # Reject cross-province moves BEFORE any calculations
-        if has_ontario_origin and (has_quebec_dest or has_bc_dest or has_ns_dest):
-            print(f"Velocity Movers: Cross-province move detected BEFORE calculations: {quote_request.origin_address} -> {quote_request.destination_address}")
-            return {
-                "vendor_name": "Velocity Movers",
-                "vendor_slug": "velocity-movers",
-                "total_cost": 0.0,
-                "original_cost": 0.0,
-                "markup_amount": 0.0,
-                "markup_percentage": 0.0,
-                "breakdown": {
-                    "labor": 0.0,
-                    "travel": 0.0,
-                    "fuel": 0.0,
-                    "heavy_items": 0.0,
-                    "additional_services": 0.0,
-                    "original_total": 0.0
-                },
-                "crew_size": 0,
-                "truck_count": 0,
-                "estimated_hours": 0.0,
-                "travel_time_hours": 0.0,
-                "hourly_rate": 0.0,
-                "dispatcher_info": {
-                    "name": "Velocity Movers Sales Team",
-                    "address": "Contact for custom quote",
-                    "total_distance_km": 0.0,
-                    "location_name": "Sales Team",
-                    "gmb_url": "https://www.velocitymovers.com"
-                },
-                "available_slots": [],
-                "rating": 4.7,
-                "reviews": 634,
-                "special_notes": "This is a long-distance move. Our sales team will contact you within 24 hours with a custom quote tailored to your specific needs.",
-                "is_long_distance": True,
-                "contact_sales": True
-            }
+        # Let the regular calculation logic handle distance validation
         
         crew_size = self.get_crew_size(quote_request)
         truck_count = self.get_truck_count(quote_request, crew_size)
@@ -2122,58 +2020,7 @@ class PierreSonsCalculator(VendorCalculator):
     def calculate_quote(self, quote_request: QuoteRequest, dispatcher_info: Dict[str, Any], db: Session = None) -> Dict[str, Any]:
         """Calculate Pierre & Sons quote with distance surcharge"""
         
-        # FIRST: Check for cross-province moves BEFORE any calculations
-        origin_lower = quote_request.origin_address.lower()
-        destination_lower = quote_request.destination_address.lower()
-        
-        # Simple cross-province detection
-        ontario_indicators = ['ontario', 'on', 'toronto', 'mississauga', 'hamilton', 'ottawa']
-        quebec_indicators = ['quebec', 'qc', 'montreal']
-        bc_indicators = ['british columbia', 'bc', 'vancouver']
-        ns_indicators = ['nova scotia', 'ns', 'halifax']
-        
-        has_ontario_origin = any(indicator in origin_lower for indicator in ontario_indicators)
-        has_quebec_dest = any(indicator in destination_lower for indicator in quebec_indicators)
-        has_bc_dest = any(indicator in destination_lower for indicator in bc_indicators)
-        has_ns_dest = any(indicator in destination_lower for indicator in ns_indicators)
-        
-        # Reject cross-province moves BEFORE any calculations
-        if has_ontario_origin and (has_quebec_dest or has_bc_dest or has_ns_dest):
-            print(f"Pierre & Sons: Cross-province move detected BEFORE calculations: {quote_request.origin_address} -> {quote_request.destination_address}")
-            return {
-                "vendor_name": "Pierre & Sons",
-                "vendor_slug": "pierre-sons",
-                "total_cost": 0.0,
-                "original_cost": 0.0,
-                "markup_amount": 0.0,
-                "markup_percentage": 0.0,
-                "breakdown": {
-                    "labor": 0.0,
-                    "travel": 0.0,
-                    "fuel": 0.0,
-                    "heavy_items": 0.0,
-                    "additional_services": 0.0,
-                    "original_total": 0.0
-                },
-                "crew_size": 0,
-                "truck_count": 0,
-                "estimated_hours": 0.0,
-                "travel_time_hours": 0.0,
-                "hourly_rate": 0.0,
-                "dispatcher_info": {
-                    "name": "Pierre & Sons Sales Team",
-                    "address": "Contact for custom quote",
-                    "total_distance_km": 0.0,
-                    "location_name": "Sales Team",
-                    "gmb_url": "https://www.pierreandsons.com"
-                },
-                "available_slots": [],
-                "rating": 4.8,
-                "reviews": 1247,
-                "special_notes": "This is a long-distance move. Our sales team will contact you within 24 hours with a custom quote tailored to your specific needs.",
-                "is_long_distance": True,
-                "contact_sales": True
-            }
+        # Let the regular calculation logic handle distance validation
         
         crew_size = self.get_crew_size(quote_request)
         truck_count = self.get_truck_count(quote_request, crew_size)

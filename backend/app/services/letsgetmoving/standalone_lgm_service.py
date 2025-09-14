@@ -524,58 +524,7 @@ class StandaloneLGMService:
     def calculate_quote(self, quote_request: Dict[str, Any], dispatcher_data: Dict[str, Any]) -> Dict[str, Any]:
         """Calculate quote for Let's Get Moving"""
         try:
-            # FIRST: Check for cross-province moves BEFORE any calculations
-            origin_address = quote_request.get("origin_address", "").lower()
-            destination_address = quote_request.get("destination_address", "").lower()
-            
-            # Simple cross-province detection
-            ontario_indicators = ['ontario', 'on', 'toronto', 'mississauga', 'hamilton', 'ottawa']
-            quebec_indicators = ['quebec', 'qc', 'montreal']
-            bc_indicators = ['british columbia', 'bc', 'vancouver']
-            ns_indicators = ['nova scotia', 'ns', 'halifax']
-            
-            has_ontario_origin = any(indicator in origin_address for indicator in ontario_indicators)
-            has_quebec_dest = any(indicator in destination_address for indicator in quebec_indicators)
-            has_bc_dest = any(indicator in destination_address for indicator in bc_indicators)
-            has_ns_dest = any(indicator in destination_address for indicator in ns_indicators)
-            
-            # Reject cross-province moves BEFORE any calculations
-            if has_ontario_origin and (has_quebec_dest or has_bc_dest or has_ns_dest):
-                print(f"LGM: Cross-province move detected BEFORE calculations: {quote_request.get('origin_address')} -> {quote_request.get('destination_address')}")
-                return {
-                    "vendor_name": "Let's Get Moving",
-                    "vendor_slug": "lets-get-moving",
-                    "total_cost": 0.0,
-                    "original_cost": 0.0,
-                    "markup_amount": 0.0,
-                    "markup_percentage": 0.0,
-                    "breakdown": {
-                        "labor": 0.0,
-                        "travel": 0.0,
-                        "fuel": 0.0,
-                        "heavy_items": 0.0,
-                        "additional_services": 0.0,
-                        "original_total": 0.0
-                    },
-                    "crew_size": 0,
-                    "truck_count": 0,
-                    "estimated_hours": 0.0,
-                    "travel_time_hours": 0.0,
-                    "hourly_rate": 0.0,
-                    "dispatcher_info": {
-                        "name": "Let's Get Moving Sales Team",
-                        "address": "Contact for custom quote",
-                        "total_distance_km": 0.0,
-                        "location_name": "Sales Team",
-                        "gmb_url": "https://www.letsgetmoving.com"
-                    },
-                    "available_slots": [],
-                    "rating": 4.9,
-                    "reviews": 2156,
-                    "special_notes": "This is a long-distance move. Our sales team will contact you within 24 hours with a custom quote tailored to your specific needs.",
-                    "is_long_distance": True,
-                    "contact_sales": True
-                }
+            # Let the regular calculation logic handle distance validation
             
             # Get base rate for the move date
             move_date = quote_request.get("move_date", "2025-02-15")
