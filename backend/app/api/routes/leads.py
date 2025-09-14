@@ -166,12 +166,36 @@ async def create_lead_internal(lead_data: Dict[str, Any], db: Session, status: s
         db.add(quote)
         db.commit()
         
-        # Send support notification for new lead
+        # Send email notifications for new lead
         try:
+            # Send support notification
             support_success = email_service.send_lead_notification_to_support(lead_data, lead.id)
             logger.info(f"Support notification sent for new lead {lead.id}: {support_success}")
+            
+            # Send customer confirmation email
+            customer_success = email_service.send_customer_confirmation(lead_data, lead.email, lead.id)
+            logger.info(f"Customer confirmation sent to {lead.email} for lead {lead.id}: {customer_success}")
+            
+            # Send vendor notification if vendor is selected
+            if selected_quote and selected_quote.get('vendor_name'):
+                vendor_name = selected_quote['vendor_name']
+                vendor_email = "support@movedin.com"  # Default vendor email
+                
+                # Try to get vendor-specific email
+                try:
+                    from app.services.vendor_engine import GeographicVendorDispatcher
+                    dispatcher = GeographicVendorDispatcher()
+                    vendor_info = dispatcher.get_vendor_info_by_name(vendor_name)
+                    if vendor_info and vendor_info.get('email'):
+                        vendor_email = vendor_info['email']
+                except Exception as vendor_error:
+                    logger.warning(f"Could not get vendor email for {vendor_name}: {vendor_error}")
+                
+                vendor_success = email_service.send_vendor_notification(lead_data, vendor_email, lead.id)
+                logger.info(f"Vendor notification sent to {vendor_email} for lead {lead.id}: {vendor_success}")
+                
         except Exception as email_error:
-            logger.error(f"Failed to send support notification: {email_error}")
+            logger.error(f"Failed to send email notifications: {email_error}")
             # Don't fail lead creation if email fails
         
         return {
