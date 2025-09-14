@@ -330,8 +330,13 @@ class StandaloneLGMService:
             truck_factor = 1.3
             estimated_travel_time = base_travel_time * truck_factor
             
-            # Minimum 0.5 hours, maximum 10 hours
-            return max(0.5, min(10.0, estimated_travel_time))
+            # Check 10-hour travel time limit - LGM doesn't do these moves
+            if estimated_travel_time > 10:
+                logger.info(f"LGM: Travel time {estimated_travel_time:.1f}h exceeds 10h limit for long distance moves")
+                raise ValueError(f"Travel time {estimated_travel_time:.1f}h exceeds 10h limit")
+            
+            # Minimum 0.5 hours
+            return max(0.5, estimated_travel_time)
             
         except Exception as e:
             logger.error(f"Error calculating travel time: {e}")
