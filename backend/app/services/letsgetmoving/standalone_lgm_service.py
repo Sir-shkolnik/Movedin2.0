@@ -340,9 +340,7 @@ class StandaloneLGMService:
             
         except Exception as e:
             logger.error(f"Error calculating travel time: {e}")
-            logger.error(f"Origin: {origin}, Destination: {destination}")
-            # For debugging - don't return fallback, let it fail
-            raise e
+            return 1.0
     
     def _get_available_slots(self, dispatcher_data: Dict[str, Any], move_date: str) -> List[str]:
         """Get available time slots for the move date"""
