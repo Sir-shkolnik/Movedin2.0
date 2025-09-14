@@ -166,28 +166,40 @@ async def create_lead_internal(lead_data: Dict[str, Any], db: Session, status: s
         db.add(quote)
         db.commit()
         
-        # Send support notification for new lead using working email service
+        # Send support notification for new lead using the same service as test emails
         try:
             from app.services.final_email_service import final_email_service
             
-            # Create simple support notification
+            # Create simple support notification using the same format as test emails
             support_subject = f"📊 New Lead Created #{lead.id} - MovedIn 2.0"
             support_body = f"""
-            <h2>📊 New Lead Created</h2>
-            <p><strong>Lead ID:</strong> #{lead.id}</p>
-            <p><strong>Customer:</strong> {lead.first_name} {lead.last_name}</p>
-            <p><strong>Email:</strong> {lead.email}</p>
-            <p><strong>Phone:</strong> {lead.phone}</p>
-            <p><strong>Move Date:</strong> {lead.move_date}</p>
-            <p><strong>Origin:</strong> {lead.origin_address}</p>
-            <p><strong>Destination:</strong> {lead.destination_address}</p>
-            <p><strong>Rooms:</strong> {lead.total_rooms}</p>
-            <p><strong>Heavy Items:</strong> {lead.heavy_items}</p>
-            <p><strong>Status:</strong> New Lead (No Payment Yet)</p>
-            <hr>
-            <p><em>This is a new lead that has not yet completed payment.</em></p>
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h1 style="color: #2c3e50;">📊 New Lead Created</h1>
+                    <p style="color: #7f8c8d; font-size: 16px;">MovedIn 2.0 - Lead Notification</p>
+                </div>
+                
+                <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                    <h2 style="color: #2c3e50; margin-top: 0;">Lead Details</h2>
+                    <p><strong>Lead ID:</strong> #{lead.id}</p>
+                    <p><strong>Customer:</strong> {lead.first_name} {lead.last_name}</p>
+                    <p><strong>Email:</strong> {lead.email}</p>
+                    <p><strong>Phone:</strong> {lead.phone}</p>
+                    <p><strong>Move Date:</strong> {lead.move_date}</p>
+                    <p><strong>Origin:</strong> {lead.origin_address}</p>
+                    <p><strong>Destination:</strong> {lead.destination_address}</p>
+                    <p><strong>Rooms:</strong> {lead.total_rooms}</p>
+                    <p><strong>Heavy Items:</strong> {lead.heavy_items}</p>
+                </div>
+                
+                <div style="background-color: #e8f5e8; padding: 15px; border-radius: 8px; text-align: center;">
+                    <p style="margin: 0; color: #27ae60; font-weight: bold;">Status: New Lead (No Payment Yet)</p>
+                    <p style="margin: 10px 0 0 0; color: #7f8c8d; font-size: 14px;">This is a new lead that has not yet completed payment.</p>
+                </div>
+            </div>
             """
             
+            # Use the same method that works for test emails
             support_success = final_email_service.send_email(
                 to_email="support@movedin.com",
                 subject=support_subject,
