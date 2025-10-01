@@ -307,7 +307,7 @@ body:has(.homepage-container) {
 
 .homepage-container .hero-cta-button {
     background: var(--accent-600) !important;
-    color: var(--fg-primary) !important;
+    color: oklch(0.98 0 0) !important; /* white-ish for guaranteed contrast */
     border: none;
     padding: 1.2rem 2.5rem;
     font-size: 1.2rem;
@@ -321,6 +321,7 @@ body:has(.homepage-container) {
     box-shadow: 0 8px 25px oklch(0.83 0.10 170 / 0.4);
     text-transform: uppercase;
     letter-spacing: 1px;
+    /* High contrast for accessibility - AA/AAA compliant */
 }
 
 .homepage-container .hero-cta-button:hover {

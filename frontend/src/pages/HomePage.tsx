@@ -150,7 +150,7 @@ const HomePage: React.FC = () => {
                   We are here to guide you through your upcoming move, so you can focus on enjoying the new home, instead of worrying about the hassle of moving.
                 </p>
                 <button 
-                  className="hero-cta-button" 
+                  className="hero-cta-button button--primary" 
                   onClick={handleGetQuote}
                   aria-label="Get your free moving quote now - Start your move in 3 simple steps"
                   title="Click to get instant quotes from verified Canadian movers"
@@ -228,7 +228,7 @@ const HomePage: React.FC = () => {
               <div className="feature-content">
                 <h2>One stop shop for all your moving needs</h2>
                 <p>From packing to unpacking, we connect you with the right professionals for every aspect of your move.</p>
-                <button className="feature-button" onClick={handleGetQuote} aria-label="Get quote for comprehensive moving services">Get a quote</button>
+                <button className="feature-button button--secondary" onClick={handleGetQuote} aria-label="Get quote for comprehensive moving services">Get a quote</button>
               </div>
               <div className="feature-visual">
                 <img src={heroIllustration} alt="One stop shop illustration showing comprehensive moving services" className="feature-image" loading="lazy" />
@@ -239,7 +239,7 @@ const HomePage: React.FC = () => {
               <div className="feature-content">
                 <h2>Competitive price guarantee</h2>
                 <p>We ensure you get the best rates by comparing quotes from multiple verified movers in your area.</p>
-                <button className="feature-button" onClick={handleGetQuote} aria-label="Get competitive moving quotes">Get a quote</button>
+                <button className="feature-button button--secondary" onClick={handleGetQuote} aria-label="Get competitive moving quotes">Get a quote</button>
               </div>
               <div className="feature-visual">
                 <img src={manWithBoxes} alt="Competitive pricing illustration showing cost comparison" className="feature-image" loading="lazy" />
@@ -250,7 +250,7 @@ const HomePage: React.FC = () => {
               <div className="feature-content">
                 <h2>Trusted movers you can rely on</h2>
                 <p>All our moving partners are licensed, insured, and thoroughly vetted for quality and reliability.</p>
-                <button className="feature-button" onClick={handleGetQuote} aria-label="Find trusted licensed movers">Find a mover</button>
+                <button className="feature-button button--secondary" onClick={handleGetQuote} aria-label="Find trusted licensed movers">Find a mover</button>
               </div>
               <div className="feature-visual">
                 <img src={customerService} alt="Customer service illustration showing professional movers" className="feature-image" loading="lazy" />
