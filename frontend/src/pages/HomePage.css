@@ -1,6 +1,23 @@
 /* HomePage Specific Styles - Scoped to avoid affecting other pages */
 @import '../styles/color-scheme.css';
 
+/* FORCE DARK THEME - High specificity overrides */
+html, body, #root, .app-root {
+    background: var(--bg-base) !important;
+    color: var(--fg-primary) !important;
+}
+
+/* Override any white backgrounds with high specificity */
+* {
+    background-color: var(--bg-base) !important;
+}
+
+/* Specific overrides for common elements */
+.hero-section, .trusted-section, .features-section, .explore-services-section, .expert-section, .blogs-section, .faq-section {
+    background: var(--bg-base) !important;
+    color: var(--fg-primary) !important;
+}
+
 /* Homepage Container - Dark Theme */
 .homepage-container {
     background: var(--bg-base) !important;
