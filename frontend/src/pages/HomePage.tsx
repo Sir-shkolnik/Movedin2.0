@@ -112,11 +112,38 @@ const HomePage: React.FC = () => {
           <section className="hero-section">
             <div className="hero-content">
               <div className="hero-text">
-                <h1 id="homepage-title">Everything about moving is <span className="underlined">hard!</span></h1>
-                <h2 className="hero-subtitle">That's about to change.</h2>
+                <div className="hero-badge">
+                  <span className="badge-icon">🚚</span>
+                  <span>Canada's #1 Moving Platform</span>
+                </div>
+                <h1 id="homepage-title">
+                  Moving made <span className="underlined">simple</span>
+                </h1>
+                <h2 className="hero-subtitle">
+                  Get instant quotes from verified movers in minutes, not hours
+                </h2>
                 <p className="hero-description">
-                  We are here to guide you through your upcoming move, so you can focus on enjoying the new home, instead of worrying about the hassle of moving.
+                  Stop wasting time calling dozens of movers. Our platform connects you with licensed, 
+                  insured moving companies that compete for your business. Save time, save money, 
+                  and move with confidence.
                 </p>
+                <div className="hero-cta-group">
+                  <button 
+                    className="hero-cta-button button--primary" 
+                    onClick={handleGetQuote}
+                    aria-label="Get your free moving quote now - Start your move in 3 simple steps"
+                    title="Click to get instant quotes from verified Canadian movers"
+                  >
+                    Get Free Quotes
+                  </button>
+                  <button 
+                    className="hero-cta-button button--secondary" 
+                    onClick={() => navigate('/how-it-works')}
+                    aria-label="Learn how our moving platform works"
+                  >
+                    How It Works
+                  </button>
+                </div>
                 <div className="hero-stats">
                   <div className="stat">
                     <div className="stat-number">10,000+</div>
@@ -131,14 +158,50 @@ const HomePage: React.FC = () => {
                     <div className="stat-label">Free to Use</div>
                   </div>
                 </div>
-                <button 
-                  className="hero-cta-button button--primary" 
-                  onClick={handleGetQuote}
-                  aria-label="Get your free moving quote now - Start your move in 3 simple steps"
-                  title="Click to get instant quotes from verified Canadian movers"
-                >
-                  Get a moving quote
-                </button>
+              </div>
+              <div className="hero-visual">
+                <div className="hero-card">
+                  <div className="card-header">
+                    <div className="card-dots">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                    <div className="card-title">Get Moving Quotes</div>
+                  </div>
+                  <div className="card-content">
+                    <div className="quote-item">
+                      <div className="quote-company">
+                        <div className="company-logo">🚛</div>
+                        <div className="company-info">
+                          <div className="company-name">Premium Movers</div>
+                          <div className="company-rating">⭐⭐⭐⭐⭐ 4.9</div>
+                        </div>
+                      </div>
+                      <div className="quote-price">$850</div>
+                    </div>
+                    <div className="quote-item">
+                      <div className="quote-company">
+                        <div className="company-logo">📦</div>
+                        <div className="company-info">
+                          <div className="company-name">Quick Move Co</div>
+                          <div className="company-rating">⭐⭐⭐⭐⭐ 4.8</div>
+                        </div>
+                      </div>
+                      <div className="quote-price">$720</div>
+                    </div>
+                    <div className="quote-item">
+                      <div className="quote-company">
+                        <div className="company-logo">🏠</div>
+                        <div className="company-info">
+                          <div className="company-name">Reliable Relocation</div>
+                          <div className="company-rating">⭐⭐⭐⭐⭐ 4.9</div>
+                        </div>
+                      </div>
+                      <div className="quote-price">$680</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
