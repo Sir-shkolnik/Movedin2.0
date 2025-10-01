@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header/Header';
 import StaticFooter from '../components/Footer/StaticFooter';
-import './HowItWorks.css';
+// import './HowItWorks.css'; // Temporarily disabled to test
 
 // Import icons and images
 import locationIcon from '../assets/icons-svg/icon_location-purple.svg';
@@ -117,12 +117,30 @@ const HowItWorks: React.FC = () => {
         </script>
       </Helmet>
       <Header />
-      <main className="how-it-works-page" style={{ backgroundColor: 'var(--bg-base)', color: 'var(--fg-primary)' }}>
+      <main className="how-it-works-page" style={{ 
+        backgroundColor: '#0F1115', 
+        color: '#E5E7EB', 
+        minHeight: '100vh',
+        padding: '0'
+      }}>
         {/* Hero Section */}
-        <section className="hero-section">
+        <section className="hero-section" style={{
+          background: 'linear-gradient(135deg, #1F2937 0%, #374151 100%)',
+          padding: '8rem 2rem 6rem',
+          color: '#E5E7EB'
+        }}>
           <div className="hero-content">
             <div className="hero-text">
-              <h1>How It Works</h1>
+              <h1 style={{ 
+                fontSize: '4rem', 
+                fontWeight: '800', 
+                color: '#E5E7EB',
+                marginBottom: '1.5rem',
+                background: 'linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}>How It Works</h1>
               <p className="hero-subtitle">Your move, simplified in 7 easy steps</p>
               <p className="hero-description">
                 We've streamlined the entire moving process to make it as simple as possible. 
