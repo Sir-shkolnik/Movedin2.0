@@ -25,7 +25,7 @@ import phoneIcon from '../assets/icons-svg/icon_phone-purple.svg';
 import plusIcon from '../assets/icons-svg/icon_plus-purple.svg';
 import minusIcon from '../assets/icons-svg/icon_minus-gray.svg';
 import formLocationStep from '../assets/imgs-png/img_form1.png';
-import heroIllustration from '../assets/imgs-png/img_one-stop-illustration.png';
+import heroIllustration from '../assets/imgs-png/image.png';
 import truckImage from '../assets/imgs-png/img_truck.png';
 import manWithBoxes from '../assets/imgs-png/img_blog-dealing_content_2.svg';
 import customerService from '../assets/imgs-png/img_blog-dealing_content_4.svg';
