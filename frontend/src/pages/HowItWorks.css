@@ -1,20 +1,45 @@
 /* How It Works Page - Amazing Modern Design */
 @import '../styles/color-scheme.css';
 
+/* FORCE DARK THEME - High specificity overrides */
+.how-it-works-page,
+.how-it-works-page *,
+.how-it-works-page body,
+.how-it-works-page html,
+.how-it-works-page .page-container,
+.how-it-works-page .page-content,
+.how-it-works-page .page-card {
+    background: var(--bg-base) !important;
+    color: var(--fg-primary) !important;
+}
+
+/* Override any white backgrounds from Page.css */
+.how-it-works-page .page-container,
+.how-it-works-page .page-content,
+.how-it-works-page .page-card,
+.how-it-works-page .how-it-works-page,
+.how-it-works-page .how-it-works-header,
+.how-it-works-page .how-it-works-steps,
+.how-it-works-page .how-it-works-cta {
+    background: var(--bg-base) !important;
+    color: var(--fg-primary) !important;
+}
+
 /* Page Container */
 .how-it-works-page {
-    background: var(--bg-base);
-    color: var(--fg-primary);
+    background: var(--bg-base) !important;
+    color: var(--fg-primary) !important;
     min-height: 100vh;
     overflow-x: hidden;
 }
 
 /* Hero Section */
-.hero-section {
-    background: linear-gradient(135deg, var(--bg-elev-1) 0%, var(--bg-elev-2) 100%);
+.how-it-works-page .hero-section {
+    background: linear-gradient(135deg, var(--bg-elev-1) 0%, var(--bg-elev-2) 100%) !important;
     padding: 8rem 2rem 6rem;
     position: relative;
     overflow: hidden;
+    color: var(--fg-primary) !important;
 }
 
 .hero-section::before {
@@ -29,7 +54,7 @@
     pointer-events: none;
 }
 
-.hero-content {
+.how-it-works-page .hero-content {
     max-width: 1200px;
     margin: 0 auto;
     display: grid;
