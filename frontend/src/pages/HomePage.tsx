@@ -110,23 +110,6 @@ const HomePage: React.FC = () => {
           
           {/* Hero Section */}
           <section className="hero-section">
-            <div className="hero-background-elements">
-              <div className="floating-truck truck-1">
-                <img src={truckImage} alt="Moving truck" className="floating-image" />
-              </div>
-              <div className="floating-box box-1">
-                <img src={realMoversImage} alt="Moving boxes" className="floating-image" />
-              </div>
-              <div className="floating-box box-2">
-                <img src={competitiveImage} alt="Competitive pricing" className="floating-image" />
-              </div>
-              <div className="floating-box box-3">
-                <img src={contactImage} alt="Customer service" className="floating-image" />
-              </div>
-              <div className="floating-house house-1">
-                <img src={heroIllustration} alt="Moving services" className="floating-image" />
-              </div>
-            </div>
             <div className="hero-content">
               <div className="hero-text">
                 <h1 id="homepage-title">Everything about moving is <span className="underlined">hard!</span></h1>
