@@ -59,7 +59,7 @@ body:has(.homepage-container) {
     padding: 0;
 }
 
-/* Hero Section - Colorful Revolution */
+/* Hero Section - Beautiful Colorful Design */
 .homepage-container .hero-section {
     padding: 6rem 2rem 5rem;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%) !important;
@@ -170,19 +170,17 @@ body:has(.homepage-container) {
     animation-delay: 3s;
 }
 
-/* Floating Images - Colorful Enhancement */
+/* Floating Images */
 .homepage-container .floating-image {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.2)) brightness(1.1) saturate(1.2);
-    transition: all 0.4s ease;
-    border-radius: 12px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+    transition: transform 0.3s ease;
 }
 
 .homepage-container .floating-image:hover {
-    transform: scale(1.15) rotate(5deg);
-    filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.3)) brightness(1.3) saturate(1.5);
+    transform: scale(1.1);
 }
 
 /* Animations */
@@ -354,7 +352,7 @@ body:has(.homepage-container) {
     width: auto;
 }
 
-/* Trusted By Section - Colorful Design */
+/* Trusted By Section - Beautiful Colorful Design */
 .homepage-container .trusted-section {
     padding: 5rem 2rem;
     background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 25%, #ff8a80 50%, #ffab91 75%, #ffcc80 100%) !important;
@@ -413,7 +411,7 @@ body:has(.homepage-container) {
     filter: grayscale(0%);
 }
 
-/* Features Section - Colorful Design */
+/* Features Section - Beautiful Colorful Design */
 .homepage-container .features-section {
     padding: 6rem 2rem;
     background: linear-gradient(135deg, #a8edea 0%, #fed6e3 25%, #d299c2 50%, #fef9d7 75%, #89f7fe 100%) !important;
@@ -672,7 +670,7 @@ body:has(.homepage-container) {
     z-index: 1;
 }
 
-/* Explore Services Section - Colorful Design */
+/* Explore Services Section - Beautiful Colorful Design */
 .homepage-container .explore-services-section {
     padding: 6rem 2rem;
     background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 25%, #fecfef 50%, #fecfef 75%, #fecfef 100%) !important;
@@ -749,7 +747,7 @@ body:has(.homepage-container) {
     border-radius: 8px;
 }
 
-/* Expert Section - Colorful Design */
+/* Expert Section - Beautiful Colorful Design */
 .homepage-container .expert-section {
     padding: 6rem 2rem;
     background: linear-gradient(135deg, #a8edea 0%, #fed6e3 25%, #d299c2 50%, #fef9d7 75%, #89f7fe 100%) !important;
@@ -797,10 +795,11 @@ body:has(.homepage-container) {
     align-items: center;
     gap: 1rem;
     padding: 2rem;
-    background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%) !important;
-    border-radius: 16px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-    border: 1px solid rgba(160, 217, 247, 0.3);
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%) !important;
+    border-radius: 24px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    border: 2px solid transparent;
+    background-clip: padding-box;
     position: relative;
     overflow: hidden;
 }
@@ -811,8 +810,8 @@ body:has(.homepage-container) {
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #6633FF 0%, #A0D9F7 100%);
+    height: 4px;
+    background: linear-gradient(90deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%);
 }
 
 .homepage-container .profile-image {
@@ -843,7 +842,7 @@ body:has(.homepage-container) {
     font-family: sans-serif;
 }
 
-/* Blogs Section - Colorful Design */
+/* Blogs Section - Beautiful Colorful Design */
 .homepage-container .blogs-section {
     padding: 6rem 2rem;
     background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 25%, #ff8a80 50%, #ffab91 75%, #ffcc80 100%) !important;
@@ -879,11 +878,12 @@ body:has(.homepage-container) {
 
 .homepage-container .blog-item {
     background: var(--white) !important;
-    border-radius: 16px;
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-    border: 1px solid rgba(160, 217, 247, 0.2);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+    transition: all 0.4s ease;
+    border: 2px solid transparent;
+    background-clip: padding-box;
     position: relative;
 }
 
@@ -893,8 +893,8 @@ body:has(.homepage-container) {
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #6633FF 0%, #A0D9F7 100%);
+    height: 4px;
+    background: linear-gradient(90deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%);
 }
 
 .homepage-container .blog-link {
@@ -965,7 +965,7 @@ body:has(.homepage-container) {
     font-family: sans-serif;
 }
 
-/* FAQ Section - Colorful Design */
+/* FAQ Section - Beautiful Colorful Design */
 .homepage-container .faq-section {
     padding: 6rem 2rem;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%) !important;
@@ -1041,8 +1041,8 @@ body:has(.homepage-container) {
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #6633FF 0%, #A0D9F7 100%);
+    height: 4px;
+    background: linear-gradient(90deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%);
 }
 
 .homepage-container .faq-contact p {
@@ -1116,6 +1116,14 @@ body:has(.homepage-container) {
     
     .homepage-container .hero-text {
         text-align: center;
+    }
+    
+    .homepage-container .hero-text h1 {
+        font-size: 2.5rem;
+    }
+    
+    .homepage-container .hero-text .hero-subtitle {
+        font-size: 1.4rem;
     }
     
     .homepage-container .hero-text h1 {
