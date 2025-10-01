@@ -117,7 +117,7 @@ const HowItWorks: React.FC = () => {
         </script>
       </Helmet>
       <Header />
-      <main className="how-it-works-page">
+      <main className="how-it-works-page" style={{ backgroundColor: 'var(--bg-base)', color: 'var(--fg-primary)' }}>
         {/* Hero Section */}
         <section className="hero-section">
           <div className="hero-content">

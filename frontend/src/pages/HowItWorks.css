@@ -1,6 +1,15 @@
 /* How It Works Page - Amazing Modern Design */
 @import '../styles/color-scheme.css';
 
+/* NUCLEAR OPTION - Force everything to dark theme */
+body:has(.how-it-works-page),
+html:has(.how-it-works-page),
+#root:has(.how-it-works-page),
+.app-root:has(.how-it-works-page) {
+    background: var(--bg-base) !important;
+    color: var(--fg-primary) !important;
+}
+
 /* FORCE DARK THEME - High specificity overrides */
 .how-it-works-page,
 .how-it-works-page *,
