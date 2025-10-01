@@ -112,13 +112,17 @@ const HomePage: React.FC = () => {
       <main className="page-container homepage-container" aria-labelledby="homepage-title">
         <div className="page-content">
           
+          {/* Top Blue Bar */}
+          <div className="top-blue-bar"></div>
+
           {/* Hero Section */}
           <section className="hero-section">
             <div className="hero-content">
               <div className="hero-text">
-                <h1 id="homepage-title">Moving Made Simple</h1>
+                <h1 id="homepage-title">Everything about moving is <span className="underlined">hard!</span></h1>
+                <h2 className="hero-subtitle">That's about to change.</h2>
                 <p className="hero-description">
-                  Connect with verified moving companies across Canada. Get instant quotes, compare prices, and book with confidence.
+                  We are here to guide you through your upcoming move, so you can focus on enjoying the new home, instead of worrying about the hassle of moving.
                 </p>
                 <button 
                   className="hero-cta-button" 
@@ -126,12 +130,8 @@ const HomePage: React.FC = () => {
                   aria-label="Get your free moving quote now - Start your move in 3 simple steps"
                   title="Click to get instant quotes from verified Canadian movers"
                 >
-                  Get Free Quote
+                  Get a moving quote
                 </button>
-                <p className="hero-trust">
-                  <img src={starIcon} alt="Star" className="trust-star" />
-                  Trusted by 10,000+ Canadians
-                </p>
               </div>
             </div>
           </section>
@@ -163,20 +163,20 @@ const HomePage: React.FC = () => {
           {/* Feature Sections */}
           <section className="features-section" aria-labelledby="features-heading">
             <div className="feature-item">
-              <div className="feature-content">
-                <h2>One stop shop for all your moving needs</h2>
-                <p>From packing to unpacking, we connect you with the right professionals for every aspect of your move.</p>
-                <button className="feature-button" onClick={handleGetQuote} aria-label="Get quote for comprehensive moving services">Get a quote</button>
-              </div>
               <div className="feature-visual">
                 <img src={heroIllustration} alt="One stop shop illustration showing comprehensive moving services" className="feature-image" loading="lazy" />
               </div>
+              <div className="feature-content">
+                <h2>One stop shop for all your moving needs</h2>
+                <p>Find the right mover in your area to help you with your move, from simple truck pick-up and drop-off, to full 'white glove' service.</p>
+                <button className="feature-button" onClick={handleGetQuote} aria-label="Get quote for comprehensive moving services">Get Started</button>
+              </div>
             </div>
 
-            <div className="feature-item">
+            <div className="feature-item reverse">
               <div className="feature-content">
                 <h2>Competitive price guarantee</h2>
-                <p>We ensure you get the best rates by comparing quotes from multiple verified movers in your area.</p>
+                <p>Your money is hard earned, we get it. That's why we vet the prices of all services so you don't have to.</p>
                 <button className="feature-button" onClick={handleGetQuote} aria-label="Get competitive moving quotes">Get a quote</button>
               </div>
               <div className="feature-visual">
@@ -185,13 +185,13 @@ const HomePage: React.FC = () => {
             </div>
 
             <div className="feature-item">
-              <div className="feature-content">
-                <h2>Trusted movers you can rely on</h2>
-                <p>All our moving partners are licensed, insured, and thoroughly vetted for quality and reliability.</p>
-                <button className="feature-button" onClick={handleGetQuote} aria-label="Find trusted licensed movers">Find a mover</button>
-              </div>
               <div className="feature-visual">
                 <img src={customerService} alt="Customer service illustration showing professional movers" className="feature-image" loading="lazy" />
+              </div>
+              <div className="feature-content">
+                <h2>Trusted movers you can rely on</h2>
+                <p>We pride ourselves in working with the most reliable and trusted movers, who are always fully insured and certified, so you can rest easy.</p>
+                <button className="feature-button" onClick={handleGetQuote} aria-label="Find trusted licensed movers">Find a mover</button>
               </div>
             </div>
           </section>
