@@ -198,19 +198,33 @@ const HomePage: React.FC = () => {
 
 
 
+          {/* Explore Services Section */}
+          <section className="explore-services-section">
+            <div className="explore-content">
+              <div className="explore-text">
+                <h2>Explore the best services available at your address!</h2>
+                <p>Explore Top-Tier Local Solutions: A Close Look At Premier Services Available In Your Area</p>
+                <button className="explore-button" onClick={() => navigate('/tips-guides')} aria-label="View address change guides">View Address Change Guides</button>
+              </div>
+              <div className="explore-visual">
+                <img src={blogMoving} alt="Family playing with dollhouse - exploring local services" className="explore-image" loading="lazy" />
+              </div>
+            </div>
+          </section>
+
           {/* Expert Section */}
           <section className="expert-section">
             <div className="expert-content">
               <div className="expert-text">
                 <h2>An expert at your fingertips</h2>
-                <p>Once you've shared your relocation requirements with us, a booking agent will be assigned to you automatically, always free of charge!</p>
+                <p>Once you've shared your relocation requirements with us, an expert booking agent will be assigned to you automatically, always free of charge!</p>
               </div>
               <div className="expert-profile">
                 <div className="profile-image">
-                  <img src={profileAmelie} alt="Amelie Laurent" className="profile-img" />
+                  <img src={profileAmelie} alt="Amélie Laurent" className="profile-img" />
                 </div>
                 <div className="profile-info">
-                  <h3>Amelie Laurent</h3>
+                  <h3>Amélie Laurent</h3>
                   <p>Booking Agent</p>
                 </div>
               </div>
@@ -223,40 +237,85 @@ const HomePage: React.FC = () => {
             <div className="blogs-grid" role="list" aria-label="Latest moving tips and guides">
               <article className="blog-item" role="listitem">
                 <a href="/blog/moving-stress-relaxation-techniques" className="blog-link" aria-label="Read: Dealing with Moving Stress - Top Relaxation Techniques">
-                  <img src={blogMoving} alt="Person relaxing with moving boxes - stress reduction techniques" className="blog-image" loading="lazy" />
+                  <img src={blogMoving} alt="Person holding head in hands - stress reduction techniques" className="blog-image" loading="lazy" />
                   <h3>Dealing with Moving Stress: Top Relaxation Techniques</h3>
-                  <p>Essential tips for a smooth move from professional movers</p>
                   <div className="blog-meta">
-                    <span className="blog-author">By MovedIn Team</span>
-                    <span className="blog-date">Dec 15, 2023</span>
+                    <div className="blog-author-info">
+                      <img src={profileAmelie} alt="Movedin Specialist" className="blog-author-avatar" />
+                      <span className="blog-author">Movedin Specialist</span>
+                    </div>
+                    <span className="blog-date">18 Nov 2023</span>
                   </div>
                 </a>
               </article>
               <article className="blog-item" role="listitem">
-                <a href="/blog/essential-moving-checklist-tenants" className="blog-link" aria-label="Read: The Essential Moving Checklist for Tenants and Renters">
-                  <img src={blogEssential} alt="Moving checklist items on a table - tenant moving guide" className="blog-image" loading="lazy" />
-                  <h3>The Essential Moving Checklist for Tenants/renters</h3>
-                  <p>What you need to know before moving to your new home</p>
+                <a href="/blog/essential-moving-checklist-tenants" className="blog-link" aria-label="Read: The Essential Moving Checklist for Torontonians">
+                  <img src={blogEssential} alt="Household items on shelf - moving checklist" className="blog-image" loading="lazy" />
+                  <h3>The Essential Moving Checklist for Torontonians</h3>
                   <div className="blog-meta">
-                    <span className="blog-author">By MovedIn Team</span>
-                    <span className="blog-date">Dec 10, 2023</span>
+                    <div className="blog-author-info">
+                      <img src={profileAmelie} alt="Movedin Specialist" className="blog-author-avatar" />
+                      <span className="blog-author">Movedin Specialist</span>
+                    </div>
+                    <span className="blog-date">18 Nov 2023</span>
                   </div>
                 </a>
               </article>
               <article className="blog-item" role="listitem">
                 <a href="/blog/toronto-winter-moving-tips" className="blog-link" aria-label="Read: Moving in the Winter - Special Tips for Toronto Residents">
-                  <img src={blogToronto} alt="Snowy Toronto street with moving truck - winter moving tips" className="blog-image" loading="lazy" />
+                  <img src={blogToronto} alt="People by car trunk in snowy environment - winter moving tips" className="blog-image" loading="lazy" />
                   <h3>Moving in the Winter: Special Tips for Toronto Residents</h3>
-                  <p>Expert advice for winter moves in and around Toronto</p>
                   <div className="blog-meta">
-                    <span className="blog-author">By MovedIn Team</span>
-                    <span className="blog-date">Dec 5, 2023</span>
+                    <div className="blog-author-info">
+                      <img src={profileAmelie} alt="Movedin Specialist" className="blog-author-avatar" />
+                      <span className="blog-author">Movedin Specialist</span>
+                    </div>
+                    <span className="blog-date">18 Nov 2023</span>
                   </div>
                 </a>
               </article>
             </div>
-            <div className="blogs-cta">
-              <Link to="/tips-guides" className="blogs-button" aria-label="Read all moving tips and guides">Read all</Link>
+          </section>
+
+          {/* FAQ Section */}
+          <section className="faq-section" aria-labelledby="faq-heading">
+            <h2 id="faq-heading">Frequently asked questions</h2>
+            <div className="faq-list">
+              <div className="faq-item">
+                <div className="faq-question">
+                  <span>What is Movedin exactly?</span>
+                  <span className="faq-plus">+</span>
+                </div>
+              </div>
+              <div className="faq-item">
+                <div className="faq-question">
+                  <span>What can a Movedin moving specialist do for me?</span>
+                  <span className="faq-plus">+</span>
+                </div>
+              </div>
+              <div className="faq-item">
+                <div className="faq-question">
+                  <span>How is this service free?</span>
+                  <span className="faq-plus">+</span>
+                </div>
+              </div>
+              <div className="faq-item">
+                <div className="faq-question">
+                  <span>How can I get started?</span>
+                  <span className="faq-plus">+</span>
+                </div>
+              </div>
+              <div className="faq-item">
+                <div className="faq-question">
+                  <span>I am still shopping for a mover, how can my booking agent help?</span>
+                  <span className="faq-plus">+</span>
+                </div>
+              </div>
+            </div>
+            <div className="faq-contact">
+              <p>Still have questions?</p>
+              <p>Can't find the answer you're looking for? Please chat to our friendly team</p>
+              <button className="faq-contact-button" onClick={() => navigate('/about-us')} aria-label="Get in touch with our team">Get in touch</button>
             </div>
           </section>
 

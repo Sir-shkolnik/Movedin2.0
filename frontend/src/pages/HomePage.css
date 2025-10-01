@@ -411,6 +411,72 @@ body:has(.homepage-container) {
     z-index: 1;
 }
 
+/* Explore Services Section */
+.homepage-container .explore-services-section {
+    padding: 4rem 2rem;
+    background: var(--white) !important;
+}
+
+.homepage-container .explore-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.homepage-container .explore-text h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1A2B4D;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+    font-family: sans-serif;
+}
+
+.homepage-container .explore-text p {
+    font-size: 1rem;
+    color: #6C757D;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-family: sans-serif;
+}
+
+.homepage-container .explore-button {
+    background: #6633FF !important;
+    color: #FFFFFF !important;
+    border: none;
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    font-family: sans-serif;
+}
+
+.homepage-container .explore-button:hover {
+    background: #5a2dd6 !important;
+    transform: translateY(-1px);
+}
+
+.homepage-container .explore-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.homepage-container .explore-image {
+    max-width: 100%;
+    height: auto;
+    max-height: 300px;
+    width: auto;
+    border-radius: 8px;
+}
+
 /* Expert Section */
 .homepage-container .expert-section {
     padding: 4rem 2rem;
@@ -418,27 +484,29 @@ body:has(.homepage-container) {
 }
 
 .homepage-container .expert-content {
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    gap: 3rem;
     align-items: center;
 }
 
 .homepage-container .expert-text h2 {
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: #1A2B4D;
     margin-bottom: 1rem;
-    line-height: 1.2;
+    line-height: 1.3;
+    font-family: sans-serif;
 }
 
 .homepage-container .expert-text p {
     font-size: 1rem;
-    color: var(--text-secondary);
-    line-height: 1.5;
+    color: #6C757D;
+    line-height: 1.6;
     margin-bottom: 1.5rem;
+    font-family: sans-serif;
 }
 
 .homepage-container .expert-profile {
@@ -467,17 +535,19 @@ body:has(.homepage-container) {
 .homepage-container .profile-info h3 {
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: #1A2B4D;
     margin-bottom: 0.25rem;
+    font-family: sans-serif;
 }
 
 .homepage-container .profile-info p {
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: #6C757D;
     margin: 0;
+    font-family: sans-serif;
 }
 
-/* Blogs Section */
+/* Blogs Section - Updated Design */
 .homepage-container .blogs-section {
     padding: 4rem 2rem;
     background: var(--white) !important;
@@ -485,18 +555,19 @@ body:has(.homepage-container) {
 }
 
 .homepage-container .blogs-section h2 {
-    font-size: 2.5rem;
+    font-size: 1.75rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: #1A2B4D;
     margin-bottom: 3rem;
+    font-family: sans-serif;
 }
 
 .homepage-container .blogs-grid {
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.25rem;
+    gap: 1.5rem;
 }
 
 .homepage-container .blog-item {
@@ -526,21 +597,8 @@ body:has(.homepage-container) {
 
 .homepage-container .blog-image {
     width: 100%;
-    height: 160px;
+    height: 200px;
     overflow: hidden;
-}
-
-/* Desktop refinements: ensure centered, tighter spacing on very wide screens */
-@media (min-width: 1024px) {
-    .homepage-container .hero-section {
-        padding: 3.5rem 2rem 2.5rem;
-    }
-    .homepage-container .hero-description {
-        font-size: 1.125rem;
-    }
-    .homepage-container .trusted-section {
-        padding: 1.75rem 2rem;
-    }
 }
 
 .homepage-container .blog-image img {
@@ -552,16 +610,10 @@ body:has(.homepage-container) {
 .homepage-container .blog-item h3 {
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: #1A2B4D;
     margin: 1rem 1rem 0.5rem;
     line-height: 1.3;
-}
-
-.homepage-container .blog-item p {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    margin: 0 1rem 1rem;
-    line-height: 1.5;
+    font-family: sans-serif;
 }
 
 .homepage-container .blog-meta {
@@ -570,28 +622,110 @@ body:has(.homepage-container) {
     align-items: center;
     padding: 0 1rem 1rem;
     font-size: 0.8rem;
-    color: var(--text-light);
+    color: #6C757D;
 }
 
-.homepage-container .blogs-cta {
-    margin-top: 3rem;
+.homepage-container .blog-author-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-.homepage-container .blogs-button {
-    background: var(--primary-color);
-    color: var(--text-white);
-    border: none;
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
+.homepage-container .blog-author-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.homepage-container .blog-author {
+    font-family: sans-serif;
+}
+
+.homepage-container .blog-date {
+    font-family: sans-serif;
+}
+
+/* FAQ Section */
+.homepage-container .faq-section {
+    padding: 4rem 2rem;
+    background: var(--white) !important;
+    text-align: center;
+}
+
+.homepage-container .faq-section h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1A2B4D;
+    margin-bottom: 3rem;
+    font-family: sans-serif;
+}
+
+.homepage-container .faq-list {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    text-align: left;
+}
+
+.homepage-container .faq-item {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 1rem 0;
+}
+
+.homepage-container .faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #1A2B4D;
+    font-family: sans-serif;
+    font-weight: 500;
+}
+
+.homepage-container .faq-plus {
+    font-size: 1.5rem;
+    color: #6C757D;
+    font-weight: 300;
+}
+
+.homepage-container .faq-contact {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.homepage-container .faq-contact p {
+    color: #6C757D;
+    margin-bottom: 1rem;
+    font-family: sans-serif;
+}
+
+.homepage-container .faq-contact p:first-child {
     font-weight: 600;
-    border-radius: 8px;
+    color: #1A2B4D;
+}
+
+.homepage-container .faq-contact-button {
+    background: #6633FF !important;
+    color: #FFFFFF !important;
+    border: none;
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
+    display: inline-block;
+    font-family: sans-serif;
+    margin-top: 1rem;
 }
 
-.homepage-container .blogs-button:hover {
-    background: var(--primary-hover);
-    transform: translateY(-2px);
+.homepage-container .faq-contact-button:hover {
+    background: #5a2dd6 !important;
+    transform: translateY(-1px);
 }
 
 /* Mobile Responsive */
@@ -660,6 +794,46 @@ body:has(.homepage-container) {
     
     .homepage-container .feature-image {
         max-height: 200px;
+    }
+    
+    .homepage-container .explore-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .homepage-container .explore-text h2 {
+        font-size: 1.5rem;
+    }
+    
+    .homepage-container .explore-image {
+        max-height: 200px;
+    }
+    
+    .homepage-container .expert-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+    
+    .homepage-container .expert-text h2 {
+        font-size: 1.5rem;
+    }
+    
+    .homepage-container .blogs-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .homepage-container .blog-image {
+        height: 150px;
+    }
+    
+    .homepage-container .faq-list {
+        margin-bottom: 2rem;
+    }
+    
+    .homepage-container .faq-contact {
+        padding: 1.5rem;
     }
     
     .homepage-container .trusted-section {
