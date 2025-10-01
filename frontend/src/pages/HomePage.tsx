@@ -133,6 +133,9 @@ const HomePage: React.FC = () => {
                   Get a moving quote
                 </button>
               </div>
+              <div className="hero-visual">
+                <img src={heroIllustration} alt="Moving truck illustration - professional moving services" className="hero-image" loading="lazy" />
+              </div>
             </div>
           </section>
 
