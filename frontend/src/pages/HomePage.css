@@ -1,34 +1,35 @@
 /* HomePage Specific Styles - Scoped to avoid affecting other pages */
 @import '../styles/color-scheme.css';
 
-/* Homepage Container - Only affects homepage */
+/* Homepage Container - Dark Theme */
 .homepage-container {
-    background: var(--white) !important;
+    background: var(--bg-base) !important;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     max-width: 100vw;
     overflow-x: hidden;
     box-sizing: border-box;
+    color: var(--fg-primary);
 }
 
-/* Ensure entire page background is white */
+/* Ensure entire page background is dark */
 .homepage-container,
 .homepage-container *,
 .homepage-container body,
 .homepage-container html {
-    background-color: var(--white) !important;
-    background: var(--white) !important;
+    background-color: var(--bg-base) !important;
+    background: var(--bg-base) !important;
 }
 
-/* Fix white banner during redirects */
+/* Fix dark banner during redirects */
 body:has(.homepage-container) {
-    background: var(--white) !important;
+    background: var(--bg-base) !important;
 }
 
-/* Ensure all pages have white background when navigating */
+/* Ensure all pages have dark background when navigating */
 .page-container {
-    background: var(--white) !important;
+    background: var(--bg-base) !important;
 }
 
 .homepage-container .hero-section,
@@ -59,11 +60,11 @@ body:has(.homepage-container) {
     padding: 0;
 }
 
-/* Hero Section - 2025-2026 Accessible Design */
+/* Hero Section - Dark Theme Design */
 .homepage-container .hero-section {
     padding: 6rem 2rem 5rem;
     background: linear-gradient(180deg, oklch(0.73 0.18 255) 0%, oklch(0.68 0.12 255) 100%) !important;
-    color: var(--text-white);
+    color: var(--fg-primary);
     position: relative;
     overflow: hidden;
     min-height: 80vh;
@@ -254,7 +255,7 @@ body:has(.homepage-container) {
 .homepage-container .hero-text h1 {
     font-size: 3.5rem;
     font-weight: 800;
-    color: var(--text-white);
+    color: var(--fg-primary);
     margin-bottom: 1.5rem;
     line-height: 1.1;
     font-family: sans-serif;
@@ -270,7 +271,7 @@ body:has(.homepage-container) {
 .homepage-container .hero-subtitle {
     font-size: 1.8rem;
     font-weight: 600;
-    color: oklch(0.95 0.01 255 / 0.9);
+    color: var(--fg-primary);
     margin-bottom: 1.5rem;
     line-height: 1.2;
     font-family: sans-serif;
@@ -279,7 +280,7 @@ body:has(.homepage-container) {
 
 .homepage-container .hero-description {
     font-size: 1.2rem;
-    color: oklch(0.95 0.01 255 / 0.85);
+    color: var(--fg-secondary);
     margin-bottom: 2.5rem;
     line-height: 1.6;
     font-family: sans-serif;
@@ -289,7 +290,7 @@ body:has(.homepage-container) {
 
 .homepage-container .hero-cta-button {
     background: var(--accent-600) !important;
-    color: var(--text-white) !important;
+    color: var(--fg-primary) !important;
     border: none;
     padding: 1.2rem 2.5rem;
     font-size: 1.2rem;
@@ -371,7 +372,7 @@ body:has(.homepage-container) {
 
 .homepage-container .trusted-content h3 {
     font-size: 1.5rem;
-    color: #1A2B4D;
+    color: var(--fg-primary);
     margin-bottom: 2rem;
     font-weight: 700;
     font-family: sans-serif;
@@ -472,7 +473,7 @@ body:has(.homepage-container) {
 .homepage-container .feature-content h2 {
     font-size: 1.75rem;
     font-weight: 700;
-    color: #2C3E50;
+    color: var(--fg-primary);
     margin-bottom: 1rem;
     line-height: 1.3;
     font-family: sans-serif;
@@ -480,7 +481,7 @@ body:has(.homepage-container) {
 
 .homepage-container .feature-content p {
     font-size: 1rem;
-    color: #6C757D;
+    color: var(--fg-secondary);
     line-height: 1.6;
     margin-bottom: 1.5rem;
     font-family: sans-serif;
@@ -488,7 +489,7 @@ body:has(.homepage-container) {
 
 .homepage-container .feature-button {
     background: var(--brand-600) !important;
-    color: var(--text-white) !important;
+    color: var(--fg-primary) !important;
     border: none !important;
     padding: 1rem 2rem;
     font-size: 1rem;
@@ -503,7 +504,7 @@ body:has(.homepage-container) {
 
 .homepage-container .feature-button:hover {
     background: var(--brand-700) !important;
-    color: var(--text-white) !important;
+    color: var(--fg-primary) !important;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px oklch(0.68 0.18 255 / 0.3);
 }
@@ -669,7 +670,7 @@ body:has(.homepage-container) {
 /* Explore Services Section - Beautiful Colorful Design */
 .homepage-container .explore-services-section {
     padding: 6rem 2rem;
-    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 25%, #fecfef 50%, #fecfef 75%, #fecfef 100%) !important;
+    background: var(--bg-elev-1) !important;
     position: relative;
 }
 
@@ -695,7 +696,7 @@ body:has(.homepage-container) {
 .homepage-container .explore-text h2 {
     font-size: 1.75rem;
     font-weight: 700;
-    color: #1A2B4D;
+    color: var(--fg-primary);
     margin-bottom: 1rem;
     line-height: 1.3;
     font-family: sans-serif;
@@ -703,20 +704,20 @@ body:has(.homepage-container) {
 
 .homepage-container .explore-text p {
     font-size: 1rem;
-    color: #6C757D;
+    color: var(--fg-secondary);
     line-height: 1.6;
     margin-bottom: 1.5rem;
     font-family: sans-serif;
 }
 
 .homepage-container .explore-button {
-    background: #6633FF !important;
-    color: #FFFFFF !important;
+    background: var(--brand-600) !important;
+    color: var(--fg-primary) !important;
     border: none;
     padding: 0.875rem 1.5rem;
     font-size: 1rem;
     font-weight: 600;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
     display: inline-block;
@@ -724,8 +725,9 @@ body:has(.homepage-container) {
 }
 
 .homepage-container .explore-button:hover {
-    background: #5a2dd6 !important;
-    transform: translateY(-1px);
+    background: var(--brand-700) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px oklch(0.68 0.18 255 / 0.3);
 }
 
 .homepage-container .explore-visual {
@@ -746,7 +748,7 @@ body:has(.homepage-container) {
 /* Expert Section - Beautiful Colorful Design */
 .homepage-container .expert-section {
     padding: 6rem 2rem;
-    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 25%, #d299c2 50%, #fef9d7 75%, #89f7fe 100%) !important;
+    background: var(--bg-elev-2) !important;
     position: relative;
 }
 
@@ -772,7 +774,7 @@ body:has(.homepage-container) {
 .homepage-container .expert-text h2 {
     font-size: 1.75rem;
     font-weight: 700;
-    color: #1A2B4D;
+    color: var(--fg-primary);
     margin-bottom: 1rem;
     line-height: 1.3;
     font-family: sans-serif;
@@ -780,7 +782,7 @@ body:has(.homepage-container) {
 
 .homepage-container .expert-text p {
     font-size: 1rem;
-    color: #6C757D;
+    color: var(--fg-secondary);
     line-height: 1.6;
     margin-bottom: 1.5rem;
     font-family: sans-serif;
@@ -791,11 +793,10 @@ body:has(.homepage-container) {
     align-items: center;
     gap: 1rem;
     padding: 2rem;
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%) !important;
-    border-radius: 24px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-    border: 2px solid transparent;
-    background-clip: padding-box;
+    background: var(--bg-elev-1) !important;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px var(--shadow-light);
+    border: 1px solid var(--border-muted);
     position: relative;
     overflow: hidden;
 }
@@ -806,8 +807,8 @@ body:has(.homepage-container) {
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%);
+    height: 3px;
+    background: var(--brand-600);
 }
 
 .homepage-container .profile-image {
@@ -826,14 +827,14 @@ body:has(.homepage-container) {
 .homepage-container .profile-info h3 {
     font-size: 1.1rem;
     font-weight: 600;
-    color: #1A2B4D;
+    color: var(--fg-primary);
     margin-bottom: 0.25rem;
     font-family: sans-serif;
 }
 
 .homepage-container .profile-info p {
     font-size: 0.9rem;
-    color: #6C757D;
+    color: var(--fg-secondary);
     margin: 0;
     font-family: sans-serif;
 }
@@ -841,7 +842,7 @@ body:has(.homepage-container) {
 /* Blogs Section - Beautiful Colorful Design */
 .homepage-container .blogs-section {
     padding: 6rem 2rem;
-    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 25%, #ff8a80 50%, #ffab91 75%, #ffcc80 100%) !important;
+    background: var(--bg-base) !important;
     text-align: center;
     position: relative;
 }
@@ -859,7 +860,7 @@ body:has(.homepage-container) {
 .homepage-container .blogs-section h2 {
     font-size: 1.75rem;
     font-weight: 700;
-    color: #1A2B4D;
+    color: var(--fg-primary);
     margin-bottom: 3rem;
     font-family: sans-serif;
 }
@@ -873,13 +874,12 @@ body:has(.homepage-container) {
 }
 
 .homepage-container .blog-item {
-    background: var(--white) !important;
-    border-radius: 20px;
+    background: var(--bg-elev-1) !important;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
-    transition: all 0.4s ease;
-    border: 2px solid transparent;
-    background-clip: padding-box;
+    box-shadow: 0 4px 20px var(--shadow-light);
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-muted);
     position: relative;
 }
 
@@ -889,8 +889,8 @@ body:has(.homepage-container) {
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%);
+    height: 3px;
+    background: var(--brand-600);
 }
 
 .homepage-container .blog-link {
@@ -925,7 +925,7 @@ body:has(.homepage-container) {
 .homepage-container .blog-item h3 {
     font-size: 1.1rem;
     font-weight: 600;
-    color: #1A2B4D;
+    color: var(--fg-primary);
     margin: 1rem 1rem 0.5rem;
     line-height: 1.3;
     font-family: sans-serif;
@@ -937,7 +937,7 @@ body:has(.homepage-container) {
     align-items: center;
     padding: 0 1rem 1rem;
     font-size: 0.8rem;
-    color: #6C757D;
+    color: var(--fg-secondary);
 }
 
 .homepage-container .blog-author-info {
@@ -961,13 +961,13 @@ body:has(.homepage-container) {
     font-family: sans-serif;
 }
 
-/* FAQ Section - Beautiful Colorful Design */
+/* FAQ Section - Dark Theme Design */
 .homepage-container .faq-section {
     padding: 6rem 2rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%) !important;
+    background: var(--bg-elev-1) !important;
     text-align: center;
     position: relative;
-    color: #ffffff;
+    color: var(--fg-primary);
 }
 
 .homepage-container .faq-section::before {
@@ -983,10 +983,9 @@ body:has(.homepage-container) {
 .homepage-container .faq-section h2 {
     font-size: 1.75rem;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--fg-primary);
     margin-bottom: 3rem;
     font-family: sans-serif;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .homepage-container .faq-list {
@@ -1006,27 +1005,25 @@ body:has(.homepage-container) {
     align-items: center;
     cursor: pointer;
     font-size: 1rem;
-    color: #ffffff;
+    color: var(--fg-primary);
     font-family: sans-serif;
     font-weight: 500;
-    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
 }
 
 .homepage-container .faq-plus {
     font-size: 1.5rem;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--fg-secondary);
     font-weight: 300;
 }
 
 .homepage-container .faq-contact {
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+    background: var(--bg-elev-2);
     padding: 3rem 2rem;
-    border-radius: 24px;
+    border-radius: 16px;
     max-width: 600px;
     margin: 0 auto;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-    border: 2px solid transparent;
-    background-clip: padding-box;
+    box-shadow: 0 4px 20px var(--shadow-light);
+    border: 1px solid var(--border-muted);
     position: relative;
     overflow: hidden;
 }
@@ -1037,43 +1034,43 @@ body:has(.homepage-container) {
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%);
+    height: 3px;
+    background: var(--brand-600);
 }
 
 .homepage-container .faq-contact p {
-    color: #6C757D;
+    color: var(--fg-secondary);
     margin-bottom: 1rem;
     font-family: sans-serif;
 }
 
 .homepage-container .faq-contact p:first-child {
     font-weight: 600;
-    color: #1A2B4D;
+    color: var(--fg-primary);
 }
 
 .homepage-container .faq-contact-button {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 50%, #ff9ff3 100%) !important;
-    color: #ffffff !important;
+    background: var(--accent-600) !important;
+    color: var(--fg-primary) !important;
     border: none;
     padding: 1rem 2rem;
     font-size: 1rem;
     font-weight: 600;
-    border-radius: 25px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.4s ease;
+    transition: all 0.3s ease;
     display: inline-block;
     font-family: sans-serif;
     margin-top: 1rem;
-    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+    box-shadow: 0 2px 8px oklch(0.83 0.10 170 / 0.2);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 .homepage-container .faq-contact-button:hover {
-    background: linear-gradient(135deg, #ff5252 0%, #d32f2f 50%, #e91e63 100%) !important;
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 10px 30px rgba(255, 107, 107, 0.5);
+    background: var(--accent-700) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px oklch(0.78 0.10 170 / 0.3);
 }
 
 /* Mobile Responsive */

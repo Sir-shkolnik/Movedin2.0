@@ -1,13 +1,13 @@
-/* 2025-2026 Color System - OKLCH with HEX fallbacks */
+/* 2025-2026 Color System - OKLCH with HEX fallbacks - DARK THEME DEFAULT */
 :root {
-  /* LIGHT MODE - Base Colors */
-  --bg-base: oklch(0.98 0.01 250);       /* #F8FAFC */
-  --bg-elev-1: oklch(0.96 0.01 250);     /* #F1F5F9 */
-  --bg-elev-2: oklch(0.94 0.01 250);     /* #E2E8F0 */
-  --fg-primary: oklch(0.18 0.01 250);    /* #0B1220 */
-  --fg-secondary: oklch(0.50 0.01 250);  /* #6B7280 */
-  --fg-muted: oklch(0.65 0.01 250);      /* #9CA3AF */
-  --border-muted: oklch(0.90 0.01 250);  /* #E5E7EB */
+  /* DARK MODE - Base Colors (Default) */
+  --bg-base: oklch(0.14 0.01 255);       /* #0F1115 - near-black */
+  --bg-elev-1: oklch(0.18 0.01 255);     /* #1A1C20 */
+  --bg-elev-2: oklch(0.22 0.01 255);     /* #2A2D35 */
+  --fg-primary: oklch(0.95 0.01 255);    /* #F8FAFC - off-white */
+  --fg-secondary: oklch(0.78 0.01 255);  /* #9CA3AF */
+  --fg-muted: oklch(0.65 0.01 255);      /* #6B7280 */
+  --border-muted: oklch(0.30 0.01 255);  /* #4B5563 */
   
   /* TRUST-FIRST BLUE + FRESH GREEN PALETTE */
   --brand-600: oklch(0.73 0.18 255);     /* #1A5FFF */
@@ -63,19 +63,19 @@
   --shadow-heavy: rgba(0, 0, 0, 0.15);
 }
 
-/* DARK MODE */
-@media (prefers-color-scheme: dark) {
+/* LIGHT MODE (Alternative) */
+@media (prefers-color-scheme: light) {
   :root {
-    --bg-base: oklch(0.14 0.01 255);     /* #0F1115 - near-black */
-    --bg-elev-1: oklch(0.18 0.01 255);   /* #1A1C20 */
-    --bg-elev-2: oklch(0.22 0.01 255);   /* #2A2D35 */
-    --fg-primary: oklch(0.95 0.01 255);  /* #F8FAFC - off-white */
-    --fg-secondary: oklch(0.78 0.01 255); /* #9CA3AF */
-    --fg-muted: oklch(0.65 0.01 255);    /* #6B7280 */
-    --border-muted: oklch(0.30 0.01 255); /* #4B5563 */
+    --bg-base: oklch(0.98 0.01 250);     /* #F8FAFC */
+    --bg-elev-1: oklch(0.96 0.01 250);   /* #F1F5F9 */
+    --bg-elev-2: oklch(0.94 0.01 250);   /* #E2E8F0 */
+    --fg-primary: oklch(0.18 0.01 250);  /* #0B1220 */
+    --fg-secondary: oklch(0.50 0.01 250); /* #6B7280 */
+    --fg-muted: oklch(0.65 0.01 250);    /* #9CA3AF */
+    --border-muted: oklch(0.90 0.01 250); /* #E5E7EB */
     
     /* Brand colors remain same for consistency */
-    --brand-600: oklch(0.74 0.18 255);   /* Slightly lighter for dark mode */
+    --brand-600: oklch(0.73 0.18 255);
     --brand-700: oklch(0.68 0.18 255);
     --brand-800: oklch(0.63 0.18 255);
     --accent-600: oklch(0.83 0.10 170);
@@ -85,7 +85,7 @@
     /* Focus ring stays bright for visibility */
     --focus-ring: oklch(0.88 0.09 210);
     
-    /* Update legacy colors for dark mode */
+    /* Update legacy colors for light mode */
     --primary-color: var(--brand-600);
     --primary-hover: var(--brand-700);
     --secondary-color: var(--accent-600);
@@ -103,10 +103,10 @@
     --text-primary: var(--fg-primary);
     --text-secondary: var(--fg-secondary);
     --text-light: var(--fg-muted);
-    --text-white: var(--fg-primary);
+    --text-white: var(--bg-base);
     
     /* Update borders */
     --border-light: var(--border-muted);
-    --border-medium: oklch(0.35 0.01 255); /* #6B7280 */
+    --border-medium: oklch(0.85 0.01 250); /* #D1D5DB */
   }
 }
