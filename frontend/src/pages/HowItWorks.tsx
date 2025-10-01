@@ -134,13 +134,12 @@ const HowItWorks: React.FC = () => {
               <h1 style={{ 
                 fontSize: '4rem', 
                 fontWeight: '800', 
-                color: '#E5E7EB',
+                color: '#FF0000',
                 marginBottom: '1.5rem',
-                background: 'linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>How It Works</h1>
+                backgroundColor: '#00FF00',
+                padding: '20px',
+                border: '5px solid #0000FF'
+              }}>🚀 NEW AMAZING HOW IT WORKS PAGE 🚀</h1>
               <p className="hero-subtitle">Your move, simplified in 7 easy steps</p>
               <p className="hero-description">
                 We've streamlined the entire moving process to make it as simple as possible. 
