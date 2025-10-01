@@ -59,11 +59,11 @@ body:has(.homepage-container) {
     padding: 0;
 }
 
-/* Hero Section - Beautiful Colorful Design */
+/* Hero Section - 2025-2026 Accessible Design */
 .homepage-container .hero-section {
     padding: 6rem 2rem 5rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%) !important;
-    color: #ffffff;
+    background: linear-gradient(180deg, oklch(0.73 0.18 255) 0%, oklch(0.68 0.12 255) 100%) !important;
+    color: var(--text-white);
     position: relative;
     overflow: hidden;
     min-height: 80vh;
@@ -79,9 +79,8 @@ body:has(.homepage-container) {
     right: 0;
     bottom: 0;
     background: 
-        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+        radial-gradient(circle at 20% 80%, oklch(0.80 0.08 160 / 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, oklch(0.88 0.09 210 / 0.15) 0%, transparent 50%);
     z-index: 0;
 }
 
@@ -92,7 +91,7 @@ body:has(.homepage-container) {
     right: 0;
     width: 50%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    background: linear-gradient(135deg, oklch(0.98 0.01 250 / 0.1) 0%, oklch(0.98 0.01 250 / 0.05) 100%);
     border-radius: 0 0 0 60px;
     z-index: 1;
 }
@@ -255,7 +254,7 @@ body:has(.homepage-container) {
 .homepage-container .hero-text h1 {
     font-size: 3.5rem;
     font-weight: 800;
-    color: #ffffff;
+    color: var(--text-white);
     margin-bottom: 1.5rem;
     line-height: 1.1;
     font-family: sans-serif;
@@ -264,14 +263,14 @@ body:has(.homepage-container) {
 
 .homepage-container .hero-text .underlined {
     text-decoration: underline;
-    text-decoration-color: #ffeb3b;
-    text-shadow: 0 2px 10px rgba(255, 235, 59, 0.5);
+    text-decoration-color: var(--accent-600);
+    text-shadow: 0 2px 10px oklch(0.83 0.10 170 / 0.5);
 }
 
 .homepage-container .hero-subtitle {
     font-size: 1.8rem;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.9);
+    color: oklch(0.95 0.01 255 / 0.9);
     margin-bottom: 1.5rem;
     line-height: 1.2;
     font-family: sans-serif;
@@ -280,7 +279,7 @@ body:has(.homepage-container) {
 
 .homepage-container .hero-description {
     font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.85);
+    color: oklch(0.95 0.01 255 / 0.85);
     margin-bottom: 2.5rem;
     line-height: 1.6;
     font-family: sans-serif;
@@ -289,8 +288,8 @@ body:has(.homepage-container) {
 }
 
 .homepage-container .hero-cta-button {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 50%, #ff9ff3 100%) !important;
-    color: #ffffff !important;
+    background: var(--accent-600) !important;
+    color: var(--text-white) !important;
     border: none;
     padding: 1.2rem 2.5rem;
     font-size: 1.2rem;
@@ -301,19 +300,19 @@ body:has(.homepage-container) {
     display: inline-block;
     text-decoration: none;
     font-family: sans-serif;
-    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+    box-shadow: 0 8px 25px oklch(0.83 0.10 170 / 0.4);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .homepage-container .hero-cta-button:hover {
-    background: linear-gradient(135deg, #ff5252 0%, #d32f2f 50%, #e91e63 100%) !important;
+    background: var(--accent-700) !important;
     transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 12px 35px rgba(255, 107, 107, 0.6);
+    box-shadow: 0 12px 35px oklch(0.78 0.10 170 / 0.6);
 }
 
 .homepage-container .hero-cta-button:focus {
-    outline: 3px solid rgba(102, 51, 255, 0.3);
+    outline: 3px solid var(--focus-ring);
     outline-offset: 2px;
 }
 
@@ -352,10 +351,10 @@ body:has(.homepage-container) {
     width: auto;
 }
 
-/* Trusted By Section - Beautiful Colorful Design */
+/* Trusted By Section - 2025-2026 Design */
 .homepage-container .trusted-section {
     padding: 5rem 2rem;
-    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 25%, #ff8a80 50%, #ffab91 75%, #ffcc80 100%) !important;
+    background: var(--bg-elev-1) !important;
     text-align: center;
     position: relative;
 }
@@ -411,10 +410,10 @@ body:has(.homepage-container) {
     filter: grayscale(0%);
 }
 
-/* Features Section - Beautiful Colorful Design */
+/* Features Section - 2025-2026 Design */
 .homepage-container .features-section {
     padding: 6rem 2rem;
-    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 25%, #d299c2 50%, #fef9d7 75%, #89f7fe 100%) !important;
+    background: var(--bg-base) !important;
     position: relative;
 }
 
@@ -436,11 +435,10 @@ body:has(.homepage-container) {
     gap: 3rem;
     align-items: center;
     padding: 3rem 2rem;
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%) !important;
-    border-radius: 24px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-    border: 2px solid transparent;
-    background-clip: padding-box;
+    background: var(--bg-elev-1) !important;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px var(--shadow-light);
+    border: 1px solid var(--border-muted);
     position: relative;
     overflow: hidden;
 }
@@ -451,16 +449,16 @@ body:has(.homepage-container) {
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%);
+    height: 3px;
+    background: var(--brand-600);
 }
 
 .homepage-container .feature-item:nth-child(even)::before {
-    background: linear-gradient(90deg, #a8edea 0%, #fed6e3 25%, #d299c2 50%, #fef9d7 75%, #89f7fe 100%);
+    background: var(--accent-600);
 }
 
 .homepage-container .feature-item:nth-child(3n)::before {
-    background: linear-gradient(90deg, #ff9a9e 0%, #fecfef 25%, #fecfef 50%, #fecfef 75%, #fecfef 100%);
+    background: var(--success-600);
 }
 
 .homepage-container .feature-item.reverse {
@@ -489,27 +487,25 @@ body:has(.homepage-container) {
 }
 
 .homepage-container .feature-button {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-    color: #ffffff !important;
+    background: var(--brand-600) !important;
+    color: var(--text-white) !important;
     border: none !important;
     padding: 1rem 2rem;
     font-size: 1rem;
     font-weight: 600;
-    border-radius: 25px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.4s ease;
+    transition: all 0.3s ease;
     display: inline-block;
     font-family: sans-serif;
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px oklch(0.73 0.18 255 / 0.2);
 }
 
 .homepage-container .feature-button:hover {
-    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%) !important;
-    color: #ffffff !important;
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+    background: var(--brand-700) !important;
+    color: var(--text-white) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px oklch(0.68 0.18 255 / 0.3);
 }
 
 .homepage-container .feature-visual {

@@ -1,105 +1,112 @@
+/* 2025-2026 Color System - OKLCH with HEX fallbacks */
 :root {
-    /* Base Colors */
-    --white: #FFFFFF;
-    --black: #000000;
+  /* LIGHT MODE - Base Colors */
+  --bg-base: oklch(0.98 0.01 250);       /* #F8FAFC */
+  --bg-elev-1: oklch(0.96 0.01 250);     /* #F1F5F9 */
+  --bg-elev-2: oklch(0.94 0.01 250);     /* #E2E8F0 */
+  --fg-primary: oklch(0.18 0.01 250);    /* #0B1220 */
+  --fg-secondary: oklch(0.50 0.01 250);  /* #6B7280 */
+  --fg-muted: oklch(0.65 0.01 250);      /* #9CA3AF */
+  --border-muted: oklch(0.90 0.01 250);  /* #E5E7EB */
+  
+  /* TRUST-FIRST BLUE + FRESH GREEN PALETTE */
+  --brand-600: oklch(0.73 0.18 255);     /* #1A5FFF */
+  --brand-700: oklch(0.68 0.18 255);     /* #1552CC */
+  --brand-800: oklch(0.63 0.18 255);     /* #0F3D99 */
+  --accent-600: oklch(0.83 0.10 170);    /* #00C389 */
+  --accent-700: oklch(0.78 0.10 170);    /* #00A070 */
+  --accent-800: oklch(0.73 0.10 170);    /* #007D57 */
+  
+  /* FEEDBACK COLORS */
+  --success-600: oklch(0.78 0.09 165);   /* #16B364 */
+  --success-700: oklch(0.73 0.09 165);   /* #138F52 */
+  --warning-600: oklch(0.86 0.13 85);    /* #FFB100 */
+  --warning-700: oklch(0.81 0.13 85);    /* #E69F00 */
+  --error-600: oklch(0.65 0.16 26);      /* #E5484D */
+  --error-700: oklch(0.60 0.16 26);      /* #D12B2B */
+  
+  /* INTERACTIVE */
+  --focus-ring: oklch(0.88 0.09 210);    /* #22D3EE */
+  --link-default: var(--brand-600);
+  
+  /* STATE CHIPS */
+  --chip-savings: oklch(0.80 0.08 160);  /* #2BB673 */
+  --chip-top-pick: oklch(0.75 0.12 60);  /* #FF7A1A */
+  
+  /* LEGACY SUPPORT - Semantic Colors */
+  --primary-color: var(--brand-600);
+  --primary-hover: var(--brand-700);
+  --secondary-color: var(--accent-600);
+  --success-color: var(--success-600);
+  --error-color: var(--error-600);
+  --accent-color: var(--accent-600);
 
-    /* Gray Scale */
-    --gray-25: #FCFCFD;
-    --gray-50: #F9FAFB;
-    --gray-100: #F2F4F7;
-    --gray-200: #E4E7EC;
-    --gray-300: #D0D5DD;
-    --gray-400: #98A2B3;
-    --gray-500: #667085;
-    --gray-600: #475467;
-    --gray-700: #344054;
-    --gray-800: #1D2939;
-    --gray-900: #101828;
-    --gray-950: #0A0D12;
+  /* Backgrounds */
+  --bg-primary: var(--bg-base);
+  --bg-secondary: var(--bg-elev-1);
+  --bg-tertiary: var(--bg-elev-2);
+  --white: var(--bg-base);
 
-    /* Blue */
-    --blue-50: #EFF8FF;
-    --blue-400: #53B1FD;
-    --blue-500: #2E90FA;
-    --blue-600: #1570EF;
-    --blue-700: #175CD3;
-    --blue-800: #1849A9;
+  /* Text Colors */
+  --text-primary: var(--fg-primary);
+  --text-secondary: var(--fg-secondary);
+  --text-light: var(--fg-muted);
+  --text-white: var(--bg-base);
 
-    /* Blue Dark */
-    --blue-dark-300: #84ADFF;
-    --blue-dark-600: #155EEF;
-    --blue-dark-700: #004EEB;
+  /* Borders */
+  --border-light: var(--border-muted);
+  --border-medium: oklch(0.85 0.01 250); /* #D1D5DB */
+  
+  /* Shadows */
+  --shadow-light: rgba(0, 0, 0, 0.05);
+  --shadow-medium: rgba(0, 0, 0, 0.1);
+  --shadow-heavy: rgba(0, 0, 0, 0.15);
+}
 
-    /* Indigo */
-    --indigo-300: #A4BCFD;
-    --indigo-400: #8098F9;
-    --indigo-500: #6172F3;
-    --indigo-600: #444CE7;
-    --indigo-700: #3538CD;
-
-    /* Violet */
-    --violet-50: #F9F5FF;
-    --violet-500: #875BF7;
-    --violet-600: #7839EE;
-    --violet-700: #6927DA;
-    --violet-800: #5720B7;
-
-    /* Purple */
-    --purple-50: #F5F0FF;
-    --purple-600: #6938EF;
-    --purple-700: #5925DC;
-    --purple-800: #4A1FB8;
-
-    /* Pink */
-    --pink-50: #FDF2FA;
-    --pink-400: #F670C7;
-    --pink-500: #EE46BC;
-    --pink-600: #DD2590;
-
-    /* Orange Dark */
-    --orange-dark-400: #FF692E;
-    --orange-dark-500: #FF4405;
-
-    /* Yellow */
-    --yellow-50: #FFFCF5;
-    --yellow-500: #EAAA08;
-
-    /* Green */
-    --green-500: #16B364;
-    --green-600: #099250;
-    --green-700: #087443;
-
-    /* Green Light */
-    --green-light-500: #66C61C;
-    --green-light-600: #4CA30D;
-    --green-light-700: #3B7C0F;
-
-    /* Success */
-    --success-600: #079455;
-
-    /* Error */
-    --error-600: #D92D20;
-
-    /* Semantic Colors */
-    --primary-color: var(--purple-600);
-    --primary-hover: var(--purple-700);
-    --secondary-color: var(--blue-600);
+/* DARK MODE */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-base: oklch(0.14 0.01 255);     /* #0F1115 - near-black */
+    --bg-elev-1: oklch(0.18 0.01 255);   /* #1A1C20 */
+    --bg-elev-2: oklch(0.22 0.01 255);   /* #2A2D35 */
+    --fg-primary: oklch(0.95 0.01 255);  /* #F8FAFC - off-white */
+    --fg-secondary: oklch(0.78 0.01 255); /* #9CA3AF */
+    --fg-muted: oklch(0.65 0.01 255);    /* #6B7280 */
+    --border-muted: oklch(0.30 0.01 255); /* #4B5563 */
+    
+    /* Brand colors remain same for consistency */
+    --brand-600: oklch(0.74 0.18 255);   /* Slightly lighter for dark mode */
+    --brand-700: oklch(0.68 0.18 255);
+    --brand-800: oklch(0.63 0.18 255);
+    --accent-600: oklch(0.83 0.10 170);
+    --accent-700: oklch(0.78 0.10 170);
+    --accent-800: oklch(0.73 0.10 170);
+    
+    /* Focus ring stays bright for visibility */
+    --focus-ring: oklch(0.88 0.09 210);
+    
+    /* Update legacy colors for dark mode */
+    --primary-color: var(--brand-600);
+    --primary-hover: var(--brand-700);
+    --secondary-color: var(--accent-600);
     --success-color: var(--success-600);
     --error-color: var(--error-600);
-    --accent-color: var(--yellow-500);
-
-    /* Backgrounds */
-    --bg-primary: var(--white);
-    --bg-secondary: var(--gray-50);
-    --bg-tertiary: var(--gray-100);
-
-    /* Text Colors */
-    --text-primary: var(--gray-900);
-    --text-secondary: var(--gray-600);
-    --text-light: var(--gray-400);
-    --text-white: var(--white);
-
-    /* Borders */
-    --border-light: var(--gray-200);
-    --border-medium: var(--gray-300);
+    --accent-color: var(--accent-600);
+    
+    /* Update backgrounds */
+    --bg-primary: var(--bg-base);
+    --bg-secondary: var(--bg-elev-1);
+    --bg-tertiary: var(--bg-elev-2);
+    --white: var(--bg-base);
+    
+    /* Update text colors */
+    --text-primary: var(--fg-primary);
+    --text-secondary: var(--fg-secondary);
+    --text-light: var(--fg-muted);
+    --text-white: var(--fg-primary);
+    
+    /* Update borders */
+    --border-light: var(--border-muted);
+    --border-medium: oklch(0.35 0.01 255); /* #6B7280 */
+  }
 }
