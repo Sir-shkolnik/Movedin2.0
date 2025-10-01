@@ -118,13 +118,15 @@ const HomePage: React.FC = () => {
           {/* Hero Section */}
           <section className="hero-section">
             <div className="hero-background-elements">
-              <div className="floating-box box-1"></div>
-              <div className="floating-box box-2"></div>
-              <div className="floating-box box-3"></div>
-              <div className="floating-truck truck-1"></div>
-              <div className="floating-truck truck-2"></div>
-              <div className="floating-house house-1"></div>
-              <div className="floating-house house-2"></div>
+              <div className="floating-hexagon hex-1"></div>
+              <div className="floating-hexagon hex-2"></div>
+              <div className="floating-triangle tri-1"></div>
+              <div className="floating-triangle tri-2"></div>
+              <div className="floating-wave wave-1"></div>
+              <div className="floating-wave wave-2"></div>
+              <div className="floating-dot dot-1"></div>
+              <div className="floating-dot dot-2"></div>
+              <div className="floating-dot dot-3"></div>
             </div>
             <div className="hero-content">
               <div className="hero-text">
@@ -151,9 +153,10 @@ const HomePage: React.FC = () => {
           {/* Trusted By Section */}
           <section className="trusted-section" aria-labelledby="trusted-heading">
             <div className="trusted-background-elements">
-              <div className="floating-star star-1"></div>
-              <div className="floating-star star-2"></div>
-              <div className="floating-star star-3"></div>
+              <div className="floating-heart heart-1"></div>
+              <div className="floating-heart heart-2"></div>
+              <div className="floating-square square-1"></div>
+              <div className="floating-square square-2"></div>
             </div>
             <div className="trusted-content">
               <h3 id="trusted-heading">Trusted by</h3>
@@ -180,11 +183,11 @@ const HomePage: React.FC = () => {
           {/* Feature Sections */}
           <section className="features-section" aria-labelledby="features-heading">
             <div className="features-background-elements">
-              <div className="floating-circle circle-1"></div>
-              <div className="floating-circle circle-2"></div>
-              <div className="floating-circle circle-3"></div>
-              <div className="floating-diamond diamond-1"></div>
-              <div className="floating-diamond diamond-2"></div>
+              <div className="floating-pentagon pent-1"></div>
+              <div className="floating-pentagon pent-2"></div>
+              <div className="floating-oval oval-1"></div>
+              <div className="floating-oval oval-2"></div>
+              <div className="floating-arrow arrow-1"></div>
             </div>
             <div className="feature-item">
               <div className="feature-visual">
