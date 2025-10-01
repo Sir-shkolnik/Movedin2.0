@@ -26,24 +26,9 @@ import plusIcon from '../assets/icons-svg/icon_plus-purple.svg';
 import minusIcon from '../assets/icons-svg/icon_minus-gray.svg';
 import formLocationStep from '../assets/imgs-png/img_form1.png';
 
-// Import NEW images for homepage
+// Import essential images only
 import heroIllustration from '../assets/imgs-png/img_hero-illustration-new.jpg';
-import truckImage from '../assets/imgs-png/img_people-carrying-box.png';
-import manWithBoxes from '../assets/imgs-png/img_moving-scene-1.jpg';
-import customerService from '../assets/imgs-png/img_moving-scene-2.jpg';
 import profileAmelie from '../assets/imgs-png/img_profile-Amélie.png';
-import blogMoving from '../assets/imgs-png/img_moving-scene-3.jpg';
-import blogEssential from '../assets/imgs-png/img_moving-scene-4.png';
-import blogToronto from '../assets/imgs-png/img_blog-toronto.jpg';
-
-// Import animated elements for hero section
-import realMoversImage from '../assets/imgs-png/img_moving-scene-1.jpg';
-import competitiveImage from '../assets/imgs-png/img_moving-scene-2.jpg';
-import contactImage from '../assets/imgs-png/img_moving-scene-3.jpg';
-
-// Import videos
-import introVideo from '../assets/videos/video_intro.mp4';
-import peopleCarryingBoxVideo from '../assets/videos/video_people-carrying-box.mp4';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -149,6 +134,20 @@ const HomePage: React.FC = () => {
                 <p className="hero-description">
                   We are here to guide you through your upcoming move, so you can focus on enjoying the new home, instead of worrying about the hassle of moving.
                 </p>
+                <div className="hero-stats">
+                  <div className="stat">
+                    <div className="stat-number">10,000+</div>
+                    <div className="stat-label">Happy Customers</div>
+                  </div>
+                  <div className="stat">
+                    <div className="stat-number">5 min</div>
+                    <div className="stat-label">Average Quote Time</div>
+                  </div>
+                  <div className="stat">
+                    <div className="stat-number">100%</div>
+                    <div className="stat-label">Free to Use</div>
+                  </div>
+                </div>
                 <button 
                   className="hero-cta-button button--primary" 
                   onClick={handleGetQuote}
@@ -158,55 +157,9 @@ const HomePage: React.FC = () => {
                   Get a moving quote
                 </button>
               </div>
-              <div className="hero-visual">
-                <img src={truckImage} alt="Moving truck illustration - professional moving services" className="hero-image" loading="lazy" />
-              </div>
             </div>
           </section>
 
-          {/* Video Section */}
-          <section className="video-section">
-            <div className="video-content">
-              <h2>See How We Make Moving Easy</h2>
-              <p>Watch our professional movers in action, making your move stress-free and efficient.</p>
-              <div className="video-container">
-                <video 
-                  controls 
-                  poster={heroIllustration}
-                  className="main-video"
-                  preload="metadata"
-                >
-                  <source src={introVideo} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-              <div className="video-grid">
-                <div className="video-item">
-                  <video 
-                    controls 
-                    poster={truckImage}
-                    className="grid-video"
-                    preload="metadata"
-                  >
-                    <source src={peopleCarryingBoxVideo} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                  <h3>Professional Moving Team</h3>
-                  <p>Our experienced movers handle your belongings with care and precision.</p>
-                </div>
-                <div className="video-item">
-                  <img src={manWithBoxes} alt="Moving process" className="video-placeholder" />
-                  <h3>Efficient Packing</h3>
-                  <p>We use professional techniques to pack and protect your items.</p>
-                </div>
-                <div className="video-item">
-                  <img src={customerService} alt="Customer service" className="video-placeholder" />
-                  <h3>24/7 Support</h3>
-                  <p>Our team is always available to help with your moving needs.</p>
-                </div>
-              </div>
-            </div>
-          </section>
 
           {/* Trusted By Section */}
           <section className="trusted-section" aria-labelledby="trusted-heading">
@@ -222,105 +175,35 @@ const HomePage: React.FC = () => {
             </div>
           </section>
 
-          {/* Feature Sections */}
+          {/* Features Section */}
           <section className="features-section" aria-labelledby="features-heading">
-            <div className="feature-item">
-              <div className="feature-content">
-                <h2>One stop shop for all your moving needs</h2>
+            <div className="features-grid">
+              <div className="feature-card">
+                <div className="feature-icon">🏠</div>
+                <h3>One Stop Shop</h3>
                 <p>From packing to unpacking, we connect you with the right professionals for every aspect of your move.</p>
-                <button className="feature-button button--secondary" onClick={handleGetQuote} aria-label="Get quote for comprehensive moving services">Get a quote</button>
+                <button className="feature-button button--secondary" onClick={handleGetQuote}>Get a quote</button>
               </div>
-              <div className="feature-visual">
-                <img src={heroIllustration} alt="One stop shop illustration showing comprehensive moving services" className="feature-image" loading="lazy" />
-              </div>
-            </div>
 
-            <div className="feature-item">
-              <div className="feature-content">
-                <h2>Competitive price guarantee</h2>
+              <div className="feature-card">
+                <div className="feature-icon">💰</div>
+                <h3>Competitive Pricing</h3>
                 <p>We ensure you get the best rates by comparing quotes from multiple verified movers in your area.</p>
-                <button className="feature-button button--secondary" onClick={handleGetQuote} aria-label="Get competitive moving quotes">Get a quote</button>
+                <button className="feature-button button--secondary" onClick={handleGetQuote}>Get a quote</button>
               </div>
-              <div className="feature-visual">
-                <img src={manWithBoxes} alt="Competitive pricing illustration showing cost comparison" className="feature-image" loading="lazy" />
-              </div>
-            </div>
 
-            <div className="feature-item">
-              <div className="feature-content">
-                <h2>Trusted movers you can rely on</h2>
+              <div className="feature-card">
+                <div className="feature-icon">✅</div>
+                <h3>Trusted Movers</h3>
                 <p>All our moving partners are licensed, insured, and thoroughly vetted for quality and reliability.</p>
-                <button className="feature-button button--secondary" onClick={handleGetQuote} aria-label="Find trusted licensed movers">Find a mover</button>
-              </div>
-              <div className="feature-visual">
-                <img src={customerService} alt="Customer service illustration showing professional movers" className="feature-image" loading="lazy" />
+                <button className="feature-button button--secondary" onClick={handleGetQuote}>Find a mover</button>
               </div>
             </div>
           </section>
 
 
 
-          {/* Expert Section */}
-          <section className="expert-section">
-            <div className="expert-content">
-              <div className="expert-text">
-                <h2>An expert at your fingertips</h2>
-                <p>Once you've shared your relocation requirements with us, a booking agent will be assigned to you automatically, always free of charge!</p>
-              </div>
-              <div className="expert-profile">
-                <div className="profile-image">
-                  <img src={profileAmelie} alt="Amelie Laurent" className="profile-img" />
-                </div>
-                <div className="profile-info">
-                  <h3>Amelie Laurent</h3>
-                  <p>Booking Agent</p>
-                </div>
-              </div>
-            </div>
-          </section>
 
-          {/* Recent Blogs Section */}
-          <section className="blogs-section" aria-labelledby="blogs-heading">
-            <h2 id="blogs-heading">Recent blogs</h2>
-            <div className="blogs-grid" role="list" aria-label="Latest moving tips and guides">
-              <article className="blog-item" role="listitem">
-                <a href="/blog/moving-stress-relaxation-techniques" className="blog-link" aria-label="Read: Dealing with Moving Stress - Top Relaxation Techniques">
-                  <img src={blogMoving} alt="Person relaxing with moving boxes - stress reduction techniques" className="blog-image" loading="lazy" />
-                  <h3>Dealing with Moving Stress: Top Relaxation Techniques</h3>
-                  <p>Essential tips for a smooth move from professional movers</p>
-                  <div className="blog-meta">
-                    <span className="blog-author">By MovedIn Team</span>
-                    <span className="blog-date">Dec 15, 2023</span>
-                  </div>
-                </a>
-              </article>
-              <article className="blog-item" role="listitem">
-                <a href="/blog/essential-moving-checklist-tenants" className="blog-link" aria-label="Read: The Essential Moving Checklist for Tenants and Renters">
-                  <img src={blogEssential} alt="Moving checklist items on a table - tenant moving guide" className="blog-image" loading="lazy" />
-                  <h3>The Essential Moving Checklist for Tenants/renters</h3>
-                  <p>What you need to know before moving to your new home</p>
-                  <div className="blog-meta">
-                    <span className="blog-author">By MovedIn Team</span>
-                    <span className="blog-date">Dec 10, 2023</span>
-                  </div>
-                </a>
-              </article>
-              <article className="blog-item" role="listitem">
-                <a href="/blog/toronto-winter-moving-tips" className="blog-link" aria-label="Read: Moving in the Winter - Special Tips for Toronto Residents">
-                  <img src={blogToronto} alt="Snowy Toronto street with moving truck - winter moving tips" className="blog-image" loading="lazy" />
-                  <h3>Moving in the Winter: Special Tips for Toronto Residents</h3>
-                  <p>Expert advice for winter moves in and around Toronto</p>
-                  <div className="blog-meta">
-                    <span className="blog-author">By MovedIn Team</span>
-                    <span className="blog-date">Dec 5, 2023</span>
-                  </div>
-                </a>
-              </article>
-            </div>
-            <div className="blogs-cta">
-              <Link to="/tips-guides" className="blogs-button" aria-label="Read all moving tips and guides">Read all</Link>
-            </div>
-          </section>
 
         </div>
       </main>
