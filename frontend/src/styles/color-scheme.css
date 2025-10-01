@@ -111,5 +111,4 @@
     /* Update borders */
     --border-light: var(--border-muted);
     --border-medium: oklch(0.85 0.01 250); /* #D1D5DB */
-  }
 } */
