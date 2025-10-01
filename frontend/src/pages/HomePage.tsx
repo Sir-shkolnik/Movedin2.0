@@ -25,7 +25,7 @@ import phoneIcon from '../assets/icons-svg/icon_phone-purple.svg';
 import plusIcon from '../assets/icons-svg/icon_plus-purple.svg';
 import minusIcon from '../assets/icons-svg/icon_minus-gray.svg';
 import formLocationStep from '../assets/imgs-png/img_form1.png';
-import heroIllustration from '../assets/imgs-png/image.png';
+import heroIllustration from '../assets/imgs-png/img_one-stop-illustration.png';
 import truckImage from '../assets/imgs-png/img_truck.png';
 import manWithBoxes from '../assets/imgs-png/img_blog-dealing_content_2.svg';
 import customerService from '../assets/imgs-png/img_blog-dealing_content_4.svg';
@@ -117,6 +117,15 @@ const HomePage: React.FC = () => {
 
           {/* Hero Section */}
           <section className="hero-section">
+            <div className="hero-background-elements">
+              <div className="floating-box box-1"></div>
+              <div className="floating-box box-2"></div>
+              <div className="floating-box box-3"></div>
+              <div className="floating-truck truck-1"></div>
+              <div className="floating-truck truck-2"></div>
+              <div className="floating-house house-1"></div>
+              <div className="floating-house house-2"></div>
+            </div>
             <div className="hero-content">
               <div className="hero-text">
                 <h1 id="homepage-title">Everything about moving is <span className="underlined">hard!</span></h1>
@@ -141,6 +150,11 @@ const HomePage: React.FC = () => {
 
           {/* Trusted By Section */}
           <section className="trusted-section" aria-labelledby="trusted-heading">
+            <div className="trusted-background-elements">
+              <div className="floating-star star-1"></div>
+              <div className="floating-star star-2"></div>
+              <div className="floating-star star-3"></div>
+            </div>
             <div className="trusted-content">
               <h3 id="trusted-heading">Trusted by</h3>
               <div className="trusted-logos" role="img" aria-label="Partner moving companies logos">
@@ -165,6 +179,13 @@ const HomePage: React.FC = () => {
 
           {/* Feature Sections */}
           <section className="features-section" aria-labelledby="features-heading">
+            <div className="features-background-elements">
+              <div className="floating-circle circle-1"></div>
+              <div className="floating-circle circle-2"></div>
+              <div className="floating-circle circle-3"></div>
+              <div className="floating-diamond diamond-1"></div>
+              <div className="floating-diamond diamond-2"></div>
+            </div>
             <div className="feature-item">
               <div className="feature-visual">
                 <img src={heroIllustration} alt="One stop shop illustration showing comprehensive moving services" className="feature-image" loading="lazy" />
