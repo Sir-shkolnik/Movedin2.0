@@ -38,7 +38,7 @@ body:has(.homepage-container) {
 .homepage-container .how-it-works-section,
 .homepage-container .expert-section,
 .homepage-container .blogs-section {
-    background: var(--white) !important;
+    background: var(--bg-base) !important;
 }
 
 .homepage-container .page-content {
@@ -526,7 +526,7 @@ body:has(.homepage-container) {
 /* How It Works Section - Redesigned Compact */
 .homepage-container .how-it-works-section {
     padding: 2rem 1rem;
-    background: var(--white) !important;
+    background: var(--bg-elev-1) !important;
     max-width: 1000px;
     margin: 0 auto;
 }

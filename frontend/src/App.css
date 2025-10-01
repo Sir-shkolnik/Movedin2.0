@@ -1,9 +1,9 @@
 body {
-    background: #f7f7fb;
+    background: var(--bg-base);
     min-height: 100vh;
     min-width: 100vw;
     margin: 0;
-    color: #222;
+    color: var(--fg-primary);
     font-family: 'Inter', Arial, sans-serif;
 }
 
@@ -14,7 +14,7 @@ body {
     align-items: flex-start;
     min-height: 100vh;
     min-width: 100vw;
-    background: #f7f7fb;
+    background: var(--bg-base);
     padding-top: 80px;
     max-width: 1400px;
     margin: 0 auto;
