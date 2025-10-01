@@ -133,7 +133,6 @@ const HomePage: React.FC = () => {
                   Trusted by 10,000+ Canadians
                 </p>
               </div>
-              {/* Hero visual removed - no picture needed in top section */}
             </div>
           </section>
 
@@ -142,11 +141,21 @@ const HomePage: React.FC = () => {
             <div className="trusted-content">
               <h3 id="trusted-heading">Trusted by</h3>
               <div className="trusted-logos" role="img" aria-label="Partner moving companies logos">
-                <img src={logoCargoCabbie} alt="Cargo Cabbie - Licensed Moving Company" className="trusted-logo" loading="lazy" />
-                <img src={logoNewEra} alt="New Era Moving Services - Professional Movers" className="trusted-logo" loading="lazy" />
-                <img src={logoLetsGetMoving} alt="Let's Get Moving - GTA Moving Specialists" className="trusted-logo" loading="lazy" />
-                <img src={logoHighLevelMovers} alt="High Level Movers - Premium Moving Services" className="trusted-logo" loading="lazy" />
-                <img src={logoBronzeStar} alt="Bronze Star Moving - Reliable Moving Solutions" className="trusted-logo" loading="lazy" />
+                <a href="https://cargocabbie.com" target="_blank" rel="noopener noreferrer" className="trusted-logo-link">
+                  <img src={logoCargoCabbie} alt="Cargo Cabbie - Licensed Moving Company" className="trusted-logo" loading="lazy" />
+                </a>
+                <a href="https://neweramoving.com" target="_blank" rel="noopener noreferrer" className="trusted-logo-link">
+                  <img src={logoNewEra} alt="New Era Moving Services - Professional Movers" className="trusted-logo" loading="lazy" />
+                </a>
+                <a href="https://letsgetmoving.ca" target="_blank" rel="noopener noreferrer" className="trusted-logo-link">
+                  <img src={logoLetsGetMoving} alt="Let's Get Moving - GTA Moving Specialists" className="trusted-logo" loading="lazy" />
+                </a>
+                <a href="https://highlevelmovers.com" target="_blank" rel="noopener noreferrer" className="trusted-logo-link">
+                  <img src={logoHighLevelMovers} alt="High Level Movers - Premium Moving Services" className="trusted-logo" loading="lazy" />
+                </a>
+                <a href="https://bronzestarmoving.com" target="_blank" rel="noopener noreferrer" className="trusted-logo-link">
+                  <img src={logoBronzeStar} alt="Bronze Star Moving - Reliable Moving Solutions" className="trusted-logo" loading="lazy" />
+                </a>
               </div>
             </div>
           </section>
