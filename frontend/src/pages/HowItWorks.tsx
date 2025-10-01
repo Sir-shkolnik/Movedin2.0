@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header/Header';
 import StaticFooter from '../components/Footer/StaticFooter';
-import './Page.css';
+import './HowItWorks.css';
 
 // Import icons and images
 import locationIcon from '../assets/icons-svg/icon_location-purple.svg';
@@ -11,6 +11,14 @@ import calendarIcon from '../assets/icons-svg/icon_calendar-purple.svg';
 import servicesIcon from '../assets/icons-svg/icon_home-services-black.svg';
 import phoneIcon from '../assets/icons-svg/icon_phone-purple.svg';
 import checkIcon from '../assets/icons-svg/icon_check-purple.svg';
+import starIcon from '../assets/icons-svg/icon_star-yellow.svg';
+
+// Import new images
+import heroImage from '../assets/imgs-png/img_hero-illustration-new.jpg';
+import movingScene1 from '../assets/imgs-png/img_moving-scene-1.jpg';
+import movingScene2 from '../assets/imgs-png/img_moving-scene-2.jpg';
+import movingScene3 from '../assets/imgs-png/img_moving-scene-3.jpg';
+import peopleCarryingBox from '../assets/imgs-png/img_people-carrying-box.png';
 
 const HowItWorks: React.FC = () => {
   const navigate = useNavigate();
@@ -109,103 +117,254 @@ const HowItWorks: React.FC = () => {
         </script>
       </Helmet>
       <Header />
-      <main className="page-container how-it-works-page" aria-labelledby="how-it-works-title">
-        <div className="page-content">
-          <article className="page-card">
-            <header className="how-it-works-header">
-              <h1 id="how-it-works-title">How it works</h1>
-              <p className="how-it-works-subtitle">Set up your move in seven simple steps. It's completely free.</p>
-            </header>
-
-            {/* Responsive Steps Section */}
-            <section className="how-it-works-steps">
-              <div className="steps-grid">
-                {/* Row 1: Steps 1-2 */}
-                <div className="steps-row">
-                  <div className="step-card">
-                    <div className="step-number">1</div>
-                    <div className="step-icon">
-                      <img src={locationIcon} alt="Location" />
-                    </div>
-                    <h3>Move Details</h3>
-                    <p>Tell us where and when you're moving - origin, destination, date, and time</p>
-                  </div>
-                  <div className="step-card">
-                    <div className="step-number">2</div>
-                    <div className="step-icon">
-                      <img src={servicesIcon} alt="Home" />
-                    </div>
-                    <h3>Origin Home</h3>
-                    <p>Describe your current home - type, rooms, square footage, and special features</p>
-                  </div>
+      <main className="how-it-works-page">
+        {/* Hero Section */}
+        <section className="hero-section">
+          <div className="hero-content">
+            <div className="hero-text">
+              <h1>How It Works</h1>
+              <p className="hero-subtitle">Your move, simplified in 7 easy steps</p>
+              <p className="hero-description">
+                We've streamlined the entire moving process to make it as simple as possible. 
+                From getting quotes to booking your move, everything happens in minutes, not hours.
+              </p>
+              <div className="hero-stats">
+                <div className="stat">
+                  <span className="stat-number">10,000+</span>
+                  <span className="stat-label">Happy Customers</span>
                 </div>
-
-                {/* Row 2: Steps 3-4 */}
-                <div className="steps-row">
-                  <div className="step-card">
-                    <div className="step-number">3</div>
-                    <div className="step-icon">
-                      <img src={locationIcon} alt="Destination" />
-                    </div>
-                    <h3>Destination</h3>
-                    <p>Tell us about your new home - property details and move-in requirements</p>
-                  </div>
-                  <div className="step-card">
-                    <div className="step-number">4</div>
-                    <div className="step-icon">
-                      <img src={calendarIcon} alt="Calendar" />
-                    </div>
-                    <h3>Choose Mover</h3>
-                    <p>Compare real-time quotes from verified moving companies and select the best option</p>
-                  </div>
+                <div className="stat">
+                  <span className="stat-number">5 min</span>
+                  <span className="stat-label">Average Quote Time</span>
                 </div>
-
-                {/* Row 3: Steps 5-6 */}
-                <div className="steps-row">
-                  <div className="step-card">
-                    <div className="step-number">5</div>
-                    <div className="step-icon">
-                      <img src={phoneIcon} alt="Phone" />
-                    </div>
-                    <h3>Contact Info</h3>
-                    <p>Provide your contact information for booking confirmation and coordination</p>
-                  </div>
-                  <div className="step-card">
-                    <div className="step-number">6</div>
-                    <div className="step-icon">
-                      <img src={calendarIcon} alt="Review" />
-                    </div>
-                    <h3>Review & Pay</h3>
-                    <p>Review your quote details and complete booking with a $100 deposit</p>
-                  </div>
+                <div className="stat">
+                  <span className="stat-number">100%</span>
+                  <span className="stat-label">Free to Use</span>
                 </div>
+              </div>
+            </div>
+            <div className="hero-visual">
+              <img src={heroImage} alt="How MovedIn works - professional moving process" className="hero-image" />
+            </div>
+          </div>
+        </section>
 
-                {/* Row 4: Step 7 (centered) */}
-                <div className="steps-row single-step">
-                  <div className="step-card">
-                    <div className="step-number">7</div>
-                    <div className="step-icon">
-                      <img src={checkIcon} alt="Check" />
-                    </div>
-                    <h3>Confirmation</h3>
-                    <p>Your move is booked! Get confirmation and next steps from your chosen mover</p>
+        {/* Process Overview */}
+        <section className="process-overview">
+          <div className="container">
+            <h2>Simple, Fast, Reliable</h2>
+            <p>Our 7-step process ensures you get the best moving experience possible</p>
+            <div className="process-timeline">
+              <div className="timeline-item">
+                <div className="timeline-icon">
+                  <img src={locationIcon} alt="Location" />
+                </div>
+                <div className="timeline-content">
+                  <h3>Tell Us Your Details</h3>
+                  <p>Where, when, and what you're moving</p>
+                </div>
+              </div>
+              <div className="timeline-arrow">→</div>
+              <div className="timeline-item">
+                <div className="timeline-icon">
+                  <img src={calendarIcon} alt="Calendar" />
+                </div>
+                <div className="timeline-content">
+                  <h3>Get Instant Quotes</h3>
+                  <p>Compare prices from verified movers</p>
+                </div>
+              </div>
+              <div className="timeline-arrow">→</div>
+              <div className="timeline-item">
+                <div className="timeline-icon">
+                  <img src={checkIcon} alt="Check" />
+                </div>
+                <div className="timeline-content">
+                  <h3>Book & Move</h3>
+                  <p>Secure your move with a small deposit</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Detailed Steps */}
+        <section className="detailed-steps">
+          <div className="container">
+            <h2>The Complete Process</h2>
+            <div className="steps-container">
+              {/* Step 1 */}
+              <div className="step-item">
+                <div className="step-visual">
+                  <img src={movingScene1} alt="Move details planning" className="step-image" />
+                </div>
+                <div className="step-content">
+                  <div className="step-number">01</div>
+                  <h3>Move Details</h3>
+                  <p>Tell us where and when you're moving - origin, destination, date, and time. We'll ask about your home type, number of rooms, and any special requirements.</p>
+                  <div className="step-features">
+                    <span className="feature-tag">📍 Location Details</span>
+                    <span className="feature-tag">📅 Date & Time</span>
+                    <span className="feature-tag">🏠 Home Type</span>
                   </div>
                 </div>
               </div>
-            </section>
 
-            {/* CTA Section */}
-            <section className="how-it-works-cta">
-              <div className="cta-content">
-                <h2>Ready to get started?</h2>
-                <p>Join thousands of Canadians who have simplified their moving experience with MovedIn.</p>
+              {/* Step 2 */}
+              <div className="step-item reverse">
+                <div className="step-visual">
+                  <img src={movingScene2} alt="Origin home details" className="step-image" />
+                </div>
+                <div className="step-content">
+                  <div className="step-number">02</div>
+                  <h3>Origin Home</h3>
+                  <p>Describe your current home - type, rooms, square footage, and special features. This helps us provide accurate quotes.</p>
+                  <div className="step-features">
+                    <span className="feature-tag">🏠 Home Type</span>
+                    <span className="feature-tag">📏 Square Footage</span>
+                    <span className="feature-tag">🚪 Room Count</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 3 */}
+              <div className="step-item">
+                <div className="step-visual">
+                  <img src={movingScene3} alt="Destination details" className="step-image" />
+                </div>
+                <div className="step-content">
+                  <div className="step-number">03</div>
+                  <h3>Destination</h3>
+                  <p>Tell us about your new home - property details and move-in requirements. We'll factor in stairs, elevators, and access challenges.</p>
+                  <div className="step-features">
+                    <span className="feature-tag">🏢 Building Type</span>
+                    <span className="feature-tag">🛗 Access Details</span>
+                    <span className="feature-tag">📋 Special Requirements</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 4 */}
+              <div className="step-item reverse">
+                <div className="step-visual">
+                  <img src={peopleCarryingBox} alt="Choose your mover" className="step-image" />
+                </div>
+                <div className="step-content">
+                  <div className="step-number">04</div>
+                  <h3>Choose Mover</h3>
+                  <p>Compare real-time quotes from verified moving companies. See rates, crew sizes, reviews, and services to make the best choice.</p>
+                  <div className="step-features">
+                    <span className="feature-tag">💰 Compare Prices</span>
+                    <span className="feature-tag">⭐ Read Reviews</span>
+                    <span className="feature-tag">👥 Crew Details</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 5 */}
+              <div className="step-item">
+                <div className="step-visual">
+                  <img src={movingScene1} alt="Contact information" className="step-image" />
+                </div>
+                <div className="step-content">
+                  <div className="step-number">05</div>
+                  <h3>Contact Info</h3>
+                  <p>Provide your contact information for booking confirmation and coordination. We'll keep you updated throughout the process.</p>
+                  <div className="step-features">
+                    <span className="feature-tag">📞 Phone Number</span>
+                    <span className="feature-tag">📧 Email Address</span>
+                    <span className="feature-tag">📱 SMS Updates</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 6 */}
+              <div className="step-item reverse">
+                <div className="step-visual">
+                  <img src={movingScene2} alt="Review and payment" className="step-image" />
+                </div>
+                <div className="step-content">
+                  <div className="step-number">06</div>
+                  <h3>Review & Pay</h3>
+                  <p>Review your quote details and complete booking with a small deposit. The rest is paid directly to your mover on moving day.</p>
+                  <div className="step-features">
+                    <span className="feature-tag">💳 Secure Payment</span>
+                    <span className="feature-tag">📋 Quote Review</span>
+                    <span className="feature-tag">🔒 Booking Confirmation</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 7 */}
+              <div className="step-item">
+                <div className="step-visual">
+                  <img src={movingScene3} alt="Move confirmation" className="step-image" />
+                </div>
+                <div className="step-content">
+                  <div className="step-number">07</div>
+                  <h3>Confirmation</h3>
+                  <p>Your move is booked! Get confirmation and next steps from your chosen mover. We'll be here to help if you need anything.</p>
+                  <div className="step-features">
+                    <span className="feature-tag">✅ Booking Confirmed</span>
+                    <span className="feature-tag">📱 Next Steps</span>
+                    <span className="feature-tag">🎉 Ready to Move</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Benefits Section */}
+        <section className="benefits-section">
+          <div className="container">
+            <h2>Why Choose MovedIn?</h2>
+            <div className="benefits-grid">
+              <div className="benefit-card">
+                <div className="benefit-icon">⚡</div>
+                <h3>Lightning Fast</h3>
+                <p>Get quotes in minutes, not hours. Our streamlined process saves you time.</p>
+              </div>
+              <div className="benefit-card">
+                <div className="benefit-icon">🛡️</div>
+                <h3>Verified Movers</h3>
+                <p>All moving companies are licensed, insured, and background-checked.</p>
+              </div>
+              <div className="benefit-card">
+                <div className="benefit-icon">💰</div>
+                <h3>Best Prices</h3>
+                <p>Compare multiple quotes to find the best deal for your budget.</p>
+              </div>
+              <div className="benefit-card">
+                <div className="benefit-icon">📱</div>
+                <h3>Easy Tracking</h3>
+                <p>Track your move progress and communicate with your mover easily.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="cta-section">
+          <div className="container">
+            <div className="cta-content">
+              <h2>Ready to Make Your Move?</h2>
+              <p>Join thousands of Canadians who have simplified their moving experience with MovedIn.</p>
+              <div className="cta-buttons">
                 <button className="cta-button primary" onClick={() => navigate('/')}>
                   Get Your Free Quote Now
                 </button>
+                <button className="cta-button secondary" onClick={() => navigate('/tips-guides')}>
+                  Read Moving Tips
+                </button>
               </div>
-            </section>
-          </article>
-        </div>
+              <div className="cta-trust">
+                <img src={starIcon} alt="Star" className="trust-star" />
+                <span>Trusted by 10,000+ Canadians</span>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
       <StaticFooter />
     </>
