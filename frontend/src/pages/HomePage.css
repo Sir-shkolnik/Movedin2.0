@@ -978,6 +978,118 @@ body:has(.homepage-container) {
     font-family: sans-serif;
 }
 
+/* Video Section - Dark Theme Design */
+.video-section {
+    background: var(--bg-elev-2) !important;
+    padding: 6rem 2rem;
+    text-align: center;
+    color: var(--fg-primary);
+}
+
+.video-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.video-content h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--fg-primary);
+    margin-bottom: 1rem;
+}
+
+.video-content p {
+    font-size: 1.2rem;
+    color: var(--fg-secondary);
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.video-container {
+    margin-bottom: 4rem;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.main-video {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 20px;
+    display: block;
+    margin: 0 auto;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.video-item {
+    background: var(--bg-elev-1);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 2px solid var(--border-muted);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.grid-video, .video-placeholder {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.video-item h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--fg-primary);
+    margin-bottom: 1rem;
+}
+
+.video-item p {
+    font-size: 1rem;
+    color: var(--fg-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Mobile responsive for video section */
+@media (max-width: 768px) {
+    .video-content h2 {
+        font-size: 2rem;
+    }
+    
+    .video-content p {
+        font-size: 1.1rem;
+    }
+    
+    .video-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .video-item {
+        padding: 1.5rem;
+    }
+    
+    .grid-video, .video-placeholder {
+        height: 150px;
+    }
+}
+
 /* FAQ Section - Dark Theme Design */
 .homepage-container .faq-section {
     padding: 6rem 2rem;

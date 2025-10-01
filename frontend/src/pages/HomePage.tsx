@@ -25,19 +25,25 @@ import phoneIcon from '../assets/icons-svg/icon_phone-purple.svg';
 import plusIcon from '../assets/icons-svg/icon_plus-purple.svg';
 import minusIcon from '../assets/icons-svg/icon_minus-gray.svg';
 import formLocationStep from '../assets/imgs-png/img_form1.png';
-import heroIllustration from '../assets/imgs-png/img_one-stop-illustration.png';
-import truckImage from '../assets/imgs-png/img_truck.png';
-import manWithBoxes from '../assets/imgs-png/img_blog-dealing_content_2.svg';
-import customerService from '../assets/imgs-png/img_blog-dealing_content_4.svg';
+
+// Import NEW images for homepage
+import heroIllustration from '../assets/imgs-png/img_hero-illustration-new.jpg';
+import truckImage from '../assets/imgs-png/img_people-carrying-box.png';
+import manWithBoxes from '../assets/imgs-png/img_moving-scene-1.jpg';
+import customerService from '../assets/imgs-png/img_moving-scene-2.jpg';
 import profileAmelie from '../assets/imgs-png/img_profile-Amélie.png';
-import blogMoving from '../assets/imgs-png/img_blog-moving.jpg';
-import blogEssential from '../assets/imgs-png/img_blog-essential.jpg';
+import blogMoving from '../assets/imgs-png/img_moving-scene-3.jpg';
+import blogEssential from '../assets/imgs-png/img_moving-scene-4.png';
 import blogToronto from '../assets/imgs-png/img_blog-toronto.jpg';
 
 // Import animated elements for hero section
-import realMoversImage from '../assets/imgs-png/img_real movers with cartons.png';
-import competitiveImage from '../assets/imgs-png/img_competitive.png';
-import contactImage from '../assets/imgs-png/img_contact.png';
+import realMoversImage from '../assets/imgs-png/img_moving-scene-1.jpg';
+import competitiveImage from '../assets/imgs-png/img_moving-scene-2.jpg';
+import contactImage from '../assets/imgs-png/img_moving-scene-3.jpg';
+
+// Import videos
+import introVideo from '../assets/videos/video_intro.mp4';
+import peopleCarryingBoxVideo from '../assets/videos/video_people-carrying-box.mp4';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -154,6 +160,50 @@ const HomePage: React.FC = () => {
               </div>
               <div className="hero-visual">
                 <img src={truckImage} alt="Moving truck illustration - professional moving services" className="hero-image" loading="lazy" />
+              </div>
+            </div>
+          </section>
+
+          {/* Video Section */}
+          <section className="video-section">
+            <div className="video-content">
+              <h2>See How We Make Moving Easy</h2>
+              <p>Watch our professional movers in action, making your move stress-free and efficient.</p>
+              <div className="video-container">
+                <video 
+                  controls 
+                  poster={heroIllustration}
+                  className="main-video"
+                  preload="metadata"
+                >
+                  <source src={introVideo} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <div className="video-grid">
+                <div className="video-item">
+                  <video 
+                    controls 
+                    poster={truckImage}
+                    className="grid-video"
+                    preload="metadata"
+                  >
+                    <source src={peopleCarryingBoxVideo} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                  <h3>Professional Moving Team</h3>
+                  <p>Our experienced movers handle your belongings with care and precision.</p>
+                </div>
+                <div className="video-item">
+                  <img src={manWithBoxes} alt="Moving process" className="video-placeholder" />
+                  <h3>Efficient Packing</h3>
+                  <p>We use professional techniques to pack and protect your items.</p>
+                </div>
+                <div className="video-item">
+                  <img src={customerService} alt="Customer service" className="video-placeholder" />
+                  <h3>24/7 Support</h3>
+                  <p>Our team is always available to help with your moving needs.</p>
+                </div>
               </div>
             </div>
           </section>
