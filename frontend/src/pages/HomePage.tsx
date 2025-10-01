@@ -34,6 +34,11 @@ import blogMoving from '../assets/imgs-png/img_blog-moving.jpg';
 import blogEssential from '../assets/imgs-png/img_blog-essential.jpg';
 import blogToronto from '../assets/imgs-png/img_blog-toronto.jpg';
 
+// Import animated elements for hero section
+import realMoversImage from '../assets/imgs-png/img_real movers with cartons.png';
+import competitiveImage from '../assets/imgs-png/img_competitive.png';
+import contactImage from '../assets/imgs-png/img_contact.png';
+
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
 
@@ -112,21 +117,24 @@ const HomePage: React.FC = () => {
       <main className="page-container homepage-container" aria-labelledby="homepage-title">
         <div className="page-content">
           
-          {/* Top Blue Bar */}
-          <div className="top-blue-bar"></div>
-
           {/* Hero Section */}
           <section className="hero-section">
             <div className="hero-background-elements">
-              <div className="floating-hexagon hex-1"></div>
-              <div className="floating-hexagon hex-2"></div>
-              <div className="floating-triangle tri-1"></div>
-              <div className="floating-triangle tri-2"></div>
-              <div className="floating-wave wave-1"></div>
-              <div className="floating-wave wave-2"></div>
-              <div className="floating-dot dot-1"></div>
-              <div className="floating-dot dot-2"></div>
-              <div className="floating-dot dot-3"></div>
+              <div className="floating-truck truck-1">
+                <img src={truckImage} alt="Moving truck" className="floating-image" />
+              </div>
+              <div className="floating-box box-1">
+                <img src={realMoversImage} alt="Moving boxes" className="floating-image" />
+              </div>
+              <div className="floating-box box-2">
+                <img src={competitiveImage} alt="Competitive pricing" className="floating-image" />
+              </div>
+              <div className="floating-box box-3">
+                <img src={contactImage} alt="Customer service" className="floating-image" />
+              </div>
+              <div className="floating-house house-1">
+                <img src={heroIllustration} alt="Moving services" className="floating-image" />
+              </div>
             </div>
             <div className="hero-content">
               <div className="hero-text">
@@ -145,65 +153,42 @@ const HomePage: React.FC = () => {
                 </button>
               </div>
               <div className="hero-visual">
-                <img src={heroIllustration} alt="Moving truck illustration - professional moving services" className="hero-image" loading="lazy" />
+                <img src={truckImage} alt="Moving truck illustration - professional moving services" className="hero-image" loading="lazy" />
               </div>
             </div>
           </section>
 
           {/* Trusted By Section */}
           <section className="trusted-section" aria-labelledby="trusted-heading">
-            <div className="trusted-background-elements">
-              <div className="floating-heart heart-1"></div>
-              <div className="floating-heart heart-2"></div>
-              <div className="floating-square square-1"></div>
-              <div className="floating-square square-2"></div>
-            </div>
             <div className="trusted-content">
               <h3 id="trusted-heading">Trusted by</h3>
               <div className="trusted-logos" role="img" aria-label="Partner moving companies logos">
-                <a href="https://cargocabbie.com" target="_blank" rel="noopener noreferrer" className="trusted-logo-link">
-                  <img src={logoCargoCabbie} alt="Cargo Cabbie - Licensed Moving Company" className="trusted-logo" loading="lazy" />
-                </a>
-                <a href="https://neweramoving.com" target="_blank" rel="noopener noreferrer" className="trusted-logo-link">
-                  <img src={logoNewEra} alt="New Era Moving Services - Professional Movers" className="trusted-logo" loading="lazy" />
-                </a>
-                <a href="https://letsgetmoving.ca" target="_blank" rel="noopener noreferrer" className="trusted-logo-link">
-                  <img src={logoLetsGetMoving} alt="Let's Get Moving - GTA Moving Specialists" className="trusted-logo" loading="lazy" />
-                </a>
-                <a href="https://highlevelmovers.com" target="_blank" rel="noopener noreferrer" className="trusted-logo-link">
-                  <img src={logoHighLevelMovers} alt="High Level Movers - Premium Moving Services" className="trusted-logo" loading="lazy" />
-                </a>
-                <a href="https://bronzestarmoving.com" target="_blank" rel="noopener noreferrer" className="trusted-logo-link">
-                  <img src={logoBronzeStar} alt="Bronze Star Moving - Reliable Moving Solutions" className="trusted-logo" loading="lazy" />
-                </a>
+                <img src={logoCargoCabbie} alt="Cargo Cabbie - Licensed Moving Company" className="trusted-logo" loading="lazy" />
+                <img src={logoNewEra} alt="New Era Moving Services - Professional Movers" className="trusted-logo" loading="lazy" />
+                <img src={logoLetsGetMoving} alt="Let's Get Moving - GTA Moving Specialists" className="trusted-logo" loading="lazy" />
+                <img src={logoHighLevelMovers} alt="High Level Movers - Premium Moving Services" className="trusted-logo" loading="lazy" />
+                <img src={logoBronzeStar} alt="Bronze Star Moving - Reliable Moving Solutions" className="trusted-logo" loading="lazy" />
               </div>
             </div>
           </section>
 
           {/* Feature Sections */}
           <section className="features-section" aria-labelledby="features-heading">
-            <div className="features-background-elements">
-              <div className="floating-pentagon pent-1"></div>
-              <div className="floating-pentagon pent-2"></div>
-              <div className="floating-oval oval-1"></div>
-              <div className="floating-oval oval-2"></div>
-              <div className="floating-arrow arrow-1"></div>
-            </div>
             <div className="feature-item">
+              <div className="feature-content">
+                <h2>One stop shop for all your moving needs</h2>
+                <p>From packing to unpacking, we connect you with the right professionals for every aspect of your move.</p>
+                <button className="feature-button" onClick={handleGetQuote} aria-label="Get quote for comprehensive moving services">Get a quote</button>
+              </div>
               <div className="feature-visual">
                 <img src={heroIllustration} alt="One stop shop illustration showing comprehensive moving services" className="feature-image" loading="lazy" />
               </div>
-              <div className="feature-content">
-                <h2>One stop shop for all your moving needs</h2>
-                <p>Find the right mover in your area to help you with your move, from simple truck pick-up and drop-off, to full 'white glove' service.</p>
-                <button className="feature-button" onClick={handleGetQuote} aria-label="Get quote for comprehensive moving services">Get Started</button>
-              </div>
             </div>
 
-            <div className="feature-item reverse">
+            <div className="feature-item">
               <div className="feature-content">
                 <h2>Competitive price guarantee</h2>
-                <p>Your money is hard earned, we get it. That's why we vet the prices of all services so you don't have to.</p>
+                <p>We ensure you get the best rates by comparing quotes from multiple verified movers in your area.</p>
                 <button className="feature-button" onClick={handleGetQuote} aria-label="Get competitive moving quotes">Get a quote</button>
               </div>
               <div className="feature-visual">
@@ -212,46 +197,32 @@ const HomePage: React.FC = () => {
             </div>
 
             <div className="feature-item">
+              <div className="feature-content">
+                <h2>Trusted movers you can rely on</h2>
+                <p>All our moving partners are licensed, insured, and thoroughly vetted for quality and reliability.</p>
+                <button className="feature-button" onClick={handleGetQuote} aria-label="Find trusted licensed movers">Find a mover</button>
+              </div>
               <div className="feature-visual">
                 <img src={customerService} alt="Customer service illustration showing professional movers" className="feature-image" loading="lazy" />
               </div>
-              <div className="feature-content">
-                <h2>Trusted movers you can rely on</h2>
-                <p>We pride ourselves in working with the most reliable and trusted movers, who are always fully insured and certified, so you can rest easy.</p>
-                <button className="feature-button" onClick={handleGetQuote} aria-label="Find trusted licensed movers">Find a mover</button>
-              </div>
             </div>
           </section>
 
 
-
-          {/* Explore Services Section */}
-          <section className="explore-services-section">
-            <div className="explore-content">
-              <div className="explore-text">
-                <h2>Explore the best services available at your address!</h2>
-                <p>Explore Top-Tier Local Solutions: A Close Look At Premier Services Available In Your Area</p>
-                <button className="explore-button" onClick={() => navigate('/tips-guides')} aria-label="View address change guides">View Address Change Guides</button>
-              </div>
-              <div className="explore-visual">
-                <img src={blogMoving} alt="Family playing with dollhouse - exploring local services" className="explore-image" loading="lazy" />
-              </div>
-            </div>
-          </section>
 
           {/* Expert Section */}
           <section className="expert-section">
             <div className="expert-content">
               <div className="expert-text">
                 <h2>An expert at your fingertips</h2>
-                <p>Once you've shared your relocation requirements with us, an expert booking agent will be assigned to you automatically, always free of charge!</p>
+                <p>Once you've shared your relocation requirements with us, a booking agent will be assigned to you automatically, always free of charge!</p>
               </div>
               <div className="expert-profile">
                 <div className="profile-image">
-                  <img src={profileAmelie} alt="Amélie Laurent" className="profile-img" />
+                  <img src={profileAmelie} alt="Amelie Laurent" className="profile-img" />
                 </div>
                 <div className="profile-info">
-                  <h3>Amélie Laurent</h3>
+                  <h3>Amelie Laurent</h3>
                   <p>Booking Agent</p>
                 </div>
               </div>
@@ -264,85 +235,40 @@ const HomePage: React.FC = () => {
             <div className="blogs-grid" role="list" aria-label="Latest moving tips and guides">
               <article className="blog-item" role="listitem">
                 <a href="/blog/moving-stress-relaxation-techniques" className="blog-link" aria-label="Read: Dealing with Moving Stress - Top Relaxation Techniques">
-                  <img src={blogMoving} alt="Person holding head in hands - stress reduction techniques" className="blog-image" loading="lazy" />
+                  <img src={blogMoving} alt="Person relaxing with moving boxes - stress reduction techniques" className="blog-image" loading="lazy" />
                   <h3>Dealing with Moving Stress: Top Relaxation Techniques</h3>
+                  <p>Essential tips for a smooth move from professional movers</p>
                   <div className="blog-meta">
-                    <div className="blog-author-info">
-                      <img src={profileAmelie} alt="Movedin Specialist" className="blog-author-avatar" />
-                      <span className="blog-author">Movedin Specialist</span>
-                    </div>
-                    <span className="blog-date">18 Nov 2023</span>
+                    <span className="blog-author">By MovedIn Team</span>
+                    <span className="blog-date">Dec 15, 2023</span>
                   </div>
                 </a>
               </article>
               <article className="blog-item" role="listitem">
-                <a href="/blog/essential-moving-checklist-tenants" className="blog-link" aria-label="Read: The Essential Moving Checklist for Torontonians">
-                  <img src={blogEssential} alt="Household items on shelf - moving checklist" className="blog-image" loading="lazy" />
-                  <h3>The Essential Moving Checklist for Torontonians</h3>
+                <a href="/blog/essential-moving-checklist-tenants" className="blog-link" aria-label="Read: The Essential Moving Checklist for Tenants and Renters">
+                  <img src={blogEssential} alt="Moving checklist items on a table - tenant moving guide" className="blog-image" loading="lazy" />
+                  <h3>The Essential Moving Checklist for Tenants/renters</h3>
+                  <p>What you need to know before moving to your new home</p>
                   <div className="blog-meta">
-                    <div className="blog-author-info">
-                      <img src={profileAmelie} alt="Movedin Specialist" className="blog-author-avatar" />
-                      <span className="blog-author">Movedin Specialist</span>
-                    </div>
-                    <span className="blog-date">18 Nov 2023</span>
+                    <span className="blog-author">By MovedIn Team</span>
+                    <span className="blog-date">Dec 10, 2023</span>
                   </div>
                 </a>
               </article>
               <article className="blog-item" role="listitem">
                 <a href="/blog/toronto-winter-moving-tips" className="blog-link" aria-label="Read: Moving in the Winter - Special Tips for Toronto Residents">
-                  <img src={blogToronto} alt="People by car trunk in snowy environment - winter moving tips" className="blog-image" loading="lazy" />
+                  <img src={blogToronto} alt="Snowy Toronto street with moving truck - winter moving tips" className="blog-image" loading="lazy" />
                   <h3>Moving in the Winter: Special Tips for Toronto Residents</h3>
+                  <p>Expert advice for winter moves in and around Toronto</p>
                   <div className="blog-meta">
-                    <div className="blog-author-info">
-                      <img src={profileAmelie} alt="Movedin Specialist" className="blog-author-avatar" />
-                      <span className="blog-author">Movedin Specialist</span>
-                    </div>
-                    <span className="blog-date">18 Nov 2023</span>
+                    <span className="blog-author">By MovedIn Team</span>
+                    <span className="blog-date">Dec 5, 2023</span>
                   </div>
                 </a>
               </article>
             </div>
-          </section>
-
-          {/* FAQ Section */}
-          <section className="faq-section" aria-labelledby="faq-heading">
-            <h2 id="faq-heading">Frequently asked questions</h2>
-            <div className="faq-list">
-              <div className="faq-item">
-                <div className="faq-question">
-                  <span>What is Movedin exactly?</span>
-                  <span className="faq-plus">+</span>
-                </div>
-              </div>
-              <div className="faq-item">
-                <div className="faq-question">
-                  <span>What can a Movedin moving specialist do for me?</span>
-                  <span className="faq-plus">+</span>
-                </div>
-              </div>
-              <div className="faq-item">
-                <div className="faq-question">
-                  <span>How is this service free?</span>
-                  <span className="faq-plus">+</span>
-                </div>
-              </div>
-              <div className="faq-item">
-                <div className="faq-question">
-                  <span>How can I get started?</span>
-                  <span className="faq-plus">+</span>
-                </div>
-              </div>
-              <div className="faq-item">
-                <div className="faq-question">
-                  <span>I am still shopping for a mover, how can my booking agent help?</span>
-                  <span className="faq-plus">+</span>
-                </div>
-              </div>
-            </div>
-            <div className="faq-contact">
-              <p>Still have questions?</p>
-              <p>Can't find the answer you're looking for? Please chat to our friendly team</p>
-              <button className="faq-contact-button" onClick={() => navigate('/about-us')} aria-label="Get in touch with our team">Get in touch</button>
+            <div className="blogs-cta">
+              <Link to="/tips-guides" className="blogs-button" aria-label="Read all moving tips and guides">Read all</Link>
             </div>
           </section>
 

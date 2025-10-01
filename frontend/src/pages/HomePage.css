@@ -59,14 +59,13 @@ body:has(.homepage-container) {
     padding: 0;
 }
 
-/* Hero Section - Enhanced with Animated Background Elements */
+/* Hero Section - Enhanced with Visual Components */
 .homepage-container .hero-section {
     padding: 5rem 2rem 4rem;
-    background: linear-gradient(135deg, #f8faff 0%, #ffffff 50%, #f0f8ff 100%) !important;
+    background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%) !important;
     color: #1A2B4D;
     position: relative;
     overflow: hidden;
-    min-height: 80vh;
 }
 
 .homepage-container .hero-section::before {
@@ -74,10 +73,10 @@ body:has(.homepage-container) {
     position: absolute;
     top: 0;
     right: 0;
-    width: 50%;
+    width: 40%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(102, 51, 255, 0.05) 0%, rgba(160, 217, 247, 0.08) 50%, rgba(255, 182, 193, 0.03) 100%);
-    border-radius: 0 0 0 60px;
+    background: linear-gradient(135deg, rgba(102, 51, 255, 0.03) 0%, rgba(160, 217, 247, 0.05) 100%);
+    border-radius: 0 0 0 50px;
     z-index: 0;
 }
 
@@ -90,144 +89,139 @@ body:has(.homepage-container) {
     bottom: 0;
     z-index: 1;
     pointer-events: none;
+    overflow: hidden;
 }
 
-/* Floating Hexagons */
-.homepage-container .floating-hexagon {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, #FF6B9D 0%, #C44569 100%);
-    clip-path: polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%);
-    animation: rotateFloat 10s ease-in-out infinite;
-    box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
-}
-
-.homepage-container .hex-1 {
-    top: 15%;
-    left: 15%;
-    animation-delay: 0s;
-}
-
-.homepage-container .hex-2 {
-    top: 65%;
-    right: 20%;
-    animation-delay: 5s;
-    transform: scale(0.8);
-}
-
-/* Floating Triangles */
-.homepage-container .floating-triangle {
-    position: absolute;
-    width: 0;
-    height: 0;
-    animation: triangleFloat 8s ease-in-out infinite;
-}
-
-.homepage-container .tri-1 {
-    border-left: 25px solid transparent;
-    border-right: 25px solid transparent;
-    border-bottom: 45px solid #4ECDC4;
-    top: 25%;
-    right: 10%;
-    animation-delay: 2s;
-    filter: drop-shadow(0 4px 15px rgba(78, 205, 196, 0.4));
-}
-
-.homepage-container .tri-2 {
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 35px solid #FFE66D;
-    top: 75%;
-    left: 25%;
-    animation-delay: 4s;
-    filter: drop-shadow(0 4px 15px rgba(255, 230, 109, 0.4));
-}
-
-/* Floating Waves */
-.homepage-container .floating-wave {
+/* Floating Truck */
+.homepage-container .floating-truck {
     position: absolute;
     width: 80px;
-    height: 20px;
-    background: linear-gradient(90deg, #A8E6CF 0%, #7FDBDA 50%, #A8E6CF 100%);
-    border-radius: 50px;
-    animation: waveFloat 12s ease-in-out infinite;
-    box-shadow: 0 4px 15px rgba(168, 230, 207, 0.4);
+    height: 60px;
+    animation: truckFloat 15s ease-in-out infinite;
+    opacity: 0.7;
 }
 
-.homepage-container .wave-1 {
-    top: 35%;
-    left: 5%;
-    animation-delay: 1s;
-}
-
-.homepage-container .wave-2 {
-    top: 55%;
-    right: 5%;
-    animation-delay: 6s;
-    transform: scaleX(-1);
-}
-
-/* Floating Dots */
-.homepage-container .floating-dot {
-    position: absolute;
-    border-radius: 50%;
-    animation: dotFloat 6s ease-in-out infinite;
-}
-
-.homepage-container .dot-1 {
-    width: 15px;
-    height: 15px;
-    background: linear-gradient(135deg, #FF8A80 0%, #FFAB91 100%);
-    top: 20%;
-    right: 30%;
+.homepage-container .truck-1 {
+    top: 15%;
+    left: 8%;
     animation-delay: 0s;
-    box-shadow: 0 2px 10px rgba(255, 138, 128, 0.5);
 }
 
-.homepage-container .dot-2 {
-    width: 20px;
-    height: 20px;
-    background: linear-gradient(135deg, #B39DDB 0%, #D1C4E9 100%);
+/* Floating Boxes */
+.homepage-container .floating-box {
+    position: absolute;
+    animation: boxFloat 12s ease-in-out infinite;
+    opacity: 0.6;
+}
+
+.homepage-container .box-1 {
+    width: 60px;
+    height: 50px;
+    top: 20%;
+    right: 12%;
+    animation-delay: 2s;
+}
+
+.homepage-container .box-2 {
+    width: 50px;
+    height: 40px;
     top: 60%;
-    left: 10%;
-    animation-delay: 3s;
-    box-shadow: 0 2px 10px rgba(179, 157, 219, 0.5);
+    left: 5%;
+    animation-delay: 4s;
 }
 
-.homepage-container .dot-3 {
-    width: 12px;
-    height: 12px;
-    background: linear-gradient(135deg, #81C784 0%, #A5D6A7 100%);
-    top: 80%;
+.homepage-container .box-3 {
+    width: 70px;
+    height: 55px;
+    top: 70%;
     right: 15%;
-    animation-delay: 1.5s;
-    box-shadow: 0 2px 10px rgba(129, 199, 132, 0.5);
+    animation-delay: 6s;
 }
 
-/* Animations for Version 2 */
-@keyframes rotateFloat {
-    0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
-    25% { transform: translateY(-15px) rotate(90deg) scale(1.1); }
-    50% { transform: translateY(-25px) rotate(180deg) scale(0.9); }
-    75% { transform: translateY(-10px) rotate(270deg) scale(1.05); }
+/* Floating House */
+.homepage-container .floating-house {
+    position: absolute;
+    width: 70px;
+    height: 60px;
+    animation: houseFloat 18s ease-in-out infinite;
+    opacity: 0.5;
 }
 
-@keyframes triangleFloat {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(180deg); }
+.homepage-container .house-1 {
+    top: 40%;
+    right: 5%;
+    animation-delay: 3s;
 }
 
-@keyframes waveFloat {
-    0%, 100% { transform: translateX(0px) scale(1); }
-    25% { transform: translateX(10px) scale(1.1); }
-    50% { transform: translateX(0px) scale(0.9); }
-    75% { transform: translateX(-10px) scale(1.05); }
+/* Floating Images */
+.homepage-container .floating-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+    transition: transform 0.3s ease;
 }
 
-@keyframes dotFloat {
-    0%, 100% { transform: translateY(0px) scale(1); opacity: 0.7; }
-    50% { transform: translateY(-15px) scale(1.3); opacity: 1; }
+.homepage-container .floating-image:hover {
+    transform: scale(1.1);
+}
+
+/* Animations */
+@keyframes truckFloat {
+    0%, 100% { 
+        transform: translateY(0px) translateX(0px) rotate(0deg); 
+        opacity: 0.7;
+    }
+    25% { 
+        transform: translateY(-15px) translateX(8px) rotate(2deg); 
+        opacity: 0.8;
+    }
+    50% { 
+        transform: translateY(-25px) translateX(0px) rotate(0deg); 
+        opacity: 0.9;
+    }
+    75% { 
+        transform: translateY(-15px) translateX(-8px) rotate(-2deg); 
+        opacity: 0.8;
+    }
+}
+
+@keyframes boxFloat {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg) scale(1); 
+        opacity: 0.6;
+    }
+    25% { 
+        transform: translateY(-10px) rotate(5deg) scale(1.05); 
+        opacity: 0.7;
+    }
+    50% { 
+        transform: translateY(-20px) rotate(10deg) scale(1.1); 
+        opacity: 0.8;
+    }
+    75% { 
+        transform: translateY(-10px) rotate(5deg) scale(1.05); 
+        opacity: 0.7;
+    }
+}
+
+@keyframes houseFloat {
+    0%, 100% { 
+        transform: translateY(0px) scale(1) rotate(0deg); 
+        opacity: 0.5;
+    }
+    25% { 
+        transform: translateY(-8px) scale(1.02) rotate(1deg); 
+        opacity: 0.6;
+    }
+    50% { 
+        transform: translateY(-16px) scale(1.05) rotate(0deg); 
+        opacity: 0.7;
+    }
+    75% { 
+        transform: translateY(-8px) scale(1.02) rotate(-1deg); 
+        opacity: 0.6;
+    }
 }
 
 .homepage-container .hero-content {
@@ -238,7 +232,7 @@ body:has(.homepage-container) {
     gap: 4rem;
     align-items: center;
     position: relative;
-    z-index: 2;
+    z-index: 1;
 }
 
 .homepage-container .hero-text h1 {
@@ -339,7 +333,6 @@ body:has(.homepage-container) {
     background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%) !important;
     text-align: center;
     position: relative;
-    overflow: hidden;
 }
 
 .homepage-container .trusted-section::before {
@@ -350,101 +343,6 @@ body:has(.homepage-container) {
     right: 0;
     height: 1px;
     background: linear-gradient(90deg, transparent 0%, #e5e7eb 50%, transparent 100%);
-}
-
-/* Trusted Section Background Elements */
-.homepage-container .trusted-background-elements {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    pointer-events: none;
-}
-
-/* Floating Hearts */
-.homepage-container .floating-heart {
-    position: absolute;
-    width: 25px;
-    height: 25px;
-    background: linear-gradient(135deg, #FF69B4 0%, #FF1493 100%);
-    transform: rotate(-45deg);
-    animation: heartBeat 6s ease-in-out infinite;
-    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
-}
-
-.homepage-container .floating-heart::before,
-.homepage-container .floating-heart::after {
-    content: '';
-    position: absolute;
-    width: 25px;
-    height: 25px;
-    background: linear-gradient(135deg, #FF69B4 0%, #FF1493 100%);
-    border-radius: 50%;
-}
-
-.homepage-container .floating-heart::before {
-    top: -12px;
-    left: 0;
-}
-
-.homepage-container .floating-heart::after {
-    top: 0;
-    left: 12px;
-}
-
-.homepage-container .heart-1 {
-    top: 25%;
-    left: 20%;
-    animation-delay: 0s;
-}
-
-.homepage-container .heart-2 {
-    top: 65%;
-    right: 25%;
-    animation-delay: 3s;
-    transform: rotate(-45deg) scale(0.8);
-}
-
-/* Floating Squares */
-.homepage-container .floating-square {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    background: linear-gradient(135deg, #20B2AA 0%, #48D1CC 100%);
-    animation: squareRotate 8s ease-in-out infinite;
-    box-shadow: 0 4px 15px rgba(32, 178, 170, 0.4);
-}
-
-.homepage-container .square-1 {
-    top: 15%;
-    right: 15%;
-    animation-delay: 1s;
-}
-
-.homepage-container .square-2 {
-    top: 75%;
-    left: 10%;
-    animation-delay: 4s;
-    transform: scale(0.7);
-}
-
-@keyframes heartBeat {
-    0%, 100% { transform: rotate(-45deg) scale(1); }
-    50% { transform: rotate(-45deg) scale(1.2); }
-}
-
-@keyframes squareRotate {
-    0%, 100% { transform: rotate(0deg) scale(1); }
-    25% { transform: rotate(90deg) scale(1.1); }
-    50% { transform: rotate(180deg) scale(0.9); }
-    75% { transform: rotate(270deg) scale(1.05); }
-}
-
-.homepage-container .trusted-content {
-    position: relative;
-    z-index: 2;
 }
 
 .homepage-container .trusted-content h3 {
@@ -491,9 +389,8 @@ body:has(.homepage-container) {
 /* Features Section - Enhanced with Visual Elements */
 .homepage-container .features-section {
     padding: 5rem 2rem;
-    background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%) !important;
+    background: var(--white) !important;
     position: relative;
-    overflow: hidden;
 }
 
 .homepage-container .features-section::before {
@@ -504,113 +401,6 @@ body:has(.homepage-container) {
     right: 0;
     height: 1px;
     background: linear-gradient(90deg, transparent 0%, #e5e7eb 50%, transparent 100%);
-}
-
-/* Features Background Elements */
-.homepage-container .features-background-elements {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    pointer-events: none;
-}
-
-/* Floating Pentagons */
-.homepage-container .floating-pentagon {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%);
-    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
-    animation: pentagonFloat 9s ease-in-out infinite;
-    box-shadow: 0 4px 15px rgba(255, 154, 158, 0.4);
-}
-
-.homepage-container .pent-1 {
-    top: 15%;
-    left: 8%;
-    animation-delay: 0s;
-}
-
-.homepage-container .pent-2 {
-    top: 70%;
-    right: 12%;
-    animation-delay: 4.5s;
-    transform: scale(0.8);
-}
-
-/* Floating Ovals */
-.homepage-container .floating-oval {
-    position: absolute;
-    border-radius: 50%;
-    animation: ovalFloat 7s ease-in-out infinite;
-}
-
-.homepage-container .oval-1 {
-    width: 60px;
-    height: 30px;
-    background: linear-gradient(135deg, #A8E6CF 0%, #88D8C0 100%);
-    top: 25%;
-    right: 8%;
-    animation-delay: 2s;
-    box-shadow: 0 4px 15px rgba(168, 230, 207, 0.4);
-}
-
-.homepage-container .oval-2 {
-    width: 45px;
-    height: 25px;
-    background: linear-gradient(135deg, #FFB347 0%, #FFCC5C 100%);
-    top: 80%;
-    left: 15%;
-    animation-delay: 3.5s;
-    box-shadow: 0 4px 15px rgba(255, 179, 71, 0.4);
-}
-
-/* Floating Arrows */
-.homepage-container .floating-arrow {
-    position: absolute;
-    width: 0;
-    height: 0;
-    animation: arrowFloat 6s ease-in-out infinite;
-}
-
-.homepage-container .arrow-1 {
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 35px solid #DDA0DD;
-    top: 50%;
-    left: 85%;
-    animation-delay: 1s;
-    filter: drop-shadow(0 4px 15px rgba(221, 160, 221, 0.4));
-}
-
-.homepage-container .arrow-1::before {
-    content: '';
-    position: absolute;
-    top: 35px;
-    left: -15px;
-    width: 30px;
-    height: 4px;
-    background: #DDA0DD;
-}
-
-@keyframes pentagonFloat {
-    0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
-    50% { transform: translateY(-25px) rotate(180deg) scale(1.1); }
-}
-
-@keyframes ovalFloat {
-    0%, 100% { transform: translateY(0px) scaleX(1); }
-    50% { transform: translateY(-20px) scaleX(1.2); }
-}
-
-@keyframes arrowFloat {
-    0%, 100% { transform: translateY(0px) translateX(0px); }
-    25% { transform: translateY(-10px) translateX(5px); }
-    50% { transform: translateY(-20px) translateX(0px); }
-    75% { transform: translateY(-10px) translateX(-5px); }
 }
 
 .homepage-container .feature-item {
@@ -627,7 +417,6 @@ body:has(.homepage-container) {
     border: 1px solid rgba(160, 217, 247, 0.2);
     position: relative;
     overflow: hidden;
-    z-index: 2;
 }
 
 .homepage-container .feature-item::before {
@@ -1274,6 +1063,11 @@ body:has(.homepage-container) {
     
     .homepage-container .hero-image {
         max-height: 250px;
+    }
+    
+    /* Hide floating elements on mobile for better performance */
+    .homepage-container .hero-background-elements {
+        display: none;
     }
     
     .homepage-container .hero-text {
