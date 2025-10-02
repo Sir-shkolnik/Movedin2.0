@@ -256,43 +256,21 @@ body:has(.homepage-container) {
     background: var(--bg-elev-1);
     padding: 3rem;
     border-radius: 16px;
-    border: 2px solid var(--accent-border);
     box-shadow: 0 4px 20px var(--shadow-light);
     position: relative;
     overflow: hidden;
-}
-
-.homepage-container .hero-text::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--brand-600) 0%, var(--accent-600) 100%);
 }
 
 .homepage-container .hero-visual {
     background: var(--bg-elev-1);
     padding: 2rem;
     border-radius: 16px;
-    border: 2px solid var(--accent-border-alt);
     box-shadow: 0 4px 20px var(--shadow-light);
     position: relative;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.homepage-container .hero-visual::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--accent-600) 0%, var(--success-600) 100%);
 }
 
 .homepage-container .hero-image {
@@ -399,10 +377,11 @@ body:has(.homepage-container) {
 
 /* Trusted By Section - 2025-2026 Design */
 .homepage-container .trusted-section {
-    padding: 5rem 2rem;
+    padding: 2rem 2rem 4rem 2rem;
     background: var(--bg-base) !important;
     text-align: center;
     position: relative;
+    margin-top: -2rem;
 }
 
 .homepage-container .trusted-content {
@@ -459,14 +438,21 @@ body:has(.homepage-container) {
     height: 50px;
     max-width: 120px;
     object-fit: contain;
-    opacity: 0.7;
-    transition: opacity 0.3s ease;
-    filter: grayscale(100%);
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    filter: grayscale(0%);
+    border-radius: 8px;
+    padding: 8px;
+    background: var(--bg-elev-2);
+    border: 1px solid var(--accent-border);
 }
 
 .homepage-container .trusted-logo-link:hover .trusted-logo {
     opacity: 1;
     filter: grayscale(0%);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 4px 12px var(--shadow-medium);
+    border-color: var(--accent-600);
 }
 
 /* Features Section - 2025-2026 Design */

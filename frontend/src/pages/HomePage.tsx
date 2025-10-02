@@ -108,7 +108,6 @@ const HomePage: React.FC = () => {
         </script>
       </Helmet>
 
-      <Header />
       <main className="page-container homepage-container" aria-labelledby="homepage-title">
         <div className="page-content">
           
