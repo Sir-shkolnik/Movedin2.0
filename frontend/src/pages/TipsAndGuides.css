@@ -3,20 +3,20 @@
 
 /* TipsAndGuides Container - Only affects TipsAndGuides page */
 .tips-guides-container {
-    background: var(--indigo-900) !important;
+    background: var(--bg-base) !important;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    color: var(--white);
+    color: var(--fg-primary);
 }
 
-/* Ensure entire page background is dark blue */
+/* Ensure entire page background is dark */
 .tips-guides-container,
 .tips-guides-container *,
 .tips-guides-container body,
 .tips-guides-container html {
-    background-color: var(--indigo-900) !important;
-    background: var(--indigo-900) !important;
+    background-color: var(--bg-base) !important;
+    background: var(--bg-base) !important;
 }
 
 .tips-guides-container .page-content {
@@ -29,20 +29,38 @@
     overflow-x: hidden;
 }
 
-/* Hero Section - Dark Blue Background */
+/* Hero Section - Clean Card Style */
 .tips-guides-container .hero-section {
     padding: 4rem 2rem 3rem;
-    background: var(--indigo-900) !important;
+    background: var(--bg-elev-1) !important;
     text-align: center;
+    margin: 2rem;
+    border-radius: 16px;
+    border: 2px solid var(--accent-border);
+    box-shadow: 0 4px 20px var(--shadow-light);
+    position: relative;
+    overflow: hidden;
+}
+
+.tips-guides-container .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--brand-600) 0%, var(--accent-600) 100%);
 }
 
 .tips-guides-container .hero-content {
     max-width: 1200px;
     margin: 0 auto;
+    position: relative;
+    z-index: 2;
 }
 
 .tips-guides-container .hero-breadcrumb {
-    color: var(--gray-400);
+    color: var(--accent-600);
     font-size: 0.9rem;
     margin-bottom: 1rem;
     text-transform: uppercase;
@@ -54,15 +72,16 @@
     font-weight: 700;
     line-height: 1.1;
     margin-bottom: 1.5rem;
+    color: var(--fg-primary);
 }
 
 .tips-guides-container .hero-title .highlight {
-    color: var(--indigo-200);
+    color: var(--accent-600);
 }
 
 .tips-guides-container .hero-subtitle {
     font-size: 1.2rem;
-    color: var(--gray-300);
+    color: var(--fg-secondary);
     max-width: 600px;
     margin: 0 auto;
     line-height: 1.6;
@@ -70,8 +89,8 @@
 
 /* Blog Grid Section */
 .tips-guides-container .blog-grid-section {
-    padding: 4rem 2rem;
-    background: var(--indigo-900) !important;
+    padding: 2rem;
+    background: var(--bg-base) !important;
 }
 
 .tips-guides-container .blog-grid-content {
@@ -111,17 +130,29 @@
 }
 
 .tips-guides-container .blog-card {
-    background: var(--white);
-    border-radius: 12px;
+    background: var(--bg-elev-1);
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px var(--shadow-light);
+    border: 2px solid var(--accent-border);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
 }
 
+.tips-guides-container .blog-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--brand-600), var(--accent-600));
+}
+
 .tips-guides-container .blog-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 30px var(--shadow-medium);
+    border-color: var(--accent-600);
 }
 
 .tips-guides-container .blog-card-image {
@@ -132,19 +163,21 @@
 
 .tips-guides-container .blog-card-content {
     padding: 1.5rem;
+    position: relative;
+    z-index: 2;
 }
 
 .tips-guides-container .blog-card-title {
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--gray-900);
+    color: var(--fg-primary);
     margin-bottom: 0.75rem;
     line-height: 1.4;
 }
 
 .tips-guides-container .blog-card-excerpt {
     font-size: 0.9rem;
-    color: var(--gray-600);
+    color: var(--fg-secondary);
     line-height: 1.5;
     margin-bottom: 1rem;
 }
@@ -171,12 +204,12 @@
 .tips-guides-container .blog-card-author-name {
     font-size: 0.85rem;
     font-weight: 500;
-    color: var(--gray-900);
+    color: var(--fg-primary);
 }
 
 .tips-guides-container .blog-card-date {
     font-size: 0.8rem;
-    color: var(--gray-500);
+    color: var(--fg-secondary);
 }
 
 .tips-guides-container .blog-card-arrow {
@@ -185,7 +218,7 @@
     right: 1rem;
     width: 24px;
     height: 24px;
-    color: var(--purple-600);
+    color: var(--accent-600);
 }
 
 /* Featured Blog Card (Wider) - Additional styles */
@@ -212,30 +245,43 @@
 
 /* Newsletter Section */
 .tips-guides-container .newsletter-section {
-    background: var(--white);
-    border-radius: 12px;
+    background: var(--bg-elev-2);
+    border-radius: 16px;
     padding: 2rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px var(--shadow-light);
+    border: 2px solid var(--accent-border-alt);
     height: fit-content;
+    position: relative;
+    overflow: hidden;
+}
+
+.tips-guides-container .newsletter-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-600) 0%, var(--success-600) 100%);
 }
 
 .tips-guides-container .newsletter-icon {
     width: 32px;
     height: 32px;
-    color: var(--gray-400);
+    color: var(--accent-600);
     margin-bottom: 1rem;
 }
 
 .tips-guides-container .newsletter-title {
     font-size: 1.2rem;
     font-weight: 600;
-    color: var(--gray-900);
+    color: var(--fg-primary);
     margin-bottom: 0.75rem;
 }
 
 .tips-guides-container .newsletter-description {
     font-size: 0.9rem;
-    color: var(--gray-600);
+    color: var(--fg-secondary);
     line-height: 1.5;
     margin-bottom: 1.5rem;
 }
@@ -244,29 +290,32 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    position: relative;
+    z-index: 2;
 }
 
 .tips-guides-container .newsletter-input {
     padding: 0.75rem;
-    border: 1px solid var(--gray-300);
-    border-radius: 6px;
+    border: 2px solid var(--accent-border);
+    border-radius: 8px;
     font-size: 0.9rem;
-    color: var(--gray-900);
+    color: var(--fg-primary);
+    background: var(--bg-elev-1);
 }
 
 .tips-guides-container .newsletter-input:focus {
     outline: none;
-    border-color: var(--purple-600);
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    border-color: var(--accent-600);
+    box-shadow: 0 0 0 3px oklch(0.83 0.10 170 / 0.1);
 }
 
 .tips-guides-container .newsletter-privacy {
     font-size: 0.8rem;
-    color: var(--gray-500);
+    color: var(--fg-secondary);
 }
 
 .tips-guides-container .newsletter-privacy a {
-    color: var(--purple-600);
+    color: var(--accent-600);
     text-decoration: none;
 }
 
@@ -275,19 +324,22 @@
 }
 
 .tips-guides-container .newsletter-button {
-    background: var(--purple-600);
-    color: var(--white);
-    border: none;
+    background: var(--accent-600);
+    color: var(--fg-primary);
+    border: 2px solid var(--accent-border);
     padding: 0.75rem 1.5rem;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 0.9rem;
     font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px oklch(0.83 0.10 170 / 0.2);
 }
 
 .tips-guides-container .newsletter-button:hover {
-    background: var(--purple-700);
+    background: var(--accent-700);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px oklch(0.78 0.10 170 / 0.3);
 }
 
 /* Mobile Responsiveness */
@@ -299,14 +351,14 @@
     }
     
     .tips-guides-container .hero-section {
-        padding: 4rem 0 3rem;
-        margin: 0;
-        width: 100%;
+        padding: 3rem 1rem;
+        margin: 1rem;
+        width: calc(100% - 2rem);
         box-sizing: border-box;
     }
     
     .tips-guides-container .blog-grid-section {
-        padding: 4rem 0;
+        padding: 2rem 1rem;
         margin: 0;
         width: 100%;
         box-sizing: border-box;
