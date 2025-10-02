@@ -3,16 +3,27 @@
 
 .main-header {
     width: 100%;
-    background: var(--white);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+    background: var(--bg-elev-1);
+    box-shadow: 0 4px 20px var(--shadow-light);
     padding: 0;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 100;
-    border-bottom: 1px solid var(--border-light);
+    border-bottom: 2px solid var(--accent-border);
     backdrop-filter: blur(8px);
-    background: rgba(255, 255, 255, 0.95);
+    position: relative;
+    overflow: hidden;
+}
+
+.main-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--brand-600) 0%, var(--accent-600) 100%);
 }
 
 .header-content {
@@ -23,6 +34,8 @@
     justify-content: space-between;
     height: 80px;
     padding: 0 40px;
+    position: relative;
+    z-index: 2;
 }
 
 .logo {
@@ -55,7 +68,7 @@
 }
 
 .nav-link {
-    color: #374151;
+    color: var(--fg-primary);
     font-size: 1rem;
     font-weight: 500;
     text-decoration: none;
@@ -70,8 +83,8 @@
 
 .nav-link.active,
 .nav-link:hover {
-    color: #4f46e5;
-    border-bottom: 2px solid #4f46e5;
+    color: var(--accent-600);
+    border-bottom: 2px solid var(--accent-600);
     transform: translateY(-1px);
 }
 
@@ -82,7 +95,7 @@
     left: 0;
     width: 0;
     height: 2px;
-    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+    background: linear-gradient(135deg, var(--accent-600) 0%, var(--brand-600) 100%);
     transition: width 0.3s ease;
 }
 
@@ -101,11 +114,11 @@
     padding: 8px;
     border-radius: 8px;
     transition: all 0.2s ease;
-    color: var(--purple-600);
+    color: var(--fg-primary);
 }
 
 .mobile-menu-toggle:hover {
-    background: var(--gray-50);
+    background: var(--bg-elev-2);
 }
 
 .mobile-menu-toggle svg {
@@ -119,11 +132,23 @@
     top: 48px; /* Match mobile header height */
     left: 0;
     right: 0;
-    background: var(--white);
-    border-bottom: 1px solid var(--border-light);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background: var(--bg-elev-1);
+    border-bottom: 2px solid var(--accent-border-alt);
+    box-shadow: 0 4px 20px var(--shadow-light);
     z-index: 99;
     animation: slideDownSimple 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.mobile-menu-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-600) 0%, var(--success-600) 100%);
 }
 
 @keyframes slideDownSimple {
@@ -144,18 +169,20 @@
     display: flex;
     flex-direction: column;
     gap: 0;
+    position: relative;
+    z-index: 2;
 }
 
 .mobile-menu-link {
     font-size: 1.1rem;
-    color: var(--text-primary);
+    color: var(--fg-primary);
     padding: 16px 0;
     text-align: left;
     font-weight: 500;
     display: block;
     transition: all 0.2s ease;
     text-decoration: none;
-    border-bottom: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-muted);
 }
 
 .mobile-menu-link:last-child {
@@ -163,14 +190,14 @@
 }
 
 .mobile-menu-link:hover {
-    color: var(--purple-600);
-    background: var(--gray-50);
+    color: var(--accent-600);
+    background: var(--bg-elev-2);
     padding-left: 10px;
 }
 
 .mobile-menu-link.active {
-    color: var(--purple-600);
-    background: var(--purple-50);
+    color: var(--accent-600);
+    background: var(--bg-elev-2);
     font-weight: 600;
     padding-left: 10px;
 }
@@ -208,12 +235,12 @@
         height: 48px !important; /* Smaller header */
         min-height: 48px !important;
         max-height: 48px !important;
-        background: rgba(255, 255, 255, 0.98) !important;
+        background: var(--bg-elev-1) !important;
         padding: 0 !important;
         margin: 0 !important;
         overflow: hidden;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-        border-bottom: 1px solid #f1f3f4;
+        box-shadow: 0 4px 20px var(--shadow-light);
+        border-bottom: 2px solid var(--accent-border);
     }
     .mobile-menu-bar {
         top: 48px !important; /* Ensure mobile menu is positioned correctly */
