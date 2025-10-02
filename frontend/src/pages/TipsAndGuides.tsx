@@ -39,15 +39,25 @@ const TipsAndGuides: React.FC = () => {
           {/* Hero Section */}
           <section className="hero-section">
             <div className="hero-content">
-              <p className="hero-breadcrumb">Read our Blogs</p>
-              <h1 id="tips-guides-title" className="hero-title">
-                On The <span className="highlight">MovedIn</span>: Your Ultimate Guide to a Seamless Relocation
-              </h1>
-              <p className="hero-subtitle">
-                Mastering the Art of Packing, Planning, and Settling into Your New Home
-              </p>
+              <div className="hero-text">
+                <p className="hero-breadcrumb">Read our Blogs</p>
+                <h1 id="tips-guides-title" className="hero-title">
+                  On The <span className="highlight">MovedIn</span>: Your Ultimate Guide to a Seamless Relocation
+                </h1>
+                <p className="hero-subtitle">
+                  Mastering the Art of Packing, Planning, and Settling into Your New Home
+                </p>
               </div>
-            </section>
+              <div className="hero-actions">
+                <Link to="/#/" className="hero-cta-button">
+                  Get Your Free Quote
+                </Link>
+                <Link to="#blog-grid" className="hero-secondary-button">
+                  Browse Articles
+                </Link>
+              </div>
+            </div>
+          </section>
             
           {/* Blog Grid Section */}
           <section className="blog-grid-section">
