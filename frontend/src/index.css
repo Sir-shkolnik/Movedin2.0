@@ -5,9 +5,9 @@
     font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
-    color-scheme: dark;
-    color: var(--fg-primary);
-    background-color: var(--bg-base);
+    color-scheme: light;
+    color: #213547;
+    background-color: #ffffff;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -93,61 +93,20 @@ h1 {
     line-height: 1.1;
 }
 
-/* BUTTONS - Following 2025-2026 Design Rules */
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: var(--bg-elev-1);
-  color: var(--fg-primary);
-  cursor: pointer;
-  transition: all 0.25s ease;
-  position: relative;
-  overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: border-color 0.25s;
 }
 
 button:hover {
-  border-color: var(--brand-600);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-button:focus {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: 2px;
-}
-
-/* Primary CTA Button - Green accent for conversions */
-.button--primary {
-  background: var(--accent-600);
-  color: oklch(0.98 0 0); /* white-ish for guaranteed contrast */
-  border: none;
-  font-weight: 600;
-}
-
-.button--primary:hover {
-  background: var(--accent-700);
-  border-color: var(--accent-700);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 195, 137, 0.3);
-}
-
-/* Secondary Button - Brand blue */
-.button--secondary {
-  background: var(--brand-600);
-  color: oklch(0.98 0 0);
-  border: none;
-  font-weight: 600;
-}
-
-.button--secondary:hover {
-  background: var(--brand-700);
-  border-color: var(--brand-700);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(26, 95, 255, 0.3);
+    border-color: #646cff;
 }
 
 button:focus,

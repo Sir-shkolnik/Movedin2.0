@@ -1,69 +1,122 @@
 /* 2025-2026 Color System - OKLCH with HEX fallbacks - DARK THEME DEFAULT */
 :root {
-  /* FORCE DARK MODE - Override system preference */
-  color-scheme: dark !important;
-  
-  /* DARK MODE - Base Colors (Default) - Following Design Rules */
-  --bg-base: oklch(0.14 0.01 255);       /* #0F1115 - near-black (not pure black) */
-  --bg-elev-1: oklch(0.18 0.01 255);     /* #1A1C20 */
-  --bg-elev-2: oklch(0.22 0.01 255);     /* #2A2D35 */
-  --fg-primary: oklch(0.95 0.01 255);    /* #F8FAFC - off-white (not pure white) */
-  --fg-secondary: oklch(0.78 0.01 255);  /* #9CA3AF - light-gray for secondary labels */
+  /* DARK MODE - Base Colors (Default) - Less harsh, more balanced */
+  --bg-base: oklch(0.20 0.02 250);       /* #2A2D35 - softer dark */
+  --bg-elev-1: oklch(0.25 0.02 250);     /* #3A3F4A - elevated */
+  --bg-elev-2: oklch(0.30 0.02 250);     /* #4A4F5A - more elevated */
+  --fg-primary: oklch(0.95 0.01 255);    /* #F8FAFC - off-white */
+  --fg-secondary: oklch(0.78 0.01 255);  /* #9CA3AF */
   --fg-muted: oklch(0.65 0.01 255);      /* #6B7280 */
-  --border-muted: oklch(0.30 0.01 255);  /* #4B5563 */
+  --border-muted: oklch(0.40 0.02 250);  /* #5A5F6A - more visible borders */
   
-  /* TRUST-FIRST BLUE + FRESH GREEN PALETTE (Design Rules Palette #1) */
-  --brand-600: oklch(0.73 0.18 255);     /* #1A5FFF - Primary blue for trust */
-  --brand-700: oklch(0.68 0.18 255);     /* #1552CC - Hover state */
-  --brand-800: oklch(0.63 0.18 255);     /* #0F3D99 - Active state */
-  --accent-600: oklch(0.83 0.10 170);    /* #00C389 - Fresh green for CTAs */
-  --accent-700: oklch(0.78 0.10 170);    /* #00A070 - CTA hover */
-  --accent-800: oklch(0.73 0.10 170);    /* #007D57 - CTA active */
+  /* ACCENT COLORS FOR BORDERS AND HIGHLIGHTS */
+  --accent-border: oklch(0.70 0.15 200); /* #4A90E2 - blue accent */
+  --accent-border-alt: oklch(0.75 0.12 160); /* #5BB85C - green accent */
+  --accent-glow: oklch(0.80 0.20 280);   /* #8B5CF6 - purple glow */
   
-  /* FEEDBACK COLORS - High contrast for accessibility */
-  --success-600: oklch(0.78 0.09 165);   /* #16B364 - Success green */
-  --success-700: oklch(0.73 0.09 165);   /* #138F52 - Success hover */
-  --warning-600: oklch(0.86 0.13 85);    /* #FFB100 - Warning amber */
-  --warning-700: oklch(0.81 0.13 85);    /* #E69F00 - Warning hover */
-  --error-600: oklch(0.65 0.16 26);      /* #E5484D - Error red */
-  --error-700: oklch(0.60 0.16 26);      /* #D12B2B - Error hover */
+  /* TRUST-FIRST BLUE + FRESH GREEN PALETTE */
+  --brand-600: oklch(0.73 0.18 255);     /* #1A5FFF */
+  --brand-700: oklch(0.68 0.18 255);     /* #1552CC */
+  --brand-800: oklch(0.63 0.18 255);     /* #0F3D99 */
+  --accent-600: oklch(0.83 0.10 170);    /* #00C389 */
+  --accent-700: oklch(0.78 0.10 170);    /* #00A070 */
+  --accent-800: oklch(0.73 0.10 170);    /* #007D57 */
   
-  /* INTERACTIVE - High visibility focus ring */
-  --focus-ring: oklch(0.88 0.09 210);    /* #22D3EE - Cyan focus ring */
+  /* FEEDBACK COLORS */
+  --success-600: oklch(0.78 0.09 165);   /* #16B364 */
+  --success-700: oklch(0.73 0.09 165);   /* #138F52 */
+  --warning-600: oklch(0.86 0.13 85);    /* #FFB100 */
+  --warning-700: oklch(0.81 0.13 85);    /* #E69F00 */
+  --error-600: oklch(0.65 0.16 26);      /* #E5484D */
+  --error-700: oklch(0.60 0.16 26);      /* #D12B2B */
+  
+  /* INTERACTIVE */
+  --focus-ring: oklch(0.88 0.09 210);    /* #22D3EE */
   --link-default: var(--brand-600);
   
-  /* STATE CHIPS - Derived from accent with lower chroma */
-  --chip-savings: oklch(0.80 0.08 160);  /* #2BB673 - Savings chip */
-  --chip-top-pick: oklch(0.75 0.12 60);  /* #FF7A1A - Top pick chip */
+  /* STATE CHIPS */
+  --chip-savings: oklch(0.80 0.08 160);  /* #2BB673 */
+  --chip-top-pick: oklch(0.75 0.12 60);  /* #FF7A1A */
   
-  /* SEMANTIC TOKENS - Following Design Rules */
+  /* LEGACY SUPPORT - Semantic Colors */
   --primary-color: var(--brand-600);
   --primary-hover: var(--brand-700);
   --secondary-color: var(--accent-600);
   --success-color: var(--success-600);
   --error-color: var(--error-600);
   --accent-color: var(--accent-600);
-  
-  /* SURFACE TOKENS */
+
+  /* Backgrounds */
   --bg-primary: var(--bg-base);
   --bg-secondary: var(--bg-elev-1);
   --bg-tertiary: var(--bg-elev-2);
   --white: var(--bg-base);
 
-  /* TEXT TOKENS */
+  /* Text Colors */
   --text-primary: var(--fg-primary);
   --text-secondary: var(--fg-secondary);
   --text-light: var(--fg-muted);
   --text-white: var(--bg-base);
 
-  /* BORDER TOKENS */
+  /* Borders */
   --border-light: var(--border-muted);
   --border-medium: oklch(0.85 0.01 250); /* #D1D5DB */
   
-  /* SHADOW TOKENS - Subtle and accessible */
+  /* Shadows */
   --shadow-light: rgba(0, 0, 0, 0.05);
   --shadow-medium: rgba(0, 0, 0, 0.1);
   --shadow-heavy: rgba(0, 0, 0, 0.15);
 }
 
-/* LIGHT MODE DISABLED - FORCE DARK MODE ONLY */
+/* LIGHT MODE (Alternative) */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-base: oklch(0.98 0.01 250);     /* #F8FAFC */
+    --bg-elev-1: oklch(0.96 0.01 250);   /* #F1F5F9 */
+    --bg-elev-2: oklch(0.94 0.01 250);   /* #E2E8F0 */
+    --fg-primary: oklch(0.18 0.01 250);  /* #0B1220 */
+    --fg-secondary: oklch(0.50 0.01 250); /* #6B7280 */
+    --fg-muted: oklch(0.65 0.01 250);    /* #9CA3AF */
+    --border-muted: oklch(0.90 0.01 250); /* #E5E7EB */
+    
+    /* ACCENT COLORS FOR LIGHT MODE */
+    --accent-border: oklch(0.60 0.15 200); /* #2563EB - blue accent */
+    --accent-border-alt: oklch(0.65 0.12 160); /* #059669 - green accent */
+    --accent-glow: oklch(0.70 0.20 280);   /* #7C3AED - purple glow */
+    
+    /* Brand colors remain same for consistency */
+    --brand-600: oklch(0.73 0.18 255);
+    --brand-700: oklch(0.68 0.18 255);
+    --brand-800: oklch(0.63 0.18 255);
+    --accent-600: oklch(0.83 0.10 170);
+    --accent-700: oklch(0.78 0.10 170);
+    --accent-800: oklch(0.73 0.10 170);
+    
+    /* Focus ring stays bright for visibility */
+    --focus-ring: oklch(0.88 0.09 210);
+    
+    /* Update legacy colors for light mode */
+    --primary-color: var(--brand-600);
+    --primary-hover: var(--brand-700);
+    --secondary-color: var(--accent-600);
+    --success-color: var(--success-600);
+    --error-color: var(--error-600);
+    --accent-color: var(--accent-600);
+    
+    /* Update backgrounds */
+    --bg-primary: var(--bg-base);
+    --bg-secondary: var(--bg-elev-1);
+    --bg-tertiary: var(--bg-elev-2);
+    --white: var(--bg-base);
+    
+    /* Update text colors */
+    --text-primary: var(--fg-primary);
+    --text-secondary: var(--fg-secondary);
+    --text-light: var(--fg-muted);
+    --text-white: var(--bg-base);
+    
+    /* Update borders */
+    --border-light: var(--border-muted);
+    --border-medium: oklch(0.85 0.01 250); /* #D1D5DB */
+  }
+}

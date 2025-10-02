@@ -25,10 +25,14 @@ import phoneIcon from '../assets/icons-svg/icon_phone-purple.svg';
 import plusIcon from '../assets/icons-svg/icon_plus-purple.svg';
 import minusIcon from '../assets/icons-svg/icon_minus-gray.svg';
 import formLocationStep from '../assets/imgs-png/img_form1.png';
-
-// Import essential images only
-import heroIllustration from '../assets/imgs-png/img_hero-illustration-new.jpg';
+import heroIllustration from '../assets/imgs-png/img_one-stop-illustration.png';
+import truckImage from '../assets/imgs-png/img_truck.png';
+import manWithBoxes from '../assets/imgs-png/img_blog-dealing_content_2.svg';
+import customerService from '../assets/imgs-png/img_blog-dealing_content_4.svg';
 import profileAmelie from '../assets/imgs-png/img_profile-Amélie.png';
+import blogMoving from '../assets/imgs-png/img_blog-moving.jpg';
+import blogEssential from '../assets/imgs-png/img_blog-essential.jpg';
+import blogToronto from '../assets/imgs-png/img_blog-toronto.jpg';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -112,100 +116,26 @@ const HomePage: React.FC = () => {
           <section className="hero-section">
             <div className="hero-content">
               <div className="hero-text">
-                <div className="hero-badge">
-                  <span className="badge-icon">🚚</span>
-                  <span>Canada's #1 Moving Platform</span>
-                </div>
-                <h1 id="homepage-title">
-                  Moving made <span className="underlined">simple</span>
-                </h1>
-                <h2 className="hero-subtitle">
-                  Get instant quotes from verified movers in minutes, not hours
-                </h2>
+                <h1 id="homepage-title">Moving Made Simple</h1>
                 <p className="hero-description">
-                  Stop wasting time calling dozens of movers. Our platform connects you with licensed, 
-                  insured moving companies that compete for your business. Save time, save money, 
-                  and move with confidence.
+                  Connect with verified moving companies across Canada. Get instant quotes, compare prices, and book with confidence.
                 </p>
-                <div className="hero-cta-group">
-                  <button 
-                    className="hero-cta-button button--primary" 
-                    onClick={handleGetQuote}
-                    aria-label="Get your free moving quote now - Start your move in 3 simple steps"
-                    title="Click to get instant quotes from verified Canadian movers"
-                  >
-                    Get Free Quotes
-                  </button>
-                  <button 
-                    className="hero-cta-button button--secondary" 
-                    onClick={() => navigate('/how-it-works')}
-                    aria-label="Learn how our moving platform works"
-                  >
-                    How It Works
-                  </button>
-                </div>
-                <div className="hero-stats">
-                  <div className="stat">
-                    <div className="stat-number">10,000+</div>
-                    <div className="stat-label">Happy Customers</div>
-                  </div>
-                  <div className="stat">
-                    <div className="stat-number">5 min</div>
-                    <div className="stat-label">Average Quote Time</div>
-                  </div>
-                  <div className="stat">
-                    <div className="stat-number">100%</div>
-                    <div className="stat-label">Free to Use</div>
-                  </div>
-                </div>
+                <button 
+                  className="hero-cta-button" 
+                  onClick={handleGetQuote}
+                  aria-label="Get your free moving quote now - Start your move in 3 simple steps"
+                  title="Click to get instant quotes from verified Canadian movers"
+                >
+                  Get Free Quote
+                </button>
+                <p className="hero-trust">
+                  <img src={starIcon} alt="Star" className="trust-star" />
+                  Trusted by 10,000+ Canadians
+                </p>
               </div>
-              <div className="hero-visual">
-                <div className="hero-card">
-                  <div className="card-header">
-                    <div className="card-dots">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </div>
-                    <div className="card-title">Get Moving Quotes</div>
-                  </div>
-                  <div className="card-content">
-                    <div className="quote-item">
-                      <div className="quote-company">
-                        <div className="company-logo">🚛</div>
-                        <div className="company-info">
-                          <div className="company-name">Premium Movers</div>
-                          <div className="company-rating">⭐⭐⭐⭐⭐ 4.9</div>
-                        </div>
-                      </div>
-                      <div className="quote-price">$850</div>
-                    </div>
-                    <div className="quote-item">
-                      <div className="quote-company">
-                        <div className="company-logo">📦</div>
-                        <div className="company-info">
-                          <div className="company-name">Quick Move Co</div>
-                          <div className="company-rating">⭐⭐⭐⭐⭐ 4.8</div>
-                        </div>
-                      </div>
-                      <div className="quote-price">$720</div>
-                    </div>
-                    <div className="quote-item">
-                      <div className="quote-company">
-                        <div className="company-logo">🏠</div>
-                        <div className="company-info">
-                          <div className="company-name">Reliable Relocation</div>
-                          <div className="company-rating">⭐⭐⭐⭐⭐ 4.9</div>
-                        </div>
-                      </div>
-                      <div className="quote-price">$680</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {/* Hero visual removed - no picture needed in top section */}
             </div>
           </section>
-
 
           {/* Trusted By Section */}
           <section className="trusted-section" aria-labelledby="trusted-heading">
@@ -221,35 +151,105 @@ const HomePage: React.FC = () => {
             </div>
           </section>
 
-          {/* Features Section */}
+          {/* Feature Sections */}
           <section className="features-section" aria-labelledby="features-heading">
-            <div className="features-grid">
-              <div className="feature-card">
-                <div className="feature-icon">🏠</div>
-                <h3>One Stop Shop</h3>
+            <div className="feature-item">
+              <div className="feature-content">
+                <h2>One stop shop for all your moving needs</h2>
                 <p>From packing to unpacking, we connect you with the right professionals for every aspect of your move.</p>
-                <button className="feature-button button--secondary" onClick={handleGetQuote}>Get a quote</button>
+                <button className="feature-button" onClick={handleGetQuote} aria-label="Get quote for comprehensive moving services">Get a quote</button>
               </div>
+              <div className="feature-visual">
+                <img src={heroIllustration} alt="One stop shop illustration showing comprehensive moving services" className="feature-image" loading="lazy" />
+              </div>
+            </div>
 
-              <div className="feature-card">
-                <div className="feature-icon">💰</div>
-                <h3>Competitive Pricing</h3>
+            <div className="feature-item">
+              <div className="feature-content">
+                <h2>Competitive price guarantee</h2>
                 <p>We ensure you get the best rates by comparing quotes from multiple verified movers in your area.</p>
-                <button className="feature-button button--secondary" onClick={handleGetQuote}>Get a quote</button>
+                <button className="feature-button" onClick={handleGetQuote} aria-label="Get competitive moving quotes">Get a quote</button>
               </div>
+              <div className="feature-visual">
+                <img src={manWithBoxes} alt="Competitive pricing illustration showing cost comparison" className="feature-image" loading="lazy" />
+              </div>
+            </div>
 
-              <div className="feature-card">
-                <div className="feature-icon">✅</div>
-                <h3>Trusted Movers</h3>
+            <div className="feature-item">
+              <div className="feature-content">
+                <h2>Trusted movers you can rely on</h2>
                 <p>All our moving partners are licensed, insured, and thoroughly vetted for quality and reliability.</p>
-                <button className="feature-button button--secondary" onClick={handleGetQuote}>Find a mover</button>
+                <button className="feature-button" onClick={handleGetQuote} aria-label="Find trusted licensed movers">Find a mover</button>
+              </div>
+              <div className="feature-visual">
+                <img src={customerService} alt="Customer service illustration showing professional movers" className="feature-image" loading="lazy" />
               </div>
             </div>
           </section>
 
 
 
+          {/* Expert Section */}
+          <section className="expert-section">
+            <div className="expert-content">
+              <div className="expert-text">
+                <h2>An expert at your fingertips</h2>
+                <p>Once you've shared your relocation requirements with us, a booking agent will be assigned to you automatically, always free of charge!</p>
+              </div>
+              <div className="expert-profile">
+                <div className="profile-image">
+                  <img src={profileAmelie} alt="Amelie Laurent" className="profile-img" />
+                </div>
+                <div className="profile-info">
+                  <h3>Amelie Laurent</h3>
+                  <p>Booking Agent</p>
+                </div>
+              </div>
+            </div>
+          </section>
 
+          {/* Recent Blogs Section */}
+          <section className="blogs-section" aria-labelledby="blogs-heading">
+            <h2 id="blogs-heading">Recent blogs</h2>
+            <div className="blogs-grid" role="list" aria-label="Latest moving tips and guides">
+              <article className="blog-item" role="listitem">
+                <a href="/blog/moving-stress-relaxation-techniques" className="blog-link" aria-label="Read: Dealing with Moving Stress - Top Relaxation Techniques">
+                  <img src={blogMoving} alt="Person relaxing with moving boxes - stress reduction techniques" className="blog-image" loading="lazy" />
+                  <h3>Dealing with Moving Stress: Top Relaxation Techniques</h3>
+                  <p>Essential tips for a smooth move from professional movers</p>
+                  <div className="blog-meta">
+                    <span className="blog-author">By MovedIn Team</span>
+                    <span className="blog-date">Dec 15, 2023</span>
+                  </div>
+                </a>
+              </article>
+              <article className="blog-item" role="listitem">
+                <a href="/blog/essential-moving-checklist-tenants" className="blog-link" aria-label="Read: The Essential Moving Checklist for Tenants and Renters">
+                  <img src={blogEssential} alt="Moving checklist items on a table - tenant moving guide" className="blog-image" loading="lazy" />
+                  <h3>The Essential Moving Checklist for Tenants/renters</h3>
+                  <p>What you need to know before moving to your new home</p>
+                  <div className="blog-meta">
+                    <span className="blog-author">By MovedIn Team</span>
+                    <span className="blog-date">Dec 10, 2023</span>
+                  </div>
+                </a>
+              </article>
+              <article className="blog-item" role="listitem">
+                <a href="/blog/toronto-winter-moving-tips" className="blog-link" aria-label="Read: Moving in the Winter - Special Tips for Toronto Residents">
+                  <img src={blogToronto} alt="Snowy Toronto street with moving truck - winter moving tips" className="blog-image" loading="lazy" />
+                  <h3>Moving in the Winter: Special Tips for Toronto Residents</h3>
+                  <p>Expert advice for winter moves in and around Toronto</p>
+                  <div className="blog-meta">
+                    <span className="blog-author">By MovedIn Team</span>
+                    <span className="blog-date">Dec 5, 2023</span>
+                  </div>
+                </a>
+              </article>
+            </div>
+            <div className="blogs-cta">
+              <Link to="/tips-guides" className="blogs-button" aria-label="Read all moving tips and guides">Read all</Link>
+            </div>
+          </section>
 
         </div>
       </main>
