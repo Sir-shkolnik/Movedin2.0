@@ -33,7 +33,6 @@ const TipsAndGuides: React.FC = () => {
         <meta name="robots" content="index, follow" />
       </Helmet>
       
-      <Header />
       <main className="page-container tips-guides-container" aria-labelledby="tips-guides-title">
         <div className="page-content">
           

@@ -104,9 +104,9 @@
 
 .tips-guides-container .blog-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin-bottom: 2rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+    margin-bottom: 3rem;
 }
 
 /* First row - 3 cards */
@@ -114,13 +114,13 @@
     grid-column: span 1;
 }
 
-/* Featured card - spans full width below the 3 cards */
+/* Featured card - spans full width below the 2 cards */
 .tips-guides-container .blog-card.featured {
-    grid-column: span 3;
+    grid-column: span 2;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0;
-    margin-top: 2rem;
+    margin-top: 3rem;
 }
 
 .tips-guides-container .blog-card-link {
@@ -157,29 +157,29 @@
 
 .tips-guides-container .blog-card-image {
     width: 100%;
-    height: 200px;
+    height: 280px;
     object-fit: cover;
 }
 
 .tips-guides-container .blog-card-content {
-    padding: 1.5rem;
+    padding: 2rem;
     position: relative;
     z-index: 2;
 }
 
 .tips-guides-container .blog-card-title {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: 600;
     color: var(--fg-primary);
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
     line-height: 1.4;
 }
 
 .tips-guides-container .blog-card-excerpt {
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: var(--fg-secondary);
-    line-height: 1.5;
-    margin-bottom: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
 }
 
 .tips-guides-container .blog-card-meta {
@@ -223,7 +223,7 @@
 
 /* Featured Blog Card (Wider) - Additional styles */
 .tips-guides-container .blog-card.featured .blog-card-image {
-    height: 250px;
+    height: 320px;
 }
 
 .tips-guides-container .blog-card.featured .blog-card-content {

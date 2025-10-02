@@ -117,7 +117,6 @@ const AboutUs: React.FC = () => {
           })}
         </script>
       </Helmet>
-      <Header />
       <main className="page-container" aria-labelledby="about-title">
         <div className="page-content">
           <article className="page-card">
