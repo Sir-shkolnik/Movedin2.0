@@ -133,7 +133,9 @@ const HomePage: React.FC = () => {
                   Trusted by 10,000+ Canadians
                 </p>
               </div>
-              {/* Hero visual removed - no picture needed in top section */}
+              <div className="hero-visual">
+                <img src={heroIllustration} alt="Moving services illustration" className="hero-image" loading="lazy" />
+              </div>
             </div>
           </section>
 
