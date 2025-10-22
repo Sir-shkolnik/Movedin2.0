@@ -1,8 +1,48 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "../../../contexts/FormContext";
 
 function ThankYouStep() {
-  const { data } = useForm();
+  // Try to get form data, but handle case when no context is available (direct URL access)
+  let data = {};
+  try {
+    const formContext = useForm();
+    data = formContext?.data || {};
+  } catch (error) {
+    // No form context available (direct URL access after payment)
+    console.log('No form context available, using default data');
+    data = {};
+  }
+
+  // Get URL parameters for direct access (after payment redirect)
+  const [urlParams, setUrlParams] = useState({});
+  const [leadData, setLeadData] = useState(null);
+
+  useEffect(() => {
+    // Parse URL parameters
+    const params = new URLSearchParams(window.location.search);
+    const paramObj = {};
+    for (const [key, value] of params.entries()) {
+      paramObj[key] = value;
+    }
+    setUrlParams(paramObj);
+
+    // If we have a lead_id, try to fetch lead data
+    if (paramObj.lead_id) {
+      fetchLeadData(paramObj.lead_id);
+    }
+  }, []);
+
+  const fetchLeadData = async (leadId) => {
+    try {
+      const response = await fetch(`http://localhost:8000/api/leads/${leadId}`);
+      if (response.ok) {
+        const lead = await response.json();
+        setLeadData(lead);
+      }
+    } catch (error) {
+      console.log('Could not fetch lead data:', error);
+    }
+  };
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('en-CA', {
@@ -53,7 +93,7 @@ function ThankYouStep() {
         </p>
 
         {/* Quote Summary Card */}
-        {data.selectedQuote && (
+        {(data.selectedQuote || leadData) && (
           <div style={{
             marginBottom: '32px',
             background: 'linear-gradient(135deg, #5340FF 0%, #4230dd 100%)',
@@ -70,11 +110,11 @@ function ThankYouStep() {
             }}>
               <div>
                 <div style={{ fontSize: '14px', opacity: 0.9, marginBottom: '4px' }}>Total Cost</div>
-                <div style={{ fontSize: '36px', fontWeight: 700 }}>{formatPrice(data.selectedQuote.total_cost)}</div>
+                <div style={{ fontSize: '36px', fontWeight: 700 }}>{formatPrice((data.selectedQuote || leadData)?.total_cost || 0)}</div>
               </div>
               <div style={{ textAlign: 'right' }}>
                 <div style={{ fontSize: '14px', opacity: 0.9, marginBottom: '4px' }}>Moving Company</div>
-                <div style={{ fontSize: '18px', fontWeight: 600 }}>{data.selectedQuote.vendor_name}</div>
+                <div style={{ fontSize: '18px', fontWeight: 600 }}>{(data.selectedQuote || leadData)?.vendor_name || 'Your Selected Mover'}</div>
               </div>
             </div>
             <div style={{ 
@@ -85,8 +125,8 @@ function ThankYouStep() {
               gap: '16px',
               fontSize: '14px'
             }}>
-              <div>📅 {data.date || 'Your selected date'}</div>
-              <div>🕐 {data.time || 'Your selected time'}</div>
+              <div>📅 {(data.date || leadData?.move_date) || 'Your selected date'}</div>
+              <div>🕐 {(data.time || leadData?.move_time) || 'Your selected time'}</div>
             </div>
           </div>
         )}
@@ -147,7 +187,7 @@ function ThankYouStep() {
                   📧 Confirmation Email
                 </div>
                 <div style={{ fontSize: '14px', color: '#6B7280', lineHeight: '1.5' }}>
-                  We've sent a confirmation email to <strong style={{ color: '#5340FF' }}>{data.contact?.email || 'your email'}</strong> with all the details of your quote.
+                  We've sent a confirmation email to <strong style={{ color: '#5340FF' }}>{(data.contact?.email || leadData?.customer_email) || 'your email'}</strong> with all the details of your quote.
                 </div>
               </div>
             </div>
@@ -186,7 +226,7 @@ function ThankYouStep() {
                   📞 Vendor Contact
                 </div>
                 <div style={{ fontSize: '14px', color: '#6B7280', lineHeight: '1.5' }}>
-                  <strong style={{ color: '#5340FF' }}>{data.selectedQuote?.vendor_name || 'Your selected mover'}</strong> will contact you within 24 hours to confirm your move and answer any questions.
+                  <strong style={{ color: '#5340FF' }}>{(data.selectedQuote || leadData)?.vendor_name || 'Your selected mover'}</strong> will contact you within 24 hours to confirm your move and answer any questions.
                 </div>
               </div>
             </div>
@@ -225,7 +265,7 @@ function ThankYouStep() {
                   🚚 Moving Day
                 </div>
                 <div style={{ fontSize: '14px', color: '#6B7280', lineHeight: '1.5' }}>
-                  Your move is scheduled for <strong style={{ color: '#5340FF' }}>{data.date || 'your selected date'}</strong> at <strong style={{ color: '#5340FF' }}>{data.time || 'your selected time'}</strong>. We'll be in touch before then!
+                  Your move is scheduled for <strong style={{ color: '#5340FF' }}>{(data.date || leadData?.move_date) || 'your selected date'}</strong> at <strong style={{ color: '#5340FF' }}>{(data.time || leadData?.move_time) || 'your selected time'}</strong>. We'll be in touch before then!
                 </div>
               </div>
             </div>

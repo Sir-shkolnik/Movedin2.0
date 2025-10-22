@@ -26,6 +26,9 @@ import { FormProvider } from "./contexts/FormContext";
 // New Blog Articles
 import BlogArticle_BestNeighbourhoodsGTA from "./components/BlogArticle_BestNeighbourhoodsGTA";
 
+// Admin Dashboard
+import AdminDashboard from "./components/AdminDashboard";
+
 const rootElement = document.getElementById("root");
 
 if (!rootElement) throw new Error("root element not found");
@@ -54,8 +57,11 @@ root.render(
         <Route path="/quote/contact" element={<Layout><FormProvider><WizardContainer><ContactStep /></WizardContainer></FormProvider></Layout>} />
         <Route path="/quote/vendors" element={<Layout><FormProvider><WizardContainer><VendorsStep /></WizardContainer></FormProvider></Layout>} />
         <Route path="/quote/summary" element={<Layout><FormProvider><WizardContainer><SummaryStep /></WizardContainer></FormProvider></Layout>} />
-        <Route path="/quote/payment" element={<Layout><FormProvider><WizardContainer><PaymentStep /></WizardContainer></FormProvider></Layout>} />
+          <Route path="/quote/payment" element={<Layout><FormProvider><WizardContainer><PaymentStep /></WizardContainer></FormProvider></Layout>} />
         <Route path="/quote/thank-you" element={<Layout><FormProvider><ThankYouStep /></FormProvider></Layout>} />
+        
+        {/* Admin Dashboard */}
+        <Route path="/admin-dashboard-2025" element={<AdminDashboard />} />
         </Routes>
       </div>
     </Router>

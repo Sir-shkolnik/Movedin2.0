@@ -47,7 +47,7 @@ async def create_payment_link(request: PaymentLinkRequest, db: Session = Depends
             logger.warning("⚠️ Stripe not configured - creating test payment link")
             
             # Mock payment link for testing
-            payment_link_url = f"http://localhost:5174/quote/thank-you?payment_success=true&lead_id={request.lead_id}"
+            payment_link_url = f"http://localhost:3000/quote/thank-you?payment_success=true&lead_id={request.lead_id}"
             
             # Simulate successful payment immediately for testing
             lead.payment_status = 'test_payment_completed'
@@ -84,8 +84,8 @@ async def create_payment_link(request: PaymentLinkRequest, db: Session = Depends
                     'quantity': 1
                 }],
                 mode='payment',
-                success_url=f'http://localhost:5174/quote/thank-you?payment_success=true&session_id={{CHECKOUT_SESSION_ID}}&lead_id={request.lead_id}',
-                cancel_url=f'http://localhost:5174/quote/payment?payment_cancelled=true',
+                success_url=f'http://localhost:3000/quote/thank-you?payment_success=true&session_id={{CHECKOUT_SESSION_ID}}&lead_id={request.lead_id}',
+                cancel_url=f'http://localhost:3000/quote/payment?payment_cancelled=true',
                 customer_email=request.customer_email,
                 metadata={
                     'lead_id': str(request.lead_id),
