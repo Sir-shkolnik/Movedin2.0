@@ -1,0 +1,24 @@
+.div-style-f0b413ec {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: row;
+  gap: 64px;
+  align-items: flex-end;
+  align-self: stretch;
+  justify-content: flex-end;
+  min-width: 720px;
+  padding-top: 96px;
+  padding-bottom: 96px;
+}
+.div-style-1a9ec5e6 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 640px;
+  padding-right: 32px;
+  padding-left: 32px;
+}

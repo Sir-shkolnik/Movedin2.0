@@ -1,0 +1,33 @@
+.div-style-61bb11f6 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  align-self: stretch;
+  justify-content: flex-start;
+}
+.div-style-7e5ad321 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: url("/assets/image_29ca30b9.png") 50%, #e0e0e0;
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover, auto;
+  border-radius: 200px;
+}
+.div-style-4bc4db4a {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  align-self: stretch;
+  height: 64px;
+  overflow: hidden;
+  border: 0.8px solid #101828;
+  border-radius: 200px;
+}

@@ -1,0 +1,30 @@
+.div-style-5e54d0cb {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.img-style-5f5c6661 {
+  box-sizing: border-box;
+  display: block;
+  flex: 0 0 auto;
+  width: 1170px;
+  max-width: initial;
+  height: 521px;
+  border: none;
+  border-radius: 10px;
+  object-fit: cover;
+}
+.p-style-1b5638ad {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 1170px;
+  padding: 0;
+  margin: 0;
+  font: 400 20px Lexend, sans-serif;
+  color: #00005c;
+  text-align: left;
+}

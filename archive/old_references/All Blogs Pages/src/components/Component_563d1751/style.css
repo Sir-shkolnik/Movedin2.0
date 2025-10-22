@@ -1,0 +1,37 @@
+.div-style-5a6e9f21 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 12px;
+  align-items: flex-start;
+  align-self: stretch;
+  justify-content: flex-start;
+}
+.div-style-7a1d6f27 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  overflow: hidden;
+}
+.div-style-36f4db08 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-width: 998px;
+}
+.p-style-49622ba9 {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 1040px;
+  padding: 0;
+  margin: 0;
+  font: 400 18px/28px Lexend, sans-serif;
+  color: #475467;
+  text-align: left;
+}

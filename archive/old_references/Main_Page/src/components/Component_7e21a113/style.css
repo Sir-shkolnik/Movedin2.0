@@ -1,0 +1,20 @@
+.div-style-a9338cba {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+}
+.img-style-97fdaf67 {
+  box-sizing: border-box;
+  display: block;
+  flex: 0 0 auto;
+  width: 535px;
+  max-width: initial;
+  height: 364px;
+  border: none;
+  border-radius: 20px;
+  object-fit: cover;
+}

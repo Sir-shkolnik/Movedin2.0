@@ -1,0 +1,40 @@
+.div-style-332b6e08 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.p-style-c1ba94b0 {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 343px;
+  padding: 0;
+  margin: 0;
+  color: #00005c;
+  text-align: center;
+}
+.span-style-40152184 {
+  font: 800 27px/32px Lexend, sans-serif;
+  text-align: center;
+  letter-spacing: -0.54px;
+}
+.span-style-2f88e17d {
+  font: 800 27px/32px Lexend, sans-serif;
+  text-align: center;
+  text-decoration-line: underline;
+  letter-spacing: -0.54px;
+}
+.p-style-f4b2ddbf {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 343px;
+  padding: 0;
+  margin: 0;
+  font: 400 14px/24px Lexend, sans-serif;
+  color: #627193;
+  text-align: center;
+  letter-spacing: -0.14px;
+}

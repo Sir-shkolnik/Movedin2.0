@@ -1,0 +1,15 @@
+function SvgIcon_c6ffa960({ className }) {
+  return (
+    <div className={className}>
+      <svg fill="none" viewBox="0 0 24 28" xmlns="http://www.w3.org/2000/svg" x="0" y="0">
+        <g id="Icon wrap_16" xmlns="http://www.w3.org/2000/svg">
+          <g id="arrow-up-right_16">
+            <path id="Icon_60" d="M-2389.09,-2269.05l6.82,-6.83M-2382.27,-2275.88h-6.82M-2382.27,-2275.88v6.83" stroke="#5340FF" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+          </g>
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+export default SvgIcon_c6ffa960;

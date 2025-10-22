@@ -1,0 +1,28 @@
+.navigation {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-link {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font: 600 16px Lexend, sans-serif;
+  color: #627193;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #5340ff;
+}
+
+.nav-link.active {
+  color: #00005c;
+}
+
+

@@ -1,0 +1,29 @@
+.div-style-e30ee553 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  height: 72px;
+  background: white;
+  border-bottom: 1px solid #eaecf0;
+}
+.div-style-7f90ca3c {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+}
+.img-style-5086c894 {
+  box-sizing: border-box;
+  display: block;
+  flex: 0 0 auto;
+  align-self: stretch;
+  width: 375px;
+  max-width: initial;
+  height: 40px;
+}

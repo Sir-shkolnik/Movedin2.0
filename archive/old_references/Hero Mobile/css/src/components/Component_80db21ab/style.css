@@ -1,0 +1,17 @@
+.div-style-239fd72f {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  align-self: stretch;
+  justify-content: flex-start;
+}
+.p-style-e6ee9d7f {
+  flex: 0 0 auto;
+  padding: 0;
+  margin: 0;
+  font: 600 18px/20px Lexend, sans-serif;
+  color: #344054;
+}

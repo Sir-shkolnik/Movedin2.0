@@ -1,0 +1,28 @@
+.div-style-9f9ec37e {
+  flex: 0 0 auto;
+  padding-right: 16px;
+  padding-left: 16px;
+}
+.div-style-fb8f7345 {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-start;
+}
+.Button-style-8db3f343 {
+  box-sizing: border-box;
+  display: block;
+  flex: 0 0 auto;
+  width: 259px;
+  min-width: 259px;
+  height: 74px;
+  font: 600 22px Lexend, sans-serif;
+  color: white;
+  letter-spacing: -0.22px;
+  cursor: pointer;
+  background: #5340ff;
+  border: none;
+  border-radius: 11px;
+}

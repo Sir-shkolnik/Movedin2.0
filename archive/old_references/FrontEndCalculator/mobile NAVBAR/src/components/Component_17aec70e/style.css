@@ -1,0 +1,31 @@
+.div-style-cc91b5c5 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  width: 113px;
+}
+.div-style-7788af45 {
+  display: flex;
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+}
+.p-style-f2d36bde {
+  flex: 0 0 auto;
+  padding: 0;
+  margin: 0;
+  color: black;
+}
+.span-style-dfb8b80b {
+  font: 600 16px Lexend, sans-serif;
+  color: #5340ff;
+  letter-spacing: 0.64px;
+}
+.span-style-fd71094c {
+  font: 500 16px Lexend, sans-serif;
+  letter-spacing: 0.64px;
+}

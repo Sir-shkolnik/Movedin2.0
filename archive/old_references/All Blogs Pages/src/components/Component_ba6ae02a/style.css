@@ -1,0 +1,18 @@
+.div-style-3cf20d37 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  align-self: stretch;
+  justify-content: flex-start;
+  min-width: 256px;
+}
+.p-style-f77d4ed0 {
+  flex: 0 0 auto;
+  padding: 0;
+  margin: 0;
+  font: 500 16px Lexend, sans-serif;
+  color: #eaecf0;
+}

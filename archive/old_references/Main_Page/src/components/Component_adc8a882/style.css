@@ -1,0 +1,31 @@
+.div-style-8ce474b9 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  align-self: stretch;
+  justify-content: flex-start;
+}
+.p-style-97dc7e7b {
+  flex: 0 0 auto;
+  align-self: stretch;
+  padding: 0;
+  margin: 0;
+  font: 600 42px/52px Lexend, sans-serif;
+  color: #00005c;
+  text-align: center;
+  letter-spacing: -0.84px;
+}
+.p-style-1d85a7e4 {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 814px;
+  padding: 0;
+  margin: 0;
+  font: 400 16px/28px Lexend, sans-serif;
+  color: #627193;
+  text-align: center;
+  letter-spacing: -0.16px;
+}

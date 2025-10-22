@@ -1,0 +1,18 @@
+# MovedIn 3.0 - Smart & Secure Backend Requirements
+# Simplified to only essential packages
+
+# FastAPI and core dependencies
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+
+# Database
+sqlalchemy>=2.0.0
+
+# HTTP requests
+httpx>=0.25.0
+requests>=2.31.0
+
+# Development
+python-multipart>=0.0.6

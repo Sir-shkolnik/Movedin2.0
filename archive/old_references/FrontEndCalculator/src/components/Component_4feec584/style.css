@@ -1,0 +1,38 @@
+.div-style-7829c3b6 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 21px;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 98px;
+  background: white;
+  border-radius: 16px;
+}
+.div-style-fe780028 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+}
+.p-style-37475d8f {
+  flex: 0 0 auto;
+  padding: 0;
+  margin: 0;
+  font: 500 20px Lexend, sans-serif;
+  color: #101828;
+}
+.p-style-a3448992 {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 603px;
+  padding: 0;
+  margin: 0;
+  font: 400 14px Lexend, sans-serif;
+  color: #627193;
+  text-align: center;
+}

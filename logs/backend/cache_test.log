@@ -1,0 +1,21 @@
+INFO:     Started server process [4350]
+INFO:     Waiting for application startup.
+INFO:app.core.database:✅ Database initialized successfully
+INFO:main:✅ Database initialized successfully
+INFO:main:💾 Cache initialized (in-memory, TTL: 300s)
+INFO:main:🚀 MovedIn 3.0 Smart & Secure Backend started
+INFO:main:📧 SMTP Server: smtp.office365.com:587
+INFO:main:📧 SMTP Username: support@movedin.com
+INFO:main:📧 SMTP Password configured: True
+INFO:main:🔑 Stripe configured: True
+INFO:main:🗺️ Mapbox configured: True
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:49286 - "GET /api/cache/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49343 - "GET /api/cache/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49365 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49403 - "GET /api/cache/stats HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [4350]

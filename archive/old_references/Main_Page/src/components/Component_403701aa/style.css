@@ -1,0 +1,35 @@
+.div-style-a1331cff {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+  justify-content: flex-start;
+  padding-top: 24px;
+  border-top: 1px solid #eaecf0;
+}
+.div-style-5694e360 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 24px;
+  align-items: flex-start;
+  align-self: stretch;
+  justify-content: flex-start;
+}
+.p-style-6f9fe43c {
+  flex: 1 1 auto;
+  padding: 0;
+  margin: 0;
+  font: 500 18px Lexend, sans-serif;
+  color: #101828;
+  text-align: left;
+}
+.div-style-d73e4563 {
+  display: flex;
+  flex: 0 0 auto;
+  width: 24px;
+  height: 26px;
+}

@@ -1,0 +1,22 @@
+.div-style-d6613872 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 64px;
+  align-items: center;
+  justify-content: flex-start;
+  width: 1170px;
+  padding-right: 32px;
+  padding-left: 32px;
+}
+.div-style-f22e2273 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 32px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 768px;
+}

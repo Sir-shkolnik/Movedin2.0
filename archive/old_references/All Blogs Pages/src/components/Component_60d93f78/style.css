@@ -1,0 +1,25 @@
+.div-style-3c4a6a94 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-bottom: 24px;
+  overflow: hidden;
+  background: white;
+  border: 1px solid #eaecf0;
+  border-radius: 16px;
+}
+.img-style-cc5ff165 {
+  box-sizing: border-box;
+  display: block;
+  flex: 0 0 auto;
+  align-self: stretch;
+  max-width: initial;
+  height: 240px;
+  overflow: hidden;
+  border: none;
+  object-fit: cover;
+}

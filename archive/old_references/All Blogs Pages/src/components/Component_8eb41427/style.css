@@ -1,0 +1,26 @@
+.div-style-2beecb4d {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 30px;
+  background: #5340ff;
+  border-radius: 20px;
+}
+.p-style-6b1bb16c {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 545px;
+  padding: 0;
+  margin: 0;
+  font: 400 20px/35px Lexend, sans-serif;
+  color: white;
+  text-align: left;
+}
+.span-style-b3816c85 {
+  display: block;
+  line-height: 20px;
+}

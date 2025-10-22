@@ -1,0 +1,29 @@
+.div-style-a4be76ec {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 343px;
+}
+.div-style-f55e092b {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.p-style-a442813c {
+  flex: 0 0 auto;
+  padding: 0;
+  margin: 0;
+  font: 500 14px Lexend, sans-serif;
+  color: #5340ff;
+}

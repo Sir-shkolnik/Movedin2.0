@@ -1,0 +1,120 @@
+.hero-section {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 1440px;
+  min-height: 692px;
+  padding: 120px 48px 100px 135px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+}
+
+.hero-content {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  max-width: 700px;
+}
+
+.hero-title {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 691px;
+  padding: 0;
+  margin: 0;
+  color: #00005c;
+  text-align: left;
+}
+
+.hero-text-normal {
+  font: 800 40px/60px Lexend, sans-serif;
+  text-align: left;
+  letter-spacing: -0.8px;
+}
+
+.hero-text-emphasis {
+  font: 800 40px/60px Lexend, sans-serif;
+  text-align: left;
+  text-decoration-line: underline;
+  letter-spacing: -0.8px;
+  color: #5340ff;
+}
+
+.hero-description {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 541px;
+  padding: 0;
+  margin: 0;
+  font: 400 20px/36px Lexend, sans-serif;
+  color: #627193;
+  text-align: left;
+  letter-spacing: -0.2px;
+}
+
+.hero-cta-btn {
+  box-sizing: border-box;
+  display: block;
+  width: 233px;
+  min-width: 233px;
+  height: 60px;
+  margin-top: 38px;
+  font: 600 16px Lexend, sans-serif;
+  color: white;
+  letter-spacing: -0.16px;
+  cursor: pointer;
+  background: #5340ff;
+  border: none;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 12px rgba(83, 64, 255, 0.3);
+}
+
+.hero-cta-btn:hover {
+  background: #4230dd;
+  transform: translateY(-2px);
+  box-shadow: 0px 8px 20px rgba(83, 64, 255, 0.4);
+}
+
+.hero-cta-btn:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 80px 30px 60px 30px;
+    min-height: auto;
+  }
+  
+  .hero-content {
+    max-width: 100%;
+  }
+  
+  .hero-title {
+    max-width: 100%;
+  }
+  
+  .hero-text-normal,
+  .hero-text-emphasis {
+    font-size: 32px;
+    line-height: 48px;
+  }
+  
+  .hero-description {
+    max-width: 100%;
+    font-size: 18px;
+    line-height: 32px;
+  }
+  
+  .hero-cta-btn {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+

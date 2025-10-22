@@ -1,0 +1,34 @@
+.div-style-5e54d0cb {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.div-style-cd79ea66 {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 576px;
+  padding: 0;
+  margin: 0;
+  font: 600 32px Lexend, sans-serif;
+  color: #00005c;
+  text-align: left;
+  letter-spacing: -0.64px;
+}
+.ol-style-2ef3eead {
+  padding-left: 1.5em;
+  margin: 0;
+}
+.p-style-d91d0eac {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 1170px;
+  padding: 0;
+  margin: 0;
+  font: 400 20px/35px Lexend, sans-serif;
+  color: #475467;
+  text-align: left;
+}

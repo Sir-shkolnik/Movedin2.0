@@ -1,0 +1,19 @@
+.div-style-97c1395 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 1440px;
+  height: 256px;
+  overflow: hidden;
+}
+.div-style-32113770 {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding-top: 32px;
+  padding-bottom: 64px;
+}

@@ -1,0 +1,4336 @@
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 11:46:59
+To: support@movedin.com
+Subject: 🎉 New Move Booking - Lead #1 - MovedIn 3.0
+================================================================================
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; }
+                .header { background: linear-gradient(135deg, #5340FF 0%, #4230dd 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; }
+                .section { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 6px; border-left: 4px solid #5340FF; }
+                .highlight { background: #e3f2fd; padding: 10px; border-radius: 4px; margin: 5px 0; }
+                .action { background: #fff3cd; padding: 15px; border-radius: 6px; border: 1px solid #ffeaa7; }
+                .footer { margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 4px; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>🎉 New Move Booking - Lead #1</h1>
+                <p>MovedIn 3.0 - Smart & Secure System</p>
+            </div>
+            
+            <div class="section">
+                <h2>👤 Customer Details</h2>
+                <div class="highlight">
+                    <strong>Name:</strong> John Doe<br>
+                    <strong>Email:</strong> john@example.com<br>
+                    <strong>Phone:</strong> 2b4f769ff2ce5ca7
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🏠 Move Details</h2>
+                <div class="highlight">
+                    <strong>From:</strong> 123 Main St, Toronto<br>
+                    <strong>To:</strong> 456 Oak Ave, Mississauga<br>
+                    <strong>Date:</strong> 2025-03-15<br>
+                    <strong>Time:</strong> Morning
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🚚 Vendor Details</h2>
+                <div class="highlight">
+                    <strong>Company:</strong> Lets Get Moving<br>
+                    <strong>Total Cost:</strong> $849.00<br>
+                    <strong>Deposit Paid:</strong> $1.00 CAD ✅
+                </div>
+            </div>
+            
+            <div class="action">
+                <h2>📞 Next Steps</h2>
+                <ol>
+                    <li><strong>Contact customer within 24 hours</strong></li>
+                    <li><strong>Confirm move details</strong></li>
+                    <li><strong>Schedule the move</strong></li>
+                    <li><strong>Collect remaining balance on move day</strong></li>
+                </ol>
+            </div>
+            
+            <div class="footer">
+                <strong>System Info:</strong> Lead ID #1 | Created: 2025-10-21 15:46:43.347569 | Status: pending
+            </div>
+        </body>
+        </html>
+        
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 11:55:13
+To: support@movedin.com
+Subject: 🎉 New Move Booking - Lead #1 - MovedIn 3.0
+================================================================================
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; }
+                .header { background: linear-gradient(135deg, #5340FF 0%, #4230dd 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; }
+                .section { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 6px; border-left: 4px solid #5340FF; }
+                .highlight { background: #e3f2fd; padding: 10px; border-radius: 4px; margin: 5px 0; }
+                .action { background: #fff3cd; padding: 15px; border-radius: 6px; border: 1px solid #ffeaa7; }
+                .footer { margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 4px; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>🎉 New Move Booking - Lead #1</h1>
+                <p>MovedIn 3.0 - Smart & Secure System</p>
+            </div>
+            
+            <div class="section">
+                <h2>👤 Customer Details</h2>
+                <div class="highlight">
+                    <strong>Name:</strong> John Doe<br>
+                    <strong>Email:</strong> john@example.com<br>
+                    <strong>Phone:</strong> 2b4f769ff2ce5ca7
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🏠 Move Details</h2>
+                <div class="highlight">
+                    <strong>From:</strong> 123 Main St, Toronto<br>
+                    <strong>To:</strong> 456 Oak Ave, Mississauga<br>
+                    <strong>Date:</strong> 2025-03-15<br>
+                    <strong>Time:</strong> Morning
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🚚 Vendor Details</h2>
+                <div class="highlight">
+                    <strong>Company:</strong> Lets Get Moving<br>
+                    <strong>Total Cost:</strong> $849.00<br>
+                    <strong>Deposit Paid:</strong> $1.00 CAD ✅
+                </div>
+            </div>
+            
+            <div class="action">
+                <h2>📞 Next Steps</h2>
+                <ol>
+                    <li><strong>Contact customer within 24 hours</strong></li>
+                    <li><strong>Confirm move details</strong></li>
+                    <li><strong>Schedule the move</strong></li>
+                    <li><strong>Collect remaining balance on move day</strong></li>
+                </ol>
+            </div>
+            
+            <div class="footer">
+                <strong>System Info:</strong> Lead ID #1 | Created: 2025-10-21 15:46:43.347569 | Status: test_payment_completed
+            </div>
+        </body>
+        </html>
+        
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 11:55:19
+To: support@movedin.com
+Subject: 🎉 New Move Booking - Lead #1 - MovedIn 3.0
+================================================================================
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; }
+                .header { background: linear-gradient(135deg, #5340FF 0%, #4230dd 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; }
+                .section { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 6px; border-left: 4px solid #5340FF; }
+                .highlight { background: #e3f2fd; padding: 10px; border-radius: 4px; margin: 5px 0; }
+                .action { background: #fff3cd; padding: 15px; border-radius: 6px; border: 1px solid #ffeaa7; }
+                .footer { margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 4px; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>🎉 New Move Booking - Lead #1</h1>
+                <p>MovedIn 3.0 - Smart & Secure System</p>
+            </div>
+            
+            <div class="section">
+                <h2>👤 Customer Details</h2>
+                <div class="highlight">
+                    <strong>Name:</strong> John Doe<br>
+                    <strong>Email:</strong> john@example.com<br>
+                    <strong>Phone:</strong> 2b4f769ff2ce5ca7
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🏠 Move Details</h2>
+                <div class="highlight">
+                    <strong>From:</strong> 123 Main St, Toronto<br>
+                    <strong>To:</strong> 456 Oak Ave, Mississauga<br>
+                    <strong>Date:</strong> 2025-03-15<br>
+                    <strong>Time:</strong> Morning
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🚚 Vendor Details</h2>
+                <div class="highlight">
+                    <strong>Company:</strong> Lets Get Moving<br>
+                    <strong>Total Cost:</strong> $849.00<br>
+                    <strong>Deposit Paid:</strong> $1.00 CAD ✅
+                </div>
+            </div>
+            
+            <div class="action">
+                <h2>📞 Next Steps</h2>
+                <ol>
+                    <li><strong>Contact customer within 24 hours</strong></li>
+                    <li><strong>Confirm move details</strong></li>
+                    <li><strong>Schedule the move</strong></li>
+                    <li><strong>Collect remaining balance on move day</strong></li>
+                </ol>
+            </div>
+            
+            <div class="footer">
+                <strong>System Info:</strong> Lead ID #1 | Created: 2025-10-21 15:46:43.347569 | Status: test_payment_completed
+            </div>
+        </body>
+        </html>
+        
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 11:59:16
+To: sarah.johnson@example.com
+Subject: 🎉 Move Booking Confirmed - Lead #2 - MovedIn
+================================================================================
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; }
+                .header { background: linear-gradient(135deg, #5340FF 0%, #4230dd 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; }
+                .section { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 6px; border-left: 4px solid #5340FF; }
+                .highlight { background: #e3f2fd; padding: 10px; border-radius: 4px; margin: 5px 0; }
+                .success { background: #d4edda; padding: 15px; border-radius: 6px; border: 1px solid #c3e6cb; color: #155724; }
+                .footer { margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 4px; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>🎉 Your Move is Confirmed!</h1>
+                <p>Thank you for choosing MovedIn</p>
+            </div>
+            
+            <div class="success">
+                <h2>✅ Booking Confirmed - Reference #2</h2>
+                <p>Your $1.00 CAD deposit has been received and your move is now scheduled!</p>
+            </div>
+            
+            <div class="section">
+                <h2>📅 Your Move Details</h2>
+                <div class="highlight">
+                    <strong>From:</strong> 789 King St, Toronto<br>
+                    <strong>To:</strong> 321 Queen St, Mississauga<br>
+                    <strong>Date:</strong> 2025-04-20<br>
+                    <strong>Time:</strong> Afternoon
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🚚 Your Moving Company</h2>
+                <div class="highlight">
+                    <strong>Company:</strong> Easy2Go Moving<br>
+                    <strong>Estimated Total:</strong> $1250.00<br>
+                    <strong>Deposit Paid:</strong> $1.00 CAD ✅<br>
+                    <strong>Balance Due on Move Day:</strong> $1249.0
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>📞 What Happens Next?</h2>
+                <ol>
+                    <li><strong>The moving company will contact you within 24 hours</strong> to confirm details</li>
+                    <li><strong>They'll answer any questions</strong> you have about your move</li>
+                    <li><strong>On moving day,</strong> the remaining balance will be collected</li>
+                </ol>
+            </div>
+            
+            <div class="section">
+                <h2>💡 Pro Tips for Moving Day</h2>
+                <ul>
+                    <li>Have boxes packed and labeled before movers arrive</li>
+                    <li>Keep valuables and important documents with you</li>
+                    <li>Have cash or card ready for final payment</li>
+                    <li>Do a final walkthrough before leaving</li>
+                </ul>
+            </div>
+            
+            <div class="footer">
+                <strong>Questions?</strong> Contact us at support@movedin.com<br>
+                <strong>Booking Reference:</strong> #2 | <strong>Status:</strong> Confirmed ✅
+            </div>
+        </body>
+        </html>
+        
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 11:59:16
+To: support@movedin.com
+Subject: 📋 NEW VENDOR ORDER - Lead #2 - Easy2Go Moving
+================================================================================
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; }
+                .header { background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; }
+                .urgent { background: #fff3cd; padding: 15px; border-radius: 6px; border-left: 4px solid #ffc107; margin: 10px 0; }
+                .section { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 6px; border-left: 4px solid #ff6b35; }
+                .highlight { background: #e3f2fd; padding: 10px; border-radius: 4px; margin: 5px 0; }
+                .action { background: #d4edda; padding: 15px; border-radius: 6px; border: 1px solid #c3e6cb; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>📋 NEW VENDOR ORDER</h1>
+                <p>Lead #2 - Action Required</p>
+            </div>
+            
+            <div class="urgent">
+                <h2>⚡ URGENT: Contact Customer Within 24 Hours</h2>
+                <p><strong>Deposit paid:</strong> $1.00 CAD ✅ | <strong>Status:</strong> Ready for vendor contact</p>
+            </div>
+            
+            <div class="section">
+                <h2>👤 Customer Contact Details</h2>
+                <div class="highlight">
+                    <strong>Name:</strong> Sarah Johnson<br>
+                    <strong>Email:</strong> <a href="mailto:sarah.johnson@example.com">sarah.johnson@example.com</a><br>
+                    <strong>Phone:</strong> a1c70aece7a7aaa8<br>
+                    <strong>Preferred Contact:</strong> Phone or Email
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🏠 Move Details</h2>
+                <div class="highlight">
+                    <strong>Pickup Address:</strong> 789 King St, Toronto<br>
+                    <strong>Delivery Address:</strong> 321 Queen St, Mississauga<br>
+                    <strong>Move Date:</strong> 2025-04-20<br>
+                    <strong>Preferred Time:</strong> Afternoon
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🚚 Vendor Assignment</h2>
+                <div class="highlight">
+                    <strong>Moving Company:</strong> Easy2Go Moving<br>
+                    <strong>Quoted Price:</strong> $1250.00<br>
+                    <strong>Deposit Received:</strong> $1.00 CAD ✅<br>
+                    <strong>Balance to Collect:</strong> $1249.0
+                </div>
+            </div>
+            
+            <div class="action">
+                <h2>📞 Required Actions</h2>
+                <ol>
+                    <li><strong>CALL CUSTOMER:</strong> Contact Sarah Johnson at a1c70aece7a7aaa8 within 24 hours</li>
+                    <li><strong>CONFIRM DETAILS:</strong> Verify move date, time, addresses, and special requirements</li>
+                    <li><strong>SCHEDULE CREW:</strong> Assign movers and truck for 2025-04-20</li>
+                    <li><strong>FINAL PAYMENT:</strong> Collect $1249.0 on move completion</li>
+                </ol>
+            </div>
+            
+            <div style="margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 4px; font-size: 12px; color: #666;">
+                <strong>Lead ID:</strong> #2 | <strong>Created:</strong> 2025-10-21 15:59:09.473492 | <strong>Status:</strong> test_payment_completed
+            </div>
+        </body>
+        </html>
+        
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 11:59:16
+To: udi.shkolnik@alicesolutions.com
+Subject: 📊 SYSTEM ALERT - Lead #2 - MovedIn 3.0
+================================================================================
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; }
+                .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; }
+                .section { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 6px; border-left: 4px solid #667eea; }
+                .highlight { background: #e3f2fd; padding: 10px; border-radius: 4px; margin: 5px 0; font-family: monospace; }
+                .metrics { background: #d4edda; padding: 15px; border-radius: 6px; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>📊 SYSTEM ALERT</h1>
+                <p>MovedIn 3.0 - Lead #2</p>
+            </div>
+            
+            <div class="metrics">
+                <h2>✅ System Health Status</h2>
+                <p>
+                    <strong>Lead Created:</strong> Successfully ✅<br>
+                    <strong>Payment Status:</strong> test_payment_completed ✅<br>
+                    <strong>Email Notifications:</strong> Sent ✅<br>
+                    <strong>Database:</strong> Updated ✅
+                </p>
+            </div>
+            
+            <div class="section">
+                <h2>📈 Lead Summary</h2>
+                <div class="highlight">
+                    Lead ID: 2<br>
+                    Customer: Sarah Johnson<br>
+                    Email: sarah.johnson@example.com<br>
+                    Phone: a1c70aece7a7aaa8<br>
+                    Vendor: Easy2Go Moving<br>
+                    Total: $1250.00<br>
+                    Deposit: $1.00<br>
+                    Status: test_payment_completed
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🗺️ Move Details</h2>
+                <div class="highlight">
+                    From: 789 King St, Toronto<br>
+                    To: 321 Queen St, Mississauga<br>
+                    Date: 2025-04-20<br>
+                    Time: Afternoon
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>💰 Revenue Tracking</h2>
+                <div class="highlight">
+                    Deposit Collected: $1.00 CAD<br>
+                    Total Contract Value: $1250.00<br>
+                    Pending Collection: $1249.0<br>
+                    Payment Intent ID: test_pi_2
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 4px; font-size: 12px; color: #666;">
+                <strong>System:</strong> MovedIn 3.0 Smart & Secure<br>
+                <strong>Timestamp:</strong> 2025-10-21 15:59:09.473492<br>
+                <strong>Environment:</strong> Production
+            </div>
+        </body>
+        </html>
+        
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 12:13:54
+To: udi.shkolnik@alicesolutions.com
+Subject: 🎉 Move Booking Confirmed - Lead #3 - MovedIn
+================================================================================
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; }
+                .header { background: linear-gradient(135deg, #5340FF 0%, #4230dd 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; }
+                .section { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 6px; border-left: 4px solid #5340FF; }
+                .highlight { background: #e3f2fd; padding: 10px; border-radius: 4px; margin: 5px 0; }
+                .success { background: #d4edda; padding: 15px; border-radius: 6px; border: 1px solid #c3e6cb; color: #155724; }
+                .footer { margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 4px; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>🎉 Your Move is Confirmed!</h1>
+                <p>Thank you for choosing MovedIn</p>
+            </div>
+            
+            <div class="success">
+                <h2>✅ Booking Confirmed - Reference #3</h2>
+                <p>Your $1.00 CAD deposit has been received and your move is now scheduled!</p>
+            </div>
+            
+            <div class="section">
+                <h2>📅 Your Move Details</h2>
+                <div class="highlight">
+                    <strong>From:</strong> 16 Island Green Lane, Markham, Ontario<br>
+                    <strong>To:</strong> 21 Four Seasons Place, Etobicoke, Ontario<br>
+                    <strong>Date:</strong> 2025-01-30<br>
+                    <strong>Time:</strong> Morning
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🚚 Your Moving Company</h2>
+                <div class="highlight">
+                    <strong>Company:</strong> Test Vendor<br>
+                    <strong>Estimated Total:</strong> $1000.00<br>
+                    <strong>Deposit Paid:</strong> $1.00 CAD ✅<br>
+                    <strong>Balance Due on Move Day:</strong> $999.0
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>📞 What Happens Next?</h2>
+                <ol>
+                    <li><strong>The moving company will contact you within 24 hours</strong> to confirm details</li>
+                    <li><strong>They'll answer any questions</strong> you have about your move</li>
+                    <li><strong>On moving day,</strong> the remaining balance will be collected</li>
+                </ol>
+            </div>
+            
+            <div class="section">
+                <h2>💡 Pro Tips for Moving Day</h2>
+                <ul>
+                    <li>Have boxes packed and labeled before movers arrive</li>
+                    <li>Keep valuables and important documents with you</li>
+                    <li>Have cash or card ready for final payment</li>
+                    <li>Do a final walkthrough before leaving</li>
+                </ul>
+            </div>
+            
+            <div class="footer">
+                <strong>Questions?</strong> Contact us at support@movedin.com<br>
+                <strong>Booking Reference:</strong> #3 | <strong>Status:</strong> Confirmed ✅
+            </div>
+        </body>
+        </html>
+        
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 12:13:54
+To: support@movedin.com
+Subject: 📋 NEW VENDOR ORDER - Lead #3 - Test Vendor
+================================================================================
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; }
+                .header { background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; }
+                .urgent { background: #fff3cd; padding: 15px; border-radius: 6px; border-left: 4px solid #ffc107; margin: 10px 0; }
+                .section { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 6px; border-left: 4px solid #ff6b35; }
+                .highlight { background: #e3f2fd; padding: 10px; border-radius: 4px; margin: 5px 0; }
+                .action { background: #d4edda; padding: 15px; border-radius: 6px; border: 1px solid #c3e6cb; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>📋 NEW VENDOR ORDER</h1>
+                <p>Lead #3 - Action Required</p>
+            </div>
+            
+            <div class="urgent">
+                <h2>⚡ URGENT: Contact Customer Within 24 Hours</h2>
+                <p><strong>Deposit paid:</strong> $1.00 CAD ✅ | <strong>Status:</strong> Ready for vendor contact</p>
+            </div>
+            
+            <div class="section">
+                <h2>👤 Customer Contact Details</h2>
+                <div class="highlight">
+                    <strong>Name:</strong> Test User<br>
+                    <strong>Email:</strong> <a href="mailto:udi.shkolnik@alicesolutions.com">udi.shkolnik@alicesolutions.com</a><br>
+                    <strong>Phone:</strong> 422ce82c6fc1724a<br>
+                    <strong>Preferred Contact:</strong> Phone or Email
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🏠 Move Details</h2>
+                <div class="highlight">
+                    <strong>Pickup Address:</strong> 16 Island Green Lane, Markham, Ontario<br>
+                    <strong>Delivery Address:</strong> 21 Four Seasons Place, Etobicoke, Ontario<br>
+                    <strong>Move Date:</strong> 2025-01-30<br>
+                    <strong>Preferred Time:</strong> Morning
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🚚 Vendor Assignment</h2>
+                <div class="highlight">
+                    <strong>Moving Company:</strong> Test Vendor<br>
+                    <strong>Quoted Price:</strong> $1000.00<br>
+                    <strong>Deposit Received:</strong> $1.00 CAD ✅<br>
+                    <strong>Balance to Collect:</strong> $999.0
+                </div>
+            </div>
+            
+            <div class="action">
+                <h2>📞 Required Actions</h2>
+                <ol>
+                    <li><strong>CALL CUSTOMER:</strong> Contact Test User at 422ce82c6fc1724a within 24 hours</li>
+                    <li><strong>CONFIRM DETAILS:</strong> Verify move date, time, addresses, and special requirements</li>
+                    <li><strong>SCHEDULE CREW:</strong> Assign movers and truck for 2025-01-30</li>
+                    <li><strong>FINAL PAYMENT:</strong> Collect $999.0 on move completion</li>
+                </ol>
+            </div>
+            
+            <div style="margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 4px; font-size: 12px; color: #666;">
+                <strong>Lead ID:</strong> #3 | <strong>Created:</strong> 2025-10-21 16:13:36.905069 | <strong>Status:</strong> test_payment_completed
+            </div>
+        </body>
+        </html>
+        
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 12:13:55
+To: udi.shkolnik@alicesolutions.com
+Subject: 📊 SYSTEM ALERT - Lead #3 - MovedIn 3.0
+================================================================================
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; }
+                .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; }
+                .section { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 6px; border-left: 4px solid #667eea; }
+                .highlight { background: #e3f2fd; padding: 10px; border-radius: 4px; margin: 5px 0; font-family: monospace; }
+                .metrics { background: #d4edda; padding: 15px; border-radius: 6px; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>📊 SYSTEM ALERT</h1>
+                <p>MovedIn 3.0 - Lead #3</p>
+            </div>
+            
+            <div class="metrics">
+                <h2>✅ System Health Status</h2>
+                <p>
+                    <strong>Lead Created:</strong> Successfully ✅<br>
+                    <strong>Payment Status:</strong> test_payment_completed ✅<br>
+                    <strong>Email Notifications:</strong> Sent ✅<br>
+                    <strong>Database:</strong> Updated ✅
+                </p>
+            </div>
+            
+            <div class="section">
+                <h2>📈 Lead Summary</h2>
+                <div class="highlight">
+                    Lead ID: 3<br>
+                    Customer: Test User<br>
+                    Email: udi.shkolnik@alicesolutions.com<br>
+                    Phone: 422ce82c6fc1724a<br>
+                    Vendor: Test Vendor<br>
+                    Total: $1000.00<br>
+                    Deposit: $1.00<br>
+                    Status: test_payment_completed
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🗺️ Move Details</h2>
+                <div class="highlight">
+                    From: 16 Island Green Lane, Markham, Ontario<br>
+                    To: 21 Four Seasons Place, Etobicoke, Ontario<br>
+                    Date: 2025-01-30<br>
+                    Time: Morning
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>💰 Revenue Tracking</h2>
+                <div class="highlight">
+                    Deposit Collected: $1.00 CAD<br>
+                    Total Contract Value: $1000.00<br>
+                    Pending Collection: $999.0<br>
+                    Payment Intent ID: test_pi_3
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 4px; font-size: 12px; color: #666;">
+                <strong>System:</strong> MovedIn 3.0 Smart & Secure<br>
+                <strong>Timestamp:</strong> 2025-10-21 16:13:36.905069<br>
+                <strong>Environment:</strong> Production
+            </div>
+        </body>
+        </html>
+        
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 12:25:22
+To: udishkolnik@gmail.com
+Subject: 🎉 Move Booking Confirmed - Lead #999 - MovedIn
+================================================================================
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Move Booking Confirmed - MovedIn</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Header with gradient */
+        .header {
+            background: linear-gradient(135deg, #5340FF 0%, #4230dd 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Success banner */
+        .success-banner {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .success-banner::before {
+            content: '✅';
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        
+        .success-banner h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+        
+        .success-banner p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+        
+        /* Content sections */
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            border-left: 4px solid #5340FF;
+        }
+        
+        .section h3 {
+            color: #5340FF;
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section h3::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: #5340FF;
+            border-radius: 50%;
+            margin-right: 10px;
+            display: inline-block;
+        }
+        
+        .section.move-details h3::before {
+            content: '🏠';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.vendor-details h3::before {
+            content: '🚚';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.next-steps h3::before {
+            content: '📞';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.tips h3::before {
+            content: '💡';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            border: 1px solid #5340FF;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #495057;
+            flex: 1;
+        }
+        
+        .info-value {
+            color: #5340FF;
+            font-weight: 500;
+            flex: 2;
+            text-align: right;
+        }
+        
+        .price-highlight {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .price-highlight .amount {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .price-highlight .label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* Next steps */
+        .next-steps {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-left-color: #ffc107;
+        }
+        
+        .next-steps ol {
+            padding-left: 20px;
+        }
+        
+        .next-steps li {
+            margin-bottom: 10px;
+            color: #856404;
+        }
+        
+        .next-steps strong {
+            color: #5340FF;
+        }
+        
+        /* Pro tips */
+        .tips {
+            background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+            border-left-color: #17a2b8;
+        }
+        
+        .tips ul {
+            padding-left: 20px;
+        }
+        
+        .tips li {
+            margin-bottom: 8px;
+            color: #0c5460;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .footer p {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .footer .contact-info {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .footer .contact-info a {
+            color: #5340FF;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .footer .contact-info a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer .reference {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #495057;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .header, .content, .footer {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .info-value {
+                text-align: left;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">MovedIn</div>
+            <h1>🎉 Your Move is Confirmed!</h1>
+            <p>Thank you for choosing MovedIn - Canada's trusted moving platform</p>
+        </div>
+        
+        <!-- Success Banner -->
+        <div class="success-banner">
+            <h2>Booking Confirmed - Reference #999</h2>
+            <p>Your $1.00 CAD deposit has been received and your move is now scheduled!</p>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Move Details Section -->
+            <div class="section move-details">
+                <h3>Your Move Details</h3>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">📍 Pickup Address:</span>
+                        <span class="info-value">16 Island Green Lane, Markham, Ontario L6C 0Y7, Canada</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🎯 Delivery Address:</span>
+                        <span class="info-value">21 Four Seasons Place, Etobicoke, Ontario M9B 0A5, Canada</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📅 Move Date:</span>
+                        <span class="info-value">2025-01-30</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">⏰ Preferred Time:</span>
+                        <span class="info-value">Morning</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vendor Details Section -->
+            <div class="section vendor-details">
+                <h3>Your Moving Company</h3>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">🏢 Company:</span>
+                        <span class="info-value">Pierre & Sons Moving</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">💰 Estimated Total:</span>
+                        <span class="info-value">$849.0</span>
+                    </div>
+                    <div class="price-highlight">
+                        <div class="amount">$1.00 CAD</div>
+                        <div class="label">Deposit Paid ✅</div>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">💳 Balance Due on Move Day:</span>
+                        <span class="info-value">$848.00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Next Steps Section -->
+            <div class="section next-steps">
+                <h3>What Happens Next?</h3>
+                <ol>
+                    <li><strong>The moving company will contact you within 24 hours</strong> to confirm all details and answer any questions</li>
+                    <li><strong>They'll verify your move date, time, and special requirements</strong> to ensure everything goes smoothly</li>
+                    <li><strong>On moving day,</strong> the professional crew will arrive on time and handle your belongings with care</li>
+                    <li><strong>Final payment</strong> of $848.00 will be collected upon successful completion of your move</li>
+                </ol>
+            </div>
+            
+            <!-- Pro Tips Section -->
+            <div class="section tips">
+                <h3>💡 Pro Tips for Moving Day</h3>
+                <ul>
+                    <li><strong>Pack smart:</strong> Have boxes packed and labeled with room names before movers arrive</li>
+                    <li><strong>Keep valuables safe:</strong> Keep important documents, jewelry, and cash with you during the move</li>
+                    <li><strong>Be prepared:</strong> Have cash or card ready for final payment and any additional services</li>
+                    <li><strong>Final walkthrough:</strong> Do a complete walkthrough of both locations before leaving</li>
+                    <li><strong>Stay connected:</strong> Keep your phone charged and accessible for communication</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="contact-info">
+                <p><strong>Questions?</strong> Contact us at <a href="mailto:support@movedin.com">support@movedin.com</a></p>
+                <p>We're here to help make your move stress-free!</p>
+            </div>
+            
+            <div class="reference">
+                <strong>Booking Reference:</strong> #999 | <strong>Status:</strong> Confirmed ✅ | <strong>Customer:</strong> Udi Shkolnik
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 12px; color: #6c757d;">
+                This email was sent by MovedIn 3.0 - Smart & Secure Moving Platform<br>
+                © 2025 MovedIn. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 12:25:22
+To: support@movedin.com
+Subject: 📋 NEW VENDOR ORDER - Lead #999 - Pierre & Sons Moving
+================================================================================
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Vendor Order - MovedIn</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Header with urgent styling */
+        .header {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Urgent banner */
+        .urgent-banner {
+            background: linear-gradient(135deg, #ffc107 0%, #ff8c00 100%);
+            color: #856404;
+            padding: 25px 30px;
+            text-align: center;
+            position: relative;
+            border-left: 6px solid #ffc107;
+        }
+        
+        .urgent-banner::before {
+            content: '⚡';
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        
+        .urgent-banner h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+        
+        .urgent-banner p {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        /* Content sections */
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            border-left: 4px solid #ff6b35;
+        }
+        
+        .section h3 {
+            color: #ff6b35;
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section h3::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: #ff6b35;
+            border-radius: 50%;
+            margin-right: 10px;
+            display: inline-block;
+        }
+        
+        .section.customer-details h3::before {
+            content: '👤';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.move-details h3::before {
+            content: '🏠';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.vendor-assignment h3::before {
+            content: '🚚';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.actions h3::before {
+            content: '📞';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #495057;
+            flex: 1;
+        }
+        
+        .info-value {
+            color: #ff6b35;
+            font-weight: 500;
+            flex: 2;
+            text-align: right;
+        }
+        
+        .contact-highlight {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border: 1px solid #28a745;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .contact-highlight .phone {
+            font-size: 20px;
+            font-weight: bold;
+            color: #155724;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .contact-highlight .email {
+            font-size: 16px;
+            color: #155724;
+            text-align: center;
+        }
+        
+        .price-highlight {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .price-highlight .amount {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .price-highlight .label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* Actions section */
+        .actions {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-left-color: #28a745;
+        }
+        
+        .actions ol {
+            padding-left: 20px;
+        }
+        
+        .actions li {
+            margin-bottom: 15px;
+            color: #155724;
+            font-weight: 500;
+        }
+        
+        .actions strong {
+            color: #ff6b35;
+            font-size: 16px;
+        }
+        
+        .actions .priority {
+            background: #ff6b35;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .footer p {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .footer .system-info {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #e9ecef;
+        }
+        
+        .footer .system-info .info-row {
+            padding: 8px 0;
+            font-size: 14px;
+        }
+        
+        .footer .system-info .info-label {
+            color: #6c757d;
+        }
+        
+        .footer .system-info .info-value {
+            color: #495057;
+            font-family: monospace;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .header, .content, .footer {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .info-value {
+                text-align: left;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">MovedIn</div>
+            <h1>📋 NEW VENDOR ORDER</h1>
+            <p>Lead #999 - Action Required</p>
+        </div>
+        
+        <!-- Urgent Banner -->
+        <div class="urgent-banner">
+            <h2>URGENT: Contact Customer Within 24 Hours</h2>
+            <p><strong>Deposit paid:</strong> $1.00 CAD ✅ | <strong>Status:</strong> Ready for vendor contact</p>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Customer Details Section -->
+            <div class="section customer-details">
+                <h3>Customer Contact Details</h3>
+                <div class="contact-highlight">
+                    <div class="phone">+1234567890</div>
+                    <div class="email">udishkolnik@gmail.com</div>
+                </div>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">👤 Customer Name:</span>
+                        <span class="info-value">Udi Shkolnik</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📧 Email:</span>
+                        <span class="info-value"><a href="mailto:udishkolnik@gmail.com" style="color: #ff6b35;">udishkolnik@gmail.com</a></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📱 Phone:</span>
+                        <span class="info-value"><a href="tel:+1234567890" style="color: #ff6b35;">+1234567890</a></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">💬 Preferred Contact:</span>
+                        <span class="info-value">Phone or Email</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Move Details Section -->
+            <div class="section move-details">
+                <h3>Move Details</h3>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">📍 Pickup Address:</span>
+                        <span class="info-value">16 Island Green Lane, Markham, Ontario L6C 0Y7, Canada</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🎯 Delivery Address:</span>
+                        <span class="info-value">21 Four Seasons Place, Etobicoke, Ontario M9B 0A5, Canada</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📅 Move Date:</span>
+                        <span class="info-value">2025-01-30</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">⏰ Preferred Time:</span>
+                        <span class="info-value">Morning</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vendor Assignment Section -->
+            <div class="section vendor-assignment">
+                <h3>Vendor Assignment</h3>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">🏢 Moving Company:</span>
+                        <span class="info-value">Pierre & Sons Moving</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">💰 Quoted Price:</span>
+                        <span class="info-value">$849.0</span>
+                    </div>
+                    <div class="price-highlight">
+                        <div class="amount">$1.00 CAD</div>
+                        <div class="label">Deposit Received ✅</div>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">💳 Balance to Collect:</span>
+                        <span class="info-value">$848.00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Required Actions Section -->
+            <div class="section actions">
+                <h3>Required Actions</h3>
+                <ol>
+                    <li><strong>CALL CUSTOMER:</strong> Contact Udi Shkolnik at +1234567890 within 24 hours <span class="priority">HIGH PRIORITY</span></li>
+                    <li><strong>CONFIRM DETAILS:</strong> Verify move date, time, addresses, and special requirements</li>
+                    <li><strong>SCHEDULE CREW:</strong> Assign movers and truck for 2025-01-30</li>
+                    <li><strong>FINAL PAYMENT:</strong> Collect $848.00 on move completion</li>
+                    <li><strong>UPDATE STATUS:</strong> Confirm completion and payment collection</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="system-info">
+                <div class="info-row">
+                    <span class="info-label">Lead ID:</span>
+                    <span class="info-value">#999</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Created:</span>
+                    <span class="info-value">2025-10-21 12:25:22.668552</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Status:</span>
+                    <span class="info-value">test_payment_completed</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Payment Intent:</span>
+                    <span class="info-value">test_pi_999</span>
+                </div>
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 12px; color: #6c757d;">
+                This vendor notification was sent by MovedIn 3.0 - Smart & Secure Moving Platform<br>
+                © 2025 MovedIn. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 12:25:22
+To: udi.shkolnik@alicesolutions.com
+Subject: 📊 SYSTEM ALERT - Lead #999 - MovedIn 3.0
+================================================================================
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Alert - MovedIn 3.0</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Header with system styling */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* System health banner */
+        .health-banner {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .health-banner::before {
+            content: '✅';
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        
+        .health-banner h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+        
+        .health-banner p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+        
+        /* Content sections */
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .section h3 {
+            color: #667eea;
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section h3::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 50%;
+            margin-right: 10px;
+            display: inline-block;
+        }
+        
+        .section.health-status h3::before {
+            content: '📊';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.lead-summary h3::before {
+            content: '📈';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.move-details h3::before {
+            content: '🗺️';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.revenue-tracking h3::before {
+            content: '💰';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.system-metrics h3::before {
+            content: '⚙️';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            border: 1px solid #667eea;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #495057;
+            flex: 1;
+        }
+        
+        .info-value {
+            color: #667eea;
+            font-weight: 500;
+            flex: 2;
+            text-align: right;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border: 1px solid #28a745;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .metric-card .value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #155724;
+        }
+        
+        .metric-card .label {
+            font-size: 12px;
+            color: #155724;
+            opacity: 0.8;
+        }
+        
+        .status-indicators {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        
+        .status-indicator {
+            text-align: center;
+            padding: 10px;
+        }
+        
+        .status-indicator .icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .status-indicator .label {
+            font-size: 12px;
+            color: #6c757d;
+        }
+        
+        .status-indicator.success .icon {
+            color: #28a745;
+        }
+        
+        .status-indicator.warning .icon {
+            color: #ffc107;
+        }
+        
+        .status-indicator.info .icon {
+            color: #17a2b8;
+        }
+        
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #495057;
+            margin: 15px 0;
+        }
+        
+        .code-block .line {
+            margin-bottom: 5px;
+        }
+        
+        .code-block .line:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .footer p {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .footer .system-info {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #e9ecef;
+        }
+        
+        .footer .system-info .info-row {
+            padding: 8px 0;
+            font-size: 14px;
+        }
+        
+        .footer .system-info .info-label {
+            color: #6c757d;
+        }
+        
+        .footer .system-info .info-value {
+            color: #495057;
+            font-family: monospace;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .header, .content, .footer {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .info-value {
+                text-align: left;
+                margin-top: 5px;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .status-indicators {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">MovedIn</div>
+            <h1>📊 SYSTEM ALERT</h1>
+            <p>MovedIn 3.0 - Lead #999</p>
+        </div>
+        
+        <!-- Health Banner -->
+        <div class="health-banner">
+            <h2>System Health Status</h2>
+            <p>All systems operational - Lead processed successfully</p>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+            <!-- System Health Section -->
+            <div class="section health-status">
+                <h3>System Health Status</h3>
+                <div class="status-indicators">
+                    <div class="status-indicator success">
+                        <div class="icon">✅</div>
+                        <div class="label">Lead Created</div>
+                    </div>
+                    <div class="status-indicator success">
+                        <div class="icon">💳</div>
+                        <div class="label">Payment Processed</div>
+                    </div>
+                    <div class="status-indicator success">
+                        <div class="icon">📧</div>
+                        <div class="label">Emails Sent</div>
+                    </div>
+                    <div class="status-indicator success">
+                        <div class="icon">🗄️</div>
+                        <div class="label">Database Updated</div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">🟢 Lead Creation:</span>
+                        <span class="info-value">Successfully ✅</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🟢 Payment Status:</span>
+                        <span class="info-value">test_payment_completed ✅</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🟢 Email Notifications:</span>
+                        <span class="info-value">Sent ✅</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🟢 Database:</span>
+                        <span class="info-value">Updated ✅</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lead Summary Section -->
+            <div class="section lead-summary">
+                <h3>Lead Summary</h3>
+                <div class="code-block">
+                    <div class="line">Lead ID: 999</div>
+                    <div class="line">Customer: Udi Shkolnik</div>
+                    <div class="line">Email: udishkolnik@gmail.com</div>
+                    <div class="line">Phone: +1234567890</div>
+                    <div class="line">Vendor: Pierre & Sons Moving</div>
+                    <div class="line">Total: $849.0</div>
+                    <div class="line">Deposit: $1.00</div>
+                    <div class="line">Status: test_payment_completed</div>
+                </div>
+            </div>
+            
+            <!-- Move Details Section -->
+            <div class="section move-details">
+                <h3>Move Details</h3>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">📍 From:</span>
+                        <span class="info-value">16 Island Green Lane, Markham, Ontario L6C 0Y7, Canada</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🎯 To:</span>
+                        <span class="info-value">21 Four Seasons Place, Etobicoke, Ontario M9B 0A5, Canada</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📅 Date:</span>
+                        <span class="info-value">2025-01-30</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">⏰ Time:</span>
+                        <span class="info-value">Morning</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Revenue Tracking Section -->
+            <div class="section revenue-tracking">
+                <h3>Revenue Tracking</h3>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="value">$1.00 CAD</div>
+                        <div class="label">Deposit Collected</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="value">$849.0</div>
+                        <div class="label">Total Contract Value</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="value">$848.00</div>
+                        <div class="label">Pending Collection</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="value">test_pi_999</div>
+                        <div class="label">Payment Intent ID</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- System Metrics Section -->
+            <div class="section system-metrics">
+                <h3>System Metrics</h3>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">🕒 Processing Time:</span>
+                        <span class="info-value">< 2 seconds</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📊 Success Rate:</span>
+                        <span class="info-value">100%</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🔒 Security:</span>
+                        <span class="info-value">Encrypted ✅</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🌐 Environment:</span>
+                        <span class="info-value">Production</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="system-info">
+                <div class="info-row">
+                    <span class="info-label">System:</span>
+                    <span class="info-value">MovedIn 3.0 Smart & Secure</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Timestamp:</span>
+                    <span class="info-value">2025-10-21 12:25:22.668552</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Environment:</span>
+                    <span class="info-value">Production</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Version:</span>
+                    <span class="info-value">3.0.0</span>
+                </div>
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 12px; color: #6c757d;">
+                This system alert was generated by MovedIn 3.0 - Smart & Secure Moving Platform<br>
+                © 2025 MovedIn. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 12:25:51
+To: udishkolnik@gmail.com
+Subject: 🎉 Move Booking Confirmed - Lead #1000 - MovedIn
+================================================================================
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Move Booking Confirmed - MovedIn</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Header with gradient */
+        .header {
+            background: linear-gradient(135deg, #5340FF 0%, #4230dd 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Success banner */
+        .success-banner {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .success-banner::before {
+            content: '✅';
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        
+        .success-banner h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+        
+        .success-banner p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+        
+        /* Content sections */
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            border-left: 4px solid #5340FF;
+        }
+        
+        .section h3 {
+            color: #5340FF;
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section h3::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: #5340FF;
+            border-radius: 50%;
+            margin-right: 10px;
+            display: inline-block;
+        }
+        
+        .section.move-details h3::before {
+            content: '🏠';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.vendor-details h3::before {
+            content: '🚚';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.next-steps h3::before {
+            content: '📞';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.tips h3::before {
+            content: '💡';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            border: 1px solid #5340FF;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #495057;
+            flex: 1;
+        }
+        
+        .info-value {
+            color: #5340FF;
+            font-weight: 500;
+            flex: 2;
+            text-align: right;
+        }
+        
+        .price-highlight {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .price-highlight .amount {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .price-highlight .label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* Next steps */
+        .next-steps {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-left-color: #ffc107;
+        }
+        
+        .next-steps ol {
+            padding-left: 20px;
+        }
+        
+        .next-steps li {
+            margin-bottom: 10px;
+            color: #856404;
+        }
+        
+        .next-steps strong {
+            color: #5340FF;
+        }
+        
+        /* Pro tips */
+        .tips {
+            background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+            border-left-color: #17a2b8;
+        }
+        
+        .tips ul {
+            padding-left: 20px;
+        }
+        
+        .tips li {
+            margin-bottom: 8px;
+            color: #0c5460;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .footer p {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .footer .contact-info {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .footer .contact-info a {
+            color: #5340FF;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .footer .contact-info a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer .reference {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #495057;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .header, .content, .footer {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .info-value {
+                text-align: left;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">MovedIn</div>
+            <h1>🎉 Your Move is Confirmed!</h1>
+            <p>Thank you for choosing MovedIn - Canada's trusted moving platform</p>
+        </div>
+        
+        <!-- Success Banner -->
+        <div class="success-banner">
+            <h2>Booking Confirmed - Reference #1000</h2>
+            <p>Your $1.00 CAD deposit has been received and your move is now scheduled!</p>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Move Details Section -->
+            <div class="section move-details">
+                <h3>Your Move Details</h3>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">📍 Pickup Address:</span>
+                        <span class="info-value">16 Island Green Lane, Markham, Ontario L6C 0Y7, Canada</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🎯 Delivery Address:</span>
+                        <span class="info-value">21 Four Seasons Place, Etobicoke, Ontario M9B 0A5, Canada</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📅 Move Date:</span>
+                        <span class="info-value">2025-01-30</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">⏰ Preferred Time:</span>
+                        <span class="info-value">Morning</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vendor Details Section -->
+            <div class="section vendor-details">
+                <h3>Your Moving Company</h3>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">🏢 Company:</span>
+                        <span class="info-value">Pierre & Sons Moving</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">💰 Estimated Total:</span>
+                        <span class="info-value">$849.0</span>
+                    </div>
+                    <div class="price-highlight">
+                        <div class="amount">$1.00 CAD</div>
+                        <div class="label">Deposit Paid ✅</div>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">💳 Balance Due on Move Day:</span>
+                        <span class="info-value">$848.00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Next Steps Section -->
+            <div class="section next-steps">
+                <h3>What Happens Next?</h3>
+                <ol>
+                    <li><strong>The moving company will contact you within 24 hours</strong> to confirm all details and answer any questions</li>
+                    <li><strong>They'll verify your move date, time, and special requirements</strong> to ensure everything goes smoothly</li>
+                    <li><strong>On moving day,</strong> the professional crew will arrive on time and handle your belongings with care</li>
+                    <li><strong>Final payment</strong> of $848.00 will be collected upon successful completion of your move</li>
+                </ol>
+            </div>
+            
+            <!-- Pro Tips Section -->
+            <div class="section tips">
+                <h3>💡 Pro Tips for Moving Day</h3>
+                <ul>
+                    <li><strong>Pack smart:</strong> Have boxes packed and labeled with room names before movers arrive</li>
+                    <li><strong>Keep valuables safe:</strong> Keep important documents, jewelry, and cash with you during the move</li>
+                    <li><strong>Be prepared:</strong> Have cash or card ready for final payment and any additional services</li>
+                    <li><strong>Final walkthrough:</strong> Do a complete walkthrough of both locations before leaving</li>
+                    <li><strong>Stay connected:</strong> Keep your phone charged and accessible for communication</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="contact-info">
+                <p><strong>Questions?</strong> Contact us at <a href="mailto:support@movedin.com">support@movedin.com</a></p>
+                <p>We're here to help make your move stress-free!</p>
+            </div>
+            
+            <div class="reference">
+                <strong>Booking Reference:</strong> #1000 | <strong>Status:</strong> Confirmed ✅ | <strong>Customer:</strong> Udi Shkolnik
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 12px; color: #6c757d;">
+                This email was sent by MovedIn 3.0 - Smart & Secure Moving Platform<br>
+                © 2025 MovedIn. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 12:25:51
+To: support@movedin.com
+Subject: 📋 NEW VENDOR ORDER - Lead #1000 - Pierre & Sons Moving
+================================================================================
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Vendor Order - MovedIn</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Header with urgent styling */
+        .header {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Urgent banner */
+        .urgent-banner {
+            background: linear-gradient(135deg, #ffc107 0%, #ff8c00 100%);
+            color: #856404;
+            padding: 25px 30px;
+            text-align: center;
+            position: relative;
+            border-left: 6px solid #ffc107;
+        }
+        
+        .urgent-banner::before {
+            content: '⚡';
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        
+        .urgent-banner h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+        
+        .urgent-banner p {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        /* Content sections */
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            border-left: 4px solid #ff6b35;
+        }
+        
+        .section h3 {
+            color: #ff6b35;
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section h3::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: #ff6b35;
+            border-radius: 50%;
+            margin-right: 10px;
+            display: inline-block;
+        }
+        
+        .section.customer-details h3::before {
+            content: '👤';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.move-details h3::before {
+            content: '🏠';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.vendor-assignment h3::before {
+            content: '🚚';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.actions h3::before {
+            content: '📞';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #495057;
+            flex: 1;
+        }
+        
+        .info-value {
+            color: #ff6b35;
+            font-weight: 500;
+            flex: 2;
+            text-align: right;
+        }
+        
+        .contact-highlight {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border: 1px solid #28a745;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .contact-highlight .phone {
+            font-size: 20px;
+            font-weight: bold;
+            color: #155724;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .contact-highlight .email {
+            font-size: 16px;
+            color: #155724;
+            text-align: center;
+        }
+        
+        .price-highlight {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .price-highlight .amount {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .price-highlight .label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* Actions section */
+        .actions {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-left-color: #28a745;
+        }
+        
+        .actions ol {
+            padding-left: 20px;
+        }
+        
+        .actions li {
+            margin-bottom: 15px;
+            color: #155724;
+            font-weight: 500;
+        }
+        
+        .actions strong {
+            color: #ff6b35;
+            font-size: 16px;
+        }
+        
+        .actions .priority {
+            background: #ff6b35;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .footer p {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .footer .system-info {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #e9ecef;
+        }
+        
+        .footer .system-info .info-row {
+            padding: 8px 0;
+            font-size: 14px;
+        }
+        
+        .footer .system-info .info-label {
+            color: #6c757d;
+        }
+        
+        .footer .system-info .info-value {
+            color: #495057;
+            font-family: monospace;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .header, .content, .footer {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .info-value {
+                text-align: left;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">MovedIn</div>
+            <h1>📋 NEW VENDOR ORDER</h1>
+            <p>Lead #1000 - Action Required</p>
+        </div>
+        
+        <!-- Urgent Banner -->
+        <div class="urgent-banner">
+            <h2>URGENT: Contact Customer Within 24 Hours</h2>
+            <p><strong>Deposit paid:</strong> $1.00 CAD ✅ | <strong>Status:</strong> Ready for vendor contact</p>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Customer Details Section -->
+            <div class="section customer-details">
+                <h3>Customer Contact Details</h3>
+                <div class="contact-highlight">
+                    <div class="phone">+1234567890</div>
+                    <div class="email">udishkolnik@gmail.com</div>
+                </div>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">👤 Customer Name:</span>
+                        <span class="info-value">Udi Shkolnik</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📧 Email:</span>
+                        <span class="info-value"><a href="mailto:udishkolnik@gmail.com" style="color: #ff6b35;">udishkolnik@gmail.com</a></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📱 Phone:</span>
+                        <span class="info-value"><a href="tel:+1234567890" style="color: #ff6b35;">+1234567890</a></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">💬 Preferred Contact:</span>
+                        <span class="info-value">Phone or Email</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Move Details Section -->
+            <div class="section move-details">
+                <h3>Move Details</h3>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">📍 Pickup Address:</span>
+                        <span class="info-value">16 Island Green Lane, Markham, Ontario L6C 0Y7, Canada</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🎯 Delivery Address:</span>
+                        <span class="info-value">21 Four Seasons Place, Etobicoke, Ontario M9B 0A5, Canada</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📅 Move Date:</span>
+                        <span class="info-value">2025-01-30</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">⏰ Preferred Time:</span>
+                        <span class="info-value">Morning</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vendor Assignment Section -->
+            <div class="section vendor-assignment">
+                <h3>Vendor Assignment</h3>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">🏢 Moving Company:</span>
+                        <span class="info-value">Pierre & Sons Moving</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">💰 Quoted Price:</span>
+                        <span class="info-value">$849.0</span>
+                    </div>
+                    <div class="price-highlight">
+                        <div class="amount">$1.00 CAD</div>
+                        <div class="label">Deposit Received ✅</div>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">💳 Balance to Collect:</span>
+                        <span class="info-value">$848.00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Required Actions Section -->
+            <div class="section actions">
+                <h3>Required Actions</h3>
+                <ol>
+                    <li><strong>CALL CUSTOMER:</strong> Contact Udi Shkolnik at +1234567890 within 24 hours <span class="priority">HIGH PRIORITY</span></li>
+                    <li><strong>CONFIRM DETAILS:</strong> Verify move date, time, addresses, and special requirements</li>
+                    <li><strong>SCHEDULE CREW:</strong> Assign movers and truck for 2025-01-30</li>
+                    <li><strong>FINAL PAYMENT:</strong> Collect $848.00 on move completion</li>
+                    <li><strong>UPDATE STATUS:</strong> Confirm completion and payment collection</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="system-info">
+                <div class="info-row">
+                    <span class="info-label">Lead ID:</span>
+                    <span class="info-value">#1000</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Created:</span>
+                    <span class="info-value">2025-10-21 12:25:51.888499</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Status:</span>
+                    <span class="info-value">test_payment_completed</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Payment Intent:</span>
+                    <span class="info-value">test_pi_1000</span>
+                </div>
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 12px; color: #6c757d;">
+                This vendor notification was sent by MovedIn 3.0 - Smart & Secure Moving Platform<br>
+                © 2025 MovedIn. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 12:25:51
+To: udi.shkolnik@alicesolutions.com
+Subject: 📊 SYSTEM ALERT - Lead #1000 - MovedIn 3.0
+================================================================================
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Alert - MovedIn 3.0</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Header with system styling */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* System health banner */
+        .health-banner {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .health-banner::before {
+            content: '✅';
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        
+        .health-banner h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+        
+        .health-banner p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+        
+        /* Content sections */
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .section h3 {
+            color: #667eea;
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section h3::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 50%;
+            margin-right: 10px;
+            display: inline-block;
+        }
+        
+        .section.health-status h3::before {
+            content: '📊';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.lead-summary h3::before {
+            content: '📈';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.move-details h3::before {
+            content: '🗺️';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.revenue-tracking h3::before {
+            content: '💰';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.system-metrics h3::before {
+            content: '⚙️';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            border: 1px solid #667eea;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #495057;
+            flex: 1;
+        }
+        
+        .info-value {
+            color: #667eea;
+            font-weight: 500;
+            flex: 2;
+            text-align: right;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border: 1px solid #28a745;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .metric-card .value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #155724;
+        }
+        
+        .metric-card .label {
+            font-size: 12px;
+            color: #155724;
+            opacity: 0.8;
+        }
+        
+        .status-indicators {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        
+        .status-indicator {
+            text-align: center;
+            padding: 10px;
+        }
+        
+        .status-indicator .icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .status-indicator .label {
+            font-size: 12px;
+            color: #6c757d;
+        }
+        
+        .status-indicator.success .icon {
+            color: #28a745;
+        }
+        
+        .status-indicator.warning .icon {
+            color: #ffc107;
+        }
+        
+        .status-indicator.info .icon {
+            color: #17a2b8;
+        }
+        
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #495057;
+            margin: 15px 0;
+        }
+        
+        .code-block .line {
+            margin-bottom: 5px;
+        }
+        
+        .code-block .line:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .footer p {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .footer .system-info {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #e9ecef;
+        }
+        
+        .footer .system-info .info-row {
+            padding: 8px 0;
+            font-size: 14px;
+        }
+        
+        .footer .system-info .info-label {
+            color: #6c757d;
+        }
+        
+        .footer .system-info .info-value {
+            color: #495057;
+            font-family: monospace;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .header, .content, .footer {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .info-value {
+                text-align: left;
+                margin-top: 5px;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .status-indicators {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">MovedIn</div>
+            <h1>📊 SYSTEM ALERT</h1>
+            <p>MovedIn 3.0 - Lead #1000</p>
+        </div>
+        
+        <!-- Health Banner -->
+        <div class="health-banner">
+            <h2>System Health Status</h2>
+            <p>All systems operational - Lead processed successfully</p>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+            <!-- System Health Section -->
+            <div class="section health-status">
+                <h3>System Health Status</h3>
+                <div class="status-indicators">
+                    <div class="status-indicator success">
+                        <div class="icon">✅</div>
+                        <div class="label">Lead Created</div>
+                    </div>
+                    <div class="status-indicator success">
+                        <div class="icon">💳</div>
+                        <div class="label">Payment Processed</div>
+                    </div>
+                    <div class="status-indicator success">
+                        <div class="icon">📧</div>
+                        <div class="label">Emails Sent</div>
+                    </div>
+                    <div class="status-indicator success">
+                        <div class="icon">🗄️</div>
+                        <div class="label">Database Updated</div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">🟢 Lead Creation:</span>
+                        <span class="info-value">Successfully ✅</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🟢 Payment Status:</span>
+                        <span class="info-value">test_payment_completed ✅</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🟢 Email Notifications:</span>
+                        <span class="info-value">Sent ✅</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🟢 Database:</span>
+                        <span class="info-value">Updated ✅</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lead Summary Section -->
+            <div class="section lead-summary">
+                <h3>Lead Summary</h3>
+                <div class="code-block">
+                    <div class="line">Lead ID: 1000</div>
+                    <div class="line">Customer: Udi Shkolnik</div>
+                    <div class="line">Email: udishkolnik@gmail.com</div>
+                    <div class="line">Phone: +1234567890</div>
+                    <div class="line">Vendor: Pierre & Sons Moving</div>
+                    <div class="line">Total: $849.0</div>
+                    <div class="line">Deposit: $1.00</div>
+                    <div class="line">Status: test_payment_completed</div>
+                </div>
+            </div>
+            
+            <!-- Move Details Section -->
+            <div class="section move-details">
+                <h3>Move Details</h3>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">📍 From:</span>
+                        <span class="info-value">16 Island Green Lane, Markham, Ontario L6C 0Y7, Canada</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🎯 To:</span>
+                        <span class="info-value">21 Four Seasons Place, Etobicoke, Ontario M9B 0A5, Canada</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📅 Date:</span>
+                        <span class="info-value">2025-01-30</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">⏰ Time:</span>
+                        <span class="info-value">Morning</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Revenue Tracking Section -->
+            <div class="section revenue-tracking">
+                <h3>Revenue Tracking</h3>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="value">$1.00 CAD</div>
+                        <div class="label">Deposit Collected</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="value">$849.0</div>
+                        <div class="label">Total Contract Value</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="value">$848.00</div>
+                        <div class="label">Pending Collection</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="value">test_pi_1000</div>
+                        <div class="label">Payment Intent ID</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- System Metrics Section -->
+            <div class="section system-metrics">
+                <h3>System Metrics</h3>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">🕒 Processing Time:</span>
+                        <span class="info-value">< 2 seconds</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📊 Success Rate:</span>
+                        <span class="info-value">100%</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🔒 Security:</span>
+                        <span class="info-value">Encrypted ✅</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🌐 Environment:</span>
+                        <span class="info-value">Production</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="system-info">
+                <div class="info-row">
+                    <span class="info-label">System:</span>
+                    <span class="info-value">MovedIn 3.0 Smart & Secure</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Timestamp:</span>
+                    <span class="info-value">2025-10-21 12:25:51.888499</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Environment:</span>
+                    <span class="info-value">Production</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Version:</span>
+                    <span class="info-value">3.0.0</span>
+                </div>
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 12px; color: #6c757d;">
+                This system alert was generated by MovedIn 3.0 - Smart & Secure Moving Platform<br>
+                © 2025 MovedIn. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 13:06:23
+To: udishkolnik@gmail.com
+Subject: 🎉 Move Booking Confirmed - Lead #2 - MovedIn
+================================================================================
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Move Booking Confirmed - MovedIn</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f8f9fa; font-family: Arial, sans-serif;">
+    <div style="max-width: 600px; margin: 0 auto; background: #ffffff; padding: 0;">
+        
+        <!-- Header with MovedIn Logo -->
+        <div style="background: linear-gradient(135deg, #5340FF 0%, #4230dd 100%); color: white; padding: 40px 30px; text-align: center;">
+            <div style="font-size: 32px; font-weight: bold; margin-bottom: 10px;">🚚 MovedIn</div>
+            <h1 style="font-size: 28px; margin: 10px 0;">🎉 Your Move is Confirmed!</h1>
+            <p style="margin: 10px 0; opacity: 0.9;">Thank you for choosing MovedIn - Canada's trusted moving platform</p>
+        </div>
+        
+        <!-- Success Banner -->
+        <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px 30px; text-align: center;">
+            <h2 style="font-size: 22px; margin: 0 0 8px 0;">✅ Booking Confirmed - Reference #{{ lead_id }}</h2>
+            <p style="margin: 0;">Your ${{ deposit_paid }} CAD deposit has been received and your move is now scheduled!</p>
+        </div>
+        
+        <!-- Content -->
+        <div style="padding: 30px;">
+            
+            <!-- Move Details Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #5340FF;">
+                <h3 style="color: #5340FF; font-size: 18px; margin: 0 0 15px 0;">🏠 Your Move Details</h3>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 1px solid #5340FF; border-radius: 8px; padding: 20px;">
+                    <p style="margin: 0 0 10px 0;"><strong>📍 Pickup Address:</strong> {{ move_from }}</p>
+                    <p style="margin: 0 0 10px 0;"><strong>🎯 Delivery Address:</strong> {{ move_to }}</p>
+                    <p style="margin: 0 0 10px 0;"><strong>📅 Move Date:</strong> {{ move_date }}</p>
+                    <p style="margin: 0;"><strong>⏰ Preferred Time:</strong> {{ move_time }}</p>
+                </div>
+            </div>
+            
+            <!-- Interactive Map Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #5340FF;">
+                <h3 style="color: #5340FF; font-size: 18px; margin: 0 0 15px 0;">🗺️ Your Move Route</h3>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 2px dashed #5340FF; border-radius: 8px; padding: 30px; text-align: center;">
+                    <h4 style="color: #5340FF; margin: 0 0 15px 0;">📍 Interactive Route Map</h4>
+                    <p style="color: #666; margin: 0 0 10px 0;"><strong>From:</strong> {{ move_from }}</p>
+                    <p style="color: #666; margin: 0 0 15px 0;"><strong>To:</strong> {{ move_to }}</p>
+                    <div style="background: white; padding: 15px; border-radius: 6px; margin: 10px 0;">
+                        <p style="color: #28a745; font-weight: bold; margin: 0 0 5px 0;">📊 Route Information</p>
+                        <p style="color: #666; font-size: 14px; margin: 0 0 5px 0;">Distance: ~48.6 km | Estimated Time: ~39 minutes</p>
+                        <p style="color: #666; font-size: 14px; margin: 0;">Route: Markham → Etobicoke via Highway 401</p>
+                    </div>
+                    <p style="color: #5340FF; font-size: 12px; margin: 10px 0 0 0;">💡 View full interactive map online</p>
+                </div>
+            </div>
+            
+            <!-- Vendor Details Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #5340FF;">
+                <h3 style="color: #5340FF; font-size: 18px; margin: 0 0 15px 0;">🚚 Your Moving Company</h3>
+                <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px; text-align: center; border: 1px solid #e9ecef;">
+                    <h4 style="color: #5340FF; margin: 0 0 15px 0;">{{ vendor_name }}</h4>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 6px;">
+                        <p style="color: #666; font-size: 14px; margin: 0 0 5px 0;">🏢 Professional Moving Services</p>
+                        <p style="color: #666; font-size: 14px; margin: 0 0 5px 0;">📞 Contact: (416) 555-0123</p>
+                        <p style="color: #666; font-size: 14px; margin: 0;">⭐ Rating: 4.8/5 (127 reviews)</p>
+                    </div>
+                </div>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 1px solid #5340FF; border-radius: 8px; padding: 20px;">
+                    <p style="margin: 0 0 10px 0;"><strong>🏢 Company:</strong> {{ vendor_name }}</p>
+                    <p style="margin: 0 0 15px 0;"><strong>💰 Estimated Total:</strong> ${{ total_cost }}</p>
+                    <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; margin: 15px 0;">
+                        <div style="font-size: 24px; font-weight: bold; margin-bottom: 5px;">${{ deposit_paid }} CAD</div>
+                        <div style="font-size: 14px; opacity: 0.9;">Deposit Paid ✅</div>
+                    </div>
+                    <p style="margin: 0;"><strong>💳 Estimated Final Payment:</strong> ${{ balance_due }}</p>
+                </div>
+            </div>
+            
+            <!-- Next Steps Section -->
+            <div style="background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%); padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ffc107;">
+                <h3 style="color: #856404; font-size: 18px; margin: 0 0 15px 0;">📞 What Happens Next?</h3>
+                <ol style="padding-left: 20px; margin: 0; color: #856404;">
+                    <li style="margin-bottom: 10px;"><strong>The moving company will contact you within 24 hours</strong> to confirm all details and answer any questions</li>
+                    <li style="margin-bottom: 10px;"><strong>They'll verify your move date, time, and special requirements</strong> to ensure everything goes smoothly</li>
+                    <li style="margin-bottom: 10px;"><strong>On moving day,</strong> the professional crew will arrive on time and handle your belongings with care</li>
+                    <li style="margin: 0;"><strong>Estimated final payment</strong> of ${{ balance_due }} will be collected upon successful completion of your move</li>
+                </ol>
+            </div>
+            
+            <!-- Pro Tips Section -->
+            <div style="background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%); padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #17a2b8;">
+                <h3 style="color: #0c5460; font-size: 18px; margin: 0 0 15px 0;">💡 Pro Tips for Moving Day</h3>
+                <ul style="padding-left: 20px; margin: 0; color: #0c5460;">
+                    <li style="margin-bottom: 8px;"><strong>Pack smart:</strong> Have boxes packed and labeled with room names before movers arrive</li>
+                    <li style="margin-bottom: 8px;"><strong>Keep valuables safe:</strong> Keep important documents, jewelry, and cash with you during the move</li>
+                    <li style="margin-bottom: 8px;"><strong>Be prepared:</strong> Have cash or card ready for estimated final payment and any additional services</li>
+                    <li style="margin-bottom: 8px;"><strong>Final walkthrough:</strong> Do a complete walkthrough of both locations before leaving</li>
+                    <li style="margin: 0;"><strong>Stay connected:</strong> Keep your phone charged and accessible for communication</li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <!-- Footer -->
+        <div style="background: #f8f9fa; padding: 25px 30px; text-align: center; border-top: 1px solid #e9ecef;">
+            <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <p style="color: #6c757d; font-size: 14px; margin: 0 0 10px 0;"><strong>Questions?</strong> Contact us at <a href="mailto:support@movedin.com" style="color: #5340FF; text-decoration: none; font-weight: 600;">support@movedin.com</a></p>
+                <p style="color: #6c757d; font-size: 14px; margin: 0;">We're here to help make your move stress-free!</p>
+            </div>
+            <div style="background: #e9ecef; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 12px; color: #495057; margin-bottom: 15px;">
+                <strong>Booking Reference:</strong> #{{ lead_id }} | <strong>Status:</strong> Confirmed ✅ | <strong>Customer:</strong> {{ customer_name }}
+            </div>
+            <p style="margin: 0; font-size: 12px; color: #6c757d;">
+                This email was sent by MovedIn 3.0 - Smart & Secure Moving Platform<br>
+                © 2025 MovedIn. All rights reserved.
+            </p>
+        </div>
+        
+    </div>
+</body>
+</html>
+
+
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 13:06:23
+To: support@movedin.com
+Subject: 📋 NEW VENDOR ORDER - Lead #2 - Pierre & Sons Moving
+================================================================================
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEW VENDOR ORDER - MovedIn</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f8f9fa; font-family: Arial, sans-serif;">
+    <div style="max-width: 600px; margin: 0 auto; background: #ffffff; padding: 0;">
+        
+        <!-- Header with MovedIn Logo -->
+        <div style="background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); color: white; padding: 40px 30px; text-align: center;">
+            <div style="font-size: 32px; font-weight: bold; margin-bottom: 10px;">🚚 MovedIn</div>
+            <h1 style="font-size: 28px; margin: 10px 0;">📋 NEW VENDOR ORDER</h1>
+            <p style="margin: 10px 0; opacity: 0.9;">Lead #{{ lead_id }} - Action Required</p>
+        </div>
+        
+        <!-- Urgent Action Banner -->
+        <div style="background: linear-gradient(135deg, #ffc107 0%, #ff8c00 100%); color: #856404; padding: 25px 30px; text-align: center;">
+            <h2 style="font-size: 22px; margin: 0 0 8px 0;">⚡ URGENT: Contact Customer Within 24 Hours</h2>
+            <p style="margin: 0;"><strong>Deposit paid:</strong> ${{ deposit_paid }} CAD ✅ | <strong>Status:</strong> Ready for vendor contact</p>
+        </div>
+        
+        <!-- Content -->
+        <div style="padding: 30px;">
+            
+            <!-- Customer Contact Details Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ff6b35;">
+                <h3 style="color: #ff6b35; font-size: 18px; margin: 0 0 15px 0;">👤 Customer Contact Details</h3>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 1px solid #ff6b35; border-radius: 8px; padding: 20px;">
+                    <p style="margin: 0 0 10px 0;"><strong>Name:</strong> {{ customer_name }}</p>
+                    <p style="margin: 0 0 10px 0;"><strong>Email:</strong> <a href="mailto:{{ customer_email }}" style="color: #ff6b35; text-decoration: none;">{{ customer_email }}</a></p>
+                    <p style="margin: 0 0 10px 0;"><strong>Phone:</strong> {{ customer_phone }}</p>
+                    <p style="margin: 0;"><strong>Preferred Contact:</strong> Phone or Email</p>
+                </div>
+            </div>
+            
+            <!-- Move Details Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ff6b35;">
+                <h3 style="color: #ff6b35; font-size: 18px; margin: 0 0 15px 0;">🏠 Move Details</h3>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 1px solid #ff6b35; border-radius: 8px; padding: 20px;">
+                    <p style="margin: 0 0 10px 0;"><strong>Pickup Address:</strong> {{ move_from }}</p>
+                    <p style="margin: 0 0 10px 0;"><strong>Delivery Address:</strong> {{ move_to }}</p>
+                    <p style="margin: 0 0 10px 0;"><strong>Move Date:</strong> {{ move_date }}</p>
+                    <p style="margin: 0;"><strong>Preferred Time:</strong> {{ move_time }}</p>
+                </div>
+            </div>
+            
+            <!-- Interactive Map Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ff6b35;">
+                <h3 style="color: #ff6b35; font-size: 18px; margin: 0 0 15px 0;">🗺️ Move Route</h3>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 2px dashed #ff6b35; border-radius: 8px; padding: 30px; text-align: center;">
+                    <h4 style="color: #ff6b35; margin: 0 0 15px 0;">📍 Route Information</h4>
+                    <p style="color: #666; margin: 0 0 10px 0;"><strong>From:</strong> {{ move_from }}</p>
+                    <p style="color: #666; margin: 0 0 15px 0;"><strong>To:</strong> {{ move_to }}</p>
+                    <div style="background: white; padding: 15px; border-radius: 6px; margin: 10px 0;">
+                        <p style="color: #28a745; font-weight: bold; margin: 0 0 5px 0;">📊 Route Details</p>
+                        <p style="color: #666; font-size: 14px; margin: 0 0 5px 0;">Distance: ~48.6 km | Estimated Time: ~39 minutes</p>
+                        <p style="color: #666; font-size: 14px; margin: 0;">Route: Markham → Etobicoke via Highway 401</p>
+                    </div>
+                    <p style="color: #ff6b35; font-size: 12px; margin: 10px 0 0 0;">💡 View full interactive map online</p>
+                </div>
+            </div>
+            
+            <!-- Vendor Assignment Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ff6b35;">
+                <h3 style="color: #ff6b35; font-size: 18px; margin: 0 0 15px 0;">🚚 Vendor Assignment</h3>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 1px solid #ff6b35; border-radius: 8px; padding: 20px;">
+                    <p style="margin: 0 0 10px 0;"><strong>Moving Company:</strong> {{ vendor_name }}</p>
+                    <p style="margin: 0 0 10px 0;"><strong>Quoted Price:</strong> ${{ total_cost }}</p>
+                    <p style="margin: 0 0 15px 0;"><strong>Deposit Received:</strong> ${{ deposit_paid }} CAD ✅</p>
+                    <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 15px; border-radius: 8px; text-align: center; margin: 15px 0;">
+                        <div style="font-size: 20px; font-weight: bold; margin-bottom: 5px;">${{ balance_due }}</div>
+                        <div style="font-size: 14px; opacity: 0.9;">Estimated Final Payment to Collect</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Required Actions Section -->
+            <div style="background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%); padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #28a745;">
+                <h3 style="color: #155724; font-size: 18px; margin: 0 0 15px 0;">📞 Required Actions</h3>
+                <ol style="padding-left: 20px; margin: 0; color: #155724;">
+                    <li style="margin-bottom: 10px;"><strong>CALL CUSTOMER:</strong> Contact {{ customer_name }} at {{ customer_phone }} within 24 hours</li>
+                    <li style="margin-bottom: 10px;"><strong>CONFIRM DETAILS:</strong> Verify move date, time, addresses, and special requirements</li>
+                    <li style="margin-bottom: 10px;"><strong>SCHEDULE CREW:</strong> Assign movers and truck for {{ move_date }}</li>
+                    <li style="margin: 0;"><strong>ESTIMATED FINAL PAYMENT:</strong> Collect ${{ balance_due }} on move completion</li>
+                </ol>
+            </div>
+            
+            <!-- Important Notes Section -->
+            <div style="background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%); padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ffc107;">
+                <h3 style="color: #856404; font-size: 18px; margin: 0 0 15px 0;">⚠️ Important Notes</h3>
+                <ul style="padding-left: 20px; margin: 0; color: #856404;">
+                    <li style="margin-bottom: 8px;"><strong>Customer Expectations:</strong> Professional service, on-time arrival, careful handling of belongings</li>
+                    <li style="margin-bottom: 8px;"><strong>Payment Terms:</strong> ${{ deposit_paid }} deposit already received, ${{ balance_due }} estimated final payment due on completion</li>
+                    <li style="margin-bottom: 8px;"><strong>Communication:</strong> Keep customer informed of any delays or changes</li>
+                    <li style="margin: 0;"><strong>Quality Standards:</strong> Maintain MovedIn's high service standards throughout the move</li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <!-- Footer -->
+        <div style="background: #f8f9fa; padding: 25px 30px; text-align: center; border-top: 1px solid #e9ecef;">
+            <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <p style="color: #6c757d; font-size: 14px; margin: 0 0 10px 0;"><strong>Questions?</strong> Contact us at <a href="mailto:support@movedin.com" style="color: #ff6b35; text-decoration: none; font-weight: 600;">support@movedin.com</a></p>
+                <p style="color: #6c757d; font-size: 14px; margin: 0;">We're here to support your business success!</p>
+            </div>
+            <div style="background: #e9ecef; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 12px; color: #495057; margin-bottom: 15px;">
+                <strong>Lead ID:</strong> #{{ lead_id }} | <strong>Created:</strong> {{ created_at }} | <strong>Status:</strong> {{ payment_status }}
+            </div>
+            <p style="margin: 0; font-size: 12px; color: #6c757d;">
+                This email was sent by MovedIn 3.0 - Smart & Secure Moving Platform<br>
+                © 2025 MovedIn. All rights reserved.
+            </p>
+        </div>
+        
+    </div>
+</body>
+</html>
+
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 13:06:23
+To: udi.shkolnik@alicesolutions.com
+Subject: 📊 SYSTEM ALERT - Lead #2 - MovedIn 3.0
+================================================================================
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYSTEM ALERT - MovedIn 3.0</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f8f9fa; font-family: Arial, sans-serif;">
+    <div style="max-width: 600px; margin: 0 auto; background: #ffffff; padding: 0;">
+        
+        <!-- Header with MovedIn Logo -->
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 30px; text-align: center;">
+            <div style="font-size: 32px; font-weight: bold; margin-bottom: 10px;">🚚 MovedIn</div>
+            <h1 style="font-size: 28px; margin: 10px 0;">📊 SYSTEM ALERT</h1>
+            <p style="margin: 10px 0; opacity: 0.9;">MovedIn 3.0 - Lead #{{ lead_id }}</p>
+        </div>
+        
+        <!-- System Health Status Banner -->
+        <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px 30px; text-align: center;">
+            <h2 style="font-size: 22px; margin: 0 0 8px 0;">✅ System Health Status</h2>
+            <p style="margin: 0;">All systems operational - Lead processed successfully</p>
+        </div>
+        
+        <!-- Content -->
+        <div style="padding: 30px;">
+            
+            <!-- System Metrics Section -->
+            <div style="background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%); padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #28a745;">
+                <h3 style="color: #155724; font-size: 18px; margin: 0 0 15px 0;">📈 System Metrics</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0;">
+                    <div style="background: white; border: 1px solid #28a745; border-radius: 8px; padding: 15px; text-align: center;">
+                        <div style="font-size: 20px; font-weight: bold; color: #155724; margin-bottom: 5px;">✅</div>
+                        <div style="font-size: 12px; color: #155724; opacity: 0.8;">Lead Created</div>
+                    </div>
+                    <div style="background: white; border: 1px solid #28a745; border-radius: 8px; padding: 15px; text-align: center;">
+                        <div style="font-size: 20px; font-weight: bold; color: #155724; margin-bottom: 5px;">✅</div>
+                        <div style="font-size: 12px; color: #155724; opacity: 0.8;">Payment Status</div>
+                    </div>
+                    <div style="background: white; border: 1px solid #28a745; border-radius: 8px; padding: 15px; text-align: center;">
+                        <div style="font-size: 20px; font-weight: bold; color: #155724; margin-bottom: 5px;">✅</div>
+                        <div style="font-size: 12px; color: #155724; opacity: 0.8;">Email Notifications</div>
+                    </div>
+                    <div style="background: white; border: 1px solid #28a745; border-radius: 8px; padding: 15px; text-align: center;">
+                        <div style="font-size: 20px; font-weight: bold; color: #155724; margin-bottom: 5px;">✅</div>
+                        <div style="font-size: 12px; color: #155724; opacity: 0.8;">Database Updated</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lead Summary Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #667eea;">
+                <h3 style="color: #667eea; font-size: 18px; margin: 0 0 15px 0;">📋 Lead Summary</h3>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 1px solid #667eea; border-radius: 8px; padding: 20px;">
+                    <div style="background: white; padding: 15px; border-radius: 6px; margin: 10px 0; font-family: monospace; font-size: 12px; color: #495057;">
+                        <p style="margin: 0 0 5px 0;"><strong>Lead ID:</strong> {{ lead_id }}</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Customer:</strong> {{ customer_name }}</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Email:</strong> {{ customer_email }}</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Phone:</strong> {{ customer_phone }}</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Vendor:</strong> {{ vendor_name }}</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Total:</strong> ${{ total_cost }}</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Deposit:</strong> ${{ deposit_paid }}</p>
+                        <p style="margin: 0;"><strong>Status:</strong> {{ payment_status }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Move Details Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #667eea;">
+                <h3 style="color: #667eea; font-size: 18px; margin: 0 0 15px 0;">🗺️ Move Details</h3>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 1px solid #667eea; border-radius: 8px; padding: 20px;">
+                    <p style="margin: 0 0 10px 0;"><strong>From:</strong> {{ move_from }}</p>
+                    <p style="margin: 0 0 10px 0;"><strong>To:</strong> {{ move_to }}</p>
+                    <p style="margin: 0 0 10px 0;"><strong>Date:</strong> {{ move_date }}</p>
+                    <p style="margin: 0;"><strong>Time:</strong> {{ move_time }}</p>
+                </div>
+            </div>
+            
+            <!-- Interactive Map Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #667eea;">
+                <h3 style="color: #667eea; font-size: 18px; margin: 0 0 15px 0;">🗺️ Route Analysis</h3>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 2px dashed #667eea; border-radius: 8px; padding: 30px; text-align: center;">
+                    <h4 style="color: #667eea; margin: 0 0 15px 0;">📍 Route Information</h4>
+                    <p style="color: #666; margin: 0 0 10px 0;"><strong>From:</strong> {{ move_from }}</p>
+                    <p style="color: #666; margin: 0 0 15px 0;"><strong>To:</strong> {{ move_to }}</p>
+                    <div style="background: white; padding: 15px; border-radius: 6px; margin: 10px 0;">
+                        <p style="color: #28a745; font-weight: bold; margin: 0 0 5px 0;">📊 Route Analysis</p>
+                        <p style="color: #666; font-size: 14px; margin: 0 0 5px 0;">Distance: ~48.6 km | Estimated Time: ~39 minutes</p>
+                        <p style="color: #666; font-size: 14px; margin: 0;">Route: Markham → Etobicoke via Highway 401</p>
+                    </div>
+                    <p style="color: #667eea; font-size: 12px; margin: 10px 0 0 0;">💡 System monitoring route efficiency</p>
+                </div>
+            </div>
+            
+            <!-- Revenue Tracking Section -->
+            <div style="background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%); padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #28a745;">
+                <h3 style="color: #155724; font-size: 18px; margin: 0 0 15px 0;">💰 Revenue Tracking</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0;">
+                    <div style="background: white; border: 1px solid #28a745; border-radius: 8px; padding: 15px; text-align: center;">
+                        <div style="font-size: 20px; font-weight: bold; color: #155724; margin-bottom: 5px;">${{ deposit_paid }}</div>
+                        <div style="font-size: 12px; color: #155724; opacity: 0.8;">Deposit Collected</div>
+                    </div>
+                    <div style="background: white; border: 1px solid #28a745; border-radius: 8px; padding: 15px; text-align: center;">
+                        <div style="font-size: 20px; font-weight: bold; color: #155724; margin-bottom: 5px;">${{ total_cost }}</div>
+                        <div style="font-size: 12px; color: #155724; opacity: 0.8;">Total Contract Value</div>
+                    </div>
+                    <div style="background: white; border: 1px solid #28a745; border-radius: 8px; padding: 15px; text-align: center;">
+                        <div style="font-size: 20px; font-weight: bold; color: #155724; margin-bottom: 5px;">${{ balance_due }}</div>
+                        <div style="font-size: 12px; color: #155724; opacity: 0.8;">Pending Collection</div>
+                    </div>
+                    <div style="background: white; border: 1px solid #28a745; border-radius: 8px; padding: 15px; text-align: center;">
+                        <div style="font-size: 16px; font-weight: bold; color: #155724; margin-bottom: 5px;">{{ payment_intent_id or 'N/A' }}</div>
+                        <div style="font-size: 12px; color: #155724; opacity: 0.8;">Payment Intent ID</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- System Information Section -->
+            <div style="background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%); padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #17a2b8;">
+                <h3 style="color: #0c5460; font-size: 18px; margin: 0 0 15px 0;">🔧 System Information</h3>
+                <div style="background: white; padding: 15px; border-radius: 6px; margin: 10px 0; font-family: monospace; font-size: 12px; color: #495057;">
+                    <p style="margin: 0 0 5px 0;"><strong>System:</strong> MovedIn 3.0 Smart & Secure</p>
+                    <p style="margin: 0 0 5px 0;"><strong>Timestamp:</strong> {{ created_at }}</p>
+                    <p style="margin: 0 0 5px 0;"><strong>Environment:</strong> Production</p>
+                    <p style="margin: 0 0 5px 0;"><strong>Database:</strong> SQLite (Local Development)</p>
+                    <p style="margin: 0;"><strong>Email Service:</strong> SMTP (Office 365)</p>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- Footer -->
+        <div style="background: #f8f9fa; padding: 25px 30px; text-align: center; border-top: 1px solid #e9ecef;">
+            <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <p style="color: #6c757d; font-size: 14px; margin: 0 0 10px 0;"><strong>System Monitoring:</strong> <a href="mailto:support@movedin.com" style="color: #667eea; text-decoration: none; font-weight: 600;">support@movedin.com</a></p>
+                <p style="color: #6c757d; font-size: 14px; margin: 0;">All systems operational and monitoring active</p>
+            </div>
+            <div style="background: #e9ecef; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 12px; color: #495057; margin-bottom: 15px;">
+                <strong>Lead ID:</strong> #{{ lead_id }} | <strong>Status:</strong> {{ payment_status }} | <strong>System:</strong> MovedIn 3.0
+            </div>
+            <p style="margin: 0; font-size: 12px; color: #6c757d;">
+                This email was sent by MovedIn 3.0 - Smart & Secure Moving Platform<br>
+                © 2025 MovedIn. All rights reserved.
+            </p>
+        </div>
+        
+    </div>
+</body>
+</html>
+
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 13:57:41
+To: sarah.miller@example.com
+Subject: 🎉 Move Booking Confirmed - Lead #4 - MovedIn
+================================================================================
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Move Booking Confirmed - MovedIn</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f8f9fa; font-family: Arial, sans-serif;">
+    <div style="max-width: 600px; margin: 0 auto; background: #ffffff; padding: 0;">
+        
+        <!-- Header with MovedIn Logo -->
+        <div style="background: linear-gradient(135deg, #5340FF 0%, #4230dd 100%); color: white; padding: 40px 30px; text-align: center;">
+            <div style="font-size: 32px; font-weight: bold; margin-bottom: 10px;">🚚 MovedIn</div>
+            <h1 style="font-size: 28px; margin: 10px 0;">🎉 Your Move is Confirmed!</h1>
+            <p style="margin: 10px 0; opacity: 0.9;">Thank you for choosing MovedIn - Canada's trusted moving platform</p>
+        </div>
+        
+        <!-- Success Banner -->
+        <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px 30px; text-align: center;">
+            <h2 style="font-size: 22px; margin: 0 0 8px 0;">✅ Booking Confirmed - Reference #{{ lead_id }}</h2>
+            <p style="margin: 0;">Your ${{ deposit_paid }} CAD deposit has been received and your move is now scheduled!</p>
+        </div>
+        
+        <!-- Content -->
+        <div style="padding: 30px;">
+            
+            <!-- Move Details Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #5340FF;">
+                <h3 style="color: #5340FF; font-size: 18px; margin: 0 0 15px 0;">🏠 Your Move Details</h3>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 1px solid #5340FF; border-radius: 8px; padding: 20px;">
+                    <p style="margin: 0 0 10px 0;"><strong>📍 Pickup Address:</strong> {{ move_from }}</p>
+                    <p style="margin: 0 0 10px 0;"><strong>🎯 Delivery Address:</strong> {{ move_to }}</p>
+                    <p style="margin: 0 0 10px 0;"><strong>📅 Move Date:</strong> {{ move_date }}</p>
+                    <p style="margin: 0;"><strong>⏰ Preferred Time:</strong> {{ move_time }}</p>
+                </div>
+            </div>
+            
+            <!-- Interactive Map Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #5340FF;">
+                <h3 style="color: #5340FF; font-size: 18px; margin: 0 0 15px 0;">🗺️ Your Move Route</h3>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 2px dashed #5340FF; border-radius: 8px; padding: 30px; text-align: center;">
+                    <h4 style="color: #5340FF; margin: 0 0 15px 0;">📍 Interactive Route Map</h4>
+                    <p style="color: #666; margin: 0 0 10px 0;"><strong>From:</strong> {{ move_from }}</p>
+                    <p style="color: #666; margin: 0 0 15px 0;"><strong>To:</strong> {{ move_to }}</p>
+                    <div style="background: white; padding: 15px; border-radius: 6px; margin: 10px 0;">
+                        <p style="color: #28a745; font-weight: bold; margin: 0 0 5px 0;">📊 Route Information</p>
+                        <p style="color: #666; font-size: 14px; margin: 0 0 5px 0;">Distance: ~48.6 km | Estimated Time: ~39 minutes</p>
+                        <p style="color: #666; font-size: 14px; margin: 0;">Route: Markham → Etobicoke via Highway 401</p>
+                    </div>
+                    <p style="color: #5340FF; font-size: 12px; margin: 10px 0 0 0;">💡 View full interactive map online</p>
+                </div>
+            </div>
+            
+            <!-- Vendor Details Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #5340FF;">
+                <h3 style="color: #5340FF; font-size: 18px; margin: 0 0 15px 0;">🚚 Your Moving Company</h3>
+                <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px; text-align: center; border: 1px solid #e9ecef;">
+                    <h4 style="color: #5340FF; margin: 0 0 15px 0;">{{ vendor_name }}</h4>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 6px;">
+                        <p style="color: #666; font-size: 14px; margin: 0 0 5px 0;">🏢 Professional Moving Services</p>
+                        <p style="color: #666; font-size: 14px; margin: 0 0 5px 0;">📞 Contact: (416) 555-0123</p>
+                        <p style="color: #666; font-size: 14px; margin: 0;">⭐ Rating: 4.8/5 (127 reviews)</p>
+                    </div>
+                </div>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 1px solid #5340FF; border-radius: 8px; padding: 20px;">
+                    <p style="margin: 0 0 10px 0;"><strong>🏢 Company:</strong> {{ vendor_name }}</p>
+                    <p style="margin: 0 0 15px 0;"><strong>💰 Estimated Total:</strong> ${{ total_cost }}</p>
+                    <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; margin: 15px 0;">
+                        <div style="font-size: 24px; font-weight: bold; margin-bottom: 5px;">${{ deposit_paid }} CAD</div>
+                        <div style="font-size: 14px; opacity: 0.9;">Deposit Paid ✅</div>
+                    </div>
+                    <p style="margin: 0;"><strong>💳 Estimated Final Payment:</strong> ${{ balance_due }}</p>
+                </div>
+            </div>
+            
+            <!-- Next Steps Section -->
+            <div style="background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%); padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ffc107;">
+                <h3 style="color: #856404; font-size: 18px; margin: 0 0 15px 0;">📞 What Happens Next?</h3>
+                <ol style="padding-left: 20px; margin: 0; color: #856404;">
+                    <li style="margin-bottom: 10px;"><strong>The moving company will contact you within 24 hours</strong> to confirm all details and answer any questions</li>
+                    <li style="margin-bottom: 10px;"><strong>They'll verify your move date, time, and special requirements</strong> to ensure everything goes smoothly</li>
+                    <li style="margin-bottom: 10px;"><strong>On moving day,</strong> the professional crew will arrive on time and handle your belongings with care</li>
+                    <li style="margin: 0;"><strong>Estimated final payment</strong> of ${{ balance_due }} will be collected upon successful completion of your move</li>
+                </ol>
+            </div>
+            
+            <!-- Pro Tips Section -->
+            <div style="background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%); padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #17a2b8;">
+                <h3 style="color: #0c5460; font-size: 18px; margin: 0 0 15px 0;">💡 Pro Tips for Moving Day</h3>
+                <ul style="padding-left: 20px; margin: 0; color: #0c5460;">
+                    <li style="margin-bottom: 8px;"><strong>Pack smart:</strong> Have boxes packed and labeled with room names before movers arrive</li>
+                    <li style="margin-bottom: 8px;"><strong>Keep valuables safe:</strong> Keep important documents, jewelry, and cash with you during the move</li>
+                    <li style="margin-bottom: 8px;"><strong>Be prepared:</strong> Have cash or card ready for estimated final payment and any additional services</li>
+                    <li style="margin-bottom: 8px;"><strong>Final walkthrough:</strong> Do a complete walkthrough of both locations before leaving</li>
+                    <li style="margin: 0;"><strong>Stay connected:</strong> Keep your phone charged and accessible for communication</li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <!-- Footer -->
+        <div style="background: #f8f9fa; padding: 25px 30px; text-align: center; border-top: 1px solid #e9ecef;">
+            <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <p style="color: #6c757d; font-size: 14px; margin: 0 0 10px 0;"><strong>Questions?</strong> Contact us at <a href="mailto:support@movedin.com" style="color: #5340FF; text-decoration: none; font-weight: 600;">support@movedin.com</a></p>
+                <p style="color: #6c757d; font-size: 14px; margin: 0;">We're here to help make your move stress-free!</p>
+            </div>
+            <div style="background: #e9ecef; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 12px; color: #495057; margin-bottom: 15px;">
+                <strong>Booking Reference:</strong> #{{ lead_id }} | <strong>Status:</strong> Confirmed ✅ | <strong>Customer:</strong> {{ customer_name }}
+            </div>
+            <p style="margin: 0; font-size: 12px; color: #6c757d;">
+                This email was sent by MovedIn 3.0 - Smart & Secure Moving Platform<br>
+                © 2025 MovedIn. All rights reserved.
+            </p>
+        </div>
+        
+    </div>
+</body>
+</html>
+
+
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 13:57:41
+To: support@movedin.com
+Subject: 📋 NEW VENDOR ORDER - Lead #4 - Pierre & Sons Moving
+================================================================================
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEW VENDOR ORDER - MovedIn</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f8f9fa; font-family: Arial, sans-serif;">
+    <div style="max-width: 600px; margin: 0 auto; background: #ffffff; padding: 0;">
+        
+        <!-- Header with MovedIn Logo -->
+        <div style="background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); color: white; padding: 40px 30px; text-align: center;">
+            <div style="font-size: 32px; font-weight: bold; margin-bottom: 10px;">🚚 MovedIn</div>
+            <h1 style="font-size: 28px; margin: 10px 0;">📋 NEW VENDOR ORDER</h1>
+            <p style="margin: 10px 0; opacity: 0.9;">Lead #{{ lead_id }} - Action Required</p>
+        </div>
+        
+        <!-- Urgent Action Banner -->
+        <div style="background: linear-gradient(135deg, #ffc107 0%, #ff8c00 100%); color: #856404; padding: 25px 30px; text-align: center;">
+            <h2 style="font-size: 22px; margin: 0 0 8px 0;">⚡ URGENT: Contact Customer Within 24 Hours</h2>
+            <p style="margin: 0;"><strong>Deposit paid:</strong> ${{ deposit_paid }} CAD ✅ | <strong>Status:</strong> Ready for vendor contact</p>
+        </div>
+        
+        <!-- Content -->
+        <div style="padding: 30px;">
+            
+            <!-- Customer Contact Details Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ff6b35;">
+                <h3 style="color: #ff6b35; font-size: 18px; margin: 0 0 15px 0;">👤 Customer Contact Details</h3>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 1px solid #ff6b35; border-radius: 8px; padding: 20px;">
+                    <p style="margin: 0 0 10px 0;"><strong>Name:</strong> {{ customer_name }}</p>
+                    <p style="margin: 0 0 10px 0;"><strong>Email:</strong> <a href="mailto:{{ customer_email }}" style="color: #ff6b35; text-decoration: none;">{{ customer_email }}</a></p>
+                    <p style="margin: 0 0 10px 0;"><strong>Phone:</strong> {{ customer_phone }}</p>
+                    <p style="margin: 0;"><strong>Preferred Contact:</strong> Phone or Email</p>
+                </div>
+            </div>
+            
+            <!-- Move Details Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ff6b35;">
+                <h3 style="color: #ff6b35; font-size: 18px; margin: 0 0 15px 0;">🏠 Move Details</h3>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 1px solid #ff6b35; border-radius: 8px; padding: 20px;">
+                    <p style="margin: 0 0 10px 0;"><strong>Pickup Address:</strong> {{ move_from }}</p>
+                    <p style="margin: 0 0 10px 0;"><strong>Delivery Address:</strong> {{ move_to }}</p>
+                    <p style="margin: 0 0 10px 0;"><strong>Move Date:</strong> {{ move_date }}</p>
+                    <p style="margin: 0;"><strong>Preferred Time:</strong> {{ move_time }}</p>
+                </div>
+            </div>
+            
+            <!-- Interactive Map Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ff6b35;">
+                <h3 style="color: #ff6b35; font-size: 18px; margin: 0 0 15px 0;">🗺️ Move Route</h3>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 2px dashed #ff6b35; border-radius: 8px; padding: 30px; text-align: center;">
+                    <h4 style="color: #ff6b35; margin: 0 0 15px 0;">📍 Route Information</h4>
+                    <p style="color: #666; margin: 0 0 10px 0;"><strong>From:</strong> {{ move_from }}</p>
+                    <p style="color: #666; margin: 0 0 15px 0;"><strong>To:</strong> {{ move_to }}</p>
+                    <div style="background: white; padding: 15px; border-radius: 6px; margin: 10px 0;">
+                        <p style="color: #28a745; font-weight: bold; margin: 0 0 5px 0;">📊 Route Details</p>
+                        <p style="color: #666; font-size: 14px; margin: 0 0 5px 0;">Distance: ~48.6 km | Estimated Time: ~39 minutes</p>
+                        <p style="color: #666; font-size: 14px; margin: 0;">Route: Markham → Etobicoke via Highway 401</p>
+                    </div>
+                    <p style="color: #ff6b35; font-size: 12px; margin: 10px 0 0 0;">💡 View full interactive map online</p>
+                </div>
+            </div>
+            
+            <!-- Vendor Assignment Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ff6b35;">
+                <h3 style="color: #ff6b35; font-size: 18px; margin: 0 0 15px 0;">🚚 Vendor Assignment</h3>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 1px solid #ff6b35; border-radius: 8px; padding: 20px;">
+                    <p style="margin: 0 0 10px 0;"><strong>Moving Company:</strong> {{ vendor_name }}</p>
+                    <p style="margin: 0 0 10px 0;"><strong>Quoted Price:</strong> ${{ total_cost }}</p>
+                    <p style="margin: 0 0 15px 0;"><strong>Deposit Received:</strong> ${{ deposit_paid }} CAD ✅</p>
+                    <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 15px; border-radius: 8px; text-align: center; margin: 15px 0;">
+                        <div style="font-size: 20px; font-weight: bold; margin-bottom: 5px;">${{ balance_due }}</div>
+                        <div style="font-size: 14px; opacity: 0.9;">Estimated Final Payment to Collect</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Required Actions Section -->
+            <div style="background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%); padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #28a745;">
+                <h3 style="color: #155724; font-size: 18px; margin: 0 0 15px 0;">📞 Required Actions</h3>
+                <ol style="padding-left: 20px; margin: 0; color: #155724;">
+                    <li style="margin-bottom: 10px;"><strong>CALL CUSTOMER:</strong> Contact {{ customer_name }} at {{ customer_phone }} within 24 hours</li>
+                    <li style="margin-bottom: 10px;"><strong>CONFIRM DETAILS:</strong> Verify move date, time, addresses, and special requirements</li>
+                    <li style="margin-bottom: 10px;"><strong>SCHEDULE CREW:</strong> Assign movers and truck for {{ move_date }}</li>
+                    <li style="margin: 0;"><strong>ESTIMATED FINAL PAYMENT:</strong> Collect ${{ balance_due }} on move completion</li>
+                </ol>
+            </div>
+            
+            <!-- Important Notes Section -->
+            <div style="background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%); padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ffc107;">
+                <h3 style="color: #856404; font-size: 18px; margin: 0 0 15px 0;">⚠️ Important Notes</h3>
+                <ul style="padding-left: 20px; margin: 0; color: #856404;">
+                    <li style="margin-bottom: 8px;"><strong>Customer Expectations:</strong> Professional service, on-time arrival, careful handling of belongings</li>
+                    <li style="margin-bottom: 8px;"><strong>Payment Terms:</strong> ${{ deposit_paid }} deposit already received, ${{ balance_due }} estimated final payment due on completion</li>
+                    <li style="margin-bottom: 8px;"><strong>Communication:</strong> Keep customer informed of any delays or changes</li>
+                    <li style="margin: 0;"><strong>Quality Standards:</strong> Maintain MovedIn's high service standards throughout the move</li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <!-- Footer -->
+        <div style="background: #f8f9fa; padding: 25px 30px; text-align: center; border-top: 1px solid #e9ecef;">
+            <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <p style="color: #6c757d; font-size: 14px; margin: 0 0 10px 0;"><strong>Questions?</strong> Contact us at <a href="mailto:support@movedin.com" style="color: #ff6b35; text-decoration: none; font-weight: 600;">support@movedin.com</a></p>
+                <p style="color: #6c757d; font-size: 14px; margin: 0;">We're here to support your business success!</p>
+            </div>
+            <div style="background: #e9ecef; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 12px; color: #495057; margin-bottom: 15px;">
+                <strong>Lead ID:</strong> #{{ lead_id }} | <strong>Created:</strong> {{ created_at }} | <strong>Status:</strong> {{ payment_status }}
+            </div>
+            <p style="margin: 0; font-size: 12px; color: #6c757d;">
+                This email was sent by MovedIn 3.0 - Smart & Secure Moving Platform<br>
+                © 2025 MovedIn. All rights reserved.
+            </p>
+        </div>
+        
+    </div>
+</body>
+</html>
+
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-21 13:57:41
+To: udi.shkolnik@alicesolutions.com
+Subject: 📊 SYSTEM ALERT - Lead #4 - MovedIn 3.0
+================================================================================
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYSTEM ALERT - MovedIn 3.0</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f8f9fa; font-family: Arial, sans-serif;">
+    <div style="max-width: 600px; margin: 0 auto; background: #ffffff; padding: 0;">
+        
+        <!-- Header with MovedIn Logo -->
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 30px; text-align: center;">
+            <div style="font-size: 32px; font-weight: bold; margin-bottom: 10px;">🚚 MovedIn</div>
+            <h1 style="font-size: 28px; margin: 10px 0;">📊 SYSTEM ALERT</h1>
+            <p style="margin: 10px 0; opacity: 0.9;">MovedIn 3.0 - Lead #{{ lead_id }}</p>
+        </div>
+        
+        <!-- System Health Status Banner -->
+        <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px 30px; text-align: center;">
+            <h2 style="font-size: 22px; margin: 0 0 8px 0;">✅ System Health Status</h2>
+            <p style="margin: 0;">All systems operational - Lead processed successfully</p>
+        </div>
+        
+        <!-- Content -->
+        <div style="padding: 30px;">
+            
+            <!-- System Metrics Section -->
+            <div style="background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%); padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #28a745;">
+                <h3 style="color: #155724; font-size: 18px; margin: 0 0 15px 0;">📈 System Metrics</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0;">
+                    <div style="background: white; border: 1px solid #28a745; border-radius: 8px; padding: 15px; text-align: center;">
+                        <div style="font-size: 20px; font-weight: bold; color: #155724; margin-bottom: 5px;">✅</div>
+                        <div style="font-size: 12px; color: #155724; opacity: 0.8;">Lead Created</div>
+                    </div>
+                    <div style="background: white; border: 1px solid #28a745; border-radius: 8px; padding: 15px; text-align: center;">
+                        <div style="font-size: 20px; font-weight: bold; color: #155724; margin-bottom: 5px;">✅</div>
+                        <div style="font-size: 12px; color: #155724; opacity: 0.8;">Payment Status</div>
+                    </div>
+                    <div style="background: white; border: 1px solid #28a745; border-radius: 8px; padding: 15px; text-align: center;">
+                        <div style="font-size: 20px; font-weight: bold; color: #155724; margin-bottom: 5px;">✅</div>
+                        <div style="font-size: 12px; color: #155724; opacity: 0.8;">Email Notifications</div>
+                    </div>
+                    <div style="background: white; border: 1px solid #28a745; border-radius: 8px; padding: 15px; text-align: center;">
+                        <div style="font-size: 20px; font-weight: bold; color: #155724; margin-bottom: 5px;">✅</div>
+                        <div style="font-size: 12px; color: #155724; opacity: 0.8;">Database Updated</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lead Summary Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #667eea;">
+                <h3 style="color: #667eea; font-size: 18px; margin: 0 0 15px 0;">📋 Lead Summary</h3>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 1px solid #667eea; border-radius: 8px; padding: 20px;">
+                    <div style="background: white; padding: 15px; border-radius: 6px; margin: 10px 0; font-family: monospace; font-size: 12px; color: #495057;">
+                        <p style="margin: 0 0 5px 0;"><strong>Lead ID:</strong> {{ lead_id }}</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Customer:</strong> {{ customer_name }}</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Email:</strong> {{ customer_email }}</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Phone:</strong> {{ customer_phone }}</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Vendor:</strong> {{ vendor_name }}</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Total:</strong> ${{ total_cost }}</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Deposit:</strong> ${{ deposit_paid }}</p>
+                        <p style="margin: 0;"><strong>Status:</strong> {{ payment_status }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Move Details Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #667eea;">
+                <h3 style="color: #667eea; font-size: 18px; margin: 0 0 15px 0;">🗺️ Move Details</h3>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 1px solid #667eea; border-radius: 8px; padding: 20px;">
+                    <p style="margin: 0 0 10px 0;"><strong>From:</strong> {{ move_from }}</p>
+                    <p style="margin: 0 0 10px 0;"><strong>To:</strong> {{ move_to }}</p>
+                    <p style="margin: 0 0 10px 0;"><strong>Date:</strong> {{ move_date }}</p>
+                    <p style="margin: 0;"><strong>Time:</strong> {{ move_time }}</p>
+                </div>
+            </div>
+            
+            <!-- Interactive Map Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #667eea;">
+                <h3 style="color: #667eea; font-size: 18px; margin: 0 0 15px 0;">🗺️ Route Analysis</h3>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 2px dashed #667eea; border-radius: 8px; padding: 30px; text-align: center;">
+                    <h4 style="color: #667eea; margin: 0 0 15px 0;">📍 Route Information</h4>
+                    <p style="color: #666; margin: 0 0 10px 0;"><strong>From:</strong> {{ move_from }}</p>
+                    <p style="color: #666; margin: 0 0 15px 0;"><strong>To:</strong> {{ move_to }}</p>
+                    <div style="background: white; padding: 15px; border-radius: 6px; margin: 10px 0;">
+                        <p style="color: #28a745; font-weight: bold; margin: 0 0 5px 0;">📊 Route Analysis</p>
+                        <p style="color: #666; font-size: 14px; margin: 0 0 5px 0;">Distance: ~48.6 km | Estimated Time: ~39 minutes</p>
+                        <p style="color: #666; font-size: 14px; margin: 0;">Route: Markham → Etobicoke via Highway 401</p>
+                    </div>
+                    <p style="color: #667eea; font-size: 12px; margin: 10px 0 0 0;">💡 System monitoring route efficiency</p>
+                </div>
+            </div>
+            
+            <!-- Revenue Tracking Section -->
+            <div style="background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%); padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #28a745;">
+                <h3 style="color: #155724; font-size: 18px; margin: 0 0 15px 0;">💰 Revenue Tracking</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0;">
+                    <div style="background: white; border: 1px solid #28a745; border-radius: 8px; padding: 15px; text-align: center;">
+                        <div style="font-size: 20px; font-weight: bold; color: #155724; margin-bottom: 5px;">${{ deposit_paid }}</div>
+                        <div style="font-size: 12px; color: #155724; opacity: 0.8;">Deposit Collected</div>
+                    </div>
+                    <div style="background: white; border: 1px solid #28a745; border-radius: 8px; padding: 15px; text-align: center;">
+                        <div style="font-size: 20px; font-weight: bold; color: #155724; margin-bottom: 5px;">${{ total_cost }}</div>
+                        <div style="font-size: 12px; color: #155724; opacity: 0.8;">Total Contract Value</div>
+                    </div>
+                    <div style="background: white; border: 1px solid #28a745; border-radius: 8px; padding: 15px; text-align: center;">
+                        <div style="font-size: 20px; font-weight: bold; color: #155724; margin-bottom: 5px;">${{ balance_due }}</div>
+                        <div style="font-size: 12px; color: #155724; opacity: 0.8;">Pending Collection</div>
+                    </div>
+                    <div style="background: white; border: 1px solid #28a745; border-radius: 8px; padding: 15px; text-align: center;">
+                        <div style="font-size: 16px; font-weight: bold; color: #155724; margin-bottom: 5px;">{{ payment_intent_id or 'N/A' }}</div>
+                        <div style="font-size: 12px; color: #155724; opacity: 0.8;">Payment Intent ID</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- System Information Section -->
+            <div style="background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%); padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #17a2b8;">
+                <h3 style="color: #0c5460; font-size: 18px; margin: 0 0 15px 0;">🔧 System Information</h3>
+                <div style="background: white; padding: 15px; border-radius: 6px; margin: 10px 0; font-family: monospace; font-size: 12px; color: #495057;">
+                    <p style="margin: 0 0 5px 0;"><strong>System:</strong> MovedIn 3.0 Smart & Secure</p>
+                    <p style="margin: 0 0 5px 0;"><strong>Timestamp:</strong> {{ created_at }}</p>
+                    <p style="margin: 0 0 5px 0;"><strong>Environment:</strong> Production</p>
+                    <p style="margin: 0 0 5px 0;"><strong>Database:</strong> SQLite (Local Development)</p>
+                    <p style="margin: 0;"><strong>Email Service:</strong> SMTP (Office 365)</p>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- Footer -->
+        <div style="background: #f8f9fa; padding: 25px 30px; text-align: center; border-top: 1px solid #e9ecef;">
+            <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <p style="color: #6c757d; font-size: 14px; margin: 0 0 10px 0;"><strong>System Monitoring:</strong> <a href="mailto:support@movedin.com" style="color: #667eea; text-decoration: none; font-weight: 600;">support@movedin.com</a></p>
+                <p style="color: #6c757d; font-size: 14px; margin: 0;">All systems operational and monitoring active</p>
+            </div>
+            <div style="background: #e9ecef; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 12px; color: #495057; margin-bottom: 15px;">
+                <strong>Lead ID:</strong> #{{ lead_id }} | <strong>Status:</strong> {{ payment_status }} | <strong>System:</strong> MovedIn 3.0
+            </div>
+            <p style="margin: 0; font-size: 12px; color: #6c757d;">
+                This email was sent by MovedIn 3.0 - Smart & Secure Moving Platform<br>
+                © 2025 MovedIn. All rights reserved.
+            </p>
+        </div>
+        
+    </div>
+</body>
+</html>
+
+================================================================================

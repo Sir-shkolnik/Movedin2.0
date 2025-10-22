@@ -1,0 +1,33 @@
+.div-style-a3650f97 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  width: 239px;
+  height: 72px;
+  background: white;
+  border-bottom: 1px solid #eaecf0;
+}
+.div-style-1b90e3b {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+}
+.div-style-8c6f4d6d {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  align-items: center;
+  align-self: stretch;
+  justify-content: flex-start;
+  min-width: 239px;
+  padding-right: 12px;
+  padding-left: 16px;
+}

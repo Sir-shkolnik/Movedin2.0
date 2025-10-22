@@ -1,0 +1,22 @@
+.div-style-a948103 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 328px;
+  overflow: hidden;
+}
+.div-style-50618ec2 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 12px;
+  align-items: flex-start;
+  align-self: stretch;
+  justify-content: flex-end;
+  padding: 16px;
+  border-top: 1px solid #eaecf0;
+}

@@ -1,0 +1,39 @@
+.div-style-7ca27ba {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 10px;
+}
+.div-style-439bfcaa {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-top: 24px;
+  padding-bottom: 75px;
+}
+.div-style-582bcac2 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-right: 229px;
+  padding-left: 229px;
+  background: white;
+  border-radius: 16px;
+}
+.div-style-f82b4dad {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  width: 505px;
+  padding-top: 80px;
+  padding-bottom: 30px;
+}

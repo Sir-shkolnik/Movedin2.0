@@ -1,0 +1,20 @@
+.div-style-8998d5c8 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 650px;
+}
+.p-style-397b01e4 {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 480px;
+  padding: 0;
+  margin: 0;
+  font: 400 20px/30px Lexend, sans-serif;
+  color: #475467;
+  text-align: left;
+}

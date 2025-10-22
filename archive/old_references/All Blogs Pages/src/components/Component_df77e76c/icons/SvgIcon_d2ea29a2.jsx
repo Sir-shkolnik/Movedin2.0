@@ -1,0 +1,31 @@
+function SvgIcon_d2ea29a2({ className }) {
+  return (
+    <div className={className}>
+      <svg fill="none" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" x="0" y="0">
+        <defs>
+          <clipPath id="clip51_1306_13268" xmlns="http://www.w3.org/2000/svg">
+            <rect height="19.1103" width="19.1103" fill="white" rx="14" x="-1065.1799999999998" y="-1898.9099999999999" />
+          </clipPath>
+        </defs>
+        <g id="Frame 53136_11" xmlns="http://www.w3.org/2000/svg">
+          <g id="Check icon_24">
+            <g clipPath="url(#clip51_1306_13268)">
+              <g id="check-circle_24">
+                <path
+                  id="Icon_32"
+                  d="M-1059.21,-1889.35l2.39,2.39l4.78,-4.78M-1047.66,-1889.35c0,4.4 -3.56,7.96 -7.96,7.96c-4.4,0 -7.97,-3.56 -7.97,-7.96c0,-4.4 3.57,-7.96 7.97,-7.96c4.4,0 7.96,3.56 7.96,7.96z"
+                  stroke="#5340FF"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2.33333"
+                />
+              </g>
+            </g>
+          </g>
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+export default SvgIcon_d2ea29a2;

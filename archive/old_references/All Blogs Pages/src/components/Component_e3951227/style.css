@@ -1,0 +1,32 @@
+.div-style-536ada88 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  align-items: flex-start;
+  align-self: stretch;
+  justify-content: flex-start;
+}
+.div-style-4655213f {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 720px;
+  height: 720px;
+  padding: 32px;
+  background: #f9fafb;
+}
+.img-style-84d65da9 {
+  box-sizing: border-box;
+  display: block;
+  flex: 0 0 auto;
+  width: 400px;
+  max-width: initial;
+  height: 560px;
+  overflow: hidden;
+  border: none;
+  object-fit: cover;
+}

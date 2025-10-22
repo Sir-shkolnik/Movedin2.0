@@ -1,0 +1,652 @@
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 06:44:47
+To: test@example.com
+Subject: 🎉 Move Booking Confirmed - Lead #90 - MovedIn
+================================================================================
+<h1>Email Template Error</h1><p>Template customer_confirmation_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 06:44:47
+To: support@movedin.com
+Subject: 📋 NEW VENDOR ORDER - Lead #90 - Lets Get Moving
+================================================================================
+<h1>Email Template Error</h1><p>Template vendor_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 06:44:47
+To: udi.shkolnik@alicesolutions.com
+Subject: 📊 SYSTEM ALERT - Lead #90 - MovedIn 3.0
+================================================================================
+<h1>Email Template Error</h1><p>Template support_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 06:53:06
+To: fullstack@example.com
+Subject: 🎉 Move Booking Confirmed - Lead #91 - MovedIn
+================================================================================
+<h1>Email Template Error</h1><p>Template customer_confirmation_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 06:53:06
+To: support@movedin.com
+Subject: 📋 NEW VENDOR ORDER - Lead #91 - Lets Get Moving
+================================================================================
+<h1>Email Template Error</h1><p>Template vendor_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 06:53:06
+To: udi.shkolnik@alicesolutions.com
+Subject: 📊 SYSTEM ALERT - Lead #91 - MovedIn 3.0
+================================================================================
+<h1>Email Template Error</h1><p>Template support_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:12:56
+To: udishkolnik@gmail.com
+Subject: 🎉 Move Booking Confirmed - Lead #92 - MovedIn
+================================================================================
+<h1>Email Template Error</h1><p>Template customer_confirmation_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:12:56
+To: support@movedin.com
+Subject: 📋 NEW VENDOR ORDER - Lead #92 - Pierre & Sons
+================================================================================
+<h1>Email Template Error</h1><p>Template vendor_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:12:56
+To: udi.shkolnik@alicesolutions.com
+Subject: 📊 SYSTEM ALERT - Lead #92 - MovedIn 3.0
+================================================================================
+<h1>Email Template Error</h1><p>Template support_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:12:56
+To: udishkolnik@gmail.com
+Subject: 🎉 Move Booking Confirmed - Lead #92 - MovedIn
+================================================================================
+<h1>Email Template Error</h1><p>Template customer_confirmation_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:12:56
+To: support@movedin.com
+Subject: 📋 NEW VENDOR ORDER - Lead #92 - Pierre & Sons
+================================================================================
+<h1>Email Template Error</h1><p>Template vendor_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:12:56
+To: udi.shkolnik@alicesolutions.com
+Subject: 📊 SYSTEM ALERT - Lead #92 - MovedIn 3.0
+================================================================================
+<h1>Email Template Error</h1><p>Template support_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:14:54
+To: test@example.com
+Subject: 🎉 Move Booking Confirmed - Lead #93 - MovedIn
+================================================================================
+<h1>Email Template Error</h1><p>Template customer_confirmation_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:14:54
+To: support@movedin.com
+Subject: 📋 NEW VENDOR ORDER - Lead #93 - Lets Get Moving
+================================================================================
+<h1>Email Template Error</h1><p>Template vendor_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:14:54
+To: udi.shkolnik@alicesolutions.com
+Subject: 📊 SYSTEM ALERT - Lead #93 - MovedIn 3.0
+================================================================================
+<h1>Email Template Error</h1><p>Template support_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:16:42
+To: udishkolnik@gmail.com
+Subject: 🎉 Move Booking Confirmed - Lead #94 - MovedIn
+================================================================================
+<h1>Email Template Error</h1><p>Template customer_confirmation_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:16:42
+To: support@movedin.com
+Subject: 📋 NEW VENDOR ORDER - Lead #94 - Pierre & Sons
+================================================================================
+<h1>Email Template Error</h1><p>Template vendor_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:16:42
+To: udi.shkolnik@alicesolutions.com
+Subject: 📊 SYSTEM ALERT - Lead #94 - MovedIn 3.0
+================================================================================
+<h1>Email Template Error</h1><p>Template support_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:16:42
+To: udishkolnik@gmail.com
+Subject: 🎉 Move Booking Confirmed - Lead #94 - MovedIn
+================================================================================
+<h1>Email Template Error</h1><p>Template customer_confirmation_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:16:42
+To: support@movedin.com
+Subject: 📋 NEW VENDOR ORDER - Lead #94 - Pierre & Sons
+================================================================================
+<h1>Email Template Error</h1><p>Template vendor_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:16:42
+To: udi.shkolnik@alicesolutions.com
+Subject: 📊 SYSTEM ALERT - Lead #94 - MovedIn 3.0
+================================================================================
+<h1>Email Template Error</h1><p>Template support_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:20:17
+To: test@example.com
+Subject: 🎉 Move Booking Confirmed - Lead #93 - MovedIn
+================================================================================
+<h1>Email Template Error</h1><p>Template customer_confirmation_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:20:17
+To: support@movedin.com
+Subject: 📋 NEW VENDOR ORDER - Lead #93 - Lets Get Moving
+================================================================================
+<h1>Email Template Error</h1><p>Template vendor_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:20:17
+To: udi.shkolnik@alicesolutions.com
+Subject: 📊 SYSTEM ALERT - Lead #93 - MovedIn 3.0
+================================================================================
+<h1>Email Template Error</h1><p>Template support_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:23:05
+To: udi.shkolnik@alicesolutions.com
+Subject: 🎉 Move Booking Confirmed - Lead #96 - MovedIn
+================================================================================
+<h1>Email Template Error</h1><p>Template customer_confirmation_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:23:05
+To: support@movedin.com
+Subject: 📋 NEW VENDOR ORDER - Lead #96 - Lets Get Moving
+================================================================================
+<h1>Email Template Error</h1><p>Template vendor_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:23:05
+To: udi.shkolnik@alicesolutions.com
+Subject: 📊 SYSTEM ALERT - Lead #96 - MovedIn 3.0
+================================================================================
+<h1>Email Template Error</h1><p>Template support_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:25:41
+To: udi.shkolnik@alicesolutions.com
+Subject: 🎉 Move Booking Confirmed - Lead #97 - MovedIn
+================================================================================
+<h1>Email Template Error</h1><p>Template customer_confirmation_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:25:41
+To: support@movedin.com
+Subject: 📋 NEW VENDOR ORDER - Lead #97 - Lets Get Moving
+================================================================================
+<h1>Email Template Error</h1><p>Template vendor_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:25:41
+To: udi.shkolnik@alicesolutions.com
+Subject: 📊 SYSTEM ALERT - Lead #97 - MovedIn 3.0
+================================================================================
+<h1>Email Template Error</h1><p>Template support_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:27:03
+To: udi.shkolnik@alicesolutions.com
+Subject: 🎉 Move Booking Confirmed - Lead #98 - MovedIn
+================================================================================
+<h1>Email Template Error</h1><p>Template customer_confirmation_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:27:03
+To: support@movedin.com
+Subject: 📋 NEW VENDOR ORDER - Lead #98 - Lets Get Moving
+================================================================================
+<h1>Email Template Error</h1><p>Template vendor_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:27:03
+To: udi.shkolnik@alicesolutions.com
+Subject: 📊 SYSTEM ALERT - Lead #98 - MovedIn 3.0
+================================================================================
+<h1>Email Template Error</h1><p>Template support_notification_perfect not found.</p>
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:30:54
+To: udi.shkolnik@alicesolutions.com
+Subject: 🎉 Move Booking Confirmed - Lead #99 - MovedIn
+================================================================================
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Move Booking Confirmed - MovedIn</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: #4F46E5; color: white; padding: 20px; text-align: center; }
+        .content { padding: 20px; background: #f9f9f9; }
+        .booking-details { background: white; padding: 15px; margin: 15px 0; border-left: 4px solid #4F46E5; }
+        .footer { text-align: center; padding: 20px; color: #666; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎉 Move Booking Confirmed!</h1>
+            <p>Your move is scheduled with Lets Get Moving</p>
+        </div>
+        
+        <div class="content">
+            <h2>Hello Udi Shkolnik Final Test!</h2>
+            <p>Thank you for choosing MovedIn for your upcoming move. Your booking has been confirmed!</p>
+            
+            <div class="booking-details">
+                <h3>📋 Booking Details</h3>
+                <p><strong>Lead ID:</strong> #99</p>
+                <p><strong>Moving Company:</strong> Lets Get Moving</p>
+                <p><strong>Move Date:</strong> 2025-11-15</p>
+                <p><strong>Move Time:</strong> Morning</p>
+                <p><strong>From:</strong> 123 Main St, Toronto</p>
+                <p><strong>To:</strong> 456 Oak Ave, Mississauga</p>
+                <p><strong>Total Cost:</strong> $2500.00</p>
+            </div>
+            
+            <p><strong>Next Steps:</strong></p>
+            <ul>
+                <li>The moving company will contact you within 24 hours</li>
+                <li>Confirm final details and any special requirements</li>
+                <li>Prepare for your move day</li>
+            </ul>
+            
+            <p>If you have any questions, please contact us at support@movedin.com</p>
+        </div>
+        
+        <div class="footer">
+            <p>MovedIn - Making Your Move Easy</p>
+            <p>This email was sent to udi.shkolnik@alicesolutions.com</p>
+        </div>
+    </div>
+</body>
+</html>
+
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:30:54
+To: support@movedin.com
+Subject: 📋 NEW VENDOR ORDER - Lead #99 - Lets Get Moving
+================================================================================
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>New Vendor Order - MovedIn</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: #059669; color: white; padding: 20px; text-align: center; }
+        .content { padding: 20px; background: #f9f9f9; }
+        .order-details { background: white; padding: 15px; margin: 15px 0; border-left: 4px solid #059669; }
+        .footer { text-align: center; padding: 20px; color: #666; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 New Vendor Order</h1>
+            <p>You have a new move booking!</p>
+        </div>
+        
+        <div class="content">
+            <h2>New Order for Lets Get Moving</h2>
+            <p>A new move has been booked through MovedIn and assigned to your company.</p>
+            
+            <div class="order-details">
+                <h3>📋 Order Details</h3>
+                <p><strong>Lead ID:</strong> #99</p>
+                <p><strong>Customer Name:</strong> Udi Shkolnik Final Test</p>
+                <p><strong>Customer Email:</strong> udi.shkolnik@alicesolutions.com</p>
+                <p><strong>Customer Phone:</strong> 3c95277da5fd0da6</p>
+                <p><strong>Move Date:</strong> 2025-11-15</p>
+                <p><strong>Move Time:</strong> Morning</p>
+                <p><strong>From Address:</strong> 123 Main St, Toronto</p>
+                <p><strong>To Address:</strong> 456 Oak Ave, Mississauga</p>
+                <p><strong>Total Cost:</strong> $2500.00</p>
+            </div>
+            
+            <p><strong>Action Required:</strong></p>
+            <ul>
+                <li>Contact the customer within 24 hours</li>
+                <li>Confirm move details and requirements</li>
+                <li>Provide final quote if needed</li>
+                <li>Schedule the move</li>
+            </ul>
+            
+            <p>Customer contact: udi.shkolnik@alicesolutions.com | 3c95277da5fd0da6</p>
+        </div>
+        
+        <div class="footer">
+            <p>MovedIn Vendor Portal</p>
+            <p>This order was generated on {{ current_date }}</p>
+        </div>
+    </div>
+</body>
+</html>
+
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:30:54
+To: udi.shkolnik@alicesolutions.com
+Subject: 📊 SYSTEM ALERT - Lead #99 - MovedIn 3.0
+================================================================================
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>System Alert - MovedIn</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: #DC2626; color: white; padding: 20px; text-align: center; }
+        .content { padding: 20px; background: #f9f9f9; }
+        .alert-details { background: white; padding: 15px; margin: 15px 0; border-left: 4px solid #DC2626; }
+        .footer { text-align: center; padding: 20px; color: #666; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 System Alert</h1>
+            <p>New Lead Created - MovedIn 3.0</p>
+        </div>
+        
+        <div class="content">
+            <h2>New Lead Alert</h2>
+            <p>A new lead has been created in the MovedIn system and requires monitoring.</p>
+            
+            <div class="alert-details">
+                <h3>📋 Lead Information</h3>
+                <p><strong>Lead ID:</strong> #99</p>
+                <p><strong>Customer Name:</strong> Udi Shkolnik Final Test</p>
+                <p><strong>Customer Email:</strong> udi.shkolnik@alicesolutions.com</p>
+                <p><strong>Customer Phone:</strong> 3c95277da5fd0da6</p>
+                <p><strong>Vendor Assigned:</strong> Lets Get Moving</p>
+                <p><strong>Move Date:</strong> 2025-11-15</p>
+                <p><strong>Move Time:</strong> Morning</p>
+                <p><strong>From Address:</strong> 123 Main St, Toronto</p>
+                <p><strong>To Address:</strong> 456 Oak Ave, Mississauga</p>
+                <p><strong>Total Cost:</strong> $2500.00</p>
+                <p><strong>Created:</strong> {{ current_date }}</p>
+            </div>
+            
+            <p><strong>System Status:</strong></p>
+            <ul>
+                <li>Lead created successfully ✅</li>
+                <li>Customer notification sent ✅</li>
+                <li>Vendor notification sent ✅</li>
+                <li>System monitoring active ✅</li>
+            </ul>
+            
+            <p>Monitor this lead for any issues or follow-up required.</p>
+        </div>
+        
+        <div class="footer">
+            <p>MovedIn 3.0 System Monitoring</p>
+            <p>Alert generated on {{ current_date }}</p>
+        </div>
+    </div>
+</body>
+</html>
+
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:37:11
+To: udi.shkolnik@alicesolutions.com
+Subject: 🎉 Move Booking Confirmed - Lead #100 - MovedIn
+================================================================================
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Move Booking Confirmed - MovedIn</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: #4F46E5; color: white; padding: 20px; text-align: center; }
+        .content { padding: 20px; background: #f9f9f9; }
+        .booking-details { background: white; padding: 15px; margin: 15px 0; border-left: 4px solid #4F46E5; }
+        .footer { text-align: center; padding: 20px; color: #666; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎉 Move Booking Confirmed!</h1>
+            <p>Your move is scheduled with Lets Get Moving</p>
+        </div>
+        
+        <div class="content">
+            <h2>Hello Udi Shkolnik SMTP Test!</h2>
+            <p>Thank you for choosing MovedIn for your upcoming move. Your booking has been confirmed!</p>
+            
+            <div class="booking-details">
+                <h3>📋 Booking Details</h3>
+                <p><strong>Lead ID:</strong> #100</p>
+                <p><strong>Moving Company:</strong> Lets Get Moving</p>
+                <p><strong>Move Date:</strong> 2025-11-15</p>
+                <p><strong>Move Time:</strong> Morning</p>
+                <p><strong>From:</strong> 123 Main St, Toronto</p>
+                <p><strong>To:</strong> 456 Oak Ave, Mississauga</p>
+                <p><strong>Total Cost:</strong> $2500.00</p>
+            </div>
+            
+            <p><strong>Next Steps:</strong></p>
+            <ul>
+                <li>The moving company will contact you within 24 hours</li>
+                <li>Confirm final details and any special requirements</li>
+                <li>Prepare for your move day</li>
+            </ul>
+            
+            <p>If you have any questions, please contact us at support@movedin.com</p>
+        </div>
+        
+        <div class="footer">
+            <p>MovedIn - Making Your Move Easy</p>
+            <p>This email was sent to udi.shkolnik@alicesolutions.com</p>
+        </div>
+    </div>
+</body>
+</html>
+
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:37:11
+To: support@movedin.com
+Subject: 📋 NEW VENDOR ORDER - Lead #100 - Lets Get Moving
+================================================================================
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>New Vendor Order - MovedIn</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: #059669; color: white; padding: 20px; text-align: center; }
+        .content { padding: 20px; background: #f9f9f9; }
+        .order-details { background: white; padding: 15px; margin: 15px 0; border-left: 4px solid #059669; }
+        .footer { text-align: center; padding: 20px; color: #666; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 New Vendor Order</h1>
+            <p>You have a new move booking!</p>
+        </div>
+        
+        <div class="content">
+            <h2>New Order for Lets Get Moving</h2>
+            <p>A new move has been booked through MovedIn and assigned to your company.</p>
+            
+            <div class="order-details">
+                <h3>📋 Order Details</h3>
+                <p><strong>Lead ID:</strong> #100</p>
+                <p><strong>Customer Name:</strong> Udi Shkolnik SMTP Test</p>
+                <p><strong>Customer Email:</strong> udi.shkolnik@alicesolutions.com</p>
+                <p><strong>Customer Phone:</strong> 3c95277da5fd0da6</p>
+                <p><strong>Move Date:</strong> 2025-11-15</p>
+                <p><strong>Move Time:</strong> Morning</p>
+                <p><strong>From Address:</strong> 123 Main St, Toronto</p>
+                <p><strong>To Address:</strong> 456 Oak Ave, Mississauga</p>
+                <p><strong>Total Cost:</strong> $2500.00</p>
+            </div>
+            
+            <p><strong>Action Required:</strong></p>
+            <ul>
+                <li>Contact the customer within 24 hours</li>
+                <li>Confirm move details and requirements</li>
+                <li>Provide final quote if needed</li>
+                <li>Schedule the move</li>
+            </ul>
+            
+            <p>Customer contact: udi.shkolnik@alicesolutions.com | 3c95277da5fd0da6</p>
+        </div>
+        
+        <div class="footer">
+            <p>MovedIn Vendor Portal</p>
+            <p>This order was generated on {{ current_date }}</p>
+        </div>
+    </div>
+</body>
+</html>
+
+================================================================================
+
+================================================================================
+📧 SMART EMAIL - 2025-10-22 07:37:11
+To: udi.shkolnik@alicesolutions.com
+Subject: 📊 SYSTEM ALERT - Lead #100 - MovedIn 3.0
+================================================================================
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>System Alert - MovedIn</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: #DC2626; color: white; padding: 20px; text-align: center; }
+        .content { padding: 20px; background: #f9f9f9; }
+        .alert-details { background: white; padding: 15px; margin: 15px 0; border-left: 4px solid #DC2626; }
+        .footer { text-align: center; padding: 20px; color: #666; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 System Alert</h1>
+            <p>New Lead Created - MovedIn 3.0</p>
+        </div>
+        
+        <div class="content">
+            <h2>New Lead Alert</h2>
+            <p>A new lead has been created in the MovedIn system and requires monitoring.</p>
+            
+            <div class="alert-details">
+                <h3>📋 Lead Information</h3>
+                <p><strong>Lead ID:</strong> #100</p>
+                <p><strong>Customer Name:</strong> Udi Shkolnik SMTP Test</p>
+                <p><strong>Customer Email:</strong> udi.shkolnik@alicesolutions.com</p>
+                <p><strong>Customer Phone:</strong> 3c95277da5fd0da6</p>
+                <p><strong>Vendor Assigned:</strong> Lets Get Moving</p>
+                <p><strong>Move Date:</strong> 2025-11-15</p>
+                <p><strong>Move Time:</strong> Morning</p>
+                <p><strong>From Address:</strong> 123 Main St, Toronto</p>
+                <p><strong>To Address:</strong> 456 Oak Ave, Mississauga</p>
+                <p><strong>Total Cost:</strong> $2500.00</p>
+                <p><strong>Created:</strong> {{ current_date }}</p>
+            </div>
+            
+            <p><strong>System Status:</strong></p>
+            <ul>
+                <li>Lead created successfully ✅</li>
+                <li>Customer notification sent ✅</li>
+                <li>Vendor notification sent ✅</li>
+                <li>System monitoring active ✅</li>
+            </ul>
+            
+            <p>Monitor this lead for any issues or follow-up required.</p>
+        </div>
+        
+        <div class="footer">
+            <p>MovedIn 3.0 System Monitoring</p>
+            <p>Alert generated on {{ current_date }}</p>
+        </div>
+    </div>
+</body>
+</html>
+
+================================================================================

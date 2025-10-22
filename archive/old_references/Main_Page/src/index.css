@@ -1,0 +1,37 @@
+/* Global styles for mobile responsiveness */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Ensure all components are responsive */
+div[data-ignore="used only for top most containter width"] {
+  width: 100% !important;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Mobile responsiveness for common elements */
+@media (max-width: 768px) {
+  div[data-ignore="used only for top most containter width"] {
+    padding: 0 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  div[data-ignore="used only for top most containter width"] {
+    padding: 0 4px;
+  }
+}

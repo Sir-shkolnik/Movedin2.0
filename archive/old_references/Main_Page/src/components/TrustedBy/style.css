@@ -1,0 +1,40 @@
+.trusted-by-section {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 60px 20px;
+}
+
+.trusted-by-title {
+  flex: 0 0 auto;
+  padding: 0;
+  margin: 0;
+  font: 700 24px Lexend, sans-serif;
+  color: #183b56;
+  letter-spacing: 0.2px;
+}
+
+.trusted-by-logos {
+  box-sizing: border-box;
+  display: block;
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 1123px;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .trusted-by-section {
+    gap: 20px;
+    padding: 40px 20px;
+  }
+  
+  .trusted-by-title {
+    font-size: 20px;
+  }
+}
+

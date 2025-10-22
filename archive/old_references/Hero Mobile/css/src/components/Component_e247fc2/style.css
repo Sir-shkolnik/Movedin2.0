@@ -1,0 +1,27 @@
+.div-style-98fcff6e {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 20px 16px;
+  background: white;
+}
+.div-style-19e469e4 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  justify-content: flex-start;
+}
+.p-style-37475d8f {
+  flex: 0 0 auto;
+  padding: 0;
+  margin: 0;
+  font: 500 20px Lexend, sans-serif;
+  color: #101828;
+}

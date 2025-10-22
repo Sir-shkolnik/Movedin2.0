@@ -1,0 +1,26 @@
+.div-style-13a08964 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 64px;
+  align-items: center;
+  justify-content: flex-start;
+  width: 1440px;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  overflow: hidden;
+  background: #f9fafb;
+}
+.div-style-1844d19 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 32px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 1171px;
+  padding-right: 32px;
+  padding-left: 32px;
+}

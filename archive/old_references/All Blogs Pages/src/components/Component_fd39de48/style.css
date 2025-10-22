@@ -1,0 +1,38 @@
+.div-style-b4a79651 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.div-style-e5d41756 {
+  flex: 0 0 auto;
+  padding: 0;
+  margin: 0;
+  font: 600 32px Lexend, sans-serif;
+  color: #00005c;
+  letter-spacing: -0.64px;
+}
+.ol-style-2ef3eead {
+  padding-left: 1.5em;
+  margin: 0;
+}
+.p-style-d91d0eac {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 1170px;
+  padding: 0;
+  margin: 0;
+  font: 400 20px/35px Lexend, sans-serif;
+  color: #475467;
+  text-align: left;
+}
+.div-style-a398a54c {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 1170px;
+  height: 2px;
+  background: #eaecf0;
+}

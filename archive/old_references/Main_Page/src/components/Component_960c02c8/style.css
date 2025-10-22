@@ -1,0 +1,29 @@
+.div-style-e3211c38 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 80px;
+  align-items: center;
+  justify-content: flex-start;
+}
+.div-style-5a631c1 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 9px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 180px;
+  padding-top: 1.75px;
+  padding-bottom: 1.75px;
+}
+.img-style-feaf4bc2 {
+  box-sizing: border-box;
+  display: block;
+  flex: 0 0 auto;
+  width: 177px;
+  max-width: initial;
+  height: 32px;
+}

@@ -1,0 +1,29 @@
+.div-style-57e26e77 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 100px;
+  align-items: center;
+  justify-content: flex-start;
+}
+.div-style-79268331 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 54px;
+  align-items: center;
+  justify-content: flex-start;
+}
+.img-style-abb4e528 {
+  box-sizing: border-box;
+  display: block;
+  flex: 0 0 auto;
+  width: 540px;
+  max-width: initial;
+  height: 360px;
+  border: none;
+  border-radius: 12px;
+  object-fit: cover;
+}

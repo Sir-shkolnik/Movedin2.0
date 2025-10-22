@@ -1,0 +1,104 @@
+.div-style-53ece45c {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  align-self: stretch;
+  justify-content: flex-start;
+  padding: 20px 24px;
+}
+.div-style-622e8c8c {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.div-style-9ccb3b01 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 280px;
+}
+.div-style-7c0b5387 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.div-style-c0bd2c27 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+}
+.p-style-7f135577 {
+  flex: 0 0 auto;
+  padding: 0;
+  margin: 0;
+  font: 600 16px Lexend, sans-serif;
+  color: #344054;
+}
+.div-style-5a6e9f21 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 12px;
+  align-items: flex-start;
+  align-self: stretch;
+  justify-content: flex-start;
+}
+.div-style-39f33f6b {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 8px 14px;
+  overflow: hidden;
+  background: white;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+}
+.p-style-fcf9499f {
+  flex: 1 1 auto;
+  padding: 0;
+  margin: 0;
+  font: 400 16px Lexend, sans-serif;
+  color: #101828;
+  text-align: left;
+}
+.Button-style-eb244d88 {
+  box-sizing: border-box;
+  display: block;
+  flex: 0 0 auto;
+  width: 75px;
+  min-width: 75px;
+  height: 40px;
+  font: 600 14px Lexend, sans-serif;
+  color: #344054;
+  cursor: pointer;
+  background: white;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+}

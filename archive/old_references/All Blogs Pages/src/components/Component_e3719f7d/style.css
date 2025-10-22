@@ -1,0 +1,18 @@
+.div-style-536ada88 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  align-items: flex-start;
+  align-self: stretch;
+  justify-content: flex-start;
+}
+.img-style-eb0b3a7 {
+  box-sizing: border-box;
+  display: block;
+  flex: 1 1 auto;
+  max-width: initial;
+  height: 720px;
+  border: none;
+  object-fit: cover;
+}

@@ -1,0 +1,26 @@
+.div-style-bed67d6e {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 80px;
+  align-items: center;
+  justify-content: flex-start;
+}
+.div-style-4b33d4cb {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 97px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.img-style-5ba51da3 {
+  box-sizing: border-box;
+  display: block;
+  flex: 0 0 auto;
+  width: 1170px;
+  max-width: initial;
+  height: 2px;
+}

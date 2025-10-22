@@ -1,0 +1,32 @@
+.div-style-ef1754d1 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 64px;
+  align-items: center;
+  justify-content: center;
+  width: 1440px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background: #f9fafb;
+}
+.div-style-127f2ce3 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 64px;
+  align-items: center;
+  justify-content: center;
+  width: 1280px;
+  padding-right: 32px;
+  padding-left: 32px;
+}
+.img-style-d03fc0fd {
+  box-sizing: border-box;
+  display: block;
+  flex: 1 1 auto;
+  max-width: initial;
+  height: 496px;
+}

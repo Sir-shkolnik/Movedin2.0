@@ -30,8 +30,8 @@ function PaymentStep() {
 
       console.log('🏗️ Creating smart lead...');
       
-      // Use environment variable for API URL (supports both dev and production)
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      // Use local backend API
+      const API_URL = 'http://localhost:8000';
       
       // 2. Smart lead creation (simplified payload)
       const leadPayload = {

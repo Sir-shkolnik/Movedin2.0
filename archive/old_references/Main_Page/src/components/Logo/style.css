@@ -1,0 +1,22 @@
+.logo-container {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 197px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  cursor: pointer;
+}
+
+.logo-image {
+  box-sizing: border-box;
+  display: block;
+  flex: 0 0 auto;
+  width: 197px;
+  max-width: initial;
+  height: 36px;
+}
+
