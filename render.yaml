@@ -9,7 +9,7 @@ services:
     region: oregon                # web services can have a region
     branch: main
     buildCommand: pip install -r src/backend/requirements.txt
-    startCommand: gunicorn -k uvicorn.workers.UvicornWorker src.backend.main:app -b 0.0.0.0:$PORT
+    startCommand: cd src/backend && gunicorn -k uvicorn.workers.UvicornWorker main:app -b 0.0.0.0:$PORT
     healthCheckPath: /health
     envVars:
       - key: ENVIRONMENT
