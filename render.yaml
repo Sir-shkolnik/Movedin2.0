@@ -1,16 +1,15 @@
-# MovedIn 3.0 - Render.com Configuration
-# Direct Node.js deployment (matching existing setup)
+# MovedIn 3.0 — Render Blueprint (cleaned & production-safe)
 
 services:
-  # Backend API Service
+  # --- Backend API (Python / FastAPI) ---
   - type: web
     name: movedin-backend
-    env: python
-    buildCommand: pip install -r src/backend/requirements.txt
-    startCommand: cd src/backend && python main.py
+    runtime: python
     plan: starter
-    region: oregon
+    region: oregon                # web services can have a region
     branch: main
+    buildCommand: pip install -r src/backend/requirements.txt
+    startCommand: gunicorn -k uvicorn.workers.UvicornWorker src.backend.main:app -b 0.0.0.0:$PORT
     healthCheckPath: /health
     envVars:
       - key: ENVIRONMENT
@@ -20,11 +19,11 @@ services:
       - key: SMTP_SERVER
         value: smtp.office365.com
       - key: SMTP_PORT
-        value: 587
+        value: "587"
       - key: SMTP_USERNAME
         value: support@movedin.com
       - key: SMTP_PASSWORD
-        sync: false
+        sync: false                # prompt once at initial create, then manage in dashboard
       - key: STRIPE_SECRET_KEY
         sync: false
       - key: STRIPE_PUBLISHABLE_KEY
@@ -35,23 +34,41 @@ services:
         generateValue: true
       - key: DEBUG
         value: false
-      - key: PORT
-        value: 8000
+      # Don't set PORT explicitly; Render provides it
 
-  # Frontend Static Site
+  # --- Frontend (Static site / Vite) ---
   - type: web
     name: movedin-frontend
-    env: static
-    buildCommand: cd src/frontend && npm ci && npm run build
-    staticPublishPath: src/frontend/dist
+    runtime: static               # <— required for static sites
     plan: starter
-    region: oregon
+    # region: oregon              # <— REMOVE (invalid for static sites)
     branch: main
+    rootDir: src/frontend         # <— monorepo best practice
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+
+    # Expose the API URL to Vite at build time:
     envVars:
+      # Option A (preferred): reference backend's external URL env var
       - key: VITE_API_URL
         fromService:
           type: web
           name: movedin-backend
-          property: host
+          envVarKey: RENDER_EXTERNAL_URL
       - key: VITE_ENVIRONMENT
         value: production
+
+    # SPA rewrites (so deep links work)
+    routes:
+      - type: rewrite
+        source: /.*
+        destination: /index.html
+
+    # Optional CDN headers
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=600
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
