@@ -40,8 +40,8 @@ services:
   - type: web
     name: movedin-frontend
     runtime: static               # <— required for static sites
-    plan: starter
-    # region: oregon              # <— REMOVE (invalid for static sites)
+    # plan: starter              # ❌ remove for static sites
+    # region: oregon             # ❌ not applicable to static sites
     branch: main
     rootDir: src/frontend         # <— monorepo best practice
     buildCommand: npm ci && npm run build
