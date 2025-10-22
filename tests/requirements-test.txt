@@ -1,0 +1,42 @@
+# Testing Dependencies for MovedIn V3.0
+
+# Core Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+pytest-timeout==2.2.0
+pytest-xdist==3.5.0  # Parallel testing
+
+# HTTP Testing
+requests==2.31.0
+httpx==0.25.2
+
+# Performance Testing
+locust==2.19.1  # Load testing
+pytest-benchmark==4.0.0
+
+# Security Testing
+safety==2.3.5  # Dependency vulnerability scanning
+bandit==1.7.6  # Security linter
+
+# Code Quality
+pytest-flake8==1.1.1
+pytest-pylint==0.21.0
+black==23.12.1  # Code formatter
+isort==5.13.2  # Import sorting
+
+# Coverage Reporting
+coverage==7.4.0
+pytest-html==4.1.1  # HTML test reports
+
+# Mocking
+pytest-mock==3.12.0
+responses==0.24.1  # HTTP request mocking
+
+# Database Testing
+sqlalchemy==2.0.23  # Match backend version
+
+# Additional Utilities
+faker==22.0.0  # Generate test data
+freezegun==1.4.0  # Mock datetime
+

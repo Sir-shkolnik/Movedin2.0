@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Vendor Order - MovedIn</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Header with urgent styling */
+        .header {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Urgent banner */
+        .urgent-banner {
+            background: linear-gradient(135deg, #ffc107 0%, #ff8c00 100%);
+            color: #856404;
+            padding: 25px 30px;
+            text-align: center;
+            position: relative;
+            border-left: 6px solid #ffc107;
+        }
+        
+        .urgent-banner::before {
+            content: '⚡';
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        
+        .urgent-banner h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+        
+        .urgent-banner p {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        /* Content sections */
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            border-left: 4px solid #ff6b35;
+        }
+        
+        .section h3 {
+            color: #ff6b35;
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section h3::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: #ff6b35;
+            border-radius: 50%;
+            margin-right: 10px;
+            display: inline-block;
+        }
+        
+        .section.customer-details h3::before {
+            content: '👤';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.move-details h3::before {
+            content: '🏠';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.vendor-assignment h3::before {
+            content: '🚚';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.actions h3::before {
+            content: '📞';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #495057;
+            flex: 1;
+        }
+        
+        .info-value {
+            color: #ff6b35;
+            font-weight: 500;
+            flex: 2;
+            text-align: right;
+        }
+        
+        .contact-highlight {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border: 1px solid #28a745;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .contact-highlight .phone {
+            font-size: 20px;
+            font-weight: bold;
+            color: #155724;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .contact-highlight .email {
+            font-size: 16px;
+            color: #155724;
+            text-align: center;
+        }
+        
+        .price-highlight {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .price-highlight .amount {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .price-highlight .label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* Actions section */
+        .actions {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-left-color: #28a745;
+        }
+        
+        .actions ol {
+            padding-left: 20px;
+        }
+        
+        .actions li {
+            margin-bottom: 15px;
+            color: #155724;
+            font-weight: 500;
+        }
+        
+        .actions strong {
+            color: #ff6b35;
+            font-size: 16px;
+        }
+        
+        .actions .priority {
+            background: #ff6b35;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .footer p {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .footer .system-info {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #e9ecef;
+        }
+        
+        .footer .system-info .info-row {
+            padding: 8px 0;
+            font-size: 14px;
+        }
+        
+        .footer .system-info .info-label {
+            color: #6c757d;
+        }
+        
+        .footer .system-info .info-value {
+            color: #495057;
+            font-family: monospace;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .header, .content, .footer {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .info-value {
+                text-align: left;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">MovedIn</div>
+            <h1>📋 NEW VENDOR ORDER</h1>
+            <p>Lead #{{lead_id}} - Action Required</p>
+        </div>
+        
+        <!-- Urgent Banner -->
+        <div class="urgent-banner">
+            <h2>URGENT: Contact Customer Within 24 Hours</h2>
+            <p><strong>Deposit paid:</strong> $1.00 CAD ✅ | <strong>Status:</strong> Ready for vendor contact</p>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Customer Details Section -->
+            <div class="section customer-details">
+                <h3>Customer Contact Details</h3>
+                <div class="contact-highlight">
+                    <div class="phone">{{customer_phone}}</div>
+                    <div class="email">{{customer_email}}</div>
+                </div>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">👤 Customer Name:</span>
+                        <span class="info-value">{{customer_name}}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📧 Email:</span>
+                        <span class="info-value"><a href="mailto:{{customer_email}}" style="color: #ff6b35;">{{customer_email}}</a></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📱 Phone:</span>
+                        <span class="info-value"><a href="tel:{{customer_phone}}" style="color: #ff6b35;">{{customer_phone}}</a></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">💬 Preferred Contact:</span>
+                        <span class="info-value">Phone or Email</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Move Details Section -->
+            <div class="section move-details">
+                <h3>Move Details</h3>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">📍 Pickup Address:</span>
+                        <span class="info-value">{{move_from}}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🎯 Delivery Address:</span>
+                        <span class="info-value">{{move_to}}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📅 Move Date:</span>
+                        <span class="info-value">{{move_date}}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">⏰ Preferred Time:</span>
+                        <span class="info-value">{{move_time}}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vendor Assignment Section -->
+            <div class="section vendor-assignment">
+                <h3>Vendor Assignment</h3>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">🏢 Moving Company:</span>
+                        <span class="info-value">{{vendor_name}}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">💰 Quoted Price:</span>
+                        <span class="info-value">${{total_cost}}</span>
+                    </div>
+                    <div class="price-highlight">
+                        <div class="amount">$1.00 CAD</div>
+                        <div class="label">Deposit Received ✅</div>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">💳 Balance to Collect:</span>
+                        <span class="info-value">${{balance_due}}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Required Actions Section -->
+            <div class="section actions">
+                <h3>Required Actions</h3>
+                <ol>
+                    <li><strong>CALL CUSTOMER:</strong> Contact {{customer_name}} at {{customer_phone}} within 24 hours <span class="priority">HIGH PRIORITY</span></li>
+                    <li><strong>CONFIRM DETAILS:</strong> Verify move date, time, addresses, and special requirements</li>
+                    <li><strong>SCHEDULE CREW:</strong> Assign movers and truck for {{move_date}}</li>
+                    <li><strong>FINAL PAYMENT:</strong> Collect ${{balance_due}} on move completion</li>
+                    <li><strong>UPDATE STATUS:</strong> Confirm completion and payment collection</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="system-info">
+                <div class="info-row">
+                    <span class="info-label">Lead ID:</span>
+                    <span class="info-value">#{{lead_id}}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Created:</span>
+                    <span class="info-value">{{created_at}}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Status:</span>
+                    <span class="info-value">{{payment_status}}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Payment Intent:</span>
+                    <span class="info-value">{{payment_intent_id}}</span>
+                </div>
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 12px; color: #6c757d;">
+                This vendor notification was sent by MovedIn 3.0 - Smart & Secure Moving Platform<br>
+                © 2025 MovedIn. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+.div-style-9feba4dc {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.p-style-20ff3f6 {
+  flex: 0 0 auto;
+  padding: 0;
+  margin: 0;
+  font: 500 16px Lexend, sans-serif;
+  color: #627193;
+  letter-spacing: -0.16px;
+}
+.p-style-feb17ba0 {
+  flex: 0 0 auto;
+  padding: 0;
+  margin: 0;
+  font: 500 16px Lexend, sans-serif;
+  color: #5340ff;
+  letter-spacing: -0.16px;
+}

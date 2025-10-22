@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Move Booking Confirmed - MovedIn</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Header with gradient */
+        .header {
+            background: linear-gradient(135deg, #5340FF 0%, #4230dd 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Success banner */
+        .success-banner {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .success-banner::before {
+            content: '✅';
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        
+        .success-banner h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+        
+        .success-banner p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+        
+        /* Content sections */
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            border-left: 4px solid #5340FF;
+        }
+        
+        .section h3 {
+            color: #5340FF;
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section h3::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: #5340FF;
+            border-radius: 50%;
+            margin-right: 10px;
+            display: inline-block;
+        }
+        
+        .section.move-details h3::before {
+            content: '🏠';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.vendor-details h3::before {
+            content: '🚚';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.next-steps h3::before {
+            content: '📞';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .section.tips h3::before {
+            content: '💡';
+            background: none;
+            width: auto;
+            height: auto;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            border: 1px solid #5340FF;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #495057;
+            flex: 1;
+        }
+        
+        .info-value {
+            color: #5340FF;
+            font-weight: 500;
+            flex: 2;
+            text-align: right;
+        }
+        
+        .price-highlight {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .price-highlight .amount {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .price-highlight .label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* Next steps */
+        .next-steps {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-left-color: #ffc107;
+        }
+        
+        .next-steps ol {
+            padding-left: 20px;
+        }
+        
+        .next-steps li {
+            margin-bottom: 10px;
+            color: #856404;
+        }
+        
+        .next-steps strong {
+            color: #5340FF;
+        }
+        
+        /* Pro tips */
+        .tips {
+            background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+            border-left-color: #17a2b8;
+        }
+        
+        .tips ul {
+            padding-left: 20px;
+        }
+        
+        .tips li {
+            margin-bottom: 8px;
+            color: #0c5460;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .footer p {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .footer .contact-info {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .footer .contact-info a {
+            color: #5340FF;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .footer .contact-info a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer .reference {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #495057;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .header, .content, .footer {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .info-value {
+                text-align: left;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">MovedIn</div>
+            <h1>🎉 Your Move is Confirmed!</h1>
+            <p>Thank you for choosing MovedIn - Canada's trusted moving platform</p>
+        </div>
+        
+        <!-- Success Banner -->
+        <div class="success-banner">
+            <h2>Booking Confirmed - Reference #{{lead_id}}</h2>
+            <p>Your $1.00 CAD deposit has been received and your move is now scheduled!</p>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Move Details Section -->
+            <div class="section move-details">
+                <h3>Your Move Details</h3>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">📍 Pickup Address:</span>
+                        <span class="info-value">{{move_from}}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🎯 Delivery Address:</span>
+                        <span class="info-value">{{move_to}}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📅 Move Date:</span>
+                        <span class="info-value">{{move_date}}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">⏰ Preferred Time:</span>
+                        <span class="info-value">{{move_time}}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vendor Details Section -->
+            <div class="section vendor-details">
+                <h3>Your Moving Company</h3>
+                <div class="highlight-box">
+                    <div class="info-row">
+                        <span class="info-label">🏢 Company:</span>
+                        <span class="info-value">{{vendor_name}}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">💰 Estimated Total:</span>
+                        <span class="info-value">${{total_cost}}</span>
+                    </div>
+                    <div class="price-highlight">
+                        <div class="amount">$1.00 CAD</div>
+                        <div class="label">Deposit Paid ✅</div>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">💳 Balance Due on Move Day:</span>
+                        <span class="info-value">${{balance_due}}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Next Steps Section -->
+            <div class="section next-steps">
+                <h3>What Happens Next?</h3>
+                <ol>
+                    <li><strong>The moving company will contact you within 24 hours</strong> to confirm all details and answer any questions</li>
+                    <li><strong>They'll verify your move date, time, and special requirements</strong> to ensure everything goes smoothly</li>
+                    <li><strong>On moving day,</strong> the professional crew will arrive on time and handle your belongings with care</li>
+                    <li><strong>Final payment</strong> of ${{balance_due}} will be collected upon successful completion of your move</li>
+                </ol>
+            </div>
+            
+            <!-- Pro Tips Section -->
+            <div class="section tips">
+                <h3>💡 Pro Tips for Moving Day</h3>
+                <ul>
+                    <li><strong>Pack smart:</strong> Have boxes packed and labeled with room names before movers arrive</li>
+                    <li><strong>Keep valuables safe:</strong> Keep important documents, jewelry, and cash with you during the move</li>
+                    <li><strong>Be prepared:</strong> Have cash or card ready for final payment and any additional services</li>
+                    <li><strong>Final walkthrough:</strong> Do a complete walkthrough of both locations before leaving</li>
+                    <li><strong>Stay connected:</strong> Keep your phone charged and accessible for communication</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="contact-info">
+                <p><strong>Questions?</strong> Contact us at <a href="mailto:support@movedin.com">support@movedin.com</a></p>
+                <p>We're here to help make your move stress-free!</p>
+            </div>
+            
+            <div class="reference">
+                <strong>Booking Reference:</strong> #{{lead_id}} | <strong>Status:</strong> Confirmed ✅ | <strong>Customer:</strong> {{customer_name}}
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 12px; color: #6c757d;">
+                This email was sent by MovedIn 3.0 - Smart & Secure Moving Platform<br>
+                © 2025 MovedIn. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

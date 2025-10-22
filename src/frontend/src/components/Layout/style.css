@@ -1,0 +1,52 @@
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.layout-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* ========================================
+   RESPONSIVE BREAKPOINTS
+   ======================================== */
+
+/* Small phones (< 480px) */
+@media (max-width: 480px) {
+  .layout-container {
+    min-height: 100vh;
+  }
+  
+  .layout-main {
+    min-height: auto;
+  }
+}
+
+/* Large phones (480px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .layout-container {
+    min-height: 100vh;
+  }
+  
+  .layout-main {
+    min-height: auto;
+  }
+}
+
+/* Tablets (768px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .layout-container {
+    min-height: 100vh;
+  }
+  
+  .layout-main {
+    min-height: auto;
+  }
+}

@@ -1,0 +1,25 @@
+# MovedIn 3.0 - Smart & Secure Backend Dependencies
+# FastAPI and ASGI server
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+
+# Database
+sqlalchemy>=2.0.0
+alembic>=1.13.0
+
+# Email
+secure-smtplib>=0.1.1
+
+# Security and validation
+cryptography>=42.0.0
+python-multipart>=0.0.6
+
+# Development and testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+httpx>=0.25.0
+
+# Production
+gunicorn>=21.2.0

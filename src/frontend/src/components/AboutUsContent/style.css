@@ -1,0 +1,35 @@
+.div-style-f4ae684 {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  background: white;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* ========================================
+   RESPONSIVE BREAKPOINTS
+   ======================================== */
+
+/* Small phones (< 480px) */
+@media (max-width: 480px) {
+  .div-style-f4ae684 {
+    padding: 0;
+  }
+}
+
+/* Large phones (480px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .div-style-f4ae684 {
+    padding: 0;
+  }
+}
+
+/* Tablets (768px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .div-style-f4ae684 {
+    padding: 0;
+  }
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Move Booking Confirmed - MovedIn</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: #4F46E5; color: white; padding: 20px; text-align: center; }
+        .content { padding: 20px; background: #f9f9f9; }
+        .booking-details { background: white; padding: 15px; margin: 15px 0; border-left: 4px solid #4F46E5; }
+        .footer { text-align: center; padding: 20px; color: #666; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎉 Move Booking Confirmed!</h1>
+            <p>Your move is scheduled with {{ vendor_name }}</p>
+        </div>
+        
+        <div class="content">
+            <h2>Hello {{ customer_name }}!</h2>
+            <p>Thank you for choosing MovedIn for your upcoming move. Your booking has been confirmed!</p>
+            
+            <div class="booking-details">
+                <h3>📋 Booking Details</h3>
+                <p><strong>Lead ID:</strong> #{{ lead_id }}</p>
+                <p><strong>Moving Company:</strong> {{ vendor_name }}</p>
+                <p><strong>Move Date:</strong> {{ move_date }}</p>
+                <p><strong>Move Time:</strong> {{ move_time }}</p>
+                <p><strong>From:</strong> {{ move_from }}</p>
+                <p><strong>To:</strong> {{ move_to }}</p>
+                <p><strong>Total Cost:</strong> ${{ total_cost }}</p>
+            </div>
+            
+            <p><strong>Next Steps:</strong></p>
+            <ul>
+                <li>The moving company will contact you within 24 hours</li>
+                <li>Confirm final details and any special requirements</li>
+                <li>Prepare for your move day</li>
+            </ul>
+            
+            <p>If you have any questions, please contact us at support@movedin.com</p>
+        </div>
+        
+        <div class="footer">
+            <p>MovedIn - Making Your Move Easy</p>
+            <p>This email was sent to {{ customer_email }}</p>
+        </div>
+    </div>
+</body>
+</html>

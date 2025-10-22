@@ -1,0 +1,98 @@
+.div-style-ef1754d1 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 64px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background: #f9fafb;
+}
+.div-style-127f2ce3 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 64px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1280px;
+  padding-right: 32px;
+  padding-left: 32px;
+}
+.img-style-d03fc0fd {
+  box-sizing: border-box;
+  display: block;
+  flex: 1 1 auto;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ========================================
+   RESPONSIVE BREAKPOINTS
+   ======================================== */
+
+/* Small phones (< 480px) */
+@media (max-width: 480px) {
+  .div-style-ef1754d1 {
+    gap: 32px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+  
+  .div-style-127f2ce3 {
+    flex-direction: column;
+    gap: 24px;
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+  
+  .img-style-d03fc0fd {
+    width: 100%;
+  }
+}
+
+/* Large phones (480px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .div-style-ef1754d1 {
+    gap: 40px;
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+  
+  .div-style-127f2ce3 {
+    flex-direction: column;
+    gap: 32px;
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+  
+  .img-style-d03fc0fd {
+    width: 100%;
+  }
+}
+
+/* Tablets (768px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .div-style-ef1754d1 {
+    gap: 48px;
+    padding-top: 36px;
+    padding-bottom: 36px;
+  }
+  
+  .div-style-127f2ce3 {
+    gap: 48px;
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+  
+  .img-style-d03fc0fd {
+    width: 100%;
+  }
+}

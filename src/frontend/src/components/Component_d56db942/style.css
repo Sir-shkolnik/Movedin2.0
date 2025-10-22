@@ -1,0 +1,83 @@
+.div-style-4956cc93 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 48px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-right: 32px;
+  padding-left: 32px;
+}
+.p-style-c6572a7e {
+  flex: 0 0 auto;
+  padding: 0;
+  margin: 0;
+  font: 600 42px/52px Lexend, sans-serif;
+  color: #00005c;
+  letter-spacing: -0.84px;
+}
+.Button-style-f29d933c {
+  box-sizing: border-box;
+  display: block;
+  flex: 0 0 auto;
+  width: 91px;
+  min-width: 91px;
+  height: 40px;
+  font: 600 14px Lexend, sans-serif;
+  color: #101828;
+  cursor: pointer;
+  background: #f9fafb;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+}
+/* ========================================
+   RESPONSIVE BREAKPOINTS
+   ======================================== */
+
+/* Small phones (< 480px) */
+@media (max-width: 480px) {
+  .div-style-4956cc93 {
+    gap: 32px;
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+  
+  .p-style-c6572a7e {
+    font: 600 28px/36px Lexend, sans-serif;
+    letter-spacing: -0.56px;
+  }
+}
+
+/* Large phones (480px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .div-style-4956cc93 {
+    gap: 40px;
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+  
+  .p-style-c6572a7e {
+    font: 600 34px/42px Lexend, sans-serif;
+    letter-spacing: -0.68px;
+  }
+}
+
+/* Tablets (768px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .div-style-4956cc93 {
+    gap: 44px;
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+  
+  .p-style-c6572a7e {
+    font: 600 38px/46px Lexend, sans-serif;
+    letter-spacing: -0.76px;
+  }
+}
+

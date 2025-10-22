@@ -1,0 +1,62 @@
+.div-style-97c1395 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  height: auto;
+  min-height: 256px;
+  overflow: hidden;
+}
+
+/* ========================================
+   RESPONSIVE BREAKPOINTS
+   ======================================== */
+
+/* Small phones (< 480px) */
+@media (max-width: 480px) {
+  .div-style-97c1395 {
+    min-height: 180px;
+  }
+  
+  .div-style-32113770 {
+    padding-top: 24px;
+    padding-bottom: 40px;
+  }
+}
+
+/* Large phones (480px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .div-style-97c1395 {
+    min-height: 200px;
+  }
+  
+  .div-style-32113770 {
+    padding-top: 28px;
+    padding-bottom: 50px;
+  }
+}
+
+/* Tablets (768px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .div-style-97c1395 {
+    min-height: 220px;
+  }
+  
+  .div-style-32113770 {
+    padding-top: 30px;
+    padding-bottom: 56px;
+  }
+}
+.div-style-32113770 {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding-top: 32px;
+  padding-bottom: 64px;
+}

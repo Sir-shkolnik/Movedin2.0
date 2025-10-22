@@ -1,0 +1,65 @@
+services:
+  # MovedIn 3.0 Backend API
+  movedin-backend:
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile
+    container_name: movedin-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+      - DATABASE_URL=sqlite:///./movedin.db
+      - SMTP_SERVER=smtp.office365.com
+      - SMTP_PORT=587
+      - SMTP_USERNAME=support@movedin.com
+      - SMTP_PASSWORD=gagxov-syxkek-8byvDu
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY:-}
+      - STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY:-}
+      - MAPBOX_ACCESS_TOKEN=${MAPBOX_ACCESS_TOKEN:-}
+      - SECRET_KEY=movedin3-smart-secure-key-2025
+      - DEBUG=false
+    volumes:
+      - ./src/backend/logs:/app/logs
+      - ./src/backend/movedin.db:/app/movedin.db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - movedin-network
+
+  # MovedIn 3.0 Frontend
+  movedin-frontend:
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile
+    container_name: movedin-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+      - VITE_ENVIRONMENT=production
+    depends_on:
+      movedin-backend:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - movedin-network
+
+networks:
+  movedin-network:
+    driver: bridge
+
+volumes:
+  movedin-db:
+    driver: local

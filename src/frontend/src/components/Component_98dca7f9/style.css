@@ -1,0 +1,18 @@
+.div-style-bcf840f0 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 16px;
+  height: 320px;
+  padding: 4px;
+}
+.div-style-81837cbd {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  align-self: stretch;
+  height: 312px;
+}

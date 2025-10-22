@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>New Vendor Order - MovedIn</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: #059669; color: white; padding: 20px; text-align: center; }
+        .content { padding: 20px; background: #f9f9f9; }
+        .order-details { background: white; padding: 15px; margin: 15px 0; border-left: 4px solid #059669; }
+        .footer { text-align: center; padding: 20px; color: #666; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 New Vendor Order</h1>
+            <p>You have a new move booking!</p>
+        </div>
+        
+        <div class="content">
+            <h2>New Order for {{ vendor_name }}</h2>
+            <p>A new move has been booked through MovedIn and assigned to your company.</p>
+            
+            <div class="order-details">
+                <h3>📋 Order Details</h3>
+                <p><strong>Lead ID:</strong> #{{ lead_id }}</p>
+                <p><strong>Customer Name:</strong> {{ customer_name }}</p>
+                <p><strong>Customer Email:</strong> {{ customer_email }}</p>
+                <p><strong>Customer Phone:</strong> {{ customer_phone }}</p>
+                <p><strong>Move Date:</strong> {{ move_date }}</p>
+                <p><strong>Move Time:</strong> {{ move_time }}</p>
+                <p><strong>From Address:</strong> {{ move_from }}</p>
+                <p><strong>To Address:</strong> {{ move_to }}</p>
+                <p><strong>Total Cost:</strong> ${{ total_cost }}</p>
+            </div>
+            
+            <p><strong>Action Required:</strong></p>
+            <ul>
+                <li>Contact the customer within 24 hours</li>
+                <li>Confirm move details and requirements</li>
+                <li>Provide final quote if needed</li>
+                <li>Schedule the move</li>
+            </ul>
+            
+            <p>Customer contact: {{ customer_email }} | {{ customer_phone }}</p>
+        </div>
+        
+        <div class="footer">
+            <p>MovedIn Vendor Portal</p>
+            <p>This order was generated on {{ current_date }}</p>
+        </div>
+    </div>
+</body>
+</html>

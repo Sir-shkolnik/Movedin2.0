@@ -1,0 +1,58 @@
+.div-style-332b6e08 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.p-style-ea06ae9 {
+  flex: 0 0 auto;
+  align-self: stretch;
+  padding: 0;
+  margin: 0;
+  font: 500 16px Lexend, sans-serif;
+  color: #5340ff;
+  text-align: left;
+}
+.p-style-1a108441 {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 657px;
+  padding: 0;
+  margin: 0;
+  font: 600 60px/72px Lexend, sans-serif;
+  color: #00005c;
+  text-align: left;
+  letter-spacing: -1.2px;
+}
+/* ========================================
+   RESPONSIVE BREAKPOINTS
+   ======================================== */
+
+/* Small phones (< 480px) */
+@media (max-width: 480px) {
+  .p-style-1a108441 {
+    font: 600 32px/40px Lexend, sans-serif;
+    letter-spacing: -0.6px;
+  }
+}
+
+/* Large phones (480px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .p-style-1a108441 {
+    font: 600 40px/48px Lexend, sans-serif;
+    letter-spacing: -0.8px;
+  }
+}
+
+/* Tablets (768px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .p-style-1a108441 {
+    font: 600 48px/56px Lexend, sans-serif;
+    letter-spacing: -1px;
+  }
+}
+

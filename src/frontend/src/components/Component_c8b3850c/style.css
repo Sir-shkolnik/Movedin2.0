@@ -1,0 +1,20 @@
+.div-style-60bba329 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+}
+.img-style-8c24c864 {
+  box-sizing: border-box;
+  display: block;
+  flex: 0 0 auto;
+  width: 104px;
+  max-width: initial;
+  height: 60px;
+  border: none;
+  border-radius: 4px;
+  object-fit: cover;
+}

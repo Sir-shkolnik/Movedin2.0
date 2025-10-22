@@ -1,0 +1,31 @@
+.div-style-af145a61 {
+  box-sizing: border-box;
+  background: white;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* ========================================
+   RESPONSIVE BREAKPOINTS
+   ======================================== */
+
+/* Small phones (< 480px) */
+@media (max-width: 480px) {
+  .div-style-af145a61 {
+    padding: 0;
+  }
+}
+
+/* Large phones (480px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .div-style-af145a61 {
+    padding: 0;
+  }
+}
+
+/* Tablets (768px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .div-style-af145a61 {
+    padding: 0;
+  }
+}

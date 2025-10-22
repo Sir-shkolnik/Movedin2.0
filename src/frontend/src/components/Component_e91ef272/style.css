@@ -1,0 +1,18 @@
+.div-style-d638ee82 {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 1170px;
+}
+.img-style-ea1c07a {
+  box-sizing: border-box;
+  display: block;
+  flex: 0 0 auto;
+  width: 252px;
+  max-width: initial;
+  height: 210px;
+}

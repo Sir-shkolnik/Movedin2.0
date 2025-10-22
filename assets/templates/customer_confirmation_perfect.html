@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Move Booking Confirmed - MovedIn</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f8f9fa; font-family: Arial, sans-serif;">
+    <div style="max-width: 600px; margin: 0 auto; background: #ffffff; padding: 0;">
+        
+        <!-- Header with MovedIn Logo -->
+        <div style="background: linear-gradient(135deg, #5340FF 0%, #4230dd 100%); color: white; padding: 40px 30px; text-align: center;">
+            <div style="font-size: 32px; font-weight: bold; margin-bottom: 10px;">🚚 MovedIn</div>
+            <h1 style="font-size: 28px; margin: 10px 0;">🎉 Your Move is Confirmed!</h1>
+            <p style="margin: 10px 0; opacity: 0.9;">Thank you for choosing MovedIn - Canada's trusted moving platform</p>
+        </div>
+        
+        <!-- Success Banner -->
+        <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px 30px; text-align: center;">
+            <h2 style="font-size: 22px; margin: 0 0 8px 0;">✅ Booking Confirmed - Reference #{{ lead_id }}</h2>
+            <p style="margin: 0;">Your ${{ deposit_paid }} CAD deposit has been received and your move is now scheduled!</p>
+        </div>
+        
+        <!-- Content -->
+        <div style="padding: 30px;">
+            
+            <!-- Move Details Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #5340FF;">
+                <h3 style="color: #5340FF; font-size: 18px; margin: 0 0 15px 0;">🏠 Your Move Details</h3>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 1px solid #5340FF; border-radius: 8px; padding: 20px;">
+                    <p style="margin: 0 0 10px 0;"><strong>📍 Pickup Address:</strong> {{ move_from }}</p>
+                    <p style="margin: 0 0 10px 0;"><strong>🎯 Delivery Address:</strong> {{ move_to }}</p>
+                    <p style="margin: 0 0 10px 0;"><strong>📅 Move Date:</strong> {{ move_date }}</p>
+                    <p style="margin: 0;"><strong>⏰ Preferred Time:</strong> {{ move_time }}</p>
+                </div>
+            </div>
+            
+            <!-- Interactive Map Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #5340FF;">
+                <h3 style="color: #5340FF; font-size: 18px; margin: 0 0 15px 0;">🗺️ Your Move Route</h3>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 2px dashed #5340FF; border-radius: 8px; padding: 30px; text-align: center;">
+                    <h4 style="color: #5340FF; margin: 0 0 15px 0;">📍 Interactive Route Map</h4>
+                    
+                    <!-- Real Map Image -->
+                    <div style="margin: 15px 0;">
+                        <img src="{{ map_image_url }}" alt="Move Route Map" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    </div>
+                    
+                    <p style="color: #666; margin: 0 0 10px 0;"><strong>From:</strong> {{ move_from }}</p>
+                    <p style="color: #666; margin: 0 0 15px 0;"><strong>To:</strong> {{ move_to }}</p>
+                    <div style="background: white; padding: 15px; border-radius: 6px; margin: 10px 0;">
+                        <p style="color: #28a745; font-weight: bold; margin: 0 0 5px 0;">📊 Route Information</p>
+                        <p style="color: #666; font-size: 14px; margin: 0 0 5px 0;">Distance: {{ route_distance }} | Estimated Time: {{ route_duration }}</p>
+                        <p style="color: #666; font-size: 14px; margin: 0;">Route: {{ route_summary }}</p>
+                    </div>
+                    <a href="{{ google_maps_url }}" style="background: linear-gradient(135deg, #5340FF 0%, #7c3aed 100%); color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 10px;">
+                        🗺️ View Full Interactive Map
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Vendor Details Section -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #5340FF;">
+                <h3 style="color: #5340FF; font-size: 18px; margin: 0 0 15px 0;">🚚 Your Moving Company</h3>
+                <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px; text-align: center; border: 1px solid #e9ecef;">
+                    <h4 style="color: #5340FF; margin: 0 0 15px 0;">{{ vendor_name }}</h4>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 6px;">
+                        <p style="color: #666; font-size: 14px; margin: 0 0 5px 0;">🏢 Professional Moving Services</p>
+                        <p style="color: #666; font-size: 14px; margin: 0 0 5px 0;">📞 Contact: (416) 555-0123</p>
+                        <p style="color: #666; font-size: 14px; margin: 0;">⭐ Rating: 4.8/5 (127 reviews)</p>
+                    </div>
+                </div>
+                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: 1px solid #5340FF; border-radius: 8px; padding: 20px;">
+                    <p style="margin: 0 0 10px 0;"><strong>🏢 Company:</strong> {{ vendor_name }}</p>
+                    <p style="margin: 0 0 15px 0;"><strong>💰 Estimated Total:</strong> ${{ total_cost }}</p>
+                    <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; margin: 15px 0;">
+                        <div style="font-size: 24px; font-weight: bold; margin-bottom: 5px;">${{ deposit_paid }} CAD</div>
+                        <div style="font-size: 14px; opacity: 0.9;">Deposit Paid ✅</div>
+                    </div>
+                    <p style="margin: 0;"><strong>💳 Estimated Final Payment:</strong> ${{ balance_due }}</p>
+                </div>
+            </div>
+            
+            <!-- Next Steps Section -->
+            <div style="background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%); padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ffc107;">
+                <h3 style="color: #856404; font-size: 18px; margin: 0 0 15px 0;">📞 What Happens Next?</h3>
+                <ol style="padding-left: 20px; margin: 0; color: #856404;">
+                    <li style="margin-bottom: 10px;"><strong>The moving company will contact you within 24 hours</strong> to confirm all details and answer any questions</li>
+                    <li style="margin-bottom: 10px;"><strong>They'll verify your move date, time, and special requirements</strong> to ensure everything goes smoothly</li>
+                    <li style="margin-bottom: 10px;"><strong>On moving day,</strong> the professional crew will arrive on time and handle your belongings with care</li>
+                    <li style="margin: 0;"><strong>Estimated final payment</strong> of ${{ balance_due }} will be collected upon successful completion of your move</li>
+                </ol>
+            </div>
+            
+            <!-- Pro Tips Section -->
+            <div style="background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%); padding: 25px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #17a2b8;">
+                <h3 style="color: #0c5460; font-size: 18px; margin: 0 0 15px 0;">💡 Pro Tips for Moving Day</h3>
+                <ul style="padding-left: 20px; margin: 0; color: #0c5460;">
+                    <li style="margin-bottom: 8px;"><strong>Pack smart:</strong> Have boxes packed and labeled with room names before movers arrive</li>
+                    <li style="margin-bottom: 8px;"><strong>Keep valuables safe:</strong> Keep important documents, jewelry, and cash with you during the move</li>
+                    <li style="margin-bottom: 8px;"><strong>Be prepared:</strong> Have cash or card ready for estimated final payment and any additional services</li>
+                    <li style="margin-bottom: 8px;"><strong>Final walkthrough:</strong> Do a complete walkthrough of both locations before leaving</li>
+                    <li style="margin: 0;"><strong>Stay connected:</strong> Keep your phone charged and accessible for communication</li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <!-- Footer -->
+        <div style="background: #f8f9fa; padding: 25px 30px; text-align: center; border-top: 1px solid #e9ecef;">
+            <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <p style="color: #6c757d; font-size: 14px; margin: 0 0 10px 0;"><strong>Questions?</strong> Contact us at <a href="mailto:support@movedin.com" style="color: #5340FF; text-decoration: none; font-weight: 600;">support@movedin.com</a></p>
+                <p style="color: #6c757d; font-size: 14px; margin: 0;">We're here to help make your move stress-free!</p>
+            </div>
+            <div style="background: #e9ecef; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 12px; color: #495057; margin-bottom: 15px;">
+                <strong>Booking Reference:</strong> #{{ lead_id }} | <strong>Status:</strong> Confirmed ✅ | <strong>Customer:</strong> {{ customer_name }}
+            </div>
+            <p style="margin: 0; font-size: 12px; color: #6c757d;">
+                This email was sent by MovedIn 3.0 - Smart & Secure Moving Platform<br>
+                © 2025 MovedIn. All rights reserved.
+            </p>
+        </div>
+        
+    </div>
+</body>
+</html>
+

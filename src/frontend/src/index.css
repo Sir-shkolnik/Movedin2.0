@@ -1,0 +1,92 @@
+/* Global styles for mobile responsiveness */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Smart responsive overrides for all components */
+@media (max-width: 1024px) {
+  /* Make all fixed widths responsive */
+  [class*="div-style-"],
+  [class*="p-style-"],
+  [class*="img-style-"],
+  [class*="Button-style-"] {
+    max-width: 100% !important;
+  }
+  
+  /* Make images responsive */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+  
+  /* Prevent horizontal overflow */
+  * {
+    max-width: 100%;
+  }
+}
+
+/* Ensure all components are responsive */
+div[data-ignore="used only for top most containter width"] {
+  width: 100% !important;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ========================================
+   RESPONSIVE BREAKPOINTS
+   ======================================== */
+
+/* Small phones (< 480px) */
+@media (max-width: 480px) {
+  div[data-ignore="used only for top most containter width"] {
+    padding: 0 12px;
+  }
+  
+  /* Ensure minimum touch target size (44px for iOS) */
+  button, a, input, select, textarea {
+    min-height: 44px;
+  }
+}
+
+/* Large phones (480px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  div[data-ignore="used only for top most containter width"] {
+    padding: 0 16px;
+  }
+}
+
+/* Tablets (768px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  div[data-ignore="used only for top most containter width"] {
+    padding: 0 24px;
+  }
+}
+
+/* Small desktops (1024px - 1440px) */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  div[data-ignore="used only for top most containter width"] {
+    padding: 0 32px;
+  }
+}
+
+/* Large desktops (> 1440px) */
+@media (min-width: 1441px) {
+  div[data-ignore="used only for top most containter width"] {
+    padding: 0 55px;
+  }
+}

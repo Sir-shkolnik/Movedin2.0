@@ -1,0 +1,18 @@
+.div-style-fa8f7b4f {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 16px;
+  height: 198px;
+  padding: 4px;
+}
+.div-style-2579fa35 {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  align-self: stretch;
+  height: 194px;
+}

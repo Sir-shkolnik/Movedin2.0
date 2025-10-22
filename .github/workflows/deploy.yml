@@ -1,0 +1,110 @@
+# MovedIn 3.0 - GitHub Actions CI/CD Pipeline
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  # Test and Build Backend
+  test-backend:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        cd src/backend
+        pip install -r requirements.txt
+
+    - name: Run tests
+      run: |
+        cd src/backend
+        python -m pytest tests/ -v
+
+    - name: Build backend Docker image
+      run: |
+        cd src/backend
+        docker build -t movedin-backend:test .
+
+  # Test and Build Frontend
+  test-frontend:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: src/frontend/package-lock.json
+
+    - name: Install dependencies
+      run: |
+        cd src/frontend
+        npm ci
+
+    - name: Run tests
+      run: |
+        cd src/frontend
+        npm run test
+
+    - name: Build frontend
+      run: |
+        cd src/frontend
+        npm run build
+
+    - name: Build frontend Docker image
+      run: |
+        cd src/frontend
+        docker build -t movedin-frontend:test .
+
+  # Deploy to Production (only on main branch)
+  deploy:
+    needs: [test-backend, test-frontend]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Deploy to Render
+      uses: johnbeynon/render-deploy-action@v0.0.8
+      with:
+        service-id: ${{ secrets.RENDER_SERVICE_ID }}
+        api-key: ${{ secrets.RENDER_API_KEY }}
+
+  # Security Scan
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+
+    - name: Upload Trivy scan results
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: 'trivy-results.sarif'

@@ -1,0 +1,64 @@
+# MovedIn 3.0 - Render.com Configuration
+# Full-stack deployment with Docker
+
+services:
+  # Backend API Service
+  - type: web
+    name: movedin-backend
+    env: docker
+    dockerfilePath: ./src/backend/Dockerfile
+    dockerContext: ./src/backend
+    plan: starter
+    region: oregon
+    branch: main
+    buildCommand: ""
+    startCommand: ""
+    healthCheckPath: /health
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: DATABASE_URL
+        value: sqlite:///./movedin.db
+      - key: SMTP_SERVER
+        value: smtp.office365.com
+      - key: SMTP_PORT
+        value: 587
+      - key: SMTP_USERNAME
+        value: support@movedin.com
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_PUBLISHABLE_KEY
+        sync: false
+      - key: MAPBOX_ACCESS_TOKEN
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: false
+      - key: PORT
+        value: 8000
+
+  # Frontend Web Service
+  - type: web
+    name: movedin-frontend
+    env: docker
+    dockerfilePath: ./src/frontend/Dockerfile
+    dockerContext: ./src/frontend
+    plan: starter
+    region: oregon
+    branch: main
+    buildCommand: ""
+    startCommand: ""
+    healthCheckPath: /health
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: movedin-backend
+          property: host
+      - key: VITE_ENVIRONMENT
+        value: production
+      - key: PORT
+        value: 3000

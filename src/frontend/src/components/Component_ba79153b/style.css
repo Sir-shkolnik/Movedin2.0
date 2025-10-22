@@ -1,0 +1,73 @@
+.div-style-411479eb {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ========================================
+   RESPONSIVE BREAKPOINTS
+   ======================================== */
+
+/* Small phones (< 480px) */
+@media (max-width: 480px) {
+  .p-style-97dc7e7b {
+    font: 600 28px/36px Lexend, sans-serif;
+    letter-spacing: -0.56px;
+  }
+  
+  .p-style-f05eaf47 {
+    font: 500 14px Lexend, sans-serif;
+  }
+}
+
+/* Large phones (480px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .p-style-97dc7e7b {
+    font: 600 34px/42px Lexend, sans-serif;
+    letter-spacing: -0.68px;
+  }
+  
+  .p-style-f05eaf47 {
+    font: 500 15px Lexend, sans-serif;
+  }
+}
+
+/* Tablets (768px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .p-style-97dc7e7b {
+    font: 600 38px/46px Lexend, sans-serif;
+    letter-spacing: -0.76px;
+  }
+  
+  .p-style-f05eaf47 {
+    font: 500 15.5px Lexend, sans-serif;
+  }
+}
+.p-style-f05eaf47 {
+  flex: 0 0 auto;
+  align-self: stretch;
+  padding: 0;
+  margin: 0;
+  font: 500 16px Lexend, sans-serif;
+  color: #5340ff;
+  text-align: center;
+  letter-spacing: -0.16px;
+}
+.p-style-97dc7e7b {
+  flex: 0 0 auto;
+  align-self: stretch;
+  padding: 0;
+  margin: 0;
+  font: 600 42px/52px Lexend, sans-serif;
+  color: #00005c;
+  text-align: center;
+  letter-spacing: -0.84px;
+}
