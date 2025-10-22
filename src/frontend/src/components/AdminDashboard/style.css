@@ -78,12 +78,29 @@
   padding: 24px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   overflow-x: auto;
+  overflow-y: visible;
+  max-width: 100%;
+  position: relative;
+}
+
+.leads-table-container::after {
+  content: "← Scroll horizontally to see all columns →";
+  position: absolute;
+  bottom: 8px;
+  right: 24px;
+  font-size: 12px;
+  color: #6B7280;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 4px 8px;
+  border-radius: 4px;
+  pointer-events: none;
 }
 
 .leads-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 1200px;
+  min-width: 1400px;
+  table-layout: fixed;
 }
 
 .leads-table thead {
@@ -99,6 +116,18 @@
   border-bottom: 2px solid #E5E7EB;
   white-space: nowrap;
 }
+
+/* Column widths */
+.leads-table th:nth-child(1) { width: 60px; }   /* ID */
+.leads-table th:nth-child(2) { width: 120px; }  /* Customer */
+.leads-table th:nth-child(3) { width: 150px; }  /* Email */
+.leads-table th:nth-child(4) { width: 100px; }  /* Phone */
+.leads-table th:nth-child(5) { width: 250px; }  /* From → To */
+.leads-table th:nth-child(6) { width: 120px; }  /* Move Date */
+.leads-table th:nth-child(7) { width: 120px; }  /* Vendor */
+.leads-table th:nth-child(8) { width: 100px; }  /* Cost */
+.leads-table th:nth-child(9) { width: 100px; }  /* Status */
+.leads-table th:nth-child(10) { width: 120px; } /* Created */
 
 .leads-table th.sortable {
   cursor: pointer;
@@ -149,40 +178,44 @@
 .route-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  max-width: 300px;
+  gap: 2px;
+  max-width: 250px;
 }
 
 .route-from,
 .route-to {
-  font-size: 12px;
+  font-size: 11px;
   color: #6B7280;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  line-height: 1.2;
 }
 
 .route-arrow {
   color: #5340FF;
   font-weight: 700;
   text-align: center;
+  font-size: 12px;
 }
 
 .date-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .date-day {
   font-weight: 600;
   color: #1F2937;
-  font-size: 13px;
+  font-size: 12px;
+  line-height: 1.2;
 }
 
 .date-time {
   color: #6B7280;
-  font-size: 12px;
+  font-size: 11px;
+  line-height: 1.2;
 }
 
 .lead-vendor {
@@ -329,4 +362,6 @@
     max-width: 200px;
   }
 }
+
+
 

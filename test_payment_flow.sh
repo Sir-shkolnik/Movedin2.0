@@ -115,3 +115,5 @@ echo "   - Cost: \$1,800.00 CAD"
 echo "   - Vendor: Lets Get Moving"
 echo "   - Payment URL: $PAYMENT_URL"
 echo "   - Thank you URL: $THANK_YOU_URL"
+
+
