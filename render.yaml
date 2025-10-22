@@ -39,10 +39,10 @@ services:
         value: 8000
 
   # Frontend Static Site
-  - type: static
+  - type: static_site
     name: movedin-frontend
-    buildCommand: cd src/frontend && npm install && npm run build
-    publishDirectory: src/frontend/dist
+    buildCommand: cd src/frontend && npm ci && npm run build
+    staticPublishPath: src/frontend/dist
     plan: starter
     region: oregon
     branch: main
