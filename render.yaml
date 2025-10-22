@@ -34,6 +34,8 @@ services:
         generateValue: true
       - key: DEBUG
         value: false
+      - key: ALLOWED_ORIGINS
+        value: http://localhost:3000,https://movedin-frontend.onrender.com,https://movedin.com,https://www.movedin.com
       # Don't set PORT explicitly; Render provides it
 
   # --- Frontend (Static site / Vite) ---

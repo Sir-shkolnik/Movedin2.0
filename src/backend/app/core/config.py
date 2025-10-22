@@ -34,7 +34,8 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "movedin3-smart-secure-key-2025"
     
     # CORS - Handle as string and split into list
-    ALLOWED_ORIGINS: str = (
+    ALLOWED_ORIGINS: str = os.getenv(
+        "ALLOWED_ORIGINS",
         "http://localhost:5173,"
         "http://localhost:5174,"
         "http://localhost:5177,"
