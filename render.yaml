@@ -39,7 +39,7 @@ services:
         value: 8000
 
   # Frontend Static Site
-  - type: static_site
+  - type: static
     name: movedin-frontend
     buildCommand: cd src/frontend && npm ci && npm run build
     staticPublishPath: src/frontend/dist
