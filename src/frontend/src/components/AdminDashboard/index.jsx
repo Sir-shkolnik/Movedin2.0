@@ -3,14 +3,102 @@ import "./style.css";
 
 function AdminDashboard() {
   const [leads, setLeads] = useState([]);
+  const [filteredLeads, setFilteredLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sortField, setSortField] = useState('created_at');
   const [sortDirection, setSortDirection] = useState('desc');
+  
+  // Advanced filtering and search
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [vendorFilter, setVendorFilter] = useState('all');
+  const [dateRange, setDateRange] = useState('all');
+  const [showFilters, setShowFilters] = useState(false);
+  const [selectedLeads, setSelectedLeads] = useState([]);
+  const [showBulkActions, setShowBulkActions] = useState(false);
+  
+  // Analytics
+  const [analytics, setAnalytics] = useState({
+    totalLeads: 0,
+    paidLeads: 0,
+    totalValue: 0,
+    avgValue: 0,
+    conversionRate: 0,
+    topVendor: '',
+    recentActivity: 0
+  });
 
   useEffect(() => {
     fetchLeads();
   }, []);
+
+  useEffect(() => {
+    applyFilters();
+  }, [leads, searchTerm, statusFilter, vendorFilter, dateRange]);
+
+  const applyFilters = () => {
+    let filtered = [...leads];
+
+    // Search filter
+    if (searchTerm) {
+      filtered = filtered.filter(lead => 
+        lead.customer_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        lead.customer_email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        lead.vendor_name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Status filter
+    if (statusFilter !== 'all') {
+      filtered = filtered.filter(lead => lead.payment_status === statusFilter);
+    }
+
+    // Vendor filter
+    if (vendorFilter !== 'all') {
+      filtered = filtered.filter(lead => lead.vendor_name === vendorFilter);
+    }
+
+    // Date range filter
+    if (dateRange !== 'all') {
+      const now = new Date();
+      const daysAgo = dateRange === 'today' ? 1 : dateRange === 'week' ? 7 : dateRange === 'month' ? 30 : 0;
+      const cutoffDate = new Date(now.getTime() - (daysAgo * 24 * 60 * 60 * 1000));
+      filtered = filtered.filter(lead => new Date(lead.created_at) >= cutoffDate);
+    }
+
+    setFilteredLeads(filtered);
+    calculateAnalytics(filtered);
+  };
+
+  const calculateAnalytics = (leadsData) => {
+    const total = leadsData.length;
+    const paid = leadsData.filter(l => l.payment_status === 'payment_completed' || l.payment_status === 'test_payment_completed').length;
+    const totalValue = leadsData.reduce((sum, l) => sum + (l.total_cost || 0), 0);
+    const avgValue = total > 0 ? totalValue / total : 0;
+    const conversionRate = total > 0 ? (paid / total) * 100 : 0;
+    
+    // Find top vendor
+    const vendorCounts = {};
+    leadsData.forEach(lead => {
+      vendorCounts[lead.vendor_name] = (vendorCounts[lead.vendor_name] || 0) + 1;
+    });
+    const topVendor = Object.keys(vendorCounts).reduce((a, b) => vendorCounts[a] > vendorCounts[b] ? a : b, '');
+    
+    // Recent activity (last 24 hours)
+    const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const recent = leadsData.filter(l => new Date(l.created_at) >= yesterday).length;
+
+    setAnalytics({
+      totalLeads: total,
+      paidLeads: paid,
+      totalValue,
+      avgValue,
+      conversionRate,
+      topVendor,
+      recentActivity: recent
+    });
+  };
 
   const fetchLeads = async () => {
     try {
@@ -84,7 +172,7 @@ function AdminDashboard() {
     setSortField(field);
     setSortDirection(direction);
 
-    const sorted = [...leads].sort((a, b) => {
+    const sorted = [...filteredLeads].sort((a, b) => {
       let aVal = a[field];
       let bVal = b[field];
 
@@ -100,7 +188,63 @@ function AdminDashboard() {
       }
     });
 
-    setLeads(sorted);
+    setFilteredLeads(sorted);
+  };
+
+  const exportToCSV = () => {
+    const headers = ['ID', 'Customer', 'Email', 'Phone', 'From', 'To', 'Move Date', 'Move Time', 'Vendor', 'Cost', 'Status', 'Created'];
+    const csvContent = [
+      headers.join(','),
+      ...filteredLeads.map(lead => [
+        lead.id,
+        `"${lead.customer_name}"`,
+        `"${lead.customer_email}"`,
+        `"${lead.customer_phone}"`,
+        `"${lead.move_from}"`,
+        `"${lead.move_to}"`,
+        lead.move_date,
+        lead.move_time,
+        `"${lead.vendor_name}"`,
+        lead.total_cost,
+        lead.payment_status,
+        lead.created_at
+      ].join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `movedin-leads-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
+  const handleSelectLead = (leadId) => {
+    setSelectedLeads(prev => 
+      prev.includes(leadId) 
+        ? prev.filter(id => id !== leadId)
+        : [...prev, leadId]
+    );
+  };
+
+  const handleSelectAll = () => {
+    if (selectedLeads.length === filteredLeads.length) {
+      setSelectedLeads([]);
+    } else {
+      setSelectedLeads(filteredLeads.map(lead => lead.id));
+    }
+  };
+
+  const clearFilters = () => {
+    setSearchTerm('');
+    setStatusFilter('all');
+    setVendorFilter('all');
+    setDateRange('all');
+  };
+
+  const getUniqueVendors = () => {
+    return [...new Set(leads.map(lead => lead.vendor_name))];
   };
 
   if (loading) {
@@ -137,20 +281,24 @@ function AdminDashboard() {
         </div>
         <div className="header-stats">
           <div className="stat-card">
-            <div className="stat-value">{leads.length}</div>
+            <div className="stat-value">{analytics.totalLeads}</div>
             <div className="stat-label">Total Leads</div>
           </div>
           <div className="stat-card">
-            <div className="stat-value">
-              {leads.filter(l => l.payment_status === 'payment_completed' || l.payment_status === 'test_payment_completed').length}
-            </div>
+            <div className="stat-value">{analytics.paidLeads}</div>
             <div className="stat-label">Paid</div>
           </div>
           <div className="stat-card">
-            <div className="stat-value">
-              {formatPrice(leads.reduce((sum, l) => sum + (l.total_cost || 0), 0))}
-            </div>
+            <div className="stat-value">{formatPrice(analytics.totalValue)}</div>
             <div className="stat-label">Total Value</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-value">{analytics.conversionRate.toFixed(1)}%</div>
+            <div className="stat-label">Conversion</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-value">{analytics.recentActivity}</div>
+            <div className="stat-label">Today</div>
           </div>
           <button onClick={fetchLeads} className="refresh-button">
             🔄 Refresh
@@ -158,10 +306,123 @@ function AdminDashboard() {
         </div>
       </div>
 
+      {/* Advanced Analytics Section */}
+      <div className="analytics-section">
+        <div className="analytics-grid">
+          <div className="analytics-card">
+            <div className="analytics-icon">💰</div>
+            <div className="analytics-content">
+              <div className="analytics-value">{formatPrice(analytics.avgValue)}</div>
+              <div className="analytics-label">Average Quote</div>
+            </div>
+          </div>
+          <div className="analytics-card">
+            <div className="analytics-icon">🏆</div>
+            <div className="analytics-content">
+              <div className="analytics-value">{analytics.topVendor}</div>
+              <div className="analytics-label">Top Vendor</div>
+            </div>
+          </div>
+          <div className="analytics-card">
+            <div className="analytics-icon">📈</div>
+            <div className="analytics-content">
+              <div className="analytics-value">{analytics.conversionRate.toFixed(1)}%</div>
+              <div className="analytics-label">Conversion Rate</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Advanced Filters and Search */}
+      <div className="filters-section">
+        <div className="filters-header">
+          <div className="search-box">
+            <input
+              type="text"
+              placeholder="🔍 Search leads by name, email, or vendor..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+            />
+          </div>
+          <div className="filter-buttons">
+            <button 
+              onClick={() => setShowFilters(!showFilters)}
+              className={`filter-toggle ${showFilters ? 'active' : ''}`}
+            >
+              🔧 Filters
+            </button>
+            <button onClick={exportToCSV} className="export-button">
+              📊 Export CSV
+            </button>
+            <button onClick={clearFilters} className="clear-button">
+              🧹 Clear
+            </button>
+          </div>
+        </div>
+
+        {showFilters && (
+          <div className="filters-panel">
+            <div className="filter-group">
+              <label>Status:</label>
+              <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+                <option value="all">All Status</option>
+                <option value="pending">Pending</option>
+                <option value="payment_completed">Paid</option>
+                <option value="test_payment_completed">Test Paid</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
+            <div className="filter-group">
+              <label>Vendor:</label>
+              <select value={vendorFilter} onChange={(e) => setVendorFilter(e.target.value)}>
+                <option value="all">All Vendors</option>
+                {getUniqueVendors().map(vendor => (
+                  <option key={vendor} value={vendor}>{vendor}</option>
+                ))}
+              </select>
+            </div>
+            <div className="filter-group">
+              <label>Date Range:</label>
+              <select value={dateRange} onChange={(e) => setDateRange(e.target.value)}>
+                <option value="all">All Time</option>
+                <option value="today">Today</option>
+                <option value="week">This Week</option>
+                <option value="month">This Month</option>
+              </select>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Bulk Actions */}
+      {selectedLeads.length > 0 && (
+        <div className="bulk-actions">
+          <div className="bulk-info">
+            {selectedLeads.length} lead{selectedLeads.length > 1 ? 's' : ''} selected
+          </div>
+          <div className="bulk-buttons">
+            <button className="bulk-button">📧 Send Email</button>
+            <button className="bulk-button">📊 Export Selected</button>
+            <button className="bulk-button">🏷️ Update Status</button>
+            <button onClick={() => setSelectedLeads([])} className="bulk-button cancel">
+              ✕ Clear Selection
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="leads-table-container">
         <table className="leads-table">
           <thead>
             <tr>
+              <th className="checkbox-column">
+                <input
+                  type="checkbox"
+                  checked={selectedLeads.length === filteredLeads.length && filteredLeads.length > 0}
+                  onChange={handleSelectAll}
+                />
+              </th>
               <th onClick={() => sortLeads('id')} className="sortable">
                 ID {sortField === 'id' && (sortDirection === 'asc' ? '↑' : '↓')}
               </th>
@@ -185,7 +446,7 @@ function AdminDashboard() {
             </tr>
           </thead>
           <tbody>
-            {leads.length === 0 ? (
+            {filteredLeads.length === 0 ? (
               <tr>
                 <td colSpan="10" className="empty-state">
                   <div className="empty-content">
@@ -196,8 +457,15 @@ function AdminDashboard() {
                 </td>
               </tr>
             ) : (
-              leads.map((lead) => (
-                <tr key={lead.id} className="lead-row">
+              filteredLeads.map((lead) => (
+                <tr key={lead.id} className={`lead-row ${selectedLeads.includes(lead.id) ? 'selected' : ''}`}>
+                  <td className="checkbox-column">
+                    <input
+                      type="checkbox"
+                      checked={selectedLeads.includes(lead.id)}
+                      onChange={() => handleSelectLead(lead.id)}
+                    />
+                  </td>
                   <td className="lead-id">#{lead.id}</td>
                   <td className="lead-name">{lead.customer_name}</td>
                   <td className="lead-email">{lead.customer_email}</td>
