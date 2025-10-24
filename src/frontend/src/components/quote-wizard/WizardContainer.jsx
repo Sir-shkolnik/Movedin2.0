@@ -119,23 +119,6 @@ const WizardContainer = ({ children }) => {
           borderRadius: '0 4px 4px 0'
         }} />
       </div>
-      
-      {/* Progress Text */}
-      <div style={{
-        position: 'fixed',
-        top: '12px',
-        right: '24px',
-        background: 'rgba(255, 255, 255, 0.95)',
-        padding: '6px 12px',
-        borderRadius: '20px',
-        fontSize: '12px',
-        fontWeight: 600,
-        color: '#5340FF',
-        zIndex: 1001,
-        boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-      }}>
-        Step {idx + 1} of {steps.length}
-      </div>
 
       <div className="qw-inner qw-layout">
         <StepSidebar isTransitioning={isTransitioning} />

@@ -25,6 +25,13 @@ function HeroSection() {
           Get a moving quote
         </Button>
       </div>
+      <div className="hero-illustration">
+        <img 
+          src="/moving-truck-illustration.png" 
+          alt="Moving truck with boxes illustration" 
+          className="hero-image"
+        />
+      </div>
     </section>
   );
 }
