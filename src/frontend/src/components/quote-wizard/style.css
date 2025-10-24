@@ -273,17 +273,13 @@ select.qw-input {
   .qw-steps {
     display: flex;
     flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: hidden; /* NO scrolling allowed */
     padding: 10px 8px 10px;
     margin-bottom: 0;
     gap: 4px;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-    scroll-snap-type: x proximity;
     background: white;
     border-bottom: 2px solid #EAECF0;
-    justify-content: flex-start;
+    justify-content: center; /* Center the 4 visible icons */
   }
   
   .qw-step-item {
@@ -293,10 +289,15 @@ select.qw-input {
     align-items: center;
     justify-content: flex-start;
     gap: 5px;
-    scroll-snap-align: center;
     padding: 0 4px;
-    pointer-events: none;
+    pointer-events: none; /* User cannot click */
     min-width: 72px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  /* Hide steps that aren't in the visible window on mobile */
+  .qw-step-item.mobile-hidden {
+    display: none;
   }
   
   .qw-step-item > div:first-child {
@@ -391,17 +392,13 @@ select.qw-input {
   .qw-steps {
     display: flex;
     flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: hidden; /* NO scrolling allowed */
     padding: 12px 8px 12px;
     margin-bottom: 0;
     gap: 6px;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-    scroll-snap-type: x proximity;
     background: white;
     border-bottom: 2px solid #EAECF0;
-    justify-content: flex-start;
+    justify-content: center; /* Center the 4 visible icons */
   }
   
   .qw-step-item {
@@ -411,10 +408,15 @@ select.qw-input {
     align-items: center;
     justify-content: flex-start;
     gap: 5px;
-    scroll-snap-align: center;
     padding: 0 4px;
-    pointer-events: none;
+    pointer-events: none; /* User cannot click */
     min-width: 80px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  /* Hide steps that aren't in the visible window on mobile */
+  .qw-step-item.mobile-hidden {
+    display: none;
   }
   
   .qw-step-item > div:first-child {
@@ -508,17 +510,13 @@ select.qw-input {
   .qw-steps {
     display: flex;
     flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: hidden; /* NO scrolling allowed */
     padding: 8px 6px 10px;
     margin-bottom: 0;
     gap: 3px;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-    scroll-snap-type: x proximity;
     background: white;
     border-bottom: 2px solid #EAECF0;
-    justify-content: flex-start;
+    justify-content: center; /* Center the 4 visible icons */
   }
   
   .qw-step-item {
@@ -528,10 +526,15 @@ select.qw-input {
     align-items: center;
     justify-content: flex-start;
     gap: 4px;
-    scroll-snap-align: center;
     padding: 0 3px;
-    pointer-events: none;
+    pointer-events: none; /* User cannot click */
     min-width: 68px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  /* Hide steps that aren't in the visible window on mobile */
+  .qw-step-item.mobile-hidden {
+    display: none;
   }
   
   .qw-step-item > div:first-child {

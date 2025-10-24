@@ -15,6 +15,24 @@ const STEPS = [
 function StepSidebar({ isTransitioning }) {
   const location = useLocation();
   const activeRef = useRef(null);
+  
+  // Find current step index
+  const currentIndex = STEPS.findIndex(step => step.path === location.pathname);
+  
+  // Calculate which 4 steps to show on mobile (sliding window)
+  const MOBILE_VISIBLE_COUNT = 4;
+  let startIndex = 0;
+  
+  if (currentIndex >= 0) {
+    // Center the active step in the visible window
+    startIndex = Math.max(0, Math.min(
+      currentIndex - Math.floor(MOBILE_VISIBLE_COUNT / 2),
+      STEPS.length - MOBILE_VISIBLE_COUNT
+    ));
+  }
+  
+  // Get the visible steps (for mobile)
+  const visibleSteps = STEPS.slice(startIndex, startIndex + MOBILE_VISIBLE_COUNT);
 
   useEffect(() => {
     if (activeRef.current && isTransitioning) {
@@ -27,14 +45,17 @@ function StepSidebar({ isTransitioning }) {
   }, [location.pathname, isTransitioning]);
 
   return (
-    <aside className="qw-steps">
+    <aside className="qw-steps" data-mobile-view="true">
+      {/* Desktop: show all steps, Mobile: show only 4 */}
       {STEPS.map(({ path, title, desc, icon: Icon }) => {
         const isActive = location.pathname === path;
+        const isVisibleOnMobile = visibleSteps.some(s => s.path === path);
+        
         return (
           <div 
             key={path} 
             ref={isActive ? activeRef : null}
-            className={`qw-step-item ${isActive ? 'active' : ''}`}
+            className={`qw-step-item ${isActive ? 'active' : ''} ${!isVisibleOnMobile ? 'mobile-hidden' : ''}`}
           >
             <div>
               <Icon />
